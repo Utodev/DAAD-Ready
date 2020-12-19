@@ -1,0 +1,30 @@
+Release Notes for openMSX Catapult 0.15.0 (2018-12-05)
+======================================================
+
+Catapult release to match openMSX 0.15.0.
+
+This release we again didn't change much, so here is the full list:
+- Disable controls for joystick/printer port if the machine doesn't have them
+- Fix Catapult trashing the replay at time 0 (when reversing back to time 0)
+- Added .hdd extension when browsing for harddisk images
+- The test machine for extensions is now C-BIOS_MSX2+ (if available)
+
+Known issues / caveats:
+- comboboxes behave a bit strangely sometimes on non-Windows systems
+- the select extension listbox doesn't work properly. Use the spacebar to
+  deselect extensions! CTRL-click also works.
+- not feature complete, especially for newer features you will have to revert
+  to the openMSX console (press F10/Cmd+L) or the OSD menu (MENU key/Cmd+O)
+
+openMSX Home Page:
+  http://openmsx.org/
+Project page on GitHub:
+  http://github.com/openMSX/
+Contact options:
+- Talk to us on #openmsx on irc.freenode.net.
+- Use the forum on http://www.msx.org/forum/semi-msx-talk/openmsx
+- File a ticket on https://github.com/openMSX/wxCatapult/issues (for Catapult)
+- File a ticket on https://github.com/openMSX/openMSX/issues (for openMSX)
+
+Have fun with your emulated MSX!
+                                        the openMSX developers

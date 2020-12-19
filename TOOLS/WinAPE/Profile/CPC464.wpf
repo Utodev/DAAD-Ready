@@ -1,0 +1,10 @@
+[ROMS]
+Lower=OS464
+Upper(0)=BASIC1-0
+Upper(7)=
+Cartridge Enabled=false
+[Configuration]
+CRTC Type=0
+Enable Plus=false
+Extended RAM=0
+Silicon Disc=false

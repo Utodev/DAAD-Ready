@@ -1,0 +1,39 @@
+TO-DO
+=====
+
+GENERAL
+-------
+
+- improve ACIA/RS232 support
+- provide a proper GUI in fullscreen mode
+- implement YSS snapshot format
+
+TED
+---
+
+- fix a few aligned writes (e.g. FF07)
+
+DRIVE
+-----
+
+- improve G64/NIB support
+
+TAPE
+----
+
+- allow TAP files to be read/writeable
+
+SOUND
+-----
+
+- optionally use reSID for SID sound as external library
+- simplify sound rendering engine
+- use SID engine for TED sound optionally
+- "emulate" wave- and frequency converters natively for SID
+
+KNOWN BUGS
+==========
+
+- somewhat incomplete video display emulation (esp. horizontal events)
+- several minor TED read/write misalignments
+- switching between emulation levels with true drive emulation on requires a restart

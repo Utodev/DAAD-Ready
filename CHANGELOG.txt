@@ -1,0 +1,9 @@
+DAAD Reavy 0.3
+==============
+- Updated Maluva for CPC, to avoid SPLIT mode to be active by default
+- Updated versions of Maluva and DRC included
+- Now a XPICTURE 0 is shown if exist at the intro location (location 0)
+- DRF has been updated to fix WEIGHT condact semantic
+- Fixed english manual, the definition of the underscore ('_') escape sequence was incorrect.
+- Fixed DAT file and removed VGS file from MSDOS assets
+- Included new DRC compiler front end, solving the problem with nested #ifdef

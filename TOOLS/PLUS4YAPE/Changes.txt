@@ -1,0 +1,1223 @@
+       YAPE  -  Yet Another Plus/4 Emulator
+                version 1.1.7
+  Copyright © 2000-2019 by Attila Grósz (gyros @ freemail . hu)
+             http://yape.plus4.net
+
+CHANGES IN 1.1.7 FROM 1.1.6
+----------------------------
+released on Oct 31, 2019
+
+- [NEW] updated to new compiler versions (MSVC++ 2019 and MinGW-64 8.1)
+- [NEW] more DPI-aware on Win8/Win10
+- [FIX] digitized palette table lookup
+- [FIX] TED delayed DMA regression glitch
+- [FIX] TED noise regression bug introduced by optimizations in version 1.1.3
+- [FIX] weird bug with autostart code
+- [FIX] maximize window positioning
+
+CHANGES IN 1.1.6 FROM 1.1.5
+----------------------------
+released on Mar 18, 2018
+
+- [NEW] Hungarian KERNAL version added
+- [NEW] MTAP pulse length correction in the 'Tape head adjust' dialog
+- [NEW] option to confirm writing back changes to disk images
+- [NEW] loading the first PRG from T64 images directly
+- [FIX] couple of TED improvements
+- [FIX] window position bug
+- [FIX] switching to fullscreen mode when in windowed GDI mode
+
+CHANGES IN 1.1.5 FROM 1.1.4
+----------------------------
+released on Nov 25, 2017
+
+- [NEW] saving to raw 121 colour PNG added as new default
+- [NEW] saving video in Direct3D mode now saves window content
+- [NEW] confirmation dialog on detaching a modified disk (D64)
+- [FIX] TED regression
+
+CHANGES IN 1.1.4 FROM 1.1.3
+----------------------------
+released on Jul 14, 2017
+
+- [FIX] missing TIA 6525 bidirectionality in the 1551 added
+- [FIX] SID wave readout
+
+CHANGES IN 1.1.3 FROM 1.1.2
+----------------------------
+released on Jun 3, 2017
+
+- [NEW] Commodore 264 prototype added (courtesy of Rob Clarke)
+- [NEW] unlimited frame rate option added
+- [FIX] keyboard driver regression fixes and improvements
+- [FIX] TED regressions
+- [FIX] create empty D64 image bug in x64 build 
+
+CHANGES IN 1.1.2 FROM 1.1.1
+----------------------------
+released on Apr 13, 2017
+
+- [FIX] CPU and TED timing improvements
+- [FIX] more monitor improvements
+- [FIX] regression bug related to cancelling the autostart dialog
+- [FIX] AltGr got stuck in Message Queue based input mode
+- [FIX] failing OpenGL crash
+- [FIX] speech quality regression
+
+CHANGES IN 1.1.1 FROM 1.1.0
+----------------------------
+released on Feb 27, 2017
+
+- [NEW] improved 48-bit mode for the T6721A speech LSI emulation
+- [NEW] somewhat improved vblanking
+- [NEW] save window content to 32-bit BMP
+- [FIX] awkward TED bitmap DMA bank switching bug corrected
+- [FIX] occasional tape dialog crash fixed
+- [FIX] built-in assembler (BRK)
+
+CHANGES IN 1.1.0 FROM 1.0.11
+----------------------------
+released on Jan 1, 2017
+
+- [NEW] added OpenGL video mode
+- [NEW] external fragment shader support in OpenGL mode (see included sample)
+- [NEW] adjustable font size in the monitor
+- [NEW] line breaks in the monitor
+- [NEW] set any sound sampling rate between 8000 and 192000 Hz
+- [NEW] optionally audible tape signal
+- [NEW] added $FF as powerup pattern
+- [FIX] cleaned the ACIA 6551 emulation from non-functioning legacy code
+- [FIX] minor fine tuning in the measured palette hues and lumas
+- [FIX] breakpoint purge deadlock
+- [FIX] more monitor cleanup
+
+CHANGES IN 1.0.11 FROM 1.0.10
+----------------------------
+released on Nov 23, 2016
+
+- [NEW] memorize window size when not in GDI mode
+- [NEW] new selectable tape signal detection method (edge triggered) for WAV samples
+- [NEW] loading MTAP's with non-native frequency such as ones recorded with NTSC bit set (report courtesy of Luca)
+- [NEW] load C64/VIC20 tapes recorded in MTAP format with the KERNAL loader
+- [NEW] even line hue phase offset in CRT emulation mode
+- [FIX] tape code cleanup
+- [FIX] sound related improvements
+- [FIX] speedometer improved
+- [FIX] preset screen size bug
+- [FIX] monitor cleanup
+- [FIX] TAP save overwrite warning (bug report courtesy of Luca)
+
+CHANGES IN 1.0.10 FROM 1.0.9
+----------------------------
+released on July 22, 2016
+
+- [NEW] show subfolders as CBM type in IEC/filesystem mode
+- [NEW] monitor watchpoint/breakpoint ranges
+- [NEW] watchpoint context now also displayed when hit
+- [NEW] improved speedometer to better cater for non-standard, longer frames
+- [FIX] occasionally stuck joystick states when emulated thru the keyboard (long outstanding bug!)
+- [FIX] uninitialized variable in a newly optimized part of SID engine
+- [FIX] minor monitor GUI improvements
+- [FIX] digitized palette in non-CRT mode
+- [FIX] rasterline counter overflow fix
+- [FIX] save PRG dialog crash
+
+CHANGES IN 1.0.9 FROM 1.0.8
+---------------------------
+released on Feb 14, 2016
+
+- [NEW] updated project to be used with Visual Studio 2015 and MinGW-w64
+- [NEW] optional XAudio2 driver added
+- [NEW] D81 image support in 1551/IEC mode (no partitions though)
+- [NEW] PSID replay support via the autostart menu
+- [NEW] refactored audio mixing
+- [FIX] disk attachment regression bug
+- [FIX] couple of other bugfixes (monitor settings, TED sound, snapshot)
+
+CHANGES IN 1.0.8 FROM 1.0.7
+---------------------------
+released on Dec 25, 2015
+
+- [FIX] GUI fix
+- [FIX] SID fixes
+- [FIX] drive RPM fix
+- [FIX] autostart randomization fix
+
+CHANGES IN 1.0.7 FROM 1.0.6
+---------------------------
+released on Jun 5, 2015
+
+- [NEW] adjustable sound latency (20-200 msec)
+- [NEW] preset window sizing shortcuts (Alt+number)
+- [NEW] removed P4S and direct ZIP support
+- [FIX] some fine tuning on the NTSC hues
+- [FIX] monitor and D-PAD bugs
+- [FIX] CRT & TED fixes
+
+CHANGES IN 1.0.6 FROM 1.0.5
+---------------------------
+released on Oct 30, 2014
+
+- [NEW] direction controllers (POV buttons) can now, too, be used as joystick
+- [FIX] fullscreen mode made ALT+TAB friendly
+- [FIX] occasional crashes on some machines with small border mode on
+- [FIX] assembler bug in 64 bit build
+- [FIX] minor fixes
+
+CHANGES IN 1.0.5 FROM 1.0.4
+---------------------------
+released on Oct 21, 2014
+
+- [NEW] show full IEC path in directory listing
+- [NEW] using Direct3D 9.0 (at last...)
+  - better fullscreen mode (no resolution mode change)
+  - more consistent CRT emulation across video modes
+  - adjustable video oversampling in DX mode (i.e. 'Use GDI' off)
+  - Direct3D surfaces can be saved to PNG format
+  - replaced 'double size' with 'double scan' in DX mode (576 row line buffer)
+  - removed deprecated overlay mode and DirectDraw dependencies
+- [NEW] Morph to NTSC mode and back without a reset
+- [NEW] Windows XP and higher only (sorry... no time to maintain earlier ones)
+- [FIX] file association bug
+- [FIX] autostart fixes
+- [FIX] tape motor should not start when PLAY/RECORD is pressed via the GUI
+- [FIX] some code cleanups and fixes
+
+CHANGES IN 1.0.4 FROM 1.0.3
+---------------------------
+released on Dec 18, 2012
+
+- [NEW] /LOAD:filename to type text on startup from a text file 
+- [NEW] improved ("increased") oversampling
+- [NEW] forward looking adaptive sound buffering
+- [FIX] more accurate interim CPU read cycles
+- [FIX] joystick setup crash fixed (64 bit build)
+- [FIX] 192 kHz sound frequency got not saved in previous version
+- [FIX] clear byte ready inaccuracy for 1551 fixed
+- [FIX] minor IEC printer clocking fix
+- [FIX] removed obsolete emulator ID
+
+CHANGES IN 1.0.3 FROM 1.0.2
+---------------------------
+released on Jul 23, 2012
+
+- [NEW] properly implemented printer repeat bit image data (CHR$(26))
+- [NEW] SHA/SHY/SHX improvement on page boundary crossing (unseen in any programs so far)
+- [NEW] memory dump into text files
+- [NEW] added 192000 Hz sound frequency
+- [FIX] carriage return in bitmap mode
+- [FIX] folder drive setting no longer reset when printer emulation gets enabled
+- [FIX] crash in the monitor
+- [FIX] bug in the debugger when breakpoint got disabled on ignored CPU crash opcodes
+- [FIX] minor memory map issue in true 1541/1581 drive emulation
+- [FIX] memory dump command in external monitor
+- [FIX] video recording glitch
+
+CHANGES IN 1.0.2 FROM 1.0.1
+---------------------------
+released on Aug 22, 2011
+
+- [NEW] printer job window (for now #4 only)
+- [FIX] turn off variable length buffering properly when recording media
+- [FIX] not scanning joysticks when unavailable (Message Queue driver)
+- [FIX] column width and line feed bug for MPS803 emulation
+- [FIX] regression bug in the printer cycle counter
+- [FIX] TED drawing bug
+
+CHANGES IN 1.0.1 FROM 1.0
+-------------------------
+released on May 22, 2011
+
+- [NEW] homebrew user port lightpen support
+- [NEW] IEC drive directory mode now handles USR files
+- [FIX] Win95 compatibility problem with the OPENFILENAME struct size
+- [FIX] TED sound bug correction
+- [FIX] watchpoint & monitor fixes
+- [FIX] printer reverse mode bug fixed
+
+CHANGES IN 1.0 FROM 0.86
+-------------------------
+released on Sep 13, 2010
+
+10th Anniversary Release!
+
+- [NEW] 32-bit and automatic bitdepth option in fullscreen mode
+- [NEW] copy & paste to/from the clipboard now respects upper/lower case mode
+- [NEW] partially implemented 48 bps mode of the T6721A speech LSI
+- [NEW] G64 image support is no longer read only (yay, at last)
+- [FIX] reading from open address space
+- [FIX] plenty of bugfixes (drive, TED, autostart, monitor etc.)
+
+CHANGES IN 0.86 FROM 0.85
+-------------------------
+released on Apr 25, 2010
+
+- [NEW] watchpoint support in external monitor
+- [NEW] maintain aspect ratio in NTSC mode (DX only)
+- [NEW] autodetect best fullscreen mode based on preferences
+- [NEW] extra lines threshold before screen flicker adjustable
+- [NEW] minor overall speed improvement
+- [FIX] couple of bugs ironed out in fullscreen mode
+
+CHANGES IN 0.85 FROM 0.84
+-------------------------
+released on Jan 16, 2010
+
+- [NEW] added GDI mode display emulation
+- [FIX] couple of bugfixes (monitor, AVI recording, TED)
+
+CHANGES IN 0.84 FROM 0.83
+-------------------------
+released on Oct 3, 2009
+
+- [NEW] implemented a simple assembler in the external monitor (yay, at last!)
+- [NEW] tape head adjust dialog for wave samples
+- [NEW] optionally invert tape sample input signal (soundcards may invert phase while recording)
+- [NEW] tape fast forward and rewind in 15 sec steps
+- [NEW] TAP's with non-native encoding now supported (C64, VIC20 frequencies)
+- [FIX] bugfixes (sound, tape)
+
+CHANGES IN 0.83 FROM 0.82
+-------------------------
+released on May 22, 2009
+
+- [NEW] SID card DigiBlaster (8bit DAC) support
+- [NEW] immediate exit on pressing F12 now optional
+- [NEW] separate build for Win9x machines
+- [FIX] occasional GCR data corruption problem fixed
+
+CHANGES IN 0.82 FROM 0.81
+-------------------------
+released on Apr 21, 2009
+
+- [NEW] unavailable full screen modes are greyed now
+- [NEW] executable generated with profile guided optimization (up to 30% speed increase)
+- [FIX] tape regression bugs fixed
+- [FIX] CPU level 1551 init bug
+- [FIX] CPU level 1581 got accidentally disabled since version 0.77
+- [FIX] XP/Vista theme support back again to normal
+- [FIX] worked around a TED idle cycle read inaccuracy
+
+CHANGES IN 0.81 FROM 0.80
+-------------------------
+released on Jan 18, 2009
+
+- [NEW] permanent CPU watch frame in monitor window
+- [FIX] file association via the menu now works under Vista
+- [FIX] solved sound reset problem for save states
+- [FIX] ironed out a joystick setup bug  (introduced in previous version)
+- [FIX] a few regression bugs fixed when recording to tape
+
+CHANGES IN 0.80 FROM 0.79
+-------------------------
+released on Mar 22, 2008
+
+- [NEW] new joystick setup dialog
+- [FIX] SID emulation improvements
+- [FIX] gamma correction fix
+- [FIX] other minor bugfixes
+
+CHANGES IN 0.79 FROM 0.78
+-------------------------
+released on Jan 17, 2008
+
+- [NEW] support for true interlace
+- [NEW] more new icons from Chronos
+- [FIX] bugfixes
+
+CHANGES IN 0.78 FROM 0.77
+-------------------------
+released on Dec 25, 2007
+
+- [NEW] funky new icons (courtesy of Chronos)
+- [NEW] preliminary MPS-802 emulation
+- [NEW] improved file association dialog
+- [NEW] optional 1:1 sound sampling (111150 Hz, PAL only for now)
+- [FIX] bugfixes
+
+CHANGES IN 0.77 FROM 0.76
+-------------------------
+released on Sep 26, 2007
+
+- [NEW] printer emulation
+- [NEW] very preliminary ACIA emulation
+- [NEW] a couple of configurability improvements
+  - decoder hue (tint control)
+  - sound output
+  - T6721 and ACIA emulation selectable individually
+- [NEW] all missing D64 sector errors emulated in true drive emulation
+- [NEW] bad sector info (copy protection) support also in fast IEC mode
+- [NEW] optional fast autostart for D64 files
+- [FIX] various minor bugfixes
+
+CHANGES IN 0.76 FROM 0.75
+-------------------------
+released on Jul 31, 2007
+
+- [NEW] SID ADSR delay bug implemented
+- [NEW] at last finished implementing subcycle serial drive accuracy
+- [FIX] many bugfixes
+
+CHANGES IN 0.75 FROM 0.74
+-------------------------
+released on Jun 29, 2007
+
+- [NEW] custom drive ROM images
+- [NEW] added parallelized 1541 drive emulation
+- [NEW] optional breakpoint opcode ($F2)
+- [NEW] /BREAK command line parameter now accepts hexadecimal addresses (0xADDE)
+- [NEW] true drive emulation and high accuracy mode are now the default
+- [FIX] couple of bugfixes
+
+CHANGES IN 0.74 FROM 0.73
+-------------------------
+released on May 7, 2007
+
+- [NEW] dialog window for custom joystick controls
+- [NEW] customizable RAM startup patterns
+- [NEW] adjustable interlaced line shade in double sized VDU emulation mode
+- [NEW] command line parameter for initial breakpoint (/BREAK:address)
+- [NEW] added CPU level emulation support in fast (line based) mode
+- [FIX] no need to reattach D64 files when switching from IEC to CPU level drive emulation
+- [FIX] deadlock on SCRATCH-ing unclosed files fixed (IEC/D64)
+- [FIX] slightly improved SID filters
+- [FIX] improved mixing of audio channels
+- [FIX] regression TED bug fix in fast emulation level
+- [FIX] a couple of minor fixes
+
+CHANGES IN 0.73 FROM 0.72
+-------------------------
+released on Apr 9, 2007
+
+- [FIX] altered behaviour of drive timing hack (in VHA mode, "almost" a solution)
+- [FIX] drive settings are not lost anymore when switching between emulation levels
+- [FIX] crash bug on saving tapes fixed
+- [FIX] some minor TED fixes in VHA mode
+- [FIX] various smallish fixes
+
+CHANGES IN 0.72 FROM 0.71
+-------------------------
+released on Mar 12, 2007
+
+- [NEW] another new emulation level (VHA, very high accuracy)
+- [NEW] implemented video shift register emulation in VHA mode
+- [NEW] improved PAL-NTSC switch artifacts
+- [NEW] oversampling for the SID
+- [NEW] selectable sound replay frequency
+- [NEW] more fullscreen mode options
+- [NEW] added support for TED test mode
+- [FIX] bug in the FIR filter fixed
+- [FIX] TED border flipflop check was 1 cycle off
+
+CHANGES IN 0.71 FROM 0.70
+-------------------------
+released on Feb 9, 2007
+
+- [NEW] advanced settings dialog window
+  - forced UpdateOverlay call introduced in 0.70 now optional
+  - optionally allow only one instance of the emulator to run
+  - two older tweaks (load vector patch and 1541 loader hack) are incorporated
+- [NEW] command line options (at long last...)
+  - '/DISK#:image' for attaching an image to drive {8,9,10,11} at startup
+  - '/TAPE:image' for attaching a TAP/WAV image on startup
+  - '/TYPE:text' for typing 'text' on startup
+  - '/NOSTART' will suppress autostart
+- [FIX] a couple of TED bugfixes
+
+CHANGES IN 0.70 FROM 0.69
+-------------------------
+released on Dec 16, 2006
+
+- [FIX] DirectX joystick support got accidentally disabled in 0.69
+- [FIX] better overlay support for some newer Ati cards
+
+CHANGES IN 0.69 FROM 0.68
+-------------------------
+released on Oct 30, 2006
+
+- [NEW] tape counter in the status bar
+- [NEW] joystick fire on PageUp key (for laptops)
+- [NEW] TED and SID mixed sound can now be also saved to AVI/WAV
+- [FIX] full screen mode autodetection
+- [FIX] stupid new bug in 1551-IEC/filesystem mode fixed
+- [FIX] potential crash and clicks on recording to WAV
+- [FIX] zip support got accidentally disabled in 0.68
+
+CHANGES IN 0.68 FROM 0.67
+-------------------------
+released on Sep 10, 2006
+
+- [NEW] true Toshiba 6721 speech LSI emulation (!)
+- [NEW] performance mode for very slow PCs
+- [NEW] separate drive reset
+- [FIX] bugfixes
+
+CHANGES IN 0.67 FROM 0.66
+-------------------------
+released on July 5, 2006
+
+- [NEW] improved TED chip emulation
+- [NEW] some class refactoring (not visible to end users)
+- [NEW] a bit more consistent GUI
+- [FIX] unused 7501/8501 processor port bits bug fixed
+- [FIX] disk corruption bug (after formatting) fixed in true drive emulation
+- [FIX] rare 'save as PRG' dialog crash fixed
+
+CHANGES IN 0.66 FROM 0.65
+-------------------------
+released on May 24, 2006
+
+- [NEW] more than one (up to 4) 1581 drives now possible
+- [NEW] one-shot breakpoints in the monitor (U $address, or G $start $stop)
+- [NEW] resizable emulator window in DirectX mode
+- [NEW] resizable monitor window
+- [NEW] actual memory reads/writes now shown during debug
+- [NEW] synch to vblank functionality changed
+- [FIX] cleaner code and better optimizations
+- [FIX] small bug in SID noise waveform fixed
+- [FIX] memory leak in fake drive emulation fixed
+
+CHANGES IN 0.65 FROM 0.64
+-------------------------
+released on Mar 15, 2006
+
+- [NEW] disk write support for 1581 emulation
+- [NEW] optional symbolic keymapping
+- [NEW] save screenshots as GIF (now default)
+- [FIX] sync problem on dual core AMD based machines
+- [FIX] glitch in decimal mode of ARR (thanks to V.Lidovski)
+- [FIX] memory corruption when loading D64 as PRG (an abuse)
+
+CHANGES IN 0.64 FROM 0.63
+-------------------------
+released on Nov 30, 2005
+
+- [FIX] fixed IRQ delay bug of CPU after SEI instruction
+- [FIX] fixed a regression crash on certain TAP files
+- [FIX] fixed sound delay when recording to AVI
+- [FIX] many small bugfixes
+
+CHANGES IN 0.63 FROM 0.62
+-------------------------
+released on Aug 25, 2005
+
+- [NEW] Commodore V364 prototype support
+- [NEW] processor level Commodore 1581 disk drive emulation (WD1772, CIA)
+- [NEW] D81 image format support (read only)
+- [NEW] emulate a TED glitch in graphic mode
+- [FIX] fixed a regression bug when saving tapes to WAV format
+- [FIX] couple of bugfixes
+
+CHANGES IN 0.62 FROM 0.61
+-------------------------
+released on Apr 15, 2005
+
+- [NEW] record emulator output to video
+- [NEW] record emulator sound in WAV format (TED or SID but not both)
+- [NEW] sound oversampling is now using a Hamming window for the FIR filter
+- [NEW] improved NTSC mode
+- [NEW] better VDU emulation
+- [NEW] Ctrl key is accessible thru the 'Insert' as well (for laptops)
+- [NEW] drag'n'drop with Ctrl hold down won't autostart
+- [FIX] fixed a BAM corruption bug in IEC/1551 mode 
+- [FIX] fixed fullscreen size in VDU emulation mode (was hardwired to 1024x768)
+- [FIX] stupid sound oversampling bug corrected
+- [FIX] some TED fixes
+
+CHANGES IN 0.61 FROM 0.60
+-------------------------
+released on Mar 10, 2005
+
+- [NEW] switching to full screen when VDU emulation is on, works now differently
+- [NEW] play in background option in sound settings
+- [NEW] sound keeps on playin when emulator window is set to 'Always on top'
+- [NEW] Easter egg: press Ctrl+Alt+X to activate the 1541 turbo loader hack
+- [FIX] more robust DirectX modes
+- [FIX] very obscure interrupt bug fixed
+- [FIX] various TED fixes
+- [FIX] lots of bugfixes
+
+CHANGES IN 0.60 FROM 0.59
+-------------------------
+released on Oct 24, 2004
+
+- [NEW] PAL and NTSC versions merged into one executable
+- [NEW] crystal clock divisor emulation
+- [NEW] luminance downsampling in true video display emulation mode
+- [FIX] many bugfixes
+
+CHANGES IN 0.59 FROM 0.58
+-------------------------
+released on Sep 25, 2004
+
+- [NEW] support for up to four truly emulated floppy drives
+- [NEW] support for multiple drives in the external monitor
+- [NEW] support of D64 files with up to 40 tracks
+- [FIX] saving in halfwave TAP format was broken since a while
+- [FIX] data direction register bug
+- [FIX] fixed a bug at the bank switching in the monitor
+- [FIX] GCR maximum track length
+- [FIX] occasional crash on corrupted GCR images
+
+CHANGES IN 0.58 FROM 0.57
+-------------------------
+released on Sep 3, 2004
+
+- [NEW] selectable fullscreen modes
+- [NEW] selectable TED sound oversampling rate
+- [NEW] more fullscreen modes
+- [NEW] improved snapshot handling
+- [NEW] drive LED in full screen mode
+- [NEW] proper bank switching in the external monitor
+- [FIX] many TED related improvements
+- [FIX] fixed a crash in the monitor
+- [FIX] correct addressing mode for illegal opcode $D7
+
+CHANGES IN 0.57 FROM 0.56
+-------------------------
+released on May 16, 2004
+
+- [NEW] Synch frame rate to that of the monitor
+- [NEW] New monitor improvements
+   - command history
+   - debug with step over
+   - implemented the HOME and END keys
+- [NEW] some TED sound optimisations
+- [NEW] selectable SID card clock frequency
+- [FIX] many bugs in the monitor fixed
+- [FIX] improvements in the SID-card emulation
+  - new combined waveforms
+  - ring modulation fix for combined waveforms
+  - noise waveform fixes
+  - more exact IIR filter emulation
+  - made the envelope generator output 8 bit
+- [FIX] occasional input setup dialog crash fixed
+
+CHANGES IN 0.56 FROM 0.55
+-------------------------
+released on Mar 16, 2004
+
+- [NEW] selectable input methods for joystick and keyboard emulation
+- [FIX] joystick issues introduced in previous release
+
+CHANGES IN 0.55 FROM 0.54
+-------------------------
+released on Mar 7, 2004
+
+- [NEW] cycle based TED and SID sound
+- [NEW] WaveMapper sound option
+- [NEW] cycle based keyboard & joystick emulation (via DirectInput)
+- [FIX] improved a few SID waveforms (noise, triangle)
+- [FIX] tweaked clocking of the 1541, even more disk turbos work
+- [FIX] enhanced the autostart feature
+- [FIX] bitmap fetch reload
+- [FIX] a couple of bugfixes
+
+CHANGES IN 0.54 FROM 0.53
+-------------------------
+released on Jan 9, 2004
+
+- [NEW] true disk rotation emulation (at last!)
+- [NEW] full write support in CPU level 1541 and 1551 drive emulation
+- [NEW] TED and SID sound now selectable at the same time
+- [NEW] option to synchronize to Vblank for smoother video
+- [FIX] improved reading of SID registers
+- [FIX] better high and low pass filters (courtesy of Tim Böscke)
+- [FIX] maximizing the window in PAL mode now keeps the correct aspect ratio
+- [FIX] potential timer overflow bug corrected
+- [FIX] stupid & rare crash bug in cpu emulation fixed
+- [FIX] emulator ID could cause custom ROM corruption
+- [FIX] many-many bugfixes
+
+CHANGES IN 0.53 FROM 0.52
+-------------------------
+released on Nov 13, 2003
+
+- [NEW] PAL TV emulation
+- [NEW] screenshots in YUV format (PAL screen)
+- [NEW] update D64 in 1551/CPU emulation 
+- [NEW] joystick setup dialog window
+- [NEW] support for 2 PC joysticks
+- [NEW] joystick emulation via keyboard now configurable
+- [NEW] arbitrary load address for PRG files
+- [NEW] skipped frames not rendered anymore
+- [NEW] sped up double size GDI mode
+- [NEW] multiple breakpoints in the external monitor
+- [FIX] illegal opcode range $9B-$9F fixed
+- [FIX] improved SID digi sound
+- [FIX] end of screen
+- [FIX] various bugfixes
+- [REMOVED] $FE80 SID setup option
+
+CHANGES IN 0.52 FROM 0.51
+-------------------------
+released on Oct 9, 2003
+
+- [NEW] G64 image support
+- [NEW] export bitmaps to P4Shop graphic editor format
+- [NEW] ted sound is now 16 bit
+- [NEW] high pass filter on SID sound
+- [NEW] sid setup recalls the last selected option
+- [NEW] sound streaming engine rewritten (no more crackling)
+- [FIX] 1551/IEC fake drive emulation mode bug found (Club-Infos load again)
+- [FIX] no more occasional lockups on invalid TV signals
+- [FIX] serial bus update bug fixed (almost all known 1541 turbos work now!)
+- [FIX] cycle exact cursor blink counter
+- [FIX] improved DMA (no more glitches in Legionnaire, Xcellor 8 and Thrust at last)
+- [FIX] TAP save dialog bug fixed (again...)
+- [FIX] various speed optimisations
+
+CHANGES IN 0.51 FROM 0.50
+-------------------------
+released on Sep 18, 2003
+
+- [NEW] frame "sparkle" emulation
+- [NEW] drive LED indicator on the status bar
+- [NEW] reorganised, more informative status bar
+- [NEW] initial write support in 1551/CPU drive emulation (D64 will not be updated, yet!)
+- [NEW] option to enable/disable drive unit 9 (as IEC only)
+- [FIX] DMA index reload on non-bad lines
+- [FIX] timer 1 latch reload bug (all known timer-based defenders work!)
+- [FIX] pixel clock on border area
+- [FIX] border area is again 2x4 characters wide (as seen on a 1084S monitor)
+- [FIX] occasional keyboard scan problem in 16 KB memory mode
+- [FIX] serial port emulation bug
+- [FIX] 1541 drive VIA1 IRQ acknowledge bug
+- [FIX] read/write timing of some illegal opcodes
+- [FIX] illegal opcode SBX set the carry flag incorrectly
+- [REMOVED] drive LED indicator on scroll lock LED (stability problems)
+
+CHANGES IN 0.50 FROM 0.49
+-------------------------
+released on Aug 6, 2003
+
+- [NEW] new README file (at last!)
+- [NEW] preliminary support for density select in true drive emulation
+- [NEW] drive LED on the PC keyboard scroll lock indicator
+- [FIX] shadowing 1541 ROM between $8000-$BFFF
+- [FIX] no more reattach of D64 files is necessary, when switching between true drive emulation modes
+- [FIX] save one last long pulse when recording whole wave TAPs
+- [FIX] cycle timing of a few CPU read calls
+- [FIX] 0x8F (SAX) opcode (it set the Z and N flags accidentally)
+- [FIX] no more truncations during sound frequency conversion (better interference!)
+- [FIX] PC joystick control bug
+- [FIX] SID setup dialog initialisation bug
+- [FIX] minor optimisation in sound rendering
+- [FIX] miscellaneous bugfixes
+
+CHANGES IN 0.49 FROM 0.48
+-------------------------
+released on Jul 10, 2003
+
+- [NEW] CPU level 1551 drive emulation (certain turbos also work)
+- [NEW] disk setup dialog window
+- [NEW] full(ish) write support in 1551/IEC drive emulation mode
+- [NEW] customizable header and disk ID when creating new D64 images
+- [NEW] breakpoint now works with the drive CPU
+- [NEW] writable horizontal dot counter ($FF1E)
+- [NEW] more verbose debugging information
+- [FIX] fixed writing the cursor register
+- [FIX] some GUI fixups
+- [FIX] lotsa bugfixes
+
+CHANGES IN 0.48 FROM 0.47
+-------------------------
+released on Jun 11, 2003
+
+- [NEW] drag'n'drop support (drag a file over the emulator window)
+- [NEW] P00 image support (works like PRG files)
+- [NEW] completely rewritten DMA code (almost all known FLI effects are supported)
+- [FIX] fixed another bug in the 256KB emulation
+- [FIX] fixed TAP data length when recording
+- [FIX] various bugfixes
+
+CHANGES IN 0.47 FROM 0.46
+-------------------------
+released on May 24, 2003
+
+- [NEW] initial D64 write support in 1551 mode
+  - create empty D64
+  - formatting (HEADER command)
+  - B-W/B-A/B-F : block write, block allocate, block free implemented
+- [FIX] fixed 256 KB RAM expansion emulation
+- [FIX] fixed a sound bug introduced in 0.46
+- [FIX] more accurate byte ready signal in 1541 mode (even more disk turbos work!)
+- [FIX] fixed a potential crash in the 1541 emulation
+- [FIX] fixed a crash when creating a TAP
+
+CHANGES IN 0.46 FROM 0.45
+-------------------------
+released on May 13, 2003
+
+- [NEW] lotsa disk turbos work! you can now run a heap of programs that never before!
+- [NEW] debug/disassemble/view drive CPU and memory in external monitor (use the command 'w' to switch)
+- [NEW] dumping disassembly to external file in the monitor
+- [NEW] paste text to the keyboard buffer from the clipboard (ALT+V)
+- [NEW] preliminary drive motor emulation (will be necessary getting the rest of the disk turbos to work)
+- [NEW] drive LED implemented
+- [NEW] using real samples for white noise
+- [NEW] implemented low-pass and high pass filters on sound output (courtesy of Levente)
+- [NEW] menubar in the external monitor
+- [NEW] context menu (right mouse click)
+- [FIX] more accurate drive head movement emulation
+- [FIX] synched the 1541 drive to be exactly 1 MHz (both the CPU and the VIA's)
+- [FIX] oscillator frequency reload is now sampled at every rasterline
+- [FIX] sound oscillators do not stop when corresponding channel outputs are disabled
+- [FIX] optimised true drive emulation (about 50% speed increase)
+
+CHANGES IN 0.45 FROM 0.44
+-------------------------
+released on Apr 30, 2003
+
+- [NEW] option to attach D64 files either as drive 8 or 9
+- [NEW] preliminary FLI support
+- [NEW] use volume table based on oscilloscope measurements
+- [FIX] VIA chip of 1541 drive now sets the IRQ flag properly
+- [FIX] reading from zero-lap (Winter Events TAP works again)
+- [FIX] fixed the DC output of high frequencies (TLC digiconverter sounds much better now!)
+- [FIX] fixed a bug of BRK during stop cycles
+- [FIX] some small optimisations
+
+CHANGES IN 0.44 FROM 0.43
+-------------------------
+released on Mar 27, 2003
+
+- cycle exact IRQ sequence (at last)
+- patching disk load vector is possible
+- writable $FF1A/$FF1B  (character position reload) registers
+- improved some internal TED counters
+- corrected sound base frequency
+- partial rewrite of TED sound rendering
+- fixed a bug in the IRQ sequence
+- track/sector and PC indicator for 1541 drive in quick info mode
+
+CHANGES IN 0.43 FROM 0.42
+-------------------------
+released on Feb 9, 2003
+
+- some 10% speed improvement
+- T64 file support (through disk drive emulation)
+- preliminary TIA 6523 emulation
+- reworked 1551 drive emulation
+  - full directory entry support
+  - almost full disk channel support
+  - support for most block and memory commands (except M-E/B-E)
+  - support for drive error messages
+- tape emulation now works under 1541 emulation either
+- 300% speed option added
+- miscellaneous bugfixes
+
+CHANGES IN 0.42 FROM 0.41
+-------------------------
+released on Dec 16, 2002
+
+- fixed a bug concerning emulator ID set in the ini file
+- fixed a crash on some machines in full-screen mode
+- fixed a bug in handling sound channels
+- fixed a bug with the speed indicator
+- menu is temporarily gone from the fullscreen mode
+
+CHANGES IN 0.41 FROM 0.40
+-------------------------
+released on Sep 5, 2002
+
+- started implementing a status bar
+- limited speed does not use up 100% CPU anymore
+- improved TED DMA timings
+- largely improved digi sound support
+- digi sound now works on NT/2000/XP
+- forced full speed now mutes sound
+- optimised sound emulation
+- optimised screen rendering a bit
+- fixed file association bug on NT/2000/XP
+- fixed fallback sound mode
+- fixed wraparound of two zero-lap opcodes
+
+CHANGES IN 0.40 FROM 0.39
+-------------------------
+released on Aug 3, 2002
+
+- enhanced the internal monitor with some more editing functionality
+- tweaked a little on the timers, they seem to behave better now
+- fixed a sound initialisation bug
+- fixed a glitch when writing to the raster line registers
+- fixed a bug with pending IRQs
+- fixed a crash in the keyboard handler
+- fixed a potential crash with long path names
+
+CHANGES IN 0.39 FROM 0.38
+-------------------------
+released on May 31, 2002
+
+- ZIP file support
+- optimised TED screen rendering a bit
+- slightly optimised main loop
+- fixed some glitches with the horizontal scroll
+- fixed the IRQ when it occurs right after masking it
+- fixed a bug when reading ROM area above $FF20
+
+CHANGES IN 0.38 FROM 0.37
+-------------------------
+released on Apr 16, 2002
+
+- optional emulator ID at ROM address $FF58
+- selectable screen update frequency (aka frame skip)
+- second fire button on a PC joystick now swaps between port 1 and 2
+- third fire button on a PC josytick will toggle autofire on/off
+- window position is now saved and restored from the INI file
+- some optimizations in the CPU emulation
+- some bugs in the TED emulation fixed (mainly raster)
+
+CHANGES IN 0.37 FROM 0.36
+-------------------------
+released on Mar 8, 2002
+
+- processor level 1541 drive emulation (quite buggy yet)
+- three missing illegal opcodes implemented
+- character bank reload implemented (no bitmap for now)
+- keyboard shortcut for switching to maximum speed (ALT+W)
+- limited frame update frequency for sake of fast machines (max. 85 fps)
+- TED sound is not lost anymore when switching to full screen mode
+- CPU jam will now pop up a message box
+- changed the IRQ delay a bit
+- fixed a bug when switching between fast and slow mode
+- two existing illegal opcodes fixed
+- fixed cycle timing of a few opcodes
+- fixed a couple of bugs in the external monitor
+- fixed the screenshot routine (got broken in last version)
+- some keyboard fixes
+
+CHANGES IN 0.36 FROM 0.35
+-------------------------
+released on Feb 14, 2002
+
+- modified keyboard layout, see Readme.txt for more
+- SHIFT LOCK and joystick autofire implemented (on CAPS LOCK key)
+- vertical and horizontal blank implemented (default screen got smaller)
+- a new full screen mode by default (400x300)
+- window area delaying implemented (only in text mode)
+- fixed some more IRQ problems
+- fixed a memory address overflow bug
+- you can now associate plus/4 program files with Yape, and then run your games
+  by simply doubleclicking on them
+- uses log window instead of log file (yapelog.txt is gone for good)
+
+CHANGES IN 0.35 FROM 0.34
+-------------------------
+released on Feb 3, 2002
+
+- ALT+ENTER now always works
+- added saturation to the video settings
+- new sound settings dialog window
+- copy emulator text screen to the clipboard
+- fixed the SID card emulation a bit
+- fixed a bug in save/load snapshot
+- fixed a bug in the ROM setup dialog window
+- fixed another IRQ problem
+
+CHANGES IN 0.34 FROM 0.33
+-------------------------
+released on Jan 29, 2002
+
+- SID card support is back and is now better (not really accurate)
+- largely improved original palette (fixed saturation, not so greyish anymore)
+- fixed two awkward, long standing bugs in the IRQ handling
+
+CHANGES IN 0.33 FROM 0.32
+-------------------------
+released on Jan 21, 2002
+
+- one missing key added
+- numeric keyboard now serves always as cursor keys
+- reworked INI file a bit
+- window always on top option
+- added display contrast, brightness and gamma correction
+
+CHANGES IN 0.32 FROM 0.31
+-------------------------
+released on Mar 24, 2001
+
+- added processor stop cycle emulation (only regular opcodes)
+- pause emulator with a hotkey
+- a new calculated palette, based on original Commodore specs
+- reworked sound emulation (courtesy of Zsolt)
+- digitised sound is now also emulated (sort of...)
+- illegal character ROM banking implemented
+- SID 'emulation' is gone for now (may come back later)
+- the wholewave/halfwave checkbox has been embedded to the 'Create TAP' dialog
+- redesigned ROM/RAM configuration dialog window
+- optimised windowed DirectX modes
+- largely improved keyboard/joystick emulation
+- tweaked a bit some more on the horizontal dot counter
+- fixed the decimal mode ADC and SBC once and forever
+- fixed a pixelformat bug in 16 bit windowed DirectX mode
+- fixed some rarely used illegal CPU opcodes
+- fixed a keyboard repeat problem
+- fixed various bugs in some character modes
+- fixed a small timer bug
+- new icon (hope you'll like it! :) )
+- various code cleanups and optimisations
+
+CHANGES IN 0.31 FROM 0.30
+-------------------------
+released on Mar 1, 2001
+
+- writable rasterline registers (extension to border area works!!)
+- reworked full screen mode (ALT+ENTER works at last!)
+- reorganised TED chip emulation
+- fixed a bit on the horizontal dot counter
+- fixed a monitor bug
+- fixed an IRQ delay timing
+- fixed a bug when DX mode didn't load back properly from the .ini file
+- hopefully fixed another emulator snapshot bug
+
+CHANGES IN 0.30 FROM 0.29
+-------------------------
+released on Feb 25, 2001
+
+- more accurate IRQ handling
+- some DMA fetch corrections
+- record wholewave/halfwave TAPs optionally
+- enhanced external MONITOR functions
+  - memory dump
+  - overwrite memory contents
+  - disassemble memory
+  - CPU register dump
+  - compare memory areas
+  - transfer memory areas
+  - memory fill
+  - search in memory
+  - memory banking
+  - debug CPU
+
+CHANGES IN 0.29 FROM 0.28
+-------------------------
+released on Feb 13, 2001
+
+- emulated disk SAVE to the file system (no D64 files just yet)
+- the 'SAVE as PRG' dialog window is now in hexadecimal (for user request :-) )
+- more polishment on the cursor emulation
+- started implementing a monitor/debugger
+- save settings on exit
+- some minor UI changes
+
+CHANGES IN 0.28 FROM 0.27
+-------------------------
+released on Dec 21, 2000
+
+- frame and background color is not line-based anymore
+- a couple of bugs in the TAP load/save routine fixed
+- some speed optimisations
+- SID "sound" has become a bit bugged in recent releases... fixed it
+- others I can't seem to remember, but I'm sure they exist ;-)
+
+CHANGES IN 0.27 FROM 0.26
+-------------------------
+released on Dec 9, 2000
+
+- PC joystick support (DirectX not needed)
+- more accurate Commodore 16 emulation
+- ROM bank settings now saved as well
+- TAP files can now be started from command line
+- sound bug fixed
+- CPU bug fixed (PLP, BRK)
+- main loop optimised a bit
+- some other bits
+
+CHANGES IN 0.26 FROM 0.25
+-------------------------
+released on Dec 2, 2000
+
+- the emulator can now be run without DirectX
+- small border mode added (faster!!!)
+- drive folder selection dialog added (for disk LOAD operations)
+- more accurate Y-scrolling (TED register $FF06)
+- some optimisations in DirectX rendering
+- double size mode works now in DirectX mode, and is also faaast :-)
+- fullscreen DirectX mode is now supposed to work in all cases
+- miscellaneous fixes
+          	       
+CHANGES IN 0.25 FROM 0.24
+-------------------------
+released on Nov 25, 2000
+
+- emulator speed is selectable as percentage of real machine
+- a nicer quickdebugger (as it now uses Commodore fonts :-) )
+- stupid bug with multicolor mode corrected (Vegas Jackpot)
+- just realised that reverse mode can have a cursor... so I added
+- some improvements on emulator snapshot load/save
+- bugfixes and polishments in TAP creation (you had to quit Yape to close the file created)
+- accidentally, in v0.24 I made the built-in plus/4 software unavailable...
+- some more potential crashes fixed
+
+CHANGES IN 0.24 FROM 0.23
+-------------------------
+released on Nov 18, 2000
+
+- introduced the new MTAP format for native C16/+4 turbos
+- digitised samples are now accepted as valid TAP files (autodetected - try Minus4 for DOS TAPs!)
+- cursor is now almost 100% accurate
+- a few serious bugs in the CPU found and corrected (most protectors work!)
+- ADC setting the zero flag in BCD mode is fixed
+- saving to external TAP fixed
+- fixed ROM banking interface a bit
+- TED color registers now report their 7th bit as 1 (Rockman requires this to work properly)
+- fixed the FF1F TED register to report correct values (Squirm, Rockman needs this)
+- fixed some potential crashes
+- emulator snapshots improved a bit
+
+CHANGES IN 0.23 FROM 0.22
+-------------------------
+released on Nov 11, 2000
+
+- exact TED timings at last, including "correct" color and character buffering (this actually broke 
+  some already working games...)
+- MTAP support, the same tape format that is used in CCS64 and VICE is now supported!
+  (you can even save/load to/from external TAP files now! Turboloaders also work!)
+- timers are now decreased in every second TED clock cycle only...
+- preliminary SID emulation (courtesy of Csabo)
+- ROM bank select dialog added
+- reorganised menubar
+- you can now load/save user settings and they are reloaded at startup (yape.ini)
+- screen is now centered in all full screen DirectX modes
+- modified the redistribution package to contain one of all supported image types
+- updated this README.TXT...
+- various small fixes
+
+CHANGES IN 0.22 FROM 0.21
+-------------------------
+released on Nov 1, 2000
+
+- 256K RAM mode supported (the so called Hannes expansion)
+- volume setting largely improved
+- you can now load and autostart games from the command line at startup
+- implemented ALL illegal opcodes (needs testing...!)
+- modified the annoying frame counter to be updated on every 64th frame only
+- fixed some graphic glitches
+
+CHANGES IN 0.21 FROM 0.20
+-------------------------
+released on Oct 24, 2000
+
+- flashing mode implemented
+- white noise on the second sound channel done
+- merged the ROMs into the executable file, so you won't need them anymore
+- ROM banking implemented (plus/4 built-in programs work)
+- sound bug corrected (well, one of many :-) )
+- another disk loader bug corrected
+
+CHANGES IN 0.20 FROM 0.19
+-------------------------
+released on Oct 20, 2000
+
+- some screen rendering optimisations (never enough...)
+- a new bug was introduced at the last version with disk loading, this has been fixed (I hope)
+- SOUND! - it is a bit clumsy at the moment, but I will try to improve it
+- saving and loading snapshots (not 100% yet); hence the dump menupoint is gone
+- started an event logger for future bug reports
+
+CHANGES IN 0.19 FROM 0.18
+-------------------------
+released on Oct 14, 2000
+
+- blank screen implemented (and Manic Miner still works...)
+- wildcard - in disk loading is done (go try it!)
+- save memory contents as program (try Mercenary...)
+- much better joystick emulation via keyboard
+- more illegal opcodes done (Jack Attack works now)
+- other minor improvements
+
+CHANGES IN 0.18 FROM 0.17
+-------------------------
+released on Oct 6, 2000
+
+- optimisations in screen rendering (about 20% speed improvement)
+- implemented almost all DirectX modes (16 bit, 32 bit and 8 bit fullscreen)
+- enhanced the autostart feature to support D64 images as well
+- the Commodore key is at the CAPS LOCK
+- at last I made the BRK instruction work
+- some more illegal opcodes done
+- miscellaneous bugfixes
+
+CHANGES IN 0.17 FROM 0.16
+-------------------------
+released on Oct 1, 2000
+
+- some further optimisations in screen rendering
+- more raster fine tuning (way to go...)
+- load and autostart images
+- vertical smooth scroll implemented (with some glitches...)
+- bug with screenshot corrected
+
+CHANGES IN 0.16 FROM 0.15
+-------------------------
+released on Sep 27, 2000
+
+- optimised screen rendering (YAPE runs almost two times faster)
+- minor raster improvements (well, maybe not in all cases)...
+- two bugs in the CPU found and corrected (the Monties, Arthur Noid run well now)
+- corrected the timing of the cursor blinks
+- synchronising to the 50 MHz timer is available
+
+CHANGES IN 0.15 FROM 0.14
+-------------------------
+released on Sep 25, 2000
+
+- D64 disk file support
+- extended color mode done (Manic Miner, Rig Attack works)
+- horizontal smooth scroll
+- many new illegal opcodes are implemented
+- miscellaneous bugs in the timers fixed (Dizasterblaster works)
+- minor speed optimisations
+- double size selection now works as expected... 
+			
+CHANGES IN 0.14 FROM 0.13
+-------------------------
+released on Sep 23, 2000
+
+- almost 20% speed improvement (still a long way to go...)
+- found an ugly bug in the CPU (ORA)
+- bug in the video memory relocation corrected
+- many new illegal opcodes are implemented
+- relative speed counter and dumb debugger added
+- debug reset added (hard reset with memory intact)
+
+CHANGES IN 0.13 FROM 0.12
+-------------------------
+released on Sep 21, 2000
+
+- multicolor bitmap graphic is done (Treasure Island works great!)
+- raster interrupt largely improved (tons of games work now because of this!)
+- added loading PRG files from file system
+- saving screenshots is now possible
+- leak in GDI memory fixed
+- blinking cursor impemented (not 100% exact yet)
+
+CHANGES IN 0.12 FROM 0.11
+-------------------------
+released on Sep 19, 2000
+
+- yet some more speed improvements (still sluggish below P2 though) 
+- CPU bug fixed (SBC) 
+- two illegal opcodes are implemented (NOP $0000,X) 
+- palette selection in GDI mode (monochrome rulez!!) 
+- multicolor character mode done 
+- preliminary joystick emulation 
+- vertical TED register is ready 
+- wrong color handling in high resolution bitmap mode fixed 
+- stupid PRG loader bugs fixed, more decompressors work fine 
+- added yet some more games to the package 
+- some new bugs introduced :-))
+
+
+CHANGES IN 0.11 FROM 0.1
+------------------------
+released on Sep 17, 2000
+
+- speeded up a bit, now you only need an Athlon 600 :-)))))))
+- 100% of regular opcodes are implemented
+- several CPU bugs fixed
+- high resolution bitmap graphics done (GRAPHIC 2 works!!!!!!)
+- raster interrupt is improved (still not 100% accurate)
+- added more games to the distribution package
+- several new bugs introduced :-))

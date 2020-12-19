@@ -1,0 +1,43 @@
+--- ZRCP remote command ---
+
+Macros o lenguaje en ZEsarUX
+Que permita integrar con ZRCP y acciones...
+
+-Parseo de parámetros con comillas en ZRCP 
+
+-Que se puedan ver errores debug verbose etc pero en ZRCP, de manera que no se vean en consola pero si en ZRCP. Eso permitiría debugar remotamente en raspiboy por ejemplo
+
+
+-Protocolo remoto:
+Ver si la simulación de pulsado de escape desde smartload de remote protocol no se detecta como space-break en zxuno
+
+-al salir de socket en remote, ver si sock_conectat estaba asociado a algo
+
+-en hexdump y hexdump internal, compara c>127 en caso de char? warning al compilar en linux
+
+-Mejorar load source code. Poder saber líneas siguientes a un label empezando en siguientes líneas a label. Cache? Indices?
+
+-comando send-keys-string  y send-keys-ascii no van si driver stdout. con otro (incluso con null) va. Quiza tampoco va spool file con stdout?
+
+-opcion ZRCP que indique que memoria divmmc/divide esta mapeada: de momento dice divmmc sin mas
+
+-opcion ZRCP para cargar y grabar binary
+
+-Comandos ZRCP obtener datos sprites tsconf
+
+
+-Comando genérico para alterar algunos settings desde ZRCP hacia settings de menú
+Quizá haver función que mediante una string de entrada (quizá misma que command line) que pueda:
+-establecer valor
+-conmutar valor, en el caso de variables 0/1
+Luego se podrá usar en el futuro para nuevos settings de menú y command line, y automáticamente desde ZRCP 
+
+
+-for the get-visualmem-xxx commands, could you please add start address & length/end address params?
+Mark Hutchings  
+
+-exit-emulator de ZRCP no parece funcionar en Mac, pero en Linux si. Va como a medias, desactiva el sonido pero no sale
+
+
+-------------
+

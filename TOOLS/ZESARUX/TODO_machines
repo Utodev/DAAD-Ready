@@ -1,0 +1,789 @@
+
+--- QL ---
+
+QL: lectura de bloques basic no siempre funciona
+*cpu stats: quiza no porque hay mas instrucciones que z80....
+-Soporte microdrive / floppy QL
+-Que QL, cuando busque un archivo, lo haga todo en minusculas y tambien todo en mayusculas
+-Soft QL
+http://www.rwapadventures.com/ql_wiki/index.php?title=Sinclair%20QL%20Home%20Computer&lang=en
+-Mirar uqlx a ver cómo hace el load 
+
+-QL:
+parece que los fallos de lectura en sentencias basic no son del archivo original sino que es algún tipo de error del emulador.
+No sera culpa de esa suma de punteros a1+a6 que no siempre se produce, y que depende de… lo de los traps que me dijeron en el foro
+
+-Intento interceptar funciones de lectura de sectores de microdrive. MD.READ. aparentemente tiene que saltar desde la direccion 525CH pero ahi no parece saltar nunca,
+si desactivo todo trap de rom de ql, se queda colgado despues del menu inicial, seguramente intentando detectar microdrive
+si no desactivo traps, no parece llegar tampoco ahi, aunque esto me ha llevado a interceptar el trap FS.MDINF, que se usa en dir mdv1_,
+cosa que ahora consigo mostrar sectores libres/usados aunque no aparece el nombre del microdrive (registro A1 donde hay que guardar eso contiene direccion 100H !)
+
+-teniendo desactivada la emulacion de microdrive , igualmente consulta cosas al root path
+Debug: Source path: MDV1_BOOT Device: mdv1 File: boot
+Paranoid: File /Users/chernandezba/Documents/ZEsarUX/zesarux/extras/media/ql/spacepods/boot not found
+
+
+
+Ejemplo:
+demos/cueshell.zip 
+
+Linea 70, la lee mal hacia el final. pero no siempre lo hace… :(
+
+-solo cambiar en la ruta de archivos de ql, la primera _ empezando por la derecha es un ".", sin tener en cuenta logicamente el mdv1_
+Necesario?? si se pone ruta entre comillas no hay que cambiar los . en el basic por _
+casos antonimos:
+archivo se llama mouse_bin y hace lbytes mdv1_mouse_bin  -> lo raro
+archivo se llama spacepods.bas y hace lbytes mdv1_spacepods_bas -> lo normal
+
+-tema mayusculas/ minusculas en ql solo funciona directo en mac... que pasa con windows? y mac?
+
+
+-implementar exec_mdv1_... mismo ejemplo con cueshell, va a   Returning header for file on address 00100H y ahi peta
+
+
+
+-get-stack-backtrace para motorola. hay que tener uno para el user stack (usp) y el otro para el stack de (sp)
+
+-sonido y otros comandos parece que a veces dejan el ipc en estado inconsistente. Quiza tambien por eso algunos juegos, como el spacepods, se cuelga despues de una partida
+
+-debug y otros items de menu preparados para QL. condiciones peek/poke de debug en QL no funcionan en teoria
+-funciones peek, poke punteros a funciones legacy. luego con el tiempo hacer que las de ql llamen a las que sean correspondientes
+-en ql , funciones peek , poke etc desde menu, disassemble y otros sitios no deben tener en cuenta direcciones que son i/o mapeadas
+
+Funciones de peek y poke nested soporta punteros de Motorola?
+Quizá no funciona bien en ql en el momento que se activa debug
+
+NO. Dado que no usa peek byte y poke normales sino que tiene funciones propias a las que no le afecta el nested de peek y poke. 
+Solo le afecta el nested del core cpu
+
+-parpadeo de cursor
+-resolucion esta ok pero tamanyo pantalla deberia ser 4:3. hacer escalado chungo...
+
+-algunos archivos de juegos vienen con QDOS file header:
+http://foro.speccy.org/viewtopic.php?f=15&t=2008&start=4
+como el psion chess
+ver docs/ql/qdos_file_header.txt
+
+-software 
+http://www.dilwyn.me.uk/downloads.html
+
+-Pendiente todo lo relacionado con texto: drivers modo texto para curses, stdout, ocr, input spool file, etc
+
+-Emulacion microdrive y/o floppy. Mediante traps a la rom
+
+-Trap de F1 y F2 servirá para cuando se quiera hacer autoload. Por tanto no quitar estos traps
+
+-Combinación de teclas de QL que... resetea el IPC? Mencionado en manual
+
+-util z80 moto poke pokea en motorola pero sin protección de escritura en rom
+
+-------------
+
+
+
+--- MK14 ---
+
+*condiciones registros, establecer registros
+*input, output, teclas, visualizacion leds
+*y posiblemente muchas mas cosas...
+
+
+-mk14 en fbdev hace parpadeo
+
+-------------
+
+
+
+--- Jupiter Ace ---
+
+-tape browser en jupiter ace. esta mostrando el de spectrum??
+-emulacion joystick
+-quiza detectar magic de cabecera de archivo ace al cargar?
+-real video para poder hacer Video out to file
+Conversión de tap a wav en ace. Requiere rutina diferente que la de spectrum
+
+-Revisar contend en Ace: de momento no tiene contend
+-F4 (ocr) no implementado aun
+
+-------------
+
+
+--- Chrome ---
+
+
+
+-----------------------
+
+
+
+
+--- TSConf ---
+
+-Puerto 57 tsconf es mmc?? usado en zifi demo
+
+
+http://speccy.info/Pentagon
+
+Misma wiki para info de cosas de TSConf, como el z controller ide 
+
+
+
+
+-tsconf: quiza algunas demos no se ven bien efectos de linea debidos al turbo? se ven mas arriba: ejemplos chess, 200, 
+
+-Tsconf render modo spectrum compatible debería leer de buffer atributos y pixeles ; para que demos como overscan se vean bien
+
+-tsconf y tr-dos no deberia hacer nested_core, solo detectar cuando se esta en core trdos
+
+-tsconf sin real video no borra border. al menos en demo carousel.spg
+
+-mmc. Esto tambien para baseconf. Parece que envia un comando FF invalido y luego se queda en un bucle
+
+con gigascreen activo, al pulsar teclas en el menu (cursores?) las demos se alteran! :(
+gestion interrupciones (dma, linea, frame) a la vez. cosa poco probable?
+truco para que las demos vayan mas fluidas: poner turbo x1, en algunas no se ralentiza el cambio de turbo y van perfectas a 50 fps
+
+-ideas por que tsconf va lento algunas demos: porque basicamente usan modo turbo X4
+hay rutinas, como gestion de sprites y tiles, que se podrian mejorar ligeramente, cacheando algunas cosas.... pero aun asi, aunque desactive los sprites o tiles del todo, el uso de cpu no baja significativamente, apenas 1 o 2 % en un uso total de 75%..... la solución seria que el core de Z80 usase menos cpu fisica, asi el modo turbo x4 funcionaria mas ligero
+
+-factor compresion tsconf a texto en drivers curses, stdout, simpletext que sea configurable
+
+-Tsconf: escritura dma en fmaps. No he encontrado ningun juego que lo haga
+
+-tsconf:
+*tsconf: 
+-limite sprites en scanline
+-revisar mapeo rom mediante 32765, parece que a veces no va fina
+
+-Cuando se interpreta solo vram y cuando bit shadow de 128k?
+
+-Más info tsconf
+http://forum.tslabs.info/viewtopic.php?f=12&t=157 
+
+
+
+para probar sprites: ny17, cfparallax, digger, fast, fishbone, 200, mustang, 3bm, alterego beta,
+girlsun, hny2k16, jptst, merhaba_fixed, mf11intro, robfgift, sirababol, soco, tcircles, uwol
+
+
+newschool: usa mirror xf, yf de sprites. uwol mirror xf
+con mirror_x en sprite, xorig debe decrementarse y detectar cuando xorig<0 tiene que hacerse xorig=511
+
+mirror x,y en tiles: hnk2015, merhaba_fixed usa los dos tipos de mirror
+probar capas de sprites tsconf: 200, , sirababol, mustang, alterego, fast, fishbone, uwol, soco
+
+-synchronization demo .trd es para tsconfig
+
+
+
+-----------------------
+
+
+
+--- Chloe ---
+
+-Contended memory. Solo contended paginas 5,7
+-Floating bus port?
+-Video out to file?
+-Bit de bloqueo de paginacion de 128 no le afecta. Deberia?
+Bit timex interrupciones en prism? Y chloe?
+Solo afecta a chloe
+
+-output save filter
+Activado de rainbow, timex y ulaplus de chloe genera algún error si se arranca con chloe desde línea de comandos?
+-revisar chloe keymap en windows y otros
+pasa lo mismo en Z88 y windows
+-Chloe y curses, con Chloe keyboard, da problemas en menu (no lee letras)
+
+-------------
+
+
+
+--- Timex ---
+
+-Floating bus port?
+-Video out to file?
+-Contended memory?
+Bit timex interrupciones en prism? Y chloe?
+Solo afecta a chloe
+
+-Revisar si border cambia (pasando de color rojo por ejemplo) en modo timex 512 cuando hay reset
+-aviso splash de 512x192 tener en cuenta setting y border
+-Putpixel cache para timex 512x192 nuevo metodo
+-Hacer que demo timex modo 6 cambie color papel
+-output save filter
+-Exrom debe estar replicado todos los 8kb?
+
+-Timings. Parece que 60 Hz , 263 scanlines (contador desde 0 hasta 262). Ver documento en extras/docs/ts2068. Ese pdf extraido de http://www.polylith.com/~brendan/ClassicComputers/Timex/image/TS2068TM.PDF
+-Agregar TC2068 y UK2068
+
+
+-------------
+
+
+--- Prism ---
+
+-Modo turbo tipo VGA. Modo turbo solo hago los tipo CPU aunque no igual que Jeff: el envia 100 interrupciones por segundo en turbo x2
+-Test franja borde vertical para prism, comparar en emulador y maquina real
+-no hace sprite chip
+-Prism: opcion de timex real 512x192 no tiene sentido, ya que siempre lo hace real al ser la pantalla siempre de 512 de ancho..?
+-Bit de bloqueo de paginacion de 128 no le afecta. Deberia?
+-mejorar sonido. al grabar por ejemplo se oye entrecortado y hace que no se pueda luego cargar una cinta grabada
+-Modo interlaced en prism
+-modo 4,5 de atributos (256 color modes) tienen que usar buffer border prism de manera similar como hace el refresco del border
+Prism modo de atributo que usa color de border 0 ula2, no soportará más de un color por scanline. Habría que hacer un buffer similar al del border o de sonido que recoja cambios en el puerto ula2
+
+temporal 0100 - 256 Colour mode 1 - D0-D7 = ink colour. Paper colour is determined by ULA2 BORDER (IO 0x9E3B)
+
+de momento se coge el color del border tal cual
+
+-Bit de bloqueo de paginación se debería seguir en prism
+-Failsafe se debería mantener después de reset normal?
+-Video out to file?
+-output save filter
+-Activado de rainbow, timex y ulaplus de prism genera algún error si se arranca con prism desde línea de comandos?
+-Prism vmask debería tener en cuenta modos Dock de timex?
+-Modos de video leen atributos de memoria de pantalla en cada scanline, no usa scanline_buffer (que es el que usa el spectrum 48k por ejemplo).
+Pasa lo mismo que con spectra. No es prioritario pero tenerlo en cuenta para futuros efectos tipo overscan. Lo que si que se usa es el border buffer,
+que si que permite cambiar el border en una misma scanline
+-Modo gigablend. Estoy usando un valor medio para el color en vez del calculo que usa Jeff:
+                                                //Y montamos colores finales
+                                                //RED= REDa(3) & REDb(2) & REDb(1) & REDa(0)
+                                                //GREEN = REDa(3) & REDb(2) & REDb(1) & REDa(0)
+                                                //BLUE = REDa(3) & REDb(2) & REDb(1) & REDa(0)
+                                                int red_final=(red_a &8) | (red_b &4) | (red_b & 2) | (red_a & 1);
+                                                int green_final=(green_a &8) | (green_b &4) | (green_b & 2) | (green_a & 1);
+                                                int blue_final=(blue_a &8) | (blue_b &4) | (blue_b & 2) | (blue_a & 1);
+
+
+                                                //temp mi metodo de gigablend
+                                                red_final=(red_a+red_b)/2;
+                                                green_final=(green_a+green_b)/2;
+                                                blue_final=(blue_a+blue_b)/2;
+
+-Modos overlay y registro 7 acabar de probar
+-Cambio colores paleta en test program
+Test RAM con clear 32767
+Edición de colores de paleta 2
+
+
+-------------
+
+
+--- Pentagon ---
+
+-No deja desactivar timing pentagon cuando la maquina seleccionada es pentagon. dado que reinicializa el valor
+
+-16c. hay modo con paleta?
+
+http://zxpress.ru/article.php?id=8610
+
+Probar en zxevo fisico
+
+Ball quest en formato trd
+http://www.pouet.net/prod.php?which=33976
+
+http://www.pouet.net/groups.php?which=10734
+
+https://github.com/tslabs/zx-evo/blob/master/pentevo/docs/ZX/zx-ports-full-table.txt
+
+https://cs.wikipedia.org/wiki/Pentagon_1024SL
+
+Modo 384 x 304 ?
+
+-emular este bit de eff7 en pentagon:
+port EFF7: (adressation 1110xxxx xxxx0xxx )
+D3 = 1 - disable rom and connect ram page 0 in adress space 0-3FFF
+
+-------------
+
+--- TBBlue ---
+
+-Activar el kempston mouse entra en conflicto con el editor de basic. 
+Al mover raton hace cosas raras. Quizá era por los bits wheel. Ya corregido?
+
+-tools/tile editor: no se ve bien?
+
+Refresco de Tbblue para curses , stdout y simpletext en caso de:
+-rainbow y modos tiles etc habilitados. O simplemente modo rainbow  
+
+Last of the incompatible changes to tilemap made.
+
+(R/W) 0x6B (107) => Tilemap Control
+  bit 7    = 1 to enable the tilemap
+  bit 6    = 0 for 40x32, 1 for 80x32
+  bit 5    = 1 to eliminate the attribute entry in the tilemap
+  bit 4    = palette select
+  bits 3-2 = Reserved set to 0
+  bit 1    = 1 to activate 512 tile mode
+  bit 0    = 1 to force tilemap on top of ULA
+
+512 tile mode is solely entered via bit 1.  Whether the ula is enabled or not makes no difference
+
+when in 512 tile mode, the ULA is on top of the tilemap.  You can change this by setting bit 0
+
+
+512 mode is its like the 256 tile mode, but with twice as many 
+
+The tile number is 9 bits instead of 8 bits.  The "ula on top" bit of the tilemap flags is take as bit 8.
+
+Before this update, 512 tile mode was automatically entered when the ula was disabled.  In this case "ula on top" was useless so was made bit 9 of the tile number.  Now we're getting rid of the requirement that the ULA be turned off to access 512 tiles
+
+"ULA over tilemap" was only bit 8 of the tile number if the ULA was disabled.  We're getting rid of that requirement by making it bit 8 when the 512 tile mode is enabled.  So no need to have the ULA disabled to get there anymore.
+
+
+
+
+TBBLUE: 
+*eliminar puerto 55h. Corregir demo tosprram para que use 5bh en vez de 55h
+*y otras novedades * New machine type: Pentagon 128K.. Ver registros 3, 7, 21
+*Desactivar puertos viejos de establecer paleta sprites get/set
+
+-soporte mas botones joystick/mas joystick de tbblue
+https://www.specnext.com/forum/viewtopic.php?f=6&t=1142
+
+-sonido repetitivo en el browser de next al llevar el cursos mas abajo de lo normal: parece que es culpa de el driver de audio,
+la cpu se satura y (puede) que el buffer de audio se envie varias veces. Sucede cuando hay saturación en la cpu
+Sucede tambien si por ejemplo iniciamos la scrollnuter compilando sin O2
+* pruebo a meter un vaciado de buffer de audio cuando fps esta bajo: no da buen resultado, también se producen clicks
+-> es casi peor porque produce clicks en momentos que no hay audio. incluso inicializando array mediante memset, tambien se produce
+
+El parchecillo va en core_spectrum.c , aqui:
+
+        int linea_estados=t_estados/screen_testados_linea;
+
+                while (linea_estados<312) {
+					audio_send_stereo_sample(audio_valor_enviar_sonido_izquierdo,audio_valor_enviar_sonido_derecho);
+					//audio_send_mono_sample(audio_valor_enviar_sonido_izquierdo);
+                                        linea_estados++;
+                }
+
++				//Si fps bajo
++				printf ("Ultimo fps: %d\n",ultimo_fps);
++				if (ultimo_fps<15) {
++					printf ("Cleaning audio buffer\n");
++					memset(audio_buffer,0,AUDIO_BUFFER_SIZE*2);
++					//int i;
++					//for (i=0;i<AUDIO_BUFFER_SIZE*2;i++) audio_buffer[i]=0;
++				}
+
+-parece que no aparece correctamente el salvapantallas de NextOS
+
+-volver de multiface nmi desde la rom, no retorna bien ni modo de video y ademas se cuelga
+
+-terminfo de CP/M muestra algunos caracteres raros en algunas paginas
+
+-Agregar turbo spool setting en tbblue -> va relacionado con la funcion de peek_byte turbo que se ve alterada al cambiar 
+la velocidad de la cpu en nextos
+
+-registro paleta tiles. no hacemos las combinaciones de Tilemap
+0x43 (67) => Palette Control
+(R/W)
+  bit 7 = Disable palette write auto-increment (soft reset = 0)
+  bits 6-4 = Select palette for reading or writing (soft reset = 000)
+    000 = ULA first palette
+    100 = ULA second palette
+    001 = Layer 2 first palette
+    101 = Layer 2 second palette
+    010 = Sprites first palette 
+    110 = Sprites second palette
+    011 = Tilemap first palette
+    111 = Tilemap second palette
+
+
+-tbblue. registro 6b bit 1: 1	1 to activate 512 tile mode (bit 0 of tile attribute is ninth bit of tile-id)
+https://www.specnext.com/tilemap-mode/
+
+-revisar si esto está correcto:
+-tbblue:NEW in core 3.0:
+Bit 3 enables "text mode" where the tile-graphic is defined as 1-bit B&W bitmap 
+(same as UDG = User Defined Graphic characters on original ZX Spectrum) => 
+one tile needs only 8 bytes to define graphics. The tile-map data are also interpreted differently, 
+the associated flag byte is 7:1 split, the bottom bit 0 being still "ULA over tm" or "ninth bit of tile number", 
+but the top 7 bits are extended palette offset. The transparency is then checked against the global transparency colour
+ (after the colour lookup in the palette), not against the four bit tilemap transparency colour-index.
+ -menu info video tbblue cuando son inks y papers no cabe entero. probar con angry floaters por ejemplo
+
+ -otros cambios registros: ejemplo 0x68 , bits 5-1
+
+
+-tbblue extended opcodes
+https://docs.google.com/spreadsheets/d/1CFjp6sRIPRTShESC_1I5-pR6v7kTymk0hhUC1TN9sgc/edit#gid=0
+
+-tbblue: Permitir tener border desactivado:
+--esta en cpu.c forzado, en set_machine_params
+--en menu.c, no permitido en gui settings
+
+
+-Mantener archivo de especificaciones de next (la lista completa de los registros internos) tal cual como los emulo. 
+Así es más fácil saber cuando agregan o modifican algo nuevo 
+-Ensamblador opcodes extendidos next
+-Puerto dffd next
+https://specnext.dev/wiki/Next_Memory_Bank_Select
+
+-27 noviembre 2019:
+The tilemap and sprites can extend into the border area.  In the future, layer 2 will as well.
+
+Because there can be so many sprites on screen (128 without any multiplexing), people have used sprites 
+to generate background in the border.  You need 96 to cover the 32 pixels on the left and right sides of 
+the screen.  If you multiplex, you can get away with less.
+
+The tilemap now has two modes.  One is 4-bits per pixel for 16 colours but this is further indexed by a 
+palette offset in the top four bits so you still have 8-bit colour but in a more restricted manner.  
+The other mode ia 1-bit per pixel (like UDGs) but with a 7-bit palette offset.
+
+The 320 pixel size in the x direction is reaching into the overscan area of displays.  
+hdmi cannot display all of it.  vga 60 it fill the entire space and vga 50 there may be a thin border.  Some displays may crop it further. 
+
+
+
+-mostrar electron en tbblue, con modo turbo, refresca linea un poco por debajo de posicion electron
+
+-mas patterns de sprites:
+N6, despite the name, is the least significant bit.
+
+This 7-bit pattern number can identify 128 patterns in the 16k pattern memory, each of which are 128 bytes in size. The full 7-bits are therefore used for 4-bit sprites.
+
+For 8-bit sprites, N6=0 always. The remaining 6 bits can identify 64 patterns, each of which is 256 bytes in size.
+De momento estoy haciendo 64 patterns-> por tanto, 256 bytes por pattern
+
+-otros tipos de patterns (4 bit etc) y atributos extendidos sprites (quinto byte)
+
+-en visor de sprites, dice Sprites y zona memory tambien. Quiza deberia decir mejor patterns?
+
+	
+
+-reloj deberia salir en nextos, ya que implementa el chip de reloj. Aparece pero con valor 000
+-probar que pasa cuando llega a mas de 12 sprites en linea tbblue
+-Sincronizar bits de joystick de puerto config2
+-no dejar aumentar memoria divmmc mas de 128kb, pues tbblue no tiene mas que eso. sino, se accederia a memoria mas alla del divmmc
+
+-a veces al arrancar la maquina no encuentra archivos de la sd. Quiza por algun registro de la mmc que no se inicializa correctamente?
+-para emulacion de +3e, la sd se utiliza la sd secundaria. emular segunda SD????
+-considerar algunas escrituras de puertos que dicen:
+only in bootrom or config mode:
+
+-estoy considerando igual estado hard reset que estado power on
+Ver registro 2:
+(R/W)	02 => Reset:
+			bits 7-3 = Reserved, must be 0
+			bit 2 = (R) Power-on reset
+			bit 1 = (R/W) if 1 Hard Reset
+			bit 0 = (R/W) if 1 Soft Reset
+
+
+*Contended en mmu tbblue. De momento la contencion la hace por bloques de 16 kb
+
+-PIXELUP/DN quiza pueda ir mas alla de coordenada 191
+https://www.specnext.com/forum/viewtopic.php?p=8226#p8226
+
+-------------
+
+
+--- Baseconf ---
+
+-Baseconf:
+hay dos tarjetas según:
+Which card is activated, sets bit 4 port # 7FFD.?? -> pendiente
+
+-No llega a arrancar la rom
+
+-Baseconf soporta ulaplus
+
+
+-------------
+
+
+--- SAM coupe ---
+
+-real video
+-Alt derecha en PC es altgr?
+-soporte snapshot .zx
+-refresco en curses:
+*al pulsar esc en curses en sam se queda pulsado??
+-refresco curses, text, stdout, F4
+*linea inferior no funciona. porque????
+
+-breakpoints para cuando pagina de ram o rom papeada, de tipo:
+seg0=xxx
+o ram0=xx ram1=xx ram2=xx ram3=xx
+rom0=xx rom1=xx
+-Mapeo cursores sam independientemente de tipo de joystick seleccionado?
+-Cintas para probar en ftp://ftp.nvg.org/pub/sam-coupe/tapes/
+-Interface trinity Ethernet /SD
+
+-echar un vistazo a:
+http://velesoft.speccy.cz/sam_zx128.htm
+
+-Atomlite... intentar poder convertir floppy a imagenes atom lite
+-atom lite: caso de lectura de reloj Dallas. Poner caso vacio
+
+-Emulacion de floppy
+-Beeper con real beeper no suena bien. Sin real beeper si
+-beeper con chip sonido suena mal a veces. sin beeper suena bien
+-Parece que si ponemos 256 KB de memoria no lo detecta el basic
+-memoria contended. toda esta contenida?
+-velocidad es correcta? t-estados por linea, mhz...
+
+-rutina ascii_to_keyboard_port. la que permite enviar texto por spool o leer texto de drivers curses, stdout. Agregar simbolos?
+-emulacion real del chip de sonido (no simulacion contra el AY como hay ahora)
+
+
+
+-------------
+
+--- CPC ---
+
+-ay player en modo cpc no borra debajo de pantalla diferentes ventanas
+--machine cpc464 en aa,caca en consola de texto real da segmentation fault
+-dibujado de border cuando pantalla es menor de lo habitual, temporal, no va bien en casos como paperboy. Esto seria mejor para solucionarlo implementar realvideo
+-debug i/o ports
+-teclas cpc y keymap para otros drivers. ahora solo esta para cocoa y xwindows y sdl y fbdev
+-Que pasa con keymap y otras teclas de cpc en drivers que no soportan keymap
+-Hardware scroll no va fino
+-Paginación de memoria cpc en la función por defecto array que tenga: 0,1,2,3
+Luego en cpc con más de 64 kb se puede re mapear según registro 3 del gate array
+-Modo realvideo
+-cpc664. disco y rom de 24 kb. Paginacion de diferentes roms mediante puerto DFXX. http://www.grimware.org/doku.php/documentations/devices/gatearray#upper.rom
+
+-Carga de .zx falla en uno (cara.zx)
+-Video out to file?
+-Cdt ahora entra siempre como real tape. Se debería detectar tipo si real tape o standard (para standard falta traps a ROM que aún no están)
+
+-parece que hay juegos que apagan el motor cuando no deben: MEnfin, bubble bobble, cabal.
+temporalmente desactivamos comando de stop real tape cuando motor off
+
+-en debug paginas memoria, que muestre correctamente paginas dandanator cpc
+
+-Implementar registros 12 y 13 crtc del cpc para scroll y cambio de buffer video
+
+For a 16k screen:
+screen start byte offset = (((R12 & 0x03)*256) + (R13 & 255))*2
+For a 32k screen:
+screen start byte offset = (((R12 & 15)*256) + (R13 & 255))*2
+On a hardware scrolling screen, there is a problem:
+C7FF->C000
+CFFF->C800
+D7FF->D000
+DFFF->D800
+E7FF->E000
+EFFF->E800
+F7FF->F000
+FFFF->F800
+
+Quizá esto dice que al incrementar de c7ff pasa a c000 en vez de c800
+
+Seguramente al dibujar pantalla cuando se pasa de offset ffffh se vuelve a c000h, es decir, el offset cuenta siempre desde la base de pantalla y un contador que va de 0 a 16383 y luego resetea a 0 (si se define pantalla de 16k)
+
+http://www.cpcwiki.eu/index.php/Programming:Hardware_scrolling_the_screen_using_the_CRTC
+
+-Cpc traps Rom
+http://www.cpcwiki.eu/index.php/Format:TAP_tape_image_file_format
+-Cdt en amstrad es como tzx. Aprovechar rutinas de standard tape. pendiente
+
+-refresco en drivers de modo texto (de pantalla entera: curses, stdout, simpletext): falta colores curses
+
+-rutina ascii_to_keyboard_port. la que permite enviar texto por spool o leer texto de drivers curses, stdout. Agregar simbolos?
+
+-Sd en cpc
+http://www.spinpoint.org/2016/05/06/m4-board-retrofun-8-bit-amstrad-cpc-wifi/#comment-69
+
+
+
+-------------
+
+
+--- Mejoras especificas de ZX-Uno: ---
+
+-traps de cinta de bios zxuno deberia considerar solo opcodes y no registro pc
+
+-al escribir archivo default spi flash, al buscarlo por entre todas las rutas, si en una lo encuentra pero no se puede escribir,
+que no siga buscando y alerte del error de que esta pero no puede escribirlo, en vez de andar buscandolo por el resto de rutas
+
+-Quizá al hacer random RAM en zxuno habría que excluir los primeros 16 Kb de la ROM? Y/o poner a 0 esa ROM antes de cargar la boot rom?
+
+-Zxuno arranque recovery por cinta, que se pueda hacer trap de cinta?
+
+-Sincronizar registro JOYCONF con joystick emulado
+
+-Probar updates zxuno
+http://www.zxuno.com/forum/viewtopic.php?p=4296#p4296
+
+-Probar upgrade zxuno flash desde menu (aunque sea una version vieja!). Parece que falla porque usa comando 0x48 de mmc CMD8 preguntar a antonio villena
+
+-nmi-divmmc opción no soportada en zxuno??
+
+
+
+
+------
+
+
+--- Fallos especificos de ZX-Uno: ---
+Quizá demo raster zxuno falla porque la interrupción tarda demasiado...
+
+-Divide en zxuno no debería permitir. Porque sino intentaría tener el firmware que lleva zxuno de divmmc? Esto no es realmente un fallo
+
+-------------
+
+
+
+--- Mejoras especificos de zx80/81: ---
+
+
+-texto inverso en zx-80/81 con extension ansi y drivers de texto
+
+-No hace auto turbo para real tape ZX 80, 81
+
+-------------
+
+
+--- Fallos especificos de zx80/81: ---
+
+
+-timings de display seguramente incorrectos. Esta suponiendo inicio scanline en zona izquierda. es normal? aplica a funciones de repintado y 
+tambien a screen_get_x_coordinate_tstates
+
+-nuevo core segun http://www.sinclairzxworld.com/viewtopic.php?f=7&t=1780&sid=4a25aa27ef1c6d926f2d9c78f92052c9
+nuevo_core_zx8081/core_zx8081.c
+Andy is right. Horizontal syncs in a ZX81 are generated at a constant 207-cycle interval (63.7 usec / scanline), and this only gets reset by an interrupt acknowledge (Z80 /IORQ and /M1 both active). Unlike vertical syncs which are software-generated (the same way as in a ZX80, in fact) and don't affect hsync generator in any way.
+The hsync counter is free running and reset all 207 cycles. It is additionally reset with a INT ACK. But if not INT ACK is present the hsync still appears every 207 clock cycles. This can not be turned off. This INT ACK reset is used for synchronization of display output only. The hsync pulse is delayed 16 clock cycles to the tv output and kept 16 clock cylces long as far as I know. It differs a bit to ZX80 logic.
+
+The NMI is touched with every hsync pulse (synchronous). You can switch off the NMI but not the hsync.
+
+The hsync counter is a hardware divider/counter. It works completely independently of the CPU. It is always on and always counting. As Pokemon and others have said, when it overflows, it automatically resets and restarts. It is also possible to reset and restart it as described above.
+
+-HighResolution.A.* no siempre van
+
+-ZXPaint solo carga como snapshot (no como cinta y load "")
+
+-real video off consume mas cpu que real video on. normal?
+
+-cargar .p snap grabado de zx81 como snap luego solo carga como snapshot pero no como cinta. tambien falla al cargar ese snapshot como cinta en eightone
+
+-LINECNTR adjust. con pruebas a forzar contador a 0 en out_port_zx80_no_time, se ven bien todos los juegos excepto:
+biplot, voyage: estos dos solo en el texto del menu
+HR-GALAX.P en instrucciones al pulsar una tecla
+HighRes.p despues de verse las caras en modo grafico y parar con break
+xtricator ok
+pacman bien tanto pantalla inicial como juego
+->Y falla modo FAST!
+
+-Para intentar eliminar modo LINECNTR, probar:
+-zx80
+-zx81 slow
+-zx81 fast
+-zx81 hires
+-manic miner por ejemplo pone modo fast pero el ajuste de linea es el mismo que modo slow
+-La clave estaria en distinguir modo fast de slow, a nivel de sync de pantalla
+-A nivel de registro I creo que no hay diferencia entre un juego que necesita dicho ajuste y otro que no
+-Tampoco parece haber diferencia entre nmi_generator_active a 1 o 0
+-Quiza el problema es cuando se ejecuta generar_zx8081_horiz_sync, y esto igual tiene que ver con problemas con t-estados de instrucciones
+
+
+
+--------------------
+
+
+
+--- Fallos especificos de Z88 ---
+
+-al copiar archivo ACKNOWLEDGEMENTS en eprom card luego no lo puede obtener desde el filer. Quiza el maximo de nombre hay que cortarlo?
+-con flash acabada de crear el filesystem, el browser del menu muestra el archivo inicial Deleted. Es normal, pero deberia mostrar ese archivo?
+-al meter modo turbo se desactiva si hay eprom insertada->porque acaba llamando a set_machine y ahi explusa cartuchos
+-agregar RAM de 1MB. soft reset genera "FS error" y no ve la tarjeta. hay que hacer hard reset para que la vea. con RAM menor de 1MB la reconoce a la primera. esto NO es un fallo del emulador sino el comportamiento normal de OZ ROM
+
+-en pipedream, si se mueve el cursor muy rapido a veces se queda que no contesta el ultimo cursor pulsado, y hay que pulsar otra tecla para liberarlo
+
+-jetset willy. hasta que no acaba la musica las teclas no responden, ni deja ir al index ni nada
+
+-bounder. cuando te matan, se bloquea, no deja ir al index ni nada
+
+-al notificar envio tecla (notificar_tecla_interrupcion_si_z88), solo deberia enviar interrupcion cuando se permite ((blink_int & BM_INTKEY) == BM_INTKEY).
+pero si se hace asi, lemmings no va, tampoco dstar, pipedream se bloquea...
+
+-al insertar eprom, por ejemplo, cuando abre flap, no parece que detenga el sistema... por ejemplo, si estoy con un juego con musica,
+e inserto una eprom, la musica no se corta en absoluto... creo que al abrir flap (y con la pausa que hay) se deberia detener todo un rato
+
+-forzado low battery y no aparece.
+
+-comprobar al cargar eproms o flash tamanyo maximo de archivo:
+flash entre 512 y 1024
+eprom 32,128,256
+hay por ahi alguna epr de 16 kb??
+
+
+-modo snooze: si habilito que se pueda activar, teclado responde de manera un tanto forzada y juegos se corta la musica hasta pulsar una tecla
+(por ejemplo, en manic miner)
+->desactivamos. ver variable int snooze_desactivado. cuando funcione quitar implementacion de esta variable
+
+-quitar slot eprom (y flush) cuando se cambia de maquina
+
+
+
+
+
+
+--- Mejoras especificas de Z88 ---
+
+-tarjeta hibrida ram+flash:
+tarjeta que probaba Thierry:
+512K flash Eprom (AMIC 29040) and 512K SRAM. They are organized with ram on the bottom (bank 00-1F) and flash (bank 20-3F) on top.
+
+-en footer, que parpadeen (o texto inverso) cuando se escriba (y se lea?) de una tarjeta de memoria
+
+-revisar juegos de whatnow para agregar alguno mas...
+
+-gestion tamanyo rom interna. necesario? quiza no pues la propia rom ya identifica su propio tamanyo
+
+-implementar resto de puertos: rs-232, etc....
+
+- driver pantalla.
+*tecla diamond, square, F1, F2, F3 para stdout?
+
+-establecer reloj del Z88 con el del sistema. Llamando a rutina RST adecuada
+https://cambridgez88.jira.com/wiki/display/DN/Time+and+date+management
+o quiza enviando secuencia de teclas..-> indice->panel->tab hasta fecha, etc
+
+-envio de tecla /? desde menu en z88, entra en conflicto porque esa tecla es la -
+
+------
+
+
+
+--- menos prioritarios Z88 ---
+
+-Z88. Dejar algún programa de ejemplo con formato .bas y binario. Quizá el whatnow esta así?
+
+-Z88 ventana principal tamaño normal de z88, eliminar zona gris. ventana aparte para menu (quiza esto para todos los modelos??... aunque
+me gusta tener el menu encima de misma ventana del emulador, quiza podria ser una opcion seleccionable)
+-Z88 teclado virtual para Z88 y/o resto de modelos
+
+-Z88. Probar a compilar programas con z88dk
+
+-Z88. Poder cambiar reloj del Z88 con el reloj real
+
+------
+
+
+
+
+
+* TK *
+
+-puertos en tk9xxx:
+-timing lineas. http://cantinhotk90x.blogspot.com.es/2012/05/temporizacao-de-video-do-tk90x-parte-5.html. hacer borde izquierdo y derecho igual
+(18 t-stados)
+-al arranque de maquina:  Out Port df unknown written with value 0, PC after=16
+-al ejecutar cualquier comando: In Port 38bf unknown asked, PC after=4ba-> quiza un puerto COM1 ruso
+Segun MESS:
+15. The TK90X and TK95 roms output 0 to port #df on start up. The purpose of this port is unknown
+	(probably display mode as TS2068) and thus is not emulated.
+
+-modelos tk. contended memory?
+
+-demo rotatrix tk90x se ve border desplazado. seguramente timings son diferentes
+
+-Puerto joystick tk en puerto no estándar?
+
+**

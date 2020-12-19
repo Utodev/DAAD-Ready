@@ -1,0 +1,10 @@
+GENERADOR DE CARACTERES DE SINTAC PARA DAAD
+===========================================
+
+Esta es una versión del generador de caracteres de SINTAC, al que se le han incorporado opciones de grabar a formatos aceptados por DAAD.
+
+Puedes grabar en formato DAAD 16 bits, que es el soportado directamente por los intérpretes de 16 bits, y en formato de 8 bits, que es el 
+soportado por la última versión de MCRF que va con el compilador DRC, y por DAADMAKER, que va también con DRC.
+
+Cuando grabas debes elegir en que formato grabas, cuando cargas, lo detecta por el tamaño.
+

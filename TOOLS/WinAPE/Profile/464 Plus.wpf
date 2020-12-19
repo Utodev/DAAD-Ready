@@ -1,0 +1,12 @@
+[ROMS]
+Cartridge=cpc_plus.cpr
+Lower=
+Upper(0)=
+Upper(7)=
+Cartridge Enabled=true
+[Configuration]
+CRTC Type=3
+Enable Plus=true
+Plus PPI=true
+Extended RAM=0
+Silicon Disc=false
