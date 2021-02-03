@@ -1,0 +1,406 @@
+
+                                 DMG
+                                 ===
+
+1. Introducci¢n:
+================
+êste es  el creador y editor de la base de datos con los  gr†ficos
+(y  el sonido, en  la  versi¢n de  ST)  de la  aventura  para  los
+ordenadores de 16 bits y PCW. Hay dos versiones:
+
+ST: Admite  gr†ficos y  sonidos digitalizados.  Soporta el sistema
+m£ltiple,  utilizado a  partir de la Aventura Espacial,  en el que
+la misma base de datos  gr†fica  (b.d.g. a partir de ahora)  sirve
+para Atari,  Amiga y PC CGA,  EGA y  VGA.  Las b.d.g.  creadas con
+este   DMG   deben  llevar  la  extensi¢n  .DAT   y   son  las que 
+admiten los intÇrpretes  de  PC  cuyo  nombre acaba  en 'M' y  los
+de Atari y Amiga.
+
+PC: Es la versi¢n antigua,  s¢lo para CGA, EGA y PCW. La b.d.g. de
+CGA  y  la  de  EGA   deben  hacerse por  separado  (llevando  las
+extensiones  .CGA  y .EGA  respectivamente);  la  de PCW se crea a
+partir de la de CGA. En PC funciona en los intÇrpretes cuyo nombre
+no acaba en 'M'.  Ya que es mucho m†s facil hacer las b.d.g. de PC
+en el Atari nosotros  s¢lo  usamos esta  versi¢n para hacer la  de
+PCW.
+
+
+2. DMG para Atari ST:
+=====================
+Ya  que el DMG actualiza la b.d.g.  bastante a  menudo,  la  mejor 
+forma  de  utilizar  el  DMG si no se dispone  de  disco  duro  es 
+teniendo la b.d.g en un disco ram. êste debe ser al menos el doble 
+de  grande que la b.d.g con la que vayamos a trabajar ya  que  con 
+ciertas opeaciones el DMG crea una copia de seguridad (.BAK).
+
+A continuaci¢n se detallan los distintos men£s y sus opciones:
+
+2.1. Men£ File
+--------------
+
+2.1.1. Open DB:
+Abrir  la  base de datos para comenzar a  trabajar  con  ella.  Si 
+indicamos  el nombre de una b.d.g.  nuecva nos  pide  confirmaci¢n 
+antes de crearla.
+
+2.1.2. Close DB:
+Cerrar  la b.d.g.  con la que estamos trabajando para poder  abrir 
+otra. Si no vamos a abrir otra no es necesario escoger esta opci¢n 
+ya que Quit la cierra antes de salir al sistema.
+
+2.1.2. Load PI1:
+Carga una pantalla en formato PI1 en la memoria de trabajo. 
+
+2.1.3. Load SPL:
+Carga un sonido digitalizado en la memoria de trabajo.
+
+2.1.4. Quit:
+Sale al sistema tras pedir confirmaci¢n.
+
+
+2.2. Men£ DB:
+-------------
+
+2.2.1. Locations:
+Informaci¢n sobre los datos contenidos en una localidad.  En  ella 
+podemos ver:
+     -Botones << y >>:  nos permiten ver la localidad anterior y la 
+siguente  respectivamente.  Entre  ellos aparece el n£mero  de  la 
+localidad que estamos viendo.
+     -Offset: si esta localidad est† vac°a, aparecer† la frase "no 
+data".  En  caso aparecer† un n£mero en hexadecimal que no  es  de 
+niguna utilidad para el desarrollo de la de la aventura.
+     -Copy: permite copiar este gr†fico o sonido a otra localidad. 
+En realidad s¢lo se copia el puntero a ese gr†fico o  sonido,  por 
+lo que el tama§o de la b.d.g. no aumenta, ahorr†ndose as° memoria. 
+Notese que la informaci¢n de dos localidades con el mismo  gr†fico 
+o sonido es independiente, es decir, podemos tener dos localidades 
+apuntando  al mismo gr†fico y en una tenerlo como fijo y  en  otra 
+como  flotante,   o  con  distintas  coordenadas,   o  tener   dos 
+localidades  apuntando  al  mismo  sonido  y  en  cada  una  haber 
+especificado una frecuencia distinta.
+     -Clear:  borra  el puntero de la localidad,  con lo que  esta 
+queda  libre.  Si  esta era la £nica localidad que  apunta  a  ese 
+gr†fico o sonido, el programa nos lo advierte y pide confirmaci¢n. 
+La actualizaci¢n de la base de datos al borrar un dibujo o  sonido 
+puede llevar alg£n tiempo;  especialmente si no se trabaja con  un 
+disco ram.  Al finalizar la actualizaci¢n conviene salir del DMG y 
+borrar  el  fichero  .BAK que se ha creado para  disponer  de  m†s 
+espacio de trabajo en el disco.
+     -Nobuff/buffer:Al cargar el juego el DAAD reserva una zona de 
+memoria  (buffer)  en la que se cargan tantos gr†ficos  y  sonidos 
+como  quepan,  todos los dem†s ser†n cargados de disco  cuando  se 
+haga  un PICTURE.  Con la opci¢n buffer indicamos al DAAD  que  el 
+gr†fico  o sonido de esta localidad tiene prioridad a la  hora  de 
+cargarse en memoria al principio del juego.  Se usa,  por ejemplo, 
+para  gr†ficos  de  objetos,  marco  para  el  gr†fico,  caras  de 
+personajes  y  en  general cualquier cosa en la  que  se  necesite 
+velocidad  y no queramos que el juego se ponga a cargar.  Hay  que 
+tener en cuenta que la capacidad del buffer es limitada,  variando 
+seg£n  el  modelo de ordenador y la memoria de  que  disponga.  Se 
+garantizan  32k de buffer aunque normalmente se puede  contar  con 
+algo m†s.
+
+El resto del panel var°a seg£n lo que haya en la localidad sea  un 
+gr†fico o un sonido (si no hay nada,  puede aparecer cualquiera de 
+los dos tipos de panel; esto no tiene importancia).
+Si en esta localidad hay un gr†fico en el panel encontraremos:
+
+     -Fix/float:  un  gr†fico fijo (fixed) aparece siempre en  las 
+mismas coordenadas cuando lo imprimimos en el juego y siempre  con 
+el mismo tama§o.  Las coordenadas y dimensiones de la ventana  que 
+estÇ seleccionada en ese momento, as° como la paleta, se adaptar†n 
+a las del gr†fico (VÇase al respecto la opci¢n Palette  Range  m†s 
+abajo).  Un gr†fico flotante (floating), en cambio, aparece en las 
+coordenadas  de la ventana seleccionada y con el tama§o de Çsta  y 
+s¢lo aparecer† entero si la ventana es mayor o igual que Çl; si es 
+menor, el gr†fico quedar† recortado por abajo y por la derecha (es 
+decir,   la  esquina  superior  izquierda  del  gr†fico  aparecer† 
+siempre). As° mismo, un gr†fico flotante tomar† la paleta que estÇ 
+activa en ese momento.
+     Junto  al  bot¢n Fix aparecen la coordenadas  de  la  esquina 
+superior  izquierda del gr†fico en pixels.  N¢tese que s¢lo  est†n 
+iluminadas en el caso de que el gr†fico sea fijo.
+     -Views:  permite ver el gr†fico asociado a esta localidad con 
+cualquiera de sus tres paletas (ST/Amiga/Vga,  Ega o CGA).  Si  se 
+elige View EGA o CGA sin haber incluido su paleta correspondiente, 
+toda  la  pantalla  aparecer† negra.  Usar la  opci¢n  view  puede 
+corromperel gr†fico o el sonido de la memoria de trabajo,  por  lo 
+que  habr† que volver a cargarlo si no hemos acabado  de  trabajar 
+con Çl.
+     -Palette:  Permite cargar y editar las paletas de EGA y  CGA. 
+Esta opci¢n se explica con m†s detalle en la secci¢n 2.4.4.
+     -Palette range: S¢lo para gr†ficos fijos, permite especificar 
+quÇ  parte  de  la paleta va a modificar  al  imprimirlo.  Si  por 
+ejemplo  damos el valor 9 como Start y 15 como  End,  al  imprimir 
+este gr†fico s¢lo los registros del 9 al 15 de la paleta cambiar†n 
+a los de este gr†fico.
+     -Relocate:  Permite  cambiar  las coordenadas de  un  gr†fico 
+fijo.  Aparecer† el dibujo en pantalla y lo podremos mover con las 
+teclas W (arriba),  X (abajo), A (izquierda) y D (derecha). N¢tese 
+que  el  movimiente es de 8 en 8 pixels;  las  coordenadas  de  un 
+gr†fico fijo son siempre m£ltiplos de 8.
+
+Si  lo que hay en esta localidad es un sonido,  aparecen s¢lo  dos 
+botones:
+     -Info:  permite  cambiar  la frecuencia del sonido y  ver  su 
+longitud.
+     -Listen: para oir el sonido.
+
+Tanto para gr†ficos como para sonido,  en la parte baja del  panel 
+est†n  los  botones  OK para confirmar los  cambios  realizados  y 
+Cancel,  que  nos pregunta si queremos cancelar todos los  cambios 
+realizados desde que se seleccion¢ Locations en el men£  DB,  s¢lo 
+los de la localidad seleccionada en este momento, o ninguno.
+
+2.2.2. Make picture:
+Con esta opci¢n asociamos un gr†fico a una localidad.  Aparece  el 
+gr†fico  que tengamos cargado en la memoria de trabajo y sobre  Çl 
+un rect†ngulo en l°nea discontinua.  Podemos cambiar el tama§o del 
+rect†ngulo  con  las teclas W,  X,  A y D;  si  adem†s  mantenemos 
+pulsada la tecla Shift,  lo que haremos ser† mover el  rect†ngulo, 
+una  vez  hayamos  encuadrado la parte del  gr†fico  que  queremos 
+"recortar" basta con Return.  En cualquier momento se puede  salir 
+con la tecla Esc.
+
+2.2.3. Link sound:
+Para asociar el sonido de la memoria de trabajo con una localidad.
+
+2.2.4. Squeeze:
+Comprime la b.d.g.  Requiere m†s espacio de disco cuanto mayor sea 
+la b.d.g.  ,  por lo que conviene comprimir antes de que la b.d.g. 
+crezca  demasiado  (unas 300k si se trabaja con disco ram  en  una 
+m†quina de 1 mega).
+
+2.2.5. Buffer sort:
+Para que la opci¢n buffer de la opci¢n Locations funcione hay  que 
+realizar  un  buffer  sort tras haber  especificado  quÇ  graficos 
+queremos  que vayan al buffer.  Al final de la ordenaci¢n  se  nos 
+indica cu†ntos bytes del buffer hay ocupados con gr†ficos. 
+Tanto  Squeeze como Buffer Sort crean ficheros .BAK  que  conviene 
+borrar antes de seguir.
+
+2.2.6. Build IBM:
+La b.d.g.  de PC es ligeramente diferente a la de Atari.  Con esta 
+opci¢n  se  crea  la b.d.g.  de PC;  que  tendr†  por  defecto  la 
+extensi¢n  .IBM y que,  una vez pasada al PC deber† renombrarse  a 
+.DAT.
+
+2.2.7. Info:
+Nos  da el n£mero de gr†ficos y sonidos que tiene  la  b.d.g.  (si 
+hemos copiado un gr†fico o un sonido a m†s de una localidad,  s¢lo 
+se cuenta una vez) y la longitud total de la b.d.g.
+
+
+2.3. Men£ Pic:
+--------------
+
+2.3.1. View:
+Permite ver con la paleta de ST/Amiga/VGA la pantalla que  hayamos 
+cargado en la memoria de trabajo.
+
+2.3.2. View CGA:
+Permite  ver con la paleta de CGA la pantalla que hayamos  cargado 
+en la memoria de trabajo.  Si no hemos incluido una paleta de CGA, 
+no se ver† nada en pantalla (el dibujo estar† ah°,  pero con todos 
+los colores puestos a negro, que es valor por defecto de todos los 
+registros para las paletas de CGA y EGA).
+
+2.3.3. View EGA:
+Similar a la anterior pero para EGA.
+
+2.3.4. Hot Points:
+Esta opci¢n no est† implementada.
+
+
+2.4. Men£ Palette:
+------------------
+
+2.4.1. Load CGA:
+Carga una paleta de CGA para el gr†fico de la memoria de  trabajo. 
+Esta paleta debe pertenecer a un gr†fico en formato .PI1. La mejor 
+forma de hacerla es, teniendo el gr†fico con la paleta original de 
+ST  en  el programa de dibujo que se use  (nosotros  usamos  Degas 
+Elite y Delux Paint ST),  cambiar cada registro de la paleta a uno 
+de  los  cuatro colores de la CGA hasta que quede bien  (al  menos 
+todo lo bien que puede quedar un dibujo en CGA); a continuaci¢n se 
+salva  el gr†fico y ser† de este gr†fico del que el DMG  saque  la 
+paleta. Los valores de RGB que el DMG acepta se litan m†s abajo.
+
+2.4.2. Load EGA:
+Similar a la anterior para la paleta de EGA.
+
+2.4.3. Calculate:
+Como alternativa a las opciones de cargar las paletas de EGA y CGA 
+se puede hacer que el DMG las calcule a partir de la de  ST.  Esto 
+es  m†s c¢modo pero los resultados no son tan  buenos,  aunque  se 
+pueden mejorar con la opci¢n Edit.
+
+2.4.4. Edit:
+Permite editar las paletas de EGA y CGA. En la mitad izquierda del 
+panel  aparecen  tres  columnas  que,   de  izquierda  a  derecha, 
+representan los 16 registros de la paleta (numerados del 0 al  15) 
+y los colores de EGA y CGA que tienen asignados respectivamente.
+A continuaci¢n se listan los colores de EGA y CGA junto el  n£mero 
+que representa a cada uno en el DMG y sus valores RGB:
+
+
+
+
+
+
+
+
+     EGA:
+     ----
+                         RGB
+      0 Negro            000
+      1 Azul             006
+      2 Verde            060
+      3 Cyan oscuro      066
+      4 Rojo             600
+      5 Magenta oscuro   606
+      6 Naranja          620
+      7 Gris claro       666
+      8 Gris oscuro      222
+      9 Azul claro       337
+     10 Verde claro      272
+     11 Cyan claro       277
+     12 Rojo claro       722
+     13 Magenta claro    727  
+     14 Amarillo         772
+     15 Blanco           777
+
+     CGA:
+     ----
+                         RGB
+      0 Negro            000
+      1 Cyan             277
+      2 Rosa             727
+      3 Blanco           777
+
+En la parte derecha de panel se encuentran los siguientes botones:
+     -CGA Blue On/Off: cuando est† a OFF, los colores de CGA ser†n
+negro, verde, rojo y marr¢n en lugar de los listados arriba.
+     -Load  EGA  y Load CGA permiten cargar desde aqu°  la  paleta 
+exactamente igual a como se explic¢ arriba.
+
+Este  panel  tambien aparece al usar el bot¢n  Palette  del  panel 
+Location Info.  La diferencia es que en ese caso afecta al gr†fico 
+de  la  localidad  seleccionada mientras que  en  Çste  afecta  al 
+gr†fico  que haya en la memoria de trabajo.  En este £ltimo  caso, 
+adem†s,  las  paletas de EGA y CGA se conservan aunque  se  cargue 
+otro gr†fico en la memoria de trabajo;  as°,  si se quiere usar la 
+misma paleta de EGA o CGA para m†s de un gr†fico no hay que volver 
+a cargarla, calcularla o editarla. 
+
+
+2.5. Men£ Sounds:
+----------------
+
+Con  las  opciones  Hear Sample e Info,  idÇnticas a  las  de  los 
+botones  Listen  e  Info del panel  Location  Info,  solo  que  se 
+refieren al sonido almacenado en la memoria de trabajo.
+
+
+3. DMG para PC:
+===============
+
+Si se le llama con
+          DMG nombrebdg
+y no existe una b.d.g. con ese nombre, la crear† para CGA.
+
+Si se le llama con
+          DMG nombrebdg -ega
+y no existe una b.d.g. con ese nombre, la crear† para EGA.
+
+En el caso de especificar una b.d.g.  ya existente no es necesario 
+darle ning£n par†metro ya que el DGM detecta para quÇ tarjeta es.
+
+Una  vez  cargado el programa aparece en la parte superior  de  la 
+pantalla  informaci¢n sobre la b.d.g.,  alguna ayuda y  un  prompt 
+donde  debemos  teclear uno de  los  comandos  disponibles.  Estos 
+comandos  son  los siguientes (nota:"ln" quiere decir  "numero  de 
+localidad" y "v" puede ser 0 ¢ 1):
+
+A nombre    - Carga una pantalla  de  Amstrad  CPC  de  4  colores 
+              llamada  'nombre'.  (Esta opci¢n s¢lo  se us¢ en  La 
+              Aventura Original).
+
+B ln v      - Indica  si  el  dibujo  de  la  localidad  ln  tiene
+              prioridad  para  cargarse en el buffer  (v=1)  o  no
+              (v=0).
+
+C ln        - Borra el puntero de una localidad.  Funciona como la 
+              opci¢n CLEAR del DMG de Atari.
+
+D ln1 ln2   - Copia (duplica) el puntero de la localidad ln1 en el 
+              de la localidad ln2.  Como la opci¢n COPY del DMG de 
+              Atari.
+
+E ln nombre - Export clip: salva a disco con el nombre 'nombre' el 
+              dibujo recortado (clip) de la localidad ln.
+
+F  ln v     - Para  indicar si el gr†fico en la localidad ln va  a 
+              ser fijo (v=0) o flotante (v=1).
+
+I ln nombre - Import clip:  carga de disco el clip 'nombre' en  la 
+              localidad ln.
+
+L nombre    - Carga en la memoria de trabajo un gr†fico en formato 
+              .PI1  y  lo  convierte al modo  en  el  que  estemos 
+              trabajando.  Para que la conversi¢n sea correcta, se 
+              recomienda usar estas paletas:
+
+               Registro  EGA  CGA
+                         rgb  rgb
+                   0     000  000
+                   1     006  007
+                   2     060  007
+                   3     066  007
+                   4     600  007
+                   5     606  007
+                   6     620  007
+                   7     666  777
+                   8     222  007
+                   9     337  007
+                  10     272  007
+                  11     277  177
+                  12     722  007
+                  13     727  007
+                  14     772  747
+                  15     777  656
+
+M ln        - Hacer   (Make)  el  dibujo  para  la  localidad  ln. 
+              Funciona igual que la opci¢n Make Picture del DMG de
+              Atari,  con  la diferencia de que el renct†ngilo  se 
+              controla con las teclas del cursor.
+
+O           - Ordena el buffer. Igual que la opci¢n Buffer Sort de 
+              la versi¢n de Atari. 
+
+P ln v      - Como la opci¢n CGA Blue del DMG de Atari. 0 equivale 
+              a Blue Off.
+
+R ln        - Cambia las coordenadas de un gr†fico fijo,  como  en 
+              Atari, pero con las teclas del cursor.   
+
+S           - Comprime la b.d.g. (Squeeze).
+
+V [ln]      - Para ver el gr†fico asociado a la localidad  ln.  Si 
+              no  se da ning£n numero de localidad se  muestra  lo 
+              que hay en la memoria de trabajo.
+
+W           - Crea una b.d.g.  para PCW. Siempre la llama DGM.PCW, 
+              por lo que hay que renombrarla.
+
+X  ln       - Muestra  informaci¢n  sobre   la  localidad  ln:  su 
+              offset,  si es un gr†fico fijo o flotante,  si tiene 
+              prioridad para el buffer y, en CGA, si usa la paleta 
+              de los azules o no.
+
+Q           - Salir al sistema.
+
+
+Las opciones A, P y W s¢lo est†n disponibles en CGA. 
+

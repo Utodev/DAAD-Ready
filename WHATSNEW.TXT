@@ -1,0 +1,8 @@
+DAAD Reavy 0.3 (Dec 20th, 2020)
+===============================
+- Updated Maluva for CPC, to avoid SPLIT mode to be active by default
+- Now a picture 000 is shown  - if exists - at the intro location (location 0)
+- Fixed a bug in DRC with WEIGHT condact semantic
+- Fixed english manual, the definition of the underscore ('_') escape sequence was incorrect.
+- Fixed DAT file and removed VGS file from MSDOS assets, also fixed missing "v" parameter in MSDOS bat files.
+- Fixed bug in DRC with #else directives, also now nested #ifdef are allowed
