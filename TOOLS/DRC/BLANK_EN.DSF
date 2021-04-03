@@ -557,7 +557,9 @@ S 1
                 WINSIZE 25      127     ; Maximum window
                 CLS
                 DESC    0               ; Introduction
+#ifndef "tape"
                 XPICTURE 0
+#endif
                 ANYKEY
                 CLS
                 SET   255             

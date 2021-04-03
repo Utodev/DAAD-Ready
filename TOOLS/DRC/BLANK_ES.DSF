@@ -509,7 +509,9 @@ LUEGO   2       conjugation
                 WINSIZE 25      127     ; Tamaño máximo
                 CLS
                 DESC    0               ; Introducción
+#ifndef "tape"
                 XPICTURE 0
+#endif
                 ANYKEY
                 CLS
                 SET   255             
