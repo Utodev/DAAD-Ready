@@ -7,3 +7,4 @@ DAAD Reavy 0.3 (???? ??? 2021)
 - Fixed DAT file and removed VGS file from MSDOS assets, also fixed missing "v" parameter in MSDOS bat files.
 - Fixed bug in DRC with #else directives, also now nested #ifdef are allowed
 - Fixed some bugs in the build scripts (thanks Carlos Perezgrín)
+- Fixed a bug with DRB, which was generating Spanish compatible databases for english targets
