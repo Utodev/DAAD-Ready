@@ -2,7 +2,9 @@
 // (C) Uto & Jose Manuel Ferrer 2019 - This code is released under the GPL v3 license
 // To build the backend of DAAD reborn compiler I have had aid from Jose Manuel Ferrer Ortiz's DAAD database code,
 // which he glently provided me. In some cases the code has been even copied and pasted, so that's why he is also
-// in the copyright notice above. Thanks Jose Manuel for this invaluable aid.
+// in the copyright notice above. Thanks Jose Manuel for this invaluable aid. Also, thanks to Natalia Pujol, for 
+// her invaluable help with the BEEP/XPLAY code, and for many ideas and proposals that whether they got to 
+// production or not, helped make DRC what it is
 
 global $adventure;
 global $xMessageOffsets;
@@ -234,7 +236,7 @@ var $newConversions = array(16=>'à',17=>'ã',18=>'ä',19=>'â',20=>'è',21=>'ë
 
 }
 define('VERSION_HI',0);
-define('VERSION_LO',20);
+define('VERSION_LO',21);
 
 
 function summary($adventure)
@@ -1311,7 +1313,7 @@ function prependC64HeaderToDDB($outputFileName, $target)
 function mmlToBeep($note, &$values, $target)
 {
     // These targets don't support BEEP condact
-    if (($target=='ST') || ($target=='AMIGA') ||($target=='PC') || ($target=='PCW')) return NULL;
+    if (($target=='ST') || ($target=='AMIGA') || ($target=='PCW')) return NULL;
 
     $condact = NULL;
     $noteIdx = array('C'=>0, 'C#'=>1, 'D'=>2, 'D#'=>3, 'E'=>4,  'F'=>5, 'F#'=>6, 'G'=>7, 'G#'=>8, 'A'=>9, 'A#'=>10, 'B'=>11,
@@ -1322,6 +1324,9 @@ function mmlToBeep($note, &$values, $target)
         case 'ZX': $baseLength = 195; break;
         case 'C64':
         case 'CP4': $baseLength = 205; break;
+        case 'PC': $baseLength = 200; break;
+	case "MSX": $baseLength = 200; break;
+	case "MSX2": $baseLength = 200; break;
         default: $baseLength = 200; // Full note (1 sec)
     }
     
@@ -1552,7 +1557,7 @@ writeByte($outputFileHandler, $b);
 // Machine and language
 $b = getMachineIDByTarget($target);
 $b = $b << 4; // Move machine ID to high nibble
-if (($language=='ES') || ($language!='PT')) $b = $b | 1; // Set spanish language  (DE and EN keep English)
+if (($language=='ES') || ($language=='PT')) $b = $b | 1; // Set spanish language  (DE and EN keep English)
 writeByte($outputFileHandler, $b);
 
 // This byte stored the null character, usually underscore, as set in /CTL section. That's why all classic  DDBs have same value: 95. For new targets (MSX2) we use that byte for subtarget information.
