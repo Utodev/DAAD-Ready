@@ -1,10 +1,11 @@
-DAAD Reavy 0.3 (???? ??? 2021)
+DAAD Reavy 0.3 (04/04/2021)
 ===============================
 - Updated Maluva for CPC, to avoid SPLIT mode to be active by default
-- Now a picture 000 is shown  - if exists - at the intro location (location 0)
+- Now a picture 000 is shown  - if exists - at the intro location (location 0). Also picture 255 is shown if existis and no picture available for a location. 
 - Fixed a bug in DRC with WEIGHT condact semantic
 - Fixed english manual, the definition of the underscore ('_') escape sequence was incorrect.
 - Fixed DAT file and removed VGS file from MSDOS assets, also fixed missing "v" parameter in MSDOS bat files.
 - Fixed bug in DRC with #else directives, also now nested #ifdef are allowed
-- Fixed some bugs in the build scripts (thanks Carlos Perezgrín)
+- Fixed some bugs in the build scripts and errors in the manual (thanks Carlos Perezgrín)
 - Fixed a bug with DRB, which was generating Spanish compatible databases for english targets
+- A patched version of GCS font editor with English texts is available now (thanks @CrispinSerenia). Still, as it has not been tested in depth, instructions remain the same in case you have to use the Spanish one.
