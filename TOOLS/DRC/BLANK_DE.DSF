@@ -394,6 +394,9 @@ S 1
 > _       _     CLEAR 20
 #ifndef "tape"
                 XPICTURE @fPlayer        ; If there is a picture, Load it
+                #ifndef "nativeraster"
+                GT 20 127
+                #endif
 #endif
 #ifdef "nativeraster"
                 DISPLAY @fDarkF         ; & Display it if not dark, else CLS
@@ -568,7 +571,11 @@ ENDE    _       DONE                    ;Not like QUIT on PAW
 /PRO 6 ; Initialise the DAAD system
 
 > _       _     WINDOW  1               ; Windows are random
-
+                #ifdef "pc"
+                PAPER 0
+                INK 15
+                #endif
+             
 > _       _     #ifndef "tape"
                 WINAT   14       0
                 #endif
@@ -580,6 +587,9 @@ ENDE    _       DONE                    ;Not like QUIT on PAW
                 DESC    0               ; Introduction
 #ifndef "tape"
                 XPICTURE 0
+                #ifdef "nativeraster"
+                DISPLAY 0
+                #endif
 #endif                
                 ANYKEY
                 CLS

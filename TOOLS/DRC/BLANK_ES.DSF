@@ -341,7 +341,9 @@ LUEGO   2       conjugation
 > _       _     CLEAR 20
 #ifndef "tape"
                 XPICTURE @fPlayer        ; If there is a picture, Load it
+                #ifndef "nativeraster"
                 GT 20 127
+                #endif
 #endif
 #ifdef "nativeraster"
                 DISPLAY @fDarkF         ; & Display it if not dark, else CLS
@@ -500,6 +502,10 @@ LUEGO   2       conjugation
 /PRO 6 ; Inicialización
 
 > _       _     WINDOW  1               ; Inicializamos las ventanas
+                #ifdef "pc"
+                PAPER 0
+                INK 15
+                #endif
                 #ifndef "tape"
                 WINAT   14       0
                 #endif
@@ -511,6 +517,9 @@ LUEGO   2       conjugation
                 DESC    0               ; Introducción
 #ifndef "tape"
                 XPICTURE 0
+                #ifdef "nativeraster"
+                DISPLAY 0
+                #endif
 #endif
                 ANYKEY
                 CLS

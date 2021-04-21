@@ -368,7 +368,9 @@ LOGO    2       conjugation
 > _       _     CLEAR 20
 #ifndef "tape"
                 XPICTURE @fPlayer           ; Se existir uma imagem, carrega
+                #ifndef "nativeraster"
                 GT 20 127
+                #endif
 #endif
 #ifdef "nativeraster"
                 DISPLAY @fDarkF             ; Faz o DISPLAY se não estiver escuro, senão CLS
@@ -527,6 +529,10 @@ LOGO    2       conjugation
 /PRO 6 ; Inicialização
 
 > _       _     WINDOW  1               ; Inicializamos as janelas
+                #ifdef "pc"
+                PAPER 0
+                INK 15
+                #endif
                 #ifndef "tape"
                 WINAT   14       0
                 #endif
@@ -537,6 +543,10 @@ LOGO    2       conjugation
                 CLS
 #ifndef "tape"
                 XPICTURE 0
+                #ifdef "nativeraster"
+                DISPLAY 0
+                #endif
+#endif
 #endif                
                 DESC    0               ; Introdução
                 ANYKEY

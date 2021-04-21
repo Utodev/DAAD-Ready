@@ -373,6 +373,10 @@ S 1
 > _       _     CLEAR 20
 #ifndef "tape"
                 XPICTURE @fPlayer        ; If there is a picture, Load it
+                #ifndef "nativeraster"
+                GT 20 127
+                #endif
+#endif
 #endif
 #ifdef "nativeraster"
                 DISPLAY @fDarkF         ; & Display it if not dark, else CLS
@@ -385,6 +389,10 @@ S 1
 #ifndef "noretryImage"
 > _        _    GT 20 127
                 XPICTURE 255            ; If XPICTURE failed, then try to paint filler picture 255
+                #ifdef "nativeraster"
+                DISPLAY @fDarkF
+                #endif
+
 #endif
 
 #ifndef "hasSplitMode"
@@ -547,7 +555,11 @@ S 1
 /PRO 6 ; Initialise the DAAD system
 
 > _       _     WINDOW  1               ; Windows are random
-
+                #ifdef "pc"   
+                PAPER 0
+                INK 15
+                #endif
+             
 > _       _     #ifndef "tape"
                 WINAT   14       0
                 #endif
@@ -559,6 +571,9 @@ S 1
                 DESC    0               ; Introduction
 #ifndef "tape"
                 XPICTURE 0
+                #ifdef "nativeraster"
+                DISPLAY 0
+                #endif
 #endif
                 ANYKEY
                 CLS
