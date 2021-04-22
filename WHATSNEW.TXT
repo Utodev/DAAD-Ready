@@ -1,3 +1,8 @@
+DAAD Ready 0.4 ()
+==============================
+- PC VGA16 interpreter replaced with VGA256 interpreter. Now DAAD Ready can add graphics to PC target too. See instructions in the documentation.
+- Fixed some bugs in the DSF templates, that was making weird text overlaps when the player typed LOOK.
+
 DAAD Reavy 0.3 (04/04/2021)
 ===============================
 - Updated Maluva for CPC, to avoid SPLIT mode to be active by default
