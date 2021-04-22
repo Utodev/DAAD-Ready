@@ -377,7 +377,6 @@ S 1
                 GT 20 127
                 #endif
 #endif
-#endif
 #ifdef "nativeraster"
                 DISPLAY @fDarkF         ; & Display it if not dark, else CLS
 #endif
