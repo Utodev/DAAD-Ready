@@ -468,7 +468,8 @@ LUEGO   2       conjugation
 > PONER   _     AUTOW
                 DONE
 
-> R       _     RESTART
+> R       _     CLS
+                RESTART
 
 > FIN     _     QUIT
                 END
@@ -481,6 +482,7 @@ LUEGO   2       conjugation
                 #ifdef "tape"
                 SAVE 0
                 #endif
+                CLS
                 RESTART
 
 > LOAD    _     #ifndef "tape"
@@ -489,15 +491,19 @@ LUEGO   2       conjugation
                 #ifdef "tape"
                 LOAD   0
                 #endif
+                CLS
                 RESTART
 
 > RAMSA   _     RAMSAVE
+                CLS
                 RESTART
 
 > RAMLO   _     RAMLOAD 255                             ;Reload all flags
+                CLS
                 RESTART
 
-> MIRAR   _     RESTART
+> MIRAR   _     CLS
+            RESTART
 
 /PRO 6 ; Inicialización
 

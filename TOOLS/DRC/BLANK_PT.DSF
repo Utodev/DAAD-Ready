@@ -495,7 +495,8 @@ LOGO    2       conjugation
 > VISTA   _     AUTOW
                 DONE
 
-> R       _     RESTART
+> R       _     CLS
+                RESTART
 
 > FIM     _     QUIT
                 END
@@ -508,6 +509,7 @@ LOGO    2       conjugation
                 #ifdef "tape"
                 SAVE 0
                 #endif
+                CLS
                 RESTART
 
 > CARREG  _     #ifndef "tape"
@@ -516,15 +518,19 @@ LOGO    2       conjugation
                 #ifdef "tape"
                 LOAD   0
                 #endif
+                CLS
                 RESTART
 
 > GRAM    _     RAMSAVE
+                CLS
                 RESTART
 
 > CRAM    _     RAMLOAD 255                 ; Recarregar todos os flags
+                CLS
                 RESTART
 
-> OLHE    _     RESTART
+> OLHE    _     CLS
+                RESTART
 
 /PRO 6 ; Inicialização
 

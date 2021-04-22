@@ -537,7 +537,8 @@ TRAGE   ALLES   DOALL   CARRIED
 TRAGE   _       AUTOW
                 DONE
 
-B       _       RESTART
+B       _       CLS
+                RESTART
 
 ENDE    _       QUIT
                 END
@@ -550,6 +551,7 @@ ENDE    _       DONE                    ;Not like QUIT on PAW
                 #ifdef "tape"
                 SAVE 0
                 #endif
+                CLS
                 RESTART
 
 > LADE    _     #ifndef "tape"
@@ -558,15 +560,19 @@ ENDE    _       DONE                    ;Not like QUIT on PAW
                 #ifdef "tape"
                 LOAD   0
                 #endif
+                CLS
                 RESTART
 
 > RAMSP   _     RAMSAVE
+                CLS
                 RESTART
 
 > RAMLA   _     RAMLOAD 255             ;Reload all flags
+                CLS
                 RESTART
 
-> SCHAU   _     RESTART
+> SCHAU   _     CLS
+                RESTART
 ;------------------------------------------------------------------------------
 /PRO 6 ; Initialise the DAAD system
 
