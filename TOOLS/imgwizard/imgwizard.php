@@ -94,13 +94,13 @@
 	define('COMP_ID',   2);
 	define('COMP_NAME', 3);
 
-	/*if (!extension_loaded('gd')) {
+	if (!extension_loaded('gd')) {
 		die("\nERROR: The PHP \"gd\" extension must be installed...\n\n");
 	}
-	*/
 
 	$appname = basename($argv[0]);
 	$magic = "IMG";
+	$lastPalette = false;
 
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 		$compressors[PLETTER][COMP_APP] = "pletter.exe";
@@ -165,6 +165,12 @@
 		exit;
 	}
 
+	// Create full with image with palette at last chunk
+	if ($cmd == 'cl') {
+		$lastPalette = true;
+		$cmd = 'c';
+	}
+
 	// Create full width image
 	if ($cmd == 'c' && $argc>=4) {
 		$fileIn = $argv[2];
@@ -180,10 +186,11 @@
 		$compress = "";
 		$transparent = -1;
 		if ($argc>4) {
-			if (is_numeric($argv[4]))
+			if (is_numeric($argv[4])) {
 				$transparent = intval($argv[4]);
-			else
+			} else {
 				$compress = strtoupper($argv[4]);
+			}
 		}
 		foreach ($compressors as $comp) {
 			if ($comp[COMP_NAME]==$compress) {
@@ -234,10 +241,11 @@
 				echo "ERROR: All files must be images and with same screen mode!\n\n";
 				exit;
 			}
-			if ($i==3)
+			if ($i==3) {
 				$magic = substr($in, 0, 4);
-			else
+			} else {
 				$in = substr($in, 4);
+			}
 			$out .= $in;
 		} while (++$i<$argc);
 		echo "### Saving file $argv[2]\n\n";
@@ -299,8 +307,8 @@
 			 "to be used by MSX2DAAD engine.\n\n".
 			 "L) List image chunks:\n".
 			 "    $appname l <fileIn.IM?>\n\n".
-			 "C) Create an image IMx:\n".
-			 "    $appname c <fileIn.SC?> <lines> [compressor | transparent_color]\n\n".
+			 "C) Create an image IMx (CL - Create the palette at last chunk):\n".
+			 "    $appname c[l] <fileIn.SC?> <lines> [compressor | transparent_color]\n\n".
 			 "S) Create an image from a rectangle:\n".
 			 "    $appname s <fileIn.SC?> <x> <y> <w> <h> [transparent_color]\n\n".
 			 "R) Create a location redirection:\n".
@@ -324,8 +332,8 @@
 			 "               Compression is forced to RLE.\n".
 			 " <target_loc>  Target location number to redirect to.\n".
 			 "                 ex: a 12 redirects to image 012.IMx\n".
-			 "\n";
-			 "Example: $appname c image.sc8 96 rle\n";
+			 "\n".
+			 "Example: $appname c image.sc8 96 rle\n".
 			 "\n";
 		exit(1);
 	}
@@ -404,11 +412,11 @@
 					$size += $sin;
 					break;
 				case CHUNK_SKIP:
-					echo "    CHUNK $id: CMD:SkipVRAMBytes\n";
+					echo "    CHUNK $id: CMD:SkipVRAMBytes ($sout bytes)\n";
 					$size += $sin;
 					break;
 				case CHUNK_PAUSE:
-					echo "    CHUNK $id: CMD:Pause\n";
+					echo "    CHUNK $id: CMD:Pause ($sout/50 seconds)\n";
 					$size += $sin;
 					break;
 				default:
@@ -427,36 +435,52 @@
 			$pos += $size;
 			$id++;
 		}
-		if ($removeId>=$id)
+		if ($removeId>=$id) {
 			echo "!!!WARNING: CHUNK $id NOT FOUND!!!\n";
+		}
 		if ($type != CHUNK_REDIRECT && $removeId===FALSE) {
+			$compSize = $totalRaw==0 ? 0 : $totalComp/$totalRaw*100;
 			echo "### Original size:   $totalRaw bytes\n";
-			echo "### Compressed size: $totalComp bytes [".number_format($totalComp/$totalRaw*100,1,'.','')."%]\n";
+			echo "### Compressed size: $totalComp bytes [".number_format($compSize,1,'.','')."%]\n";
 		}
 		echo "### End of file\n";
 		return $out;
 	}
 
 	//=================================================================================
-	function addPalette($file, $scr, $pal=NULL, $paper=NULL, $ink=NULL)
+	function addPalette($file, $fileIn, $scr, $pal=NULL, $paper=NULL, $ink=NULL)
 	{
 		$out = "";
 		if ($pal===NULL) {
 			$filePalette = substr($file, 0, strlen($file)-3)."PL".$scr;
-			if (!file_exists($filePalette)) $filePalette = substr($file, 0, strlen($file)-3)."PAL";
-			if (!file_exists($filePalette)) $filePalette = "";
+			if (!file_exists($filePalette)) { $filePalette = substr($file, 0, strlen($file)-3)."PAL"; }
+			if (!file_exists($filePalette)) { $filePalette = ""; }
+			if (!file_exists($filePalette)) {
+				if ($scr=="5" || $scr=="6") {
+					if (strlen($fileIn) >= 0x7680+32) {
+						$filePalette = $file;
+						$pal = substr($fileIn, 0x7680, 32);
+					}
+				} else {
+					if (strlen($fileIn) >= 0xfa80+32) {
+						$filePalette = $file;
+						$pal = substr($fileIn, 0xfa80, 32);
+					}
+				}
+			}
 		}
 
 		if ($pal!==NULL || $filePalette!="") {	// Add palette chunk
 			echo "### Adding image palette from file '$filePalette'\n".
 			     "    #CHUNK  1 RGB333 Palette 32 bytes\n";
-			if ($pal===NULL)
+			if ($pal===NULL) {
 				$pal = file_get_contents($filePalette);
-
-			if (strlen($pal)==89)
+			}
+			if (strlen($pal)==89) {
 				$pal = convertPalette89($pal);
-			elseif (strlen($pal)!=32)
+			} elseif (strlen($pal)!=32) {
 				die("\nERROR: Unknown Palette format!\n\n");
+			}
 
 			if ($paper!==NULL) {
 				$aux0 = $pal[0];
@@ -477,7 +501,7 @@
 
 			$out = chr(CHUNK_PALETTE).pack("vv",32,32).$pal;
 		} else {
-			echo "### Palette not found [$filePalette]\n";
+			echo "### Palette not found\n";
 		}
 		return $out;
 	}
@@ -496,8 +520,8 @@
 	function checkPalettedColors($in, $scr)
 	{
 		$bpp = 4;					//Bits per pixel
-		if ($scr==6) $bpp = 2;
-		if ($scr==8) $bpp = 8;
+		if ($scr==6) { $bpp = 2; }
+		if ($scr==8) { $bpp = 8; }
 		$ppb = 8/$bpp;				//Pixels x Byte
 		$mask = pow(2, $bpp)-1;
 
@@ -569,7 +593,9 @@
 	function firstUnusedColor($colors)
 	{
 		for ($i=1; $i<count($colors)-1; $i++) {
-			if ($colors[$i]==0) return $i;
+			if ($colors[$i]==0) {
+				return $i;
+			}
 		}
 		return FALSE;
 	}
@@ -577,9 +603,16 @@
 	//=================================================================================
 	function getTransparentColorByte($transparent, $scr)
 	{
-		if ($transparent<0) return $transparent;
-		if ($scr==5 || $scr==7) $transparent = $transparent&0x0f | (($transparent&0x0f)<<4);
-		if ($scr==6) { $transparent = $transparent&0x03; $transparent = $transparent | ($transparent<<2) | ($transparent<<4) | ($transparent<<6); }
+		if ($transparent<0) {
+			return $transparent;
+		}
+		if ($scr==5 || $scr==7) {
+			$transparent = $transparent&0x0f | (($transparent&0x0f)<<4);
+		}
+		if ($scr==6) {
+			$transparent = $transparent&0x03;
+			$transparent = $transparent | ($transparent<<2) | ($transparent<<4) | ($transparent<<6);
+		}
 		if ($scr=='C') {
 			echo "SCREEN 12 images can't support transparency at this time...\n";
 			exit;
@@ -615,9 +648,9 @@
 		}
 
 		// Add palette to paletted screen modes
-		if (hexdec($scr) < 8) {
+		if (hexdec($scr) < 8 && !$lastPalette) {
 			list($in, $paper, $ink) = checkPalettedColors($in, $scr);
-			$aux = addPalette($file, $scr, $pal);
+			$aux = addPalette($file, $in, $scr, $pal);
 			if ($aux!="") {
 				$id++;
 				$out .= $aux;
@@ -654,6 +687,16 @@
 			$id++;
 		}
 
+		// Add palette to paletted screen modes
+		if (hexdec($scr) < 8 && !$lastPalette) {
+			list($in, $paper, $ink) = checkPalettedColors($in, $scr);
+			$aux = addPalette($file, $in, $scr, $pal);
+			if ($aux!="") {
+				$id++;
+				$out .= $aux;
+			}
+		}
+
 		// Show result
 		echo "    In: ".$fullSize." bytes\n    Out: ".(strlen($out)+7)." bytes [".number_format(strlen($out)/$fullSize*100,1,'.','')."%]\n";
 		$file = basename($file);
@@ -669,8 +712,9 @@
 	function compressChunks($file, $lines, $comp, $transparent=-1, $in=NULL, $pal=NULL)
 	{
 		global $magic;
+		global $lastPalette;
 		$id = 1;
-		$tmp = "_0000000.tmp";
+		$tmp = tempnam(sys_get_temp_dir(), 'imgwiz');
 
 		// Bytes each Row in screen modes
 		$width = array(0,0,0,0,0,128,128,256,256,'A'=>256,'C'=>256);
@@ -686,18 +730,21 @@
 		$transparent = getTransparentColorByte($transparent, $scr);
 
 		// Read file
-		if ($in===NULL)
+		if ($in===NULL) {
 			$in = @file_get_contents($file);
-			$in = substr($in, 7, $width[$scr]*$lines);
+			$in = substr($in, 7);
+		}
 		if ($in===FALSE) {
 			echo "File not found...\n";
 			exit;
 		}
 
 		// Add palette to paletted screen modes
-		if (hexdec($scr) < 8) {
+		$rest = substr($in, $width[$scr]*$lines);
+		$in = substr($in, 0, $width[$scr]*$lines);
+		if (hexdec($scr) < 8 && !$lastPalette) {
 			list($in, $paper, $ink) = checkPalettedColors($in, $scr);
-			$aux = addPalette($file, $scr, $pal);
+			$aux = addPalette($file, $in.$rest, $scr, $pal);
 			if ($aux!="") {
 				$id++;
 				$out .= $aux;
@@ -745,6 +792,16 @@
 			$pos += $sizeIn;
 		}
 
+		// Add palette to paletted screen modes at last chunk
+		if (hexdec($scr) < 8 && $lastPalette) {
+			list($in, $paper, $ink) = checkPalettedColors($in, $scr);
+			$aux = addPalette($file, $in.$rest, $scr, $pal);
+			if ($aux!="") {
+				$id++;
+				$out .= $aux;
+			}
+		}
+
 		// Show result
 		echo "    In: ".$fullSize." bytes\n    Out: ".(strlen($out)+7)." bytes [".number_format(strlen($out)/$fullSize*100,1,'.','')."%]\n";
 		$file = basename($file);
@@ -764,7 +821,8 @@
 	function compress($tmp, $in, $pos, $sizeIn, $comp, $transparent=-1)
 	{
 		$data = substr($in, $pos, $sizeIn);
-		@unlink($tmp.'.'.$comp[COMP_EXT]);
+		$filename = $tmp.'.'.$comp[COMP_EXT];
+		@unlink($filename);
 		if ($comp[COMP_APP]=="raw") {
 			file_put_contents($tmp.".".$comp[COMP_EXT], $data);
 		} else
@@ -774,7 +832,7 @@
 			file_put_contents($tmp, $data);
 			exec($comp[COMP_APP]." $tmp", $out);
 		}
-		return filesize($tmp.'.'.$comp[COMP_EXT]);
+		return filesize($filename);
 	}
 
 	//=================================================================================
