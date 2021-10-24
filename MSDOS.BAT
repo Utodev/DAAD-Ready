@@ -57,7 +57,7 @@ ECHO @dosbox.exe -noconsole > RELEASE/MSDOS/%GAME%.BAT
 
 echo PCDAAD  >> RELEASE\MSDOS\dosbox.conf
 echo exit >> RELEASE\MSDOS\dosbox.conf
-echo @PCDAAD   >> RELEASE\MSDOS\GAME\%GAME%.BAT
+echo @PCDAAD   > RELEASE\MSDOS\GAME\%GAME%.BAT
 
 REM  ---- PREPARE IMAGES ----
 CD IMAGES\PC
