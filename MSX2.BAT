@@ -37,7 +37,7 @@ IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
 REM ---- OBTENER RECURSOS ---- 
 COPY TOOLS\MALUVA\*.BIN > nul 2>&1
 COPY ASSETS\MSX\MSX2_%BASELANG%.DSK %GAME%.DSK > nul 2>&1
-COPY ASSETS\MSX\msx2daad_1.4_%BASELANG%_SC8.com msx2daad.com > nul 2>&1
+COPY ASSETS\MSX\msx2daad_1.5rc1_EN_%BASELANG%_SC8.com msx2daad.com > nul 2>&1
 
 ECHO.
 ECHO ---------------------------------------------------------
@@ -65,16 +65,16 @@ CD ..
 
 REM  ---- PREPARAR FONT -----
 REM Generate PNGs
-php TOOLS\imgwizard\chr2png.php ASSETS\CHARSET\%FONT6%
+php\php TOOLS\imgwizard\chr2png.php ASSETS\CHARSET\%FONT6%
 REM convert to sc8
-php TOOLS\msx-screen-converter\scrconv.php font0.png TOOLS\msx-screen-converter\sc8.php  > nul 2>&1
-php TOOLS\msx-screen-converter\scrconv.php font1.png TOOLS\msx-screen-converter\sc8.php  > nul 2>&1
+php\php TOOLS\msx-screen-converter\scrconv.php font0.png TOOLS\msx-screen-converter\sc8.php  > nul 2>&1
+php\php TOOLS\msx-screen-converter\scrconv.php font1.png TOOLS\msx-screen-converter\sc8.php  > nul 2>&1
 REM convert to im8
-php TOOLS\imgwizard\imgwizard.php c font0.SC8 32 RLE > nul 2>&1
-php TOOLS\imgwizard\imgwizard.php d font0.IM8 1 > nul 2>&1
-php TOOLS\imgwizard\imgwizard.php c font1.SC8 40 RLE > nul 2>&1
-php TOOLS\imgwizard\imgwizard.php d font1.IM8 1 > nul 2>&1
-php TOOLS\imgwizard\imgwizard.php j FONT.IM8 font0.IM8 ASSETS\MSX\GLUE.IM8 font1.IM8 > nul 2>&1
+php\php TOOLS\imgwizard\imgwizard.php c font0.SC8 32 RLE > nul 2>&1
+php\php TOOLS\imgwizard\imgwizard.php d font0.IM8 1 > nul 2>&1
+php\php TOOLS\imgwizard\imgwizard.php c font1.SC8 40 RLE > nul 2>&1
+php\php TOOLS\imgwizard\imgwizard.php d font1.IM8 1 > nul 2>&1
+php\php TOOLS\imgwizard\imgwizard.php j FONT.IM8 font0.IM8 ASSETS\MSX\GLUE.IM8 font1.IM8 > nul 2>&1
 REM Clean
 DEL font1.png > nul 2>&1
 DEL font0.png > nul 2>&1
