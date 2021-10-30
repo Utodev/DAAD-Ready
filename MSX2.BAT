@@ -37,7 +37,7 @@ IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
 REM ---- OBTENER RECURSOS ---- 
 COPY TOOLS\MALUVA\*.BIN > nul 2>&1
 COPY ASSETS\MSX\MSX2_%BASELANG%.DSK %GAME%.DSK > nul 2>&1
-COPY ASSETS\MSX\msx2daad_1.5rc1_EN_%BASELANG%_SC8.com msx2daad.com > nul 2>&1
+COPY ASSETS\MSX\msx2daad_1.5_%BASELANG%_SC8.com msx2daad.com > nul 2>&1
 
 ECHO.
 ECHO ---------------------------------------------------------
