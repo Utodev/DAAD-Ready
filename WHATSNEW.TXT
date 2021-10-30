@@ -1,3 +1,13 @@
+DAAD Ready 0.5 (31/10/2021)
+===========================
+PC and MSX2 interpreters Updated
+Added support for French (in the same way Portuguese and German are supported)
+Maluva updated, now works fine with M4 interface in Amstrad CPC
+Updated imagewizard for MSX2 images
+Fixed bugs in MSDOS and MSX2 build files
+
+
+
 DAAD Ready 0.4 (24/07/2021)
 ==============================
 - PC VGA16 interpreter replaced with VGA256 interpreter. Now DAAD Ready can add graphics to PC target too. See instructions in the documentation.
