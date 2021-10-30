@@ -9,7 +9,7 @@ IF  NOT DEFINED LANG (
         ECHO.
         ECHO.
         setlocal EnableDelayedExpansion
-        CHOICE /C ESGP /N /M "--- Please select (E)nglish, (S)panish, (G)erman or (P)ortuguese"
+        CHOICE /C ESGPF /N /M "--- Please select (E)nglish, (S)panish, (G)erman, (F)rench or (P)ortuguese"
         SET LANG=EN
         SET BASELANG=EN
         IF ERRORLEVEL 2 (
@@ -24,6 +24,11 @@ IF  NOT DEFINED LANG (
             SET LANG=PT
             SET BASELANG=ES
         )
+        IF ERRORLEVEL 5 (
+            SET LANG=FR
+            SET BASELANG=EN
+        )
+   
         ECHO SET LANG=!LANG!>>CONFIG.BAT
         ECHO SET BASELANG=!BASELANG!>>CONFIG.BAT
     )

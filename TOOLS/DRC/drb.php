@@ -123,6 +123,7 @@ $compressionJSON_ES  = '{"compression": "advanced", "tokens": ["00","2071756520"
 $compressionJSON_PT  = '{"compression": "advanced", "tokens": ["00", "737461766120", "207061726120", "0e110f6f20", "20756d6120", "646f20", "646120", "20646520", "696120", "206e6f20", "206120", "206f20", "2071756520", "206d7569746f20", "617320", "206c75676172", "696e686120", "616f20", "616e746520", "657374", "617220", "726120756d20", "206520", "6e6120", "2e20416f20", "20636f", "707265636973", "706172", "6f7320", "6f2e20", "656e686f20", "2e2e2e0d", "20202020202020", "73736f20", "736520", "656d20", "657373", "66617a657220", "706f72746120", "6f2e0d", "6d656e74", "72746f20", "726120", "6964616465", "676172", "6361727265", "696f20", "656e64657220", "646520", "726573", "2e2e2e20", "6c6f63616c20", "61766120", "6e7465", "6f2c20", "726f20", "612e0d", "6e747261", "756d6120", "636f6e", "657220", "616c6775", "756d20", "2e204f20", "696e68", "2073656d707265", "20706f72", "6d616973", "6d6520", "736f627265", "657261", "617265", "73756120", "696361", "2074656d706f20", "20616c", "646573", "656920", "732e20", "6f726d61", "6f6d6f20", "45737461", "5f2e0d", "747261", "6f732e", "0b2d203a207175", "66657272", "6465706f6973", "6f2065", "70616c", "616e64", "71756520", "756172", "6e68656369", "636f6d", "6f727265", "70617373", "74696e", "652c20", "2e2041", "697373", "0b2d20", "6120", "6f20", "6f75", "656c", "6572", "6520", "616c", "6f630e160f20", "6974", "6f72", "616e", "6172", "656e", "696e", "6f73", "6369", "616d20", "2e0d", "2e20", "6973", "2c20", "6573", "6f6e", "6361", "6972", "6176", "7175"]}';
 $compressionJSON_EN  = '{"compression": "advanced", "tokens": ["00","2074686520","20796f7520","2061726520","696e6720","20746f20","20616e64","20697320","596f7520","616e6420","54686520","6e277420","206f6620","20796f75","696e67","656420","206120","206f70","697468","6f7574","656e74","20746f","20696e","616c6c","207468","206974","746572","617665","206265","766572","686572","616e64","656172","596f75","206f6e","656e20","6f7365","6e6f","6963","6170","2062","6768","2020","6164","6973","2063","6972","6179","7572","756e","6f6f","2064","6c6f","726f","6163","7365","7269","6c69","7469","6f6d","626c","636b","4920","6564","6565","2066","6861","7065","6520","7420","696e","7320","7468","2c20","6572","6420","6f6e","746f","616e","6172","656e","6f75","6f72","7374","2e20","6f77","6c65","6174","616c","7265","7920","6368","616d","656c","2077","6173","6573","6974","2073","6c6c","646f","6f70","7368","6d65","6865","626f","6869","6361","706c","696c","636c","2061","6f66","2068","7474","6d6f","6b65","7665","736f","652e","642e","742e","7669","6c79","6964","7363","2070","656d","7220"] }';
 $compressionJSON_DE  = '{"compression": "advanced", "tokens": ["00","2065696e6520","2064657220","2064696520","2064617320","2069737420","20766f6e20","2065696e20","20756e64","756e6420","44657220","44696520","44617320","20756e67","6c65696e","65727420","20647520","207a7520","2065696e","20766572","737420","6d6974","766f6e","68656e","617573","656e74","207a75","616c6c","206465","656e20","616265","697374","206265","766572","206475","447520","686572","756e64","696e67","736368","4475","6368","6965","6e6f","6963","6162","2062","6569","2020","6c6c","2063","6972","6572","7572","756e","2064","6c6f","726f","6172","7365","7269","6c69","7469","6f6d","7373","636b","4920","6564","6568","2066","6861","7065","6520","7420","696e","7320","6465","2c20","6572","6420","7a75","616e","6172","656e","6175","6f64","7374","2e20","686f","6c65","6174","616c","7265","7920","6368","616d","656c","2077","6173","6573","6974","2073","6c6c","6d61","6f70","6d65","6865","626f","6869","6b61","7565","6f65","6165","2061","2068","7474","6d6f","6b65","766f","736f","652e","642e","742e","7669","6d6d","7363","2070","656d"]}';
+$compressionJSON_FR  = '{"compression": "advanced", "tokens": ["7f", "4a65206e6520", "706f72746520", "20646520", "4a6520", "782070617320", "666169726520", "746520", "2064616e7320", "205f2e0d", "4a27616920", "6e6520", "20706f757220", "6d61696e7465", "657220", "656e6c6576", "706575", "65722e0d", "61207269656e", "63656c612e", "0d51756520", "20706c65696e", "707579657a20", "20706173", "64166a0e100f", "652e0d", "6e616e74203f", "6c6520", "746f75636865", "73757220", "721665737361", "2e0d", "656e737569", "6c657a20", "6f7520", "65722e", "6d0e140f", "6e2761692072", "0d457420", "2074726f7020", "6c6965752e20", "496c206e2779", "6f6e74696e75", "657374", "7265", "6973717565", "6d6f69203a0d", "726f75", "6173736574", "6f737369", "69656e", "7320", "6669636869", "6572", "205f2e", "7572", "6f6d", "63656c61", "766f69", "73756973", "706f7274", "6e616e74", "0e160f74", "6169", "4c6520", "4020", "656374", "657a20", "452044", "7365", "617520", "0e140f", "6f6e", "202d20", "6575", "6f75", "6d70", "6574", "6170", "7061", "6e27", "616c", "6f69", "7573", "2e20", "7072", "2e2e", "6f72", "2064", "2063", "6369", "3a20", "6d65", "2056", "642e", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f", "7f"]}';
 
 // A .TOK alternative file can be placed together with input JSON file (just use same name, .TOK extension. It's content should a JSON object just like the ones above)
 
@@ -236,7 +237,7 @@ var $newConversions = array(16=>'à',17=>'ã',18=>'ä',19=>'â',20=>'è',21=>'ë
 
 }
 define('VERSION_HI',0);
-define('VERSION_LO',23);
+define('VERSION_LO',25);
 
 
 function summary($adventure)
@@ -1136,22 +1137,25 @@ function getSubMachineIDByTarget($target, $subtarget)
         if ($charWidth == 8) $submachineID+=128; // Set bit 7
         return $submachineID;
     }
+    
     return 95; //Default value for legacy interpreters
 }
 
 
-function getMachineIDByTarget($target)
+function getMachineIDByTarget($target, $subtarget)
 {
-  if ($target=='PC')    return 0x00; else
-  if ($target=='ZX')    return 0x01; else
-  if ($target=='C64')   return 0x02; else
-  if ($target=='CPC')   return 0x03; else
-  if ($target=='MSX')   return 0x04; else
-  if ($target=='ST')    return 0x05; else
-  if ($target=='AMIGA') return 0x06; else
-  if ($target=='PCW')   return 0x07; else
-  if ($target=='CP4')   return 0x0E; else   // New target for Commodore Plus/4 interpreter
-  if ($target=='MSX2')  return 0x0F;        // New target for @ishwin MSX2 interpreter
+  if (($target=='PC') && ($subtarget=='VGA256')) return 0x0D;  // New target for PCDAAD VGA 256 interpreterº
+  if ($target=='PC')    return 0x00; 
+  if ($target=='ZX')    return 0x01; 
+  if ($target=='C64')   return 0x02; 
+  if ($target=='CPC')   return 0x03; 
+  if ($target=='MSX')   return 0x04; 
+  if ($target=='ST')    return 0x05; 
+  if ($target=='AMIGA') return 0x06; 
+  if ($target=='PCW')   return 0x07; 
+  if ($target=='CP4')   return 0x0E;    // New target for Commodore Plus/4 interpreter
+  if ($target=='MSX2')  return 0x0F;   // New target for @ishwin MSX2 interpreter
+  return 0x00; // Default in case of error
 };  
 
 function getBaseAddressByTarget($target)
@@ -1185,7 +1189,7 @@ function Syntax()
     echo("SYNTAX: php drb <target> [subtarget] <language> <inputfile> [outputfile] [options]\n\n");
     echo("+ <target>: target machine, should be 'ZX', 'CPC', 'C64', 'CP4', 'MSX', 'MSX2', 'PCW', 'PC', 'ST' or 'AMIGA'. Just to clarify, CP4 stands for Commodore Plus/4\n");
     echo("+ [subtarget]: some targets need to specify a subtarget.\n\tFor MSX2 target: 5_6, 5_8, 6_6, 6_8, 7_6, 7_8, 8_6, 8_8, 10_6, 10_8, 12_6 ad 12_8 (being video mode and character width in pixels).\n\tFor PC target: VGA256, VGA, EGA, CGA and TEXT.\n\tFor ZX target: PLUS3, NEXT; UNO and ESXDOS.\n");
-    echo("+ <language>: game language, should be 'EN', 'ES', 'DE' or 'PT' (English, Spanish, German or Portuguese).\n");
+    echo("+ <language>: game language, should be 'EN', 'ES', 'DE', 'FR' or 'PT' (English, Spanish, German, French or Portuguese).\n");
     echo("+ <inputfile>: a json file generated by DRF.\n");
     echo("+ [outputfile] : (optional) name of output file. If absent, same name of json file would be used, with DDB extension.\n");
     echo("+ [options]: one or more of the following:\n");
@@ -1454,7 +1458,7 @@ if (($target=='MSX2') || ($target=='PC') || ($target=='ZX'))
     if (!isValidSubtarget($target, $subtarget)) Error("Invalid subtarget '$subtarget'");
 }
 $language = strtoupper($argv[$nextParam]); $nextParam++;
-if (($language!='ES') && ($language!='EN') && ($language!='DE') && ($language!='PT')) Error('Invalid target language');
+if (($language!='ES') && ($language!='EN') && ($language!='DE') && ($language!='PT') && ($language!='FR')) Error('Invalid target language');
 $inputFileName = $argv[$nextParam]; $nextParam++;
 if (!file_exists($inputFileName)) Error('File not found');
 $json = file_get_contents($inputFileName);
@@ -1559,7 +1563,7 @@ $b = 2;
 writeByte($outputFileHandler, $b);
 
 // Machine and language
-$b = getMachineIDByTarget($target);
+$b = getMachineIDByTarget($target, $subtarget);
 $b = $b << 4; // Move machine ID to high nibble
 if (($language=='ES') || ($language=='PT')) $b = $b | 1; // Set spanish language  (DE and EN keep English)
 writeByte($outputFileHandler, $b);
@@ -1613,6 +1617,7 @@ else
         case 'EN': $compressionJSON = $compressionJSON_EN; break;
         case 'PT': $compressionJSON = $compressionJSON_PT; break;
         case 'DE': $compressionJSON = $compressionJSON_DE; break;
+        case 'FR': $compressionJSON = $compressionJSON_FR; break;
         default : $compressionJSON = $compressionJSON_ES; break;
     }
 }

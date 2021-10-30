@@ -225,7 +225,6 @@ BRUYA   5       adverb
 DOUCE   6       adverb
 
 ;                               Prépositions
-VERS    2       preposition
 DE      3       preposition
 DANS    4       preposition
 DEHOR   5       preposition
@@ -507,11 +506,11 @@ S 1
 > POSER   _     AUTOD
                 DONE
 
-> ENLEVE  ALL   DOALL   WORN
+> ENLEVE  TOUT  DOALL   WORN
 > ENLEVE  _     AUTOR
                 DONE
 
-> PORTE   ALL   DOALL   CARRIED
+> PORTE   TOUT  DOALL   CARRIED
 > PORTE   _     AUTOW
                 DONE
 
