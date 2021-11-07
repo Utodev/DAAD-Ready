@@ -40,23 +40,37 @@ IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
 
 
 REM ---- OBTENER RECURSOS ---- 
+tools\cecho\cecho {06}Copying required files...{07}
+echo.
 COPY TOOLS\MALUVA\*.BIN > nul 2>&1
 COPY ASSETS\MSX\MSX2_%BASELANG%.DSK %GAME%.DSK > nul 2>&1
 COPY ASSETS\MSX\msx2daad_1.5_%BASELANG%_SC8.com msx2daad.com > nul 2>&1
+tools\cecho\cecho {02}[OK]{07}
 
 ECHO.
-ECHO ---------------------------------------------------------
-ECHO Compiling [Front End]...
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
+tools\cecho\cecho {06}Compiling [Frontend]{07}
+ECHO.
 TOOLS\DRC\DRF msx2 8_6 %GAME%.DSF
 IF ERRORLEVEL 1 GOTO ERROR
+tools\cecho\cecho {02}[OK]{07}
 ECHO.
-ECHO ---------------------------------------------------------
-ECHO Compiling [Back End]...
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
+tools\cecho\cecho {06}Compiling [Backend]{07}
+ECHO.
 PHP\PHP TOOLS\DRC\DRB.PHP msx2 8_6 %LANG% %GAME%.json %GAME%.DDB 
 IF ERRORLEVEL 1 GOTO ERROR
 MOVE %GAME%.DDB DAAD.DDB > nul 2>&1
+tools\cecho\cecho {02}[OK]{07}
+ECHO.
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
 
 REM  ---- PREPARAR LAS IMáGENES ----
+tools\cecho\cecho {06}Preparing images (if any){07}
+ECHO.
 CD IMAGES
 for /L %%i in (0, 1, 9) do IF exist 00%%i.SC8 IF NOT exist 00%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c 00%%i.SC8  %IMGLINES% RLE  > nul 2>&1
 for /L %%i in (10, 1, 99) do IF exist 0%%i.SC8 IF NOT exist 0%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c 0%%i.SC8 %IMGLINES% RLE > nul 2>&1
@@ -67,7 +81,11 @@ IF exist DAAD.SC8 IF NOT exist LOADING.IM8 (
     MOVE DAAD.IM8 LOADING.IM8  > nul 2>&1
 ) 
 CD ..
+tools\cecho\cecho {02}[OK]{07}
+ECHO.
 
+tools\cecho\cecho {06}Preparing release files{07}
+ECHO.
 REM  ---- PREPARAR FONT -----
 REM Generate PNGs
 php\php TOOLS\imgwizard\chr2png.php ASSETS\CHARSET\%FONT6%
@@ -80,6 +98,8 @@ php\php TOOLS\imgwizard\imgwizard.php d font0.IM8 1 > nul 2>&1
 php\php TOOLS\imgwizard\imgwizard.php c font1.SC8 40 RLE > nul 2>&1
 php\php TOOLS\imgwizard\imgwizard.php d font1.IM8 1 > nul 2>&1
 php\php TOOLS\imgwizard\imgwizard.php j FONT.IM8 font0.IM8 ASSETS\MSX\GLUE.IM8 font1.IM8 > nul 2>&1
+
+
 REM Clean
 DEL font1.png > nul 2>&1
 DEL font0.png > nul 2>&1
@@ -105,6 +125,8 @@ for /L %%i in (0, 1, 9) do IF exist 00%%i.IM8 ..\TOOLS\dsktool\dsktool a ..\%GAM
 for /L %%i in (10, 1, 99) do IF exist 0%%i.IM8 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK 0%%i.IM8  > nul 2>&1
 for /L %%i in (100, 1, 256) do IF exist %%i.IM8 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK %%i.IM8  > nul 2>&1
 CD ..
+tools\cecho\cecho {02}[OK]{07}
+ECHO.
 
 
 REM ----  CLEAN ---- 
@@ -118,14 +140,18 @@ DEL FONT.IM8 > nul 2>&1
 REM ---- TESTER ---- 
 ECHO.
 MOVE %GAME%.DSK RELEASE\MSX2 > nul 2>&1
+tools\cecho\cecho {03}
 IF "%BASELANG%" == "EN" (
-ECHO "Game ready,press any key to test or  CTRL+C to stop"
-ECHO "IMPORTANT: The MSX2 interpreter is tied to license obligations, check them at: https://github.com/nataliapc/msx2daad/blob/master/LICENSE"
+ECHO Game ready,press any key to test or  CTRL+C to stop
+tools\cecho\cecho {0C}
+ECHO IMPORTANT: The MSX2 interpreter is tied to license obligations if you sell the game, check them at: https://github.com/nataliapc/msx2daad/blob/master/LICENSE
 )
 IF "%BASELANG%" == "ES"  (
-ECHO "Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar."
-ECHO "IMPORTANTE: El interprete MSX2 esta sujeto a un licencia con ciertas obligaciones, revisalas: https://github.com/nataliapc/msx2daad/blob/master/LICENSE"
+ECHO Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar.
+tools\cecho\cecho {0C}
+ECHO IMPORTANTE: El interprete MSX2 esta sujeto a un licencia con ciertas obligaciones si vendes el juego, revisalas: https://github.com/nataliapc/msx2daad/blob/master/LICENSE
 )
+tools\cecho\cecho {07}
 PAUSE
 cd TOOLS\openmsx
 openmsx -machine Philips_NMS_8250 -script init.cfg -diska ../../RELEASE/MSX2/%GAME%.DSK
@@ -133,7 +159,9 @@ cd ..\..
 GOTO FIN
 
 :ERROR
+tools\cecho\cecho {04}
 ECHO "Compile error, please check"
+tools\cecho\cecho {07}
 PAUSE
 :FIN
 

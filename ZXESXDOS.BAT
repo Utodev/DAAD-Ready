@@ -40,24 +40,28 @@ IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
 REM ---- GET RESOURCES ---- 
 tools\cecho\cecho {06}Copying required files...{07}
 echo.
-tools\cecho\cecho {02}[OK]{07}
 COPY TOOLS\MALUVA\*.BIN > nul 2>&1
+tools\cecho\cecho {02}[OK]{07}
 ECHO.
-ECHO ---------------------------------------------------------
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 ECHO.
 TOOLS\DRC\DRF zx esxdos %GAME%.DSF
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
-ECHO ---------------------------------------------------------
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 ECHO.
 PHP\PHP TOOLS\DRC\DRB.PHP zx esxdos %LANG% %GAME%.json %GAME%.DDB 
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
-ECHO ---------------------------------------------------------
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
+
 REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
@@ -88,8 +92,8 @@ IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\DS48IS.P3F
 TOOLS\DRC\daadmaker.exe %GAME%.TAP %INTERPRETER% %GAME%.DDB  ASSETS\CHARSET\%FONT6%
 IF ERRORLEVEL 1 GOTO ERROR
 MOVE %GAME%.TAP RELEASE\ESXDOS > nul 2>&1
-tools\cecho\cecho {02}[OK]{07}
-ECHO.
+    tools\cecho\cecho {02}[OK]{07}
+    ECHO.
 
 REM ----  CLEANING ---- 
 DEL %GAME%.DDB > nul 2>&1

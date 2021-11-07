@@ -38,17 +38,22 @@ echo Language: %LANG% %BASELANG%
 IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
 
 REM ---- GET RESOURCES ---- 
-
-ECHO.
-ECHO ---------------------------------------------------------
-ECHO Compiling [Front End]...
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
+tools\cecho\cecho {06}Compiling [Frontend]{07}
+echo.
 TOOLS\DRC\DRF zx esxdos %GAME%.DSF tape
 IF ERRORLEVEL 1 GOTO ERROR
+tools\cecho\cecho {02}[OK]{07}
 ECHO.
-ECHO ---------------------------------------------------------
-ECHO Compiling [Back End]...
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
+tools\cecho\cecho {06}Compiling [Backend]{07}
+echo.
 PHP\PHP TOOLS\DRC\DRB.PHP zx esxdos %LANG% %GAME%.json %GAME%.DDB 
 IF ERRORLEVEL 1 GOTO ERROR
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
 
 REM  ---- COPY FILES ---- 
 IF exist 0.XMB (
@@ -57,10 +62,14 @@ IF exist 0.XMB (
 )
 
 REM --- PREPARE TAP FILE ----
+tools\cecho\cecho {06}Preparing tap file{07}
+ECHO.
 SET INTERPRETER=ASSETS\ZX\DS48IE.P3F
 IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\DS48IS.P3F 
 TOOLS\DRC\daadmaker.exe %GAME%.TAP %INTERPRETER% %GAME%.DDB ASSETS\CHARSET\%FONT6%
 MOVE %GAME%.TAP RELEASE\ZXTAPE > nul 2>&1
+tools\cecho\cecho {02}[OK]{07}
+ECHO.
 
 REM ----  CLEANING ---- 
 DEL %GAME%.DDB > nul 2>&1
@@ -69,9 +78,10 @@ DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 
 REM ---- TESTER ---- 
-ECHO.
+tools\cecho\cecho {03}
 ECHO "Press any key to run emulator, or Ctrl+C to cancel." 
 ECHO "To exit ZEsarUX emulator, press F5, then F10." 
+tools\cecho\cecho {07}
 
 
 PAUSE
@@ -81,8 +91,10 @@ CD ..\..
 GOTO END
 
 :ERROR
-ECHO "Something went wrong, please check errors"
-PAUSE
+:ERROR
+tools\cecho\cecho {04}
+ECHO "Compile error, please check"
+tools\cecho\cecho {07}
 :END
 
 REM ----  CLEANING ---- 
