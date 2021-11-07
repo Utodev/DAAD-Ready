@@ -37,22 +37,35 @@ echo Language: %LANG% %BASELANG%
 IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
 
 REM ---- OBTENER RECURSOS ---- 
+tools\cecho\cecho {06}Copying required files...{07}
 COPY TOOLS\MALUVA\*.BIN > nul 2>&1
 COPY ASSETS\C64\C64_%BASELANG%.D64 %GAME%.D64 > nul 2>&1
+tools\cecho\cecho {02}[OK]{07}
+
 
 ECHO.
-ECHO ---------------------------------------------------------
-ECHO Compiling [Front End]...
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
 TOOLS\DRC\DRF c64 %GAME%.DSF %SPLITSCR%
 IF ERRORLEVEL 1 GOTO ERROR
+tools\cecho\cecho {02}[OK]{07}
 ECHO.
-ECHO ---------------------------------------------------------
-ECHO Compiling [Back End]...
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
+tools\cecho\cecho {06}Compiling [Backend]{07}
+ECHO.
 PHP\PHP TOOLS\DRC\DRB.PHP c64 %LANG% %GAME%.json %GAME%.DDB -ch
 IF ERRORLEVEL 1 GOTO ERROR
 MOVE %GAME%.DDB DAAD.DDB > nul 2>&1
+MOVE %GAME%.DDB DAAD.DDB > nul 2>&1
+tools\cecho\cecho {02}[OK]{07}
+ECHO.
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
 
 REM  ---- PREPARE IMAGES ----
+tools\cecho\cecho {06}Preparing images (if any){07}
+ECHO.
 CD IMAGES
 for /L %%i in (0, 1, 9) do IF exist 00%%i.KOA ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KOA 00%%i64 96
 for /L %%i in (10, 1, 99) do IF exist 0%%i.KOA  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.KOA 0%%i64 96
@@ -64,7 +77,12 @@ for /L %%i in (0, 1, 9) do IF exist 00%%i.ART ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.
 for /L %%i in (10, 1, 99) do IF exist 0%%i.ART  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.ART 0%%i64 96
 for /L %%i in (100, 1, 255) do IF exist %%i.ART  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.ART %%i64 96 
 CD ..
+tools\cecho\cecho {02}[OK]{07}
+ECHO.
 
+
+tools\cecho\cecho {06}Preparing release files{07}
+ECHO.
 REM  ---- PREPARE THE FONT -----
 COPY ASSETS\C64\apart1.prg 
 TOOLS\DD\DD count=16 bs=1 if=apart1.prg of=apart1.HEAD 
@@ -84,6 +102,8 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\%%i64  tools\c1541\c1541.exe -att
 for /L %%i in (0, 1, 32) do IF exist 0%%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write 0%%i.XMB 0%%i
 for /L %%i in (0, 1, 9) do IF exist 0%%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write 0%%i.XMB 0%%i
 for /L %%i in (10, 1, 32) do IF exist %%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write %%i.XMB 0%%i
+tools\cecho\cecho {02}[OK]{07}
+ECHO.
 
 REM ----  CLEANING ---- 
 DEL DAAD.DDB > nul 2>&1
@@ -95,6 +115,7 @@ DEL *.TMP > nul 2>&1
 REM ---- TESTER ---- 
 ECHO.
 MOVE %GAME%.D64 RELEASE\c64 > nul 2>&1
+tools\cecho\cecho {03}
 IF "%BASELANG%" == "EN" (
 ECHO "Game ready, press any key to test, or CTRL+C to stop"
 echo "--------------------------------------------------------------------"
@@ -120,12 +141,15 @@ echo "| cerveza a slajerek@gmail.com, o dinero para comprarla a          |"
 echo "| http://tinyurl.com/C64Debugger-PayPal                            |"                  
 echo "--------------------------------------------------------------------"
 )
+tools\cecho\cecho {07}
 PAUSE
 TOOLS\C64DEBUGGER\C64DEBUGGER -d64 RELEASE\C64\%GAME%.D64 -autorundisk
 GOTO FIN
 
 :ERROR
+tools\cecho\cecho {04}
 ECHO "Compile error, please check"
+tools\cecho\cecho {07}
 PAUSE
 :FIN
 
