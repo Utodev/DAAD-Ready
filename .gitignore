@@ -1,3 +1,4 @@
 .DS_Store
 TEST.DSF
 ASSETS/AMIGA
+buildRelease.sh
