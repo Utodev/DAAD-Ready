@@ -44,7 +44,7 @@ tools\cecho\cecho {06}Copying required files...{07}
 echo.
 COPY TOOLS\MALUVA\*.BIN > nul 2>&1
 COPY ASSETS\MSX\MSX2_%BASELANG%.DSK %GAME%.DSK > nul 2>&1
-COPY ASSETS\MSX\msx2daad_1.5_%BASELANG%_SC8.com msx2daad.com > nul 2>&1
+COPY ASSETS\MSX\msx2daad_1.5.1_%BASELANG%_SC8.com msx2daad.com > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 
 ECHO.
