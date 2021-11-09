@@ -552,8 +552,7 @@ LOGO    2       conjugation
                 #ifdef "nativeraster"
                 DISPLAY 0
                 #endif
-#endif
-#endif                
+                #endif                
                 DESC    0               ; Introdução
                 ANYKEY
                 CLS

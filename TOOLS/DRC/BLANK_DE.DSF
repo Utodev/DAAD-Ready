@@ -515,35 +515,35 @@ S 1
 ;------------------------------------------------------------------------------
 /PRO 5 ; Command decoder
 
-I       _       SYSMESS 9
-                LISTAT  CARRIED
-                SYSMESS 10
-                LISTAT  WORN
-                DONE
+> I       _       SYSMESS 9
+                  LISTAT  CARRIED
+                  SYSMESS 10
+                  LISTAT  WORN
+                  DONE
 
-NIMM    ALLES   DOALL   HERE
-NIMM    _       AUTOG
-                DONE
+> NIMM    ALLES   DOALL   HERE
+> NIMM    _       AUTOG
+                  DONE
 
-LEGE    ALLES   DOALL   CARRIED
-LEGE    _       AUTOD
-                DONE
+> LEGE    ALLES   DOALL   CARRIED
+> LEGE    _       AUTOD
+                  DONE
 
-ENTFE   ALLES   DOALL   WORN
-ENTFE   _       AUTOR
-                DONE
+> ENTFE   ALLES   DOALL   WORN
+> ENTFE   _       AUTOR
+                  DONE
 
-TRAGE   ALLES   DOALL   CARRIED
-TRAGE   _       AUTOW
-                DONE
+> TRAGE   ALLES   DOALL   CARRIED
+> TRAGE   _       AUTOW
+                  DONE
 
-B       _       CLS
-                RESTART
+> B       _       CLS
+                  RESTART
 
-ENDE    _       QUIT
-                END
+> ENDE    _       QUIT
+                  END
 
-ENDE    _       DONE                    ;Not like QUIT on PAW
+> ENDE    _       DONE                    ;Not like QUIT on PAW
 
 > SPEIC    _     #ifndef "tape"
                 XSAVE 0                  ;ditto
@@ -591,12 +591,12 @@ ENDE    _       DONE                    ;Not like QUIT on PAW
                 WINSIZE 25      127     ; Maximum window
                 CLS
                 DESC    0               ; Introduction
-#ifndef "tape"
+                #ifndef "tape"
                 XPICTURE 0
                 #ifdef "nativeraster"
                 DISPLAY 0
                 #endif
-#endif                
+                #endif                
                 ANYKEY
                 CLS
                 SET   255             
