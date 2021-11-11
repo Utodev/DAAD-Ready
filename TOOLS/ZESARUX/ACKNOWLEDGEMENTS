@@ -1,10 +1,10 @@
 I want to thank the help and the collaboration of the following people (date sorted list):
      
 -To my parents and brothers. I remember very fondly the advices of my father to my first programs. Rest in peace
+-To Auro and Gui, for their patience and suggestions
 -Ivan Daunis Llobet, for the PCGPE and the INTERVUE, which were very useful on creating my first emulator, ZXSpectr
 -Ruben Parra Martinez, for the Spectrum +2A
 -To my friends at Mexico
--To Auro and Gui, for their patience and suggestions
 -To Amstrad, for permitting to use the ROMS to someone who makes an emulator
 -Samir Ribic, for helping me with the uploading of ZXSpectr, and for all the information included in his Warajevo emulator.
 -Martijn van der Heide, for uploading ZXSpectr on http://worldofspectrum.org/
@@ -30,7 +30,7 @@ I want to thank the help and the collaboration of the following people (date sor
 -Sergey Sharov, for granting permission to include some Gigascreen art made by him
 -Alexander Filyanov, for granting permission to include some Gigascreen art made by him
 -Alexander Solodkov, for granting permission to include some Gigascreen art made by him
--Andrew Owen, for granting permission to include some ULAPlus art (.bmc4 files) made by him, for information about his Chloe machine and much more
+-Andrew Owen, for granting permission to include some ULAPlus art (.bmc4 files) made by him, for information about his Chloe machine, for some keyboard images and much more
 -To Jordi Bayo Montiel, Antonio Villena, Quest, and Miguel Angel Rodriguez Jodar from the ZX-Uno team for all the information with their beautiful machine and testing Windows version.
 -Fernando Gregoire from CAAD forums, helping me improving accessibility support on the emulator
 -Sukil Etxenike, helping me improving accessibility support on the emulator, beta testing and fixing text mistakes
@@ -38,19 +38,19 @@ I want to thank the help and the collaboration of the following people (date sor
 -Andy Rea, for granting permission to include his STC player for zxpand
 -Henri, for the AZERTY support patch
 -Jeff Braine, for information about his Prism machine
--Juan Carlos Gonzalez Amestoy, for help with Spectrum timings, OpenGL drawing on Mac and much more
+-Juan Carlos Gonzalez Amestoy, for help with Spectrum timings, OpenGL drawing on Mac and much MORE :) You really need to try his RVM emulator!
 -Simon Owen, for the information about Atom Lite on Sam Coupe
 -Uto, helping me improving the debug menu
 -Victor Trucco and Fabio Belavenuto for information about their TBBlue machine
 -Daniel Leon for information about his ZX Dandanator! Mini interface and bug reporting
 -Alejandro Valero for information about his Superupgrade interface and 8-bit simple ide interface
 -Miguel Angel Gomez (haplo) for lots of bug reporting
--Karl Stenerud, for granting permission to include his Musashi Motorola 680x0 emulator https://github.com/kstenerud/Musashi. Distributed under MIT license
+-Karl Stenerud, for granting permission to include his Musashi Motorola 680x0 emulator 
 -Javier R. Santurde (tolkien), for the MorhOS patch
 -Rich Mellor, helping me with QL emulation
 -Yerzmyey, for granting permission to include his Astral Combat demo. http://yerzmyey.i-demo.pl/ . http://hooyprogram.republika.pl/
 -JSJ, helping me with pthreads on Windows version
--Miodrag Milanovic, for granting permission to include his National Semiconductor SC/MP CPU Emulator https://github.com/mamedev/mame/blob/master/src/devices/cpu/scmp/ . Distributed under BSD-3 license
+-Miodrag Milanovic, for granting permission to include his National Semiconductor SC/MP CPU Emulator 
 -Tim Gilberts, for bug reporting and the Sped translation to English
 -Gary Lancaster, for bug reporting
 -Mark Hutchings, for bug reporting, proposing new features and code contribution
@@ -78,11 +78,18 @@ I want to thank the help and the collaboration of the following people (date sor
 -Cesar Wagener, for Windows bug reporting
 -Alone Coder, for granting permission to add Pang and Ball Quest 16C color mode games, and for information about ATM computer
 -Шарихин Александр Сергеевич, for granting permission to add his "Touhou Zero. Lost Donation Box Incident" game, for help and suggestions 
+-Stefan Bylund, helping me with tbblue layer2 extended modes
+-Kio, for granting permission to add his beautiful keyboard images from his zxsp emulator
+-Rafa (aka Spirax), for reporting the CPC CRTC interrupts bug
+-Simon Berry, reporting some ZRCP bugs
+-Gerton Lunter, for information with his SamRam interface and granting permission to include the roms
+-Aled Griffiths, for the Mac retina display support
+
 
 -Everyone at several forums about Spectrum, ZX80, ZX81, Z88, Raspberry Pi, etc for all the suggestions to my emulator
 -Everyone who test the beta and stable versions of the emulator and report bugs
--The following people who donated to ZEsarUX, in chronological order: Peter Jones, Daniel Leon Gonzalez, Jose Luis Fernandez Mayoralas, Francisco Gaytan Muñoz, Miguel Barrio Orsikowsky, Мухаметов Амин, Geoffrey Wearmouth, Шарихин Александр Сергеевич, anonymous person, Chibiakumas.com, Marcos Lima
+-The following people who donated to ZEsarUX, in chronological order: Peter Jones, Daniel Leon Gonzalez, Jose Luis Fernandez Mayoralas, Francisco Gaytan Muñoz, Miguel Barrio Orsikowsky, Мухаметов Амин, Geoffrey Wearmouth, Шарихин Александр Сергеевич, anonymous person, Chibiakumas.com, Marcos Lima, Владимир Смирнов, Unai Landa Bonilla, Bernhard aka Luzie, Duncan Lock, Santiago Calcagno, @ignacobo
 -Anyone who makes demos for the Spectrum, they are a good field of testing for my emulator.
 
-And mainly to this big genius, Clive Sinclair.
+And mainly to this big genius, Clive Sinclair. Rest in peace
 

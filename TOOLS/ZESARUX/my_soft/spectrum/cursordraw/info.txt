@@ -1,6 +1,0 @@
-cargar iconos en 56108   
-cargar codigo cursor draw en 57068. usr ahi mismo
-
-De momento solo graba pantallas escribiendo c: delante del nombre
-falta cargar pantalla y tambien otras operaciones de carga y grabar
-en grabar pantalla no borra zona inferior

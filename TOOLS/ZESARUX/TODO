@@ -1,4 +1,4 @@
-    
+ 
 --- expression parser
 
 
@@ -74,43 +74,17 @@ Mejora: (15/3)=5 -> 5 veces mas rápido
 
 --- Programas mios de Spectrum ---
 
--Para cursor draw:
-*iconos con mas de una opcion, que se les indique de alguna manera. con un punto??? Con 3 pixeles en arriba derecha asi:
-  ##
-   #
-*que pregunte si hay soporte mouse el programa basic. Si no, activar algun flag en alguna dirección baja (ejemplo 30000)
-y al inicio de cursor draw lo lea de ahi y lo guarde en un setting suyo
-*control de raton en todos sitios. Por ejemplo en aplicar sprites no se mueve
 
-En cursor draw, Para sumar incremento de kempston mouse, hay que saber primero si incremento es positivo o negativo. Para eso , al restar posición final, si no hay acarreo, es positivo. 
-Si es positivo, hay que sumar ese salto a posición cursor. Si hay acarreo, significa que va más allá de 255 y por tanto, no actualizamos cursor
-Si es negativo, restamos ese salto (mediante neg y haciendo sbc) a posición cursor. Si hay acarreo, significa que va menos de 0 y por tanto no actualizamos cursor. 
-En caso de suma de posición vertical no permitir que vaya más allá de 191 tampoco. 
+Sped:
 
-Probar también con Fuse u otro emulador que soporte kempston mouse 
-El ORG deberia estar ajustado para que acabe en 65536 el final
+-En sped poder agregar texto changelog en cada fuente al grabar. Quizá bloque adicional de bytes para ello
 
--org 58068
--ent 58068
-->bajamos todo 1000 bytes
+-Idea de compresión de texto en sped:
+Si línea empieza con comentario, los espacios de indican cómo el bit 7 del siguiente carácter alzado
+Entiendo que esto no se hace así ya, solo se hace para los dos tabuladores de una línea con opcodes 
+Aunque esto comprime muy poco, solo se ahorra 1 byte por cada espacio, pero algo es algo...
 
--org 57068
--ent 57068
-
-
-tamanyo total sprites?
-
-
-
-Revisar que org de cursor draw no está Justo para que acabe en 65535
-Si fuera así habría que bajar el org para permitir bytes de más de la rutina de kempston mouse
-
-Kempston mouse tiene que leer incrementos de posición de posición anterior
-Sumar esa posición a la actual de cursor. Si hay acarreo, no sumar
-Y en caso de vertical, si es mayor que 191, no sumar. Tener en cuenta también Tecla symbol que limita bajar a zona inferior 
-
-Quizá control kempston mouse simplemente preguntar en cargador Basic y que éste haga un poke de alguna dirección fuera de codigo, y cursor draw lo lee al iniciar. Si está pokeado, arriba kempston mouse. Si no, no lo activa 
-
+-Licencia gpl para toda mi carpeta de software propio de spectrum: sped, realdebug etc 
 -----------------------
 
 
@@ -119,6 +93,7 @@ Quizá control kempston mouse simplemente preguntar en cargador Basic y que ést
 
 --- ESXDOS handler ---
 
+-chdir en esxdos handler acaba cambiando directorio realmente para emulador??
 
 -soporte LFN para esxdos handler. quiza acortar archivos al listar con "dir" y similares. que hacer si hacen fopen de archivo largo?
 acortar archivo... pero habra que acortar tambien ruta subdirectorios....
@@ -171,12 +146,12 @@ ver que hace zxpand aqui....
 Otros TODO menos prioritarios, de aqui hasta el final del archivo:
 
 
+-Programa de descompresión zip para esxdos. Luego browser wos/zx info/spec computing para esxdos: ya hay un unzip para Next
 
-
+-cpuid ("zxid") según especificación de mcleod
 
 -Joystick simulation que se pueda lanzar por ZRCP también (y sin tener que activar —realjoystick-simulator).
  O quizá sí que necesita el setting, dado que necesita que real Joystick este activado 
-
 
 
 -página man de ZEsarUX. que no diga opciones, que haga referencia a --help y --experthelp
@@ -247,8 +222,6 @@ Lo que pasa es que cuando asigno memoria vram hago los 32 k de golpe, por eso cu
 -permitir que las direcciones de breakpoints se pongan con 0xNNNN ademas de NNNNh y decimal
 incluso con $NNNN
 
--Estadísticas de uso:
--uso medio de cpu?
 
 -sumas md5 que ya no se usan de autoselect. Ver si hay archivos .config alternativos para todo esto
 
@@ -267,13 +240,23 @@ como descubrir rutinas de pintado de sprites
 
 -mapa localidades daad/paws/quill
 
+-De extractor paws o similar:
+TODO: si puntero tokens es 0, no hay tokens
+TODO: algunos valores de xor 255 no son realmente xor 255. Quizá son letras con acentos?
+
+-unpaws con quill:
+*compression tokens existen?
+
+-unpaws: 
+*compression tokens no siempre estan hasta el 255
+
+
 -Text keyboard editable desde menu?
 
--Joystick en Mac,Win
+-Joystick en Mac
 -quiza redibujar archivo logo tal cual con el boot logo
 -Posible ocr con traducción de cirílico?
 
--Si hay error en config file no hace experthelp
 
 
 -reorganizar capturas de pantalla del readme.md para que esten todas las maquinas
@@ -342,6 +325,10 @@ pero evitar cualquier otro boton diferente de los ejes
 
 -Emular chips de memoria con fallos
 
+-Grabar pantalla bmp no funciona bien con modo gigascreen y interlace. Probablemente tampoco bien video formato rwv
+Esto seguramente es porque leo de rainbow buffer
+
+-Grabar pantalla requiere de real video y por tanto maquinas sin esto no funcionaran: QL, ...?
 
 -Inves. Ver que juegos se corrompe la memoria debido a interrupción. Quizá ver aquellos que no usan tabla entera de 257
 
@@ -386,11 +373,10 @@ E indicar valor por defecto
 
 -Reset parámetros por defecto en quickload también para spectrum
 
-ok- realtime, pero parece que a veces cuelga el pc
 
 -Juegos fallan
 -powerup. al cargar. hay que reinsertar cinta, y hay que cargarlo en modo usr0 . no me preocupa mucho porque es una demo de pentagon...
-comparacion con zxspectr
+comparacion con zxspectr. 
 powerup: ok
 
 
@@ -428,9 +414,7 @@ http://gafz.enterpriseforever.com/Dokumentacio/Konyvek/EXOS_2.1_technikal_inform
 Muchos modos de video diferentes. En un mismo frame se permiten varios modos
 
 
-Colecovision
--chip de sprites
--muchos juegos
+
 
 https://en.m.wikipedia.org/wiki/Exidy_Sorcerer
 
@@ -454,8 +438,7 @@ https://en.m.wikipedia.org/wiki/Philips_P2000
 
 Master system
 
-Msx
-http://map.grauw.nl/resources/system/msxtech.pdf
+
 
 
 

@@ -73,7 +73,7 @@ Notice that it was recorded without enabling "Text Speech Stop program"
 
 
 Q: Is there any Spanish quick guide to know how to enable Accesibility on ZEsarUX?
-A: Yes, see file extras/docs/accesibilidad_instrucciones.txt 
+A: Yes, see file docs/accesibilidad_instrucciones.txt 
 
 
 Q: Can I read the Spectrum display?
@@ -128,10 +128,12 @@ Then enable IDE emulation,  and enable DIVIDE on the menu. Then reset the machin
 
 
 Q: What are file formats with extensions .mmc and .ide?
-A: They are both the same, both are dumps of mmc or ide cards. I use different extensions to distinguish between mmc images and ide images.
-Besides using esxdos or other divide/divmmc firmware, you can also access those file image cards from GNU/Linux, Mac OS X, or Windows:
+A: They are both the same, both are dumps of mmc or ide cards/hard disks. I use different extensions to distinguish between mmc images and ide images.
+Besides using esxdos or other divide/divmmc firmware, you can browse inside these images (and any other disk image formated on FAT filesystem) from the Debug-> File utilites menu. Then select the file and choose the action "moUnt" (Shift+u)
+
+You can also access those file image cards using utilities for your operating system:
 -GNU/Linux: you can use command "mount" with option -o loop to mount these images. It file image has a partition, you must first use losetup utility
--Mac OS X: change extension to .img and you can mount it using Finder. You should unmount it and change the extension back to .mmc or .ide for ZEsarUX 
+-Mac OS X: change extension to .img and you can mount it using Finder. 
 to list it in File Selector
 -Windows: Windows doesn't have native support for mounting file images. You may use ImDisk:
 http://www.ltr-data.se/opencode.html/#ImDisk
@@ -150,6 +152,15 @@ A: Seems some versions of Mac OSX closes the emulator when enabling dandanator. 
 also disabling auto-enable real video) solves it. You may also hear some audio noise on the dandanator menu. I haven't found a definitive solution for this
 
 
+Q: What is esxdos handler?
+A: Just a little info about divmmc, mmc and the esxdos handler on ZEsarUX :
+You can emulate a real sd/mmc card, with esxdos, by going to the storage menu-mmc. There you can select an image file (.mmc or .img), and enable divmmc. By doing that, you can have a esxdos system like a real one. All disk access will be made to this .img/.mmc file
+However, if you want to use esxdos but accessing the files from your hard drive, you can enable the esxdos handler. You can have esxdos enabled, as well as divmmc/mmc settings, or just esxdos handler alone
+If you enable both divmmc, mmc and esxdos handler, file access will use your files from your hard drive. And you’ll have all the esxdos boot process, nmi etc.
+Note: is not recommended to enable both divmmc and esxdos handler on ZX Spectrum Next, as many system calls may fail.
+If you only enable esxdos handler (and not divmmc), if you call any esxdos function (by rst 8 ), that will use the files from your computer. But, logically, you don’t have esxdos boot, nmi etc. If you are a developer and just use esxdos calls for, for example, open a file, esxdos handler is just fine (no need to enable divmmc)
+
+
 ----------------------------------------------------------------------------
 
 
@@ -164,6 +175,8 @@ Q: Audio does not sound well on Raspberry pi.
 A: Try using sdl audio driver.
 
 
+Q: I've tried to use the pcspeaker driver but returns error on initialization
+A: The PC Speaker driver on ZEsarUX is only available for Linux, and needs pthreads enabled on compilation. Also, you must run ZEsarUX as root in order to use it, as it needs privileged access to the PC Speaker i/o port
 
 ----------------------------------------------------------------------------
 
@@ -203,7 +216,7 @@ Debugging
 Q: What is ZEsarUX remote command protocol?
 A: ZEsarUX remote command protocol (or ZRCP) is a kind of API you can connect to ZEsarUX using a network tcp port. You can connect to it using
 a telnet client, or maybe you can create a external frontend (maybe an IDE) that connects remotely to ZEsarUX and interacts with it.
-It's disabled by default, you may enable it from Settings->Debug or from command line with --enable-remoteprotocol. The default port is 10000.
+It's disabled by default, you may enable it from Settings-> Debug or from command line with --enable-remoteprotocol. The default port is 10000.
 It's supported on all emulator versions, but on Windows it's only supported on the ZEsarUX-pthreads version
 
 There are two good examples which use ZRCP:
@@ -243,6 +256,10 @@ export LDFLAGS="-g -rdynamic"
 Before ./configure, then ./configure (with your desired settings) ; make clean ; make
 Then, when a ZEsarUX kernel panic is generated, you will see the call names on the backtrace. This is only valid on GNU/Linux or Mac (and Mac seems to enable these compilation settings by default)
 
+
+Q: I just added a command line breakpoint like this "PC=0" and it does not stop. Why?
+A: That breakpoint won't be fired just after booting the emulator. The reason is that breakpoints are always evaluated after opcode execution, so the first time, the opcode at 0 is evaluated, which used to be a "DI" in a spectrum, so when the breakpoint is evaluated, PC=1. So, you can replace your breakpoint to PC=1 for example
+
 ----------------------------------------------------------------------------
 
 
@@ -277,7 +294,7 @@ After spending two days testing the Windows audio clicking issue I can confirm:
 -It seems also the audio module is sensible to O.S. multitask. I mean, if you change to another Windows task and leave ZEsarUX in the background, some clicking may appear. That doesn't happen in other operating systems. That confirms me, again, Windows is not my preferred operating system ;)
 -I tried changing the audio sdl module to another one, programming a Direct Sound native windows module. But I haven't found any examples to do that on my MinGW environment. 
 -So, until I couldn't change the audio module to something different (DirectSound or SDL2-which already have tested) some of you will have clicking on Windows. It will depend on your audio card and audio driver
--That clicking issue is not related with clicks at startup or looping click in tbblue browser. These two others are probably bugs in my code
+-That clicking issue is not related with clicks at startup or looping click in Next browser. These two others are probably bugs in my code
 
 
 
@@ -313,7 +330,7 @@ the display will show "trash", also the "Real Video" setting is auto-enabled.
 sponzy rom file, set address to 0, and set length to 0 (to load the whole file). The emulator will load the whole file, but addresses 0000-1fffh are
 write protected, but it is not a problem so these addresses are already loaded since pass 2. Addresses 2000h-3fffh will be written (so we enabled RAM here) with the rest of the Sponzy ROM
 4) Go to menu debugging->Reset
-5) The rom is working now but you will probably see only a white display. So, Sponzy rom uses WRX display mode. You must enable it on menu Display Settings->WRX
+5) The rom is working now but you will probably see only a white display. So, Sponzy rom uses WRX display mode. You must enable it on menu Settings-> Display-> WRX
 
 
 ----------------------------------------------------------------------------
@@ -353,7 +370,7 @@ So, you can not change the emulation core, you can not, for example, upload a FP
 
 Q: Why ZX-Uno boot and bios seem to use a lot of physical CPU and reduces FPS?
 A: On ZX-Uno boot process and entering its bios, the Z80 Turbo mode is set to 8X, so the emulator uses eight times the cpu power more than on normal 1X mode. This is why it uses more physical CPU and FPS are reduced. It should not happen if your computer is very fast.
-You may change a the setting "Deny turbo on boot" on menu Settings->Hardware so it denies changing turbo mode on these 2 cases
+You may change a the setting "Deny turbo on boot" on menu Settings-> Hardware so it denies changing turbo mode on these 2 cases
 
 
 ----------------------------------------------------------------------------
@@ -378,6 +395,17 @@ A: You can find it at https://cambridgez88.jira.com/wiki/display/UG45/
 or in the ZEsarUX extras package:
 extras/docs/z88/Z88UGV4.pdf
 
+
+Q: How can copy files from my PC to the Z88?
+A: You can load a file on a Z88 ZEsarUX emulated machine by different ways:
+
+1) If it’s a Basic txt file, you can open the Z88 basic and then use the ZEsarUX debug-spool menu to load the txt file. ZEsarUX will then send every letter in the file as key presses
+
+2) If it’s a eprom image file (.epr, .eprom or .62 extensions) just insert it from the ZEsarUX storage menu
+
+3) If it’s a file you need to copy on an eprom card, you can insert an existing eprom image file or create a blank one from the storage menu. Then use the same menu to copy a file from your pc to that eprom image. Follow these steps: Go to menu Storage->Z88 memory slots->Select the third empty slot (slot 3). Set memory type: eprom. Select field Name, Enter. Then on the file browser, select the existing eprom file or, to create a new one, just TAB twice and on the File: field, just write a new name with extension .eprom. Select Yes to create a new file, and select the size. Then apply changes. Then return to Z88, open the Filer, and select "Create file card" and select slot 3. Open ZEsarUX menu again, Storage->Z88 memory slots. Then, as you have the card formatted, you can select the "Copy to Card" item and copy files from your pc.
+
+
 ----------------------------------------------------------------------------
 
 
@@ -395,6 +423,50 @@ Firmware: SE Basic IV
 Palette: 256 colors
 Video modes: 40 column, 80 column, Spectrum and Timex compatible modes
 Audio: 6 channel AY
+
+
+Q: I have set Chloe machine but it doesn't seem to boot, I only get a black screen
+A: Chloe needs divmmc paging to boot. Enable it on Storage->MMC menu
+
+
+Q: Is there any MMC card with sample programs?
+A: Look on the extras package. On folder zesarux-extras/extras/media/spectrum/chloe/, there's a file called chloehd.mmc, you can use that.
+
+Q: How can I run Chloe from commandline and no configuration file?
+A: Run a sentence like this:
+
+./zesarux --noconfigfile --machine chloe280 --mmc-file /zesarux-extras/extras/media/spectrum/chloe/chloehd.mmc --enable-mmc --enable-divmmc --nowelcomemessage
+
+The /zesarux-extras/extras/media/spectrum/chloe/chloehd.mmc is the location to where you have downloaded the chloehd.mmc from the zesarux-extras package.
+The --nowelcomemessage is only needed to disable the ZEsarUX splash logo which hides the Chloe "boot logo" (the wolf)
+
+
+Q: How can I run programs from the MMC card?
+A: There are some commands to do that:
+
+- files: it's like "ls" or "dir"
+- run: runs the program from MMC
+
+For example,
+files "programs"
+will list the programs folder from the MMC card. Then:
+
+run "kayahara"
+will run the kayahara demo from the MMC
+
+
+
+----------------------------------------------------------------------------
+
+
+SpectraVideo
+------------
+
+Q: How do I load .cas games?
+A: Usually, just:
+
+CLOAD
+RUN
 
 
 ----------------------------------------------------------------------------
@@ -451,12 +523,16 @@ See files on extras/docs/prism/ to know which roms are included in the Flash
 ----------------------------------------------------------------------------
 
 
-TBBlue
-------
+ZX Spectrum Next
+----------------
 
 
-Q: I can't run TBBlue machine. I get the following error: "Erro ao inicializar cartao!"
-A: TBBlue machine needs a SD/MMC image to boot. You must select file image "media/disk_images/tbblue.mmc" on Storage->MMC->MMC File.
+Q: I can't find ZX Spectrum Next on Machine Selection menu
+A: Select manufacturer VTrucco/FB Labs
+
+
+Q: I can't run Next machine. I get the following error: "Error initializing SD card!"
+A: Next machine needs a SD/MMC image to boot. You must select file image "tbblue.mmc" on Storage->MMC->MMC File.
 Then enable MMC emulation and DivMMC ports (but not DivMMC paging), and do a hard reset
 Or you can select it from the command line with:
 ./zesarux --mmc-file tbblue.mmc --enable-mmc --enable-divmmc-ports --machine tbblue --realvideo
@@ -465,38 +541,38 @@ Note 1: tbblue.mmc is included on the base package (and not on extras) because i
 Note 2: --realvideo setting is only needed on the initial video screen adjust. After it writes the configuration to the mmc file, it won't appear again,
 and the Real Video setting is not usually needed on boot anymore
 
-Q: I have enabled divmmc on Tbblue bios, but seems it's not working (no esxdos or nextos)
-A: Sometimes, enabling divmmc on tbblue bios requires closing and reopening ZEsarUX. The technical answer for this issue,
-is that enabling/disabling divmmc on tbblue is not done the same way as when you enable/disable it from ZEsarUX menu, 
-tbblue does not disables entirely divmmc, only automatic memory paging
+Q: I have enabled divmmc on Next bios, but seems it's not working (no esxdos or nextos)
+A: Sometimes, enabling divmmc on Next bios requires closing and reopening ZEsarUX. The technical answer for this issue,
+is that enabling/disabling divmmc on Next is not done the same way as when you enable/disable it from ZEsarUX menu, 
+Next does not disables entirely divmmc, only automatic memory paging
 
 
-Q: Why can't enable divmmc paging (or full divmmc emulation) from command line/config file on TBBlue? When exiting emulator, these settings are not saved on configuration file. But... if I force them to enable from command line, TBBlue does not boot, and then doing a hard reset it boots ok
-A: TBBlue needs divmmc paging disabled to boot, if not, divmmc firmware will be activated on the tbblue boot and then it hangs. When you do a hard reset, some internal tbblue registers (reg 6, bit 4) are reset to zero. Resetting this register 6, divmmc paging is disabled and so the boot works ok. But when initializing the emulator the sequence is:
+Q: Why can't enable divmmc paging (or full divmmc emulation) from command line/config file on Next? When exiting emulator, these settings are not saved on configuration file. But... if I force them to enable from command line, Next does not boot, and then doing a hard reset it boots ok
+A: Next needs divmmc paging disabled to boot, if not, divmmc firmware will be activated on the Next boot and then it hangs. When you do a hard reset, some internal Next registers (reg 6, bit 4) are reset to zero. Resetting this register 6, divmmc paging is disabled and so the boot works ok. But when initializing the emulator the sequence is:
 
 -Apply most of the command line settings (divmmc settings are not applied here)
--Initialize machine, CPU registers, I/O ports, and some tbblue registers to zero, including register 6. So divmmc paging is disabled
+-Initialize machine, CPU registers, I/O ports, and some Next registers to zero, including register 6. So divmmc paging is disabled
 -Apply the rest of command line settings, including divmmc settings. If you enabled divmmc paging here, it will be enabled
--Pass control to Z80. Having divmmc paging enabled, does not boot tbblue
+-Pass control to Z80. Having divmmc paging enabled, does not boot Next
 You may ask now.... why do you apply some command line before initializing machine and some others after? I won't answer it here, it's too complex ;) If you want
 to know the answer, please e-mail me.
 
 
 Q: What is the difference between TBBlue and Spectrum Next?
-A: In a nut shell: TBBlue is the very same firmware that runs on all boards. Some boards have less space, so runs less features. 
-In order, most complete do less complete:
+A: In a nut shell: TBBlue is the very same firmware that runs on all boards and emulators. Some boards have less space, so runs less features. 
+For example, the following are some of the original boards that ran the firmware:
 
-1 - Next
-2 - Multicore
-3 - WXEDA and DE2
-4 - DE1
-5 - VTrucco and FBLabs
+1- Next
+2- Multicore
+3- WXEDA and DE2
+4- DE1
+5- VTrucco and FBLabs
 
-Next and Multicore have HDMI output, others dont. Next have FM sound, others don´t. 1,2 and 3 group have 256 colors and sprites, others dont.
-But still, EXACT THE SAME TBBlue
+Next and Multicore have HDMI output, others dont. Next have FM sound, others don´t. 1,2 and 3 group have 256 colors and sprites, others dont. And they all have the same TBBlue firmware.
+In ZEsarUX, you may find references to TBBlue or Spectrum Next, but you can consider they are the same in ZEsarUX
 
 
-Q: Booting TBBlue is a bit slow. Can I run a sna snapshot without having to wait for the tbblue boot process?
+Q: Booting Next is a bit slow. Can I run a sna snapshot without having to wait for the Next boot process?
 A: Yes. You can use the tbblue-fast-boot-mode setting and it will go directly to a 48 rom, but with all the Next features enabled (except divmmc). For example, you can run the Dungeonette game with: 
 
 ./zesarux --noconfigfile --zoom 1 --machine tbblue --realvideo --enabletimexvideo --tbblue-fast-boot-mode --sna-no-change-machine --enable-esxdos-handler --esxdos-root-dir /Users/cesarhernandez/Downloads/Dungeonette/ /Users/cesarhernandez/Downloads/Dungeonette/project.sna
@@ -518,6 +594,23 @@ so you can use the SD card images. Just some things to take into account:
 -It seems the CSpect 2 GB image file is a bit smaller than 2gb, so it can be used even on Mac and write changes to it.
 -Using mmc files bigger than 1 gb may be slow. So be patient when opening the image or writing changes.
 
+
+Q: The performance when starting NexOS is very low, 2 FPS or less and the menu is laggy. Is there any setting I can change?
+A: Please think that emulation has a cost, mostly cpu use. Also, the NextOS runs at 28 MHz,
+comparing with a normal Speccy, it's 8 times faster. So, it will need, at least, 8 times more real cpu than emulating a real speccy (and I'm not considering here all the extra video modes, Sprites, copper etc). So you can't compare a Spectrum emulator with ZEsarUX emulating the Spectrum Next. Emulating all the Next core needs a lot of cpu power.
+However, there are some settings that you can tune to reduce the cpu needed.
+You can change the following settings:
+-Settings-> CPU. Set the setting "deny turbo on ROM". And set the cpu speed to x1. That will set maximum cpu speed to x1 but only on the NexZXOS,
+games and programs out of NextZXOS can change the cpu speed.
+-Settings-> Display. Disable real video. This will disable viewing of sprites, layer 2, etc (anything that extends the Next).
+
+The first setting will make the nextos less laggy. The second one will also improve performance, but you should enable it when running Next games.
+
+
+Q: On NextZXOS everything seems to run slower than the real machine
+A: Verify setting Settings-> CPU-> Limit turbo on ROM. Starting from ZEsarUX 9.3, that setting is enabled by default and limits the maximum turbo speed the NextZXOS can set (does not apply to games/programs out of NextZXOS). That's enabled by default to limit the total amount of real cpu that needs NextZXOS (at least 8 times more than a regular emulated Spectrum), and could notice a performance problem in some machines. If your machine is fast enough, disable that setting (or increase the setting Settings-> CPU-> Max turbo allowed) to try to run at real Next speed.
+
+
 ----------------------------------------------------------------------------
 
 
@@ -535,15 +628,15 @@ A: Be sure you haven't enabled divmmc or divide paging, it's incompatible with s
 ----------------------------------------------------------------------------
 
 
-CPC 464
--------
+CPC
+---
 
 
 Q: Why many games don't load, or hang on menu, or shows corrupted display?
-A: CPC emulation is currently experimental. Many features don't work well:
-* No full CRTC support
-* No joystick support
-* No hardware scroll full support
+A: CPC emulation is currently experimental. Many features don't work well or may fail
+
+Q: What is CPC 4128?
+A: Is a fictional model with tape and 128kb RAM. I created it to be able to test some games which need 128kb but can load from tape (and not from disk, which I don't emulate on CPC)
 
 
 ----------------------------------------------------------------------------
@@ -597,11 +690,13 @@ A: Try CTRL+Space
 
 Q: How can I load a program from microdrive or floppy?
 A: Microdrive or floppy emulation it's beta. You can try by opening the Storage menu and select root folder for game/program (usually where the boot file is located) on mdv1/mdv2/flp1 settings. Some games require to use flp1, you may also select mdv1 and flp1 both to the same folder
-You can also load a game "manually", by loading the binary file from ZEsarUX menu "Debug->Load binary block".
-You must inspect the basic loader program and execute all the sentences except lbytes. lbytes must be simulated manually from that menu
 
-Q: I loaded Spook (Pacman clone) but does not seem to work. When the game appears, pressing a cursor key, restarts the game in a loop
-A: Seems to fail if sound on game is enable (by default). Disable sound on that game by pressing F3
+
+Q: How do I run executable programs?
+A: You can use commands EXEC and EXEC_W. EXEC_W is the same as EXEC but Waits until program (job) has been executed.
+Example:
+
+EXEC_W mdv1_chess_exe
 
 
 
@@ -630,7 +725,7 @@ https://github.com/chernandezba/zesarux-extras
 
 
 Q: How is pronounced the name of the emulator?
-A: Phonetically: ZEsarUX is pronounced: θesar´uks
+A: Phonetically: ZEsarUX is pronounced: θe.sa.ɾ'uks
 One by one, every letter:
 Z like th on think
 E like e on let
@@ -655,6 +750,10 @@ Then I thought some name like mine (Cesar) and adding letters zx (for zx spectru
 ZX Second-Emulator And Released for UniX.
 It's important to write lowercase and uppercase characters correctly. Uppercase letters refer to the most important part of the name: "ZX", "Emulator", "UniX"
 And lowercase letters refer to the less important part : "second", "and", "released"
+
+
+Q: I have seen a gecko in the About window. What does it mean?
+A: That gecko is a real one which I saw in my parents house, some years ago. This is a tribute to my father, who was very fond of geckos
 
 
 Q: Can this emulator run on MS-DOS?
@@ -727,14 +826,14 @@ The emulator only really needs the following files to run (included in the main 
 -rom files: 5 MB
 -Some dll files on Windows version
 -zxuno.flash if running ZX-Uno machine
--tbblue.mmc if running TBBlue machine
+-tbblue.mmc if running ZX Spectrum Next machine
 These three types of files doesn't use more than 10 MB.
 You can even try to delete all the unnecessary files and the emulator will also work. 
 
 
 Q: When I enable video out to file setting, or "Reduce to 0.75" a big "Z" letter is added to the display. Can I erase it?
 A: No, you can't. Because I want that final video has that watermark, so anyone that sees it knows which emulator is used to record it ;)
-However, you can move the letter, go to Settings->GUI->OSD->Watermark position
+However, you can move the letter, go to Settings-> OSD-> Watermark position
 
 
 Q: Why the emulator doesn't use more beautiful menus, like the usual menus on Windows/Mac/GNU/Linux etc? / Why are you limiting the GUI interface to these simple menus? / Why don't you have a better file selector?
@@ -783,7 +882,7 @@ Finally, if you want to remove also the configuration file:
 Q: The emulator runs slower than a real Spectrum. I'm using a Raspberry Pi One (or another slow cpu)
 A: You can use the Spectrum reduced core, which can be set on compile time but also switchable from menu or command line setting.
 Using that core, the following features will NOT be available or will NOT be properly emulated:
-Debug t-states, Char detection, +3 Disk, Save to tape, Divide, Divmmc, Multiface, RZX, Raster interrupts, ZX-Uno DMA, TBBlue DMA, Datagear DMA, TBBlue Copper, Audio DAC, Stereo AY, Video out to file, Last core frame statistics, Tone generator.
+Debug t-states, Char detection, +3 Disk, Save to tape, Divide, Divmmc, Multiface, RZX, Raster interrupts, ZX-Uno DMA, ZX Spectrum Next DMA, Datagear DMA, ZX Spectrum Next Copper, Audio DAC, Stereo AY, Video out to file, Last core frame statistics, Tone generator.
 Some of these features should not have any effect on cpu performance if you don't enable them, like Divide or Raster interrupts, but this afirmation is only true on Intel cpu and
 cpu with Speculative Execution. Raspberri Pi One (or Zero) does not have Speculative Execution on the cpu, so using the reduced core will use less real cpu and the emulator
 will run fine.
@@ -791,7 +890,7 @@ A raw and fast explanation about this is that "if" sentences, on the spectrum em
 if you have Speculative Execution (like Intel cpu), but do really impact on the cpu use on cpu which does not have Speculative Execution (like Raspberry)
 
 So, you can recompile with the "--spectrum-reduced-core" setting on the configure script, to have it always enabled by default, but also you can switch it on by using 
-the command line setting "--spectrum-reduced-core" when running ZEsarUX, and even more, you can switch it on from the menu, Settings->Hardware settings
+the command line setting "--spectrum-reduced-core" when running ZEsarUX, and even more, you can switch it on from the menu, Settings-> Hardware settings
 
 
 

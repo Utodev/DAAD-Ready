@@ -1,22 +1,55 @@
 
 --- QL ---
 
-QL: lectura de bloques basic no siempre funciona
 *cpu stats: quiza no porque hay mas instrucciones que z80....
--Soporte microdrive / floppy QL
+-Soporte microdrive / floppy QL real
 -Que QL, cuando busque un archivo, lo haga todo en minusculas y tambien todo en mayusculas
 -Soft QL
 http://www.rwapadventures.com/ql_wiki/index.php?title=Sinclair%20QL%20Home%20Computer&lang=en
 -Mirar uqlx a ver cómo hace el load 
 
--QL:
-parece que los fallos de lectura en sentencias basic no son del archivo original sino que es algún tipo de error del emulador.
-No sera culpa de esa suma de punteros a1+a6 que no siempre se produce, y que depende de… lo de los traps que me dijeron en el foro
+-QL mejorar teclado y repeticiones:
+*si pulsar menos de 1 segundo, devolver esa tecla y ninguna mas en ese segundo
+*si pulsar mas de 1 segundo, devolver tecla con repeticiones
+*ver traps de qdos y ipc afectado en esto
 
--Intento interceptar funciones de lectura de sectores de microdrive. MD.READ. aparentemente tiene que saltar desde la direccion 525CH pero ahi no parece saltar nunca,
+-Poder usar tecla F5
+
+
+-interrupciones de timer. Ver como lo hace uqlx:
+
+-Delete file mdv hacer trap?
+
+"
+Q: How do you manage the 50 hz interrupt of the 8049 and the Keyboard interrupt?
+
+A: First: I don't emulate the keyboard interrupt. Anyway the keyboard is polled by QDOS every 50th of second via the IPC commands 1 (test IPC status) and 8 (read characters from the IPC keyboard buffer). As for the 50Hz interrupt, I have a timer which sets some variables every 20ms. These variables cause an interrupt 2 exception: pendingInterrupt=2; *((uw8*)theROM+0x280a0l)=16; extraFlag=true; nInst2=nInst; nInst=0; Before this, however, the routine checks if interrupt are enabled and if so set the interrupt mask (=8). It also disables further 50Hz interrupts. When the QDOS I2 handler is called, it reads from an hw register the interrupt mask and the value 8 tells it that the cause of the interrupt was the 50hz interrupt. When the QDOS handler has completed, it reenables the interrupts by writing to an hardware register.
+"
+
+Ver funcion de uqlx:
+
+void FrameInt(void)
+{
+  if((intReg&8)!=0) /* controlla che sia abilitato */
+    {
+      theInt=8;
+      intReg^=8;
+      pendingInterrupt=2;
+      *((uw8*)theROM+0x280a0l)=16;
+      extraFlag=true;
+      nInst2=nInst;
+      nInst=0;
+    }
+}
+
+
+-Intento interceptar funciones de lectura de sectores de microdrive. MD.READ. aparentemente tiene que saltar desde la direccion
+525CH pero ahi no parece saltar nunca,
 si desactivo todo trap de rom de ql, se queda colgado despues del menu inicial, seguramente intentando detectar microdrive
-si no desactivo traps, no parece llegar tampoco ahi, aunque esto me ha llevado a interceptar el trap FS.MDINF, que se usa en dir mdv1_,
-cosa que ahora consigo mostrar sectores libres/usados aunque no aparece el nombre del microdrive (registro A1 donde hay que guardar eso contiene direccion 100H !)
+si no desactivo traps, no parece llegar tampoco ahi, aunque esto me ha llevado a interceptar el trap FS.MDINF, 
+que se usa en dir mdv1_,
+cosa que ahora consigo mostrar sectores libres/usados aunque no aparece el nombre del microdrive 
+(registro A1 donde hay que guardar eso contiene direccion 100H !)
 
 -teniendo desactivada la emulacion de microdrive , igualmente consulta cosas al root path
 Debug: Source path: MDV1_BOOT Device: mdv1 File: boot
@@ -24,29 +57,29 @@ Paranoid: File /Users/chernandezba/Documents/ZEsarUX/zesarux/extras/media/ql/spa
 
 
 
-Ejemplo:
-demos/cueshell.zip 
-
-Linea 70, la lee mal hacia el final. pero no siempre lo hace… :(
-
--solo cambiar en la ruta de archivos de ql, la primera _ empezando por la derecha es un ".", sin tener en cuenta logicamente el mdv1_
-Necesario?? si se pone ruta entre comillas no hay que cambiar los . en el basic por _
-casos antonimos:
-archivo se llama mouse_bin y hace lbytes mdv1_mouse_bin  -> lo raro
-archivo se llama spacepods.bas y hace lbytes mdv1_spacepods_bas -> lo normal
-
 -tema mayusculas/ minusculas en ql solo funciona directo en mac... que pasa con windows? y mac?
 
 
--implementar exec_mdv1_... mismo ejemplo con cueshell, va a   Returning header for file on address 00100H y ahi peta
 
+-Chip de sonido QL se debería hacer como el AY o el SN, para evitar ciertas frecuencias que se repiten
+Pero dado que aún no se los otros parámetros cómo funcionan (step, fuzziness etc) de momento lo dejo como está
+-ql notas con G y F# acaban teniendo misma frecuencia efectiva. probar con playscale
+es problema de esto:
+ql_audio_pitch_counter_initial=(FRECUENCIA_CONSTANTE_NORMAL_SONIDO/2)/frecuencia;
+que acaba generando mismo valor entero
+Chip de sonido QL se debería hacer como el AY o el SN, para evitar ciertas frecuencias que se repiten
+Pero dado que aún no se los otros parámetros cómo funcionan (step, fuzziness etc) de momento lo dejo como está
+
+
+-Agregar ipc
+
+
+*rand_cmd equ    14      random number generator, returns a sixteen bit number.
 
 
 -get-stack-backtrace para motorola. hay que tener uno para el user stack (usp) y el otro para el stack de (sp)
 
--sonido y otros comandos parece que a veces dejan el ipc en estado inconsistente. Quiza tambien por eso algunos juegos, como el spacepods, se cuelga despues de una partida
 
--debug y otros items de menu preparados para QL. condiciones peek/poke de debug en QL no funcionan en teoria
 -funciones peek, poke punteros a funciones legacy. luego con el tiempo hacer que las de ql llamen a las que sean correspondientes
 -en ql , funciones peek , poke etc desde menu, disassemble y otros sitios no deben tener en cuenta direcciones que son i/o mapeadas
 
@@ -56,7 +89,6 @@ Quizá no funciona bien en ql en el momento que se activa debug
 NO. Dado que no usa peek byte y poke normales sino que tiene funciones propias a las que no le afecta el nested de peek y poke. 
 Solo le afecta el nested del core cpu
 
--parpadeo de cursor
 -resolucion esta ok pero tamanyo pantalla deberia ser 4:3. hacer escalado chungo...
 
 -algunos archivos de juegos vienen con QDOS file header:
@@ -69,13 +101,68 @@ http://www.dilwyn.me.uk/downloads.html
 
 -Pendiente todo lo relacionado con texto: drivers modo texto para curses, stdout, ocr, input spool file, etc
 
--Emulacion microdrive y/o floppy. Mediante traps a la rom
-
 -Trap de F1 y F2 servirá para cuando se quiera hacer autoload. Por tanto no quitar estos traps
 
 -Combinación de teclas de QL que... resetea el IPC? Mencionado en manual
 
 -util z80 moto poke pokea en motorola pero sin protección de escritura en rom
+
+
+-Mdv dos formatos
+
+http://qlforum.co.uk/viewtopic.php?t=749&start=20
+
+You know that q-emulator supports two different types of mdv image files Both with ".mdv" file extensions?
+
+QLay style, and Q-emulator style made with the mdump_exe program.
+
+QLay image files are 174,930 bytes long, and q-emulater image files are of a varying length due to only storing the good sectors of the Microdrive.
+
+
+--juegos funcionan bien en ql (hay muchos mas, pero estos estan bien y ademas tienen sonido):
+catchjack.zip
+bullshot.zip
+trek1/2
+fred(aunque creo que es basic)
+qbert
+starburst
+golf(basic)
+starport
+thress
+psion chess (chess_exe)
+games/Fives 
+match point
+
+Ya conocidos:
+spook
+spacepods
+
+squidgy falla pero a saber por que... parece que sobreescribe el archivo mazes y luego lo quiere abrir...
+
+-SV_FSTAT $AA word flashing cursor status
+
+Ver en uqlx:
+
+void FrameInt(void)
+{
+  if((intReg&8)!=0) /* controlla che sia abilitato */
+    {
+      theInt=8;
+      intReg^=8;
+      pendingInterrupt=2;
+      *((uw8*)theROM+0x280a0l)=16;
+      extraFlag=true;
+      nInst2=nInst;
+      nInst=0;
+    }
+}
+
+y en la doc de uqlx:
+
+Q: How do you manage the 50 hz interrupt of the 8049 and the Keyboard interrupt?
+
+
+-QL: Gestión de teclado QL quizá sufre de lectura de teclas desde emulación (que va a ráfagas cada frame de pantalla). Gestionarlo mejor todo desde timer?
 
 -------------
 
@@ -127,15 +214,13 @@ http://speccy.info/Pentagon
 Misma wiki para info de cosas de TSConf, como el z controller ide 
 
 
+-Quiza algunas demos no se ven bien efectos de linea debidos al turbo? se ven mas arriba: ejemplos chess, 200, 
 
-
--tsconf: quiza algunas demos no se ven bien efectos de linea debidos al turbo? se ven mas arriba: ejemplos chess, 200, 
-
--Tsconf render modo spectrum compatible debería leer de buffer atributos y pixeles ; para que demos como overscan se vean bien
+-Render modo spectrum compatible debería leer de buffer atributos y pixeles ; para que demos como overscan se vean bien
 
 -tsconf y tr-dos no deberia hacer nested_core, solo detectar cuando se esta en core trdos
 
--tsconf sin real video no borra border. al menos en demo carousel.spg
+-sin real video no borra border. al menos en demo carousel.spg
 
 -mmc. Esto tambien para baseconf. Parece que envia un comando FF invalido y luego se queda en un bucle
 
@@ -191,8 +276,6 @@ Solo afecta a chloe
 
 -output save filter
 Activado de rainbow, timex y ulaplus de chloe genera algún error si se arranca con chloe desde línea de comandos?
--revisar chloe keymap en windows y otros
-pasa lo mismo en Z88 y windows
 -Chloe y curses, con Chloe keyboard, da problemas en menu (no lee letras)
 
 -------------
@@ -295,44 +378,51 @@ Modo 384 x 304 ?
 port EFF7: (adressation 1110xxxx xxxx0xxx )
 D3 = 1 - disable rom and connect ram page 0 in adress space 0-3FFF
 
+
+-Pentagon:
+
+-Page cashe pentagon:
+
+
+Try use D3(counting from zero) bit for EFF7  - zero page will be displayed to #0000 address. 
+
+There also other schematics that uses ports(Like LPRINT 3):
+ * IN 251 - Enable cache
+ * IN 123 - Disable cache
+
+IN #FB - enable cache/ IN #7B disable.
+
+Zero page is ram0 from 128kb ram
+On pentagon 
+
+
+EFF7 - just memory managment
+This strange thing "CASHE MEMORY" 
+
 -------------
 
---- TBBlue ---
+--- ZX Spectrum Next ---
 
 -Activar el kempston mouse entra en conflicto con el editor de basic. 
-Al mover raton hace cosas raras. Quizá era por los bits wheel. Ya corregido?
+Al mover raton hace cosas raras. Tambien en el menu de tbblue: probablemente eso sea error de NextOS tal cual, 
+o bien que están limitando a puerto 1f y 3f el kempston joystick y el mouse entra en conflicto
+Quiza deberia leer el kempston solo por 1f o 3f??
 
--tools/tile editor: no se ve bien?
+-Poder descargar cp/m dentro de la imagen mmc de TBBlue, usando libreria Chan FatFS
+
+-zoom sprites. coordenadas no siempre correctas. ver BigSprite.sh
+
+-priority sprites. ver BigSprite4b.sh
 
 Refresco de Tbblue para curses , stdout y simpletext en caso de:
 -rainbow y modos tiles etc habilitados. O simplemente modo rainbow  
 
-Last of the incompatible changes to tilemap made.
+-Multiface: Nextreg 0x0A selects multiface version from 1, 128 v87.12, 128 v87.2 or +3
 
-(R/W) 0x6B (107) => Tilemap Control
-  bit 7    = 1 to enable the tilemap
-  bit 6    = 0 for 40x32, 1 for 80x32
-  bit 5    = 1 to eliminate the attribute entry in the tilemap
-  bit 4    = palette select
-  bits 3-2 = Reserved set to 0
-  bit 1    = 1 to activate 512 tile mode
-  bit 0    = 1 to force tilemap on top of ULA
+-Salir de CP/M deja el modo tiles activo
 
-512 tile mode is solely entered via bit 1.  Whether the ula is enabled or not makes no difference
-
-when in 512 tile mode, the ULA is on top of the tilemap.  You can change this by setting bit 0
-
-
-512 mode is its like the 256 tile mode, but with twice as many 
-
-The tile number is 9 bits instead of 8 bits.  The "ula on top" bit of the tilemap flags is take as bit 8.
-
-Before this update, 512 tile mode was automatically entered when the ula was disabled.  In this case "ula on top" was useless so was made bit 9 of the tile number.  Now we're getting rid of the requirement that the ULA be turned off to access 512 tiles
-
-"ULA over tilemap" was only bit 8 of the tile number if the ULA was disabled.  We're getting rid of that requirement by making it bit 8 when the 512 tile mode is enabled.  So no need to have the ULA disabled to get there anymore.
-
-
-
+-cambiar de maquina no tbblue a tbblue provoca que no funcione divmmc
+porque?
 
 TBBLUE: 
 *eliminar puerto 55h. Corregir demo tosprram para que use 5bh en vez de 55h
@@ -367,11 +457,6 @@ El parchecillo va en core_spectrum.c , aqui:
 +					//for (i=0;i<AUDIO_BUFFER_SIZE*2;i++) audio_buffer[i]=0;
 +				}
 
--parece que no aparece correctamente el salvapantallas de NextOS
-
--volver de multiface nmi desde la rom, no retorna bien ni modo de video y ademas se cuelga
-
--terminfo de CP/M muestra algunos caracteres raros en algunas paginas
 
 -Agregar turbo spool setting en tbblue -> va relacionado con la funcion de peek_byte turbo que se ve alterada al cambiar 
 la velocidad de la cpu en nextos
@@ -391,18 +476,7 @@ la velocidad de la cpu en nextos
     111 = Tilemap second palette
 
 
--tbblue. registro 6b bit 1: 1	1 to activate 512 tile mode (bit 0 of tile attribute is ninth bit of tile-id)
-https://www.specnext.com/tilemap-mode/
 
--revisar si esto está correcto:
--tbblue:NEW in core 3.0:
-Bit 3 enables "text mode" where the tile-graphic is defined as 1-bit B&W bitmap 
-(same as UDG = User Defined Graphic characters on original ZX Spectrum) => 
-one tile needs only 8 bytes to define graphics. The tile-map data are also interpreted differently, 
-the associated flag byte is 7:1 split, the bottom bit 0 being still "ULA over tm" or "ninth bit of tile number", 
-but the top 7 bits are extended palette offset. The transparency is then checked against the global transparency colour
- (after the colour lookup in the palette), not against the four bit tilemap transparency colour-index.
- -menu info video tbblue cuando son inks y papers no cabe entero. probar con angry floaters por ejemplo
 
  -otros cambios registros: ejemplo 0x68 , bits 5-1
 
@@ -421,44 +495,15 @@ Así es más fácil saber cuando agregan o modifican algo nuevo
 -Puerto dffd next
 https://specnext.dev/wiki/Next_Memory_Bank_Select
 
--27 noviembre 2019:
-The tilemap and sprites can extend into the border area.  In the future, layer 2 will as well.
-
-Because there can be so many sprites on screen (128 without any multiplexing), people have used sprites 
-to generate background in the border.  You need 96 to cover the 32 pixels on the left and right sides of 
-the screen.  If you multiplex, you can get away with less.
-
-The tilemap now has two modes.  One is 4-bits per pixel for 16 colours but this is further indexed by a 
-palette offset in the top four bits so you still have 8-bit colour but in a more restricted manner.  
-The other mode ia 1-bit per pixel (like UDGs) but with a 7-bit palette offset.
-
-The 320 pixel size in the x direction is reaching into the overscan area of displays.  
-hdmi cannot display all of it.  vga 60 it fill the entire space and vga 50 there may be a thin border.  Some displays may crop it further. 
 
 
-
--mostrar electron en tbblue, con modo turbo, refresca linea un poco por debajo de posicion electron
-
--mas patterns de sprites:
-N6, despite the name, is the least significant bit.
-
-This 7-bit pattern number can identify 128 patterns in the 16k pattern memory, each of which are 128 bytes in size. The full 7-bits are therefore used for 4-bit sprites.
-
-For 8-bit sprites, N6=0 always. The remaining 6 bits can identify 64 patterns, each of which is 256 bytes in size.
-De momento estoy haciendo 64 patterns-> por tanto, 256 bytes por pattern
-
--otros tipos de patterns (4 bit etc) y atributos extendidos sprites (quinto byte)
-
--en visor de sprites, dice Sprites y zona memory tambien. Quiza deberia decir mejor patterns?
-
+-Soporte ulaplus en Next
 	
 
 -reloj deberia salir en nextos, ya que implementa el chip de reloj. Aparece pero con valor 000
--probar que pasa cuando llega a mas de 12 sprites en linea tbblue
--Sincronizar bits de joystick de puerto config2
+-probar que pasa cuando llega a mas de MAX_SPRITES_PER_LINE (100) sprites en linea tbblue
 -no dejar aumentar memoria divmmc mas de 128kb, pues tbblue no tiene mas que eso. sino, se accederia a memoria mas alla del divmmc
 
--a veces al arrancar la maquina no encuentra archivos de la sd. Quiza por algun registro de la mmc que no se inicializa correctamente?
 -para emulacion de +3e, la sd se utiliza la sd secundaria. emular segunda SD????
 -considerar algunas escrituras de puertos que dicen:
 only in bootrom or config mode:
@@ -476,6 +521,67 @@ Ver registro 2:
 
 -PIXELUP/DN quiza pueda ir mas alla de coordenada 191
 https://www.specnext.com/forum/viewtopic.php?p=8226#p8226
+
+
+
+-tbblue: considerar mejor prioridades de capas de memoria, por ejemplo al escribir altrom esta comprobando aparte si esta diviface habilitdo
+esto por ejemplo fallaria si alguien le da por escribir en altrom pero habilitando layer2, creo que layer2 tiene mas prioridad por tanto altrom no se deberia escribir 
+Hay una lista de capas de prioridades en el codigo fuente de la fpga. Segun src/zxnext.vhd:
+
+   -- memory decode order
+   --
+   -- 0-16k:
+   --   1. bootrom
+   --   2. machine config mapping
+   --   3. multiface
+   --   4. divmmc
+   --   5. layer 2 mapping
+   --   6. mmu
+   --   7. romcs expansion bus
+   --   8. rom
+   --
+   -- 16k-48k:
+   --   1. layer 2 mapping
+   --   2. mmu
+   --
+   -- 48k-64k:
+   --   1. mmu
+
+
+-4 puertos Dac de Next. Que juegos los utilizan?
+
+
+-Allow config mode banking to reach the entire 2MB memory space (nextreg 0x04)
+
+
+Implementar 48KB puerto layer2 0x123B:
+-0x123B Layer 2 control
+(R/W) If bit 4 = 0:
+  (soft reset = 0)
+  bits 7:6 = layer 2 memory map type
+    00 = first 16K of layer 2 in the bottom 16K
+    01 = second 16K of layer 2 in the bottom 16K
+    10 = third 16K of layer 2 in the bottom 16K
+    11 = first 48K of layer 2 in the bottom 48K
+  bit 5 = Reserved, must be 0
+  bit 4 = 0
+  bit 3 = 0 to map active layer 2 (nextreg 0x12), 1 to map shadow layer 2 (nextreg 0x13)
+  bit 2 = 1 to enable mapping for memory reads
+  bit 1 = 1 to enable layer 2 display
+  bit 0 = 1 to enable mapping for memory writes
+(W) If bit 4 = 1:
+  (soft reset = 0)
+  bits 7:5 = Reserved, must be 0
+  bit 4 = 1
+  bit 3 = Reserved, must be 0
+  bits 2:0 = 16K bank offset applied to layer 2 memory mapping
+
+Memory pointed at by nextreg 0x12 or nextreg 0x13 can be mapped into the lower 16K or 48K if 
+layer 2 memory mapping is enabled in bit 2 and/or bit 0.  This mechanism is separate from MMU 
+and will overlay the paging state set by MMU but only if the memory access type matches 
+the enable condition (read-only, write-only). The particular 16K bank(s) mapped in begin 
+at the pointed bank plus an optional offset written when bit 4 = 1.  For out of range banks, 
+writes do not have an effect and reads return unspecified data.
 
 -------------
 
@@ -498,7 +604,7 @@ Which card is activated, sets bit 4 port # 7FFD.?? -> pendiente
 
 -real video
 -Alt derecha en PC es altgr?
--soporte snapshot .zx
+-soporte snapshot .zsf
 -refresco en curses:
 *al pulsar esc en curses en sam se queda pulsado??
 -refresco curses, text, stdout, F4
@@ -536,15 +642,14 @@ http://velesoft.speccy.cz/sam_zx128.htm
 
 -ay player en modo cpc no borra debajo de pantalla diferentes ventanas
 --machine cpc464 en aa,caca en consola de texto real da segmentation fault
--dibujado de border cuando pantalla es menor de lo habitual, temporal, no va bien en casos como paperboy. Esto seria mejor para solucionarlo implementar realvideo
--debug i/o ports
--teclas cpc y keymap para otros drivers. ahora solo esta para cocoa y xwindows y sdl y fbdev
 -Que pasa con keymap y otras teclas de cpc en drivers que no soportan keymap
 -Hardware scroll no va fino
 -Paginación de memoria cpc en la función por defecto array que tenga: 0,1,2,3
 Luego en cpc con más de 64 kb se puede re mapear según registro 3 del gate array
--Modo realvideo
+
 -cpc664. disco y rom de 24 kb. Paginacion de diferentes roms mediante puerto DFXX. http://www.grimware.org/doku.php/documentations/devices/gatearray#upper.rom
+
+-segundo boton fire joystick 
 
 -Carga de .zx falla en uno (cara.zx)
 -Video out to file?
@@ -588,6 +693,27 @@ http://www.cpcwiki.eu/index.php/Format:TAP_tape_image_file_format
 -Sd en cpc
 http://www.spinpoint.org/2016/05/06/m4-board-retrofun-8-bit-amstrad-cpc-wifi/#comment-69
 
+
+-revisar cpc:
+
+https://www.cpc-power.com/cpcarchives/index.php?page=articles&num=67
+
+When the interrupt is acknowledged, this is sensed by the Gate-Array. The top bit (bit 5), of the counter is set to "0" and the interrupt request is cleared. This prevents the next interrupt from occuring closer than 32 HSYNCs time.
+If bit 4 of the "Select screen mode and rom configuration" register of the Gate-Array (bit 7="1" and bit 6="0") 
+is set to "1" then the interrupt request is cleared and the 6-bit counter is reset to "0".
+
+no estoy haciendo caso del bit del gate array registro 2:
+
+Registro 2:
+
+Bit	Value	Function
+7	1	Gate Array function
+6	0
+5	-	not used
+4	x	Interrupt generation control
+...
+
+Deberia mirar ese bit esta a 1 para poner el contador a 0?
 
 
 -------------
@@ -635,11 +761,17 @@ Quizá demo raster zxuno falla porque la interrupción tarda demasiado...
 
 -No hace auto turbo para real tape ZX 80, 81
 
+-Zx99 interface para zx81
+
 -------------
 
 
 --- Fallos especificos de zx80/81: ---
 
+- si quiero cargar de wav en real tape por ejemplo, si hago LOAD "" va bien
+Pero si hago LOAD "nombre", me inserta siempre un standart tape nombre.p, por tanto 
+no puedo cargar de real tape cuando uso load "nombre"
+Deberia haber alguna opcion para evitar esos traps de cinta
 
 -timings de display seguramente incorrectos. Esta suponiendo inicio scanline en zona izquierda. es normal? aplica a funciones de repintado y 
 tambien a screen_get_x_coordinate_tstates
@@ -705,7 +837,7 @@ pero si se hace asi, lemmings no va, tampoco dstar, pipedream se bloquea...
 -al insertar eprom, por ejemplo, cuando abre flap, no parece que detenga el sistema... por ejemplo, si estoy con un juego con musica,
 e inserto una eprom, la musica no se corta en absoluto... creo que al abrir flap (y con la pausa que hay) se deberia detener todo un rato
 
--forzado low battery y no aparece.
+-forzado low battery y no aparece: parece que se activa momentáneamente al abrir flap cuando el bit de STA está forzado (blink_sta |=8)
 
 -comprobar al cargar eproms o flash tamanyo maximo de archivo:
 flash entre 512 y 1024
@@ -718,8 +850,6 @@ hay por ahi alguna epr de 16 kb??
 ->desactivamos. ver variable int snooze_desactivado. cuando funcione quitar implementacion de esta variable
 
 -quitar slot eprom (y flush) cuando se cambia de maquina
-
-
 
 
 
@@ -787,3 +917,108 @@ Segun MESS:
 -Puerto joystick tk en puerto no estándar?
 
 **
+
+
+-------------
+
+
+--- MSX ---
+
+- Msx games browser desde planetemu. Mismo sirve para coleco y sg1000. Problema: quiza planetemu no admite peticiones http simple. 
+Probado con curl y no parece funcionar
+
+-Contención en hacer out e in a vram?
+-msx timings accesos a vram write/read y depende de modo
+-config slots memoria?
+Como ejemplo, el Toshiba HX-10 (un modelo de 64KB) tiene esta configuración de memoria:
+* 		ROM en las páginas 0 y 1 del slot 0.
+* 		RAM en las páginas 0 a 3 del slot 2.
+* 		Slots 1 y 3 están conectados a las ranuras de cartucho.
+* 		Páginas 2 y 3 del slot 0 no se usan.
+
+-teclas que falten por emular.  cuales mas?
+
+
+-------------
+
+
+--- Spectravideo ---
+
+-Quizá para 16kb svi 318 hacer que si direccion > 16kb, retorne tipo vacío y así no escribe ni lee nada 
+O quizá esa rom es del 328 en vez del 318
+-muchas cintas .cas no cargan o cargan mal el juego
+
+-teclas que falten por emular.  cuales mas?
+
+
+-------------
+
+--- Master System ---
+
+-Modo 50Hz o 60Hz para Master system?
+
+-fallos en varios juegos sms:
+
+outrun, F1: pista se desplaza raro al moverse izquierda/derecho
+creo que falla por esto ???:
+ After each column is drawn, the starting column value is incremented by
+ one. It wraps at 32. When bit 7 of register #1 is set, it is the column
+ counter, not the starting column value, that is checked to see when the
+ vertical scroll value will be set to zero on columns 24 to 31.
+
+terminator: se ven mal la mayoria de tiles
+
+road rash: se ralentiza mucho en juego y en intro 
+pitufos: fase dos en rio se ve raro
+micromachines: se ve mal (pero esto creo que es debido a que usa mas de 192 lineas)
+bank panic: scroll mal, parece que se corrige con setting scroll hack
+space harrier: no va con line interrupt. hay que desactivarla para poder iniciar el juego y luego activarla para que se escuche musica,
+y haga efecto de cambio de colores en scanline concreto
+missile defense 3d: saltos de pantalla continuos
+
+wonder boy: parece que se corrige con setting scroll hack
+
+-scroll incorrecto "parpadeo" con varios planos (algunos se corrige con setting wonder boy hack):
+aladdin
+astro flash
+missile defense 3d
+gp rider
+F1
+
+-scroll incorrecto "tipo juego carreras"
+out Run
+hang on
+road rash
+chase hq
+
+-juegos sms que directamente no inician:
+cosmic spacehead
+golvellius
+
+-al seleccionar algun juego de sms que falla, deja emulacion que no funciona correctamente (parece error con vram), 
+quiza el flag que habilita escritura en cram??
+
+-line interrupts:
+ Line interrupts
+
+There is another vdp interrupt called the line interrupt. 
+This is a value set by the programmer which counts down during the active display period 
+(and the first line of the inactive display period)each time the vdp moves onto a new scanline. 
+This is so the programmer can be informed of when the vdp starts drawing a specific scanline. 
+When the line counter goes below zero then the vdp requests an interrupt 
+(only if the line interrupts are enabled by setting bit 4 of control register 0) 
+and the line counter is reset to the value of register 10. If the cpu decides to 
+ignore the vdp interrupt then the request is lost so this interrupt is either handled 
+straight away or not at all. The value of the line counter is set to the value of register 10 
+however the line counter is only set to the value of register 10 when the current scanline is 
+past the FIRST scanline of the inactive display period
+
+ D4 - (IE1) 1= Line interrupt enable
+
+
+- quiza wonderboy falla porque cambia el scroll pero luego lo lee (de donde?) de algun sitio que se lee mal y lo cambia a 0??
+
+
+
+-snapshot en master system sonic2 al entrar restaura siempre al principio (grabando desde la intro del juego por ejemplo): quizá falta algún estado/registro de hardware que no se guarda en snapshot,
+o bien algo de proceso de grabado/carga del snapshot que no se hace bien

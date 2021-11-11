@@ -1,7 +1,8 @@
 ZEsarUX Installation Instructions
 ---------------------------------
 
-This file explains how to install ZEsarUX on Unix systems: GNU/Linux, Mac OS X, Raspberry.
+This file explains how to install ZEsarUX on Unix systems: GNU/Linux, FreeBSD, Mac OS X, Raspberry.
+Note that most of the information that applies to Linux also applies to FreeBSD.
 
 For Windows specific instructions please see the INSTALLWINDOWS file.
 
@@ -37,7 +38,7 @@ Core Requirements
 The following is a list of recommended minimum features for each operating system.
 
 
-# GNU/Linux
+# GNU/Linux and other Unix systems (except Raspberry-raspbian)
 
 - x11
 - libpthreads
@@ -81,10 +82,10 @@ The following is a list of complete features, all of which are optional.
 
 # Video Drivers
 
-- x11 (on GNU/Linux and Raspberry): needs x11libs, x11extlibs, xf86vidmode, xxf86vm. Probably with the command "apt-get install xorg-dev" will be enough
+- x11 (on GNU/Linux, other Unix and Raspberry): needs x11libs, x11extlibs, xf86vidmode, xxf86vm. Probably with the command "apt-get install xorg-dev" will be enough
 - x11 (on Mac OS X): needs XQuartz
 - cocoa (on Mac OS X): Compiling supported using XCode.
-- SDL 1.2 (on GNU/Linux and Raspberry): needs sdllib-1.2. SDL2 is experimental
+- SDL 1.2 (on GNU/Linux, other Unix and Raspberry): needs sdllib-1.2. SDL2 is experimental
 - caca: cacalib
 - aa: aalib
 - curses: curses-dev. You can also install cursesw to have 64x48 text resolution
@@ -93,10 +94,10 @@ The following is a list of complete features, all of which are optional.
 
 # Audio Drivers
 
-- OSS (dsp) (on GNU/Linux and Raspberry): needs soundcard includes. Usually included on GNU/Linux systems.
-- alsa (on GNU/Linux and Raspberry): needs alsalibs. Also needed if you want midi output
-- pulse (on GNU/Linux and Raspberry): needs pulselibs.
-- SDL 1.2 (on GNU/Linux and Raspberry): needs sdllib. SDL2 is experimental.
+- OSS (dsp) (on GNU/Linux, other Unix and Raspberry): needs soundcard includes. Usually included on GNU/Linux systems.
+- alsa (on GNU/Linux, other Unix and Raspberry): needs alsalibs. Also needed if you want midi output
+- pulse (on GNU/Linux, other Unix and Raspberry): needs pulselibs.
+- SDL 1.2 (on GNU/Linux, other Unix and Raspberry): needs sdllib. SDL2 is experimental.
 - coreaudio (on Mac OS X): Compiling supported using XCode.
 
 
@@ -109,7 +110,6 @@ The following is a list of complete features, all of which are optional.
 # Other Enhancements
 
 - pthreads: pthread includes. Usually included on all Unix systems.
-- realtime: sched includes. Usually included on GNU/Linux systems.
 - ssl libraries: to have a full speccy download browser (without ssl you'll have partial browser). Add "--enable-ssl" setting to the configure script
 
 
@@ -132,7 +132,7 @@ However, you can tune the compilation process a bit, depending on your operating
 
 * macOS
 
-    $ ./configure --enable-memptr --enable-visualmem --enable-cpustats --enable-cocoa-opengl
+    $ ./configure --enable-memptr --enable-visualmem --enable-cpustats
     $ make clean
     $ make
     $ ./zesarux
@@ -207,6 +207,36 @@ Note for Raspberry Pi
 The recommended way to start the emulator is using the following settings:
 
 --disableborder --zoom 1 --fullscreen --vo fbdev --ao sdl --no-detect-realvideo
+
+
+Note for Haiku
+--------------
+
+You should not use the default gcc (2.97) as it should not compile.
+
+Before running configure script, please set:
+
+export CFLAGS=-DHAIKU_OS
+
+You need to run configure with setting (at least): --disable-networking
+(because it doesn't find some network functions)
+
+If you want to compile ZEsarUX on Haiku with SDL support:
+
+Install SDL lib with:
+
+pkgman install libsdl_devel
+
+Before running configure, set:
+
+export LDFLAGS=-L/boot/system/develop/lib/
+
+When running ZEsarUX with SDL, you probably need to set before:
+
+export LIBRARY_PATH=/boot/system/lib/:$LIBRARY_PATH
+
+
+Please don't ask me about Haiku help, I'm not an expert on this OS ;)
 
 
 Utilities

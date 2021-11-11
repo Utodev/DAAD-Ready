@@ -1,4 +1,3 @@
-
 --- ZSF ---
 
 -parece que ZSF no guarda estado ulaplus o timex. probar con view8x1.tap
@@ -12,9 +11,6 @@ la propia memoria de zxuno quien lo tiene, lo mismo para tbblue, y prism
 -Opción para poder cargar snapshot pero sin cambiar la rom actual... útil por si grabamos un snapshot por ejemplo en máquina 128kb pero la rom era la del opense
 ->esto ya esta para .sna, hacer para zsf
 -Opcion para forzar siempre snap grabar zsf de 48k
-
--Incluir campo con fecha grabacion snapshot
-
 
 -quiza en set_machine, cuando hace:
   //Si estaba divmmc o divide activo, desactivarlos
@@ -49,6 +45,11 @@ Info: Setting ZX80/81 CPU core
 Info: Disabling WRX video mode
 Info: Loading keymap
 Info: Emulating ZX81 with 16 KB (ramtop=32767)
+->pasa casi lo mismo con un .zx pero en estos, hay parametro de si esta wrx activo (y aunque se pierda desde el config se lee desde el .zx),
+pero con el --vsync-minimum-length se pierde y no esta en el .zx ...
+->el config se carga primero. Luego el snapshot, y al meter core de zx80/81 se desactiva wrx y otros settings.
+Quiza habria que parsear algunos parametros del .config tambien despues de cargar el snapshot. Cuales? por ejemplo --realvideo, --wrx, --vsync-minimum-length
+
 
 -formato zsf debe guardar iff1 y iff2 por separado
 
@@ -57,22 +58,16 @@ Info: Emulating ZX81 with 16 KB (ramtop=32767)
   //test meter un NOOP
   zsf_write_block(ptr_zsf_file, NULL,0, 0);
 
-->pasa casi lo mismo con un .zx pero en estos, hay parametro de si esta wrx activo (y aunque se pierda desde el config se lee desde el .zx),
-pero con el --vsync-minimum-length se pierde y no esta en el .zx ...
-->el config se carga primero. Luego el snapshot, y al meter core de zx80/81 se desactiva wrx y otros settings.
-Quiza habria que parsear algunos parametros del .config tambien despues de cargar el snapshot. Cuales? por ejemplo --realvideo, --wrx, --vsync-minimum-length
 
-
-
-
+-Soporte Z88 en snapshots zsf
 
 
 ---------------
 
 
-
 Otros TODO menos prioritarios, de aqui hasta el final del archivo:
-*** Snapshots ***
+
+-Opción para formato de grabación de autosave snap
 
 -RZX: mejorar. Falla carlos sainz. Pero por otra parte, abadia del crimen funciona en ZEsarUX y no en fuse
 Quiza los de speculator no van bien del todo?
@@ -102,12 +97,9 @@ Pero el "--enable-dsk", al iniciar el emulador, se parsea antes de cargar el sna
 dskplusthree_emulation.v=0 , con lo que arranca con dsk desactivado. Hay varios parametros como ese
 
 
-*asignacion de eventos a botones de realjoystick ->no, porque depende del tipo de joystick
-*asignacion de teclas a botones de realjoystick ->en teoria no, porque tambien depende del tipo de joystick,
-pero se podria intentar hacer que se guardase de alguna manera... como intentando asociar, por ejemplo,
-"boton arriba" -> tecla "w"
-...
-pero con esto solo podriamos tener facilmente las teclas de direcciones (son los ejes normales) (-0/+0 izq-der, -1/+1 arr-aba),
-pero no otras teclas alternativas: enter, espacio, etc
+-En snapshot poder guardar notas. Visibles desde menú snapshot. Se pierden al cargar otro snapshot
+Esto es un nuevo tipo de campo en ZSF. Como se pide? Al guardar un snapshot o desde menú snapshot? 
+Quizá desde menú y con un first aid que lo explique
 
+--ZSF tbblue: * estado dma (esto no solo afecta a tbblue sino a todos. tener en cuenta grabar tambien valor datagear_dma_tbblue_prescaler)
 

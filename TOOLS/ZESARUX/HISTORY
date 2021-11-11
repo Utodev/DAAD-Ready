@@ -14,7 +14,7 @@ With this filter, you could read a SCR file and if it had normal ASCII Spectrum 
 
 Then I thought that filter could be the routine to refresh the Spectrum screen on an emulator...
 
-From that moment, I started to make this new emulator, ZEsarUX, starting from zero. 
+From that moment, I started to make this new emulator, ZEsarUX, starting from scratch. 
 I ported the filter to use a ncurses driver on Unix, and began emulating the whole Z80 CPU.
 
 ZEsarUX is not a port of ZXSpectr; ZEsarUX is a new emulator. Obviously, I used all my knowledge I got from ZXSpectr to this new emulator.

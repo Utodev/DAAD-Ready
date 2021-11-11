@@ -1,0 +1,212 @@
+Para esta version 10.0:
+
+
+-Meter file browser zxuno en imagen zxuno mmc
+
+https://spectrumcomputing.co.uk/forums/viewtopic.php?t=2553
+
+ 
+-Cinta de juegos y programas zx81 pasar a digital
+
+-algun tipo de build que no sea ni linux ni mac ni windows, sino simplemente UNIX_GENERIC o algo similar
+
+-meter real tape en linea comandos siempre acelera la carga, aunque este desactivado
+ ejemplo: ./zesarux --realtape tetris2.pzx
+
+
+
+-para comprobar coordenada y footer, calcular desde abajo de alto ventana. Y usar funcion comun en screen.c
+-quiza funcion footer a scr_putchar_footer_comun_zoom se tiene que hacer con coordenadas 0,1 o 2 simplemente
+
+
+-al cargar smartload, por ejemplo ultimo cargado es thelosttapesofalbion. situa el cursor ahi bien, 
+pero al subir para arriba desplaza desde scroll sin mover
+cursor hasta que esta arriba. O sea, deberia mover siempre cursor y no empezar a hacer scroll hasta que no esta arriba
+
+-Probar malloc en 32 bit de 2 gb
+
+
+-utils.c: In function ‘util_extract_hdf’:
+utils.c:11099:18: warning: this decimal constant is unsigned only in ISO C90
+                  2147483648L, //8. 2 GB
+                  ^
+utils.c: In function ‘util_ascii_to_binary’:
+utils.c:11248:9: warning: this decimal constant is unsigned only in ISO C90
+         const unsigned int mascara=(unsigned int)2147483648;
+
+Puede dar problemas?
+
+
+-Con carga top speed salen dos footer ? El nuevo de rojo también...  
+Quizá el Rojo debería ser el Tspeed que ya sale en la carga...
+Pues porque al ser un hotkey, se abre el menu y al cerrar el menu, se pierde el footer
+
+
+-codetests falla si no hay pthreads con:
+
+
+Running zsock http tests
+Paranoid: Found free socket at index 0
+Error: Pthreads unavailable but trying to use TCP/IP sockets
+Segmentation fault: 11
+
+Al parecer en alguna parte no se gestiona correctamente que se haya retornado -1 en la función de red
+
+
+-ejemplos para spool, como:
+./txt_to_basic_lines.sh FAQ 3 si si no > pruebaspool2.txt
+
+
+-quiza archivos de updates deban tener algo asi como major version, minor version
+Esto podria corregir el problema de que avise de updates que realmente son versiones anteriores.
+Ejemplo:
+*uso version snapshot 8.1-SN
+*me actualizo a la estable 8.2
+*al arrancar la primera 8.2-SN, verá que hay 8.2-SN ok no pasa nada
+
+*pero:
+*uso version snapshot 8.1-SN
+*paso a usar 8.0. Ultima estable leida: 8.0
+*paso a usar snapshot 8.1-SN, verá que hay 8.2-SN ok no pasa nada
+
+En que casos puede dar problema? Si cambio a mano version snapshot a estable en cpu.h
+Pero esto no deberia suceder: pues al hacer ese cambio se supone que habrá ya un update,
+entonces en el servidor, en el archivo de update de la estable, ya habré actualizado el archivo y dirá la nueva versión
+
+
+-ROM zx85 de Daniel incluir   Y zx82?
+
+-parece que si hay joystick conectado, el splash de Z logo no aparece toda la animacion, se cierra a la primera barra de color
+
+
+
+-puerto kempston y puerto 223. Juego El cid
+
+https://foro.speccy.org/viewtopic.php?t=1502
+
+
+
+-ordenar directorios arriba en filesel? Pero entonces al pulsar una letra y buscar... a donde ira?
+
+-Si se mueve ratón a zona redimensionado ventana, que la ventana cambie la esquina inferior derecha 
+
+-ZENG soporte para QL. ok aunque no envia teclas extendidas
+-ZENG para msx se leen los cursores en destino
+-ZENG colecovision no va bien
+
+-soporte joystick usb para msx, coleco etc
+
+-Info ZENG en FAQ: ya está en ayuda. Quizá extender mas?
+
+- meter en extras de docs Benchmark legacy tbblue: de momento está en el código, en el menú como comentarios
+
+
+
+-Problema con el almacenamiento de los t-estados en snapshot .zsf: no se guarda
+
+-sprite disabling window tambien para tsconf y maquinas con chip vdp (msx, etc)
+
+
+-the next war: revisar border deberia desactivar. musica en menu no se oye bien
+
+-eliminar parpadeos en fbdev usando doble buffer?
+
+
+-al salir de filesel, debe cambiar unidad activa a la local, y no a mmc.
+Esto podria provocar que otros sitios que usan ZVFS (por ejemplo esxdos handler) accedieran a la mmc si lo ultimo que se ha accedido
+desde filesel era la mmc
+Quiza solo el menu (y no esxdos handler , zxpand u otros) debe usar ZVFS. El resto, rutinas de sistema? -> esxdos, zxpand etc ya NO usan ZVFS
+
+
+-punteros en diskio, de read y write, soportaran imagenes de mas de 2 gB en sistemas 32 bits?
+
+
+-scr_lee_puerto en cada driver de video creo que ya no se usa para nada. borrar
+
+-pentagon turbo mode
+
+-lanzar esto para z88:
+./zesarux --noconfigfile --enable-silencedetector --verbose 3 extras/media/z88/lem.epr
+
+hace que se arranque la ventana en tamaño spectrum y despues de unos segundos se redimensiona
+
+-parpadeo en windows, maquina Next, al entrar cada linea en basic. Sin realvideo no lo hace. Sin autoframeskip, lo hace igual.
+Activando el maximo turbo permitido, tambien hace una franja negra en el border, arriba del todo
+
+
+
+-quiza un "code estatistics": total lines, total comments, total todos (en codigo y en archivos TODO_*, etc)
+
+-paws renderer probar diferentes char width
+
+-paws Dump toda tabla procesos 
+
+
+-en debug resaltar registros que se vayan a cambiar . en rojo?. Por ejemplo, si hay un "INC C" resaltar registro C
+
+
+
+-En debug cpu, quizá al mover rueda de ratón tiene que volver de menú espera tecla. Si no, 
+es lo que hace que al moverse con la rueda por vista debug cpu, haya que hacer movimiento de raton para que funcione
+El problema es que mouse_wheel_vertical se lee y luego siempre se debe poner a 0
+Si la ponemos a 0 en bucle de leer tecla, luego no se lee realmente del menu debug cpu
+
+-confirmar parametros de Freehand en quill. crear grafico en illustrator y hacer las 8 posibles combinaciones
+
+-Concepto ventanas en segundo plano en documentación: multitarea cooperativa (Cooperative multitasking)
+
+-Documentación ZEsarUX. Dispositivos que estén en funcionamiento salen en color inverso 
+
+-Soporte ATM turbo
+
+https://www.zxuno.com/forum/viewtopic.php?t=4091
+
+-Número gráficos limitar a maximo 256 (en quill, paws, daad, gac)
+
+
+-agregar sensor temperatura cpu linux
+
+
+-ay player en modo "jukebox" que permita agregar canciones ay a la lista, o bien una carpeta entera
+
+-frecuencias chips audio como sensores? no sé si vale la pena pues los valores de frecuencias son exponenciales y por ejemplo
+las ultimas dos notas, una es el doble de la otra. Por tanto si usamos un widget de speedometer, estaria casi al 0 siempre excepto para 
+frecuencias muy altas.
+
+
+-Revisar tbblue dma con efectos sonido cuadragon next
+
+
+-quizá imagenes zxuno.mmc y tbblue.mmc que se generen:
+-- de una carpeta del proyecto, que se cree un archivo mmc mediante herramientas de acceso chan fat fs y luego una copia recursiva. y la partición como crearla?
+
+
+-ZSF: soporte para TS2068, Sam coupe, Chloe, Prism, Chrome, MK14
+
+-hilow: cargar ok. 
+quiza el punto de entrada a READ_SECTOR no es exactamente ese o bien volver con algo distinto de un RET
+
+grabar no ok, error fuera rango, quiza por error en el sector 0 simulado. aunque pongo un sector 0 bueno y siempre da fuera de rango. por que?
+quiza el salto a write sector es otro
+
+formatear da error despues de escribir pista 1. quiza algun registro de retorno?
+
+parece que la grabacion peta con break debido a:
+L08F7:          IN      A,(HLWPORT)
+                BIT     3,A
+                JP      Z,BREAKCONT
+
+
+-quiza linea cursor en debug cpu ubicar en el centro
+
+-Consola ZRCP desde menú. Cómo gestionar comandos de cpu step que bloquean el menú?
+
+
+- En ZX desktop a veces al iniciar o activar sale primero en negro. Al redimensionar ventana tambien por ejemplo
+
+- realtape browser que pille el setting de improved algorithm yes/no
+
+- Improved algorithm quizá renombrar a “alternate” algorithm 
+
+- Al salir cualquier mensaje splash luego no deberían desaparecer las ventanas: parece que desaparece la decoracion de ventanas 
+momentaneamente pero al irse el splash, se recargan

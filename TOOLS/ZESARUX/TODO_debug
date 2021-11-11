@@ -1,8 +1,3 @@
-Otros TODO menos prioritarios, de aqui hasta el final del archivo:
-
-
-
-*** Debug ***
 
 -Assembler para Motorola y MK14
 -Assembler para opcodes del Next
@@ -11,7 +6,6 @@ Otros TODO menos prioritarios, de aqui hasta el final del archivo:
 
 -Quizá agregar stack Trace en kernel panic. Que pasa con stack de mk14 y Motorola?
 Implica leer memoria para sacar el stack. Conviene hacerlo después de un panic?
-
 
 Menu debugger:
 -Doble ptr, uno para codigo y otro para memoria
@@ -25,9 +19,7 @@ action: prints hello ; menu
 
 -cuando hay breakpoint pc en otras vistas, tambien mostrarlo
 
--Menú debug cpu extra debug con extended debug, cpu history, code coverage etc
-
--Quiza darle mas buffer a disassemble en debug cpu: motorola tiene opcodes muy largos a veces. ir por ejemplo a direccion F0H
+-Menú debug cpu extra debug con extended debug, code coverage etc
 
 -al cambiar de core reduced o no, si habia breakpoints, aparecen como activos aunque realmente el core no esta usando el debug core (se ha perdido el nested)
 
@@ -48,7 +40,6 @@ En ese mismo OSD, si pulsamos una tecla en el OSD, se quedara colgado, pues no v
 a que las variables debug_fire_in y out se resetean antes del core y se comprueban despues, 
 pero la dma va aparte 
 
-
 -debugger z80: que sea capaz de mostrar direcciones NNNN correctas (para JR CC DIS) aunque se este debugando con memory zone y direccion alta.
 Por ejemplo:
 estamos en full ram en zxuno, vamos a la direccion donde empieza propiamente la rom 0, a la 131072:
@@ -62,6 +53,8 @@ estamos en full ram en zxuno, vamos a la direccion donde empieza propiamente la 
 
 Este JR NZ deberia aparecer como 20004
 
+-poder cargar tabla de simbolos de un codigo fuente
+
 -visor sprites: quizá mejorarlo para que se pueda elegir el incremento de salto para cada scanline... Por ejemplo, sprites de tsconf saltan de 256 en 256
 
 -Paso a paso cuando hay condición de debug activa no deja salir (en menú) : ocurre porque sale y al momento salta 
@@ -70,7 +63,6 @@ breakpoint y vuelve a entrar. Es normal->opcion para poder salir de ahi aun con 
 -menu debug keys. que muestre en pantalla las teclas que se pulsan
 
 -Set breakpoint en dirección vista en ZRCP
-
 
 ->Esto siguiente de debug_dump_nested_functions ya está corregido en principio
 void debug_dump_nested_functions(char *result)
@@ -83,4 +75,4 @@ void debug_dump_nested_functions(char *result)
 aunque no es necesario, pues cuando se crea un elemento y el handler no apunta a nested, se crea lista nueva,
 y ademas, la funcion de debug_dump_nested_functions ya controla esos casos y no retorna nada de la lista
 
-*************
+-mostrar fecha y hora en los debug printf logs?

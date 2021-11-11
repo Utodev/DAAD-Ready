@@ -48,6 +48,10 @@ en developer apple dice:
 -quizá envelopes no se están gestionando bien….
 
 
+-general sound: gs_mix_dac_channels quiza que coja los ultimos 2-3 valores ultimos y haga media
+
+-ay speech parece en algunas musicas de turbosound que se oye peor habilitando (ver ts-music-dihalt2006)
+
 -------------
 
 
@@ -55,28 +59,18 @@ Otros TODO menos prioritarios, de aqui hasta el final del archivo:
 
 *** Audio ***
 
--Probar diferencia de sonido speech ay en versión actual y anteriores
-Chase hq
-Robocop 1
-Dizzy 3
-Demo covox
-Etc...
+
+-comandos reset midi no hace nada?? Solo van en windows. Quiza enviar mejor un noteoff
 
 -revisar mezclado ay+beeper . posiblemente set_value_beeper acaba sacando algun valor beeper 50*2 y se sale todo de rango?
 o bien el mezclado de chip ay. Con que juegos se observa esto? O quiza con el test de 6/9 canales turbosound?
 
 -Generador archivos .ay según lo enviado a chip de sonido. Soporte turbosound
 
--Interceptar salida midi chip ay y enviarlo a midi real. Probar con programa de addon midi de zxuno
-
--Selección de instrumento midi en midi export y midi output, para cada canal
-
 -leer audio casette
 
 -detector de silencio en sdl2, en 48k, genera zumbido en Linux
 ver de momento workaround audio_using_sdl2
-
--Exportar sonido generado por el chip AY hacia mid
 
 -Salida 16 bits sonido?
 
@@ -86,7 +80,8 @@ ver de momento workaround audio_using_sdl2
 
 -agregar otro detector silencio, en este caso para specdrum. tiene sentido? total no altera mucho la onda de salida cuando lo activo y no se envia sonido 
 
--Futuro filtro conversor de real audio a Puerto fe, que sea capaz de saber cuando es 1 (onda arriba) y cuando 0 (onda abajo)
+-Futuro filtro conversor de real audio a Puerto fe, que sea capaz de saber cuando es 1 (onda arriba) y cuando 0 (onda abajo):
+utilizar mismo método que el resample a 1 bit: si valor es menor que anterior, es 0. Si es mayor, es 1
 
 -pulse audio sin pthreads se oye chasquido a cada envio. esto creo que es dificil de evitar
 

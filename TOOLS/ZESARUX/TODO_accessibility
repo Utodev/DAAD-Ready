@@ -6,6 +6,17 @@
 -Speech:
 -enter le envia siempre speech pending. normal?
 -en speech de mac, en english, al enviar opcion "yes/no", la "No" dice: "No. N"->eso lo traduce como "Number N"
+
+-Al releer ventana con F4, en menu con opciones, no hace traducción de opciones entre corchetes ni dice los corchetes al final de linea,
+como hace cuando está abriendo un menú y leyendo sus opciones.
+
+Ejemplo: 
+[X] AY Envelopes
+
+En vez de "AY Envelopes. Enabled"
+dice:
+"Ex AY Envelopes"
+
 -Tecla escape debería hacer break cuando se está escuchando speech
 O quizá setting configurable 
 
@@ -13,7 +24,6 @@ O quizá setting configurable
 -				//TODO: esto no tiene efecto, sigue releyendo cuando estas sobre item que no tiene tooltip
 				//menu_speech_tecla_pulsada=1;	
 
--settings activados con [X] se leen raro, con equis: ejemplo: "ex CPC mode" (activado), o "CPC mode" (desactivado)
 
 -script de mac say no reproduce lineas que empiezan por "--", como algunas lineas del FAQ
 

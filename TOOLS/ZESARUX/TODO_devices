@@ -1,8 +1,6 @@
 
-
 -datagear dma: timing (puesto tiempos arbitrarios), demos que hacen out no se ven bien, modo turbo next afecta a timing?
 Y montones de flags y parámetros de dma que de momento no gestiono
-
 
 
 --- Sprite Chip ZGX ---
@@ -15,6 +13,7 @@ Y montones de flags y parámetros de dma que de momento no gestiono
 -Sprites de 16x16?
 
 -----------------------
+
 
 --- +3 ---
 -+3: funcionan :
@@ -46,6 +45,10 @@ night hunter. aunque luego no carga la cara b
 
 -betadisk: nmi no parece guardar el snapshot, aunque lo intenta
 
+-para siguiente version: revisar betadisk. quiza demos de generalsound en scl/trd fallan por eso:
+* revisar puertos de estado: FF, 1F, etc...
+* rutinas de salto a la rom de betadisk desde Chase HQ, quiza un trap para esa rutina?
+
 -------------
 
 
@@ -53,14 +56,10 @@ night hunter. aunque luego no carga la cara b
 
 --- MMC y DIVMMC ---
 
--Probar otros firmwares de divmmc, si es que los hay: fatware?
-
 -Mmap para acceso a mmc/ide. Pero solo cuando se activa "persistent writes".
 mmap tiene flags para decir que es solo lectura pero supongo que fallaria con segfault si escribimos en una zona de solo lectura
 Sin persistent writes deberia hacerlo como siempre: escribiendo en memoria, sin mmap
 Con mmap, se deja de hacer flush, ya que lo hará automáticamente (??) el sistema operativo, al activar mmap 
-
--TODO. Bit MAPRAM can be set to '1' only (when it's '1', only power-on can return it to '0').
 
 -En Mac parece que siempre falla al escribir en imagenes de 2 GB (y superiores)
 retorna:
@@ -94,6 +93,7 @@ En este caso esto puede quedar corregido simplemente si al expulsar mmc file sie
 Pero esto NO es recomendable pues entonces haríamos siempre flush de toda imagen, se haya escrito o no. 
 Quizá activar flag cuando se escribe al menos una vez y al salir sabemos si hay que grabarlo o no 
 
+-Idea: en vez de tener la imagen Mmc, que tenga los archivos que contiene y cree el Mmc copiándolos 
 
 
 
@@ -101,8 +101,31 @@ Quizá activar flag cuando se escribe al menos una vez y al salir sabemos si hay
 
 --- IDE y DIVIDE ---
 
--Códigos ide de identify deberían tener los textos con los bytes alternados a pares
 -No funciona IDE 8 bit
+
+-residos necesita "battery backed RAM on the DivIDE Plus"
+O sea, es la misma ram pero usa puerto 17h
+https://www.rwapsoftware.co.uk/spectrum/spectrum_divide_notes.html
+
+Implementation of greater ROM/RAM space on DiviDE Plus
+
+DivIDE Plus provides a total of 512K ROM and 512K RAM on the DivIDE Plus in order to enable much improved firmware to be written (this compares to the 8K ROM and 32K RAM available on the original DivIDE Hard Disk Interface). 
+
+We decided on 512K as this would allow ramdisk storage and the following additional firmware to be used (as well as the original divIDE firmware):
+
+ResiDOS
+CPM22QED MBD (CP/M compatible)
+ZXVGS MBD
+
+The DivIDE Plus interface is equipped with 512K SRAM (628512 SMD soldered) and 512K ROM (29F040 PLCC in a socket) with address and data lines corrected, so no dedicated .RAW files are needed to program firmware on another system. The RAM is battery backed.
+
+The scheme chosen mixes MB-02 paging using the Port &17 with DivIDE paging using the &E3 Port. It is compatible with the original 8K firmware without amendment.  You will however, need to obtain the ROM reprogramming software from ourselves, rather than use that provided for the original DivIDE, due to different procedures for programming the 29F040 chip than on the 28C64 used by the original DivIDE.
+
+The &E3 Port is untouched. The &17 Port is 8bit, outputs are called Q0..Q7, as follows:
+
+- Q6 and Q7 select the mode (DivIDE, RAM, ROM, reset). 
+- Q5 bit must be set (1) to enable writing in RAM and ROM modes.  If this is set to 0, it disables the ability to write to RAM or ROM.
+- Q0..Q4 select the memory banks.
 
 ------------------
 
@@ -150,4 +173,28 @@ carpeta aux_zesarux/zx81/sound_demo  tambien
 
 -Zxpand+ nuevo firmware?
 https://github.com/charlierobson/ZXpand-Vitamins/wiki/ZXpand---Online-Manual
+
+
+
 ------------------
+
+--- Texas Instruments SN76489AN ---
+
+-emulacion ruido chip SN mejorar
+
+
+------------------
+
+--- vdp 9918 ---
+
+-corregir info de bits que puede estar al reves: en el datasheet original numeran los bits al reves: el bit 7 es el 1, el 6 el 2, etc
+
+------------------
+
+
+-emulación impresion seikosha gp-100a
+
+
+-Dandanator nueva versión
+
+-soporte para más de 1 joystick 
