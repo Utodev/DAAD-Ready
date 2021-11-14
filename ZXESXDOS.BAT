@@ -110,7 +110,7 @@ tools\cecho\cecho {07}
 
 PAUSE
 cd TOOLS\ZESARUX
-zesarux --noconfigfile --machine 48k --no-detect-realvideo --zoom 2 --enable-esxdos-handler --esxdos-root-dir "BIN\ESXDOS_ROOT"  --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage   --cpuspeed 100 "..\..\RELEASE\ESXDOS\%GAME%.tap"
+zesarux --noconfigfile --machine 48k --no-detect-realvideo --zoom 2 --enable-esxdos-handler --esxdos-root-dir "..\..\RELEASE\ESXDOS"  --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage   --cpuspeed 100 "..\..\RELEASE\ESXDOS\%GAME%.tap"
 CD ..\..
 GOTO END
 
