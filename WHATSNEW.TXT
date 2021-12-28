@@ -1,3 +1,11 @@
+
+DAAD Ready 1.0  (       )
+========================
+PC and MSX2 interpreters Updated again
+Added some color to scripts
+ZEsarUX updated from v8.1 to v10.0
+
+
 DAAD Ready 0.5 (31/10/2021)
 ===========================
 PC and MSX2 interpreters Updated
