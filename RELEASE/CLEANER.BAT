@@ -5,65 +5,84 @@ if errorlevel 2 (
     copy c64\readme.txt > nul 2>&1
 
     cd c64
-    del /q /s *.*
+    echo Cleaning Commodore 64...
+    del /q /s *.* > nul 2>&1
     copy ..\readme.txt > nul 2>&1
     cd ..
 
     cd cpc
-    del /q /s *.*
+    echo Cleaning Amstrad CPC...
+    del /q /s *.* > nul 2>&1
     copy ..\readme.txt > nul 2>&1
     cd ..
 
     cd cplus4
-    del /q /s *.*
+    echo Cleaning Commodore Plus/4...
+    del /q /s *.* > nul 2>&1
     copy ..\readme.txt > nul 2>&1
     cd ..
 
     cd esxdos
-    del /q /s *.*
+    echo Cleaning ZX Spectrum ESXDOS...
+    del /q /s *.* > nul 2>&1
     copy ..\readme.txt > nul 2>&1
     cd ..
 
+    echo Cleaning MSX1...
     cd msx1
-    del /q /s *.*
+    del /q /s *.* > nul 2>&1
     copy ..\readme.txt > nul 2>&1
     cd ..
 
     cd msx2
-    del /q /s *.*
+    echo Cleaning MSX2...
+    del /q /s *.* > nul 2>&1
     copy ..\readme.txt > nul 2>&1
     cd ..
 
     cd next
-    del /q /s *.*
+    echo Cleaning Spectrum Next...
+    del /q /s *.* > nul 2>&1
     copy ..\readme.txt > nul 2>&1
     cd ..
 
     cd pcw
-    del /q /s *.*
+    echo Cleaning Amstrad PCW...
+    del /q /s *.* > nul 2>&1
     copy ..\readme.txt > nul 2>&1
     cd ..
 
     cd plus3
-    del /q /s *.*
+    echo Cleaning ZX Spectrum +3...
+    del /q /s *.* > nul 2>&1
     copy ..\readme.txt > nul 2>&1
     cd ..
 
     cd uno
-    del /q /s *.*
+    echo Cleaning ZX-Uno...
+    del /q /s *.* > nul 2>&1
     copy ..\readme.txt > nul 2>&1
-    rd SYS
+    rd SYS > nul 2>&1
     cd ..
 
     cd zxtape
-    del /q /s *.*
+    echo Cleaning ZX Spectrum tape...
+    del /q /s *.* > nul 2>&1
     copy ..\readme.txt > nul 2>&1
     cd ..
 
     cd msdos
-    del /s /q *.*
+    echo Cleaning IBM PC MS-DOS...
+    del /s /q *.* > nul 2>&1
     copy ..\readme.txt > nul 2>&1
     cd ..
+
+    cd atarist
+    echo Cleaning Atari ST...
+    del /q /s *.* > nul 2>&1
+    copy ..\readme.txt > nul 2>&1
+    cd ..
+
 
     del readme.txt > nul 2>&1
     pause
