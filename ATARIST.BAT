@@ -67,6 +67,11 @@ ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
 
+REM  ---- PREPARE IMAGES ----
+PHP\php TOOLS\img2daad\img2daad.php IMAGES RELEASE\ATARIST\PART1.DAT
+IF ERRORLEVEL 1 GOTO ERROR
+
+
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
 MOVE %GAME%.DDB RELEASE\ATARIST\PART1.DDB > nul 2>&1
@@ -81,20 +86,18 @@ DEL *.CHR > nul 2>&1
 
 REM ---- TESTER ---- 
 ECHO.
-CD TOOLS\HATARI
 tools\cecho\cecho {03}
 IF "%BASELANG%" == "EN" (
-ECHO "Game ready,press any key to test or  CTRL+C to stop"
-echo "When emulator starts, open drive C an double click PRG file"
+ECHO "Game ready,press any key to test or CTRL+C to stop"
 )
 IF "%BASELANG%" == "ES" (
 ECHO "EL JUEGO SE HA COMPILADO CORRECTAMENTE, PULSE ENTER PARA INICIAR EL EMULADOR, O CTRL+C PARA PARAR"
-ECHO "CUANDO ARRANQUE EL EMULADOR SIMPLEMENTE ABRE LA UNIDAD C Y EJECUTA EL FICHERO PRG "
 )
 tools\cecho\cecho {07}
 PAUSE
 CD TOOLS\HATARI
 HATARI --harddrive ..\..\RELEASE\ATARIST --confirm-quit 0 --auto C:\%GAME%.PRG --fast-boot 1 -w
+
 cd ..\..
 
 GOTO FIN
