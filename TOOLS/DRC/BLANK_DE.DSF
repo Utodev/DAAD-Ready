@@ -30,7 +30,9 @@
 
 #ifndef "tape"
 #ifndef "st"
+#ifndef "amiga"
 #extern "MALUVA"
+#endif
 #endif
 #endif
 
