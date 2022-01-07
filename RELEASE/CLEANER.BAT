@@ -83,6 +83,11 @@ if errorlevel 2 (
     copy ..\readme.txt > nul 2>&1
     cd ..
 
+    cd AMIGA
+    echo Cleaning Amiga...
+    del /q /s *.* > nul 2>&1
+    copy ..\readme.txt > nul 2>&1
+    cd ..
 
     del readme.txt > nul 2>&1
     pause
