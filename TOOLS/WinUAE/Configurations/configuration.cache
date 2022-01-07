@@ -1,0 +1,55 @@
+﻿WinUAE Configuration.Cache
+3
+4
+10
+132859839140040000
+;
+Host\
+132859673660084599
+Host
+
+;
+Host\Fullscreen (800x600).uae
+129985169170000000
+Fullscreen (800x600).uae
+
+
+
+2
+
+
+
+;
+Host\Fullscreen PAL VSync.uae
+129985170580000000
+Fullscreen PAL VSync.uae
+
+
+
+2
+
+
+
+;
+Host\FullwindowD3D.uae
+129985169200000000
+FullwindowD3D.uae
+
+
+
+2
+
+
+
+;
+Host\Windowed.uae
+129985164810000000
+Windowed.uae
+
+
+
+2
+
+
+
+;
