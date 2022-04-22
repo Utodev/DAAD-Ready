@@ -26,7 +26,9 @@
 #ifndef "tape"
 #ifndef "st"
 #ifndef "amiga"
+#ifndef "zx128"
 #extern "MALUVA"
+#endif
 #endif
 #endif
 #endif
@@ -377,6 +379,7 @@ S 1
 ;               MINUS   4       1       ; & Flag 4 si pas de lampe (Voir notes)
                 SET     fDarkF           ; Obscurité
 
+#ifndef "zx128"
 > _       _     CLEAR 20
 #ifndef "tape"
                 XPICTURE @fPlayer        ; Si il y a une image, la charger
@@ -409,7 +412,35 @@ S 1
                 WINAT 14 0
                 #endif
                               
+#else
+;ZX 128
+                #ifdef "tape"
+> _       _     PICTURE @fPlayer        ; S'il y a une image, il la charge
+                DISPLAY @fDarkF         ; Montrez-le s'il n'est pas sombre, sinon faites un CLS
+                SKIP    2               ; Passer à la fenêtre sur le texte sur le bord inférieur
 
+> _        _    PICTURE 255             ; En cas d'échec de l'image, charge l'image numéro. 255
+                DISPLAY @fDarkF
+                SKIP    1               ; Passer à la fenêtre sur le texte sur le bord inférieur
+                #else
+> _       _     XPICTURE @fPlayer       ; S'il y a une image, il la charge
+                DISPLAY @fDarkF         ; Montrez-le s'il n'est pas sombre, sinon faites un CLS
+                SKIP    2               ; Passer à la fenêtre sur le texte sur le bord inférieur
+
+> _        _    XPICTURE 255            ; En cas d'échec de l'image, charge l'image numéro. 255
+                DISPLAY @fDarkF
+                SKIP    1               ; Passer à la fenêtre sur le texte sur le bord inférieur
+                #endif
+> _        _    CLS                     ; Repli si aucune image n'a été trouvée
+                WINDOW  1
+                WINAT   0 0
+                WINSIZE 24      42     ; Tout l'écran pour le texte
+                CLS
+                SKIP    1              ; Skip.
+
+> _        _    WINDOW 1               ; Fenêtre en bas de l'écran
+                WINAT  14 0
+#endif
 
 
 > _       _     NOTZERO fDarkF           ; Obscurité
@@ -568,6 +599,26 @@ S 1
                 ANYKEY
                 CLS
                 SET   255             
+#else
+;ZX 128
+> _       _     WINDOW  1               ; Initialisons les fenêtres
+                PAPER 0
+                INK 15
+                WINAT   14       0
+                WINSIZE 25      127     ; Fenêtre maximale
+                CLS
+                #ifndef "tape"
+                XPICTURE 0
+                #else
+                PICTURE 0
+                #endif
+                DISPLAY 0
+                DESC    0               ; Introduction
+
+> _       _     ANYKEY
+                CLS
+                SET   255
+#endif
 
 > _       _     MINUS  255 1          ; Mets tous les flags à 0
                 NOTEQ   255  fGFlags  ; sauf fGFlags!!!

@@ -31,7 +31,9 @@
 #ifndef "tape"
 #ifndef "st"
 #ifndef "amiga"
+#ifndef "zx128"
 #extern "MALUVA"
+#endif
 #endif
 #endif
 #endif
@@ -396,6 +398,7 @@ S 1
 ;               MINUS   4       1       ; & Flag 4 if No Lamp (See notes)
                 SET     fDarkF           ; Dark
 
+#ifndef "zx128"
 > _       _     CLEAR 20
 #ifndef "tape"
                 XPICTURE @fPlayer        ; If there is a picture, Load it
@@ -431,7 +434,35 @@ S 1
                 WINAT 14 0
                 #endif
                               
+#else
+;ZX 128
+                #ifdef "tape"
+> _       _     PICTURE @fPlayer        ; If there is image, it loads it
+                DISPLAY @fDarkF         ; Show it if not dark, else do a CLS
+                SKIP    2               ; Skip to window on text on lower edge
 
+> _        _    PICTURE 255             ; On image fail, loads image num. 255
+                DISPLAY @fDarkF
+                SKIP    1               ; Skip to window on text on lower edge
+                #else
+> _       _     XPICTURE @fPlayer       ; If there is image, it loads it
+                DISPLAY @fDarkF         ; Show it if not dark, else do a CLS
+                SKIP    2               ; Skip to window on text on lower edge
+
+> _        _    XPICTURE 255            ; On image fail, loads image num. 255
+                DISPLAY @fDarkF
+                SKIP    1               ; Skip to window on text on lower edge
+                #endif
+> _        _    CLS                     ; Fallback si no image found
+                WINDOW  1
+                WINAT   0 0
+                WINSIZE 24      42      ; All screen for text
+                CLS
+                SKIP    1               ; Skip.
+
+> _        _    WINDOW 1                ; Window on the lower end of the screen
+                WINAT  14 0
+#endif
 
 
 > _       _     NOTZERO fDarkF           ; Dark
@@ -581,6 +612,7 @@ S 1
 ;------------------------------------------------------------------------------
 /PRO 6 ; Initialise the DAAD system
 
+#ifndef "zx128"
 > _       _     WINDOW  1               ; Windows are random
                 #ifdef "pc"
                 PAPER 0
@@ -605,6 +637,26 @@ S 1
                 ANYKEY
                 CLS
                 SET   255             
+#else
+;ZX 128
+> _       _     WINDOW  1               ; Windows are random
+                PAPER 0
+                INK 15
+                WINAT   14       0
+                WINSIZE 25      127     ; Maximum window
+                CLS
+                #ifndef "tape"
+                XPICTURE 0
+                #else
+                PICTURE 0
+                #endif
+                DISPLAY 0
+                DESC    0               ; Introduction
+
+> _       _     ANYKEY
+                CLS
+                SET   255
+#endif
 
 > _       _     MINUS  255 1          ; Clear all flags
                 NOTEQ   255  fGFlags  ; except fGFlags!!!

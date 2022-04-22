@@ -16,7 +16,9 @@
 #ifndef "tape"
 #ifndef "st"
 #ifndef "amiga"
+#ifndef "zx128"
 #extern "MALUVA"
+#endif
 #endif
 #endif
 #endif
@@ -344,6 +346,7 @@ LUEGO   2       conjugation
                 ABSENT  0
                 SET     fDarkF           ; Oscuro
 
+#ifndef "zx128"
 > _       _     CLEAR 20
 #ifndef "tape"
                 XPICTURE @fPlayer        ; If there is a picture, Load it
@@ -380,6 +383,35 @@ LUEGO   2       conjugation
                 #ifndef "tape"
                 WINAT 14 0
                 #endif
+#else
+;ZX 128
+                #ifdef "tape"
+> _       _     PICTURE @fPlayer        ; Si hay gráfico, cárgalo
+                DISPLAY @fDarkF         ; Muestralo si no oscuro; si oscuro hace un CLS
+                SKIP    2               ; Saltamos
+
+> _        _    PICTURE 255             ; Si hemos fallado, cargamos la localidad 255 (pantalla de paso)
+                DISPLAY @fDarkF
+                SKIP    1               ; Saltamos
+                #else
+> _       _     XPICTURE @fPlayer       ; Si hay gráfico, cárgalo
+                DISPLAY @fDarkF         ; Muestralo si no oscuro; si oscuro hace un CLS
+                SKIP    2               ; Saltamos
+
+> _        _    XPICTURE 255            ; Si hemos fallado, cargamos la localidad 255 (pantalla de paso)
+                DISPLAY @fDarkF
+                SKIP    1               ; Saltamos
+                #endif
+> _        _    CLS                     ; Fallback si no encontramos imagen
+                WINDOW  1
+                WINAT   0 0
+                WINSIZE 24      42      ; Ventana máxima para texto
+                CLS
+                SKIP    1               ; Saltar parte inferior.
+
+> _        _    WINDOW 1                ; Ventana en la parte inferior
+                WINAT  14 0
+#endif
 
 > _       _     NOTZERO fDarkF           ; Oscuro
                 SYSMESS 0
@@ -513,6 +545,7 @@ LUEGO   2       conjugation
 
 /PRO 6 ; Inicialización
 
+#ifndef "zx128"
 > _       _     WINDOW  1               ; Inicializamos las ventanas
                 #ifdef "pc"
                 PAPER 0
@@ -536,6 +569,26 @@ LUEGO   2       conjugation
                 ANYKEY
                 CLS
                 SET   255             
+#else
+;ZX 128
+> _       _     WINDOW  1               ; Inicializamos las ventanas
+                PAPER 0
+                INK 15
+                WINAT   14       0
+                WINSIZE 25      127     ; Tamaño máximo
+                CLS
+                #ifndef "tape"
+                XPICTURE 0
+                #else
+                PICTURE 0
+                #endif
+                DISPLAY 0
+                DESC    0               ; Introducción
+
+> _       _     ANYKEY
+                CLS
+                SET   255
+#endif
 
 > _       _     MINUS  255 1          ; Pone a cero todos los flags
                 NOTEQ   255  fGFlags  ; menos GFlags!!!

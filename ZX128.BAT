@@ -1,0 +1,119 @@
+@echo off
+
+REM ----  VARIABLES ---- 
+CALL CONFIG.BAT
+IF exist CUSTOM.BAT CALL CUSTOM.BAT
+
+REM ----  CHECK IF LANG IS SET ---- 
+IF  NOT DEFINED LANG (
+        ECHO.
+        ECHO.
+        setlocal EnableDelayedExpansion
+        CHOICE /C ESGPF /N /M "--- Please select (E)nglish, (S)panish, (G)erman, (F)rench or (P)ortuguese"
+        SET LANG=EN
+        SET BASELANG=EN
+        IF ERRORLEVEL 2 (
+            SET LANG=ES
+            SET BASELANG=ES
+        )
+        IF ERRORLEVEL 3 (
+            SET LANG=DE
+            SET BASELANG=EN
+        )
+       IF ERRORLEVEL 4 (
+            SET LANG=PT
+            SET BASELANG=ES
+        )
+        IF ERRORLEVEL 5 (
+            SET LANG=FR
+            SET BASELANG=EN
+        )
+   
+        ECHO SET LANG=!LANG!>>CONFIG.BAT
+        ECHO SET BASELANG=!BASELANG!>>CONFIG.BAT
+    )
+echo Language: %LANG% %BASELANG%
+
+
+IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
+
+REM ---- GET RESOURCES ---- 
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
+
+REM  ---- PREPARE IMAGES ----
+tools\cecho\cecho {06}Preparing images (if any){07}
+ECHO.
+CD IMAGES
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\ZXDAAD128\DCP -f 00%%i.SCR 00%%i.DCP > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\ZXDAAD128\DCP -f 0%%i.SCR 0%%i.DCP > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\ZXDAAD128\DCP -f %%i.SCR %%i.DCP  > nul 2>&1
+CD ..
+tools\cecho\cecho {02}[OK]{07}
+ECHO.
+
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
+tools\cecho\cecho {06}Compiling [Frontend]{07}
+echo.
+TOOLS\ZXDAAD128\DRF zx esxdos %GAME%.DSF tape,zx128
+IF ERRORLEVEL 1 GOTO ERROR
+tools\cecho\cecho {02}[OK]{07}
+ECHO.
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
+tools\cecho\cecho {06}Compiling [Backend]{07}
+echo.
+SET INTERPRETER=ASSETS\ZX128\ZXD128_TAPE_EN_C42.ZDI
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX128\ZXD128_TAPE_ES_C42.ZDI
+SET IMAGEOPTION=
+IF exist .\IMAGES\*.DCP SET IMAGEOPTION=-i .\IMAGES 
+PHP\PHP TOOLS\ZXDAAD128\DRB128.PHP %IMAGEOPTION% -o %GAME% TAPE %LANG% %GAME%.json %INTERPRETER% ASSETS\CHARSET\%FONT6%
+IF ERRORLEVEL 1 GOTO ERROR
+tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
+echo.
+
+REM --- PREPARE TAP FILE ----
+tools\cecho\cecho {06}Preparing tap file{07}
+ECHO.
+SET BANKFILES= 
+IF exist %GAME%.AD0 SET BANKFILES=%BANKFILES% %GAME%.AD0
+IF exist %GAME%.AD1 SET BANKFILES=%BANKFILES% %GAME%.AD1
+IF exist %GAME%.AD3 SET BANKFILES=%BANKFILES% %GAME%.AD3
+IF exist %GAME%.AD4 SET BANKFILES=%BANKFILES% %GAME%.AD4
+IF exist %GAME%.AD6 SET BANKFILES=%BANKFILES% %GAME%.AD6
+IF exist %GAME%.AD7 SET BANKFILES=%BANKFILES% %GAME%.AD7
+PHP\PHP TOOLS\ZXDAAD128\DAADMAKER128.PHP -t %GAME%.TAP -n %GAME% %BANKFILES%
+MOVE %GAME%.TAP RELEASE\ZX128 > nul 2>&1
+tools\cecho\cecho {02}[OK]{07}
+ECHO.
+
+REM ----  CLEANING ---- 
+DEL %GAME%.AD? > nul 2>&1
+DEL %GAME%.json > nul 2>&1
+
+REM ---- TESTER ---- 
+tools\cecho\cecho {03}
+ECHO "Press any key to run emulator, or Ctrl+C to cancel." 
+ECHO "To exit ZEsarUX emulator, press F5, then F10." 
+tools\cecho\cecho {07}
+
+
+PAUSE
+cd TOOLS\ZESARUX
+zesarux  --noconfigfile --zoom 2 --machine 128k --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\ZX128\%GAME%.tap"
+CD ..\..
+GOTO END
+
+:ERROR
+:ERROR
+tools\cecho\cecho {04}
+ECHO "Compile error, please check"
+tools\cecho\cecho {07}
+:END
+
+REM ----  CLEANING ---- 
+DEL %GAME%.AD? > nul 2>&1
+DEL %GAME%.json > nul 2>&1
+
+
