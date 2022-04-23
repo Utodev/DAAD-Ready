@@ -565,6 +565,7 @@ S 1
                 CLS
                 DESC    0               ; Introduction
                 XPICTURE 0
+> _       _     
                 ANYKEY
                 CLS
                 SET   255             
