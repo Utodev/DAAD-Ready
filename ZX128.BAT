@@ -110,6 +110,7 @@ GOTO END
 tools\cecho\cecho {04}
 ECHO "Compile error, please check"
 tools\cecho\cecho {07}
+PAUSE
 :END
 
 REM ----  CLEANING ---- 
