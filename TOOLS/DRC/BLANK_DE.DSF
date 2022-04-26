@@ -445,14 +445,19 @@ S 1
                 DISPLAY @fDarkF
                 SKIP    1               ; Skip to window on text on lower edge
                 #else
-> _       _     XPICTURE @fPlayer       ; If there is image, it loads it
-                DISPLAY @fDarkF         ; Show it if not dark, else do a CLS
+> _       _     NOTZERO fDarkF          ; If dark, do CLS
+                CLS
+                SKIP    3               ; Skip to window on text on lower edge
+
+> _       _     XPICTURE @fPlayer       ; Loads image
+                LT      20 128          ; loading successful
                 SKIP    2               ; Skip to window on text on lower edge
 
 > _        _    XPICTURE 255            ; On image fail, loads image num. 255
-                DISPLAY @fDarkF
+                LT      20 128          ; loading successful
                 SKIP    1               ; Skip to window on text on lower edge
                 #endif
+
 > _        _    CLS                     ; Fallback si no image found
                 WINDOW  1
                 WINAT   0 0
@@ -649,8 +654,8 @@ S 1
                 XPICTURE 0
                 #else
                 PICTURE 0
-                #endif
                 DISPLAY 0
+                #endif
                 DESC    0               ; Introduction
 
 > _       _     ANYKEY

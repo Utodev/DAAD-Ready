@@ -422,14 +422,19 @@ LOGO    2       conjugation
                 DISPLAY @fDarkF
                 SKIP    1               ; Pular para janela no texto na borda inferior
                 #else
-> _       _     XPICTURE @fPlayer       ; Se houver imagem, ele a carrega
-                DISPLAY @fDarkF         ; Mostre se não estiver escuro, senão faça um CLS
-                SKIP    2               ; Pular para janela no texto na borda inferior
+> _       _     NOTZERO fDarkF          ; If dark, do CLS
+                CLS
+                SKIP    3               ; Skip to window on text on lower edge
 
-> _        _    XPICTURE 255            ; Na falha da imagem, carrega a imagem num. 255
-                DISPLAY @fDarkF
-                SKIP    1               ; Pular para janela no texto na borda inferior
+> _       _     XPICTURE @fPlayer       ; Loads image
+                LT      20 128          ; loading successful
+                SKIP    2               ; Skip to window on text on lower edge
+
+> _        _    XPICTURE 255            ; On image fail, loads image num. 255
+                LT      20 128          ; loading successful
+                SKIP    1               ; Skip to window on text on lower edge
                 #endif
+
 > _        _    CLS                     ; Fallback sem imagem encontrada
                 WINDOW  1
                 WINAT   0 0
@@ -609,8 +614,8 @@ LOGO    2       conjugation
                 XPICTURE 0
                 #else
                 PICTURE 0
-                #endif
                 DISPLAY 0
+                #endif
                 DESC    0               ; Introdução
 
 > _       _     ANYKEY

@@ -394,14 +394,19 @@ LUEGO   2       conjugation
                 DISPLAY @fDarkF
                 SKIP    1               ; Saltamos
                 #else
+> _       _     NOTZERO fDarkF          ; Si oscuro hace un CLS
+                CLS
+                SKIP    3               ; Saltamos
+
 > _       _     XPICTURE @fPlayer       ; Si hay gráfico, cárgalo
-                DISPLAY @fDarkF         ; Muestralo si no oscuro; si oscuro hace un CLS
+                LT      20 128
                 SKIP    2               ; Saltamos
 
 > _        _    XPICTURE 255            ; Si hemos fallado, cargamos la localidad 255 (pantalla de paso)
-                DISPLAY @fDarkF
+                LT      20 128
                 SKIP    1               ; Saltamos
                 #endif
+
 > _        _    CLS                     ; Fallback si no encontramos imagen
                 WINDOW  1
                 WINAT   0 0
@@ -581,8 +586,8 @@ LUEGO   2       conjugation
                 XPICTURE 0
                 #else
                 PICTURE 0
-                #endif
                 DISPLAY 0
+                #endif
                 DESC    0               ; Introducción
 
 > _       _     ANYKEY

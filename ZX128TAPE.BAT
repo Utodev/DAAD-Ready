@@ -56,7 +56,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\ZXDAAD128\DRF zx esxdos %GAME%.DSF tape,zx128
+TOOLS\DRC\DRF zx esxdos %GAME%.DSF tape,zx128
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -70,6 +70,8 @@ SET IMAGEOPTION=
 IF exist .\IMAGES\*.DCP SET IMAGEOPTION=-i .\IMAGES 
 PHP\PHP TOOLS\ZXDAAD128\DRB128.PHP %IMAGEOPTION% -o %GAME% TAPE %LANG% %GAME%.json %INTERPRETER% ASSETS\CHARSET\%FONT6%
 IF ERRORLEVEL 1 GOTO ERROR
+tools\cecho\cecho {02}[OK]{07}
+ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
 
@@ -83,8 +85,11 @@ IF exist %GAME%.AD3 SET BANKFILES=%BANKFILES% %GAME%.AD3
 IF exist %GAME%.AD4 SET BANKFILES=%BANKFILES% %GAME%.AD4
 IF exist %GAME%.AD6 SET BANKFILES=%BANKFILES% %GAME%.AD6
 IF exist %GAME%.AD7 SET BANKFILES=%BANKFILES% %GAME%.AD7
-PHP\PHP TOOLS\ZXDAAD128\DAADMAKER128.PHP -t %GAME%.TAP -n %GAME% %BANKFILES%
-MOVE %GAME%.TAP RELEASE\ZX128 > nul 2>&1
+SET LOADING_SCREEN=
+if exist IMAGES\DAAD.SCR SET LOADING_SCREEN=-s IMAGES\DAAD.SCR
+PHP\PHP TOOLS\ZXDAAD128\DAADMAKER128.PHP -t %GAME%.TAP -n %GAME% %LOADING_SCREEN% %BANKFILES%
+IF ERRORLEVEL 1 GOTO ERROR
+MOVE %GAME%.TAP RELEASE\ZX128TAPE > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -101,7 +106,7 @@ tools\cecho\cecho {07}
 
 PAUSE
 cd TOOLS\ZESARUX
-zesarux  --noconfigfile --zoom 2 --machine 128k --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\ZX128\%GAME%.tap"
+zesarux  --noconfigfile --zoom 2 --machine 128k --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\ZX128TAPE\%GAME%.tap"
 CD ..\..
 GOTO END
 
@@ -116,5 +121,3 @@ PAUSE
 REM ----  CLEANING ---- 
 DEL %GAME%.AD? > nul 2>&1
 DEL %GAME%.json > nul 2>&1
-
-

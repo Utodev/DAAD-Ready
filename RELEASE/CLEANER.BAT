@@ -89,8 +89,14 @@ if errorlevel 2 (
     copy ..\readme.txt > nul 2>&1
     cd ..
 
-    cd zx128
+    cd zx128tape
     echo Cleaning ZX Spectrum 128K tape...
+    del /q /s *.* > nul 2>&1
+    copy ..\readme.txt > nul 2>&1
+    cd ..
+
+    cd zx128p3
+    echo Cleaning ZX Spectrum 128K disk...
     del /q /s *.* > nul 2>&1
     copy ..\readme.txt > nul 2>&1
     cd ..
