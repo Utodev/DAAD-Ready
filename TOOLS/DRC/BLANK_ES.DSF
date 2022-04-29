@@ -571,6 +571,8 @@ LUEGO   2       conjugation
                 DISPLAY 0
                 #endif
 #endif
+
+> _       _     
                 ANYKEY
                 CLS
                 SET   255             

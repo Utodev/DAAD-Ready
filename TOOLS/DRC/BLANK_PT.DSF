@@ -592,13 +592,15 @@ LOGO    2       conjugation
                 #endif
                 WINSIZE 25      127     ; Tamanho máximo
                 CLS
+                DESC    0               ; Introdução
 #ifndef "tape"
                 XPICTURE 0
                 #ifdef "nativeraster"
                 DISPLAY 0
                 #endif
                 #endif                
-                DESC    0               ; Introdução
+
+> _       _     
                 ANYKEY
                 CLS
                 SET   255             
