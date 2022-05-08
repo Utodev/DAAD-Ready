@@ -1,5 +1,6 @@
 .DS_Store
 TEST.DSF
-ASSETS/AMIGA
 buildRelease.sh
 TOOLS/WinAPE/CPC_Symbols.fot
+TOOLS/WinUAE/kick13.rom
+TOOLS/WinUAE/winuaebootlog.txt
