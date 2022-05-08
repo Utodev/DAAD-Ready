@@ -1,5 +1,5 @@
 ﻿
-WinUAE 4.9.0 (2021.12.06) (10.0.22000 [1]) 64-bit 9.17.802 12 18:29 0
+WinUAE 4.9.0 (2021.12.06) (10.0.22598 [1]) 64-bit 9.17.802 12 18:29 0
 (c) 1995-2001 Bernd Schmidt   - Core UAE concept and implementation.
 (c) 1998-2021 Toni Wilen      - Win32 port, core code updates.
 (c) 1996-2001 Brian King      - Win32 port, Picasso96 RTG, and GUI.
@@ -8,14 +8,14 @@ WinUAE 4.9.0 (2021.12.06) (10.0.22000 [1]) 64-bit 9.17.802 12 18:29 0
 (c) 2000-2005 Bernd Roesch    - MIDI input, many fixes.
 Press F12 to show the Settings Dialog (GUI), Alt-F4 to quit.
 End+F1 changes floppy 0, End+F2 changes floppy 1, etc.
-'C:\Users\csanc\PersonalDrive\Github\DAAD-Ready\TOOLS\WinUAE\winuae.exe'
-EXE: 'C:\Users\csanc\PersonalDrive\Github\DAAD-Ready\TOOLS\WinUAE\', DATA: 'C:\Users\csanc\PersonalDrive\Github\DAAD-Ready\TOOLS\WinUAE\', PLUGIN: 'C:\Users\csanc\PersonalDrive\Github\DAAD-Ready\TOOLS\WinUAE\'
-'C:\Users\csanc\PersonalDrive\Github\DAAD-Ready\TOOLS\WinUAE\winuae.ini' enabled
+'C:\Users\csanc\OneDrive\Github\DAAD-Ready\TOOLS\WinUAE\winuae.exe'
+EXE: 'C:\Users\csanc\OneDrive\Github\DAAD-Ready\TOOLS\WinUAE\', DATA: 'C:\Users\csanc\OneDrive\Github\DAAD-Ready\TOOLS\WinUAE\', PLUGIN: 'C:\Users\csanc\OneDrive\Github\DAAD-Ready\TOOLS\WinUAE\'
+'C:\Users\csanc\OneDrive\Github\DAAD-Ready\TOOLS\WinUAE\winuae.ini' enabled
 '-config=DAAD.UAE -G'
 params:
 1: '-config=DAAD.UAE'
 2: '-G'
-MMAN: Total physical RAM 16306 MB, all RAM 25165 MB
+MMAN: Total physical RAM 16306 MB, all RAM 23330 MB
 MMAN: Attempting to reserve: 2048 MB
 VM: Reserve  0x80000000 bytes, try address 0x80000000
 VM: Reserve  0x80000000 bytes failed!
@@ -24,52 +24,58 @@ CLOCKFREQ: QPF 10.00MHz (10.00MHz, DIV=1)
 Enumerating display devices.. 
 Sorting devices and modes..
 NVIDIA GeForce GTX 1050 '\\.\DISPLAY1' [PCI\VEN_10DE&DEV_1C81&SUBSYS_37651458&REV_A1]
--: Generic PnP Monitor (2560*1080) * [\Registry\Machine\System\CurrentControlSet\Control\Class\{4d36e96e-e325-11ce-bfc1-08002be10318}\0001]
-0: 640x480, 32-bit (59,60,75)
-1: 720x480, 32-bit (59,60)
-2: 720x576, 32-bit (50)
-3: 800x600, 32-bit (60,75)
-4: 1024x768, 32-bit (60,75)
-5: 1152x864, 32-bit (75)
+-: Generic PnP Monitor (3440*1440) * [\Registry\Machine\System\CurrentControlSet\Control\Class\{4d36e96e-e325-11ce-bfc1-08002be10318}\0001]
+0: 640x480, 32-bit (59,60,72,75,100,165)
+1: 720x480, 32-bit (59,60,100,165)
+2: 720x576, 32-bit (50,100,165)
+3: 800x600, 32-bit (56,60,72,75,100,165)
+4: 1024x768, 32-bit (60,70,75,100,165)
+5: 1152x864, 32-bit (75,100,165)
 6: 1176x664, 32-bit (50,59,60)
-7: 1280x720, 32-bit (50,59,60)
-8: 1280x768, 32-bit (60,75)
-9: 1280x800, 32-bit (60,75)
-10: 1280x960, 32-bit (60,75)
-11: 1280x1024, 32-bit (60,75)
-12: 1360x768, 32-bit (60)
-13: 1366x768, 32-bit (60)
-14: 1600x900, 32-bit (60)
-15: 1600x1024, 32-bit (59,60)
-16: 1680x1050, 32-bit (59,60)
-17: 1768x992i, 32-bit (25i,29i,30i)
-18: 1920x1080, 32-bit (25i,29i,30i,50,59,60)
-19: 2560x1080, 32-bit (60)
-20 display modes.
-Desktop: W=2560 H=1080 B=32 HZ=60. CXVS=2560 CYVS=1080
+7: 1280x720, 32-bit (50,59,60,100,165)
+8: 1280x768, 32-bit (60,100,165)
+9: 1280x800, 32-bit (60,100,165)
+10: 1280x960, 32-bit (60,100,165)
+11: 1280x1024, 32-bit (60,75,100,165)
+12: 1360x768, 32-bit (59,60,100,165)
+13: 1366x768, 32-bit (59,60,100,165)
+14: 1600x900, 32-bit (59,60,100,165)
+15: 1600x1024, 32-bit (59,60,100,165)
+16: 1600x1200, 32-bit (59,60,100)
+17: 1680x1050, 32-bit (59,60,100,165)
+18: 1768x992i, 32-bit (25i,29i,30i)
+19: 1920x1080, 32-bit (25i,29i,30i,50,59,60,100,165)
+20: 1920x1200, 32-bit (59,60,100)
+21: 1920x1440, 32-bit (59,60,100)
+22: 2560x1080, 32-bit (59,60,100,165)
+23: 2560x1440, 32-bit (59,60,100)
+24: 2580x1080, 32-bit (59,60,100,165)
+25: 3440x1440, 32-bit (60,100)
+26 display modes.
+Desktop: W=3440 H=1440 B=32 HZ=100. CXVS=3440 CYVS=1440
 Enumerating WASAPI devices...
 Enumerating DirectSound devices..
 Enumeration end
 0:WA: Default Audio Device
-1:WA: LG ULTRAWIDE (NVIDIA High Definition Audio)
-2:WA: Realtek Digital Output (Realtek(R) Audio)
+1:WA: Realtek Digital Output (Realtek(R) Audio)
+2:WA: Altavoces (Steam Streaming Speakers)
 3:WA: Altavoces (Steam Streaming Microphone)
-4:WA: Altavoces (Steam Streaming Speakers)
+4:WA: Altavoces (Realtek(R) Audio)
 5:WX: Default Audio Device
-6:WX: LG ULTRAWIDE (NVIDIA High Definition Audio)
-7:WX: Realtek Digital Output (Realtek(R) Audio)
+6:WX: Realtek Digital Output (Realtek(R) Audio)
+7:WX: Altavoces (Steam Streaming Speakers)
 8:WX: Altavoces (Steam Streaming Microphone)
-9:WX: Altavoces (Steam Streaming Speakers)
+9:WX: Altavoces (Realtek(R) Audio)
 10:DS: Controlador primario de sonido
-11:DS: LG ULTRAWIDE (NVIDIA High Definition Audio)
+11:DS: Altavoces (Realtek(R) Audio)
 12:DS: Realtek Digital Output (Realtek(R) Audio)
-13:DS: Altavoces (Steam Streaming Microphone)
-14:DS: Altavoces (Steam Streaming Speakers)
+13:DS: Altavoces (Steam Streaming Speakers)
+14:DS: Altavoces (Steam Streaming Microphone)
 Enumerating recording devices:
 0:DS: Controlador primario de captura de sonido
 1:DS: Microphone (K38)
-2:DS: Micrófono (5- GENERAL WEBCAM)
-3:DS: Micrófono (Steam Streaming Microphone)
+2:DS: Micrófono (Steam Streaming Microphone)
+3:DS: Micrófono (GENERAL WEBCAM)
 done
 Filesystem charset (ACP=1252,FSCP=28605):
  00: 0000        01: 0001        02: 0002        03: 0003       
@@ -149,27 +155,31 @@ MIDI OUT: -1:'Microsoft MIDI Mapper' (1/1)
 MIDI OUT: 0:'Microsoft GS Wavetable Synth' (1/27)
 MIDI port enumeration end
 RawInput enumeration..
-RAWINPUT: found 8 devices
+RAWINPUT: found 9 devices
 HID device check:
-0002003F 2 31B2/0011 (1/12)
+277600F9 1 0000/0000 (0/0)
+HID CreateFile failed 3
+277600F9 FFFFFFFF [FFFFFFFF/FFFFFFFF] keyboard: '\\?\Microsoft Keyboard RID\0'
+type=0 sub=0 mode=0 fkeys=0 indicators=0 tkeys=0
+00040045 2 31B2/0011 (1/12)
 RAWHID: Usage not 4 or 5 (0001)
-00020041 2 046D/C52B (1/12)
+00020049 2 046D/C52B (1/12)
 RAWHID: Usage not 4 or 5 (0001)
-00020043 2 046D/C52B (4/65280)
+0002004B 2 046D/C52B (4/65280)
 RAWHID: Usage 4, reserved page FF00
-00020045 2 046D/C52B (2/65280)
+0002004D 2 046D/C52B (2/65280)
 RAWHID: Usage not 4 or 5 (0002)
-0002004B 2 046D/C52B (136/65468)
+0002004F 2 046D/C52B (136/65468)
 RAWHID: Usage not 4 or 5 (0088)
-0002004D 2 046D/C52B (1/65280)
+00020051 2 046D/C52B (1/65280)
 RAWHID: Usage not 4 or 5 (0001)
-00020042 0 0100/0010 (0/0)
+00020044 0 0100/0010 (0/0)
 (55 00 53 00 42 00 20 00 52 00 65 00 63 00 65 00 69 00 76 00 65 00 72 00) 'USB Receiver'
-00020042 0000052C [046D/C52B] mouse: '\\?\HID#VID_046D&PID_C52B&MI_01&Col01#9&8ada8ed&0&0000#{378de44c-56ef-11d1-bc8c-00a0c91405dd}'
+00020044 00000500 [046D/C52B] mouse: '\\?\HID#VID_046D&PID_C52B&MI_01&Col01#9&8ada8ed&0&0000#{378de44c-56ef-11d1-bc8c-00a0c91405dd}'
 id=256 buttons=16 hw=0 rate=0
-0001003D 1 0051/0000 (0/12)
+0001003F 1 0051/0000 (0/12)
 (55 00 53 00 42 00 20 00 52 00 65 00 63 00 65 00 69 00 76 00 65 00 72 00) 'USB Receiver'
-0001003D 000003E0 [046D/C52B] keyboard: '\\?\HID#VID_046D&PID_C52B&MI_00#9&20713532&0&0000#{884b96c3-56ef-11d1-bc8c-00a0c91405dd}'
+0001003F 000004E4 [046D/C52B] keyboard: '\\?\HID#VID_046D&PID_C52B&MI_00#9&20713532&0&0000#{884b96c3-56ef-11d1-bc8c-00a0c91405dd}'
 type=81 sub=0 mode=1 fkeys=12 indicators=3 tkeys=173
 [046D/C52B] '\\?\HID#VID_046D&PID_C52B&MI_01&Col01#9&8ada8ed&0&0000#{378de44c-56ef-11d1-bc8c-00a0c91405dd}' (RAW Mouse (046D/C52B)) -> 'Mouse compatible con HID'
 Mouse compatible con HID: [046D/C52B]
@@ -204,7 +214,8 @@ wintab tablet initialization..
 Tablet: no wintab32.dll
 end
 K 00: 'WinUAE keyboard' (NULLKEYBOARD)
-K 01: 'USB Receiver' (\\?\HID#VID_046D&PID_C52B&MI_00#9&20713532&0&0000#{884b96c3-56ef-11d1-bc8c-00a0c91405dd})
+K 01: 'RAW Keyboard' (\\?\Microsoft Keyboard RID\0)
+K 02: 'USB Receiver' (\\?\HID#VID_046D&PID_C52B&MI_00#9&20713532&0&0000#{884b96c3-56ef-11d1-bc8c-00a0c91405dd})
 KS ver = 34 (0x22)
 Stored port 0/0 d=0: added 200 0  
 Stored port 0/0 d=0: added 200 0 Windows mouse WINMOUSE1
@@ -243,4 +254,4 @@ Port1: ID 'kbd1' matched
 Port2: NONE
 Port3: NONE
 Possible boxart path: '..\..\RELEASE\AMIGA'
-Log (disabled): 'C:\Users\csanc\PersonalDrive\Github\DAAD-Ready\TOOLS\WinUAE\winuaelog.txt'
+Log (disabled): 'C:\Users\csanc\OneDrive\Github\DAAD-Ready\TOOLS\WinUAE\winuaelog.txt'
