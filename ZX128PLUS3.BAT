@@ -93,7 +93,7 @@ TOOLS\CPCDiskXP\CPCDiskXP -File bin.bin -AddToExistingDsk %GAME%.DSK > nul 2>&1
 for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.DCP TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\00%%i.DCP -AddToExistingDsk %GAME%.DSK
 for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.DCP TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\0%%i.DCP -AddToExistingDsk %GAME%.DSK
 for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.DCP TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\%%i.DCP -AddToExistingDsk %GAME%.DSK
-MOVE %GAME%.DSK RELEASE\ZX128P3 > nul 2>&1
+MOVE %GAME%.DSK RELEASE\ZX128PLUS3 > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -112,7 +112,7 @@ tools\cecho\cecho {07}
 
 PAUSE
 cd TOOLS\ZESARUX
-zesarux --noconfigfile --quickexit --zoom 2 --machine P341 --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\ZX128P3\%GAME%.DSK"
+zesarux --noconfigfile --quickexit --zoom 2 --machine P341 --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\ZX128PLUS3\%GAME%.DSK"
 CD ..\..
 GOTO END
 
