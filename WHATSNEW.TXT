@@ -1,4 +1,4 @@
-DAAD Ready 0.6  (08/07/2022)
+DAAD Ready 0.6  (08/05/2022)
 ============================
 - PC and MSX2 interpreters Updated again
 - Added some color to scripts
