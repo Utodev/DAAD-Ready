@@ -109,7 +109,7 @@ tools\cecho\cecho {07}
 
 PAUSE
 cd TOOLS\ZESARUX
-zesarux  --noconfigfile --zoom 1 --machine tbblue --realvideo --tbblue-fast-boot-mode --enable-esxdos-handler --esxdos-root-dir "..\..\RELEASE\NEXT" --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\NEXT\%GAME%.tap"
+zesarux --noconfigfile --quickexit --zoom 1 --machine tbblue --realvideo --tbblue-fast-boot-mode --enable-esxdos-handler --esxdos-root-dir "..\..\RELEASE\NEXT" --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\NEXT\%GAME%.tap"
 CD ..\..
 GOTO END
 
