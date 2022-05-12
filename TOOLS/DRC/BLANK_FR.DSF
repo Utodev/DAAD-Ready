@@ -414,7 +414,6 @@ S 1
                               
 #else
 ;ZX 128
-                #ifdef "tape"
 > _       _     PICTURE @fPlayer        ; S'il y a une image, il la charge
                 DISPLAY @fDarkF         ; Montrez-le s'il n'est pas sombre, sinon faites un CLS
                 SKIP    2               ; Passer à la fenêtre sur le texte sur le bord inférieur
@@ -422,19 +421,6 @@ S 1
 > _        _    PICTURE 255             ; En cas d'échec de l'image, charge l'image numéro. 255
                 DISPLAY @fDarkF
                 SKIP    1               ; Passer à la fenêtre sur le texte sur le bord inférieur
-                #else
-> _       _     NOTZERO fDarkF          ; If dark, do CLS
-                CLS
-                SKIP    3               ; Skip to window on text on lower edge
-
-> _       _     XPICTURE @fPlayer       ; Loads image
-                LT      20 128          ; loading successful
-                SKIP    2               ; Skip to window on text on lower edge
-
-> _        _    XPICTURE 255            ; On image fail, loads image num. 255
-                LT      20 128          ; loading successful
-                SKIP    1               ; Skip to window on text on lower edge
-                #endif
 
 > _        _    CLS                     ; Repli si aucune image n'a été trouvée
                 WINDOW  1
@@ -446,7 +432,6 @@ S 1
 > _        _    WINDOW 1               ; Fenêtre en bas de l'écran
                 WINAT  14 0
 #endif
-
 
 > _       _     NOTZERO fDarkF           ; Obscurité
                 SYSMESS 0
@@ -608,20 +593,18 @@ S 1
 #else
 ;ZX 128
 > _       _     WINDOW  1               ; Initialisons les fenêtres
-                PAPER 0
-                INK 15
                 WINAT   14       0
                 WINSIZE 25      127     ; Fenêtre maximale
                 CLS
-                #ifndef "tape"
-                XPICTURE 0
-                #else
                 PICTURE 0
                 DISPLAY 0
-                #endif
-                DESC    0               ; Introduction
+                SKIP    1
 
-> _       _     ANYKEY
+> _       _     WINAT   0       0
+                CLS
+
+> _       _     DESC    0               ; Introduction
+                ANYKEY
                 CLS
                 SET   255
 #endif

@@ -420,7 +420,6 @@ S 1
 
 #else
 ;ZX 128
-                #ifdef "tape"
 > _       _     PICTURE @fPlayer        ; If there is image, it loads it
                 DISPLAY @fDarkF         ; Show it if not dark, else do a CLS
                 SKIP    2               ; Skip to window on text on lower edge
@@ -428,19 +427,6 @@ S 1
 > _        _    PICTURE 255             ; On image fail, loads image num. 255
                 DISPLAY @fDarkF
                 SKIP    1               ; Skip to window on text on lower edge
-                #else
-> _       _     NOTZERO fDarkF          ; If dark, do CLS
-                CLS
-                SKIP    3               ; Skip to window on text on lower edge
-
-> _       _     XPICTURE @fPlayer       ; Loads image
-                LT      20 128          ; loading successful
-                SKIP    2               ; Skip to window on text on lower edge
-
-> _        _    XPICTURE 255            ; On image fail, loads image num. 255
-                LT      20 128          ; loading successful
-                SKIP    1               ; Skip to window on text on lower edge
-                #endif
 
 > _        _    CLS                     ; Fallback si no image found
                 WINDOW  1
@@ -629,20 +615,18 @@ S 1
 #else
 ;ZX 128
 > _       _     WINDOW  1               ; Windows are random
-                PAPER 0
-                INK 15
                 WINAT   14       0
                 WINSIZE 25      127     ; Maximum window
                 CLS
-                #ifndef "tape"
-                XPICTURE 0
-                #else
                 PICTURE 0
                 DISPLAY 0
-                #endif
-                DESC    0               ; Introduction
+                SKIP    1
 
-> _       _     ANYKEY
+> _       _     WINAT   0       0
+                CLS
+
+> _       _     DESC    0               ; Introduction
+                ANYKEY
                 CLS
                 SET   255
 #endif
