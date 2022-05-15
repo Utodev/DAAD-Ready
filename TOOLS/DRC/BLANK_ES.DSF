@@ -385,7 +385,6 @@ LUEGO   2       conjugation
                 #endif
 #else
 ;ZX 128
-                #ifdef "tape"
 > _       _     PICTURE @fPlayer        ; Si hay gráfico, cárgalo
                 DISPLAY @fDarkF         ; Muestralo si no oscuro; si oscuro hace un CLS
                 SKIP    2               ; Saltamos
@@ -393,19 +392,6 @@ LUEGO   2       conjugation
 > _        _    PICTURE 255             ; Si hemos fallado, cargamos la localidad 255 (pantalla de paso)
                 DISPLAY @fDarkF
                 SKIP    1               ; Saltamos
-                #else
-> _       _     NOTZERO fDarkF          ; Si oscuro hace un CLS
-                CLS
-                SKIP    3               ; Saltamos
-
-> _       _     XPICTURE @fPlayer       ; Si hay gráfico, cárgalo
-                LT      20 128
-                SKIP    2               ; Saltamos
-
-> _        _    XPICTURE 255            ; Si hemos fallado, cargamos la localidad 255 (pantalla de paso)
-                LT      20 128
-                SKIP    1               ; Saltamos
-                #endif
 
 > _        _    CLS                     ; Fallback si no encontramos imagen
                 WINDOW  1
@@ -579,20 +565,18 @@ LUEGO   2       conjugation
 #else
 ;ZX 128
 > _       _     WINDOW  1               ; Inicializamos las ventanas
-                PAPER 0
-                INK 15
                 WINAT   14       0
                 WINSIZE 25      127     ; Tamaño máximo
                 CLS
-                #ifndef "tape"
-                XPICTURE 0
-                #else
                 PICTURE 0
                 DISPLAY 0
-                #endif
-                DESC    0               ; Introducción
+                SKIP    1
 
-> _       _     ANYKEY
+> _       _     WINAT   0       0
+                CLS
+
+> _       _     DESC    0               ; Introducción
+                ANYKEY
                 CLS
                 SET   255
 #endif

@@ -45,9 +45,9 @@ REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\ZXDAAD128\DCP -f 00%%i.SCR 00%%i.DCP > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\ZXDAAD128\DCP -f 0%%i.SCR 0%%i.DCP > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\ZXDAAD128\DCP -f %%i.SCR %%i.DCP  > nul 2>&1
+for /L %%i in (0, 1, 9) do (CALL :CHECK_IF_COMPRESS 00%%i.SCR 00%%i.DCP && (..\TOOLS\ZXDAAD128\DCP -f 00%%i.SCR 00%%i.DCP > nul 2>&1))
+for /L %%i in (10, 1, 99) do (CALL :CHECK_IF_COMPRESS 0%%i.SCR 0%%i.DCP && (..\TOOLS\ZXDAAD128\DCP -f 0%%i.SCR 0%%i.DCP > nul 2>&1))
+for /L %%i in (100, 1, 256) do (CALL :CHECK_IF_COMPRESS %%i.SCR %%i.DCP && (..\TOOLS\ZXDAAD128\DCP -f %%i.SCR %%i.DCP > nul 2>&1))
 CD ..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -110,6 +110,17 @@ zesarux --noconfigfile --quickexit --zoom 2 --machine 128k --realvideo --nosplas
 CD ..\..
 GOTO END
 
+REM ---- Check if the file to compress is already compressed or is newer
+:CHECK_IF_COMPRESS
+  IF not exist %1 exit /b 1
+  IF not exist %2 exit /b 0
+  FOR %%i IN (%1) DO SET DATE1=%%~ti
+  FOR %%i IN (%2) DO SET DATE2=%%~ti
+  IF "%DATE1%"=="%DATE2%" exit /b 0
+  FOR /F %%i IN ('DIR /B /O:D %1 %2') DO SET NEWEST=%%i
+  IF "%2"=="%NEWEST%" exit /b 1
+  exit /b 0
+
 :ERROR
 :ERROR
 tools\cecho\cecho {04}
@@ -121,3 +132,4 @@ PAUSE
 REM ----  CLEANING ---- 
 DEL %GAME%.AD? > nul 2>&1
 DEL %GAME%.json > nul 2>&1
+
