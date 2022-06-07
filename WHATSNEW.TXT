@@ -1,3 +1,9 @@
+DAAD Ready 0.6.1 (15/05/2022)
+=============================
+- ZXDAAD128 interpreter updated to fix some bugs and also to add some standarization at color codes
+- PCDAAD DOS interpreter updated to fix bug with object listing.
+- Added Windows build (well, it was already there, but it has been made visible)
+
 DAAD Ready 0.6  (08/05/2022)
 ============================
 - PC and MSX2 interpreters Updated again
