@@ -1,8 +1,11 @@
-DAAD Ready 0.6.1 (15/05/2022)
+DAAD Ready 0.6.1 (08/06/2022)
 =============================
 - ZXDAAD128 interpreter updated to fix some bugs and also to add some standarization at color codes
 - PCDAAD DOS interpreter updated to fix bug with object listing.
 - Added Windows build (well, it was already there, but it has been made visible)
+- Fixed a bug in C64 script that was making XMESSAGES to be wrongly stored in D64 file
+- Fixed Commodore Plus/4 script
+- Reinstalled WinAPE folder as it was failing for some users
 
 DAAD Ready 0.6  (08/05/2022)
 ============================
