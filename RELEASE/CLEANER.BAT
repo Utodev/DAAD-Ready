@@ -10,6 +10,13 @@ if errorlevel 2 (
     copy ..\readme.txt > nul 2>&1
     cd ..
 
+    cd HTML
+    echo Cleaning HTML...
+    del /q /s *.* > nul 2>&1
+    copy ..\readme.txt > nul 2>&1
+    cd ..
+
+
     cd cpc
     echo Cleaning Amstrad CPC...
     del /q /s *.* > nul 2>&1

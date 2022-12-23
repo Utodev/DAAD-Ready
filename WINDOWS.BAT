@@ -38,10 +38,10 @@ echo Language: %LANG% %BASELANG%
 IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
 
 IF "%BASELANG%" == "EN" (
-ECHO There is not a Windows build, bug the MSDOS build does actually create apackage which includes the DOS game as is, together with DOSBOX, which allows running the game in Windows trasnparently just like many GOG.COM games. You can consider what is created at RELEASE\MSDOS as the Windows build, and what is at RELEASE\MSDOS\GAME as the proper DOS game.
+ECHO There is not a Windows build, but the MSDOS build does actually create apackage which includes the DOS game as is, together with DOSBOX, which allows running the game in Windows trasnparently just like many GOG.COM games. You can consider what is created at RELEASE\MSDOS as the Windows build, and what is at RELEASE\MSDOS\GAME as the proper DOS game.
 )
 IF "%BASELANG%" == "ES" (
-ECHO No existe una compilaci¢n para Windows propiamente dicha. Sin embargo la compilaci¢n para MSDOS est  realmente creando un paquete que incluye el juego DOS propiamente dicho, junto con un pack con dosbox que permite ejecutarlo directamente en Windows, al estilo de muchos juegos de GOG.COM. Puedes compilar la versi¢n de MSDOS y distribuir lo que aparece en la carpeta RELEASE\MSDOS como una aventura para Windows.
+ECHO No existe una compilación para Windows propiamente dicha. Sin embargo la compilación para MSDOS est  realmente creando un paquete que incluye el juego DOS propiamente dicho, junto con un pack con dosbox que permite ejecutarlo directamente en Windows, al estilo de muchos juegos de GOG.COM. Puedes compilar la versión de MSDOS y distribuir lo que aparece en la carpeta RELEASE\MSDOS como una aventura para Windows.
 )
 
 pause
