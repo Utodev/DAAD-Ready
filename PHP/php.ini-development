@@ -361,7 +361,9 @@ zend.enable_gc = On
 ; Default: ""
 ;zend.script_encoding =
 
-; Allows to include or exclude arguments from stack traces generated for exceptions
+; Allows to include or exclude arguments from stack traces generated for exceptions.
+; In production, it is recommended to turn this setting on to prohibit the output 
+; of sensitive information in stack traces
 ; Default: Off
 zend.exception_ignore_args = Off
 
@@ -525,7 +527,9 @@ report_memleaks = On
 ; This setting is on by default.
 ;report_zend_debug = 0
 
-; Store the last error/warning message in $php_errormsg (boolean).
+; Store the last error/warning message in $php_errormsg (boolean). Setting this value
+; to On can assist in debugging and is appropriate for development servers. It should
+; however be disabled on production servers.
 ; This directive is DEPRECATED.
 ; Default Value: Off
 ; Development Value: Off
@@ -1586,8 +1590,6 @@ zend.assertions = 1
 ; http://php.net/assert.quiet-eval
 ;assert.quiet_eval = 0
 
-
-
 [COM]
 ; path to a file containing GUIDs, IIDs or filenames of files with TypeLibs
 ; http://php.net/com.typelib-file
@@ -1630,7 +1632,7 @@ zend.assertions = 1
 ; http input encoding.
 ; mbstring.encoding_translation = On is needed to use this setting.
 ; If empty, default_charset or input_encoding or mbstring.input is used.
-; The precedence is: default_charset < input_encoding < mbsting.http_input
+; The precedence is: default_charset < input_encoding < mbstring.http_input
 ; http://php.net/mbstring.http-input
 ;mbstring.http_input =
 
