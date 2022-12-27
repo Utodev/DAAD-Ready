@@ -73,7 +73,9 @@ COPY  %GAME%.JDDB RELEASE\HTML\daad.jddb > nul 2>&1
 
 REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
-
+for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\00%%i.png RELEASE\HTML\images.js
+for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\0%%i.png RELEASE\HTML\images.js
+for /L %%i in (100, 1, 256) do IF exist IMAGES\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\%%i.png RELEASE\HTML\images.js
 
 REM ----  CLEANING ---- 
 DEL %GAME%.DDB > nul 2>&1
