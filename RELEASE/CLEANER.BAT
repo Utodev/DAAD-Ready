@@ -9,8 +9,6 @@ if errorlevel 2 (
     del /q /s C64\*.* > nul 2>&1
     copy readme.txt C64 > nul 2>&1
     
-
-    
     echo Cleaning HTML...
     md HTML > nul 2>&1
     del /q /s HTML\*.* > nul 2>&1
