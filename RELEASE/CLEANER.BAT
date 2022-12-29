@@ -2,113 +2,113 @@
 echo -- This will delete all files from release folders, leaving them empty but for the "readme.txt " file that was already in there.
 choice /C NY /N /M "Are your sure? [Y/N]"
 if errorlevel 2 (
-    copy c64\readme.txt > nul 2>&1
+    echo "DAAD-Ready" > readme.txt
 
-    cd c64
     echo Cleaning Commodore 64...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
+    md C64 > nul 2>&1
+    del /q /s C64\*.* > nul 2>&1
+    copy readme.txt C64 > nul 2>&1
+    
 
-    cd HTML
+    
     echo Cleaning HTML...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
+    md HTML > nul 2>&1
+    del /q /s HTML\*.* > nul 2>&1
+    copy readme.txt  HTML > nul 2>&1
 
 
-    cd cpc
     echo Cleaning Amstrad CPC...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
-
-    cd cplus4
+    md CPC > nul 2>&1
+    del /q /s CPC\*.* > nul 2>&1
+    copy readme.txt CPC > nul 2>&1
+    
     echo Cleaning Commodore Plus/4...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
+    md PLUS4 > nul 2>&1
+    del /q /s PLUS4\*.* > nul 2>&1
+    copy readme.txt PLUS4 > nul 2>&1
 
-    cd esxdos
     echo Cleaning ZX Spectrum ESXDOS...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
+    md ESXDOS > nul 2>&1
+    del /q /s ESXDOS\*.* > nul 2>&1
+    copy readme.txt ESXDOS > nul 2>&1
 
     echo Cleaning MSX1...
-    cd msx1
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
+    md MSX1> nul 2>&1
+    del /q /s MSX1\*.* > nul 2>&1
+    copy readme.txt MSX1 > nul 2>&1
 
-    cd msx2
     echo Cleaning MSX2...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
+    md MSX2> nul 2>&1
+    del /q /s MSX2\*.* > nul 2>&1
+    copy readme.txt MSX2 > nul 2>&1
 
-    cd next
     echo Cleaning Spectrum Next...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
+    md NEXT> nul 2>&1
+    del /q /s NEXT\*.* > nul 2>&1
+    copy readme.txt NEXT > nul 2>&1
 
-    cd pcw
     echo Cleaning Amstrad PCW...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
+    md PCW> nul 2>&1
+    del /q /s PCW\*.* > nul 2>&1
+    copy readme.txt PCW > nul 2>&1
 
-    cd plus3
     echo Cleaning ZX Spectrum +3...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
+    md PLUS3> nul 2>&1
+    del /q /s PLUS3\*.* > nul 2>&1
+    copy readme.txt PLUS3 > nul 2>&1
 
-    cd uno
+    
     echo Cleaning ZX-Uno...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    rd SYS > nul 2>&1
-    cd ..
+    md UNO> nul 2>&1
+    del /q /s UNO\*.* > nul 2>&1
+    del /q /s UNO\SYS\*.* > nul 2>&1
+    rd UNO\SYS > nul 2>&1
+    copy readme.txt UNO > nul 2>&1
 
-    cd zxtape
     echo Cleaning ZX Spectrum tape...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
+    md ZXTAPE> nul 2>&1
+    del /q /s ZXTAPE\*.* > nul 2>&1
+    copy readme.txt ZXTAPE > nul 2>&1
 
-    cd msdos
     echo Cleaning IBM PC MS-DOS...
-    del /s /q *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
+    md MSDOS> nul 2>&1
+    del /s /q MSDOS\*.* > nul 2>&1
+    del /s /q MSDOS\GAME\*.* > nul 2>&1
+    rd MSDOS\GAME> nul 2>&1
+    copy readme.txt MSDOS > nul 2>&1
 
-    cd atarist
+    echo Cleaning OLD IBM PC MS-DOS...
+    md OLDMSDOS> nul 2>&1
+    del /s /q OLDMSDOS\*.* > nul 2>&1
+    del /s /q OLDMSDOS\GAME\*.* > nul 2>&1
+    rd OLDMSDOS\GAME> nul 2>&1
+    copy readme.txt OLDMSDOS > nul 2>&1
+
+
     echo Cleaning Atari ST...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
+    md ATARIST> nul 2>&1
+    del /q /s ATARIST\*.* > nul 2>&1
+    copy readme.txt ATARIST > nul 2>&1
 
-    cd AMIGA
     echo Cleaning Amiga...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
-
-    cd zx128tape
+    md AMIGA> nul 2>&1
+    del /q /s AMIGA\*.* > nul 2>&1
+    del /q /s AMIGA\s\*.* > nul 2>&1
+    rd AMIGA\s > nul 2>&1
+    copy readme.txt AMIGA > nul 2>&1 
+    
     echo Cleaning ZX Spectrum 128K tape...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
-
-    cd zx128plus3
+    md ZX128TAPE> nul 2>&1
+    del /q /s ZX128TAPE\*.* > nul 2>&1
+    copy readme.txt ZX128TAPE > nul 2>&1
+    
+    
     echo Cleaning ZX Spectrum 128K disk...
-    del /q /s *.* > nul 2>&1
-    copy ..\readme.txt > nul 2>&1
-    cd ..
-
+    md ZX128PLUS3> nul 2>&1
+    del /q /s ZX128PLUS3\*.* > nul 2>&1
+    copy readme.txt ZX128PLUS3 > nul 2>&1
+    
     del readme.txt > nul 2>&1
-    pause
+    pause   
 
 )
