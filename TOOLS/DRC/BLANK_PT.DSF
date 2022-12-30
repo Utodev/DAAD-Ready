@@ -378,6 +378,7 @@ LOGO    2       conjugation
 #ifndef "zx128"
 > _       _     CLEAR 20
 #ifndef "tape"
+                ZERO fDarkF
                 XPICTURE @fPlayer           ; Se existir uma imagem, carrega
                 #ifndef "nativeraster"
                 GT 20 127
@@ -390,6 +391,10 @@ LOGO    2       conjugation
                 GT  20 127                  ; Se estiver escuro
                 XNEXTCLS                    ; desabilitar adn clear Layer2
 #endif       
+
+> _      _      NOTZERO fDarkF
+                CLS
+
 
 #ifndef "noretryImage"
 > _        _    GT 20 127

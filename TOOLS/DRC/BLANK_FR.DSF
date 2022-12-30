@@ -384,7 +384,12 @@ S 1
 #ifndef "zx128"
 > _       _     CLEAR 20
 #ifndef "tape"
+                ZERO fDarkF
                 XPICTURE @fPlayer        ; Si il y a une image, la charger
+                #ifndef "nativeraster"
+                GT 20 127
+                #endif          
+
 #endif
 #ifdef "nativeraster"
                 DISPLAY @fDarkF         ; & Le montrer si pas d'obscurité, sinon effacer l'écran
@@ -393,6 +398,10 @@ S 1
                 GT  20 127               ; Le montrer si pas d'obscurité ; sinon
                 XNEXTCLS                 ; Désactiver adn clear Layer2
 #endif
+
+> _      _      NOTZERO fDarkF
+                CLS
+
 
 #ifndef "noretryImage"
 > _        _    GT 20 127
