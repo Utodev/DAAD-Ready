@@ -1,3 +1,28 @@
+/*FALTA:
+
+TO-DO:
+
+- Timeouts in player input
+- More when too much text printed
+- Escape sequence '#k'. Note: if no doable, make the compiler stop with an error when target is html
+- Make HTML.BAT build script get 6x8.CHR font and convert to font.js, so it's editable like the others
+
+PENDING CHECKS:
+ 
+ - Check if PARSE 1 works
+ - Check containers and wearables
+ - Check AUTOP/AUTOT with DOALL
+ - Chequea getObjectFullWeight because in unclear circumstances it produced a stack overflow due to 
+   endless loop
+
+KNOW BUGS (or features):
+
+- Beep can't sound until player has either clicked or pressed a key. It's a limitation of javascript
+  so it can't be solved.
+
+*/
+
+
 // Constants
 
 // Settings
@@ -49,6 +74,23 @@ const VOC_PRONOUN=6
 const VOC_ANY = 7;
 
 const VOC_TYPE=[VOC_VERB,VOC_ADVERB,VOC_NOUN, VOC_ADJECT, VOC_PREPOSITION, VOC_CONJUGATION,  VOC_PRONOUN, VOC_ANY];
+
+// The AudioContext Frequencies
+
+var FREQ_TABLE = 
+[
+    16.35,    17.32,    18.35,    19.45,    20.60,    21.83,    23.12,    24.50,    25.96,    27.50,    29.14,    30.87,
+    32.70,    34.65,    36.71,    38.89,    41.20,    43.65,    46.25,    49.00,    51.91,    55.00,    58.27,    61.74,
+    65.41,    69.30,    73.42,    77.78,    82.41,    87.31,    92.50,    98.00,   103.83,   110.00,   116.54,   123.47,
+   130.81,   138.59,   146.83,   155.56,   164.81,   174.61,   185.00,   196.00,   207.65,   220.00,   233.08,   246.94,
+   261.63,   277.18,   293.66,   311.13,   329.63,   349.23,   369.99,   392.00,   415.30,   440.00,   466.16,   493.88,
+   523.25,   554.37,   587.33,   622.25,   659.26,   698.46,   739.99,   783.99,   830.61,   880.00,   932.33,   987.77,
+  1046.50,  1108.73,  1174.66,  1244.51,  1318.51,  1396.91,  1479.98,  1567.98,  1661.22,  1760.00,  1864.66,  1975.53,
+  2093.00,  2217.46,  2349.32,  2489.02,  2637.02,  2793.83,  2959.96,  3135.96,  3322.44,  3520.00,  3729.31,  3951.07,
+  4186.01,  4434.92,  4698.64,  4978.03  
+];
+
+
 
 // The following constants are to be used so in case in the future some 
 // system message has to be changed, it's easier to replace everywhere.
@@ -163,7 +205,7 @@ const FKEY2 = 61;
 const FSCREENMODE=62;
 const FactiveWindow=63;
 
-const MAX_FLAGS = 256;
+const NUM_FLAGS = 256;
 const MAX_FLAG_VALUE = 0xFF;
 
 // Object constants
@@ -178,7 +220,8 @@ const   LOC_WORN = 253;
 
 // The palette
 
-const colours = [ '#000000','#0000AA', '#00AA00','#0000AAAA','#AA0000','#AA00AA','#AA5500','#AAAAAA','#555555','#5555FF','#55FF55','#55FFFF','#FF5555','#FF55FF','#FFFF55','#FFFFFF']
+const colours = [ [0x00,0x00,0x00],[0x00,0x00,0xAA], [0x00,0xAA,0x00],[0x00,0xAA,0xAA],[0xAA,0x00,0x00],[0xAA, 0x00, 0xAA], [0xAA, 0x55, 0x00],[0xAA, 0xAA, 0xAA]
+                 ,[0x55,0x55,0x55],[0x55,0x55,0xFF], [0x55,0xFF,0x55],[0x55,0xFF,0xFF],[0xFF, 0x55, 0x55],[0xFF,0x55,0xFF], [0xFF, 0xFF, 0x55],[0xFF, 0xFF, 0xFF]];
 
 // The condacts
 
@@ -480,9 +523,29 @@ class DDBClass {
         return DDBDATA[address];
     }
 
+    setByte(address, value)
+    {
+        if (address > 0xFFFE) return 0
+        DDBDATA[address] = value;
+    }
+
+
     getWord(address)
     {
         return this.getByte(address) + 256 * this.getByte(address + 1);
+    }
+
+    getBlock(address, length)
+    {
+        var result = [];
+        for (i=0;i<length;i++) result.push(this.getByte(address+i));
+        return result;
+    }
+
+
+    setBlock(address, data)
+    {
+        for (i=0;i<data.length;i++) this.setByte(address + i, data[i]);
     }
 
 
@@ -511,31 +574,35 @@ class DDBClass {
 
 class flagClass {
 
-    flags = [];
-    flagsRAMSAVE = [];
+    #theflags = [];
+    #theflagsRAMSAVE = [];
 
     constructor () 
     {
-        for(var i=0;i<MAX_FLAGS;i++) 
+        for(var i=0;i<NUM_FLAGS;i++) 
         {
-            this.flags.push(0);
-            this.flagsRAMSAVE.push(0);
+            this.#theflags.push(0);
+            this.#theflagsRAMSAVE.push(0);
         }
     }
 
     resetFlags()
     {
-        for (var i=0;i<MAX_FLAGS;i++) flags[i] = 0;
+        for (var i=0;i<NUM_FLAGS;i++) 
+        {
+            this.#theflags[i] = 0;
+            this.#theflagsRAMSAVE[i] = 0;
+        }
     }
 
     getFlag(flagno)
     {
-        return this.flags[flagno];
+        return this.#theflags[flagno];
     }
 
     setFlag(flagno, value)
     {
-        this.flags[flagno] = value;
+        this.#theflags[flagno] = value;
 
     }
 
@@ -548,39 +615,39 @@ class flagClass {
 
     RAMSAVEFlags()
     {
-        for(var i=0;i<MAX_FLAGS;i++) 
-        this.flagsRAMSAVE[i] = this.flags[i];        
+        for(var i=0;i<NUM_FLAGS;i++) 
+        this.#theflagsRAMSAVE[i] = this.#theflags[i];        
     }
 
     RAMLOADFlags(flagno)
     {
         for(var i=0;i<flagno;i++) 
-         this.flags[i] = this.flagsRAMSAVE[i]
+         this.#theflags[i] = this.#theflagsRAMSAVE[i]
     }
 }
 
 class objectClass {
 
-    objectLocations = [];
-    objectLocationsRAMSAVE = [];
+    #objectLocations = [];
+    #objectLocationsRAMSAVE = [];
 
     constructor ()
     {
         for(var i=0;i<NUM_OBJECTS;i++) 
         {
-            this.objectLocations.push(0);
-            this.objectLocationsRAMSAVE.push(0);
+            this.#objectLocations.push(0);
+            this.#objectLocationsRAMSAVE.push(0);
         }
     }
 
     getObjectLocation(objno)
     {
-        return this.objectLocations[objno];
+        return this.#objectLocations[objno];
     }
 
     setObjectLocation(objno, value)
     {
-        this.objectLocations[objno] = value;
+        this.#objectLocations[objno] = value;
     }
 
     getObjectCountAt(locno)
@@ -594,13 +661,13 @@ class objectClass {
     RAMSAVEObjects()
     {
         for(var i=0;i<NUM_OBJECTS;i++) 
-            this.objectLocationsRAMSAVE[i] = this.objectLocations[i];
+            this.#objectLocationsRAMSAVE[i] = this.#objectLocations[i];
     }
 
     RAMLOADObjects()
     {
         for(var i=0;i<NUM_OBJECTS;i++) 
-         this.objectLocations[i] =  this.objectLocationsRAMSAVE[i];
+         this.#objectLocations[i] =  this.#objectLocationsRAMSAVE[i];
     }
 
     getObjectWeight(objno)
@@ -614,7 +681,7 @@ class objectClass {
         else 
         {
             var w = this.getObjectWeight(objno);
-            if ( (this.isContainer(objno)) && (w!=0))
+            if ( (this.isObjectContainer(objno)) && (w!=0))
             {
                 for (var i=0;i<DDB.header.numObj;i++)
                     if (this.getObjectLocation(i) == objno) 
@@ -630,7 +697,7 @@ class objectClass {
 
     getWeightOfObjectsAt(locno)
     {
-        totalWeight = 0;
+        var totalWeight = 0;
         for(var i=0;i<DDB.header.numObj;i++)
         {
             if (this.getObjectLocation(i)==locno) 
@@ -671,12 +738,12 @@ class objectClass {
 
     isObjectWearable(objno)
     {
-        return (DDB.getByte(DDB.header.objWeightContWearPos + objno) & 0x80 != 0);
+        return (DDB.getByte(DDB.header.objWeightContWearPos + objno) & 0x80);
     }
 
     isObjectContainer(objno)
     {
-        return (DDB.getByte(DDB.header.objWeightContWearPos + objno) & 0x40 != 0);
+        return (DDB.getByte(DDB.header.objWeightContWearPos + objno) & 0x40);
     }
 
     getObjectByVocabularyAtLocation(aNoun, anAdjective, locno)
@@ -689,7 +756,6 @@ class objectClass {
         {
          var objectNoun = DDB.getByte(DDB.header.objNamePos + i * 2);
          var objectAdject = DDB.getByte(DDB.header.objNamePos + i * 2 + 1);
-
          // Full match
          if (( (objectNoun != NO_WORD) && (objectNoun == aNoun)) && ((objectAdject == NO_WORD) || (objectAdject == anAdjective))) return i;
         // Partial match. Happens when the player just types the noun and there is not a full match, that's why when there is 
@@ -716,7 +782,7 @@ class objectClass {
             do
             {
                 objno++;
-            } while (!((objno = MAX_OBJECT) ||  (this.getObjectLocation(objno) == locno)))
+            } while (!((objno == MAX_OBJECT) ||  (this.getObjectLocation(objno) == locno)))
         }
         return objno;
     }
@@ -784,21 +850,29 @@ class stackClass {
 
 // global vars
 
+
 var inputBuffer = '';
+var imageBufferID = false;
 var flags = new flagClass();
 var objects = new objectClass();
 var DDB  = new DDBClass();
 var stack  = new stackClass();
 var windows = new WindowArrayClass();
 var paper; // This will be the 2D context for the canvas
+var audioContext; // This will be default "soundcard"
 var previousVerb = NO_WORD;
 var playerOrderQuoted = '';
 var playerOrder = '';
 var conjunctions = [] ;
-var globalOption = 0; // preseves the option given to PARSE calls (PARSE 1 or PARSE 2), so when the run() loops is broken and handler takes control, it can call back with the proper option
+var globalParseOption = 0; // preseves the option given to PARSE calls (PARSE 1 or PARSE 2), so when the run() loops is broken and handler takes control, it can call back with the proper option
+var XmessagePart = 0;
+
+var keyBoardStatus = [];
+var keyBoardStatusShiftKeys = 0;
+var keyPressTreated = 0;
 
 // Global var for the ReadText functions
-var Ticks = 0;
+var ticks = 0;
 var TimeoutHappened = false;
 var TimeoutSeconds = 0;
 var TimeoutPreservedOrder = '';
@@ -807,28 +881,36 @@ var SaveY = 0;
 var readTextStr = '';
 var inputTakenFromPlayer = false;
 
+// GLobal Vars por QUIT/END
+var YesResponse = '';
+var PreserveTimeout = 0;
+
+
 
 var condactResult = false;
 var done = false;
-var Parameter1 = Parameter2 = 0;
+var Parameter1 =  0;
+var Parameter2 = 0;
 var inPARSE = false;
-var inINKEY = false;
 var inANYKEY = false;
 var inEND = false;
 var inQUIT = false;
+var inSAVE = false;
+var inLOAD = false;
 var isTerminated = false;
 
 // DAAD Main loop. Please notice this funcion differs from the original function with the same name in PCDAAD. The main issue
 // I faced is Javascript is a monothreaded execution language, whose only way to get keystrokes is via events that only happen
 // when there is no job working. That is a problem for condActs like INKEY, ANYKEY and PARSE (if the player input is required).
 // In PCDAAD, you never leave run() procedure, in jDAAD, you need to leave, and in fact stop javascript execution, when you
-// have to wait or check for a key. When that happens, run() is terminated but the onkeydown handler is activated so keystrokes
+// have to wait or check for a key. When that happens, run() is terminated but the onkeydown handler is active,  so keystrokes
 // are received. When received, the onKeyDown handlers knows if DAAD is inside INKEY, ANYKEY or PARSE execution and reacts
 // accordingly. When the handler considers the condact is over, he will call run() again, but with the proper parameters, so 
-// the execution is returned where it left inside run(), just like naturally happens in the Pascal version. 
+// the execution is returned where it was before existing run(), just like naturally happens in the Pascal version. 
+
 // Aside of that, Javascript does not support GOTO, and although labeled continues can do something similar with backward jumps,
-// there is not a good way of doing forward jumps, so the code has become more complicated to read. As I stated in he comment
-// in the Pascal version, it can be done without GOTOs, but it's much less readable. Here you have the worse readable version.
+// there is not a good way of doing forward jumps, so the code has become more complicated to read. As I stated before,  in
+// the Pascal version, it can be done with GOTOs, and it's much more readable. Here you have the worse readable version.
 
 function run(skipToRunCondact)
 {
@@ -838,12 +920,11 @@ function run(skipToRunCondact)
  RunEntry: while (true)
  {
     //Check if current process has finished}
-    debug('RunEntry');
     if (!skipToRunCondact)
     {
         if (DDB.getByte(DDB.entryPTR) == END_OF_PROCESS_MARK) 
         {
-            debug('EndOfProcess Mark Found');
+            var moreDOALL = false;
             //If DOALL loop in execution}
             if (DDB.doallPTR != 0)
             {
@@ -853,37 +934,42 @@ function run(skipToRunCondact)
                 //If a valid object found jump back to DOALL entry/condact}
                 if (nextDoallObjno != MAX_OBJECT) 
                 {
-                    debug('Next DOALL Object');
-                    DDB.entryPTR = DoallEntryPTR;
-                    DDB.condactPTR =  DoallPTR;
-                    objects.SetReferencedObject(nextDoallObjno);
+                    DDB.entryPTR = DDB.doallEntryPTR;
+                    DDB.condactPTR =  DDB.doallPTR;
+                    objects.setReferencedObject(nextDoallObjno);
+                    debug('Next DOALL Object:' + nextDoallObjno);
                     flags.setFlag(FDOALL, nextDoallObjno);
                     skipToRunCondact = true;
+                    moreDOALL = true;
                 }
                 else  
                 {
                 //If in DOALL but no more objects mark doall inactive and just let 
-                //he process continue and finish normally}
+                //the process continue and finish normally}
                 debug('No more DOALL Objets');
                 DDB.doallPTR = 0; 
                 }
             }
-
-        //process finishes normally
-        debug('End of Process');
-        stack.stackPop();
-        if (isTerminated) 
-        {
-            $('.goodbye').show();
-            return; // Exits from run(), forever.
-        }
-        DDB.condactPTR++;
-        skipToRunCondact = true; // Goes to runCondact because when a process finishes, and after POP, you just have to run next condact after the PROCESS call
+            
+            if (!moreDOALL)
+            {
+                debug ('Process finishes normally')
+            //process finishes normally
+                stack.stackPop();
+                if (isTerminated) 
+                {
+                    $('.goodbye').show();
+                    return; // Exits from run(), forever.
+                }
+                DDB.condactPTR++;
+                skipToRunCondact = true; // Goes to runCondact because when a process finishes, and after POP, you just have to run next condact after the PROCESS call
+            }
         }
     }
+
     if (!skipToRunCondact)
     {
-        debug('Check Valid Entry');
+        //debug('Check Valid Entry');
         ValidEntry = ((DDB.getByte(DDB.entryPTR) == flags.getFlag(FVERB)) || (DDB.getByte(DDB.entryPTR) == NO_WORD))
              && ((DDB.getByte(DDB.entryPTR+1) == flags.getFlag(FNOUN)) || (DDB.getByte(DDB.entryPTR+1) == NO_WORD));
 
@@ -891,23 +977,25 @@ function run(skipToRunCondact)
 
         if (!ValidEntry)
         {
-            debug('Entry Not Valid');
+            //debug('Entry Not Valid');
             DDB.entryPTR += 4;
             continue RunEntry;
         }
+        debug('> ' + getWordByCodeType(DDB.getByte(DDB.entryPTR),VOC_VERB) + ' ' + getWordByCodeType(DDB.getByte(DDB.entryPTR+1), VOC_NOUN) );
+
     }   
 
 
     RunCondact: while (true)
     {
         skipToRunCondact = false;
-        debug('RunCondact');
+        
         //First check if no more condacts in the entry, if so, move to next entry
         condactResult = true;
         var opcode = DDB.getByte(DDB.condactPTR);
         if (opcode == END_OF_CONDACTS_MARK)
         {
-            debug('End of Condacts Found');
+            debug('    EOC');
             DDB.entryPTR += 4;
             continue RunEntry;
         }
@@ -942,25 +1030,18 @@ function run(skipToRunCondact)
             }
         }
         
-        debug(debugStr);
+        debug('    ' + debugStr);
         //run condact
         condactResult = true;
         condactTable[opcode].condactRoutine(); //Execute the condact
-        if (inPARSE || inINKEY || inANYKEY || inQUIT ||inEND) 
-        {
-            debug('run() exit because interactive condact - inPARSE:' + inPARSE + ' inINKEY:' + inINKEY + ' inANYKEY:' + inANYKEY + ' inQUIT:' + inQUIT + ' inEND:' + inEND);
-            return; // get out of main loop as we are now just waiting for keypress 
-        }
+        if (inPARSE || inANYKEY || inQUIT ||inEND || inSAVE || inLOAD)  return; // get out of main loop as we are now just waiting for keypress 
         //If condact execution failed, go to next entry
         if (!condactResult) 
         {
-            debug('Condact result  =false, going to next entry');
-            
             DDB.entryPTR +=4;
             continue RunEntry;
         }
         //otherwise go to next condact}
-        debug('Going to Next condact');
         DDB.condactPTR++;
         continue RunCondact; 
     } // while(true) de RunCondact
@@ -969,6 +1050,19 @@ function run(skipToRunCondact)
 
 
 // Aux functions
+
+
+String.prototype.hexEncode = function(){
+    var hex, i;
+
+    var result = "";
+    for (i=0; i<this.length; i++) {
+        hex = this.charCodeAt(i).toString(16);
+        result += ("000"+hex).slice(-4);
+    }
+
+    return result
+}
 
 
 function initializeParser()
@@ -998,20 +1092,26 @@ function initializeParser()
 
 function fixSpanishCharacters(str)
 {
-  var encodeStr = '§­¨®¯ ‚¡¢£¤¥‡€�š';
+  var encodeStr = 'º¡¿«»áéíóúñÑçÇüÜ';
   var output = '';
   for (var i=0;i<str.length;i++) 
   {
         switch(str.charAt(i))
         {
-        case '¤': output += '¥';break;
-        case '‡': output += '€';break;
-        case '?',' ': output +='A';break;
-        case '�','‚': output +='E';break;
-        case '?','¡': output +='I';break;
-        case '?','¢': output +='O';break;
-        case 'š','£': output +='U';break;
-        case 'š','�': output +='U';break;
+        case 'ñ': output += 'Ñ';break;
+        case 'ç': output += 'Ç';break;
+        case 'á':
+        case 'Á': output +='A';break;
+        case 'é':
+        case 'É': output +='E';break;
+        case 'í':
+        case 'Í': output +='I';break;
+        case 'ó':
+        case 'Ó': output +='O';break;
+        case 'ú':
+        case 'Ú':
+        case 'Ü': 
+        case 'ü': output +='U';break;
         }
         if (encodeStr.indexOf(str.charAt(i))!=-1) output += String.fromCharCode(16 + encodeStr.indexOf(str.charAt(i)));
         else output += str.charAt(i)
@@ -1031,32 +1131,18 @@ function getCommand(usePrompt)
 
 function getCommandB()
 {
-        debug ('getComandB enter. InputBuffer: ' + inputBuffer);
         //The inputBuffer may come with Spanish characters that we need to convert to where DAAD stores them in the ASCII Table
         if (DDB.isSpanish()) inputBuffer = fixSpanishCharacters(inputBuffer);
-        debug ('Readtext after fixSpanish. Inputbuffer: '+ inputBuffer);
-        if (inPARSE)
-        {
-            getPlayerOrdersB();
-        }
-        else
-        if (inQUIT)
-        {
-
-        }
-        else 
-        if (inEND)
-        {
-
-        }
+        getPlayerOrdersB();
 }
 
 
 function findWord(aWord, aVocType)
 {
+    var Result = {};
     ptr = DDB.header.vocabularyPos;
     Result.aCode = -1;
-    AWord = aWord.toUpperCase();
+    aWord = aWord.toUpperCase();
     while (DDB.getByte(ptr)!= 0) 
     {
         //Get a word from Vocabulary
@@ -1067,37 +1153,54 @@ function findWord(aWord, aVocType)
         
 
         //If matches text and type, or type is VOC_ANY
-        if (Aword == AVocWord)  
-            if ((AVocType == VOC_ANY) || (AVocType == VOC_TYPE.indexOf(DDB.getByte(ptr+6)))) 
+        if (aWord == aVocWord)  
+            if ((aVocType == VOC_ANY) || (aVocType == VOC_TYPE.indexOf(DDB.getByte(ptr+6)))) 
             {
                 Result.aCode = DDB.getByte(ptr+5);
-                Result.aType = VOC_TYPE.indexOF(DDB.getByte(ptr+6));
+                Result.aType = VOC_TYPE.indexOf(DDB.getByte(ptr+6));
                 return Result;
             }	
         ptr+=7;
     } //While
+    return Result;
+}
+
+function getWordByCodeType(aCode, aVocType)
+{
+    if (aCode == NO_WORD) return '_';
+    
+    ptr = DDB.header.vocabularyPos;   
+    while (DDB.getByte(ptr)!= 0) 
+    {
+        //Get a word from Vocabulary
+        aVocWord = '';
+        for(var i=0; i < WORD_LENGHT;i++)
+            if ((DDB.getByte(ptr+i) ^ OFUSCATE_VALUE)!=32) 
+            aVocWord  += String.fromCharCode(DDB.getByte(ptr+i) ^ OFUSCATE_VALUE); 
+        
+
+        //If matches text and type, or type is VOC_ANY
+        if ( (aVocType == VOC_TYPE.indexOf(DDB.getByte(ptr+6))) && (aCode == DDB.getByte(ptr+5)))
+                return aVocWord;
+        ptr+=7;
+    } //While   
+    return '[' + aCode + ']'; // If not found return the code
 }
 
 
 function getPlayerOrders()
 {
-    debug ('getPlayerOrders entry');
     getCommand(true, false); // usePrompt =true, fromCallBack = false
 }
 
 function getPlayerOrdersB()
 {
-    debug ('getPlayerOrdersB entry');
     inputBuffer= inputBuffer.toUpperCase();
-    debug ('getPlayerOrdersB InputBuffer uppercased: '+ inputBuffer);
     for (i=0; i< conjunctions.length;i++)
          inputBuffer = inputBuffer.replace(conjunctions[i],'.');
-    debug ('getPlayerOrdersB InputBuffer without Conjunctions: '+ inputBuffer);         
 
     if (inPARSE)
-    {
-        debug ('getPlayerOrdersB, inPARSE');
-        
+    {      
         RestoreStream();
         inputTakenFromPlayer = true;
         parseB();
@@ -1107,31 +1210,40 @@ function getPlayerOrdersB()
         inPARSE = false; // Mark we are finishing the interactive part
         if (!condactResult) 
         {
-            debug('getPlayerOrdersB, condact result =false, going to next entry');
-            
             DDB.entryPTR +=4;
             run(false); // false -- go to RunEntry
-            
         }
         else
         {
         //otherwise go to next condact
-        debug('getPlayerOrdersB, going to Next condact');
         DDB.condactPTR++;
         run(true); // true --  go to  RunCondact
         }
 
-        // FALTA volver a run();
     }
     else
     if (inQUIT)
     {
-
+        inQUIT = false;
+        _QUITB();
     }
     else 
     if (inEND)
     {
-
+        inEND=false;
+        _ENDB();
+    }
+    else
+    if (inSAVE)
+    {
+        inSAVE=false;
+        _SAVEB();
+    }
+    else
+    if (inLOAD)
+    {
+        inLOAD=false;
+        _LOADB();
     }
 }
 
@@ -1148,8 +1260,8 @@ parseEnd() ---> Properly parses the sentence */
 
 function parse(Option)
 {
-    globalOption = Option; 
-    if (globalOption == 0) /* parse 0, get order from the player or from orders buffer */
+    globalParseOption = Option; 
+    if (globalParseOption == 0) /* parse 0, get order from the player or from orders buffer */
     {
         inputTakenFromPlayer = false;
         if (inputBuffer=='')
@@ -1180,7 +1292,7 @@ function parse(Option)
 function parseB()
 {
       //Extract an order
-      var playerOrder = '';
+      playerOrder = '';
       i = 0;
       while ( (!STANDARD_SEPARATORS.includes(inputBuffer.charAt(i))) && (i < inputBuffer.length)) 
       {
@@ -1189,7 +1301,7 @@ function parseB()
       }
 
       if (i > inputBuffer.length) inputBuffer = ''; //If finished, we empty the inputBuffer
-                              else inputBuffer =  inputBuffer.substring(i); //If not , we set it to the remaining after the separator
+                              else inputBuffer =  inputBuffer.substring(i+1); //If not , we set it to the remaining after the separator
   
       //Try to find a quoted sentence in the order. If found, text before the quoted setence goes to playerOrder,
       // and text after the quotes is stored in global variable playerOrderQuoted, in case it is later required by PARSE 1
@@ -1204,13 +1316,12 @@ function parseB()
           playerOrderQuoted = playerOrderQuoted.trim();
           if (playerOrderQuoted=='') playerOrderQuoted = ' '; 
       }
-      else playerOrderQuoted = '';
+      else playerOrderQuoted = '';     
 }
 
 function parseEnd()
 {
     result = false;
-
     if (playerOrder == '') // This can only happen if we get here from a PARSE 1 or above
         return  false; // To force next condact execution 
 
@@ -1218,36 +1329,35 @@ function parseEnd()
     playerOrder = playerOrder.trim();
 
     //remove double spaces
-    while (playerOrder.indexOf('  ')!=-1) playerOrder.replace('  ',' ');
+    while (playerOrder.indexOf('  ') != -1) playerOrder.replace('  ',' ');
     //split order into words}
-    var orderWords= playerOrder.split(' ');
+    var orderWords = playerOrder.split(' ');
 
     //parse the order}
-
-    setflag(FVERB, NO_WORD);
-    setFlag(FNOUN, NO_WORD);
-    setFlag(FADJECT, NO_WORD);
-    setFlag(FNOUN2, NO_WORD);
-    setFlag(FADJECT2, NO_WORD);
-    setFlag(FADVERB, NO_WORD);
-    setFlag(FPREP, NO_WORD);
+    flags.setFlag(FVERB, NO_WORD);
+    flags.setFlag(FNOUN, NO_WORD);
+    flags.setFlag(FADJECT, NO_WORD);
+    flags.setFlag(FNOUN2, NO_WORD);
+    flags.setFlag(FADJECT2, NO_WORD);
+    flags.setFlag(FADVERB, NO_WORD);
+    flags.setFlag(FPREP, NO_WORD);
     var  pronounInSentence = false;
 
     var i= 0;
-    var orderWordCount = orderWords.length();
+    var orderWordCount = orderWords.length;
     while ((i < orderWordCount) && (orderWords[i]!='') )
     {
         aSearchWord = orderWords[i]; 
-        aWordRecord = findWord(ASearchWord, VOC_ANY);
+        aWordRecord = findWord(aSearchWord, VOC_ANY);
         if (aWordRecord.aCode!= - 1)
         {
-            if ((aWordRecord.aType == VOC_VERB) && (flags.getFlag(FVERB) == NO_WORD)) flags.setFlag(FVERB,aWordRecord.ACode); else
-            if ((aWordRecord.aType == VOC_NOUN) && (flags.getFlag(FNOUN) == NO_WORD)) flags.setFlag(FNOUN,aWordRecord.ACode); else
-            if ((aWordRecord.aType == VOC_NOUN) && (flags.getFlag(FNOUN2) == NO_WORD)) flags.setFlag(FNOUN2,aWordRecord.ACode); else
-            if ((aWordRecord.aType == VOC_ADJECT) && (flags.getFlag(FADJECT) == NO_WORD)) flags.setFlag(FADJECT,aWordRecord.ACode); else
-            if ((aWordRecord.aType == VOC_ADJECT) && (flags.getFlag(FADJECT2) == NO_WORD)) flags.setFlag(FADJECT2,aWordRecord.ACode); else
-            if ((aWordRecord.aType == VOC_PREPOSITION) && (flags.getFlag(FPREP) == NO_WORD)) flags.setFlag(FPREP,aWordRecord.ACode); else
-            if ((aWordRecord.aType == VOC_ADVERB) && (flags.getFlag(FADVERB) == NO_WORD)) flags.setFlag(FADVERB,aWordRecord.ACode)
+            if ((aWordRecord.aType == VOC_VERB) && (flags.getFlag(FVERB) == NO_WORD)) flags.setFlag(FVERB,aWordRecord.aCode); else
+            if ((aWordRecord.aType == VOC_NOUN) && (flags.getFlag(FNOUN) == NO_WORD)) flags.setFlag(FNOUN,aWordRecord.aCode); else
+            if ((aWordRecord.aType == VOC_NOUN) && (flags.getFlag(FNOUN2) == NO_WORD)) flags.setFlag(FNOUN2,aWordRecord.aCode); else
+            if ((aWordRecord.aType == VOC_ADJECT) && (flags.getFlag(FADJECT) == NO_WORD)) flags.setFlag(FADJECT,aWordRecord.aCode); else
+            if ((aWordRecord.aType == VOC_ADJECT) && (flags.getFlag(FADJECT2) == NO_WORD)) flags.setFlag(FADJECT2,aWordRecord.aCode); else
+            if ((aWordRecord.aType == VOC_PREPOSITION) && (flags.getFlag(FPREP) == NO_WORD)) flags.setFlag(FPREP,aWordRecord.aCode); else
+            if ((aWordRecord.aType == VOC_ADVERB) && (flags.getFlag(FADVERB) == NO_WORD)) flags.setFlag(FADVERB,aWordRecord.aCode)
             //If English, pronouns work independently, if Spanish, pronouns are applied a pronominal suffixes}
             else if ((! DDB.isSpanish()) && (aWordRecord.aType == VOC_PRONOUN) && (! pronounInSentence))
             {
@@ -1257,7 +1367,7 @@ function parseEnd()
                     flags.setFlag(FNOUN, flags.getFlag(FPRONOUN));
                     flags.setFlag(FADJECT, flags.getFlag(FPRONOUN_ADJECT));
                 }
-                }
+            }
 
             //If Spanish, check pronominal terminations
             if (DDB.isSpanish()) 
@@ -1276,7 +1386,7 @@ function parseEnd()
 
                             aSearchWord =  orderWords[i].substring(0, orderWords[i].length - SPANISH_TERMINATIONS[j].length -1);
                             //Then check if still can be recognized as a verb}
-                            aWordRecord = FindWord(ASearchWord, VOC_VERB);
+                            aWordRecord = FindWord(aSearchWord, VOC_VERB);
                             if (aWordRecord.aCode!=-1)
                             {
                                 pronounInSentence = true;
@@ -1296,13 +1406,14 @@ function parseEnd()
         }; //if aWordRecord.aCode != -1
         i++;
     }; //while
+
     
     //Convertible nouns
-    if (globalOption == 0) // Nouns are not converted if PARSE 1 is called in original interpreters
+    if (globalParseOption == 0) // Nouns are not converted if PARSE 1 is called in original interpreters
     if ((flags.getFlag(FVERB)==NO_WORD) && (flags.getFlag(FNOUN)<=LAST_CONVERTIBLE_NOUN) )
     {
         flags.setFlag(FVERB, flags.getFlag(FNOUN));
-    flags.setflag(FNOUN, NO_WORD);
+        flags.setFlag(FNOUN, NO_WORD);
     }
 
     //Missing verb but present noun, replace with previous verb}
@@ -1327,7 +1438,8 @@ function parseEnd()
     if (flags.getFlag(FVERB)!=NO_WORD) pPreviousVerb = flags.getFlag(FVERB);
 
     if ((flags.getFlag(FVERB)!=NO_WORD) || (flags.getFlag(FNOUN)!=NO_WORD)) result = true;
-    return result || (globalOption>0);
+    
+    return result || (globalParseOption>0);
 }
 
 function setCharAt(str,index,chr) {
@@ -1341,13 +1453,8 @@ function replaceArticles(str, replace, caps, stopAtDot)
     if (replace || stopAtDot) //when any of these options is ON, we also have to remove leading spaces
         while (str.charAt(0) == ' ') str = str.substring(1);
 
-    if (StopAtDot) 
-    {   
-        var i = 0;
-        while (  (str.charAt(i) != '.') && (str.charAt(i)!=String.fromCharCode(0)) ) i++;
-
-        if (str.charAt(i) == '.') str = setCharAt(str,i,String.fromCharCode(0));
-    }
+    if (stopAtDot) 
+        if (str.indexOf('.') != -1) str = str.substring(0,str.indexOf('.'));
 
     if (replace)
     {
@@ -1417,30 +1524,26 @@ function getMessageInternal(tableOffset, messageNumber)
     DDB.previousWasCR = false;
     var aByte = DDB.getByte(ptr);
     while ( (aByte != (0x0a ^ OFUSCATE_VALUE))  ) 
-    {
-        
-    if (aByte < 128) 
-    {
-        tokenID = (aByte ^ OFUSCATE_VALUE) - 128;
-        token = getToken(tokenID);
-        workStr += token
-    }
-    else 
-    {
-        if ((aByte == ESCAPE_OBJNAME) || (aByte == ESCAPE_OBJNAME_CAPS))
+    {       
+        if (aByte < 128) 
         {
-         escapeText = geMessageInternal(DDBHeader.objectPos, flags.getFlag(FREFOBJ), ObjMessage);
-         workStr = replaceArticles(workStr, false, aByte == ESCAPE_OBJNAME_CAPS, false);
-         workStr += escapeText;
-        } 
+            tokenID = (aByte ^ OFUSCATE_VALUE) - 128;
+            token = getToken(tokenID);
+            workStr += token
+        }
         else 
         {
-            mychar = String.fromCharCode(aByte ^ OFUSCATE_VALUE)
-            workStr += mychar;
-        }
-    }  
-    ptr++;
-    aByte = DDB.getByte(ptr);
+            mychar = String.fromCharCode(aByte ^ OFUSCATE_VALUE);
+            if ((mychar == ESCAPE_OBJNAME) || (mychar == ESCAPE_OBJNAME_CAPS))
+            {
+                escapeText = getMessageInternal(DDB.header.objectPos, flags.getFlag(FREFOBJ));
+                escapeText = replaceArticles(escapeText, true, aByte == ESCAPE_OBJNAME_CAPS, true);
+                workStr += escapeText;
+            } 
+            else workStr += mychar;
+        }  
+        ptr++;
+        aByte = DDB.getByte(ptr);
     }   
     return workStr;
 
@@ -1453,7 +1556,7 @@ function getMessage(tableOffset, mesno)
 
 function getMessageOTX(objno, replace,  caps, stopAtDot)
 {
-    var escapeText = getMessageInternal(DDBHeader.objectPos, objno);
+    var escapeText = getMessageInternal(DDB.header.objectPos, objno);
     return escapeText = replaceArticles(escapeText, replace,  caps, stopAtDot);
 }
 
@@ -1462,52 +1565,116 @@ function debug(string)
     if (DEBUG_ENABLED) console.log(string);
 }
 
+function setShiftKeys(e)
+{
+    keyBoardStatusShiftKeys = 0;
+    if (e.shiftKey) keyBoardStatusShiftKeys+=1;
+    if (e.altKey) keyBoardStatusShiftKeys+=2;
+    if (e.ctrlKey) keyBoardStatusShiftKeys+=4;
+    if (e.metaKey) keyBoardStatusShiftKeys+=8;
+}
+
+function keyupHandler(e)
+{
+    console.log('D:' + String.fromCharCode(e.keyCode) +'(' + e.keyCode +')');
+    //Save keyup status for each key to be used with INKEY
+    if (keyBoardStatus.includes(e.keyCode)) 
+        keyBoardStatus.splice(keyBoardStatus.indexOf(e.keyCode))
+    setShiftKeys(e);
+
+}
+
+function checkSpecialKeyCodes(keyCode, ctrlKey)
+{
+    if (keyCode == 116) return true; //F5
+    if (keyCode == 123) return true; //F12
+    if ((ctrlKey) && (keyCode==82)) return true; // Ctrl+R
+
+}
+    
+
+function clickHandler(e)
+{
+    if (inANYKEY)
+    {
+        inANYKEY = false;
+        e.preventDefault();
+        DDB.condactPTR++; // Point to next condact
+        run(true); // skipToRunCondact = true
+    }
+}
+
+
+function keypressHandler(e)
+{
+    console.log('K:' + String.fromCharCode(e.charCode) +'(' + e.charCode +')');
+    if (inQUIT || inEND || inSAVE || inLOAD || inPARSE)
+    {
+        // If keyDown didn't handle it
+        if (!keyPressTreated) readTextB(e.charCode);
+    }
+}
 
 function keydownHandler(e)
 {
-    if (inPARSE)
-    {
-        if (e.keyCode == 116) return true; //F5
-        if (e.keyCode == 123) return true; //F12
-        if ((e.ctrlKey) && (e.keyCode==82)) return true; // Ctrl+R
-        e.preventDefault();
-        readTextB(e.keyCode);
-    }
+    console.log('D:' + String.fromCharCode(e.keyCode) +'(' + e.keyCode +')');
 
+    keyPressTreated = false;
+
+    //Save keydown status for each key to be used with INKEY    
+    if (!keyBoardStatus.includes(e.keyCode)) 
+        keyBoardStatus.push(e.keyCode); 
+    setShiftKeys(e)
+
+    if (inQUIT || inEND || inSAVE || inLOAD || inPARSE)
+    {
+        if (checkSpecialKeyCodes(e.keyCode, e.ctrlKey)) return true; 
+        
+        //if it's not standard ascii letter try to process the code
+        if (e.keyCode < 32)
+        {
+            keyPressTreated = true;
+            readTextB(e.keyCode);
+        } 
+            
+    }
 
     if (inANYKEY)
     {
         inANYKEY = false;
+        if (checkSpecialKeyCodes(e.keyCode, e.ctrlKey)) return true; 
+        e.preventDefault();
         DDB.condactPTR++; // Point to next condact
         run(true); // skipToRunCondact = true
     }
+}
 
-    if (inINKEY)
+function Extern(a, b)
+{
+    if (externHandlers[b] === null) // Extern hasn't been loaded
     {
-
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        script.setAttribute("src", 'extern' + b + '.js');
+        document.getElementsByTagName("head")[0].appendChild(script);
     }
-
+    var callFunction = externHandlers[b];
+    callFunction(a);
 }
 
 
-
-
-function Extern(a, b) // FALTA
+function delay(seconds)
 {
-}
-
-function Delay(seconds)
-{
-    var milliseconds = seconds* 1000;
+    var milliseconds = seconds * 1000;
     var start = Date.now();
     var now = start;
     while (now - start < milliseconds) now = Date.now();    
 }
 
 
-function ClearWindow(X, Y, width, height,  PaperColor)
+function clearWindow(X, Y, width, height, paperColor)
 {
-    paper.fillStyle = colours[PaperColor];
+    paper.fillStyle = getFillStyle(paperColor);
     paper.fillRect(X, Y, width, height)
 
 }
@@ -1540,17 +1707,70 @@ function BackAt()
     windows.windows[windows.activeWindow].currentX = windows.windows[windows.activeWindow].backupCurrentX;
 }
 
+function doSave(filename)
+{
+    var savegameData = [];
+    for (var i=0;i<NUM_FLAGS;i++) savegameData.push(flags.getFlag(i));
+    for (var i=0;i<NUM_OBJECTS;i++) savegameData.push(objects.getObjectLocation(i));
+    filename = filename.hexEncode();
+    localStorage.removeItem(filename);
+    localStorage.setItem(filename, JSON.stringify(savegameData));
+}
+
+function doLoad(filename) 
+{
+    filename = filename.hexEncode();
+    var data = localStorage.getItem(filename);
+    if (data == null)
+    {
+        Sysmess(SM57); // I/O error
+        return false;
+    } 
+    else
+    {
+        data = JSON.parse(data);
+        for (var i=0;i<NUM_FLAGS;i++) flags.setFlag(i, data[i]);
+        for (var i=0;i<NUM_OBJECTS;i++) objects.setObjectLocation(i, data[i+NUM_FLAGS]);
+        return true;
+    }
+}
+
 function getVideoAddr(X, Y)
 {
  return  X + Y * RESOLUTION_X;
 }
 
+function getFillStyle(colour)
+{
+
+    var r = colours[colour][0];
+    var g = colours[colour][1];
+    var b = colours[colour][2];
+    var rhex = r.toString(16); if (rhex.length < 2) rhex = '0' + rhex;
+    var ghex = g.toString(16); if (ghex.length < 2) ghex = '0' + ghex;
+    var bhex = b.toString(16); if (bhex.length < 2) bhex = '0' + bhex;
+    
+    return ('#' + rhex + ghex + bhex).toUpperCase() ;
+
+}
+
+
+function pixelRGB(x, y, r, g, b)
+{
+    var rhex = r.toString(16); if (rhex.length < 2) rhex = '0' + rhex;
+    var ghex = g.toString(16); if (ghex.length < 2) ghex = '0' + ghex;
+    var bhex = b.toString(16); if (bhex.length < 2) bhex = '0' + bhex;
+    var colorCode = ('#' + rhex + ghex + bhex).toUpperCase() ;
+    paper.fillStyle = colorCode;
+    paper.fillRect(x,y,1,1);
+}
+
 
 function pixel(x,y, colour)
 {
-    paper.fillStyle = colours[colour];
-    paper.fillRect(x,y,1,1);
+    pixelRGB(x, y, colours[colour][0],colours[colour][1], colours[colour][2]);
 }
+
 
 
 function nextChar()
@@ -1574,7 +1794,7 @@ function writeChar(c)
         case 0x0E: charsetShift  =128; break; //#g
         case 0x0F: charsetShift  =0; break; // #t
         case 0x0B : clearCurrentWindow();break; //#b
-        case 0x0C : { while (!keyPressed()) {}; i = readKey(); };break; //#k //FALTA porque keyPressed y readKey no pueden funcionar así
+        // case 0x0C : { while (!keyPressed()) {}; i = readKey(); };break; //#k //This #k is very hard to support in javascript, so it's not supported
         default:
         {
             
@@ -1620,8 +1840,9 @@ function writeWord(aWord)
 }
 
 //Writes any text to output
-function writeText(aText)
+function writeText(aText, doDebug=true)
 {
+    if (doDebug) debug('Output:' + aText);
     var aWord = '';
     for (var i=0; i < aText.length ; i++)
     {
@@ -1635,61 +1856,39 @@ function writeText(aText)
     writeWord(aWord);
 }
 
-function PatchStr(str)
+function PatchStr(Str)
 {
-     finalStr ='';
-     for(var i=0;i<str.length;i++)
-     switch(str.charAt(i))
-     {
-       case '¦': finalStr+= String.fromCharCode(16);break;
-       case '­': finalStr+= String.fromCharCode(17);break;
-       case '¨': finalStr+= String.fromCharCode(18);break;
-       case '®': finalStr+= String.fromCharCode(19);break;
-       case '¯': finalStr+= String.fromCharCode(20);break;
-       case ' ': finalStr+= String.fromCharCode(21);break;
-       case '‚': finalStr+= String.fromCharCode(22);break;
-       case '¡': finalStr+= String.fromCharCode(23);break;
-       case '¢': finalStr+= String.fromCharCode(24);break;
-       case '£': finalStr+= String.fromCharCode(25);break;
-       case '¤': finalStr+= String.fromCharCode(26);break;
-       case '¥': finalStr+= String.fromCharCode(27);break;
-       case '‡': finalStr+= String.fromCharCode(28);break;
-       case '€': finalStr+= String.fromCharCode(29);break;
-       case '�': finalStr+= String.fromCharCode(30);break;
-       case '�': finalStr+= String.fromCharCode(31);break;
-       // New characters
-       case '…': finalStr+=  String.fromCharCode(0x0e,16,0x0f);break;
-       case String.fromCharCode(198): finalStr+=  String.fromCharCode(0x0e,17,0x0f);break; //Portuguese a with curly tilde' in codepage 850
-       case '„': finalStr+= String.fromCharCode(0x0e,18,0x0f);break;
-       case 'ƒ': finalStr+= String.fromCharCode(0x0e,19,0x0f);break;
-    
-       case 'Š': finalStr+= String.fromCharCode(0x0e,20,0x0f);break;
-       case '‰': finalStr+= String.fromCharCode(0x0e,21,0x0f);break;
-       case 'ˆ': finalStr+= String.fromCharCode( 0x0e,22,0x0f);break;
-    
-       case '�': finalStr+= String.fromCharCode( 0x0e,23,0x0f);break;
-       case '‹': finalStr+= String.fromCharCode( 0x0e,24,0x0f);break;
-       case 'Œ': finalStr+= String.fromCharCode( 0x0e,25,0x0f);break;
-    
-       case '•': finalStr+= String.fromCharCode(0x0e,26,0x0f);break;
-       case String.fromCharCode(229): finalStr+= String.fromCharCode( 0x0e,27,0x0f);break; //Portuguese o with curly tilde' in codepage 850
-       case '”': finalStr+= String.fromCharCode( 0x0e,28,0x0f);break;
-       case '“': finalStr+= String.fromCharCode( 0x0e,29,0x0f);break;
-    
-       case '—': finalStr+= String.fromCharCode( 0x0e,30,0x0f);break;
-       case '–': finalStr+= String.fromCharCode( 0x0e,31,0x0f);break;
-        
-       case String.fromCharCode(225): finalStr+= String.fromCharCode(0x0e,35,0x0f);break; //German 'á', eszett in codepage 850 and 437 rather than eszett letter
-       default: finalStr+= str.charAt(i);
-     }
-     return finalStr;
-}
+ var finalStr ='';
+ for (i=0;i<Str.length;i++)
+ switch(Str.charAt(i))
+ {
+   // Original DAAD characters 
+   case 'ª': finalStr = finalStr + String.fromCharCode(16); break;
+   case '¡': finalStr = finalStr + String.fromCharCode(17); break;
+   case '¿': finalStr = finalStr + String.fromCharCode(18); break;
+   case '«': finalStr = finalStr + String.fromCharCode(19); break;
+   case '»': finalStr = finalStr + String.fromCharCode(20); break;
+   case 'á': finalStr = finalStr + String.fromCharCode(21); break;
+   case 'é': finalStr = finalStr + String.fromCharCode(22); break;
+   case 'í': finalStr = finalStr + String.fromCharCode(23); break;
+   case 'ó': finalStr = finalStr + String.fromCharCode(24); break;
+   case 'ú': finalStr = finalStr + String.fromCharCode(25); break;
+   case 'ñ': finalStr = finalStr + String.fromCharCode(26); break;
+   case 'Ñ': finalStr = finalStr + String.fromCharCode(27); break;
+   case 'ç': finalStr = finalStr + String.fromCharCode(28); break;
+   case 'Ç': finalStr = finalStr + String.fromCharCode(29); break;
+   case 'ü': finalStr = finalStr + String.fromCharCode(30); break;
+   case 'ü': finalStr = finalStr + String.fromCharCode(31); break;
+   default: finalStr = finalStr + Str.charAt(i);
+ }
+ return finalStr;
+};
+
        
 
 // The original PCDAAD readText is split in parts as the key pressing part shoud be somwhere in an eveny handler
 function readText()
 {
-    debug ('Readtext enter');
     readTextStr = '';
     saveX  =windows.windows[windows.activeWindow].currentX;
     saveY  =windows.windows[windows.activeWindow].currentY;
@@ -1701,12 +1900,12 @@ function readText()
         TimeoutPreservedOrder = '';
     }
     flags.setFlag(FTIMEOUT_CONTROL, flags.getFlag(FTIMEOUT_CONTROL)& 0x3F); //Clear bits 7 and 6
-    writeText(readTextStr+'_');
+    writeText(readTextStr+'_', false);
     timeoutHappened = false;
     timeoutSeconds = flags.getFlag(FTIMEOUT);
-    ticks  = getTicks();
+    ticks  = getTicks(); //FALTA: implementar Timeout
     playerPressedKey  = false;
-    // The main "wait for a key" loop woudl start here, but we exit to leave things in hands of the keydown handler
+    // The main "wait for a key" loop would start here, but we exit to leave things in hands of the keydown handler
 }
 
 function readTextB(keyCode)
@@ -1715,45 +1914,27 @@ function readTextB(keyCode)
     if ((keyCode>=32) && (keyCode<=255))
     {
         if ((readTextStr.length + 2) * COLUMN_WIDTH   + saveX  < Xlimit) // +2 because is one more for the new char being added and another one cause the cursor '_'
-        readTextStr += String.fromCharCode(keyCode) //printable characters
+        readTextStr += String.fromCharCode(keyCode).toUpperCase() //printable characters
     }
     else
     if ((keyCode==8) && (readTextStr!=''))
     {
-        ClearWindow(saveX + (readTextStr.length)* COLUMN_WIDTH, saveY, COLUMN_WIDTH, LINE_HEIGHT , windows.windows[windows.activeWindow].PAPER);
+        clearWindow(saveX + (readTextStr.length)* COLUMN_WIDTH, saveY, COLUMN_WIDTH, LINE_HEIGHT , windows.windows[windows.activeWindow].PAPER);
         readTextStr = readTextStr.slice(0, -1);
     }
     windows.windows[windows.activeWindow].currentX = saveX;
     windows.windows[windows.activeWindow].currentY = saveY;
     var PatchedStr = PatchStr(readTextStr);
-    writeText(PatchedStr + '_');
+    writeText(PatchedStr + '_', false);
     if ((keyCode==13) && (readTextStr!=''))
     {
         // Remove the cursor
-        ClearWindow(saveX + readTextStr.length * COLUMN_WIDTH ,  saveY, COLUMN_WIDTH, LINE_HEIGHT , windows.windows[windows.activeWindow].PAPER); 
+        clearWindow(saveX + readTextStr.length * COLUMN_WIDTH ,  saveY, COLUMN_WIDTH, LINE_HEIGHT , windows.windows[windows.activeWindow].PAPER); 
         carriageReturn();
         // Ok, now we have the content of the text readed. Now, depending on the condact that asked for a text to be read (PARSE, QUIT or END), we 
         // need to return to the main loop in a different way
         inputBuffer = readTextStr;
-        if (inPARSE)
-        {
-            debug ('Readtext exit inParse');
-            debug ('----------------------');
-            debug('>' + PatchedStr);
-            getCommandB();
-        }
-        else
-        if (inQUIT)
-        {
-            debug ('Readtext exit inQuit');
-
-        }
-        else
-        if (inEND)
-        {
-            debug ('Readtext exit inEND');
-
-        }
+        getCommandB();
     }
 }
 
@@ -1770,7 +1951,7 @@ function carriageReturn()
 
 function clearCurrentWindow()
 {
-    ClearWindow(windows.windows[windows.activeWindow].col * COLUMN_WIDTH, windows.windows[windows.activeWindow].line * LINE_HEIGHT, windows.windows[windows.activeWindow].width * COLUMN_WIDTH, windows.windows[windows.activeWindow].height * LINE_HEIGHT, windows.windows[windows.activeWindow].PAPER);
+    clearWindow(windows.windows[windows.activeWindow].col * COLUMN_WIDTH, windows.windows[windows.activeWindow].line * LINE_HEIGHT, windows.windows[windows.activeWindow].width * COLUMN_WIDTH, windows.windows[windows.activeWindow].height * LINE_HEIGHT, windows.windows[windows.activeWindow].PAPER);
    
     windows.windows[windows.activeWindow].currentY = windows.windows[windows.activeWindow].line * LINE_HEIGHT;
     windows.windows[windows.activeWindow].currentX = windows.windows[windows.activeWindow].col * COLUMN_WIDTH;
@@ -1790,43 +1971,46 @@ function reconfigureWindow()
 //Scrolls currently selected window 1 line up}
 function ScrollCurrentWindow()
 {
+
     var win = windows.windows[windows.activeWindow];
     var img = paper.getImageData(win.col * COLUMN_WIDTH, (win.line+1) * LINE_HEIGHT, win.width * COLUMN_WIDTH, (win.height-1) * LINE_HEIGHT);
-    ClearWindow(win.col * COLUMN_WIDTH, (win.line+win.height-1) * LINE_HEIGHT, win.width * COLUMN_WIDTH, LINE_HEIGHT, win.PAPER);
+    clearWindow(win.col * COLUMN_WIDTH, (win.line+win.height-1) * LINE_HEIGHT, win.width * COLUMN_WIDTH, LINE_HEIGHT, win.PAPER);
     paper.putImageData(img, win.col * COLUMN_WIDTH, win.line*LINE_HEIGHT);
 
     win.currentY -= LINE_HEIGHT;
     win.currentX = win.col * COLUMN_WIDTH;
 }
 
-//Like CRT unit Sound
-function Sound(frequency) //FALTA
-{
 
+function newtext()
+{
+    inputBuffer = '';
 }
 
-//{Like CRT unit NoSound}
-function Nosound()//FALTA
+function Sound(frequency, duration) 
 {
+   if (audioContext === undefined)
+      audioContext = new(window.AudioContext || window.webkitAudioContext)();
+
+  // create Oscillator node
+  var oscillator = audioContext.createOscillator();
+
+  oscillator.type = 'square';
+  oscillator.frequency.value = frequency; // value in hertz
+  oscillator.connect(audioContext.destination);
+  oscillator.start();
+  
+  delay(duration);
+  oscillator.stop();
 }
 
-//Like CRT unit readKey, but returns extended data}
-function readKey() //FALTA
-{
-
-}
-
-//Like CRT unit keyPressed
-function keyPressed()//FALTA
-{
 
 
-} 
 
 //Get timer ticks
-function getTicks() //FALTA
+function getTicks() 
 {
-
+    return Date.now();
 }
 
 
@@ -1860,6 +2044,16 @@ function Sysmess(sysno)
     Parameter1 = sysno;
     _SYSMESS();
     Parameter1  =saveParameter;
+}
+
+
+function preloadImages()
+{
+    for (i=0;i<images.length;i++)
+    {
+          var img=new Image();
+          img.src=images[i] + '.png';
+    }
 }
 
 function resizeScreen()
@@ -1898,21 +2092,21 @@ function listObjects(locno, isLISTAT)
         if (!continuousListing)  _NEWLINE();
        }
    
-       for(i=0;i<DDB.header.numObj;i++)
+       for(var i=0; i < DDB.header.numObj; i++)
        {
-           if (objects.getObjectLocation(i) == locno) then
+           if (objects.getObjectLocation(i) == locno) 
            {
                writeText(getMessageOTX(i, false, false, continuousListing));
                listed++;
                if (continuousListing)
-               { //continuous listing
+               { 
                    if (listed == count) Sysmess(SM48);  // .
                    else if (listed == count - 1)  Sysmess(SM47); // "and"
                    else Sysmess(SM46); // , 
-               } //continuous listing
+               }
                else _NEWLINE();
-            } // if (objects.getObjectLocation(i) == locno)
-        }  //for
+           } 
+        }  
     }
     else
     { //if no objects at the location
@@ -1928,18 +2122,32 @@ function listObjects(locno, isLISTAT)
 
 // MALUVA condacts
 
+function XPart(part)
+{
+    XmessagePart = part;
+}
+
+function Xmes(offset)
+{
+    var backup = DDB.getBlock(DDB.getWord(DDB.header.sysmessPos), 512);
+    for (i=0;i<512;i++) DDB.setByte(DDB.getWord(DDB.header.sysmessPos) + i, XMBDATA[offset + i]);
+    writeText(getMessage(DDB.header.sysmessPos, 0));   
+    DDB.setBlock(DDB.getWord(DDB.header.sysmessPos), backup);
+}
+
+
 function _XMES()
 {
     var XMessageOffset = Parameter1;
     DDB.condactPTR++;
-    XmessageOffset = XmessageOffset + DDB.getByte(condactPTR) * 256;
-    Xmes(XmessageOffset); 
+    XMessageOffset = XMessageOffset + DDB.getByte(DDB.condactPTR) * 256;
+    Xmes(XMessageOffset); 
     done = true;
 }
 
 function _XPART()
 {
-    XPart(Parameter1); // FALTA: implementar Xpart
+    XPart(Parameter1); 
 }
 
 // Normal condacts
@@ -2070,52 +2278,139 @@ function _DESC()
 }
 
 /*--------------------------------------------------------------------------------------*/
-function _QUIT() // FALTA
+function _QUIT() 
 {
-    /*
-   PreserveTimeout = flags.getFlag(FTIMEOUT);
-   PreserveStream;
-   flags.setFlag(FTIMEOUT, 0);
-   Sysmess(SM12); {"Are you sure? "}
-   {Get first char of SM30, uppercased}
-   YesResponse = upcase(char(getByte(getWord(DDBHeader.sysmessPos + 2 * SM30)) xor OFUSCATE_VALUE)); 
-   inputBuffer = '';
 
-   while inputBuffer = '' do
-   {
-    getCommand(false);
-    if (inputBuffer!= '') and (Upcase(inputBuffer[1])!=YesResponse) then condactResult = false;
-   } 
+   PreserveTimeout = flags.getFlag(FTIMEOUT);
+   flags.setFlag(FTIMEOUT, 0);
+   PreserveStream();  
+   Sysmess(SM12); // Are you sure? 
+   inputBuffer = '';
+   inQUIT = true;
+   getPlayerOrders();
+   
+}
+
+function _QUITB()
+{
+   //Get first char of SM30, uppercased
+   var yesNoMessage= getMessage(DDB.header.sysmessPos, SM30);
+    var YesResponse = yesNoMessage.charAt(0).toUpperCase();
+
+   condactResult = false;
+   if (inputBuffer != '')
+    if (inputBuffer.substring(0,1).toUpperCase() == YesResponse)
+     condactResult = true;
+
    flags.setFlag(FTIMEOUT, PreserveTimeout);
    windows.windows[windows.activeWindow].lastPauseLine = 0;
    inputBuffer = '';
    done = true;
-   RestoreStream;
-   */
+   RestoreStream();
+
+   if (!condactResult) 
+   {
+       DDB.entryPTR +=4;
+       run(false); // false -- go to RunEntry
+   }
+   else
+   {
+   //otherwise go to next condact
+   DDB.condactPTR++;
+   run(true); // true --  go to  RunCondact
+   }
+
+}
+/*--------------------------------------------------------------------------------------*/
+function _SAVE() 
+{
+    PreserveTimeout = flags.getFlag(FTIMEOUT);
+    flags.setFlag(FTIMEOUT, 0);
+    PreserveStream();
+    Sysmess(SM60); // Type in name of file
+    inputBuffer = '';
+    inSAVE = true;
+    getPlayerOrders();
+}
+
+function _SAVEB() 
+{
+    doSave(inputBuffer);
+   
+    flags.setFlag(FTIMEOUT, PreserveTimeout);
+    windows.windows[windows.activeWindow].lastPauseLine = 0;
+    inputBuffer = '';
+    done = true;
+    RestoreStream();
+  
+    DDB.condactPTR++;
+    run(true); // true --  go to  RunCondact
+
+}
+
+/*--------------------------------------------------------------------------------------*/
+function _LOAD() 
+{
+    _SAVE();
+    inSAVE = false;
+    inLOAD = true;
+}
+
+
+function _LOADB() 
+{
+    condactResult = true;
+    if (!doLoad(inputBuffer))
+    {
+        flags.setFlag(FTIMEOUT, PreserveTimeout);
+        windows.windows[windows.activeWindow].lastPauseLine = 0;   
+        condactResult = false;
+    }  
+    inputBuffer = '';
+    done = true;
+    RestoreStream();
+
+    if (!condactResult) 
+    {
+        DDB.entryPTR +=4;
+        run(false); // false -- go to RunEntry
+    }
+    else     //otherwise go to next condact
+    {
+        DDB.condactPTR++;
+        run(true); // true --  go to  RunCondact
+    }
+ 
+    
+
 }
 
 
 /*--------------------------------------------------------------------------------------*/
 
-function _END() // FALTA
+function _END() 
 {
-    /*
    PreserveTimeout = flags.getFlag(FTIMEOUT);
-   PreserveStream;
    flags.setFlag(FTIMEOUT, 0);
-   Sysmess(SM13); {"Are you sure? "}
-   {Get first char of SM31, uppercased}
-   NoResponse = upcase(char(getByte(getWord(DDBHeader.sysmessPos + 2 * SM31)) xor OFUSCATE_VALUE)); 
+   Sysmess(SM13); // Play again? 
+   //Get first char of SM30, uppercased
    inputBuffer = '';
-   doallPTR = 0;
-   getCommand(false);
-   flags.setFlag(FTIMEOUT, PreserveTimeout);
-   if (inputBuffer!= '') and (Upcase(inputBuffer[1])=NoResponse) then Parameter1=0 else Parameter1=1;
-   windows.windows[windows.activeWindow].lastPauseLine = 0;
-   inputBuffer = ''; {Make sure inputBuffer is emptied so in case of restart there is not a "Y" or "S" in the buffer}
-   RestoreStream;
-   _EXIT;
-   */
+   inEND = true;
+   getPlayerOrders();
+   
+}
+
+function _ENDB()
+{
+    var yesNoMessage= getMessage(DDB.header.sysmessPos, SM30);
+    var YesResponse = yesNoMessage.charAt(0).toUpperCase();
+    condactResult = false;
+    if (inputBuffer != '')
+      if (inputBuffer.substring(0,1).toUpperCase() == YesResponse)
+         condactResult = true;
+
+   if (condactResult) window.location.reload(); // reload to force Restart Game
+    else  $('.goodbye').show(); // Show goodbye layer
 }
 
 /*--------------------------------------------------------------------------------------*/
@@ -2135,106 +2430,11 @@ function _OK()
 }
 
 /*--------------------------------------------------------------------------------------*/
-function _ANYKEY() // FALTA
+function _ANYKEY() 
 {
-    //Sysmess(SM16); //Press any key to continue
-    //inANYKEY = true;
-    /*
- TimeoutHappened = false;
- {Check if Timeout can happen on ANYKEY}
- if (flags.getFlag(FTIMEOUT_CONTROL) AND $04 = $04) then TimeoutSeconds = flags.getFlag(FTIMEOUT)
-                                               else TimeoutSeconds = 0;
- Ticks = getTicks;
- while not keyPressed and not TimeoutHappened do
-   if  (TimeoutSeconds > 0) and ((getTicks - Ticks)/18.2 > TimeoutSeconds) then TimeoutHappened = true;
- if not TimeoutHappened then inkey = readKey;
- windows.windows[windows.activeWindow]. lastPauseLine = 0;
- done = true; 
- */
+    inANYKEY = true;
 }
 
-/*-------------
--------------------------------------------------------------------------*/
-function _SAVE() //FALTA
-{
-    /*
-   PreserveTimeout = flags.getFlag(FTIMEOUT);
-   PreserveStream;
-   flags.setFlag(FTIMEOUT, 0);
-   condactResult = false;
-   Sysmess(SM60); {Type in name of file}
-   inputBuffer = '';
-   getCommand(true);
-   flags.setFlag(FTIMEOUT, PreserveTimeout);
-   if (Pos('.',inputBuffer)=0) then inputBuffer = inputBuffer + '.sav';
-   windows.windows[windows.activeWindow].lastPauseLine = 0;
-   Assign(SaveGame, inputBuffer);
-   inputBuffer = '';
-   Rewrite(SaveGame, 1);
-   if (ioresult!=0) then Sysmess(SM59){File name error.}
-   else
-   {
-    {Signature + version + filler}
-    Header = 'UTO' + #0 + '                            ';
-    BlockWrite(Savegame, Header[1], 32);
-    {Save the flags}
-    BlockWrite(SaveGame, flagsArray, Sizeof(flagsArray));
-    {Save the object locations}
-    BlockWrite(SaveGame, objLocations, Sizeof(objLocations));
-    {Save the doallPTR}
-    BlockWrite(SaveGame, doallPTR, Sizeof(doallPTR));
-    {Save the window status}
-    {BlockWrite(SaveGame, Windows, Sizeof(Windows));
-    BlockWrite(SaveGame, activeWindow, 1);}
-    Close(SaveGame);
-    condactResult = true;
-    done = true;
-   }
-   RestoreStream;
-   */
-}
-
-/*--------------------------------------------------------------------------------------*/
-function _LOAD() // FALTA
-{
-    /*
-   PreserveTimeout = flags.getFlag(FTIMEOUT);
-   PreserveStream;
-   flags.setFlag(FTIMEOUT, 0);
-   condactResult = false;
-   Sysmess(SM60); {Type in name of file}
-   inputBuffer = '';
-   getCommand(true);
-   flags.setFlag(FTIMEOUT, PreserveTimeout);
-   if (Pos('.',inputBuffer)=0) then inputBuffer = inputBuffer + '.sav';
-   windows.windows[windows.activeWindow].lastPauseLine = 0;
-   Assign(SaveGame, inputBuffer);
-   inputBuffer = '';
-   Reset(SaveGame, 1);
-   if (ioresult!=0) then Sysmess(SM57) {I/O Error.}
-   else
-   {
-    BlockRead(SaveGame, Header[1], 32);
-    if (Header[1]!='U') or (Header[2]!='T') or (Header[3]!='O') or (Header[4]!=#0) then Sysmess(SM57) {I/O Error}
-    else
-    {
-        {Load the flags}
-        BlockRead(SaveGame, flagsArray, sizeof(flagsArray));
-        {Load the object locations}
-        BlockRead(SaveGame, objLocations, sizeof(objLocations));
-        {Load the doallPTR}
-        BlockRead(SaveGame, doallPTR, Sizeof(doallPTR));
-        {Load the window status}
-        {BlockRead(SaveGame, Windows, Sizeof(Windows));
-        BlockRead(SaveGame, activeWindow, 1);}
-        Close(SaveGame);
-        done = true;
-        condactResult = true;
-    }
-   } 
-   RestoreStream;
-   */
-}
 
 /*--------------------------------------------------------------------------------------*/
 function _DPRINT()
@@ -2248,13 +2448,44 @@ function _DPRINT()
 /*--------------------------------------------------------------------------------------*/
 function _DISPLAY() 
 {
- //DisplayPCX(Parameter1); // FALTA
- done = true;
+    done = true;
+    condactResult = true;
+    if (imageBufferID === false) return;
+
+
+    var image = images[imageBufferID];
+    var imageWidth = image[image.length - 2];
+    var imageHeight = image[image.length - 1];
+
+
+    var windowX = windows.windows[windows.activeWindow].col * COLUMN_WIDTH;
+    var windowY = windows.windows[windows.activeWindow].line * LINE_HEIGHT;
+    var windowWidth = windows.windows[windows.activeWindow].width * COLUMN_WIDTH;
+    if ((windowWidth==318) || (windowWidth==319)) windowWidth=320;
+    var windowHeight = windows.windows[windows.activeWindow].height* LINE_HEIGHT;
+
+    
+    
+    for (y=0;y<imageHeight;y++)
+        for(x=0;x<imageWidth;x++)
+         {          
+            if ((x<windowWidth) && (y<windowHeight)) // clip image
+            {
+                var data = image[imageWidth*y + x];
+                var r = (data >> 16) & 0xFF;
+                var g = (data >> 8) & 0xFF;
+                var b = data & 0xFF;
+
+                pixelRGB(windowX+ x, windowY + y, r, g, b);
+            }
+                        
+         }
+    
 }
 
 function _CLS() 
 {
- clearCurrentWindow; // FALTA
+ clearCurrentWindow(); 
  done = true;
 }
 
@@ -2312,11 +2543,11 @@ function _AUTOG()
 
 /*--------------------------------------------------------------------------------------*/
 function _AUTOD() 
-
 {
  var Noun = flags.getFlag(FNOUN);
  var Adject = flags.getFlag(FADJECT);
  Parameter1 = objects.getObjectByVocabularyAtLocation(Noun, Adject, LOC_CARRIED);
+ debug('AUTOD: ' + Parameter1);
  if (Parameter1 != MAX_OBJECT) 
  {
     _DROP();
@@ -2338,7 +2569,7 @@ function _AUTOD()
  }
 
  Parameter1 = objects.getObjectByVocabularyAtLocation(Noun, Adject, MAX_LOCATION); //Any Location
- if (Parameter1 != MAX_OBJECT)  Sysmess(SM28); //I don't have one of those.
+ if (Parameter1 != MAX_OBJECT) Sysmess(SM28); //I don't have one of those.
                                else Sysmess(SM8); //I can't do that.
  newtext();
  _DONE();
@@ -2414,7 +2645,7 @@ function _AUTOR()
 /*--------------------------------------------------------------------------------------*/
 function _PAUSE() 
 {
- if (Parameter1 = 0) Delay(5.12); else Delay(Parameter1/50); // FALTA
+ if (Parameter1 = 0) delay(5.12); else delay(Parameter1/50); 
  done = true; 
 }
 
@@ -2507,7 +2738,7 @@ function _GET()
 
  var WeightCarried = objects.getWeightOfObjectsAt(LOC_CARRIED);
  var WeightWorn = objects.getWeightOfObjectsAt(LOC_WORN);
- if (WeightWorn + WeightCarried + objets.getObjectFullWeight(Parameter1) > flags.getFlag(FPLAYER_STRENGTH)) 
+ if (WeightWorn + WeightCarried + objects.getObjectFullWeight(Parameter1) > flags.getFlag(FPLAYER_STRENGTH)) 
  {
   Sysmess(SM43); //The _ weighs too much for me.
   newtext();
@@ -2533,8 +2764,10 @@ function _GET()
 /*--------------------------------------------------------------------------------------*/
 function _DROP() 
 {
+ 
  objects.setReferencedObject(Parameter1);
  var ObjectLocation = objects.getObjectLocation(Parameter1);
+ 
  if (ObjectLocation == LOC_WORN)  
  {
   Sysmess(SM24); //I can't. I'm wearing the_.
@@ -2551,7 +2784,7 @@ function _DROP()
   return;
  }
 
- if ((ObjectLocation != flags.getFlag(FPLAYER)) &&  (ObjectLocation != LOC_CARRIED))  then 
+ if ((ObjectLocation != flags.getFlag(FPLAYER)) &&  (ObjectLocation != LOC_CARRIED)) 
  {
   Sysmess(SM28); //I don't have one of those.
   newtext();
@@ -2689,7 +2922,7 @@ function _NEWLINE()
 function _PRINT()
 {
  value = flags.getFlag(Parameter1);
- valstr = alue + '';
+ valstr = value + '';
  writeText(valstr);
  done = true;
 }
@@ -2753,7 +2986,7 @@ function _EXTERN()
     }
     /*Please notice even with Maluva Enabled additional EXTERN code can be run, it just happens Maluva functions 
     can intervene and don't let execution come to this point, but if not, then standard EXTERN code may run */
-    condactResult = Extern(Parameter1, Parameter2); // FALTA
+    Extern(Parameter1, Parameter2); 
 }
 
 /*--------------------------------------------------------------------------------------*/
@@ -2773,17 +3006,13 @@ function _RAMLOAD()
 }
 
 /*--------------------------------------------------------------------------------------*/
-function _BEEP() // FALTA
+function _BEEP() 
 {
-    /*
-    if (Parameter2>=24) and (Parameter2<=238) and (Parameter2 mod 2 = 0) then
+    if ((Parameter2 >= 24) && (Parameter2 <= 238) && (Parameter2 % 2 == 0))
     {
-        Sound(FREQ_TABLE[(Parameter2-24) SHR 1]);
-        Delay(Parameter1 / 100);
-        Nosound;
+        Sound(FREQ_TABLE[(Parameter2 - 24) >> 1], Parameter1/100);
     }
     done = true;
-    */
 }
 
 /*--------------------------------------------------------------------------------------*/
@@ -2804,7 +3033,7 @@ function _INK()
 function _BORDER()
 {
     windows.windows[windows.activeWindow].BORDER = Parameter1  % 16;
-    document.getElementById('screen').style.backgroundColor = colours[Parameter1];
+    document.getElementById('screen').style.backgroundColor = getFillStyle(Parameter1  % 16);
     done = true;
 }
 
@@ -2863,13 +3092,13 @@ function _PARSE()
 function _LISTAT()
 {
     listObjects(Parameter1, true); 
-     done = true;
+    done = true;
 }
 
 /*--------------------------------------------------------------------------------------*/
 function _PROCESS()
 {
-    if (Parameter1 >= DDB.header.numPro) Error(3, 'Process ' + Parameter1 + 'does not exist'); // FALTA  Error
+    if (Parameter1 >= DDB.header.numPro) Error(3, 'Process ' + Parameter1 + 'does not exist'); 
     stack.stackPush();
     if (NESTED_DOALL_ENABLED) 
     {
@@ -2951,41 +3180,50 @@ function _TIME()
 }
 
 /*--------------------------------------------------------------------------------------*/
-function _PICTURE() // FALTA
+function _PICTURE() 
 {
-    /*
- condactResult = LoadPCX(windows.windows[windows.activeWindow].col * COLUMN_WIDTH, windows.windows[windows.activeWindow].line * LINE_HEIGHT,
-                  windows.windows[windows.activeWindow].width * COLUMN_WIDTH, windows.windows[windows.activeWindow].height * LINE_HEIGHT,
-                  Parameter1);
-                  */
- done = true;
+    
+    var image = images[Parameter1];
+    if (  image !== null )
+    {
+        imageBufferID = Parameter1;
+        condactResult = true;
+    }
+    else
+    {
+        imageBufferID = false;
+        condactResult = false;
+    }
+    done = true;
 }
 
+
 /*--------------------------------------------------------------------------------------*/
-function _DOALL() // FALTA
+function _DOALL() 
 {
  if  (DDB.doallPTR!=0)
  {
-  writeText('Runtime error 4 - Invalid nested DOALL');
-  _ANYKEY;
-  Parameter1 = 0;
+   writeText('Runtime error 4 - Invalid nested DOALL');
+   _ANYKEY;
+   Parameter1 = 0;
   _EXIT;
  }
  objno = objects.getNextObjectAt(-1, Parameter1);
  if (objno!=MAX_OBJECT)
  {
     DDB.doallPTR = DDB.condactPTR + 1; //Point to next Condact after DOALL
-    DDB.doallentryPTR = DDB.entryPTR;
+    DDB.doallEntryPTR = DDB.entryPTR;
     DDB.doallLocation = Parameter1;
     flags.setFlag(FDOALL,objno);
-    objects.SetReferencedObject(objno);
+    objects.setReferencedObject(objno);
     done = true;
  }
  else 
  {
-  Sysmess(SM8);
-  newtext();
-  _DONE();
+    debug('Mal doall');
+    Sysmess(SM8);
+    newtext();
+    _DONE();
  } 
 }
 
@@ -3137,7 +3375,7 @@ function _ABILITY()
 function _WEIGHT()
 {
   var w = 0;
-  for (var i=0;i<DDBHeader.numObj;i++)
+  for (var i=0;i<DDB.header.numObj;i++)
   {
    l = objects.getObjectLocation(i);
    if ((l==LOC_CARRIED) || (l==LOC_WORN))
@@ -3216,7 +3454,7 @@ function _WHATO()
                 //Despite what documentation says, DAAD performs a search at ANY location if object not present 
                 // getObjectByVocabularyAtLocation searchs at any location if location = MAX_LOCATION}
                 objno = objects.getObjectByVocabularyAtLocation(currentNoun, currentAdjective, MAX_LOCATION);
-                if (objno != NO_OBJECT) objects.SetReferencedObject(objno);
+                if (objno != NO_OBJECT) objects.setReferencedObject(objno);
                 else objects.setReferencedObject(NO_OBJECT);
             }
         }
@@ -3225,9 +3463,9 @@ function _WHATO()
  } 
 
 /*--------------------------------------------------------------------------------------*/
-function _CALL() //FALTA
+function _CALL()
 {
-    // PENDING: CALL condact implementation
+    // CALL not supported by jDAAD
     done = true;
 }
 
@@ -3341,7 +3579,7 @@ function _MOVE()
         var direction = DDB.getByte(ptr);
         if ((direction != END_OF_CONNECTIONS_MARK) &&  (direction == flags.getFlag(FVERB)))
         {
-            flags.setFlag(Parameter1, DDb.getByte(ptr+1));
+            flags.setFlag(Parameter1, DDB.getByte(ptr+1));
             return;
         } 
         ptr+=2;
@@ -3373,16 +3611,13 @@ function _CENTRE()
 }
 
 /*--------------------------------------------------------------------------------------*/
-function _EXIT() //FALTA
+function _EXIT() 
 {
- if (Parameter1 = 0) then 
+ resetWindows();
+ if (Parameter1 = 0) 
  {
-    terminateVideoMode;
-    CopyRight;
-    //Cleaning
-    CloseOrderFile;
-    CloseTranscript;
-    halt(0);
+    _CLS;
+    $('.goodbye').show();
  } 
  resetWindows();
  flags.resetFlags();
@@ -3391,14 +3626,20 @@ function _EXIT() //FALTA
 }
 
 /*--------------------------------------------------------------------------------------*/
-function _INKEY() //FALTA
+function _INKEY() 
 {
-    /*
-  if keyPressed then inkey = readKey else inkey = 0;
-  flags.setFlag(FKEY1, inkey and $FF);
-  flags.setFlag(FKEY2, (inkey and $FF00) SHR 8);
-  done = true;
-  */
+    if (keyBoardStatus.length)
+    {
+        flags.setFlag(FKEY1, keyBoardStatus[keyBoardStatus.length-1]);
+        flags.setFlag(FKEY2, keyBoardStatusShiftKeys);
+        condactResult = true;
+    }
+    else
+    {
+        flags.setFlag(FKEY1,0);
+        flags.setFlag(FKEY2,0);
+        condactResult = false;
+    } 
 }
 
 /*--------------------------------------------------------------------------------------*/
@@ -3442,14 +3683,14 @@ function _RESTART()
     stack.resetStack();
     //When we force condact to fail, it will inrease entryPTR by 4 and continue execution
     //So we first make entryPTR point two point below
-    DDB.entryPTR = DDB.getWord(processPTR)  -4;
+    DDB.entryPTR = DDB.getWord(DDB.processPTR) - 4;
     condactResult = false;
 }
 
 /*--------------------------------------------------------------------------------------*/
 function _TAB()
 {
-    Tab(Parameter1); // FALTA
+    Tab(Parameter1); 
     done = true;
 }
 
@@ -3519,23 +3760,40 @@ $(document).ready(function()
         resizeScreen();
     });
 
+    
     $(document).keydown(function(e) {
         keydownHandler(e);        
     });
 
+    $(document).keyup(function(e) {
+        keyupHandler(e);        
+    });
 
-    paper = document.getElementById('paper').getContext('2d');
+
+    $(document).keypress(function(e) {
+        keypressHandler(e);        
+    });
+
+
+    $(document).click(function(e)
+    {
+        clickHandler(e);
+    });
+
+
+    paper = document.getElementById('paper').getContext('2d', { willReadFrequently: true });
 
     // Init game  
-    resizeScreen();
+    resizeScreen();  
     flags.resetFlags();         //Restores flags initial value
     objects.resetObjects();     //Restore objects to "initially at" locations
     windows.resetWindows();     //Clears all windows setup
+
     
     initializeParser(); 
     stack.resetStack();
     DDB.resetProcesses();
+    document.getElementById('paper').focus();
     run(false); 
-    console.log(DDB.header);
 });
 
