@@ -42,6 +42,7 @@ REM ---- RESOURCES  ----
 tools\cecho\cecho {06}Copying required files...{07}
 echo.
 XCOPY ASSETS\MSDOS\*.* RELEASE\MSDOS /s /y > nul 2>&1
+COPY /Y ASSETS\CHARSET\%FONTPCDAAD% RELEASE\MSDOS\GAME\DAAD.FNT 
 REM ----  CREATE FAKE EXTERN ----
 ECHO "1">MALUVA 
 tools\cecho\cecho {02}[OK]{07}
