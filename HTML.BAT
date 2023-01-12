@@ -81,17 +81,30 @@ REM ----  CLEANING ----
 DEL %GAME%.DDB > nul 2>&1
 DEL %GAME%.JDDB > nul 2>&1
 DEL MALUVA   > nul 2>&1
+DEL %GAME%.json > nul 2>&1
 
 REM ---- TESTER ---- 
 ECHO.
 tools\cecho\cecho {03}
 IF "%BASELANG%" == "EN" (
 ECHO "Game ready,press any key to test or  CTRL+C to stop"
-ECHO "NOTE: game is located at RELEASE\MSDOS\GAME. At RELEASE\MSDOS there is the DOSBOX that launches te game from Windows"
 )
 IF "%BASELANG%" == "ES" (
 ECHO "Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar."
-ECHO "NOTA: El juego  en si ha quedado en RELEASE\MSDOS\GAME. En RELEASE\MSDOS está el dosbox que lo lanza en Windows"
+)
+tools\cecho\cecho {04}
+IF "%BASELANG%" == "EN" (
+ECHO "DISCLAIMER: HTML target of DAAD is in EXPERIMENTAL status. "
+ECHO "It may have bugs and it has known missing features like timeouts in"
+ECHO "player input, stop printing when too much text is printed (More...)"
+ECHO "and escape sequence #k."
+)
+IF "%BASELANG%" == "ES" (
+ECHO "AVISO: el target HTML de DAAD esta en estdo EXPERIMENTAL."
+ECHO "Puede tener bugs, y ademas tiene funcionalidades sin implementar "
+ECHO "conocidas, como los timeouts en el input del jugador, dejar de "
+ECHO "escribir cuando se escribe mucho texto (More...) y la secuencia"
+ECHO "de escape #k."
 )
 tools\cecho\cecho {07}
 PAUSE
