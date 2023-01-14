@@ -1142,7 +1142,7 @@ function findWord(aWord, aVocType)
     var Result = {};
     ptr = DDB.header.vocabularyPos;
     Result.aCode = -1;
-    aWord = aWord.toUpperCase();
+    aWord = aWord.toUpperCase().substring(0,5);
     while (DDB.getByte(ptr)!= 0) 
     {
         //Get a word from Vocabulary
@@ -1607,7 +1607,6 @@ function clickHandler(e)
 
 function keypressHandler(e)
 {
-    console.log('K:' + String.fromCharCode(e.charCode) +'(' + e.charCode +')');
     if (inQUIT || inEND || inSAVE || inLOAD || inPARSE)
     {
         // If keyDown didn't handle it
@@ -1617,7 +1616,6 @@ function keypressHandler(e)
 
 function keydownHandler(e)
 {
-    console.log('D:' + String.fromCharCode(e.keyCode) +'(' + e.keyCode +')');
 
     keyPressTreated = false;
 
@@ -2417,7 +2415,7 @@ function _ENDB()
 function _DONE()
 {
  done = true;
- DDB.ConsumeProcess; //Go to last entry
+ DDB.consumeProcess(); //Go to last entry
  //force failure so we jump to next entry, which happens to be the mark of end of process
  condactResult = false; 
 }
@@ -3482,7 +3480,7 @@ function _PUTO()
 function _NOTDONE()
 {
     done = false;
-    DDB.ConsumeProcess(); //Go to last entry
+    DDB.consumeProcess(); //Go to last entry
     //force failure so we jump to next entry, which happens to be the mark of end of process
     condactResult = false; 
 }
