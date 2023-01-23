@@ -17,9 +17,9 @@ if errorlevel 2 (
     copy readme.txt AMIGA > nul 2>&1 
 
     echo Cleaning Commodore Plus/4...
-    md PLUS4 > nul 2>&1
-    del /q /s PLUS4\*.* > nul 2>&1
-    copy readme.txt PLUS4 > nul 2>&1
+    md CPLUS4 > nul 2>&1
+    del /q /s CPLUS4\*.* > nul 2>&1
+    copy readme.txt CPLUS4 > nul 2>&1
 
     echo Cleaning Amstrad CPC...
     md CPC > nul 2>&1
