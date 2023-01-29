@@ -66,7 +66,7 @@ ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
 
-REM  ---- PREPARAR LAS IMÁGENES ----
+REM  ---- PREPARAR LAS IMï¿½GENES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 CD IMAGES
@@ -88,8 +88,6 @@ COPY /B apart1.HEAD + ASSETS\CHARSET\%FONTB% + apart1.TAIL APART1.TMP
 DEL apart1.HEAD > nul 2>&1
 DEL apart1.TAIL > nul 2>&1
 DEL apart1.prg > nul 2>&1
-dir /w
-
 
 
 REM  ---- COPIAR FICHEROS AL DISCO ---- 
@@ -103,6 +101,7 @@ for /L %%i in (10, 1, 32) do IF exist %%i.XMB tools\c1541\c1541.exe -attach %GAM
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
+IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
 REM ----  CLEANING---- 
 DEL DAAD.DDB > nul 2>&1
 DEL %GAME%.json > nul 2>&1
@@ -110,6 +109,8 @@ DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.TMP > nul 2>&1
 
+IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
+IF ERRORLEVEL  1 GOTO CUSTOM
 
 REM ---- TESTER ---- 
 ECHO.
@@ -156,3 +157,7 @@ DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.TMP > nul 2>&1
+
+REM  --- CUSTOM AREA ---
+:CUSTOM
+IF exist CUSTOM3.BAT CALL CUSTOM3.BAT 

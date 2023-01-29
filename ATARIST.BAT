@@ -82,13 +82,15 @@ ECHO.
 MOVE %GAME%.DDB RELEASE\ATARIST\PART1.DDB > nul 2>&1
 ECHO.
 
-
-REM ----  UN POCO DE LIMPIEZA ---- 
+IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
+REM ----  CLEAN ---- 
 DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.CHR > nul 2>&1
 
+IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
+IF ERRORLEVEL  1 GOTO CUSTOM
 REM ---- TESTER ---- 
 ECHO.
 tools\cecho\cecho {03}
@@ -114,8 +116,12 @@ tools\cecho\cecho {07}
 PAUSE
 :FIN
 
-REM ----  UN POCO DE LIMPIEZA ---- 
+REM ----  CLEAN ---- 
 DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.CHR > nul 2>&1
+
+REM  --- CUSTOM AREA ---
+:CUSTOM
+IF exist CUSTOM3.BAT CALL CUSTOM3.BAT 

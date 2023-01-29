@@ -113,7 +113,7 @@ CD ..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
-
+IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
 REM ----  CLEAN ---- 
 DEL DAAD.DDB > nul 2>&1
 DEL %GAME%.json > nul 2>&1
@@ -121,6 +121,9 @@ DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.CHR > nul 2>&1
 DEL *.MDG  > nul 2>&1
+
+IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
+IF ERRORLEVEL  1 GOTO CUSTOM
 
 REM ---- TESTER ---- 
 ECHO.
@@ -148,3 +151,7 @@ DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.CHR > nul 2>&1
+
+REM  --- CUSTOM AREA ---
+:CUSTOM
+IF exist CUSTOM3.BAT CALL CUSTOM3.BAT 

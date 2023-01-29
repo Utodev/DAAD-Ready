@@ -77,11 +77,15 @@ for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.png PHP\PHP TOOLS/jDAADImager/j
 for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\0%%i.png RELEASE\HTML\images.js
 for /L %%i in (100, 1, 256) do IF exist IMAGES\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\%%i.png RELEASE\HTML\images.js
 
+IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
 REM ----  CLEANING ---- 
 DEL %GAME%.DDB > nul 2>&1
 DEL %GAME%.JDDB > nul 2>&1
 DEL MALUVA   > nul 2>&1
 DEL %GAME%.json > nul 2>&1
+
+IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
+IF ERRORLEVEL  1 GOTO CUSTOM
 
 REM ---- TESTER ---- 
 ECHO.
@@ -125,3 +129,8 @@ DEL %GAME%.DDB > nul 2>&1
 DEL %GAME%.JDDB > nul 2>&1
 DEL MALUVA   > nul 2>&1
 DEL %GAME%.json > nul 2>&1
+
+
+REM  --- CUSTOM AREA ---
+:CUSTOM
+IF exist CUSTOM3.BAT CALL CUSTOM3.BAT 

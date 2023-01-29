@@ -32,9 +32,9 @@ IF  NOT DEFINED LANG (
         ECHO SET BASELANG=!BASELANG!>>CONFIG.BAT
     )
 echo Language: %LANG% %BASELANG%
-
-
-
+IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
+IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
+IF ERRORLEVEL  1 GOTO CUSTOM
 IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
 
 IF "%BASELANG%" == "EN" (
@@ -45,3 +45,7 @@ ECHO No existe una compilacion para Windows propiamente dicha. Sin embargo la co
 )
 
 pause
+
+REM  --- CUSTOM AREA ---
+:CUSTOM
+IF exist CUSTOM3.BAT CALL CUSTOM3.BAT 

@@ -87,8 +87,8 @@ IF exist 0.XMB TOOLS\CPCDiskXP\CPCDiskXP -File 0.XMB -AddToExistingDsk %GAME%.DS
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
-
-REM ----  UN POCO DE LIMPIEZA ---- 
+IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
+REM ----  CLEAN ---- 
 DEL DAAD.DDB > nul 2>&1
 DEL PARTE001.DDB > nul 2>&1
 DEL DAAD.COM > nul 2>&1
@@ -97,6 +97,8 @@ DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.CHR > nul 2>&1
 
+IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
+IF ERRORLEVEL  1 GOTO CUSTOM
 REM ---- TESTER ---- 
 ECHO.
 MOVE %GAME%.DSK RELEASE\PCW > nul 2>&1
@@ -125,7 +127,7 @@ tools\cecho\cecho {07}
 PAUSE
 :FIN
 
-REM ----  UN POCO DE LIMPIEZA ---- 
+REM ----  CLEAN ---- 
 DEL DAAD.DDB > nul 2>&1
 DEL PARTE001.DDB > nul 2>&1
 DEL DAAD.COM > nul 2>&1
@@ -134,3 +136,7 @@ DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.CHR > nul 2>&1
 DEL TOOLS\PCW\%GAME%.DSK
+
+REM  --- CUSTOM AREA ---
+:CUSTOM
+IF exist CUSTOM3.BAT CALL CUSTOM3.BAT 

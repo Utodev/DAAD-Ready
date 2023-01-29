@@ -101,10 +101,14 @@ for /L %%i in (100, 1, 255) do IF exist IMAGES\PC\%%i.VGA COPY IMAGES\PC\%%i.VGA
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
+IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
 REM ----  CLEANING ---- 
 DEL %GAME%.DDB > nul 2>&1
 DEL MALUVA   > nul 2>&1
 DEL %GAME%.json > nul 2>&1
+
+IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
+IF ERRORLEVEL  1 GOTO CUSTOM
 
 REM ---- TESTER ---- 
 ECHO.
@@ -135,3 +139,8 @@ REM ----  CLEANING ----
 DEL %GAME%.DDB > nul 2>&1
 DEL MALUVA   > nul 2>&1
 DEL %GAME%.json > nul 2>&1
+
+
+REM  --- CUSTOM AREA ---
+:CUSTOM
+IF exist CUSTOM3.BAT CALL CUSTOM3.BAT 
