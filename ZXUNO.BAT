@@ -1,4 +1,5 @@
 @echo off
+SET DAADSCRIPT=ZXUNO
 
 REM ---- VARIABLES ---- 
 CALL CONFIG.BAT

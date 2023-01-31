@@ -1,4 +1,5 @@
 @echo off
+SET DAADSCRIPT=MSX
 
 REM ----  VARIABLES ---- 
 CALL CONFIG.BAT

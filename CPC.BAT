@@ -1,4 +1,5 @@
 @echo off
+SET DAADSCRIPT=CPC
 
 REM ----  VARIABLES ---- 
 CALL CONFIG.BAT

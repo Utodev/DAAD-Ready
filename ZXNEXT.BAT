@@ -1,4 +1,5 @@
 @echo off
+SET DAADSCRIPT=ZXNEXT
 
 REM ----  VARIABLES ---- 
 CALL CONFIG.BAT

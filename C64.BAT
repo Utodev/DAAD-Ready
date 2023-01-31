@@ -1,4 +1,5 @@
 @echo off
+SET DAADSCRIPT=C64
 
 REM ---- VARIABLES ---- 
 CALL CONFIG.BAT
