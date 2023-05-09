@@ -21,8 +21,8 @@ function syntax()
     echo "<folder>     : folder where to look for .PI1 or .PNG images\n";
     echo "[outputfile] : file name for the output database, if absent, PART1.DAT will be used.\n";
     echo "-c           : compress file\n\n";
+    echo "-a           : generate Amiga 12 bit palette file. Requires patched interpreter, if you are no using 12 bit palette you can use same DAT file for Amiga, and use original interpreters.";
     echo "Please notice PNG images can have any format, but must be 320x200, and use a maximum of 16 colours.\n";
-    echo "Also, the Atari ST palette is used, so please keep that in mind when creating PNG images or colours may be affeceted.";
     
     exit(0);
 }
@@ -38,26 +38,90 @@ function dumpDatabase($outputFile, $outputFilename)
     fclose($fp);
 }
 
+/* Notes about the 12 bit and 9 bit palettes:
+
+The DAAD interpreters for Amiga and ST were made to use the standard Atari ST mode, 16 colors from a palette of 512 (e bits
+per component). When img2daad was created, someone noticed in a game (Los Elfos de Maroland), the ST version graphics were 
+better than the Amiga. That was because of some reasons:
+
+1) He was actually testing in an Atari STe, which uses still 16 colors, but from a palette of 4096 (4 bits per component)
+2) The Degas .PI1 files used to create the DAT file were also for STe (4 bits)
+3) img2DAAD just passes the palette to the DAT file as it was coming (it was, 4 bits, 4 bits remained in the DAT file)
+3) The Atari interpreter takes the 4 bits in the palette and sends them to the graphic chip, without deleting the 4th
+
+Sadly, the Amiga interpreter was croppint the 4th bit before sending it to the graphic chip, so despite the DAT file had
+4 bits, only 3 went to the screen, and as a result, the Amiga graphics looked poorer.
+
+To fix that, the Amiga interpreter had to be patched. After some debugging, the code that removed the 4th bit was found:
+
+lsl.w #1, d0
+and.w #$0eee, d0
+
+A fast way to avoid that to happen was replacing that code with 
+
+nop
+and.w #$0fff, d0
+
+That code, in the binary, was easy to find by looking for this hex string:
+
+3010 e348 0240 0eee 30c0
+
+The e348 is the lsl, and the 0240 0eee is the and. 3010 and 30c0 are added to avoid matching something else. What we need to do is
+replacing  e348 with 4e71 (NOP) and 0eee with  0fff. When that is done, the interpreter is patched an the 4 bit palette goes through.
+This has been succesfuly patched on EDI1 and SDI1, not tested in the other multipart interpreters, but same code would probably be found.
+
+Is that all? Sadly not. When the 4 bit palette went trough, the Amiga interpreter was showing a chaos of colors in the screen. After 
+analyzing it, there are historical reason why a Degas file comes with a nibble per RGB component for the palettte, like xRGB, but inside
+each component, one would expect this at bit level:
+
+x x x x R3 R2 R1 R0 - G3 G2 G1 G0 - B3 B2 B1 B0
+
+but you find this:
+
+x x x x R0 R3 R2 R1 - G0 G3 G2 G1 - B0 B3 B2 B1
+
+This is to avoid software made for ST to work fine in STe, but it's affecting us when trying to work with the Amiga.
+
+The solution for that is adding a new parameter "-a" (a for Amiga) to img2DAAD, that ensures that when Degas file, with its "twisted" palette data
+is read, img2daad rearranges data so it's as Amiga would expect it.
+*/
+
+
+// Converts Degas twisted bits palette in normal one, byte per byte
+function normalPalette($aByte)
+{
+    //echo "(" . decbinn($aByte) . " => ";
+    $aByteLowNibble = $aByte & 0xF;
+    $aByteHighNibble = ($aByte & 0xF0) >> 4;
+    $aByteLowNibble = (($aByteLowNibble << 1) & 0xF) + (($aByteLowNibble >> 3) & 1);
+    $aByteHighNibble = (($aByteHighNibble << 1) & 0xF) + (($aByteHighNibble >> 3) & 1);
+    $aByte = $aByteLowNibble + ($aByteHighNibble << 4);
+    //echo decbinn($aByte) . ") ";
+    return $aByte;
+}
+
+
 // MAIN
 echo "IMG2DAAD 1.0 - DAAD DAT Maker for Amiga and Atari ST (C) 2022\n";
 if ($argc<2) syntax();
 
 // Parse parameters
 $outputFilename = 'PART1.DAT';
-$compressed = 0;
+$compressed = false;
+$amigaDAT = false;
 $dir = $argv[1];
 if (!is_dir($dir)) error ("Invalid folder: $dir");
 
-if ($argc>2)
+for ($i=2;$i<$argc;$i++)
 {
-     $nextParam = $argv[2];
-     if (strtoupper($nextParam) != '-C')  $outputFilename = $nextParam; else $compressed = true;
-}
-
-if ($argc >3) 
-{
-    $nextParam = $argv[3];
-    if (strtoupper($nextParam) == '-C') $compressed=true; else Error("Invalid param: $nextParam");
+    $currentParam = $argv[$i];
+    if (substr($currentParam, 0, 1) == '-')
+    {
+        if (strtoupper($currentParam) == '-C') $compressed = true;
+        else if (strtoupper($currentParam) == '-A') $amigaDAT = true;
+        else Error("Invalid param: $currentParam");
+    }
+    else if ($i==2) $outputFilename = $currentParam;
 }
 
 $outputFile = array();
@@ -185,15 +249,19 @@ foreach ($fileList as $location=>$fileData)
         // Now the palette
         $degas->seekFile(2);  // point to palette
 
-        for($i=0;$i<32;$i++) $outputFile[$locationPrt+12+$i] = $degas->readByte(); // read palette
-
-        $overPalette = false;
-        for ($i=0;$i<16;$i++)
+        for($i=0;$i<32;$i++) 
         {
-            if ($outputFile[$locationPrt+12+$i*2] & 0x0F > 7 ) $overPalette = 1; 
-            if ($outputFile[$locationPrt+12+$i*2+1] & 0x0F > 7 ) $overPalette = 1; 
-            if (($outputFile[$locationPrt+12+$i*2+1] & 0xF0 >> 4) > 7 ) $overPalette = 1; 
+
+            $val = $degas->readByte(); // read palette
+            if ($amigaDAT)  $val = normalPalette($val);
+            $outputFile[$locationPrt+12+$i] = $val;
+
+            //$outputFile[$locationPrt+12+$i] = $degas->readByte(); // read palette
+            //echo str_pad(dechex($outputFile[$locationPrt+12+$i]),2,'0',STR_PAD_LEFT);           
+            //if ($i%2!=0) echo ' ';
         }
+        echo "\n";
+
 
         /*
         Again, this part has been commented as values are already
@@ -204,6 +272,15 @@ foreach ($fileList as $location=>$fileData)
         $outputFile[$locationPrt+46] = 0x00;  
         $outputFile[$locationPrt+47] = 0x00;   // CGA palette pointer, filler as there is no CGA palette
         */
+
+        if ($amigaDAT) 
+        {
+            $outputFile[$locationPrt+44] = 0xDA;  
+            $outputFile[$locationPrt+45] = 0xAD;   
+            $outputFile[$locationPrt+46] = 0xDA;  
+            $outputFile[$locationPrt+47] = 0xAD;   
+        }
+
 
         $screen = array();
         for ($i=0;$i<32000;$i++) $screen[] = $degas->readByte(); // read 32.000 bytes of image data
