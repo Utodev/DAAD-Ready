@@ -485,14 +485,14 @@ LUEGO   2       conjugation
 ; localidad. Para los que venís de PAW, es el equivalente al proceso 1. Ver las entradas de ejemplo:
 
 ; EJEMPLOS:
-; > _ _  AT 2 
-;        NOTZERO fPuertaAbierta
-;        MESSAGE "La puerta está abierta. "
+; > _ _  AT 2                                       ; ¿Estamos en la localidad de la puerta?
+;        NOTZERO fPuertaAbierta                     ; ¿Está la puerta abierta? (esto requiere que en otro sitio modifiquemos el flag fPuertaAbierta)
+;        MESSAGE "La puerta está abierta. "         ; Mostramos texto
 ;
-; > _ _  AT 17
-;        NOTCARRIED oTrajeProtector
-;        MESSAGE "No es buena idea entrara en la atmósfera ácida del planeta sin un traje protector. Estás muerto."
-;        END            
+; > _ _  AT 17                                      ; ¿Estamos en la localidad con atmósfera irrespirable?
+;        NOTCARRIED oTrajeProtector                 ; ¿No llevamos el traje?
+;        MESSAGE "Te has asfixiado. Estás muerto."  ; Mostramos texto
+;        END                                        ; ¿Jugar de nuevo?
 
 
  
@@ -509,15 +509,15 @@ LUEGO   2       conjugation
 ; pasar pasado un tiempo, o eventos que puedan ocurrir en cualquier momento. Para los que venís de PAW, es el equivalente al
 ; proceso 2. Ver las entradas de ejemplo:
 
-; > _ _   AT 17
-;         MINUS fOxigenoEnTraje 1
-;         ZERO fOxigenoEnTraje
-;         MESSAGE "El oxígeno del traje se ha acabado, no puedes respirar. Estás muerto."
-;         END
+; > _ _   AT 17                                         ; ¿Estamos en la localidad de la atmósfera irrespirable?
+;         MINUS fOxigenoEnTraje 1                       ; Decrementamos en 1 el valor del flag fOxigeno en traje (ha debido ser puesto a un cierto valor antes)
+;         ZERO fOxigenoEnTraje                          ; ¿Hemos llegado a cero? ¿El óxigeno se ha acabado?
+;         MESSAGE "No puedes respirar. Estás muerto."   ; Mostramos texto
+;         END                                           ; ¿Jugar de nuevo?
 ;
-; > _ _   AT 4
-;         CHANCE 10
-;         MESSAGE "Oyes un sonido como de algo reptando entre las hojas"
+; > _ _   AT 4                                          ; ¿Estamos en el bosque?
+;         CHANCE 10                                     ; Esta condición se cumple un 10% de las veces
+;         MESSAGE "Oyes algo que repta entre las hojas" ; Mostrar texto
 
 
 /PRO 5 
