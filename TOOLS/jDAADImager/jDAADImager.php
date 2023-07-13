@@ -22,7 +22,7 @@ $outpuFilename = $argv[2];
 
 
 if (!file_exists($inputFilename)) error('Input file not found');
-$im = imagecreatefrompng($inputFilename);
+$im = @imagecreatefrompng($inputFilename);
 if (!$im) error('Invalid PNG file');
 
 $parts = explode(DIRECTORY_SEPARATOR, $inputFilename);
