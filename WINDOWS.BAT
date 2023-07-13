@@ -39,11 +39,34 @@ IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
 IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
 
+REM  Prepare InnoSetup BuildScript
+
+echo #define MyAppName "%GAME%" > gamebuild.iss
+PHP\php.exe ASSETS\WINDOWS\patcher.php
+type buildScript.tmp >>  gamebuild.iss
+
+copy ASSETS\WINDOWS\dosbox.conf  > nul 2>&1
+echo PCDAAD  >>dosbox.conf
+echo exit >> dosbox.conf
+
+if not exist RELEASE\MSDOS\%GAME%.BAT (
+        IF "%BASELANG%" == "EN" (
+        echo "Please build MSDOS version prior to create the Windows package"
+    )
+    IF "%BASELANG%" == "ES" (
+        echo "Por favor genera la version MSDOS antes de crear el paquete para Windows"
+    )
+    pause
+    goto END
+)
+
 IF "%BASELANG%" == "EN" (
-ECHO There is not a Windows build, but the MSDOS build does actually create apackage which includes the DOS game as is, together with DOSBOX, which allows running the game in Windows trasnparently just like many GOG.COM games. You can consider what is created at RELEASE\MSDOS as the Windows build, and what is at RELEASE\MSDOS\GAME as the proper DOS game.
+    TOOLS\InnoSetup\Compil32.exe /cc gamebuild.iss
+    echo "The Windows setup file has been created at the RELEASE\WINDOWS folder."
 )
 IF "%BASELANG%" == "ES" (
-ECHO No existe una compilacion para Windows propiamente dicha. Sin embargo la compilacion para MSDOS esta realmente creando un paquete que incluye el juego DOS propiamente dicho, junto con un pack con dosbox que permite ejecutarlo directamente en Windows, al estilo de muchos juegos de GOG.COM. Puedes compilar la versi�n de MSDOS y distribuir lo que aparece en la carpeta RELEASE\MSDOS como una aventura para Windows.
+    TOOLS\InnoSetup\Compil32.exe /cc gamebuild.iss
+    echo "El paquete de instalacion para Windows se ha creado en la carpeta RELEASE\WINDOWS"
 )
 
 pause
@@ -51,3 +74,7 @@ pause
 REM  --- CUSTOM AREA ---
 :CUSTOM
 IF exist CUSTOM3.BAT CALL CUSTOM3.BAT 
+:END
+DEL gamebuild.iss  > nul 2>&1
+DEL buildScript.tmp  > nul 2>&1
+DEL dosbox.conf  > nul 2>&1
