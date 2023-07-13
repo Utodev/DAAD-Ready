@@ -109,15 +109,15 @@ tools\cecho\cecho {03}
 MOVE %GAME%.DSK RELEASE\CPC > nul 2>&1
 IF "%BASELANG%" == "EN" (
 ECHO "Game ready,press any key to test or  CTRL+C to stop"
-ECHO "Please notice sometimes WinAPE does not load the DSK file properly. Sometimes you will need to insert the DSK file at RELEASE/CPC yourself, at least the first time."
 )
 IF "%BASELANG%" == "ES" (
 ECHO "Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar."
-ECHO "Ten en cuenta que a veces el emulador WinApe no carga correctamente el disco de pruebas, especialmente la primera vez. Lo tienes en RELEASE/CPC. Cargalo a mano si asi es."
 )
 tools\cecho\cecho {07}
 PAUSE
-TOOLS\WINAPE\WINAPE ..\..\..\RELEASE\CPC\%GAME%.DSK /A:DAAD
+cd TOOLS\CPCE
+CPCE95 -v+ ..\..\RELEASE\CPC\%GAME%.DSK
+CD ..\..
 GOTO FIN
 
 :ERROR
