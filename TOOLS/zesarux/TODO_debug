@@ -12,6 +12,8 @@ Menu debugger:
 
 -posicion electron no va bien en: zx81, tsconf. Revisar otras maquinas. En 48k funciona bien
 
+--En debug cpu que diga tiempos de opcodes y/o en que t estado se ejecutan 
+
 -poder indicar mas de una accion en misma breakpoint condition, ejemplo
 condition: pc=4000h
 
@@ -30,8 +32,6 @@ En ese mismo OSD, si pulsamos una tecla en el OSD, se quedara colgado, pues no v
 
 -Si un breakpoint de menu y otro de accion (prints por ejemplo) coinciden al mismo tiempo, solo salta el breakpoint de menu
 ->problema que el breakpoint que ha saltado, indicado por la variable catch_breakpoint_index, solo puede ser uno cada vez...
-
--en menu debug, poder ver sprites del chip de sprites ZGX
 
 -Desensamblador, que permita copiar código assembler a texto
 ->desensamblador, pero de momento no puede copiar a texto
@@ -76,3 +76,11 @@ aunque no es necesario, pues cuando se crea un elemento y el handler no apunta a
 y ademas, la funcion de debug_dump_nested_functions ya controla esos casos y no retorna nada de la lista
 
 -mostrar fecha y hora en los debug printf logs?
+
+
+-Text Adventure Map
+*botones rapidos para navegar norte/sur/etc?
+
+-paws Dump toda tabla procesos 
+-confirmar parametros de Freehand en quill. crear grafico en illustrator y hacer las 8 posibles combinaciones
+-Número gráficos limitar a maximo 256 (en quill, paws, daad, gac)

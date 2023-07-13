@@ -1,3 +1,387 @@
+Version 10.3 - La Abadia del Crimen edition. 10 May 2023
+
+There are lots of changes in this version, but some of them are remarkable:
+- Added machines Amstrad PCW 8256, PCW 8512, CPC 6128, CPC 664
+- Fixed 3" CF2 floppy disk emulation (used on +3, CPC, PCW): the floppy disk emulation has been rewritten from scratch and now is near perfect
+- Lots of improvements on Debug CPU window
+- Fixed almost all annoying audio clicks on Windows version (and on SDL audio driver on Linux)
+
+
+The full changelog for this version 10.3 is:
+
+* New things added:
+
+Added Machine Amstrad PCW 8256
+Added Machine Amstrad PCW 8512
+Added Machine Amstrad CPC 6128
+Added Machine Amstrad CPC 664
+Added Visual Floppy to see floppy disk (+3, CPC, PCW, Betadisk) activity
+Added DSK disk info menu: to get tracks and sectors of a disk
+Added F-Functions: Poke, Visual Real Tape, Settings, Switch footer
+Added Process Switcher window, which is like a "Taskbar" on the ZX Desktop
+Added ZRCP command: "close-all-menus"
+Added icon/F-key to open any window identified by its name
+Allow F-keys to assign extra info for actions (like window name on openwindow action, or snapshot name on linktosnapshot action)
+Added more Hotswap combinations
+Added Advanced menu items: now by default, advanced menu items are hidden, you should enable them on Settings->Advanced menu items
+Added command line setting --machinelist to get machines list names whitespace separated
+Added .POK file Smartloading
+Added XEyes "Toy" to follow mouse
+Added Sierpinsky Meter Type to View Sensors
+
+* Improvements:
+
+Improved Debug CPU:
+- switched function keys "m" and "o": now "x" change mode, and "m" change memptr (to be coherent with other similar windows) 
+- added (hl), (de), (bc)
+- added (nn) when selecting an opcode like: ld reg,(nn) and ld (nn),reg
+- added (ix+d), (iy+d) when selecting an opcode like: ld reg,(IX+d), etc
+- added continuos speed 4 (run 10 opcodes every time, with no pause)
+- show last memory pointer when changing it
+- show B register on satisfy condition for DJNZ
+- added new functions OPMRV(e), OPMWV(e), OPMRA(e), OPMWA(e): these return 1 if the last opcode has set any of these variables to e.
+- added pseudoregister EPC to parser to match memory bank and offset for PC register
+- allow holding keys for quick cursor move, etc 
+- watches now show numbers in hexadecimal format
+
+Improved Debug Console: better refresh, dynamic width
+Improved Debug Messages: allow to filter by message class (DSK, PD765, etc...)
+Improved Debug I/O ports window: autoresize content height when do not fit in window
+
+Improved Configuration:
+- better parsing: warning when ZEsarUX has been downgraded
+- if unknown parameter on configuration file, warn the user but start anyway
+- moved showing Configuration file from Running info menu to Settings-> Configuration file
+
+Improved DSK viewer:
+- better filesystem detection
+- show hidden and read only files
+- show disk specification format
+- show where files are located on Visual Floppy
+
+Improved View Sprites: 
+- sprite is no longer disabled when changing memory pointer
+- you can view sprites up to 1024x1024
+- show PCW common format screen
+
+Improved ZX Desktop:
+- dynamic icons (Trash, My Machine, ...) assigned on top buttons now show dynamic state (trash empty/full, current machine image, etc)
+- show icon indicators for open apps on ZX Desktop
+- added setting to empty Trash on exit
+- fixed icons zoom level when selecting some machines that use menu gui zoom = 2 (Next, CPC, QL, etc)
+- ZX Desktop size now is multiplied by GUI Zoom (Zoom 2 on machines like Next, CPC, QL, etc)
+- CF2 Floppy icon (+3, CPC, PCW) now is animated when motor is on
+
+Improved ZX Vision:
+- added windows-style TaskBar called "Process Switcher"
+- added Process ID (PID) for all windows
+- text input fields now handle repeated keys
+- some text input fields now have history of last items, and history is saved on configuration file
+- added function to maximize all windows
+- allow reducing character height
+- improved window list showing spent time on each window and pid of each window/process
+- improved rendering background windows
+- yes/no confirmation dialogs are translated to si/no in Spanish and Catalan
+- added more menu translations to Spanish and Catalan
+
+Improved DSK extractor: better filesystem detection
+Improved ZSF Snapshots: allow to save ROM contents, useful when running custom roms
+Improved File selector: can show recent folders (press space on recent files)
+Improved changing pointer on some windows: can use an expression when changing memory pointer on Debug CPU, View Sprites, Hexdump, Disassemble, Poke
+Improved changing to machines with big displays (Next, QL, CPC...): zoom is autochanged to 1
+Improved joystick type selection
+Improved Raspberry Pi emulation: performance parameters are not changed by default anymore, you must use "--changeslowparameters" on slow Rpi like Rpi1 or 2
+
+* Fixes:
+
+Fixed Spectrum +3 disk emulation: the disk emulation layer has been rewritten from scratch and now is near perfect.
+Just some statistics from testing 943 total Spectrum +3 disks:
+-Unprotected games:              98.3 % working
+-Paul Owens protected games:     85.7 % working
+-Speedlock protected games:      54.2 % working
+-Alkatraz protected games:          0 % working
+-Unknown method protected games:    0 % working (a total of 15 disks that seem to be protected but don't know the method)
+
+Fixed almost all annoying audio clicks on Windows version (and on SDL audio driver on Linux)
+Fixed empty results when querying some games on Speccy online browser
+Fixed random crash on startup on Linux when executing some network operations (check updates, check last users, send updates)
+Fixed segfaults when exiting using CTRL-C
+Fixed autoload on Spectrum +3
+Fixed bug that may crash ZEsarUX when changing to a machine with bigger resolution. It seems to affect Linux and Windows but not Mac. This is a bug that has always existed (a "long life bug" XD)
+Fixed showing creator on DSK file viewer
+Fixed pause: can now return when pressing mouse button too
+Fixed assembler parsing expressions (NN) and NN is an hexadecimal number
+Fixed debug step over and sending keys to emulated machine
+Fixed setting "set machine snap load" when loading .Z80 version 1 snapshots
+Fixed real joystick menu disabled on Mac OS when switching border
+Fixed putting Text Adventure Map window on background
+
+* Misc Changes:
+
+Persistent writes on DSK files (+3/CPC/PCW disks) are now disabled by default 
+
+* As always, there are some other minor bugfixes and improvements
+
+----------------------------------------
+
+
+Version 10.2 - Hysteria edition. 26 October 2022
+
+* New things added:
+
+Added configurable icons to the ZX Desktop. These icons can:
+-Open windows, for example View Sprites
+-Trigger actions, like Reset
+-File links, these are linked to tapes or snapshots on your disk drive
+-There are other special icons, like Trash Can
+These icons opens a whole new world on ZEsarUX, so the ZX Desktop is becoming a Full Desktop environment :)
+
+Added new emulated machines:
+-ZX Spectrum 48k+
+-Microdigital TK80
+-Microdigital TK82
+-Microdigital TK82C
+-Microdigital TK83
+-Microdigital TK85
+-Microdigital TK95 Spanish
+-Timex Computer 2048
+-Timex Computer 2068
+-Timex Sinclair 1000
+-Timex Sinclair 1500
+
+Added Copy Interfaces emulation:
+-Defcon
+-Dinamid3
+-Hilow Barbanegra
+-Interface007
+-Microhobby Pokeador Automatico
+-Phoenix
+-Ramjet
+-Spec-Mate
+-Transtape
+
+Added Dinamic SD1 emulation
+Allow .Z80 corrupted snapshot loading from ZXSP emulator with additional header of 31 byte size
+Added ZSF support for Timex TS2068, MK14, Chrome, Prism, Chloe, Sam Coupe
+Added path setting where to download files from the speccy and zx81 online browser
+Added disk image browsing from storage MMC/IDE menus
+Added PZX load support as standard tape
+Added TAP to PZX converter
+Added TAP to TZX turbo converter (TZX Turbo 4000 bauds, to use with Rodolfo Guerra ROMS)
+Added TAP to SCR converter
+Added some actions than can be fired from command line and don't start ZEsarUX:
+--convert-tap-tzx, --convert-tap-tzx-turbo-rg, --convert-tap-pzx , --convert-tap-scr, --convert-tzx-tap, --convert-pzx-tap
+
+
+* Improvements:
+
+Improved Z88 emulation:
+-Changed colour palette to better match a real Z88
+-Show keys shortcuts below the Z88 display
+-Snapshot setting & menu action to synchronize Z88 clock with your computer clock
+-Inserting Z88 cards: now it does not hang the emulator during the insert
+-Selecting Z88 cards: submenus for types and sizes
+-Z88 footer: show when writing a card in slot 3, colors follow style
+-Z88 device icons: different icons for slot 1,2,3, show when writing a card in slot 3, show when flap is open
+
+Improved File selector: 
+-Allow to have a full screen preview if window is big enough
+-Better hotkeys explanation
+
+Improved Debugging:
+-Allow to change memory pointer to a value from the stack
+-Added a setting to show on which scanline has been executed a Halt, inverting border color
+-When enabling step mode, emulation is paused on all menus
+-Preserve step mode when exiting debug cpu that was opened by a breakpoint
+-When a breakpoint is fired, step mode is kept on all menus
+-Breakpoints actions "call", "printc", "set-register" and "write" can now use expressions instead of fixed values
+-Added breakpoint actions: "disassemble", "printregs"
+-Warn on footer when step mode
+-Enlarge width of breakpoints list
+
+Improved SmartLoad & Drag-Drop: 
+-Allow to load a .rom file as a custom rom file for the current machine
+-Allow to Drag-Drop when menu open
+
+Improved ZX Vision:
+-Reorder windows when changing machine but only when ZEsarUX window is smaller than previous one
+-Custom arrows characters
+-Windows are now restored by default on starting ZEsarUX
+-Better resize & reposition for new windows out of range
+
+Improved ZX Desktop:
+-Allow to extend ZX Desktop vertically
+-Right mouse button is now used for secondary actions. It no longer simulates ESC key (unless you enable it on ZX Vision Settings)
+-Added frame around emulated machine
+-Added setting to mix scr image with background
+-Allow to set any tape/snapshot/disk that contains a spectrum screen (SCR) as background
+-Apply frameskip when drawing ZX Desktop Background
+
+Improved HiLow DataDrive emulation:
+-Allow to Format, Browse and Chkdsk a Hilow DataDrive image (.ddh file)
+-Allow to convert audio from a real Hilow DataDrive tape to an image file (.ddh)
+-Added technical documentation on the extras package
+
+Improved ZX Spectrum Next emulation: added sprite rendering priority bit
+Improved ZRCP: allow to change command prompt
+Improved generated TZX and PZX files: include date and ZEsarUX version in header
+Improved Custom machine menu: added +2E MMC machine
+Improved Tape browser: show autostart line on basic blocks
+
+
+* Fixes:
+
+Fixed handling files larger than 2 GB on 32 bit CPU (it also applies to the Windows version even on a 64 bit CPU)
+Fixed using mmc images larger than 2 GB
+Fixed redrawing ZX Desktop when resizing main ZEsarUX window
+Fixed hang when using View Variables and memory is corrupted
+Fixed hang pressing two times F-key assigned to Pause (Mac OS unaffected)
+Fixed bug that may crash ZEsarUX when starting machine ZX Spectrum +2 Spanish. This is a bug that has always existed
+Fixed losing inserted Z88 cards when changing cpu speed
+Fixed Z80 behavior after EI or DD/FD prefixes and interrupts
+Fixed Z80 behavior running block opcodes (LDIR, etc) and interrupts
+Fixed .Z80 Timex TS2068 snapshot loading
+Fixed showing Recent Files when file name contains character %
+Fixed HiLow DataDrive emulation: can now load, save, format... all actions are now working
+Fixed crash (stack smashing detected) when showing Debug CPU window (and compiled using -fstack-protector)
+Fixed segfault when starting ZEsarUX + disabled welcome splash message + enabled reopen windows on start setting + no window to restore
+Fixed trap print numbers on Spectrum and ZX81 (setting --chardetectcompatnum)
+Fixed segfault when selecting an invalid file type on real tape
+Fixed Keyboard Help image for Spectravideo 318
+Fixed allowed machines when saving snapshots .ZX
+Fixed Breakpoints actions: now are executed everywhere (even in the menu)
+Fixed pressing key c (continuous mode) on debug cpu (emulation was unpaused temporarily)
+Fixed TZX turbo files extract (including screen previews), convert & file info
+Fixed .Z80 and .ZSF screen previews when using 128k screen page 7
+Fixed .DSK extract 
+Fixed crash when saving .ZSF snapshots when a byte DD is found just before a byte is repeated more than 256 times
+Fixed Next MMC images download. Now you need SSL enabled on compilation
+
+Fixed ZX Vision:
+-Fixed showing cursor on edit fields and text length longer than visible
+
+
+* As always, there are some other minor bugfixes and improvements
+
+----------------------------------------
+
+
+Version 10.1 - Carrier Command edition. 06 May 2022
+
+Added real joystick support on Mac
+Added joystick support for Hat controllers
+Added new joystick event to exit ZEsarUX
+Added action to trigger left-right movement on joystick, to play Decathlon-like games
+Added MSX Joystick emulation
+Added Spectravideo Joystick emulation
+Added support for simple speaker output on Raspberry PI Using GPIO pins and no sound card
+Added setting to select a different joystick on Windows and OS with SDL driver
+Added setting to change ULA Data bus value
+Added showing microdrive label when expanding qlay mdv files of size 174930 bytes
+Added Jupiter Ace TAP & TZX support on tape browser
+Added TZX support for ID 33 - Hardware type
+Added Autorewind tape setting
+Added Z80 Halt signal state support on zsf snapshot
+Added device button for ZX-Uno Flash device
+Added another easter egg ;)
+
+
+Improved Text Adventure Debugging:
+-Added Text Adventure Map
+-Added Locations Connections list
+-Added direct menu entry and f-function/button to view 8 (adventure debug)
+-Improved detection of some paws adventures (like superlopez and abracadabra)
+-Improved detection of some daad adventures (like jabato)
+
+Improved Debug CPU: 
+-Now it highlights which registers will be modified by the opcode at the cursor position
+-New address breakpoint expression FPEEK, that can read contents in the range of the total machine address space
+-Added t-states counter on default view
+-Allow to have a decimal view of opcode decoding using key m (mode)
+-Added breakpoints actions to start and stop cpu transaction log
+
+Improved Accessibility: 
+-Added direct settings for inverse colours and gray mode
+-Added setting to disable Flash
+
+Improved ZX Vision:
+-Reduced up to 5 times cpu usage on menu by using a cache
+-Improve window refreshing by disabling autoframeskip while moving or resizing
+-Allow to set a window always visible
+-Enlarge content size when resizing window without having to recreate it
+-Notify to the parent function when a window has been resized
+-Allow to avoid refreshing window when changing scroll
+-Added GUI styles: AmigaOS, Atari TOS, OS/2, RiscOS, ZEsarUX Plus (and this one is now the default style)
+-Improve RetroMac GUI style: striped title bar
+-Improve BeOS GUI style: buttons positions right after the title
+-Detect when video driver can not use the current GUI style and set to another one that can use
+-Added maximize window button
+-Background button on inactive windows is hidden by default
+-Bigger window resize indicator (bottom-right of the window)
+-Text windows enlarge/reduce line width when resizing windows
+-Text windows wider by default (40 characters instead of 32)
+-When sending a window to the background, and the setting "Background windows even when menu closed" is enabled, the menu will be closed
+-Improve accented characters on different charsets
+-Added translation of menu items to Spanish and Catalan
+-Added shortcuts helper to see hotkeys pressed
+-Added button preview when customizing ZX Desktop buttons or F-keys
+-Better detection of Spectrum screen file: any file size of 6912 bytes 
+-Show when a menu has submenus using the ">" character
+-Preserve minimized and maximized state on windows
+-Remember size before minimize and maximize window
+-Added actions on menu Window Management to: switch to, minimize, maximize, move to bottom, set always visible, window information
+-Window management window can run on background
+-ZX Desktop: footer buttons to enlarge or reduce ZX Desktop, not just enabling or disabling
+-ZX Desktop: allow to set a background SCR file
+-ZX Desktop: added setting to disable ZX Desktop when going to full screen 
+
+Improved PC Speaker Driver: now there is a new driver "onebitspeaker" which can handle both PC Speaker and Raspberry PI GPIO speaker
+Improved PC Speaker audio driver: better sound quality and high frequency filter
+Improved OSD Adventure Keyboard: allow to send space, enter and quotation marks
+Improved OSD Keyboard: allow to use mouse, preserve window geometry
+Improved Keyboard Help: load image automatically when changing machine
+Improved handling of individual colour palettes modifications (Red, Green, Blue)
+Improved portability of shell scripts
+Improved fbdev driver: added setting for double buffer to avoid flickering on menu (--fbdev-double-buffer)
+Improved fbdev driver: added setting to avoid resolution change on Raspberry Pi full screen mode (--fbdev-no-res-change)
+Improved ZX Spectrum Next emulation: added layer2 priority colour bit
+Improved Audio Chip Piano and Wave Piano: can show all octaves and set piano zoom
+
+
+Fixed Z80 halt behavior and PC location
+Fixed disabling border when realvideo enabled on machines: Colecovision, Master System, MSX, SG1000, SpectraVideo
+Fixed redrawing footer when fade out
+Fixed showing character 127 on curses, stdout and simpletext video drivers
+Fixed preserve breakpoints state when doing smartload
+Fixed saving snapshot on some events that close ZEsarUX (F-key, AY Player, etc)
+Fixed loading/saving TZX as Standard tape on Jupiter Ace
+Fixed ejecting Spectravideo cartridge
+Fixed segfault pressing F5 after pressing pause key
+Fixed bug on OSD Adventure Keyboard when words of 5 characters lenght and setting sending final space enabled
+Fixed crash when saving configuration file larger than 20kb
+Fixed crash when browsing on a completely empty directory
+Fixed bug emptying osd adventure text keyboard when debugging vocabulary
+Fixed smartload from ZRCP
+Fixed crash when exiting emulator and ZRCP enabled (usually failed on Raspberry Pi)
+
+Fixed ZX Vision:
+-Fixed hang when pressing cursor up/down on any tabbed menu with only one line (like Audio Waveform)
+-Fixed glitches resizing some windows: AY Registers, Debug CPU, etc...
+-Fixed flickering when resizing Keyboard Help window
+-Fixed reducing all windows
+-Fixed bug restoring windows on startup when a previous error was generated
+-Fixed drawing scroll bars when window is not at the top of all windows
+-Fixed drawing close button on background windows
+-Fixed showing input tape insert state on menu and zx desktop icon when tape can't be opened
+-Fixed window Hex Editor while moving or resizing
+-Fixed view sensors when clicking on the scroll bars
+-Fixed refreshing Visual Real Tape window when enabled Top Speed
+
+
+Some other minor bugfixes and improvements
+
+
+
 Version 10.0 - Clive Sinclair edition. 4 October 2021
 
 There are lots of changes in this version, but some of them are remarkable:
@@ -228,7 +612,7 @@ Some other minor bugfixes and improvements
 
 Version 9.1 - Toi Acid Game edition. 26 November 2020
 
-Added pc speaker audio driver (for Linux only)
+Added PC Speaker audio driver (for Linux only)
 Added General Sound emulation
 Added compile setting to disable networking functions
 Added date & time field info to ZSF snapshots

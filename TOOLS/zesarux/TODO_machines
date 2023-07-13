@@ -183,7 +183,6 @@ Q: How do you manage the 50 hz interrupt of the 8049 and the Keyboard interrupt?
 
 --- Jupiter Ace ---
 
--tape browser en jupiter ace. esta mostrando el de spectrum??
 -emulacion joystick
 -quiza detectar magic de cabecera de archivo ace al cargar?
 -real video para poder hacer Video out to file
@@ -191,6 +190,28 @@ Conversión de tap a wav en ace. Requiere rutina diferente que la de spectrum
 
 -Revisar contend en Ace: de momento no tiene contend
 -F4 (ocr) no implementado aun
+
+-Lectura de flag de cinta en cintas TZX: como standard tape (no real audio) el flag se guarda en TZX. En TAP en cambio no se guarda flag.
+Cuando se agregó soporte de TZX correcto (Enero 2022) simplemente el flag en lectura se ignora, carga cualquier bloque, sin tener en cuenta el flag.
+si por ejemplo en tu cinta tienes dos dict:
+
+dict: prueba1
+dict2: prueba2
+
+Como sabemos, cada bloque tiene una cabecera (flag 0) con el nombre y descripción del bloque. Y después de ese bloque, vienen los datos en si. Por lo que realmente tus dos diccionarios, se traducen en cinta como:
+
+flag 0. dict prueba1
+flag 255. datos de dict prueba1
+flag 0. dict prueba2
+flag 255. datos de dict prueba2
+
+Si haces un "load prueba2", la rom le saltará el primer bloque de cabecera, pero el bloque de flag 255 , al no leer ese flag 255, interpretará que es flag0 y te mostrará por pantalla algo parecido a "bytes: XXXXX", donde ese XXXXX es texto aleatorio/basura. O sea, en pantalla al ejecutar "load prueba2" verás algo como:
+
+Dict: prueba1
+Bytes: XXXXXX (basura)
+Dict: prueba2    OK
+
+Esto es tal cual tenia el soporte de TAP, al no guardar el flag, eso no se puede corregir. Ahora con mi soporte de TZX corregido, lo ideal seria que esa gestión de flag fuese correcta en carga, para evitar esos bloques de "basura". Pero, dado que esto implica mas dedicación, y teniendo en cuenta que nadie me ha reportado esto desde que he agregado emulación de Jupiter Ace en ZEsarUX, hace 6 años, no creo que sea prioritario
 
 -------------
 
@@ -298,7 +319,7 @@ Solo afecta a chloe
 -Exrom debe estar replicado todos los 8kb?
 
 -Timings. Parece que 60 Hz , 263 scanlines (contador desde 0 hasta 262). Ver documento en extras/docs/ts2068. Ese pdf extraido de http://www.polylith.com/~brendan/ClassicComputers/Timex/image/TS2068TM.PDF
--Agregar TC2068 y UK2068
+-Agregar UK2068
 
 
 -------------
@@ -357,6 +378,8 @@ Edición de colores de paleta 2
 
 -No deja desactivar timing pentagon cuando la maquina seleccionada es pentagon. dado que reinicializa el valor
 
+-pentagon turbo mode
+
 -16c. hay modo con paleta?
 
 http://zxpress.ru/article.php?id=8610
@@ -379,10 +402,7 @@ port EFF7: (adressation 1110xxxx xxxx0xxx )
 D3 = 1 - disable rom and connect ram page 0 in adress space 0-3FFF
 
 
--Pentagon:
-
 -Page cashe pentagon:
-
 
 Try use D3(counting from zero) bit for EFF7  - zero page will be displayed to #0000 address. 
 
@@ -408,6 +428,12 @@ Al mover raton hace cosas raras. Tambien en el menu de tbblue: probablemente eso
 o bien que están limitando a puerto 1f y 3f el kempston joystick y el mouse entra en conflicto
 Quiza deberia leer el kempston solo por 1f o 3f??
 
+-parpadeo en windows, maquina Next, al entrar cada linea en basic. Sin realvideo no lo hace. Sin autoframeskip, lo hace igual.
+Activando el maximo turbo permitido, tambien hace una franja negra en el border, arriba del todo
+
+-Revisar tbblue dma con efectos sonido cuadragon next
+
+
 -Poder descargar cp/m dentro de la imagen mmc de TBBlue, usando libreria Chan FatFS
 
 -zoom sprites. coordenadas no siempre correctas. ver BigSprite.sh
@@ -420,6 +446,10 @@ Refresco de Tbblue para curses , stdout y simpletext en caso de:
 -Multiface: Nextreg 0x0A selects multiface version from 1, 128 v87.12, 128 v87.2 or +3
 
 -Salir de CP/M deja el modo tiles activo
+
+
+-the next war: revisar border deberia desactivar. musica en menu no se oye bien
+
 
 -cambiar de maquina no tbblue a tbblue provoca que no funcione divmmc
 porque?
@@ -583,6 +613,120 @@ the enable condition (read-only, write-only). The particular 16K bank(s) mapped 
 at the pointed bank plus an optional offset written when bit 4 = 1.  For out of range banks, 
 writes do not have an effect and reads return unspecified data.
 
+
+---
+
+A mejorar en Next para próxima versión:
+
+Pruebas en carpeta tbblue_new_behaviour_divmmc. Ver README para info adicional
+
+-nextos funcionando (mi imagen tbblue): 2.06H
+-2.06I arranca pero en basic, por ejemplo input a$, no va bien
+-nueva imagen (que falla): 2.07k:
+
+-2.07 fallan todas
+
+-2.06 ok
+
+commit ae03a1011aa972e1445a1defdfe0fa91e3084f0d
+Author: Garry Lancaster <garrylancaster@gmail.com>
+Date:   Wed Oct 14 23:33:06 2020 +0100
+
+    Updated NextZXOS to v2.06N
+
+imagen de v2.06N:
+firmware 1.29e
+core 3.01.08
+
+imagen de v2.07a (Sun Feb 27 09:58:54 2022):
+firmware 1.31
+core 3.01.11?
+-mas lenta en arrancar
+-no inicia nextzxos
+
+2.06N: parece que no va bien un input a$!
+2.06H: bien
+2.06I: mal input a$
+
+Commits interesantes de la fpga:
+
+commit f2e9a1793f0f03d2a6c9067e5ce68d4b211e86b5
+Author: aralbrec <alvin_albrecht@hotmail.com>
+Date:   Tue Jan 5 20:27:15 2021 -0700
+
+    DIVMMC: Corrections in automap reset logic, disable address range made active even when ROM3 is not present
+
+commit 8b052d1b53894ea397a3c1c625ffc5644dd46298
+Author: aralbrec <alvin_albrecht@hotmail.com>
+Date:   Wed Jan 6 23:48:14 2021 -0700
+
+    DIVMMC: Nextreg 0xB8 and 0xB9 control which entry points are active, a second set of tape traps added for nextzxos
+
+commit f692cd726072fb160435566ad33657a7a90ddcff
+Author: aralbrec <alvin_albrecht@hotmail.com>
+Date:   Wed Jan 6 23:47:19 2021 -0700
+
+    DIVMMC: Disable addresses 1FFX should be active even if ROM3 is not present
+
+
+
+
+commit d6397d4e2237bebc5240e29b82a508bf3ba57780
+Author: aralbrec <alvin_albrecht@hotmail.com>
+Date:   Thu Jan 7 09:46:35 2021 -0700
+
+    Provide a means to re-enter config mode in order to launch other cores from nextzxos
+
+->ver git diff 8b052d1b53894ea397a3c1c625ffc5644dd46298 d6397d4e2237bebc5240e29b82a508bf3ba57780
+QUIZÁ implica que al llamar a tbblue_set_value_port_position, cambiar registro 3, siempre tiene que meter tbblue_bootrom.v=0,
+sin condiciones
+Y parece que al poner maquina 7, se habilita tbblue_bootrom.v?
+
+
+commit 738f0147f6c9fa9a9c1e5b4beaa7cb044a2bf10c
+Author: aralbrec <alvin_albrecht@hotmail.com>
+Date:   Mon Jan 11 23:58:49 2021 -0700
+
+    DIVMMC: Add all RST as entry points, make triggering programmable via nextreg 0xB8 - 0xBB, add nextzxos tap traps to improve compatibility
+
+
+commit 8c09cba2d2819410f260dc47531b96c92061457d
+Author: aralbrec <alvin_albrecht@hotmail.com>
+Date:   Sun Jan 17 14:44:17 2021 -0700
+
+    DIVMMC: Simplify logic during sram address calculation
+
+commit e6fa3a4a4ccb8ddf7be7b2e8befb59ef67a34956
+Author: aralbrec <alvin_albrecht@hotmail.com>
+Date:   Mon Jul 12 21:55:14 2021 -0600
+
+    #6 #7: Divmmc bank 3 always read only when mapram is set, conmem does not bring in divmmc rom when mapram is set (departure from standard divmmc hardwa
+re)             
+
+
+
+-registros 184 a 187, mapeo de divmmc
+
+mirar registro 10
+
+
+0x0A (10) => Peripheral 5 Setting
+(R/W)
+  bit 7:6 = Multiface type (hard reset = 00) (config mode only)
+    00 = Multiface +3 (enable port 0x3F, disable port 0xBF)
+    01 = Multiface 128 v87.2 (enable port 0xBF, disable port 0x3F)
+    10 = Multiface 128 v87.12 (enable port 0x9F, disable port 0x1F)
+    11 = Multiface 1 (enable port 0x9F, disable port 0x1F)
+  bit 5 = Reserved, must be zero
+  bit 4 = Enable divmmc automap (hard reset = 0)
+
+-lentitud tbblue: parece que no gestiona bien modos turbo. si cambio a mano velocidad cpu, se acelera
+
+
+-resumen : partiendo de codigo 10.2 tal cual, si en traps diviface digo que salten 0x3d00 y 0x1ff8 && reg_pc<=0x1fff, sin tener en cuenta
+diviface_allow_automatic_paging.v, y quitando comportamiento mmc de registro 6, acaba arrancando
+Petaba porque justo ant
+
 -------------
 
 
@@ -596,6 +740,13 @@ Which card is activated, sets bit 4 port # 7FFD.?? -> pendiente
 
 -Baseconf soporta ulaplus
 
+-------------
+
+
+--- ATM turbo ---
+
+
+https://www.zxuno.com/forum/viewtopic.php?t=4091
 
 -------------
 
@@ -604,7 +755,6 @@ Which card is activated, sets bit 4 port # 7FFD.?? -> pendiente
 
 -real video
 -Alt derecha en PC es altgr?
--soporte snapshot .zsf
 -refresco en curses:
 *al pulsar esc en curses en sam se queda pulsado??
 -refresco curses, text, stdout, F4
@@ -716,6 +866,25 @@ Bit	Value	Function
 Deberia mirar ese bit esta a 1 para poner el contador a 0?
 
 
+
+
+*puerto DF en snapshot zsf
+*si no hay pd765 enabled, se cuelga al hacer cat (en 664 tambien??)
+*snap ver cosas de cpc 464 y si faltan para 6128 y 664
+
+-------------
+
+--- PCW ---
+
+--pendiente pcw 8256,8512:
+-caps lock no va...
+-tecla keypad_enter en fbdev no la distingue del enter normal,
+-nota: queda tecla libre a la izquierda del 1 para mapear (la UTIL_KEY_COMMON_KEYMAP_BACKSLASH)
+-cpm spanish (version superior a 1??) no va
+--fin pendiente pcw 8256,8512
+
+- que formatos existen de Snapshots de pcw o cpc??
+
 -------------
 
 
@@ -740,7 +909,9 @@ http://www.zxuno.com/forum/viewtopic.php?p=4296#p4296
 -nmi-divmmc opción no soportada en zxuno??
 
 
+-Meter file browser zxuno en imagen zxuno mmc
 
+https://spectrumcomputing.co.uk/forums/viewtopic.php?t=2553
 
 ------
 
@@ -820,9 +991,14 @@ pacman bien tanto pantalla inicial como juego
 
 --- Fallos especificos de Z88 ---
 
+
+-lanzar esto para z88:
+./zesarux --noconfigfile --enable-silencedetector --verbose 3 extras/media/z88/lem.epr
+
+hace que splash logo se vea mal inicialmente
+
 -al copiar archivo ACKNOWLEDGEMENTS en eprom card luego no lo puede obtener desde el filer. Quiza el maximo de nombre hay que cortarlo?
 -con flash acabada de crear el filesystem, el browser del menu muestra el archivo inicial Deleted. Es normal, pero deberia mostrar ese archivo?
--al meter modo turbo se desactiva si hay eprom insertada->porque acaba llamando a set_machine y ahi explusa cartuchos
 -agregar RAM de 1MB. soft reset genera "FS error" y no ve la tarjeta. hay que hacer hard reset para que la vea. con RAM menor de 1MB la reconoce a la primera. esto NO es un fallo del emulador sino el comportamiento normal de OZ ROM
 
 -en pipedream, si se mueve el cursor muy rapido a veces se queda que no contesta el ultimo cursor pulsado, y hay que pulsar otra tecla para liberarlo
@@ -860,8 +1036,6 @@ hay por ahi alguna epr de 16 kb??
 tarjeta que probaba Thierry:
 512K flash Eprom (AMIC 29040) and 512K SRAM. They are organized with ram on the bottom (bank 00-1F) and flash (bank 20-3F) on top.
 
--en footer, que parpadeen (o texto inverso) cuando se escriba (y se lea?) de una tarjeta de memoria
-
 -revisar juegos de whatnow para agregar alguno mas...
 
 -gestion tamanyo rom interna. necesario? quiza no pues la propia rom ya identifica su propio tamanyo
@@ -871,11 +1045,10 @@ tarjeta que probaba Thierry:
 - driver pantalla.
 *tecla diamond, square, F1, F2, F3 para stdout?
 
--establecer reloj del Z88 con el del sistema. Llamando a rutina RST adecuada
-https://cambridgez88.jira.com/wiki/display/DN/Time+and+date+management
-o quiza enviando secuencia de teclas..-> indice->panel->tab hasta fecha, etc
 
 -envio de tecla /? desde menu en z88, entra en conflicto porque esa tecla es la -
+
+-establecer battery low no va. por que? Ver funcion z88_set_low_battery
 
 ------
 
@@ -885,13 +1058,12 @@ o quiza enviando secuencia de teclas..-> indice->panel->tab hasta fecha, etc
 
 -Z88. Dejar algún programa de ejemplo con formato .bas y binario. Quizá el whatnow esta así?
 
--Z88 ventana principal tamaño normal de z88, eliminar zona gris. ventana aparte para menu (quiza esto para todos los modelos??... aunque
-me gusta tener el menu encima de misma ventana del emulador, quiza podria ser una opcion seleccionable)
 -Z88 teclado virtual para Z88 y/o resto de modelos
 
 -Z88. Probar a compilar programas con z88dk
 
--Z88. Poder cambiar reloj del Z88 con el reloj real
+-poder hacer browse de los archivos en RAM de z88. Ver en codigo fuente de oz, archivo def/sysvar.def. quiza ahi hay alguna pista
+
 
 ------
 
@@ -924,20 +1096,23 @@ Segun MESS:
 
 --- MSX ---
 
+-expulsar cartucho en msx, svi etc solo deberia aparecer si cartucho insertado? Pero luego como se extrae un cartucho al cargar un snapshot con cartucho? Porque en ese caso no sabe que tiene cartucho aunque esta aho
+
 - Msx games browser desde planetemu. Mismo sirve para coleco y sg1000. Problema: quiza planetemu no admite peticiones http simple. 
 Probado con curl y no parece funcionar
 
 -Contención en hacer out e in a vram?
 -msx timings accesos a vram write/read y depende de modo
 -config slots memoria?
-Como ejemplo, el Toshiba HX-10 (un modelo de 64KB) tiene esta configuración de memoria:
-* 		ROM en las páginas 0 y 1 del slot 0.
-* 		RAM en las páginas 0 a 3 del slot 2.
-* 		Slots 1 y 3 están conectados a las ranuras de cartucho.
-* 		Páginas 2 y 3 del slot 0 no se usan.
+Como ejemplo, el Toshiba HX-10 (un modelo de 64KB) tiene esta configuración de memoria:
+* 		ROM en las páginas 0 y 1 del slot 0.
+* 		RAM en las páginas 0 a 3 del slot 2.
+* 		Slots 1 y 3 están conectados a las ranuras de cartucho.
+* 		Páginas 2 y 3 del slot 0 no se usan.
 
 -teclas que falten por emular.  cuales mas?
 
+-carga real tape no va
 
 -------------
 
@@ -950,6 +1125,7 @@ O quizá esa rom es del 328 en vez del 318
 
 -teclas que falten por emular.  cuales mas?
 
+-carga real tape no va
 
 -------------
 

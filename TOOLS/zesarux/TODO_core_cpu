@@ -31,8 +31,6 @@ el problema reside en que si hay una zona de código que no llegamos a ejecutar 
 desensamblará el código. Por lo que su uso va a ser muy minoritario....
 Si al final es saber por donde se ha estado ejecutando un programa, se puede usar el transaction log.
 
--funcion strcasestr da warning al compilar en linux
-
 -poder configurar lightgun por linea de comandos
 
 -It would be interesting if an emulator could provide FIFOs or shared memory that the host operating system could
@@ -42,12 +40,6 @@ Si al final es saber por donde se ha estado ejecutando un programa, se puede usa
 
 -Borrar enterrom y exitrom como debug breakpoint, que ya no tienen sentido
  
--Opción de transaction log adicional que permita ir hacia atrás en el tiempo:
-*apuntar en cada momento valores registros
-*si hay modificación de memoria, apuntarse valor anterior a la escritura 
-*que pasara con valores enviados a puertos. Esto es difícil de controlar
-*operaciones realizadas por el usuario, como un reset, quedan fuera del alcance
-
 -simulacion de carga spectrum hace un efecto raro en primera columna de pixeles. quiza se "contagia" el color del border?
 
 -Establecer turbo desde línea comandos  
@@ -88,6 +80,36 @@ probado - Variable traps que se activa por si hay load o save- hará que vaya m�
 -Que algunas tareas como store scanline se hagan en thread aparte. Problema: que la mayoria de datos de ese scanline
 pueden variar mientras se está ejecutando el thread con el loop del siguiente scanline
 
--Quizá cuando se ha pulsado rewind y hasta que no hay el timeout, no generar nuevos snapshots. 
+-Quizá cuando se ha pulsado rewind (en snapshots to RAM) y hasta que no hay el timeout, no generar nuevos snapshots. 
 Si no, cuando pasa el timeout y se hace rewind, aparecen unos snapshot “temporales” que quizá el usuario 
 no quiere ver. O siempre así o igual personalizable. Probarlo
+
+-Error prefijos DD repetidos:
+ DD DD E1 is executed as push hl, not as push ix  with extra DD prefix
+
+Lo curioso es que si cantidad impar de prefijos DD, si que hace lo esperado:
+
+3 DD:
+DD DD -> se ignora y vuelve al core
+DD E1 -> PUSH IX
+
+5 DD:
+DD DD -> se ignora y vuelve al core
+DD DD -> se ignora y vuelve al core
+DD E1 -> PUSH IX
+
+Pero si hay cantidad par, no hace lo esperado
+
+Para corregirlo es algo complicado:
+con el segundo dd, desde instruccion_ddfd_221 se vuelve al core. y por tanto el siguiente byte (que será el E1) se interpreta tal cua: push hl
+
+Habria que modificar el core para que:
+
+-tener un flag que diga que la instruccion antes tiene opcode dd/fd
+-llamar a codsinpr[byte_leido_core_spectrum]  () ; como ahora, si no esta ese flag activado
+-llamar a codprddfd[pref221_opcode_leido]  () ; al igual que se hace desde instruccion_221
+
+Habria que ir con cuidado de si se dispara una interrupcion en medio del opcode...que sucede? quitar el flag y permitir interrupcion?
+
+Resumiendo: esto no se usa mas que en programas de test, su corrección requiere cambios arriesgados que pueden romper el core, y como tal,
+no se va a hacer en un futuro cercano

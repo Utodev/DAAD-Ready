@@ -1,4 +1,4 @@
- 
+    
 --- expression parser
 
 
@@ -146,6 +146,56 @@ ver que hace zxpand aqui....
 Otros TODO menos prioritarios, de aqui hasta el final del archivo:
 
 
+-utils.c: In function ‘util_extract_hdf’:
+utils.c:11099:18: warning: this decimal constant is unsigned only in ISO C90
+                  2147483648L, //8. 2 GB
+                  ^
+utils.c: In function ‘util_ascii_to_binary’:
+utils.c:11248:9: warning: this decimal constant is unsigned only in ISO C90
+         const unsigned int mascara=(unsigned int)2147483648;
+
+Puede dar problemas?
+
+-codetests falla si no hay pthreads con:
+
+
+Running zsock http tests
+Paranoid: Found free socket at index 0
+Error: Pthreads unavailable but trying to use TCP/IP sockets
+Segmentation fault: 11
+
+Al parecer en alguna parte no se gestiona correctamente que se haya retornado -1 en la función de red
+
+
+-quiza archivos de updates deban tener algo asi como major version, minor version
+Esto podria corregir el problema de que avise de updates que realmente son versiones anteriores.
+Ejemplo:
+*uso version snapshot 8.1-SN
+*me actualizo a la estable 8.2
+*al arrancar la primera 8.2-SN, verá que hay 8.2-SN ok no pasa nada
+
+*pero:
+*uso version snapshot 8.1-SN
+*paso a usar 8.0. Ultima estable leida: 8.0
+*paso a usar snapshot 8.1-SN, verá que hay 8.2-SN ok no pasa nada
+
+En que casos puede dar problema? Si cambio a mano version snapshot a estable en cpu.h
+Pero esto no deberia suceder: pues al hacer ese cambio se supone que habrá ya un update,
+entonces en el servidor, en el archivo de update de la estable, ya habré actualizado el archivo y dirá la nueva versión
+
+
+- meter en extras de docs Benchmark legacy tbblue: de momento está en el código, en el menú como comentarios
+
+-punteros en diskio, de read y write, soportaran imagenes de mas de 2 gB en sistemas 32 bits?
+
+
+-quiza un "code estatistics": total lines, total comments, total todos (en codigo y en archivos TODO_*, etc)
+
+-quizá imagenes zxuno.mmc y tbblue.mmc que se generen:
+-- de una carpeta del proyecto, que se cree un archivo mmc mediante herramientas de acceso chan fat fs y luego una copia recursiva. y la partición como crearla?
+
+
+
 -Programa de descompresión zip para esxdos. Luego browser wos/zx info/spec computing para esxdos: ya hay un unzip para Next
 
 -cpuid ("zxid") según especificación de mcleod
@@ -228,6 +278,9 @@ incluso con $NNNN
 -porque en algunos cores nested, debug_nested_core_call_previous se llama al principio y otros al final?
 
 -Convertir cintas paws
+
+-Cinta de juegos y programas zx81 pasar a digital
+
 -Otros componentes mas extraños, como "descubrir" puntuaciones actuales en un juego u otros parámetros,
 como descubrir rutinas de pintado de sprites
 *rutinas de pintado de sprites: quiza detectar cambios en pantalla al pulsar teclas. y ver desde donde se realizan esos cambios en pantalla
@@ -237,8 +290,6 @@ como descubrir rutinas de pintado de sprites
 -Extractor dibujos paws?
 
 -unpaws , unquill para cpc
-
--mapa localidades daad/paws/quill
 
 -De extractor paws o similar:
 TODO: si puntero tokens es 0, no hay tokens
@@ -253,10 +304,9 @@ TODO: algunos valores de xor 255 no son realmente xor 255. Quizá son letras con
 
 -Text keyboard editable desde menu?
 
--Joystick en Mac
+
 -quiza redibujar archivo logo tal cual con el boot logo
 -Posible ocr con traducción de cirílico?
-
 
 
 -reorganizar capturas de pantalla del readme.md para que esten todas las maquinas
@@ -289,7 +339,7 @@ Si es botón está también mapeado a un evento, entonces esa letra no se ve
 
 -Meter roms alternativas para divide
 
--sped52 que use 256 y 512 mb ram
+-sped52 que use 256 y 512 kb ram
 
 -hotswap de 48k a 48k spanish
 
@@ -303,9 +353,7 @@ quizá modo dual de spectra se puede hacer en misma ventana pero haciéndola el 
 
 -currah microspeech
 
--Scorpion emulation
 
--TRS-80 emulation
 
 -Simular fallo de memoria (golpe) en zx81 ("wobble")
 
@@ -356,6 +404,7 @@ al final se reduce a enviar la tecla cada 20 ms por ejemplo, por tanto, es pract
 -spool: Cambio variables sistema repetición al insertar y quitar cuando acabe
 -spool: Ver si se puede hacer turbo en Ace, z88, zx80 y zx81
 -spool: poder enviar sentencia especial, tipo \s para enviar shift, o \y para enviar symbol, etc
+-spool: spool file activado se comporta mal al pulsar en botones de menu. aun peor si se usa modo turbo spool
 
 - Rasp en carcasa de spectrum
 
@@ -436,9 +485,8 @@ Alguna calculadora de texas instruments
 https://en.m.wikipedia.org/wiki/Philips_P2000
 
 
-Master system
 
-
+-Scorpion emulation
 
 
 

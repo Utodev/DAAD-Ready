@@ -3,10 +3,65 @@
 --Posibles efectos para fondo ZX Desktop:
 ---Imagen. BMP?
 ---Miniatura de pantalla spectrum
----Imagen. SCR
 ---Anaglifo usando segunda pantalla o extensión Desktop. Requeriria update continuo de zxdesktop... o no? que solo redibuje al abrir menu?
+
+
 --Fbdev debe permitir ZX Desktop?
 --sdl2: si se pone width de ZX desktop que no cabe en pantalla, se queda reabriendo continuamente la ventana
+
+
+- En ZX desktop a veces al iniciar o activar sale primero en negro. Al redimensionar ventana tambien por ejemplo
+
+-redraws de zxdesktop en determinados cambios (redimensionado/cierre ventana?) donde se queda a veces en negro
+
+
+-Para un futuro: que ventanas tengan iconos en una tabla y el gestor de ventanas muestre dichos iconos
+
+-iconos de dispositivos mmc/ide en escritorio 
+
+-nuevos iconos suele quedar arriba a la izquierda debajo de una ventana, pues las ventanas tambien se posicionan por defecto ahi
+o bien nuevo icono se pone donde pulsado boton, o mirar si hay ventanas ahi. De todas maneras, otras acciones como quicksave, tambien
+ponen iconos empezando arriba a la izquierda y tambien puede ser un problema
+
+-Más links iconos: rom, … pok?
+
+
+-minimizar a icono? entonces tendría que haber en la tabla todos los posibles iconos para todas las ventanas (aunque solo para aquellas que permiten background?). o no es necesario que esté para todas, si tiene icono asociado, se minimiza a icono. y si no, no.
+el icono deberia verse de alguna manera diferente para decir que la ventana se ha minimizado (aunque realmente se ha cerrado y ya no esta ahi)
+-Minimizar. Si hay icono en escritorio de esa ventana, cerrar ventana ? no, al minimizar no debe cerrar ventana o se perderian quiza algunos
+settings de dicha ventana?
+*problema: minimizar no sale de la aplicación, solo cambia tamaño de ventana. habria que hacer que se cerrase cuando: la ventana indica 
+que tiene una funcion de entrada asociada. como indicar esto? en un parámetro de la zxvision_window ?
+
+-al pulsar un icono, si se hace desde una ventana, el icono se mantiene pulsado como es de esperar
+Pero si se pulsa un icono desde menu cerrado, se pulsa y despulsa rapidamente y apenas se aprecia el efecto de pulsado
+
+
+-Permitir tirar papelera a papelera? Esto provocará que se pueda ocultar, aún teniendo el grabado de iconos por config (y suponiendo setting que guarde elementos que estén en papelera)
+
+
+-Acciones boton derecho sobre escritorio y sobre iconos, genera unas pseudotareas, aunque no son tareas del gestor de tareas propiamente
+Esto puede comportar problemas por variables que no se resetean correctamente (que si se hace desde el gestor de tareas),
+se podria llegar a integrar dentro del gestor de tareas si da muchos problemas, como "pseudo" tareas
+-Quizá botón derecho y izquierdo sobre iconos y escritorio no entra en función multitarea. Y se debería crear una tarea ficticia para ello
+
+
+-Fondo zx desktop con game of life 
+
+
+-Icono al grabar scr con quickscr. Que se guarde en misma ruta que autosnap
+
+-indicador de app abierta: al abrir una app que no estaba abierta, no aparece el indicador a no ser que se mueva la ventana u otro evento
+de repintado de ZX desktop. quiza al abrir una app habría que hacer que se redibujase siempre el zx desktop con menu_draw_ext_desktop(). como? Alternativas:
+a) al final de zxvision_new_window_gn_cim. no me convence.. estamos haciendo dibujado en una funcion no pensada para ello
+b) en la app, antes de llamar a zxvision_draw_window(ventana); un poco chapuza porque hay que meter la llamada siempre ahi antes
+quiza simplificarlo con una llamada nueva que llame a las dos
+Igualmente esta solución puede que muestre parpadeos (sobre todo mas en xwindow) porque dibujara el desktop, borrando todo,  y luego encima la ventana
+Y cuando pase unos segundos redibujara todo
+c) dejarlo asi tal cual. no es un bug sino una feature: no se vera la marca hasta hacer algun evento de redibujado de zxdesktop ;)
+Total solo se verá al abrir una app que no estaba abierta. Si ya estaba, la marca se ve siempre
+
+
 
 
 --- FIN ZX Desktop
@@ -15,39 +70,107 @@
 
 --- ZX Vision
 
--en ventanas con can_use_all_width=1, no se habilita la barra de scroll vertical cuando hace falta
+-Botón derecho sobre titulo ventana, activa acciones como: minimizar, maximizar, forzar siempre visible etc
 
--menu_simple_ventana solo se usa al redefinir eventos joystick. No usa zxvision tal cual porque necesita evento de lectura de joystick,
-solo dibuja la ventana al "viejo estilo" (pre-zx vision) y vuelve. Si no se puede migrar a zxvision, dejar tal cual
+-con la nueva manera de conmutar ventanas, ya no se recrean al entrar y por tanto se puede quedar con barras de scroll permanentemente
+quiza boton o accion nueva sobre ventana para reajustar tamaño... o no, quizá interesa tener una ventana con contenido grande pero pequeña en pantalla
+(y de ahi que al reducirla tenga scroll)
+De hecho la manera de "recrearlas" es cerrarla y volverla a abrir
+Esto también comporta cosas buenas, como que la posición de scroll se mantiene al salir y entrar de una ventana.
+Esto no es un TO-DO como tal , solo un comentario del nuevo funcionamiento
+
+-caracter dieresis i (ï) para mensaje como :
+No tots els missages estan traduits
+Debe ser:
+No tots els missages estan traduïts
+
+-ideas para zx vision: https://telcontar.net/Misc/GUI/RISCOS/
+
+-quiza un widget de sensors con la Z del logo?
+
+-Si hay submenu, quizá gestionar desde propia función de menú. Y/o no cerrar menú anterior
+
+-Quizá conversión de cinta a visual tape que lo haga en thread aparte (si hay threads). Eso evitará las pausas largas después de hacer insert en real tape
+
+-Audio chip sheet en modo texto. Que salgan en 3 líneas de texto por cada canal y las notas y hagan scroll igual
+
+-select machine by name hace scroll horizontal la ventana de menu. por que? porque se activa scroll vertical y se pierde 1 caracter de ancho
+
+-Maximizar cuando menú se abre en zx desktop y este es menor que 32, no ubica bien su posición x
+
+-Nuevo concepto para ventanas:
+Buffer de pixel gestionado desde ventanas y renderizado desde draw window contents
+Ideal para help keyboard por ejemplo
+En draw window contents solo renderiza si se ha modificado o bien la capa de texto o de la de píxeles. Y en ese caso renderiza las dos capas 
+
+-organizar ventanas en cascada
+
+-Concepto ventanas en segundo plano en documentación: multitarea cooperativa (Cooperative multitasking), y tambien en FAQ y ayuda background windows help
+
+-Botón del medio de ratón para enviar al fondo una ventana
+
+-mejoras accesibilidad: 
+* https://www.w3.org/TR/low-vision-needs/
+* eventos en menu con sonidos. metiendo sonido raw directamente en buffer de sonido?
+
+-desminimizar, minimizar de nuevo, se pierde tamaño antes minimizado/maximizado
+
+-quiza distinguir en la decoracion de ventana lo que es un menu propiamente y lo que es una ventana (ay registers, waveform, etc)
+
+-ayuda cuando habla de boton background, minimizar etc, decir que esos son botones por defecto para ZEsarUX y otros temas, pero que en otros los botones son distintos
+
+-unificar eventos joystick con eventos F-
+
+-funcion menu_generic_message que pueda ocupar mas de 32 caracteres de ancho
+ok?->pendiente controlar que ancho linea texto no exceda en total ancho pantalla/char_width -2
+Algun otro array de char que esté definido a 32 o 33, en vez de pillar la longitud de la constante MAX_….?
+
+
+-Describir en development las dos maneras de dibujar el menú y capa de máquina emulada: 
+con driver completo y mezclando píxeles, o con driver texto y poniendo capa menú siempre encima (y esta no tiene caché de putchar, solo la parte de carácter no modificado)
+
+
+->Quiza para version estable en zxvision_draw_window_contents que no haga caso de ese flag, por no generar algun error en version final
+En void zxvision_draw_window_contents(zxvision_window *w)
+Desactivar:
+if (must_return) return;
+
+-Activar zx desktop por defecto si cabe? Si no hay configuración anterior?
+
+-Activar multitarea ventanas por defecto ? Si no hay configuración anterior?
+
+-idea Para enviar sonido desde menú: Buffer aparte desde donde se lee de los cores y se mezcla con la salida emulada
+
+-menu arriba del todo al estilo de Mac. En pruebas, ver función menu_topbarmenu
+
+-Considerar mejorar dibujar el fondo de zxdesktop: al mover ventanas se ralentiza mucho por tener que dibujar el zxdesktop
+Considerar algun modo de dibujado mas rapido
+
+-en ventanas con can_use_all_width=1, no se habilita la barra de scroll vertical cuando hace falta
 
 
 -hay algun limite de array o memoria etc en ventanas zxvision alto y alto 32x24? Creo que no
 
+-ordenar directorios arriba en filesel? Pero entonces al pulsar una letra y buscar... a donde ira?
 
--zxvision:
---que al redimensionar ventana se pueda hacer que vuelva a la funcion que la llama (como cuando se mueve raton?) para hacer
-funciones de reajuste de disposicion de texto en ventana por ejemplo
-->no hace falta ya que retorna de handle_zxvision al mover el raton. Hexadecimal editor ya lo hace
+-Si se mueve ratón a zona redimensionado ventana, que la ventana cambie la esquina inferior derecha 
+
+-zxvision_get_char_at_position (usado al pulsar con raton en hotkeys) deberia tener en cuenta si hay offset de pantalla
+util en el mapa de aventura de texto cuando la leyenda siempre se ve arriba aunque haya scroll, para poder habilitar hotkeys pulsando el raton
+
+
+
 -que en menu de opciones si raton pulsa en ventana pero en zona que no hay opciones, no envie enter
 
 
--cuando una ventana se ha minimizado, al conmutar de ventana y volver ahi, la ventana no la marca como minimizada, y no sale el boton de "="
-restaurar minimizado, sino que sale el "-" de minimizar
-Seria dificil de corregir, al conmutar de ventana y volver, realmente se crea una ventana de nuevo con la geometria anterior,
-y en esa geometria no se indica que estaba minimizada antes o no. Quiza un parametro mas en la geometria que indique minimizada o no
-Aunque tambien habria que guardar tamaño de antes de minimizar
 
 -Quizá versión en un futuro en que al pulsar escape cierra todos los menús. 
 Aunque lo que son ventanas no de menú debería cerrar la actual y no todas? Además tendria que haber una tecla para solo cerrar la ventana en curso.
-
 
 -cuando una tecla F no esta como default, no la envia a maquina emulada: ejemplo MSX F2, QL F5
 
 -First aid de f keys. Cuando se pulse una f por primera vez
 
--redraws de zxdesktop en determinados cambios (redimensionado/cierre ventana?) donde se queda a veces en negro
-
--acabar de migrar todas menu_dibuja_ventana a zxvision. queda alguna?? las de definir evento joystick 
 
 -Cuando se hace resize de ventana y desaparecen barras desplazamientos, habría que mover offset a 0?
 O esta considerando mal el mostrar barras desplazamiento: quizá deberían salir siempre que offset sea mayor que 0, Y que quepa en pantalla
@@ -108,6 +231,15 @@ Un tercer botón que diga "take me there" para cuando sugiere menús, que te lle
 
 
 --- menu - fallos ---
+-Error: Abrir menú debug cpu con tecla F
+Luego pulsar botón salir emulador
+Y cierra menus pero no sale
+
+-menu about: sin zx desktop, sale muy ancho pues ancho por defecto en zxvision_generic_message_tooltip es ahora 40
+-quiza se deberia hacer mas uso de menu_center_x_from_width, en ventanas que ya no caben con ancho 32 con zxdesktop ancho 256 y abrir ventanas en zxdesktop
+
+-Splash messages en overlay no deberían borrar las ventanas cuando opción de background windows even with menú closed 
+
 
 -a veces al cambiar numero chips en settings-audio-ay chips se cuelga
 
@@ -115,12 +247,66 @@ Un tercer botón que diga "take me there" para cuando sugiere menús, que te lle
 
 -Smartload de un tap en +3 deja activado top speed (abadía del crimen)
 
+
+-al cargar smartload, por ejemplo ultimo cargado es thelosttapesofalbion. situa el cursor ahi bien, 
+pero al subir para arriba desplaza desde scroll sin mover
+cursor hasta que esta arriba. O sea, deberia mover siempre cursor y no empezar a hacer scroll hasta que no esta arriba
+
+
+-Con carga top speed salen dos footer ? El nuevo de rojo también...  
+Quizá el Rojo debería ser el Tspeed que ya sale en la carga...
+Pues porque al ser un hotkey, se abre el menu y al cerrar el menu, se pierde el footer
+
+-parece que si hay joystick conectado, el splash de Z logo no aparece toda la animacion, se cierra a la primera barra de color
+
+
+-Parece que color de aviso no puede ser mayor que 0-15, pues al usar los $$ de caracter, no permite otros valores. Ver test style Warning text
+
 -------------
 
 --- menu - mejoras ---
 
 -poder extender texto de ventanas de simple message, están fijados siempre a 32
 
+-sprite disabling window tambien para tsconf y maquinas con chip vdp (msx, etc)
+
+-al salir de filesel, debe cambiar unidad activa a la local, y no a mmc.
+Esto podria provocar que otros sitios que usan ZVFS (por ejemplo esxdos handler) accedieran a la mmc si lo ultimo que se ha accedido
+desde filesel era la mmc
+Quiza solo el menu (y no esxdos handler , zxpand u otros) debe usar ZVFS. El resto, rutinas de sistema? -> esxdos, zxpand etc ya NO usan ZVFS
+
+-En debug cpu, quizá al mover rueda de ratón tiene que volver de menú espera tecla. Si no, 
+es lo que hace que al moverse con la rueda por vista debug cpu, haya que hacer movimiento de raton para que funcione
+El problema es que mouse_wheel_vertical se lee y luego siempre se debe poner a 0
+Si la ponemos a 0 en bucle de leer tecla, luego no se lee realmente del menu debug cpu
+
+
+-agregar sensor temperatura cpu linux
+
+
+-ay player en modo "jukebox" que permita agregar canciones ay a la lista, o bien una carpeta entera
+
+-frecuencias chips audio como sensores? no sé si vale la pena pues los valores de frecuencias son exponenciales y por ejemplo
+las ultimas dos notas, una es el doble de la otra. Por tanto si usamos un widget de speedometer, estaria casi al 0 siempre excepto para 
+frecuencias muy altas.
+
+-quiza linea cursor en debug cpu ubicar en el centro
+
+- realtape browser que pille el setting de improved algorithm yes/no
+
+- Improved algorithm quizá renombrar a “alternate” algorithm 
+
+- Al salir cualquier mensaje splash luego no deberían desaparecer las ventanas: parece que desaparece la decoracion de ventanas 
+momentaneamente pero al irse el splash, se recargan
+
+
+
+-ula settings visible en otras maquinas no-spectrum?
+
+-setting autorebobinado de cintas standard y real tape?
+
+
+-Opción no marcar registros en rojo que se van  a modificar en debug cpu
 
 -teclado en pantalla que se pueda pulsar en teclas
 
@@ -132,8 +318,6 @@ en la ventana del teclado ya se actualiza con la máquina actual
 
 
 -Mostrar info en menu network de descargas, commits etc. Solo si hay ssl (porque github solo esta con https)
-
--Al pulsar en footer cuando está con real tape, que se ponga cinta en pausa
 
 -Info video mode Pentagon 16c ventana. Que diga modo activo en ventana vídeo info. Problema: en maquina no tsconf o tbblue no hay ventana de video info
 
@@ -171,6 +355,10 @@ Por alguna razón, en /dev no llega a leerlos ni entrando antes del filtro. Quiz
 o algo que no hago bien al leer directorio. La solución pasa por escribir el nombre directamente en el file selector (pulsando TAB o click de raton
 arriba)
 -no se ven enlaces simbólicos en navegador de archivos. Como mínimo de Mac no se ven. Y en Linux?
+
+
+-para comprobar coordenada y footer, calcular desde abajo de alto ventana. Y usar funcion comun en screen.c
+-quiza funcion footer a scr_putchar_footer_comun_zoom se tiene que hacer con coordenadas 0,1 o 2 simplemente
 
 -------------
 
@@ -224,23 +412,9 @@ Hacer captura. Luego hacer captura de la derecha, etc
 -agregar un handler especial para esas teclas. Pero entonces como se mueve uno por los ítems? Con tecla tab?
 Que uso se le da a tab? En file utils, si se tabula, cambia de sección. En menú tabular, el tab sale?
 
--F1 ayuda extensa en debug cpu, dentro de ventana y antes en el ítem de menú 
-
 -ventana debug cpu: si se estaba en vista 8, y luego cargamos un juego que no sea de paws/daad/quill,
 la vista 1 sera ventana grande pero con alto total reducido. Parecido a lo que sucedia al cambiar de vista
 
--debug cpu vista 7 deberia redimensionar pantalla. Ver si pasa lo mismo con vista 8 paws etc
-
--quiza hacer que si ventana debug cpu es suficientemente grande, en vez de mostrar en registros:
-
-AF 0000'0000
-
-mostrar:
-
-AF 0000 AF' 00000
-
-Aunque esto obliga revisar las funciones que escriben esos registros, los maximos de los buffers, y enviar el ancho de ventana
-a la función que lo escribe. Por otra parte puede provocar confusión al usuario...
 
 -menus tabulados:
 TAB conmutar a zona de acciones? Quiza nueva funcion para seleccion acciones, que permita:
@@ -258,9 +432,6 @@ Info de tamaño ventana. Y tamaño ventana sin zoom
 
 -mejorar deteccion frecuencia sonido en audio wave form
 
-
--Poder buscar cadenas de texto en find byte. Al estilo de strings de linux, es decir, indicarle un minimo de caracteres juntos y saque todas las cadenas de texto
-opcion tambien para bajar bit 7 final
 
 -Mostrar juego cargado en titulo ventana. Desaparece al hacer reset 
 
@@ -286,7 +457,7 @@ no-thread no funcionara tampoco
 
 -Mostrar consumo de cpu solo del proceso del emulador?
 
--Browser cintas que permita alterar la posición de la cinta
+-Browser cintas standard que permita alterar la posición de la cinta
 
 
 -descomprimir rar,gz, etc con espacio en nombres a veces falla. el comando system le envia las "" pero el propio comando
@@ -295,8 +466,28 @@ no gestiona bien nombres con espacios
 
 -tecla ',' en zx80/81 no va en menu porque se interpreta como symbol+shift y es lo mismo que TAB para el menu
 
--en menu cambio z88 memory slots, que el apply changes salga justo en la ventana anterior, para poder cambiar varios slots a la vez y que se aplique solo una vez
-(como abrir tapa, insertar 2 slots, y cerrar tapa)
 
+-formato hobeta: mostrar info en fileutils
+
+Hobeta ( *.$B , *.$C , *.$D ,...) es un formato obsoleto para almacenar archivos TR-DOS , utilizado principalmente por emuladores ZX Spectrum más antiguos . Una característica del formato es que solo se almacena un archivo TR-DOS en un archivo Hobeta . El archivo Hobeta es esencialmente una copia byte por byte de un archivo TR-DOS con un encabezado de 17 bytes agregado.
+La extensión del archivo se obtiene agregando un carácter "$" antes de la extensión del archivo TR-DOS original .
+El formato apareció junto con la copiadora Hobeta del mismo nombre (hobeta.exe 19/11/1990: "HoBeta V2.0, Copyright (C) 1990, InterCompex, Soviet-Swiss JV" - ver El Hobbit ).
+Descripción del formato
+
+Título:
++0, 8 bytes - nombre de archivo TR-DOS
++8, 1 byte - tipo de archivo (extensión) TR-DOS
++9, 2 bytes - parámetro de INICIO del archivo
++11, 2 bytes - parámetro LENGTH del archivo (longitud en bytes)
++13, 2 bytes - tamaño de archivo en sectores
++15, 2 bytes: suma de comprobación de los 15 bytes anteriores (¡no el archivo en sí!)
+Datos:
+Copia byte a byte de todos los sectores del archivo
+El byte alto del tamaño del archivo en sectores siempre debe ser 0.
+Algoritmo de cálculo de suma de comprobación:
+suma de control=0;
+for (i=0; i<=14; CheckSum = CheckSum + (header[i] * 257) + i, i++);
+
+Ahora se le ha dado una nueva vida al formato en la computadora ZX Evolution. Los archivos binarios (con la extensión .$C) en este formato se pueden iniciar directamente desde dispositivos FAT (como HDD o tarjeta SD) mediante el shell de Evo Reset Service integrado.
 
 *************

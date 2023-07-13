@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Script para enviar texto a speech y tambien traduccion
 # Entrada: texto por stdin a traducir

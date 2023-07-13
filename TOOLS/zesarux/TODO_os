@@ -29,19 +29,8 @@ Ouch, thank you for the response – this will require some hard studying to fig
 -cocoa: visibilidad raton en pantalla completa. Se puede corregir eliminando funciones grabMouse/ungrabMouse pero luego
 la posición del ratón no la lee correctamente, seguramente por culpa del factor de zoom
 
--Joystick en Mac
-Parece que en Mac es complicado
-Ver
-https://stackoverflow.com/questions/2234364/how-to-detect-a-gamepad-button-press-on-osx-10-5-and-higher
-y
-https://code.google.com/archive/p/ddribin/
+-Joystick en Mac: decir nombre de joystick y total botones/axis
 
-https://github.com/suzukiplan/gamepad-osx
-
-https://github.com/ThemsAllTook/libstem_gamepad
-
-
-Quizá en OSX superiores lo han simplificado. Pero hace falta swift o funciona con C?
 
 
 -Fin Joystick en Mac
@@ -73,6 +62,11 @@ Es mas complicado pues luego va a buscar librerias de /usr/local/Cellar/openssl
 
 
 ------------------
+
+--- windows - mingw - mejoras ---
+
+
+
 
 --- windows - mingw - fallos ---
 
@@ -130,7 +124,6 @@ Fifosdlbuffersize 4 y sdlsamplesize 2048
 *con driver audio intel hd (el que tenia antes): hay clicking normalmente . MAL
 
 
--Windows no es capaz de usar imagen mmc de 2 GB. Quiza porque es un compilado para 32 bits?
 
 
 ------------------

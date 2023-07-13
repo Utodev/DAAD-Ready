@@ -124,7 +124,7 @@ Now you can run it inside this xterminal with:
 
 ./zesarux.exe
 
-Note: it seems the xwindows driver does not work with cygwin. Instead you can use the sdl driver:
+Note: if the xwindows driver does not work with cygwin, try instead the sdl driver:
 
 ./zesarux.exe --vo sdl
 
@@ -149,5 +149,26 @@ It needs a lot of cyg*.dll in the same path of the emulator (that you can copy f
 But you can run the emulator with another video driver, like stdout:
 
 zesarux.exe --vo stdout
+
+* Additional notes
+
+For some reason my old Cygwin installation stopped working properly, so some things must be started by hand:
+
+- Cygwin Terminal shortcut can not find "mintty" executable: Then start it by running C:\cygwin\bin\mintty.exe
+
+- The XServer (XWin.exe) does not refresh the display, and I see on console lots of errors like: 
+
+IDirectDrawSurface4_Blt() failed
+
+So, start it, from cygwin terminal, this way:
+
+Xwin.exe -engine 1 &
+
+The engine 1 uses shadow GDI; the default engine is 4 (Shadow directdraw4 non-locking) which seems to fail in some cases
+
+Remember to set DISPLAY variable before running zesarux:
+
+export DISPLAY=:0.0
+
 
 ------------------------

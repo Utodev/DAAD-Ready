@@ -1,13 +1,16 @@
-* Runs on any Unix system and Windows: tested on GNU/Linux x86, GNU/Linux x86_64, GNU/Linux Raspbian, GNU/Linux RetroPie, FreeBSD x86_64, Haiku, Mac OS X, Windows native, Windows + Cygwin
+* Runs on any UNIX based operating system and Windows: tested on GNU/Linux x86, GNU/Linux x86_64, GNU/Linux Raspbian, GNU/Linux RetroPie, FreeBSD x86_64, Haiku, Mac OS X, Windows native, Windows + Cygwin
 
 * Emulates:
     * Science of Cambridge MK14
     * Sinclair ZX80
     * Sinclair ZX81
-    * Spectrum models: 16k, 48k (English and Spanish), Inves Spectrum +, Spectrum 128k (English and Spanish), Spectrum +2 (English, Spanish and French), Spectrum +2A (English and Spanish), Spectrum +3 (English and Spanish), Microdigital TK90X (Portuguese and Spanish), TK95 
+    * Sinclair ZX Spectrum models: 16k, 48k (English and Spanish), 48k+ (English and Spanish), Spectrum 128k (English and Spanish), Spectrum +2 (English, Spanish and French), Spectrum +2A (English and Spanish), Spectrum +3 (English and Spanish)
     * Sinclair QL
     * Cambridge Z88
-    * Timex TS 2068 
+    * Microdigital TK80, TK82, TK82C, TK83, TK85, TK90X (Portuguese and Spanish), TK95 (Portuguese and Spanish)
+    * Timex Sinclair 1000, 1500, 2068
+    * Timex Computer 2048, 2068
+    * Inves Spectrum +
     * Sam Coupe
     * Pentagon 
     * Chloe 140 SE, 280 SE
@@ -18,7 +21,8 @@
     * ZX-Evolution TS-Conf
     * ZX Spectrum Next
     * Jupiter Ace
-    * Amstrad CPC 464, CPC 4128
+    * Amstrad CPC 464, CPC 4128, CPC 664, CPC 6128
+    * Amstrad PCW 8256, PCW 8512
     * MSX1 
     * Spectravideo 318/328
     * Colecovision
@@ -63,19 +67,21 @@
 
 * Uses its own powerful window environment (ZX Vision) inside the program application window, having the same GUI style on all plattforms. Allows to have an extended display to hold menus and multitask windows in the GUI (ZX Desktop)
 
+* Partial support for Spanish and Catalan language on menus
+
 * Can be used with joystick and environments without keyboard, like Raspiboy / Retropie
 
 * Emulates all the oddities of the Inves Spectrum +: 64 KB RAM, RAM initialization with FF00H pattern, OUT ula AND RAM, EAR and MIC XOR, no contended memory, snow in border, colour ula delay, interrupt starts at end of top border (not at the beginning of the border), corrupt memory on every interrupt, no idle bus
 
 * Uses Video drivers: X-Windows, SDL, Cocoa (Mac OS X), Framebuffer, ncurses, aalib, cacalib, stdout(console), simpletext(console)
 
-* Uses Audio Drivers: PulseAudio, Alsa, SDL, DSP(OSS), PC Speaker, CoreAudio (Mac OS X). 
+* Uses Audio Drivers: PulseAudio, Alsa, SDL, DSP(OSS), One Bit Speaker (PC Speaker and Raspberry Pi GPIO speaker, without any kind of sound card), CoreAudio (Mac OS X).
 
 * Supports dumping audio & video to file
 
 * Supports real tape loading of file formats: RWA, SMP, WAV, TZX, PZX, CDT, TAP, P, O. It handles loading of turbo load tapes or any type of tape loading for standard/non standard loading routines
 
-* Handles binary tape format files (TAP, TZX, O, P, CDT, CAS) on standard ROM routines for ZX Spectrum, ZX80, ZX81, Amstrad CPC, Jupiter Ace, MSX, Spectravideo
+* Handles binary tape format files (TAP, TZX, PZX, O, P, CDT, CAS) on standard ROM routines for ZX Spectrum, ZX80, ZX81, Amstrad CPC, Jupiter Ace, MSX, Spectravideo
 
 * Handles real audio loading (RWA, SMP, WAV) on standard ROM routines for ZX Spectrum, ZX80, ZX81, Amstrad CPC, Jupiter Ace
 
@@ -83,19 +89,27 @@
 
 * Handles snapshot formats: ZSF, ZX, Z80, SP, SPG, NEX, SNA, P, O, Z81, ACE
 
+* Handles floppy disk formats: DSK
+
+* Handles MMC/SD card formats: HDF, IMG, RAW (.MMC)
+
+* Handles IDE hard disk formats: RAW (.IDE)
+
 * Handles cartridge formats: DCK, ROM, COL, SG
 
 * Handles RZX playback 
 
-* Emulates Multiface One, 128 and Three
+* Emulates the following Copy Interfaces: Defcon, Dinamid3, Hilow Barbanegra, Interface007, Microhobby Pokeador Automatico, Multiface One, 128 and Three, Phoenix, Ramjet, Spec-Mate, Transtape
+
+* Emulates Dinamic SD1
 
 * Emulates Datagear/MB02 DMA, ZX-Uno DMA
 
-* Emulates +3 Disk
+* Emulates Nec PD765 floppy disk controller, used on Spectrum +3, CPC 664, CPC 6128, PCW
 
 * Emulates Betadisk/TR-DOS. Direct support for .trd files. scl files can be converted from file selector pressing space
 
-* Emulates ZX Spectrum MMC Interfaces: ZXMMC, DivMMC. Support for raw (.mmc) files and hdf files
+* Emulates ZX Spectrum MMC Interfaces: ZXMMC, DivMMC
 
 * Emulates ZX Spectrum IDE Interface: DivIDE, 8-bit simple
 
@@ -113,7 +127,7 @@
 
 * Emulates SamRam interface by Gerton Lunter (author of famous Z80 emulator)
 
-* Emulates DataDrive HiLow (beta)
+* Emulates HiLow DataDrive
 
 * Handles RAM, EPROM, Intel Flash and Hybrid (RAM+EPROM) cards on Z88
 
@@ -141,7 +155,7 @@
 
 * Supports RAM packs on Jupiter Ace up to 51 KB
 
-* Joystick emulation with real joystick (on GNU/Linux and Windows) and keyboard cursors: Kempston, Sinclair 1&2, Cursor Joystick, Cursor & Shift, OPQA, Fuller, Zebra, Mikro-Gen, ZXPand, SAM Coupe Cursors. Autofire function too
+* Joystick emulation with real joystick and keyboard cursors: Kempston, Sinclair 1&2, Cursor Joystick, Cursor & Shift, OPQA, Fuller, Zebra, Mikro-Gen, ZXPand, SAM Coupe Cursors, CPC, MSX, Spectravideo. Autofire function too
 
 * On Screen keyboard useful when playing with joystick, two types: one with keyboard letters, and another with words, useful for playing Text Adventures. Also a tool to extract words from text adventures (Daad, Paws, Quill and Gac)
 
@@ -179,6 +193,8 @@
 
 * Visual Real Tape: you have an audio render of your tape, see tape blocks and rewind or move forward the cassette player 
 
+* Visual Floppy: allow to see floppy activity: disk movement, reads, writes, head seek, etc
+
 * Supports ZEsarUX remote command protocol (ZRCP). This is a powerful communications protocol between a client and ZEsarUX, using a simple telnet client. One of the things you can do it is enhanced debugging on ZEsarUX from Visual Studio Code (see https://github.com/maziac/DeZog)
 
 * Can use a reduced Spectrum core, with some features disabled, useful on slow devices, like Raspberry Pi 1/Zero
@@ -187,9 +203,9 @@
 
 * Powerful debug features: Reverse Debugging, CPU History, Assembler, Registers, Dissassemble, Conditional Breakpoints using text expressions, Watches, Step-to-step, Step-over, Runto, Show TV electron position, Load source code, Hexadecimal Editor, View Sprites, View Tiles, Find bytes, Infinite lives finder, CPU Transaction log, View BASIC, View BASIC variables, verbose messages on console
 
-* Text adventure debugger: On a Quill/Paws/Daad text adventure you can Step to Step condact, watch flags/objects, list messages (objects, user/system messages, locations, compressed tokens, vocabulary). Can also view graphics from a Quill, Paws, Daad or Gac aventure.
+* Text adventure debugger: On a Quill/Paws/Daad text adventure you can Step to Step condact, watch flags/objects, list messages (objects, user/system messages, locations, compressed tokens, vocabulary), connections, Text Adventure Map. Can also view graphics from a Quill, Paws, Daad or Gac aventure.
 
-* File utilities menu: Allowing to view, expand and convert some common file formats: tap, tzx, trd, dsk, mdv, hdf, etc. Can also browse inside file system images (.mmc, .img, etc)
+* File utilities menu: Allowing to view, expand and convert some common file formats: tap, tzx, pzx, trd, dsk, mdv, hdf, ddh, etc. Can also browse inside file system images (.mmc, .img, etc)
 
 * Accessibility support: Print char traps allows to capture generated text from almost any program or game, using standard ROM calls (RST 10H) or even non standard print character routines. Can send generated text from a game to a text-to-speech program. It's ready for text to speech support for blind or visually impaired people. Menu emulator can also be read by a text-to-speech program.
 
@@ -199,7 +215,7 @@
 
 * Supports command line settings, configuration file settings and per-game configuration settings
 
-* Other features: Visualmem menu, CPU Statistics
+* Other features: Visualmem menu, CPU Statistics, Toy ZXeyes, Sensors
 
-* Includes five easter eggs. Can you find them? :)
+* Includes six easter eggs. Can you find them? :)
 

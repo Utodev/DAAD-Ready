@@ -12,34 +12,35 @@ Y montones de flags y parámetros de dma que de momento no gestiono
 -Desactivar chip sprites si reset y máquina no spectrum. Pero en set_machine si se hace ahi, fuerza a desactivar aunque en el .config se haya habilitado
 -Sprites de 16x16?
 
+------------------
+
+
+--- PD765 ---
+
+-Emulación floppy:￼
+Quiza un modo mas facil (y menos real) en que cuando pida la cpu leer un byte, se le pase el siguiente del disco. Y otro mas real en que el disco esté "girando" como en real, y el byte que se le pase sea el que corresponda en ese momento (requerira funcion nested core). Algún setting para escoger entre los dos modos?
+
+lectura sectores de floppy debe usar los ids y no offset directo (llamando a traps_plus3dos_getoff_track_sector igual que traps)
+Y los ST0, ST1, etc de resultado, deben retornar los que hay en DSK? respuesta del comando es el siguiente sector, etc? o el actual?
+
+
+-mejorar dsk_extended_get_start_track. se tiene que parecer mas al basico
+
+-releer tabla read data y valores chrn cuando el procesador termina un comando. cuando sucede? como puede terminar un comando??
+
+-ver otros casos al llamar a dsk_get_sector_size_track_from_offset se debe hacer usando lectura extendida dsk_get_real_sector_size_extended
+
+
+
+
+-Read track
+* A determinar flags que se activan según petición inicial chrn
+* A determinar que pasa si hay menos sectores que eot: creo que esto ya se gestiona cuando le pide el sector
+
+-PD765: write sector. control de EOT? se puede escribir mas de un sector seguido?
+-implementar write deleted data? quiza tan facil como escribir igual pero con bits de (st1?st2?) diciendo que está borrado
 -----------------------
 
-
---- +3 ---
--+3: funcionan :
-
-3d kit disco 1
-
-zigurat software:
-autocrash
-carlos sainz
-gp f1
-jungle warrior
-senda salvaje
-sito pons
-
-Mirar porque fallan muchos dsk
-
-al cambiar funcion de busqueda sectores: ahora busca sector id de cada sector:
-emilio sanchez vicario: usa sectores consecutivos
-paris dakar: NO va, pero veo que usa sectores consecutivos tambien (a partir de pista 1)
-drazen petrovic basket
-night hunter. aunque luego no carga la cara b
-
--autoload en +3 de cinta no va, seguramente porque al tener un dsk insertado, la rutina salta diferente (o le envia el enter antes)
-
-
--------------
 
 --- Betadisk ---
 
@@ -60,11 +61,6 @@ night hunter. aunque luego no carga la cara b
 mmap tiene flags para decir que es solo lectura pero supongo que fallaria con segfault si escribimos en una zona de solo lectura
 Sin persistent writes deberia hacerlo como siempre: escribiendo en memoria, sin mmap
 Con mmap, se deja de hacer flush, ya que lo hará automáticamente (??) el sistema operativo, al activar mmap 
-
--En Mac parece que siempre falla al escribir en imagenes de 2 GB (y superiores)
-retorna:
-ptr_mmcfile: 2017595472
-escritos: -2147483648
 
 
 -Revisar protección de escritura en páginas divmmc
@@ -95,7 +91,7 @@ Quizá activar flag cuando se escribe al menos una vez y al salir sabemos si hay
 
 -Idea: en vez de tener la imagen Mmc, que tenga los archivos que contiene y cree el Mmc copiándolos 
 
-
+-Creacion imagen mmc desde seleccion de imagen mmc, la crea byte a byte y con tamaños grandes puede ser muy lento
 
 ------------------
 
@@ -191,6 +187,24 @@ https://github.com/charlierobson/ZXpand-Vitamins/wiki/ZXpand---Online-Manual
 
 ------------------
 
+--- HiLow Data Drive ---
+
+
+- emular puerto FFH
+
+-Ddh con extended info al final, que contenga marcas de sector y labels ? 
+
+
+-lee_hilow_audio: ultimo sector en cara B dice:
+Total bytes leidos: 0
+Sector -407021264
+
+-convert a ddh: 
+*linea de comandos: si se dice repetir, repite solo desde el inicio de los datos de sector, pero deberia hacerlo desde el id de sector y el label
+
+
+------------------            
+
 
 -emulación impresion seikosha gp-100a
 
@@ -198,3 +212,18 @@ https://github.com/charlierobson/ZXpand-Vitamins/wiki/ZXpand---Online-Manual
 -Dandanator nueva versión
 
 -soporte para más de 1 joystick 
+
+-puerto kempston y puerto 223. Juego El cid
+
+https://foro.speccy.org/viewtopic.php?t=1502
+
+
+
+-opcion disable real joystick desde menu
+
+-Otros dispositivos de copia
+(https://microhobby.speccy.cz/mhf/195/MH195_21.jpg)
+*disciple
+*plus d (sucesor de disciple)
+Ambos requieren emular floppy...
+*https://speccy4ever.speccy.org (ver seccion de fabricantes romanticrobot, hard micro, etc)

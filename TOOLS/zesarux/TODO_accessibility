@@ -31,7 +31,6 @@ O quizá setting configurable
 
 
 -Misma tecla F definida como ocr que en ZX Vision haga ocr+speech también. Así se pueden leer siempre los menus
--Grabar vídeo text speech completo
 
 -Speech al moverse por líneas de menú se escucha antes de que se mueva el cursor. Por que?
 -speech: sin multitask, a veces se descuadra la linea de menu que lee. ejemplo: ir a accessibility settings, y cuando este leyendo "active item..." pulsar tecla. Creo que esto pasa desde siempre

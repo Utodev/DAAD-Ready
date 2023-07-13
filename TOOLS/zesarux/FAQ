@@ -4,8 +4,8 @@ This FAQ is divided in several sections:
 Accessibility
 -------------
 
-Q: How can I run the emulator with text to speech facilities?
-A: Run the emulator specifying a text to speech program (with path) like the festival scripts or mac os say script, for example:
+Q: How can I run ZEsarUX with text to speech facilities?
+A: Run ZEsarUX emulator specifying a text to speech program (with path) like the festival scripts or mac os say script, for example:
 
 ./zesarux BSLEEZE1.TAP --enableprintchartrap --textspeechprogram speech_filters/festival_filter.sh --linewidth 99 --linewidthwaitspace 
 
@@ -37,8 +37,8 @@ A: Pressing Enter forces sending the last words to speech system. Also try to ad
 
 Q: Some text adventures can be played with the speech filters, but some other text adventures seem to send nothing to speech.
 A: By default, if you enable "trap print" on ZEsarUX, it only traps standard rom calls. I mean, when a program uses standard rom calls to print text,
-this text will be captured by the emulator. But if this game uses non standard rom calls, it won't be captured nor sent to speech.
-ZEsarUX has some settings to get this; you can write manually the memory address where the game calls to print text (parameter second trap address, for advanced users); even some games are detected by the emulator and get filled this second trap address parameter automatically.
+this text will be captured by ZEsarUX. But if this game uses non standard rom calls, it won't be captured nor sent to speech.
+ZEsarUX has some settings to get this; you can write manually the memory address where the game calls to print text (parameter second trap address, for advanced users); even some games are detected by ZEsarUX and get filled this second trap address parameter automatically.
 If previous does not work, or you are not an advanced user, you can enable "second trap detection" and set "Detect routine" to "Auto&all" (or you can also specify --automaticdetectchar in the command line) and the 
 emulator will try to find the best solution.
 
@@ -49,12 +49,12 @@ A: Use Setting Text Speech Stop program (on menu or on command line: --textspeec
 
 
 Q: When I set the speech program on Windows, it returns me an error: "Full path to Text to Speech program ... has spaces. It won't work on Windows."
-A: Yes, it's a limitation on the Windows version of the emulator. The speech program and the stop speech program can not be located in a full path 
-with spaces. It won't work if you set a relative path, because the emulator will complete and convert it to a full path. 
+A: Yes, it's a limitation on the Windows version of ZEsarUX. The speech program and the stop speech program can not be located in a full path 
+with spaces. It won't work if you set a relative path, because ZEsarUX will complete and convert it to a full path. 
 The solution is to move the Speech program and the Stop speech program to a path without spaces
 
 
-Q: All these speech programs included in the emulator are indeed speech synthesis programs, not screen readers. Can I use screen readers with ZEsarUX?
+Q: All these speech programs included in ZEsarUX are indeed speech synthesis programs, not screen readers. Can I use screen readers with ZEsarUX?
 A: Yes. There is a speech script which can be specified with --textspeechprogram ; See: http://github.com/sukiletxe/zesarux-ao2
 
 
@@ -103,15 +103,15 @@ A: Run alternate ROM alternaterom_plus3e_mmcen3eE.rom with machine type Spectrum
 
 
 Q: How can I use DIVMMC emulation?
-A: The emulator uses by default esxdos 0.8.5 firmware (file esxmmc085.rom). It also needs a filesystem for the common esxdos files.
-So, first select MMC file, the emulator comes with two mmc images for esxdos:
+A: ZEsarUX uses by default esxdos 0.8.5 firmware (file esxmmc085.rom). It also needs a filesystem for the common esxdos files.
+So, first select MMC file, ZEsarUX has two mmc images for esxdos included in the extras package:
 media/disk_images/divmmcesx085.mmc : for esxdos 0.8.5
 media/disk_images/zxuno.mmc : for esxdos 0.8.6 beta (use with ZX-Uno)
 Then enable MMC emulation,  and enable DIVMMC on the menu. Then reset the machine (and press space while booting if necessary)
 
 
-Q: Using MMC cards bigger than 1 GB makes the emulator slow and almost hangs it
-A: The emulator needs to assign as much RAM as the MMC card size. So working with a 2 GB MMC card needs 2 GB of RAM
+Q: Using MMC cards bigger than 1 GB makes ZEsarUX slow and almost hangs it
+A: ZEsarUX needs to assign as much RAM as the MMC card size. So working with a 2 GB MMC card needs 2 GB of RAM
 
 
 Q: How can I use ZXpand emulation?
@@ -121,8 +121,8 @@ ZXpand root directory will be the root directory for ZXpand interface. Only file
 
 
 Q: How can I use DIVIDE emulation?
-A: The emulator uses by default esxdos 0.8.5 firmware (file esxide085.rom). It also needs a filesystem for the common esxdos files.
-So, first select IDE file, the emulator comes with one ide image for esxdos:
+A: ZEsarUX uses by default esxdos 0.8.5 firmware (file esxide085.rom). It also needs a filesystem for the common esxdos files.
+So, first select IDE file, ZEsarUX has one ide image for esxdos included in the extras package:
 media/disk_images/divideesx085.ide : for esxdos 0.8.5
 Then enable IDE emulation,  and enable DIVIDE on the menu. Then reset the machine (and press space while booting if necessary)
 
@@ -144,11 +144,11 @@ A: A file with extension .mmcide is generated by expanding a hdf file, which can
 
 
 Q: Where are located the mmc and ide files? Some examples refer to them but I can't found them. Even more, previous versions of ZEsarUX included them
-A: Media folder has been separated from the emulator main distributed file. You have to download the ZEsarUX_extras package
+A: Media folder has been separated from ZEsarUX main distributed file. You have to download the ZEsarUX_extras package
 
 
-Q: I want to use dandanator but the emulator is closed when I enable it. I'm using Mac OS X
-A: Seems some versions of Mac OSX closes the emulator when enabling dandanator. It seems related to the real video setting, so disabling real video (and
+Q: I want to use dandanator but ZEsarUX is closed when I enable it. I'm using Mac OS X
+A: Seems some versions of Mac OSX closes ZEsarUX when enabling dandanator. It seems related to the real video setting, so disabling real video (and
 also disabling auto-enable real video) solves it. You may also hear some audio noise on the dandanator menu. I haven't found a definitive solution for this
 
 
@@ -175,8 +175,30 @@ Q: Audio does not sound well on Raspberry pi.
 A: Try using sdl audio driver.
 
 
-Q: I've tried to use the pcspeaker driver but returns error on initialization
-A: The PC Speaker driver on ZEsarUX is only available for Linux, and needs pthreads enabled on compilation. Also, you must run ZEsarUX as root in order to use it, as it needs privileged access to the PC Speaker i/o port
+Q: I've tried to use the onebitspeaker driver, type pcspeaker, but returns error on initialization
+A: The PC Speaker type from onebitspeaker driver on ZEsarUX is only available for Linux, and needs pthreads enabled on compilation. Also, you must run ZEsarUX as root in order to use it, as it needs privileged access to the PC Speaker i/o port
+
+
+Q: Before ZEsarUX 10.1, there was a pcspeaker driver which no longer exists now. What happened?
+A: The pcspeaker driver has been replaced by the onespeakerdriver. This driver can now handle PC Speaker output but also Raspberry Pi GPIO Speaker, you can select the type from the menu or command line configuration settings
+
+
+Q: How can I use the Raspberry Pi GPIO Speaker?
+A: As the name suggests, you must connect a speaker to two GPI pins: one goes to GND and the other one to a pin number you want. I use a cheap piezoelectric speaker directly plugged to those pins.
+Then use the onebitspeaker driver, set type to Raspberry Pi GPIO.
+The default pin number is set to 22, but you can change it to any other you want. 
+
+
+Q: How can I enable the MIDI output feature?
+A: You must select a machine with Audio Chip (Spectrum 128k, MSX, etc) and go to menu Settings-> Audio-> Audio Chip to MIDI Output
+
+
+Q: I want to use the MIDI output feature but I don't have any MIDI device. Is there any way to use it?
+A: Yes, you can use a software which 'emulates' a MIDI device. There are many, depending on your operating system:
+-GNU/Linux: Timidity. Included on most Linux distributions.
+-Mac: fluidsynth. You can install it with 'brew install fluidsynth' or 'sudo port install fluidsynth', depending on what package manager you have.
+You'll also need a soundfount, which you can download for example from: http://www.schristiancollins.com/generaluser.php.
+-Windows: CoolSoft VirtualMIDISynth (but I think some Windows have a software MIDI by default, so maybe you won't need another one).
 
 ----------------------------------------------------------------------------
 
@@ -206,6 +228,12 @@ A: There are three kind of video drivers:
 
 Q: I have put ZEsarUX on fullscreen but it does not fill the whole screen and/or does not have normal proportions
 A: The fullscreen feature is experimental and it depends on the video driver, operating system and window manager. So there are some cases which works perfect and some which does not. So if this is your case, where the fullscreen is not working, please be patient and wait for future fixes (and use window mode instead of full screen).
+
+
+Q: Zoom is autochanged to 1 when selecting machine QL, TSConf, CPC, PCW, Prism, Sam Coupe or Spectrum Next. Why?
+A: These machines have "big" resolutions (compared to a Speccy 256x192). So maybe the default zoom 2 would be very big for these machines to fit on your display.
+If you don't want to have this automatically changed, just change Settings-> General-> Autochange Zoom big display,
+or use command line setting: --no-autochange-zoom-big-display
 
 ----------------------------------------------------------------------------
 
@@ -248,7 +276,7 @@ Usually you can change the current memory zone by pressing "Z" on a debug menu.
 There is even a "File memory zone", that allows you to read a file (up to 16 MB) and use the debug menus with it. To load a file in that zone, you should open the File utilities menu, select a file, and press key F (Shift-f), which means "File memory zone"
 
 
-Q: When a ZEsarUX kernel panic is generated, I can see on the console the cpu registers and after that, a list of pointer calls but no call names. How can I see the emulator call names?
+Q: When a ZEsarUX kernel panic is generated, I can see on the console the cpu registers and after that, a list of pointer calls but no call names. How can I see ZEsarUX call names?
 A: Just set the following compilation settings:
 export CFLAGS="-g -rdynamic"
 export LDFLAGS="-g -rdynamic"
@@ -258,7 +286,7 @@ Then, when a ZEsarUX kernel panic is generated, you will see the call names on t
 
 
 Q: I just added a command line breakpoint like this "PC=0" and it does not stop. Why?
-A: That breakpoint won't be fired just after booting the emulator. The reason is that breakpoints are always evaluated after opcode execution, so the first time, the opcode at 0 is evaluated, which used to be a "DI" in a spectrum, so when the breakpoint is evaluated, PC=1. So, you can replace your breakpoint to PC=1 for example
+A: That breakpoint won't be fired just after booting ZEsarUX. The reason is that breakpoints are always evaluated after opcode execution, so the first time, the opcode at 0 is evaluated, which used to be a "DI" in a spectrum, so when the breakpoint is evaluated, PC=1. So, you can replace your breakpoint to PC=1 for example
 
 ----------------------------------------------------------------------------
 
@@ -268,8 +296,8 @@ Windows
 
 Q: Every time the speech program is run, a new window console opens. I'm using Windows.
 A: You have two options to solve it:
-1) Open the emulator from Windows console (cmd) and pass at least one parameter, or the --nodisableconsole parameter
-2) If you open the emulator by double clicking on the emulator, set the parameter --nodisableconsole on .zesaruxrc configuration file
+1) Open ZEsarUX from Windows console (cmd) and pass at least one parameter, or the --nodisableconsole parameter
+2) If you open ZEsarUX by double clicking on the executable file, set the parameter --nodisableconsole on .zesaruxrc configuration file
 
 
 Q: How can I select files from other drives?
@@ -283,20 +311,8 @@ A: Try disabling Windows firewall
 
 
 Q: I hear some audio "clicking" when no sound is being generated from the emulated machine
-A: If you hear those annoying sounds, for example, in the copyright message of the Spectrum 48kb, without pressing any key, I'm sorry that problem doesn't have fix yet. The same audio libraries I use (SDL) works perfect on GNU/Linux or Mac, but not on Windows. Seems there's some kind of problem with Mingw+SDL+Windows and it doesn't happen always, it also depends on your sound card and the driver. You may reduce a bit this effect by enabling the Silence detector on Audio settings. More details:
-After spending two days testing the Windows audio clicking issue I can confirm:
--It has nothing to do with my sdl audio module. The same is used in Mac and GNU/Linux and they don't have the same problem
--Tested by filling the audio buffer with fixed value and the clicking also appears. Seems the clicking happens when a sample value of 0 "appears" in the final hardware buffer. If I fill the audio buffer with 0, no change is produced in the hardware buffer and you don't hear any clicking. If you fill the buffer with something else different than 0, you may hear a clicking
--There's no difference on enabling real audio, ay audio chip, etc. So as I said, I can confirm there's not a bug in my module
--My Windows development machine is Virtual box. The default virtual audio card is a Intel HD. That has a lot of clicking. I changed it to a AC97 virtual card and the clicking has gone in the 90% of cases
--Seems there's some kind of issue with MinGW+SDL+Audio driver. With the same test, sometimes the clicking appear and some others don't. (With ac97 card)
--As some of you had made tests with real windows machines and you don't have clicking, I can be sure, again, it's not a bug in my software
--It seems also the audio module is sensible to O.S. multitask. I mean, if you change to another Windows task and leave ZEsarUX in the background, some clicking may appear. That doesn't happen in other operating systems. That confirms me, again, Windows is not my preferred operating system ;)
--I tried changing the audio sdl module to another one, programming a Direct Sound native windows module. But I haven't found any examples to do that on my MinGW environment. 
--So, until I couldn't change the audio module to something different (DirectSound or SDL2-which already have tested) some of you will have clicking on Windows. It will depend on your audio card and audio driver
--That clicking issue is not related with clicks at startup or looping click in Next browser. These two others are probably bugs in my code
-
-
+A: If you hear those annoying sounds, for example, in the copyright message of the Spectrum 48kb, without pressing any key, I'm sorry that problem doesn't have fix yet. The same audio libraries I use (SDL) works perfect on GNU/Linux or Mac, but not on Windows. Seems there's some kind of problem with Mingw+SDL+Windows and it doesn't happen always, it also depends on your sound card and the driver. You may reduce a bit this effect by enabling the Silence detector on Audio settings.
+That clicking issue is not related with clicks at startup or looping click in Next browser. These two others are probably bugs in my code
 
 
 ----------------------------------------------------------------------------
@@ -305,7 +321,7 @@ After spending two days testing the Windows audio clicking issue I can confirm:
 ZX-Spectrum
 -----------
 
-Q: My Spectrum game does rainbow/hi-colour effects but the emulator does not show them.
+Q: My Spectrum game does rainbow/hi-colour effects but ZEsarUX does not show them.
 A: Enable Real Video Setting. Real Video is a feature that uses a bit more cpu from your machine but displays the emulated machine as it should. Same reason as ZX-80/ZX-81
 
 
@@ -315,19 +331,19 @@ A: Enable Real Video Setting. Real Video is a feature that uses a bit more cpu f
 ZX-80 & ZX-81
 -------------
 
-Q: My ZX80 or ZX81 game uses hi-res resolution but the emulator does not show the display well.
+Q: My ZX80 or ZX81 game uses hi-res resolution but ZEsarUX does not show the display well.
 A: Enable Real Video Setting. Real Video is a feature that uses a bit more cpu from your machine but displays the emulated machine as it should. Same reason as ZX Spectrum. If you enabled real video and it does not show any image, try also enabling WRX.
 
 
-Q: I tried to run the ZX81 Sponzy ROM on the emulator but it doesn't work
-A: You will probably have set "Custom machine" from the menu. But the sponzy rom is 16KB long and the emulator loads only 8KB rom by default.
+Q: I tried to run the ZX81 Sponzy ROM on ZEsarUX but it doesn't work
+A: You will probably have set "Custom machine" from the menu. But the sponzy rom is 16KB long and ZEsarUX loads only 8KB rom by default.
 To be able to use this rom, you must enable RAM on addresses 2000h-3fffh. So:
 
 1) Set normal ZX81 machine. Go to menu hardware->"ZX80/81 8K RAM in 2000H" and enable it
 2) Machine Selection->Custom machine. Select sponzy rom and machine type ZX81. It will load only the first 8 KB of ROM. It will hang the ZX81 and 
 the display will show "trash", also the "Real Video" setting is auto-enabled.
 3) The trick here is to load the rest of the ROM on addresses 2000h-3fffh. To do that, go to menu Debugging-> Load binary block. Select the same
-sponzy rom file, set address to 0, and set length to 0 (to load the whole file). The emulator will load the whole file, but addresses 0000-1fffh are
+sponzy rom file, set address to 0, and set length to 0 (to load the whole file). ZEsarUX will load the whole file, but addresses 0000-1fffh are
 write protected, but it is not a problem so these addresses are already loaded since pass 2. Addresses 2000h-3fffh will be written (so we enabled RAM here) with the rest of the Sponzy ROM
 4) Go to menu debugging->Reset
 5) The rom is working now but you will probably see only a white display. So, Sponzy rom uses WRX display mode. You must enable it on menu Settings-> Display-> WRX
@@ -341,18 +357,18 @@ ZX-UNO
 
 Q: Why DIVMMC on ZX-Uno uses esxdos 0.8.6 beta 4 and other Spectrum models use esxdos 0.8.5?
 A: When using ZX-Uno emulation, the esxdos firmware is included with the ZX-Uno Flash image zxuno.flash. ZX-Uno comes with esxdos 0.8.6 beta 4.
-When you are using divmmc on other Spectrum models, the emulator loads esxdos 0.8.5 firmware (file esxmmc085.rom).
+When you are using divmmc on other Spectrum models, ZEsarUX loads esxdos 0.8.5 firmware (file esxmmc085.rom).
 
 
 Q: Why using ZX-Uno some emulator settings on the menu are changed?
 A: Some settings on ZX-Uno are shared from the same ones on the menu. For example: DivMMC emulation, Keyboard Issue, Contended Memory, Timing (Timing can not be changed from the menu), ULAPlus, etc...
-So these settings on the emulator can be changed using the ZX-Uno bios, or even the ZX-Uno boot process changes them (specially divmmc emulation)
+So these settings on ZEsarUX can be changed using the ZX-Uno bios, or even the ZX-Uno boot process changes them (specially divmmc emulation)
 
 
 Q: Where can I find the following keys of ZX-Uno: Edit, Break, Delete, etc..
-A: These keys are not new keys on ZX-Uno, instead they are combination of keys, like on Spectrum+, +2, etc. Original speccy only had 40 keys, to do function edit, for example, you had to press Shift+1. Break key is the combination of pressing Shift+Space. So, in Spectrum+, +2 and higher, these alternate keys are inded combinations of keys. When you press Edit, for example, the keyboard is pressing Shift+1. So, in the emulator, you must use Shift+key combinations to get them.
-There are some keyboard stickers for ZX-Uno that locate, for example, Break function on ESC key or Edit function on F2 key. These are not valid on the emulator, except ESC key,
-which is mapped to Break on ZX-Uno. Almost all F-function key have other meanings on the emulator. NMI function seems to be mapped to F5 in some ZX-Uno stickers, but F5 opens ZEsarUX menu; to generate a NMI you must go to Debug menu
+A: These keys are not new keys on ZX-Uno, instead they are combination of keys, like on Spectrum+, +2, etc. Original speccy only had 40 keys, to do function edit, for example, you had to press Shift+1. Break key is the combination of pressing Shift+Space. So, in Spectrum+, +2 and higher, these alternate keys are inded combinations of keys. When you press Edit, for example, the keyboard is pressing Shift+1. So, in ZEsarUX, you must use Shift+key combinations to get them.
+There are some keyboard stickers for ZX-Uno that locate, for example, Break function on ESC key or Edit function on F2 key. These are not valid on ZEsarUX, except ESC key,
+which is mapped to Break on ZX-Uno. Almost all F-function key have other meanings on ZEsarUX. NMI function seems to be mapped to F5 in some ZX-Uno stickers, but F5 opens ZEsarUX menu; to generate a NMI you must go to Debug menu
 
 
 Q: How can I change the FPGA emulation core?
@@ -369,7 +385,7 @@ So, you can not change the emulation core, you can not, for example, upload a FP
 
 
 Q: Why ZX-Uno boot and bios seem to use a lot of physical CPU and reduces FPS?
-A: On ZX-Uno boot process and entering its bios, the Z80 Turbo mode is set to 8X, so the emulator uses eight times the cpu power more than on normal 1X mode. This is why it uses more physical CPU and FPS are reduced. It should not happen if your computer is very fast.
+A: On ZX-Uno boot process and entering its bios, the Z80 Turbo mode is set to 8X, so ZEsarUX uses eight times the cpu power more than on normal 1X mode. This is why it uses more physical CPU and FPS are reduced. It should not happen if your computer is very fast.
 You may change a the setting "Deny turbo on boot" on menu Settings-> Hardware so it denies changing turbo mode on these 2 cases
 
 
@@ -399,11 +415,23 @@ extras/docs/z88/Z88UGV4.pdf
 Q: How can copy files from my PC to the Z88?
 A: You can load a file on a Z88 ZEsarUX emulated machine by different ways:
 
-1) If it’s a Basic txt file, you can open the Z88 basic and then use the ZEsarUX debug-spool menu to load the txt file. ZEsarUX will then send every letter in the file as key presses
+1) If it's a Basic plain text file, you have two choices:
 
-2) If it’s a eprom image file (.epr, .eprom or .62 extensions) just insert it from the ZEsarUX storage menu
+a) Add at the beginning:
+#B
+.J
+NEW
 
-3) If it’s a file you need to copy on an eprom card, you can insert an existing eprom image file or create a blank one from the storage menu. Then use the same menu to copy a file from your pc to that eprom image. Follow these steps: Go to menu Storage->Z88 memory slots->Select the third empty slot (slot 3). Set memory type: eprom. Select field Name, Enter. Then on the file browser, select the existing eprom file or, to create a new one, just TAB twice and on the File: field, just write a new name with extension .eprom. Select Yes to create a new file, and select the size. Then apply changes. Then return to Z88, open the Filer, and select "Create file card" and select slot 3. Open ZEsarUX menu again, Storage->Z88 memory slots. Then, as you have the card formatted, you can select the "Copy to Card" item and copy files from your pc.
+Then, copy file to an eprom (see step 4), then from Filer, just select the file and Execute it. You can also go to BBC Basic, and run command:
+*CLI .*FILENAME. In this case, the "#B" at the beginning is not necessary
+
+b) You can open the Z88 basic and then use the ZEsarUX debug-spool menu to load the txt file. ZEsarUX will then send every letter in the file as key presses
+
+2) It it's a Basic tokenised file, copy file to an eprom (see step 4), then from BBC Basic just run: LOAD "FILENAME"
+
+3) If it's a eprom image file (.epr, .eprom or .62 extensions) just insert it from the ZEsarUX storage menu
+
+4) If it's a file you need to copy on an eprom card, you can insert an existing eprom image file or create a blank one from the storage menu. Then use the same menu to copy a file from your pc to that eprom image. Follow these steps: Go to menu Storage->Z88 memory slots->Select the third empty slot (slot 3). Set memory type: eprom. Select field Name, Enter. Then on the file browser, select the existing eprom file or, to create a new one, just TAB twice and on the File: field, just write a new name with extension .eprom. Select Yes to create a new file, and select the size. Then apply changes. Then return to Z88, open the Filer, and select "Create file card" and select slot 3. Open ZEsarUX menu again, Storage->Z88 memory slots. Then, as you have the card formatted, you can select the "Copy to Card" item and copy files from your pc.
 
 
 ----------------------------------------------------------------------------
@@ -548,7 +576,7 @@ Next does not disables entirely divmmc, only automatic memory paging
 
 
 Q: Why can't enable divmmc paging (or full divmmc emulation) from command line/config file on Next? When exiting emulator, these settings are not saved on configuration file. But... if I force them to enable from command line, Next does not boot, and then doing a hard reset it boots ok
-A: Next needs divmmc paging disabled to boot, if not, divmmc firmware will be activated on the Next boot and then it hangs. When you do a hard reset, some internal Next registers (reg 6, bit 4) are reset to zero. Resetting this register 6, divmmc paging is disabled and so the boot works ok. But when initializing the emulator the sequence is:
+A: Next needs divmmc paging disabled to boot, if not, divmmc firmware will be activated on the Next boot and then it hangs. When you do a hard reset, some internal Next registers (reg 6, bit 4) are reset to zero. Resetting this register 6, divmmc paging is disabled and so the boot works ok. But when initializing ZEsarUX the sequence is:
 
 -Apply most of the command line settings (divmmc settings are not applied here)
 -Initialize machine, CPU registers, I/O ports, and some Next registers to zero, including register 6. So divmmc paging is disabled
@@ -638,6 +666,9 @@ A: CPC emulation is currently experimental. Many features don't work well or may
 Q: What is CPC 4128?
 A: Is a fictional model with tape and 128kb RAM. I created it to be able to test some games which need 128kb but can load from tape (and not from disk, which I don't emulate on CPC)
 
+Q: Where is Copy key located?
+A: Copy key function is assigned to key Home on your PC keyboard 
+
 
 ----------------------------------------------------------------------------
 
@@ -711,7 +742,7 @@ Q: Alt key is not read on Mac OS X, using X11 (xquartz) driver. On Spectrum and 
 A: Go to X11 Preferences > Input > Option keys send Alt_L and Alt_R.
 
 
-Q: I'm using cacalib or curses driver, on pure text console. The emulator says it has kempston mouse support, but it does not work. What can I do?
+Q: I'm using cacalib or curses driver, on pure text console. ZEsarUX says it has kempston mouse support, but it does not work. What can I do?
 A: Install gpmmouse to have mouse support on these drivers. 
 
 
@@ -724,7 +755,7 @@ A: It has been moved to another repository. See:
 https://github.com/chernandezba/zesarux-extras
 
 
-Q: How is pronounced the name of the emulator?
+Q: How is pronounced ZEsarUX?
 A: Phonetically: ZEsarUX is pronounced: θe.sa.ɾ'uks
 One by one, every letter:
 Z like th on think
@@ -733,12 +764,12 @@ S like s on sing
 A like a on cat
 R like r on round 
 U like u on put
-X like x on GNU/Linux
+X like x on Linux
 And saying the accent on the final syllable 
 You can also play zesarux.mp3 to hear how it sounds
 
 
-Q: What is the origin of the name of the emulator?
+Q: What is the origin of the name of ZEsarUX?
 A: ZEsarUX comes from:
 ZX Second-Emulator And Released for UniX.
 I write second-emulator with a hyphen because I changed the order of the two words to have the final name... If not, name would be:
@@ -780,10 +811,12 @@ Where XXXX are all the parameters that ZEsarUX gave you. In this example, the co
 
 
 Q: Is there any manual or documentation?
-A: There is no manual, and there won't be never. The reason is that, in the past, I spent lots of hours making documentation for my previous emulator, ZXSpectr, and I wasted lots of hours, more than doing the emulator. But you have the following:
+A: There is a simple documentation file (zesarux.pdf) which explains you the user interface, but there won't be ever any full documentation file. The reason is that, in the past, I spent lots of hours making documentation for my previous emulator, ZXSpectr, and I wasted lots of hours, more than coding ZXSpectr. But you have the following:
+-zesarux.pdf: user interface
 -This FAQ file
 -Menu entries with help (pressing F1 in most of them) and item tooltips when no key is pressed
--docs folder with many information
+-docs folder in the extras package with lots of information
+-docs folder in the main package with basic information
 -youtube videos showing different features of ZEsarUX. https://www.youtube.com/user/chernandezba
 -And my own help. You can ask me by mail, forums, twitter and Facebook ZEsarUX group
 
@@ -809,26 +842,37 @@ You can find also a "Man Software GUI Style" on the ZEsarUX menu, that uses a fo
 
 
 Q: What is ZX Vision?
-A: ZX Vision is the new ZEsarUX windows style used since version 7.2. These windows can be moved, resized, scrolled, minimized and much more.... The name is inspired by "Turbo Vision" text windows environment used on old Borland Turbo C and Turbo Pascal compilers.
+A: ZX Vision is the new ZEsarUX windows style used since version 7.2. These windows can be moved, resized, scrolled, minimized and much more.... The name is inspired from different sources:
+- "Turbo Vision" text windows environment used on old Borland Turbo C and Turbo Pascal compilers,
+- ZX Spectrum, because the first ZX Vision menu style was the same as the ones used on Spectrum +2 and +3
+- The "ZX" in ZX Vision also mean "(Z)EsarU(X)", so "ZX Vision" also means "ZEsarUX Vision"
 
 Q: What is ZX Desktop?
-A: ZX Desktop enables you to have a space on the right to place zxvision windows or other widgets. This is a work in progress, so expect improvements in the next versions
+A: ZX Desktop enables you to have a space on the right and on the bottom to place zxvision windows, direct access buttons, device buttons and icons that open windows or fire actions.
 
 
-Q: What are the files required to run the emulator? I see lots of files, even the Extras packages have a lot more
-A: The emulator is really very small. The extras packages is not needed to run it, as it includes:
--Documentation. docs folder. 37 MB
--Examples. media folder: 62 MB. snap_tests folder: 34 MB
--Some .ide, .mmc, .flash image files: 229 MB
-
-The emulator only really needs the following files to run (included in the main package):
+Q: What are the files required to run ZEsarUX? I see lots of files, even the Extras package have a lot more
+A: ZEsarUX is really very small. It only needs the following files to run (included in the main package):
 -The executable file: "zesarux" or "zesarux.exe" which is 2 MB size aproximately
--rom files: 5 MB
 -Some dll files on Windows version
+-rom files: Needed for all the emulated machines. You can delete specific rom files for machines you are not going to use.
+-keyboard*.bmp: Needed on the Help-> Keyboard Help window, you can delete them if you don't intend to use that window
+-z88_shortcuts.bmp: Needed to shot Z88 shortcuts. You can delete it if you are not using Z88 or not enabling Z88 shortcuts setting
+
+Also, if you want to run ZX-Uno or Next:
 -zxuno.flash if running ZX-Uno machine
 -tbblue.mmc if running ZX Spectrum Next machine
-These three types of files doesn't use more than 10 MB.
-You can even try to delete all the unnecessary files and the emulator will also work. 
+
+
+Q: I am planning to distribute ZEsarUX by myself. Which are the minimum files that need to be included?
+A: First, you need to know which files are required to run ZEsarUX, so read the previous question "Q: What are the files required to run ZEsarUX?".
+Also, there are other files that you MUST include:
+- Files README, LICENSE, LICENSES_info.
+- Folder: licenses
+
+The following are not obligatory but it would be very kind from you if you include: Files ACKNOWLEDGEMENTS, Changelog, DONATE, DONORS, FAQ, FEATURES, editionnamegame.*, zesarux.ico, zesarux.mp3, zesarux.odt, zesarux.pdf, zesarux.xcf, zesarux_16.png, zesarux_256.png, zesarux_32.png, zesarux_48.png. Folder my_soft
+
+The rest of the files are completely optional to include them or not.
 
 
 Q: When I enable video out to file setting, or "Reduce to 0.75" a big "Z" letter is added to the display. Can I erase it?
@@ -836,9 +880,9 @@ A: No, you can't. Because I want that final video has that watermark, so anyone 
 However, you can move the letter, go to Settings-> OSD-> Watermark position
 
 
-Q: Why the emulator doesn't use more beautiful menus, like the usual menus on Windows/Mac/GNU/Linux etc? / Why are you limiting the GUI interface to these simple menus? / Why don't you have a better file selector?
-A: The GUI interface is a custom one, I did it copying the style of the menus of Spectrum 128k machines. I'm not using any native menus on Mac, Windows, etc, because my menus are integrated inside the emulator window.
-This has the advantage of having the same style menus (and all the emulator) in all operating systems that you run ZEsarUX. All have the same appearance.
+Q: Why ZEsarUX doesn't use more beautiful menus, like the usual menus on Windows/Mac/GNU/Linux etc? / Why are you limiting the GUI interface to these simple menus? / Why don't you have a better file selector?
+A: The GUI interface is a custom one, I did it copying the style of the menus of Spectrum 128k machines. I'm not using any native menus on Mac, Windows, etc, because my menus are integrated inside ZEsarUX window.
+This has the advantage of having the same style menus (and all ZEsarUX) in all operating systems that you run ZEsarUX. All have the same appearance.
 Also, using some GUI needs additional libraries, and I want it to have the minimum dependencies.
 The file selector is also a custom window, so don't expect a popup appear with your usual File selector window.
 Maybe the GUI it's a bit difficult to use, but when you have been using a couple of hours, you won't prefer any other! 
@@ -879,12 +923,12 @@ Finally, if you want to remove also the configuration file:
 -Windows: located on your home folder, name ".zesaruxrc". Your home folder is something like "c:\users\myusername\"
 
 
-Q: The emulator runs slower than a real Spectrum. I'm using a Raspberry Pi One (or another slow cpu)
+Q: ZEsarUX runs slower than a real Spectrum. I'm using a Raspberry Pi One (or another slow cpu)
 A: You can use the Spectrum reduced core, which can be set on compile time but also switchable from menu or command line setting.
 Using that core, the following features will NOT be available or will NOT be properly emulated:
 Debug t-states, Char detection, +3 Disk, Save to tape, Divide, Divmmc, Multiface, RZX, Raster interrupts, ZX-Uno DMA, ZX Spectrum Next DMA, Datagear DMA, ZX Spectrum Next Copper, Audio DAC, Stereo AY, Video out to file, Last core frame statistics, Tone generator.
 Some of these features should not have any effect on cpu performance if you don't enable them, like Divide or Raster interrupts, but this afirmation is only true on Intel cpu and
-cpu with Speculative Execution. Raspberri Pi One (or Zero) does not have Speculative Execution on the cpu, so using the reduced core will use less real cpu and the emulator
+cpu with Speculative Execution. Raspberri Pi One (or Zero) does not have Speculative Execution on the cpu, so using the reduced core will use less real cpu and ZEsarUX
 will run fine.
 A raw and fast explanation about this is that "if" sentences, on the spectrum emulation core, that are not true (like having raster interrupts disabled), do not impact on the cpu use 
 if you have Speculative Execution (like Intel cpu), but do really impact on the cpu use on cpu which does not have Speculative Execution (like Raspberry)

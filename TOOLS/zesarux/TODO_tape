@@ -73,6 +73,8 @@ de tal manera que en tzx buscaria el siguiente id, y en tap no haria nada
 
 -poder cargar un .config sin mas, sin que cargue snapshot ni cinta ni nada, solo parseando el config. raro? en smartload estaran los dos, el juego y la config
 
+-meter real tape en linea comandos siempre acelera la carga, aunque este desactivado
+ ejemplo: ./zesarux --realtape tetris2.pzx
 
 ***********
 

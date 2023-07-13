@@ -110,7 +110,8 @@ The following is a list of complete features, all of which are optional.
 # Other Enhancements
 
 - pthreads: pthread includes. Usually included on all Unix systems.
-- ssl libraries: to have a full speccy download browser (without ssl you'll have partial browser). Add "--enable-ssl" setting to the configure script
+- ssl library: to have the speccy online browser. Add "--enable-ssl" setting to the configure script.
+ssl library is not included on Mac anymore; you can easily install it using https://brew.sh, after that, do a "brew install openssl"
 
 
 
@@ -148,8 +149,8 @@ However, you can tune the compilation process a bit, depending on your operating
 
 * Raspberry-raspbian
 
-    $ export CFLAGS=-O2
-    $ export LDFLAGS=-O2
+    $ export CFLAGS=-O3
+    $ export LDFLAGS=-O3
 
     $ ./configure --enable-raspberry
     $ make clean
