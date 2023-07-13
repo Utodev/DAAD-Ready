@@ -102,6 +102,12 @@ if errorlevel 2 (
     del /q /s HTML\*.* > nul 2>&1
     copy readme.txt  HTML > nul 2>&1
 
+    echo Cleaning WINDOWS...
+    md WINDOWS > nul 2>&1
+    del /q /s WINDOWS\*.* > nul 2>&1
+    copy readme.txt  WINDOWS > nul 2>&1
+
+
     del readme.txt > nul 2>&1
     pause   
 
