@@ -1,0 +1,941 @@
+ ============================== 	     Amstrad CPC emulator
+==::####::::::::::::::::::::::--	    for DOS, DPMI and WIN32
+==:##..##:::::::::::::::::::::--
+==##.::..######:::::::::::::::--	 (C) Cesar Nicolas Gonzalez /
+==##:::::.##..##::::::::::::::--	CNGSOFT (01.08.1997-31.03.2008)
+==##::::::##::##::####::::::::--
+==.##::##:#####.:##..##:::::::--	   http://cpce.emuunlim.com/
+==:.####.:##...:##.::..#######--
+==::....::##::::##:::::.##...#--	      ##       ####   #####
+==:::::::####:::##::::::##:#:.--	     ###      ##''## ##'''##
+==:::::::....:::.##::##:####::--	     '##      ##  ## ##  ###
+==:::::::::::::::.####.:##.#::--	      ##      '##### ## #'##
+==::::::::::::::::....::##:.:#--	      ##       '''## ###' ##
+==:::::::::::::::::::::#######--	      ##   ## ##  ## ##'  ##
+==:::::::::::::::::::::.......--	    ###### ## '####' '#####'
+ ------------------------------ 	    '''''' ''  ''''   '''''
+
+0.- Index
+=========
+
+	1.- Copyright and warranty
+	2.- What is CPCE?
+	3.- Requirements and installation
+	4.- Configuration
+	5.- Usage of CPCE
+	5.1.- Tapes and discs
+	5.2.- Debug mode
+	5.3.- Netplay
+	6.- Embedded utilities
+	6.1.- YMP
+	6.2.- CSW
+	6.3.- LPTCPC, LPTREC and LPTPC
+	6.4.- REDEFINE
+	7.- Acknowledgements
+	8.- Registered marks
+	9.- History of CPCE
+
+1.- Copyright and warranty
+==========================
+
+	CPCE was developed by me, Cesar Nicolas Gonzalez (CNGSOFT).
+
+	CPCE is freeware. Shareware distributors can distribute it if
+they only take fee for copying. Software and documentation are
+provided "as is" with no warranty. CPCE is not public domain. I retain
+the copyright.
+
+	CPC ROMs are (C) Amstrad and Locomotive Software, who gave
+permission to distribute them within CPCE.
+
+2.- What is CPCE?
+=================
+
+	CPCE is a programme for DOS, DPMI and WIN32 platforms that
+emulates the Amstrad CPC series of computers. The British company
+Amstrad in 1984 released the CPC 464 computer in 1984, that had a Zilog
+Z80 microprocessor running at 4 MHz, 64 KB RAM and 32 KB ROM containing
+Locomotive BASIC 1.0, an embedded tape deck, a General Instruments
+AY-3-8912 sound chip or the compatible Yamaha YM2149, three graphic
+modes (160x200x16, 320x200x4 and 640x200x2) and its own screen (either
+a full colour one or the more economic monochrome green one); external
+hardware (RAM expansions, floppy disc drives, joysticks, printers,
+etc.) was available. Later that year, Amstrad released the CPC 664 that
+had Locomotive BASIC 1.1 and replaced the tape deck with a 3" disc
+drive (that included its own 16 KB ROM disc operating system, AMSDOS),
+but still allowing external tape decks to be plugged. In 1985, the CPC
+6128 followed the CPC 664 with more internal RAM (128 KB) and became
+one of the most popular computers in European countries. Different
+brands distributed the CPC computers, such as Schneider in West
+Germany; there was even a bootleg CPC in East Germany, the KC Compact
+or KCC. Feel free to read more about the Amstrad CPC at
+http://en.wikipedia.org/wiki/Amstrad_CPC
+
+	The CPC emulation performed by CPCE is as follows:
+	- Z80 operations (both documented and undocumented ones) are
+correctly emulated; operation timing is also emulated, thus allowing
+time-dependent operations such as raster effects or digital speech to
+be correctly reproduced.
+	- Memory emulation supports from the standard 64 KB RAM and 32
+KB ROM up to 2112 KB RAM and 528 KB ROM.
+	- Tape playback is emulated through sound samples (WAV, VOC and
+CSW) and tape images (CDT and TZX); tape recording is also supported.
+	- Disc emulation is based on disc images (DSK) that can be
+created, read, written and formatted.
+	- Sound playback emulates the three square wave channels, plus
+the noise channel and hardware envelopes; digital speech and sample
+playback are supported too.
+	- All the three default graphic modes are emulated, and custom
+modes (raster effects, overscan, ruptures...) are mostly emulated too.
+It's also possible to select the programmable CRTC (cathode ray tube
+controller) model and to switch between colour and green screens.
+	- CPC joysticks are emulated through the PC joysticks and the
+keyboard; the keys mapping the joystick can be redefined.
+	- Printer output is recorded into log files.
+	- Dr.Zed's Symbiface 2 expansion kit (512 KB static RAM, PS/2
+mouse, realtime clock, two hard disc drives) is emulated through three
+files (dumps of the static RAM and the disc drives), the PC mouse and
+the clock.
+
+	CPCE provides several functions besides the emulation, too:
+	- A Z80 debugger featuring a code disassembler and register and
+memory editors and supporting breakpoints, stepping, tracing and
+searching allow you to study the internal behavior of CPC software.
+	- Status of machine can be saved and loaded as snapshot files
+(SNA), and whole sessions can be recorded and played back as movie
+files (SNP) and even shared through netplay in the WIN32 version.
+	- Emulation can be tweaked to allow CPCE to run in lower
+performance computers (through disabling sound, frame skipping,
+emulation simplifiation, etc.) and to provide features that weren't
+available in real CPC machines (such as accelerated Z80 emulation,
+direct access to normal files from inside the emulator, autorun of tape
+and disc images, etc.).
+	- Screenshots can be saved as BMP files, sound can be recorded
+as both sound samples (WAV) and sound chip logs (YM), image can be
+enhanced through double resolution, pixel dithering and interframe
+blending, and sound can be played in three quality frequencies (11, 22
+and 44 KHz), stereo, 16-bit and filtered. The WIN32 version can record
+AVI videos as well.
+
+	The CPCE package also includes several utilities:
+	- YMP is a YM2149 sound chip emulator that plays YM files.
+	- CSW allows to compress WAV and VOC files into CSW ones, and
+to decompress CSW files into VOC ones.
+	- LPTPC, LPTCPC and LPTREC are data transfer utilities that
+connect a real CPC to the PC through a parallel cable.
+
+3.- Requirements and installation
+=================================
+
+	CPCE features three different executable files, each one for a
+different platform and with different requirements:
+	- CPCE.EXE (DOS) requires a 286 CPU, VGA graphics and DOS 3.0.
+It supports SVGA graphics, joysticks and SoundBlaster compatible sound
+cards.
+	- CPCE32.EXE (DPMI, DOS protected mode interface) requires a
+386 CPU, VGA graphics and DOS 3.0. It supports external DPMI extenders
+such as CWSDPMI, SVGA graphics, joysticks and SoundBlaster compatible
+sound cards.
+	- CPCE95.EXE (WIN32) requires a 386 CPU, VGA graphics and
+Windows 95. It supports SVGA graphics, joystick and most digital sound
+cards.
+
+	Performance and compatibility depend of the computer. CPCE.EXE
+is the only choice for very old CPUs (286) and the best one for very
+slow ones (386), CPCE32.EXE is better than CPCE.EXE in newer CPUs (486,
+Pentiums...) but it may not work correctly in certain environments (for
+example, pure DOS under PCI hardware) and CPCE95.EXE features the
+advantages and disadvantages of software for Windows.
+
+	CPCE is easy to install; just unpack the main ZIP file into a
+folder. The ZIP file contains a folder structure that most unpackers
+will build correctly, otherwise you'll have to do it by yourself. The
+folder structure is as follows:
+	- CSW.COM (CSW utility)
+	- CPCE.DAT (keyboard language data file)
+	- CPCE.EXE (CPCE for DOS)
+	- CPCE.INI (configuration file)
+	- CPCE.TXT (this text file)
+	- CPCE32.EXE (CPCE for DPMI)
+	- CPCE95.EXE (CPCE for WIN32)
+	- CPCE_HDA.BIN (default master hard disc drive image)
+	- CPCE_HDB.BIN (default slave hard disc drive image)
+	- DISC\ (discs folder)
+	- FILE\ (files folder)
+	- FILE_ID.DIZ (description file for BBS and FTP)
+	- LPTCPC.BAS (LPTCPC utility)
+	- LPTPC.COM (LPTPC utility)
+	- LPTREC.BAS (LPTREC utility)
+	- REDEFINE.COM (REDEFINE utility)
+	- ROM\ (ROMs folder)
+	- ROM\CPC464.ROM (CPC 464 ROM)
+	- ROM\CPC6128.ROM (CPC 6128 ROM)
+	- ROM\CPC664.ROM (CPC 664 ROM)
+	- ROM\CPCADOS.ROM (CPC AMSDOS ROM)
+	- SNAP\ (snapshots folder)
+	- TAPE\ (tapes folder)
+	- YMP.EXE (YMP for DOS)
+	- YMP32.EXE (YMP for DPMI)
+	- YMP95.EXE (YMP for WIN32)
+
+4.- Configuration
+=================
+
+	CPCE can be configured in two ways. The first method is by
+storing settings in a configuration file named CPCE.INI which is read
+by the emulator when it loads. The second method is by specifying
+arguments on the command line when launching the emulator.
+
+	CPCE.INI is a text file whose lines feature the syntax
+OPTION=VALUE; the value may be a number, a path or a file name. Lines
+beginning with the semicolon (";") and the opening bracket ("[") are
+ignored. Command line arguments are preceded with a slash ("/") and may
+require a number, a plus ("+") or a minus ("-"). Command line arguments
+can be appended and "+" is optional if allowed, so "/d+ /h+", "/d /h",
+"/d+h+" and "/dh" are equivalent. Allowed values are between "<" and
+">": ranges are defined with "-", choices with "/" and optional values
+between "[" and "]".
+
+	The list of options and command line arguments is as follows:
+	- DEBUG=<0/1> - /d<+/-> : Debug mode. Enable it to study the
+inner working of the emulator: microprocessor operations and registers,
+memory contents, etc. Its usage is explained in the next chapter.
+	- HI-RES=<0/1> - /h<+/-> : Hi-res mode. When disabled, the
+emulator requires less machine power, but emulation becomes simpler and
+less faithful to the original CPC behavior. When enabled, emulation is
+accurate, but more processing time is required.
+	- FRAMESKIP=<0-9> - /r<0-9> : Frame skip. Increase the value to
+save machine power and get extra speed, but animation will lose
+smoothness and quality.
+	- REAL_SPEED=<0/1> - /r<+/-> : Real speed. Enable it to run the
+emulator at the same speed of the real CPC.
+	- PERFORMANCE=<0/1> - /c<+/-> : Performance. Speed percentages
+and activity leds are displayed on screen.
+	- IMAGE_WIDTH=<0-3> - /h<0-3> : Screen width: 0 means 320
+pixels (standard), 1 means 256, 2 means 336 and 3 means 384.
+	- IMAGE_HEIGHT=<0-5> - /v<0-5> : Screen height: 0 means 200
+pixels (standard), 1 means 224, 2 means 240, 3 means 256, 4 means 272
+and 5 means 288. DOS and DPMI versions don't support 272 or 288 pixels
+with IMAGE_DOUBLE disabled because of VGA limitations.
+	- IMAGE_DITHER=<0-3> - /b<0-3> : Pixel dithering and interframe
+blending. 0 means no effects; 1, dithering only; 2, blending only; 3,
+both effects.
+	- IMAGE_DOUBLE=<0/1> - /v<+/-> : Double screen definition (DOS
+and DPMI users require SVGA; WIN32 users need a desktop as big as the
+chosen image size twofold). High definition enhances image quality but
+needs more memory and machine power.
+	- IMAGE_SCANLINES=<0-5> - /c<0-5> : For WIN32 version, scanline
+mode for double screen definition. 0 means no scanlines; 1, simple
+scanlines; 2, 50% intensity scanlines; 3, dithered scanlines; 4,
+hardware stretch; 5, no stretch at all (useful for arcade screens).
+Fastest modes are 0 and 1; slowest mode is 3. Performance of mode 4
+depends on video hardware and drivers. DOS and DPMI versions only
+feature two modes: no scanlines (0) and simple scanlines (1-5).
+	- IMAGE_FULLSCREEN=<0/1> - /m<+/-> : Only for WIN32 version,
+full screen mode. ALT+ENTER switches it on and off.
+	- IMAGE_FIXGAMMA=<0/1> : Increases the middle palette values.
+Useful for computers with LCDs or dark screens.
+	- SOUND=<0/1> - /s<+/-> : Sound playback. It won't have any
+effect without a supported sound card.
+	- SOUND_QUALITY=<0-2> - /s<0-2> : Sound quality. The quality
+values are 11 KHz (0), 22 KHz (1) and 44 KHz (2).
+	- SOUND_16BITS=<0/1> - /q<+/-> : 16-bit sound. Only useful if
+the sound card supports 16-bit playback.
+	- SOUND_STEREO=<0/1> - /e<+/-> : Stereo sound. Only useful if
+the sound card supports stereo playback.
+	- SOUND_FILTER=<0/1> - /f<+/-> : Sound filtering.
+	- SOUND_LOG=<0/1> - /w<+/-> : Sound logging. Enable it to
+record the sound as a WAV file.
+	- AUTORUN=<0/1> - /a<+/-> : Autorun mode. Enable it to
+automatically try to boot tape and disc files. Be aware that some files
+may not be autorunnable and will require manual usage instead.
+	- RAM_SIZE=<0-6> - /k<0-6> : RAM size. The size values are 64
+KB (0), 128 KB (1), 192 KB (2), 320 KB (3), 576 KB (4), 1088 KB (5),
+and 2112 KB (6). Notice that CPCE.EXE can't allocate more than 640 KB
+because it's a pure 16-bit DOS application, so RAM_SIZE above 2 will
+never work: this limitation also keeps CPCE.EXE from emulating the
+static RAM of the Symbiface 2.
+	- ROM_PATH=<path> : System ROMs location. The emulator needs
+the CPC system ROMs to be located there.
+	- ROM_TYPE=<0-5> - /m<0-5> : ROM type. Default types are CPC
+464 (0), CPC 664 (1), CPC 6128 (2) but three more types can be defined.
+	- ROM_TYPE0=<file> : Type 0 (CPC 464) ROM file name. ROM_TYPE1,
+ROM_TYPE2, etc. are the file names of the ROM types 1, 2, etc.
+	- ROM_EXTRAS=<file1[;file2[;file3[...]]]> : Extra ROM files. Up
+to 15 ROMs can be defined with file names separated by semicolons.
+First one will be loaded in the slot 1, second one in 2 and so on.
+Empty slots don't need any filename and the string can end if no more
+ROMs are required, so values such as ";;;;;;CPCADOS.ROM" (that just
+loads CPCADOS.ROM in the slot 7) are allowed.
+	- ROM_EXTRAS_DISABLE=<0/1> - /x<+/-> : Extra ROM usage flag.
+ROMs aren't loaded or mapped if this flag is enabled.
+	- ROM_LANGUAGE=<0-3> - /l<0-3> : Keyboard language. By default
+(0) the current ROM language is used, while the other options overwrite
+that language with English (1), French (2) and Spanish (3).
+	- SNAP_PATH=<path> : Snapshot files location.
+	- DISC_PATH=<path> : Disc files location.
+	- FILE_PATH=<path> : Normal files location. CPCE can use them
+when TAPE_BYPASS is enabled.
+	- FILE_ENCRYPT=<0/1> : Normal file encryption flag. Normal
+files could be encrypted with commands such as SAVE"FILENAME",P but
+many file transfer utilities discard encryption and resulting data are
+corrupted and require modifying this option to be succesfully read.
+	- TAPE_PATH=<path> : Tape files location. CPC tapes may be read
+as sound samples (VOC, WAV and CSW files) and as tape images (TZX and
+CDT files); they require tape bypass to be disabled.
+	- TAPE_BYPASS=<0/1> - /z<+/-> : Tape trapping. By default, the
+emulator plays and records tape files; enabling tape bypass redirects
+CPC tape access to normal files located in the folder specified by
+FILE_PATH.
+	- TAPE_SPEEDUP=<0/1> : Faster tape handling. This flag forces
+the emulator to try to run at 1000% speed when it plays or records tape
+files. It reaches up to 2000% speed when the tape loader is identified
+and trapped by CPCE or HI-RES is disabled.
+	- TAPE_COMPATIBLE=<0/1> - /l<+/-> : Tape compatibility mode. By
+default, CPCE 1.60 and later versions try to identify tape loaders and
+speed them up, but some unsupported loaders cause problems when wrongly
+identified and sped up. This flag disables autodetection and restores
+compatibility at the cost of slower or CPU-heavier tape loading.
+	- JOYSTICK=<0/1> - /j<+/-> : PC joystick support.
+	- PRINTER=<0/1> - /p<+/-> : Printer logging. Data sent to the
+emulated CPC printer port will be stored in a file called CPCE.PRN.
+	- TURBO_SPEED=<0/1> - /t<+/-> : Turbo Z80 mode. When enabled,
+the Z80 emulation runs at a faster rate than the standard 4 MHz.
+	- TURBO_VALUE=<0-3> - /t<0-4> : Turbo Z80 mode speed: 8 MHz
+(0), 12 MHz (1), 16 MHz (2), 24 MHz (3) or 32 MHz (4).
+	- GREEN_SCREEN=<0/1> - /g<+/-> : Green screen. When buying a
+CPC, screen could be green only (cheap) or full colour (expensive).
+	- CRTC_TYPE=<0-4> - /g<0-4> : CRTC type. As the years passed,
+CPCs were sold with different cathode ray tube controllers (CRTCs),
+that had different graphic performances.
+	- YM2149_TYPE=<0-3> - /y<0-3> : YM2149 type. The standard sound
+chip used a logarithmic volume table and a square wave; different
+setups (linear volume, saw wave) may be chosen with this option.
+	- YM2149_LOG=<0/1> - /y<+/-> : YM2149 logging. Sound chip data
+can be recorded as a YM3 file that may be played back by utilities such
+as YMP, ST-Sound, WinAmp YM plugins, etc. They may be up to 250 times
+smaller than a WAV file, and can be easily compressed with LHA.
+	- SYMBIFACE2=<0/1> - /b<+/-> : Symbiface 2 emulation. Realtime
+clock, PS/2 mouse, hard disc drives and static RAM are all supported.
+	- SYMBIFACE2_ROM=<file> : Symbiface 2 static RAM file. The
+static RAM of the Symbiface 2 is paged into ROM space by default, so
+ROMs stored in the static RAM will be enabled at boot time.
+	- SYMBIFACE2_MASTER=<file> : Symbiface 2 master hard disc drive
+image file. CPCE can emulate hard discs big up to 2 GB. SymbOS gets the
+drive size from the HDD boot sector, and the default image file defines
+a FAT12 1.44 MB drive, so larger drives can be made by editing the boot
+sector of the drive. SYMBIFACE2_SLAVE is the slave HDD image file.
+	- JOYSTICK_KEYS=<string> : Keys mapping the CPC joystick. These
+hexadecimal codes can be edited manually but the REDEFINE utility is
+recommended.
+	- KEYBOARD_ALT=<0/1> : Meaning of the key above TAB. It behaves
+like the key next to the right SHIFT on the CPC when disabled, and like
+ESC when enabled. American keyboards (that miss the key between Z and
+LEFT SHIFT) should keep this option disabled.
+
+	There are two additional command line arguments:
+	- /!<+/-> : System compatibility mode. When this flag is
+enabled, DOS and DPMI versions disable things that cause troubles in
+some computers: timers, SVGA, sound, etc. Similarly, WIN32 version
+disables DirectDraw and DirectSound and uses the less performant but
+more compatible default GDI and WinMM libraries instead.
+	- /!<0/7> : Only for WIN32 version, DirectDraw and DirectSound
+options. By default, CPCE tries to use DirectDraw's video memory and
+DirectSound. This flag sums up three values: 1 (forces DirectDraw to
+use system instead of video memory), 2 (disables DirectDraw and uses
+GDI instead) and 4 (disables DirectSound and uses WinMM instead). For
+example, /!5 (1+4) forces system memory (1) and WinMM (4).
+
+	The configuration file is the same for all platforms, but you
+can define different options with the prefixes "DOS.", "DPMI." and
+"WIN32.", meaning the following option will be parsed by the specified
+platform only. Non-prefixed options are always parsed. Options are
+first read from the configuration file, then parsed from the command
+line, thus allowing command line arguments to override the
+configuration file options.
+
+	Command line allows file names, too; when launching, the
+emulator will try to open them as snapshots, disc images or digital
+tape files, and to boot them if autorun is enabled.
+
+5.- Usage of CPCE
+=================
+
+	If no errors occur while launching, CPCE will start correctly
+and display the familiar CPC screen. You can type BASIC programmes,
+load games, etc. Most PC keys emulate their CPC counterparts, with some
+exceptions:
+	- INSERT emulates COPY and DELETE emulates CLR. NUMBER PAD keys
+emulate the function keys (F0, F1, F2... F9 and F.) and "small" Enter.
+	- Numeric pad keys can emulate the joystick. Press NUM.LOCK to
+toggle joystick emulation. By default, when it's enabled 8 is UP, 2 is
+DOWN, 4 is LEFT, 6 is RIGHT, 0 is FIRE 1 and "." is FIRE 2.
+	- HOME, END, PAGE UP and PAGE DOWN scroll the screen
+horizontally and vertically. Use them when the CPC screen is larger
+than the PC screen. SCROLL LOCK restores the screen to its original
+location.
+	- PAUSE pauses and unpauses the emulation.
+
+	There's a series of functions available through the main menu
+(press F10) and their keyboard shortcuts:
+	"File" menu:
+	- Select ROM.. (F5) : Selects the CPC ROM type.
+	- Reset (Ctrl+F5) : Resets the virtual CPC.
+	- Load snapshot.. (F3) : Loads a snapshot. A window pops up and
+lets you to browse the file system and load a snapshot.
+	- Reload snapshot (Ctrl+F3) : Loads the latest snapshot again.
+	- Save snapshot.. (F2) : Saves a snapshot. You may save a new
+snapshot, or overwrite an old one.
+	- Resave snapshot (Ctrl+F2) : Saves the latest snapshot again.
+	- Open drive A.. (F7) : Inserts a disc file into the virtual
+drive A, and tries to boot it if autorun is enabled.
+	- Close drive A (Ctrl+F7) : Empties the virtual drive A and
+closes the disc file in it.
+	- Flip drive A : Flips the sides of any double-sided disc
+inside the virtual drive A.
+	- Open drive B.. (F8), Close drive B (Ctrl+F8) and Flip drive
+B : same than previous functions, but with the virtual drive B.
+	- Play tape.. (Alt+F3) : Inserts a digital tape into the
+virtual tape drive, starts its playback, and tries to boot it if
+autorun is enabled.
+	- Record tape.. (Alt+F2) : Creates a new digital tape and
+starts its recording.
+	- Browse tape (Alt+F1) : If the digital tape is a TZX or CDT
+file, allows to select the currently playing block or to eject the
+tape; otherwise, it empties the virtual tape drive.
+	- Exit (Alt+F4) : Closes CPCE and returns to the OS.
+	"Options" menu:
+	- Pause (Pause) : Pauses and unpauses the emulation.
+	- Debug (F9) : Debug mode. Read 5.2. for further details.
+	- Clear b.points.. (Ctrl+F9) : Erases all the currently defined
+breakpoints. The performance is optimal with no breakpoints, so erase
+them once you're done with debugging.
+	- Performance (Alt+F9) : Toggles the performance display.
+	- Real speed (F6) : Toggles the real speed status.
+	- Hi-res (Ctrl+F6) : Toggles the hi-res mode status.
+	- Double speed (Alt+F7) : Toggles the double speed status.
+	- Tape bypass (Alt+F8) : Toggles the tape bypass status.
+	- Tape speedup: Toggles the tape speedup status.
+	- Tape compatibility: Toggles the tape compatibility mode.
+	- Symbiface 2 ROM: Toggles the paging of the Symbiface 2 static
+RAM into ROM. Beware, this switch resets the emulated CPC. Static RAM
+can be paged in and out as well from the BASIC command line with the
+commands PRINT INP(&FD11) and OUT &FD11,0 respectively.
+	- Autorun: Toggles the autorun status.
+	"Image" menu:
+	- Full screen (Alt+Return) : Only in WIN32, toggles the full
+screen mode.
+	- Monochrome (F11) : Toggles the green screen status.
+	- Dither (Ctrl+F11) : Toggles the image dithering.
+	- Blend (Alt+F11) : Toggles the image blending.
+	- Inc. frameskip (Num.pad +) : Increases the frame skip.
+	- Dec. frameskip (Num.pad -) : Decreases the frame skip.
+	- Max. frameskip (Num.pad *) : Sets the frame skip to 9.
+	- Min. frameskip (Num.pad /) : Sets the frame skip to 0.
+	- Save BMP image (F12) : Saves the screen as a BMP file.
+	- Save AVI video.. : Saves the image as an AVI file. Video
+codecs can be selected and configured from a dialog.
+	- Embed sound in AVI : By default, AVI files generated by CPCE
+are mute. Enable this option before recording any to include the sound
+output. Bear in mind that sound is saved without any compression.
+	"Sound" menu:
+	- Sound (F4) : Toggles sound playback, if available.
+	- Filter (Ctrl+F4) : Toggles sound filtering.
+	- Save WAV sound (Ctrl+F12) : Toggles sound logging.
+	- Save YM3 sound (Alt+F12) : Toggles the YM2149 logging status.
+	"Game" menu:
+	- Play movie..: Plays a movie. Several menu items such as
+Debug, Hi-res, Double speed, Load Snapshot, etc. are ignored during a
+movie playback. If the autorun option is enabled, disc files sharing
+name and folder with the movie file will be automatically opened: this
+is useful for big games that load their stages from disc.
+	- Record movie..: Records a movie. A movie cannot be recorded
+from Debug mode or with a breakpoint; in the same way, movie recording
+ignores the aforementioned menu items.
+	- Loop movie: Toggles movie playback looping.
+	- Stop movie: Stops the currently playing or recording movie.
+Closing the emulator stops movies too.
+	- Join netplay.., Host netplay.., Disconnect, 100%, 50%, 33%
+and 25% are only available in WIN32. Read 5.3. for explanations about
+netplay.
+	"Help" menu:
+	- Help.. (F1) : Displays the keyboard shortcut table.
+	- About.. (Ctrl+F1) : Displays the splash text.
+
+	File browsing supports ZIP archives. WIN32 version supports
+"drag and drop" of snapshot, tape and disc files; a right-click shows
+the menu.
+
+5.1.- Tapes and discs
+---------------------
+
+	CPC software was stored in two different media: audio tapes and
+3" floppy discs. The former were slow and cheap while the latter were
+fast and expensive, but all CPCs supported both media either natively
+(the CPC 464 had an embedded tape deck while the 664 and 6128 models
+came with their own floppy disc drive) or optionally (external tape
+decks and disc drives could be connected as peripherals).
+
+	Software stored in disc files can be listed with the BASIC
+commands CAT and |DIR (hit Shift and the key on the right of "P" to get
+the character "|"), and launched with RUN"<filename> or with |CPM if
+the disc has a boot sector; some discs don't have listable files and
+react negatively to CAT because they only allow |CPM. When files can be
+listed, the runnable one is generally named DISC, DISK or after the
+software title, and the usual extensions for it are BAS and BIN.
+
+	Tape files are loaded with RUN" (that can be either manually
+typed or generated with Control+Small Enter), but the command |TAPE
+is required to access tapes if AMSDOS is working (the default behavior
+with disc drives); |DISC restores the disc access. When the tape bypass
+option is on, tape functions are redirected to real files, allowing the
+emulated CPC to access the normal files in the hard drive.
+
+5.2.- Debug mode
+----------------
+
+	The debug mode halts the emulation and shows three panels with
+information of the current machine status: the top panel is a Z80 code
+disassembly, the middle one is a register editor an the last one is a
+memory editor. Debug mode can be switched on and off with F9.
+
+	The active panel shows a square cursor that can be moved within
+the panel with the arrow keys, BACKSPACE, PAGE UP and PAGE DOWN, and
+among panels with TAP and SHIFT+TAB. The keys from 0 to 9 and from A to
+F edit the currently selected hexadecimal value.
+
+	Most CPCE functions are still available from the debugger, and
+there are several debug function keys as well:
+	- SPACE (trace into): Executes the current instruction.
+	- ENTER (step over): Sets a breakpoint on the next instruction
+and exits the debugger. This usually behaves like SPACE but some Z80
+instructions such as CALL, RST, JP and JR may take their time to return
+to the debugger or not return at all.
+	- G (go to): Asks the user for a hexadecimal address to move
+the cursor in the active panel. Typing nothing makes the cursor go to
+the PC (Programme Counter), the Z80 register pointing to the current
+instruction.
+	- J (jump to): Sets the PC to the active disassembly address.
+	- R (run to): Sets a breakpoint on the active disassembly
+address and exits the debugger. This breakpoint is destroyed as soon
+as the debugger is enabled, either manually or because the emulation
+reached any breakpoint.
+	- S (search) and N (next): S asks for a string that will be
+searched in the active panel. Search is case insensitive and looks for
+hexadecimal values in both disassembly and memory panels, Z80 opcodes
+in the disassembly panel and ASCII strings in the memory panel. N
+repeats the last search.
+	- T (toggle breakpoint): Creates a new breakpoint in the active
+disassembly address if there wasn't any, or destroys it if it already
+existed. Up to 15 different breakpoints can be created; a 16th one is
+used by ENTER and R. Please bear in mind that breakpoints slow down
+CPCE, so use Ctrl+F9 to destroy them all at once when you've finished
+debugging and want to resume normal activity.
+
+5.3.- Netplay
+-------------
+
+	Only available in WIN32, netplay allows two users to play a
+shared CPCE session through an Internet connection. The process is as
+follows:
+	- One user (the "server") loads and starts the programme that
+both users are going to share (if any), goes to the "Game" menu,
+selects "Host netplay" and either types a port number or simply accepts
+the default one, 2399. The emulation pauses and a progress bar appears
+in the CPCE window.
+	- The other user (the "client") goes to the same menu, selects
+"Join netplay" and types the server's IP number; if the server set a
+port number other than 2399, the port has to be appended to the IP
+number separated with a ":". For example, if the server's IP number is
+12.34.56.78 and the port is 90, 12.34.56.78:90 is the string the client
+has to type. The emulation pauses and a progress bar appears as well.
+	- When the connection is succesfully done, the server sends the
+current status to the client: the progress bars fill as the information
+transfer advances.
+	- Once the progress is complete, the emulation resumes and both
+users will be sharing the CPCE session. Some functions (Reset, Debug,
+Load snapshot, Hi-Res, etc.) are disabled; besides that, both users can
+use CPCE as if they both were using the same computer at once.
+	- Online sessions can be aborted at any time by going to the
+"Game" menu and selecting "Disconnect".
+	- Fluent online sessions require fast Internet connections; if
+you experience slowdowns you should lower the data sharing rates from
+100% to 50%, 33% and even 25% using the corresponding items in the
+"Game" menu before hosting an online session. Lower rates require less
+fast connections but are less responsive as well.
+
+	The status sent by the server is mostly a snapshot file; if the
+shared programme requires usage of disc, tape or other things external
+to snapshots, both users must have exactly the same files in the same
+status, otherwise desynchronization errors will appear.
+
+6.- Embedded utilities
+======================
+
+6.1.- YMP
+---------
+
+	YMP is a YM2149 music player. It supports YM2, YM3, YM5 and YM6
+files (newer formats aren't supported yet); files compressed with LHA
+are supported too. Just like CPCE, there are three executables: YMP.EXE
+(requires 286 CPU and DOS 3.0), YMP32.EXE (requires 386 CPU and DOS
+3.0) and YMP95.EXE (requires 386 CPU and Windows 95). They all require
+VGA graphics and a sound card (a SoundBlaster compatible one under DOS
+or DPMI, any WinMM supported card under WIN32), too.
+
+	Most command line options work like CPCE equivalent ones:
+	- /e<+/-> : Stereo sound.
+	- /f<+/-> : Sound filtering.
+	- /q<+/-> : 16-bit sound.
+	- /r<0-9> : Frame skip.
+	- /s<0-2> : Sound quality.
+	- /t<0-3> : YM2149 timing. 0 is Atari ST PAL (2 MHz, 50 Hz), 1
+is Atari ST NTSC (2 MHz, 60 Hz), 2 is ZX Spectrum (1.77 MHz, 50 Hz) and 3 is
+Amstrad CPC (1 MHz, 50Hz). When CPCE records a YM file, it automatically
+sets it to 2 MHz, 50Hz so you don't need this option to be 3 to play it.
+	- /w<+/-> : Sound logging.
+	- /y<0-3> : YM2149 type.
+	- /!<+/-> : WinMM compatibility. By default, YMP tries to use
+DirectSound, but WinMM can be forced by enabling this option.
+
+	If there's a file name in the command line, YMP will try to
+read it; otherwise, it will ask you for a file when launching. If no
+errors occur, music playback starts and the screen displays a waveform
+behind the current playback pointer, pitch, speed and YM name. You can
+use these keys:
+	- LEFT, RIGHT, UP and DOWN move the playback pointer by adding
+or substracting seconds or minutes.
+	- INSERT moves the playback pointer to the track beginning.
+	- DELETE moves the playback pointer to the track loop point.
+	- HOME and END increase and decrease the YM2149 speed.
+	- PAGE UP and PAGE DOWN increase and decrease the YM2149 pitch.
+	- SPACE pauses and unpauses the playback.
+	- NUM.PAD +, NUM.PAD -, NUM.PAD *, and NUM.PAD / increase,
+decrease, set to 9 and set to 0 the frame skip.
+
+	There's a series of functions available through the main menu
+(press F10 under DOS and DPMI or Alt+F10 under WIN32) or their keyboard
+shortcuts:
+	"File" menu:
+	- Load file.. (ESC) : Loads a YM file. A window pops up and
+lets you to browse the file system and load an YM file. If you hit ESC
+or cancel the window, YMP closes and returns to the OS.
+	- Exit (Alt+F4) : Closes YMP.
+	Options menu:
+	- Disable channel 1 (F1), disable channel 2 (F2) and Disable
+channel 3 (F3) switch off and on a YM2149 channel. Enable all channels
+(F4) switches on all channels.
+	- Atari ST PAL (F5), Atari ST NTSC (F6), ZX Spectrum (F7) and
+Amstrad CPC (F8) set the timing to standard values (just like /t<0-3>).
+	- Fast forward (TAB) toggles accelerated playback mode. Useful
+for recording WAV files from YMP.
+	- Linear volume (F9) and SID-like wave (Ctrl+F9) set up the
+YM2149 type (just like /y<0-3> in CPCE).
+	- Filter (F11) and Save WAV sound (F12) switch on and off sound
+filtering and logging (just like in CPCE).
+	Help menu:
+	- About.. (Ctrl+F1) : Displays the splash text.
+
+	WIN32 version supports "drag and drop" of YM files, and the
+interface allows to move the window, open the menus, move the playback
+pointer, etc. with mouse clicks and motions.
+
+6.2.- CSW
+---------
+
+	CSW.COM can create CSW files from VOC and WAV ones, and VOC
+files from CSW ones. Its syntax is "CSW <source file> <target file>"
+and it accepts an optional argument, "/<0-9>" that sets the filter
+value from 0 (no filter at all; default value) to 9 (very heavy
+filter). Filters reduce the noise and size of CSW files but may create
+incorrect files.
+
+6.3.- LPTCPC, LPTREC and LPTPC
+------------------------------
+
+	LPTCPC.BAS, LPTREC.BAS and LPTPC.COM can transfer files from a
+real CPC to a PC through the parallel cable designed by Marco Vieth and
+explained in the documentation of his emulator, CPCEMU. The protocol is
+compatible with Marco Vieth's utilities, but several enhancements have
+been made:
+	- LPTREC.BAS is a short BASIC listing that has to be typed and
+executed in the real CPC. It receives files sent from the PC through
+the parallel cable, and its main utility is to send the more powerful
+(but much harder to type) LPTCPC.BAS to the CPC.
+	- LPTCPC.BAS is a small binary programme that runs in the real
+CPC and allows to send normal files and disc images, and to receive
+normal files too. Files are received by entering nothing at the prompt;
+any key stops the file receiving loop. Normal files are sent by typing
+their name, and disc files, by typing ":" plus their name; any key stops
+the disc sending process. Hit ESCAPE at the prompt to abort LPTCPC and
+return to BASIC.
+	- LPTPC.COM is another small binary and it's used in the PC to
+send and receive files. Syntax for file sending is "LPTPC <files>" and
+file receiving is done with just "LPTPC". In any case, the optional
+arguments /1, /2 and /3 select the LPT port to use, LPT1 by default.
+Hit Control+Break to abort and return to the OS.
+
+	All these utilities calculate and show two-lettered CRC letters
+to let you know if transmission was correct or not. All normal 3" disc
+formats and most copy protections are supported.
+
+	The basic parallel cable setup is composed of two connectors (a
+Centronics socket and a 25 pin D-Sub plug) and seven wires, and it goes
+from the CPC printer wire to the PC parallel port as follows:
+
+	Centronics socket (female)	25 pin D-Sub plug (male)
+		19 GND				19 GND
+		 1 -STROBE			11 BUSY
+		 8 D6				10 -ACK
+		 7 D5				12 PE
+		 6 D4				13 SELECT
+		 5 D3				15 -ERROR
+		11 BUSY 			 2 D0
+
+	The design parallel cable is deeply discussed in the text files
+of Marco Vieth's CPCEMU. Read them for further information.
+
+6.4.- REDEFINE
+--------------
+
+	REDEFINE.COM can customize the keys mapping the CPC joystick.
+By default, they're on the numeric keypad (8, 2, 4, 6, 0 and ".") but
+most keys can be chosen for this purpose. Function and shift keys are
+ignored because CPCE needs them, and ESC aborts the process. REDEFINE
+edits the configuration file, so it assumes that CPCE.INI is in the
+current folder; otherwise, the complete path can be provided in the
+command line.
+
+7.- Acknowledgements
+====================
+
+	Thanks to Amstrad in general and Cliff Lawson in particular for
+allowing me to distribute the original Amstrad CPC ROMs with CPCE. And,
+of course, for creating the CPC!
+	Thanks to Marco Vieth, Bernd Schmidt, Ulrich Doewich, Martin
+Korth, Richard Wilson, Antoine Pitrou, Kevin Thacker... for writing CPC
+emulators: CPCEMU, CPE, CaPriCe, NoCash CPC, WINAPE, YAGE, Arnold...
+Good emulators. In fact, most of them are better than mine :)
+	Thanks to Pedro Gimeno, programmer of SPECTRUM and SPEC386, for
+his great work and his encouraging letters.
+	Thanks to Emulators Unlimited ( http://www.emuunlim.com ) for
+hosting CPCE. My Capcom CPS1&2 emulator, CPSE, may be found there, too
+( http://cpse.emuunlim.com ).
+	Thanks to the webmasters of several websites for their interest
+in CPC emulation:
+	- Emumania ( http://www.emumania.com )
+	- Emulatronia ( http://www.emulatronia.com )
+	- Carsten ( http://www.terra.es/personal/rt95plus/ )
+	- Joseman ( http://www.terra.es/personal2/amstradweb/ )
+	- Malc Jennings ( http://cpczone.emuunlim.com )
+	- Nich Campbell ( http://www.cpcgamereviews.com )
+	Thanks to everyone posting in http://amstradcpc.foro.st : 6128,
+Deepfb, KaosOverride, Litos.Net, MiguelSky, Mochilote, Urusergi, etc.
+	Thanks to Antonio Ortiz Carrasco (found a bug in CPCE 0.8.1),
+Esteban Ruiz "Pinace" (found a bug in CPCE 1.11), Ramon Garcia Hevia
+(dragon droppings) and the whole Amstrad CPC Spanish forum for their
+support and bug hunting.
+	Thanks to Tomasz Gryzstar for creating FASM, the best assembler
+ever! Without it, CPCE would have never able to break the DOS barrier.
+	Thanks to C.W. Sandmann for CWSDPMI, the most popular external
+DPMI extender, used by CPCE since 1.00 until 1.61.
+	Thanks to Phil Katz, Jean-Loup Gailly, Mark Adler and the ZLIB
+group for the excellently devised and explained ZIP archiving system.
+	Thanks to Markus F.X.J. Oberhumer and Laszlo Molnar for UPX,
+the Ultimate Packer for eXecutables.
+	Thanks to Joergen Ibsen for APACK, the best DOS and DPMI
+compressor to date.
+	Thanks to Coaldust for proofreading this document :)
+	Thanks to Thomas "Tran" Pytel for PMODE 3.07, the internal DPMI
+extender featured in CPCE since 1.70.
+	Thanks for reading!
+
+8.- Registered marks
+====================
+
+	Amstrad, CPC, AMSDOS (C) Amstrad Consumer Electronics.
+	SoundBlaster (C) Creative Labs.
+	Mentioned emulators (C) Their programmers.
+
+9.- History of CPCE
+===================
+
+	- 01.08.1997: First ASM lines.
+	- 20.11.1998 (v0.0) : First version. Documentation in Spanish
+only.
+	- 12.12.1998 (v0.1) : Better Z80 emulation, border emulation,
+YM logging. Documentation in English. Snapshot filenames don't need SNA
+extension.
+	- 02.02.1999 (v0.2) : Frame skipping, joystick emulation,
+better interface... "Zub", "Bubble Bobble" and "Rainbow Islands" don't
+work yet!
+	- 12.03.1999 (v0.3) : Tape support through standard AMSDOS
+files placed in the TAPE directory; standard extensions BAS and BIN
+aren't required, as in a true CPC; CAT does nothing (use a DIR TAPE\*.*
+from DOS instead).
+	- 12.05.1999 (v0.4) : Sound through SoundBlaster-compatible
+sound cards. PCX screens are saved in order (CPCE0000.PCX,
+CPCE0001.PCX...).
+	- 30.07.1999 (v0.5) : Better interface, more options. A bit
+faster emulation. Printer emulation: printed data is sent to a file
+called CPCE.PRN.
+	- 10.03.2000 (v0.6) : Fully rewritten! The @#$%&! bug of "Zub",
+"Bubble Bobble", etc. has been fixed! Graphic user interface, more
+options... YM logging doesn't need pitch fixing any more.
+	- 15.06.2000 (v0.7) : Many new features! Disc emulation,
+tweaked VGA graphics (more resolution), rasters, overscan, split
+screens, multilanguage, configuration file, digital SoundBlaster
+sound... The price paid for all these enhancements is a slower
+emulation, and a larger executable file.
+	- 12.12.2000 (v0.8) : Many extras and bug fixes: protected tape
+files, better debugger, better digital sound, VOC tape files, YMP...
+	- 14.12.2000 (v0.8.1) : Fixed a bug in the keyboard handler.
+	- 21.12.2000 (v0.8.2) : Fixed another keyboard bug (!).
+Enhanced tape handling (cache, CSW compression).
+	- 09.07.2001 (v0.90) : Fully rewritten, more compatible.
+General CRTC ruptures, CSW.COM. Multilanguage removed, does anyone miss
+it?
+	- 19.11.2001 (v0.91) : Using a new programming library (made by
+me), digital SoundBlaster sound gets more compatible, ZIP files are
+supported, and a fistful of new and enhanced features. CPC emulation
+itself is a bit more exact ("Final Fight" and others: CRTC ghosting)
+and complete (CDT support).
+	- 09.09.2002 (v1.00) : First multiplatform version (DOS, DPMI
+and WIN32), thanks to the great FASM compiler. Again fully rewritten,
+everything is now much better, faster, cleaner... Removed YMP and CSW
+(did anyone use them?). Just two problems: WIN32 platform can't browse
+(yet) ZIP files, and WIN2K doesn't like my WIN32.LSEEK (disc handling).
+	- 12.09.2002 (v1.01) : Gabriel Gag warned about a distribution
+bug: the configuration file requested PARADOS.ROM but the released
+AMSDOS ROM is CPCADOS.ROM! Fixed.
+	- 03.01.2003 (v1.10) : Printer logging, joystick support,
+better NEC765 emulation (error handling), safer (WINNT4: WIN32.LSEEK
+bug) and handier (ZIP file handling from WIN32, fullscreen mode).
+	- 19.01.2003 (v1.11) : Scanline modes, some bug fixes (FDC: EOF
+flag and Read ID command), TIMER flag removed (timer is autodetected).
+	- 10.04.2003 (v1.20) : CDT and YM2149 engines rewritten, safer
+ZIP file handling, dragon droppings for WIN32, ALT+ENTER/RIGHT CLICK,
+performance, WIN32 screen size and multi-platform options.
+	- 15.04.2003 (v1.21) : YM2149 bug fix, better default setup.
+	- 30.06.2003 (v1.30) : YMP is back! Many bug fixes, too.
+	- 02.07.2003 (v1.31) : Z80 enhanced, PAUSE key.
+	- 16.12.2003 (v1.40) : ROM selection, better FDC emulation
+("Format Track" supported, plus some bugfixes), CRTC bugfix ("RTS demo"
+and "CNGSoft Intro #1"), PIO bugfix ("Prehistorik I"), virtual tape
+bugfix (output cache flush), YMP supports YM5 files, more bugfixes...
+	- 12.12.2005 (v1.50) : Game recording and playback, netplay,
+utilities CSW, LPTCPC, LPTREC and LPTPC, DirectDraw support, YMP
+features a "skin", faster FDC formatting, CSW tape saving, DOUBLE_SPEED
+is disabled when using tapes, DIRECT_TAPE becomes TAPE_BYPASS,
+compatibility modes, new GUI font and quick sort instead of bubble
+sort, and tons of bugfixes.
+	- 20.12.2005 (v1.51) : A pair of bugs introduced in v1.50 at
+the last minute could cause problems when emulating several
+undocumented Z80 opcodes (from ED80 to ED9F) and recording YM files:
+they have been fixed; the emulator documentation has been extensively
+rewritten, too.
+	- 30.12.2005 (v1.52) : A tiny bug noticed by Nich Campbell
+could create nonstandard PCX files. Sound playback should be much more
+stable now, too. YMP supports YM6 files. When documentation was
+rewritten I forgot to set the width to 72 characters.
+	- 08.01.2006 (v1.53) : YMP internally decompresses LZH-packed
+YM files (LHA.EXE is no longer required), and disabled channels don't
+make any noise now. A tiny bug in the ZIP archive handler and another
+one in netplay (discovered by Shane) have been corrected, too.
+	- 13.01.2006 (v1.54) : Many bugfixes: CPCE and YMP played a
+high-pitched buzz when paused, games such as "Terminus" or "Streakers"
+were mute, CPCE could crash when both emulated tape and disc were
+accessed simultaneously, etc.
+	- 04.03.2006 (v1.55) : A special release developed for the
+retro computer event MadriSX 2006 adds the ability to record AVI
+videos. Some tiny bugs have been fixed, too.
+	- 11.03.2006 (v1.56) : CPCE.TXT describes the parallel cable of
+CPCEMU and several bugs in the data transfer tools (LPTPC, LPTREC and
+LPTCPC) have been fixed.
+	- 18.03.2006 (v1.56) : Quick hotfix for a tiny bug in the FDC.
+	- 01.08.2006 (v1.60) : CPCE is 9 years old! The debugger has
+been fully rewritten and added a disassembler, a register editor, data
+searching, multiple breakpoints and more functions. CPCE also features
+improvements in compatibility (interruptions in Barbarian 2, Elevator
+Action, Hundra, Prehistorik 2..., smarter FDC, softer sound output),
+performance (faster graphics and sound rendering, new Z80 and tape
+shortcuts) and customization (EN, FR and ES keyboard languages, new
+screen height and scanline mode).
+	- 16.09.2006 (v1.61) : DirectSound support (already coded but
+missing from v1.60 because of bugs), YM2149 bugfix (Nodes of Yesod and
+Silkworm play correctly now; probably one of the oldest bugs in CPCE)
+and new runtime optimizations (16 tape loaders and 4 Z80 loops).
+	- 26.09.2006 (v1.61) : Quick hotfix for a tiny DirectSound bug.
+	- 10.10.2006 (v1.61) : Quick hotfix for another DirectSound bug
+and a hardware ghosting issue (Bombfusion, Hero Quest).
+	- 20.12.2006 (v1.70) : CPCE supports up to 576 K RAM and 272 K
+ROM, and is thus able to run Prodatron's SymbOS GUI at full performance
+both from disc images and ROMs. The DOS version has had one of its
+oldest bugs (RAM banking on video memory corrupted graphics) fixed, and
+the DPMI version includes the DPMI extender PMODE 3.07 so external
+extenders such as CWSDPMI are no more required from pure DOS. Other
+bugs (such as rare structure corruption after a FDC format) have been
+fixed too.
+	- 28.12.2006 (v1.71) : The FDC handles 6 KB sectors, so disc
+protections used in "Double Dragon (Mastertronic)", "The Addams Family"
+and other games work correctly now. A pair of tiny bugfixes (overscan
+wrapping in DOS and hardware ports ghosting) allows Hermol's "XMAS2006"
+intro to show despite a bug (the command at $8C3F should be LD BC,$BC00
+instead of LD BC,$00BC). DOUBLE_SPEED is now TURBO_SPEED and speeds the
+Z80 up to 8, 12, 16 or 24 MHz, as defined by TURBO_VALUE or /t<0-3>;
+former /t<0-5> (command line option for ROM_TYPE) is now /m<0-5>.
+	- 03.01.2007 (v1.71) : Quick hotfix for a pair of tiny bugs:
+YMP froze the scroller when paused, minimized and restored (although it
+resumed moving when unpaused) and CPCE's debugger was stepping over the
+opcodes JMP, JR and RET the wrong way.
+	- 09.01.2007 (v1.71) : Patch with a new turbo mode, 4 (32 MHz).
+	- 10.03.2007 (v1.80) : Dr.Zed's Symbiface 2 is emulated just in
+time for the retro computer event MadriSX 2007: CPCE supports 512 K
+static RAM, PS/2 mouse, realtime clock and two hard disc drives of up
+to 2 GB each. The FDC emulates the disc protection used by ERE in
+Tensions and Get Dexter, and The Demo loads now. The ROM space has been
+doubled. A tiny bug in AVI recording has been corrected, and there have
+been other bugfixes as well.
+	- 16.06.2007 (v1.81) : Hexagon protection supported through FDC
+timeout emulation, and double-sided discs can be flipped. Alt+F9 shows
+activity leds (tape, floppy disc, hard disc). REDEFINE.COM customizes
+the keys mapping the CPC joystick, and ESC can now be mapped to the key
+above TAB for easier use. Screenshots are saved as BMP files instead of
+PCX ones. Bugfixes: damaged Symbiface 2 HD gaps, long filename autorun
+crash, and more.
+	- 03.07.2007 (v1.82) : Autorun has been greatly improved thanks
+to a new algorithm that looks for files matching known patterns (*.BAS,
+*.BIN, DIS?.*, etc.) and is enabled by default to ease things up for
+new users. Maximum RAM size has been expanded to 2112 K (=64+2048) and
+REDEFINE.COM allows more keys, too.
+	- 07.07.2007 (v1.82) : Quick hotfix for minor bugs about the
+keyboard ("sticky" keys in CPCE95.EXE and REDEFINE.COM), the internal
+DPMI extender in CPCE32.EXE and the printer logging.
+	- 29.07.2007 (v1.83) : Several bugfixes and improvements, both
+platform-specific (Symbiface 2 HD sector seek and ROM selection
+made mistakes in CPCE.EXE, windows in CPCE95.EXE can be freely resized)
+and general (hardware port ghosting in Vendetta)... two days before
+CPCE's tenth anniversary!
+	- 16.09.2007 (v1.84) : Many small bugfixes and enhancements:
+DOSBOX's TRUENAME supported, faster SVGA calls and wider file dialog
+under DOS and DPMI, more compatible AVI recording, slightly cleaner
+YM2149 playback, new vertical mode 5 (288/576 pixels), movies can open
+disc images, more consistent Symbiface 2 ROM handling, etc.
+	- 23.09.2007 (v1.84) : Tiny hotfix regarding buggy and obsolete
+fragments of code in the tape functions used by CPCE and CSW.
+	- 04.11.2007 (v1.85) : A serious bug concerning the Symbiface 2
+IDE reported by Jarek Adamski (who discovered a typo in this file too)
+has been fixed, the option TAPE_COMPATIBLE can disable tape speedup if
+CPCE does it wrong ("Balloonacy") and the Win32 file dialog handles ZIP
+archives a little better.
+	- 08.03.2008 (v1.90) : The night before the retro computer con
+MadriSX 2008, improvements in the IRQ and VSync signals provide precise
+synchronization ("Dragon's Lair", "Kat-Trap"), bugfixes in the FDC
+support Titus' disc protection scheme ("Wild Streets", "Knight Force")
+and the Z80 search function and ZIP support have been improved as well.
+	- 31.03.2008 (v1.90) : The past release was made in a hurry and
+it lacked features still in development, hence this rerelease. On one
+hand, LPTCPC and LPTPC can send and receive extended disc images: many
+copy protections work fine; on the other hand, the FDC reading commands
+have been improved too ("Arkanoid", "Gremlins 2", Epyx's "World Games",
+etc.)
