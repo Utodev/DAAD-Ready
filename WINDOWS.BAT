@@ -68,13 +68,12 @@ IF "%BASELANG%" == "ES" (
     TOOLS\InnoSetup\Compil32.exe /cc gamebuild.iss
     echo "El paquete de instalacion para Windows se ha creado en la carpeta RELEASE\WINDOWS"
 )
-
+DEL gamebuild.iss  > nul 2>&1
+DEL buildScript.tmp  > nul 2>&1
+DEL dosbox.conf  > nul 2>&1
 pause
 
 REM  --- CUSTOM AREA ---
 :CUSTOM
 IF exist CUSTOM3.BAT CALL CUSTOM3.BAT 
 :END
-DEL gamebuild.iss  > nul 2>&1
-DEL buildScript.tmp  > nul 2>&1
-DEL dosbox.conf  > nul 2>&1
