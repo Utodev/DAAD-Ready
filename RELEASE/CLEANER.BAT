@@ -1,5 +1,6 @@
 @echo off
-echo -- This will delete all files from release folders, leaving them empty but for the "readme.txt " file that was already in there.
+echo -- English: This will delete all files from RELEASE folder, leaving them empty but for the "readme.txt " files that were originally there.
+echo -- Spanish: Se van a borrar todos los ficheros de la carpeta RELEASE, excepto los "readme.txt " que ya estaban originalmente.
 choice /C NY /N /M "Are your sure? [Y/N]"
 if errorlevel 2 (
     echo "DAAD-Ready" > readme.txt
@@ -112,3 +113,4 @@ if errorlevel 2 (
     pause   
 
 )
+
