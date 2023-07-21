@@ -1,4 +1,24 @@
-DAAD Ready 0.7 15/01/2023)
+DAAD Ready 0.8 21/07/2023
+=========================
+
+- jDAAD has been checked in depth and now HTML it's a not an experimental target anymore
+- WINDOWS.BAT can now create a Windows setup file in the RELEASE\WINDOWS folder. Icon used 
+  has CC license, by icons8.
+- New Amiga patched interpreters allow the whole Amiga original 4096 colours palette to be 
+  used for graphics, not just 512. Still only 16 colours per picture though.
+- New Amiga patched interpreters allow running EXTERN code the way the 8 bit machines do.
+- Fixed bug with Plus/4 folder
+- Fixed charset generator for AtariST
+- New Telegram official channel added to documentation
+- DAAD ready will check now on start if version used is latest version
+- Comments for new authors added to Spanish base DSF file 
+- CH82chr: new tool added to convert CH8 character sets to DAAD format
+- New hooks for custom BAT files added. Also session variable for script hooks added.
+- WinAPE has been replaced with CPCE as Amstrad CPC emulator
+- ZEsarUX updated to version 10.3
+
+
+DAAD Ready 0.7 (15/01/2023)
 ===========================
 - Fixed a bug in DRC that was allowing object definitions with weight greater than 63, and eventually leading to fails.
 - Replaced some tools with their respective 32 bit versions, so DAAD Ready can now work in 32 bit based Windows (at least on latest versions, for older Windows will depend on compatibility of each tool, mainly emulators).
@@ -32,14 +52,12 @@ Maluva updated, now works fine with M4 interface in Amstrad CPC
 Updated imagewizard for MSX2 images
 Fixed bugs in MSDOS and MSX2 build files
 
-
-
 DAAD Ready 0.4 (24/07/2021)
 ==============================
 - PC VGA16 interpreter replaced with VGA256 interpreter. Now DAAD Ready can add graphics to PC target too. See instructions in the documentation.
 - Fixed some bugs in the DSF templates, that was making weird text overlaps when the player typed LOOK.
 
-DAAD Reavy 0.3 (04/04/2021)
+DAAD Ready 0.3 (04/04/2021)
 ===============================
 - Updated Maluva for CPC, to avoid SPLIT mode to be active by default
 - Now a picture 000 is shown  - if exists - at the intro location (location 0). Also picture 255 is shown if existis and no picture available for a location. 
