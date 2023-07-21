@@ -72,6 +72,10 @@ echo.
 REM  ---- COPY FILES  ---- 
 COPY  %GAME%.JDDB RELEASE\HTML\daad.jddb > nul 2>&1
 
+REM ---- PREPARE FONT -----
+PHP\PHP tools\jDAADFontMaker\jDAADFontMaker.php ASSETS\CHARSET\%FONT6% RELEASE\HTML\font.js 
+
+
 REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\00%%i.png RELEASE\HTML\images.js
@@ -97,21 +101,6 @@ ECHO "Game ready,press any key to test or  CTRL+C to stop"
 IF "%BASELANG%" == "ES" (
 ECHO "Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar."
 )
-tools\cecho\cecho {04}
-IF "%BASELANG%" == "EN" (
-ECHO "DISCLAIMER: HTML target of DAAD is in EXPERIMENTAL status. "
-ECHO "It may have bugs and it has known missing features like timeouts in"
-ECHO "player input, stop printing when too much text is printed (More...)"
-ECHO "and escape sequence #k."
-)
-IF "%BASELANG%" == "ES" (
-ECHO "AVISO: el target HTML de DAAD esta en estdo EXPERIMENTAL."
-ECHO "Puede tener bugs, y ademas tiene funcionalidades sin implementar "
-ECHO "conocidas, como los timeouts en el input del jugador, dejar de "
-ECHO "escribir cuando se escribe mucho texto (More...) y la secuencia"
-ECHO "de escape #k."
-)
-tools\cecho\cecho {07}
 PAUSE
 CD RELEASE\HTML 
 START index.html
