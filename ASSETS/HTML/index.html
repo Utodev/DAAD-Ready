@@ -17,8 +17,31 @@
          <canvas id="paper" width="320" height="200" class="paperClass"></canvas>
       </div>
   
-      <div class='anykey_layer'></div>
+      <div class='anykey_layer scanlines'></div> <!-- If you want to eliminate scanlines, delete class 'scanlines' / Si quieres eliminar las scanlines, borra la clase 'scanlines' -->
       <div class='goodbye'>Goodbye!</div>
    </body>
+   <script>
+	var canvas = document.getElementById('paper');
+	  
+	function calculateAspectRatioFit(maxWidth, maxHeight) {
+	  var ratio = Math.min(maxWidth / 320, maxHeight / 200);
+
+	  return {
+		width: 320 * ratio,
+		height: 200 * ratio
+	  };
+	};
+	  
+	function resizeIt() {
+	  var container = document.getElementsByClassName('screenClass')[0];
+	  var size = calculateAspectRatioFit((window.innerWidth * 8 / 10), (window.innerHeight * 8 / 10));
+	  container.style.height = size.height + 'px';
+	  container.style.width = size.width + 'px';
+	};
+	
+    window.addEventListener('resize', resizeIt);
+	
+	resizeIt();
+  </script>
 
 </html>
