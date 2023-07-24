@@ -616,7 +616,7 @@ S 1
                         WINDOW 0
                     #endif
                 #endif
-#endif
+
 > _       _     
                 ANYKEY
                 CLS
