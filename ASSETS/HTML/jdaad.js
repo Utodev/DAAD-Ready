@@ -7,8 +7,9 @@ KNOWN BUGS:
 - when stopping because too much text is printed, the system message is not printed (More...)
 */
 
-
 // Constants
+
+const versionDate = '31/7/2023';
 
 // Settings
 const NESTED_DOALL_ENABLED = false;
@@ -207,6 +208,10 @@ const   LOC_WORN = 253;
 
 const colours = [ [0x00,0x00,0x00],[0x00,0x00,0xAA], [0x00,0xAA,0x00],[0x00,0xAA,0xAA],[0xAA,0x00,0x00],[0xAA, 0x00, 0xAA], [0xAA, 0x55, 0x00],[0xAA, 0xAA, 0xAA]
                  ,[0x55,0x55,0x55],[0x55,0x55,0xFF], [0x55,0xFF,0x55],[0x55,0xFF,0xFF],[0xFF, 0x55, 0x55],[0xFF,0x55,0xFF], [0xFF, 0xFF, 0x55],[0xFF, 0xFF, 0xFF]];
+
+// Carriage return
+
+const CR = String.fromCharCode(13);
 
 // The condacts
 
@@ -925,26 +930,42 @@ function run(skipToRunCondact)
             if (DDB.doallPTR != 0)
             {
                 debug('In Doall');
-                // Try to get next object at the doall location
-                var nextDoallObjno = objects.getNextObjectAt(flags.getFlag(FDOALL), DDB.doallLocation);
-                //If a valid object found jump back to DOALL entry/condact}
-                if (nextDoallObjno != MAX_OBJECT) 
+
+                do
                 {
-                    DDB.entryPTR = DDB.doallEntryPTR;
-                    DDB.condactPTR =  DDB.doallPTR;
-                    objects.setReferencedObject(nextDoallObjno);
-                    debug('Next DOALL Object:' + nextDoallObjno);
-                    flags.setFlag(FDOALL, nextDoallObjno);
-                    skipToRunCondact = true;
-                    moreDOALL = true;
-                }
-                else  
-                {
-                //If in DOALL but no more objects mark doall inactive and just let 
-                //the process continue and finish normally}
-                debug('No more DOALL Objets');
-                DDB.doallPTR = 0; 
-                }
+                    // Try to get next object at the doall location
+                    var nextDoallObjno = objects.getNextObjectAt(flags.getFlag(FDOALL), DDB.doallLocation);
+                    //If a valid object found jump back to DOALL entry/condact}
+                    if (nextDoallObjno != MAX_OBJECT) 
+                    {
+                        objects.setReferencedObject(nextDoallObjno);
+                        flags.setFlag(FDOALL, nextDoallObjno);
+                        if ((flags.getFlag(FNOUN) == flags.getFlag(FNOUN2)) && ((flags.getFlag(FADJECT) == flags.getFlag(FADJECT2)) || (flags.getFlag(FADJECT) == NO_WORD) || (flags.getFlag(FADJECT2) == NO_WORD))) 
+                        {
+                            debug('"Except" applied to Doall, skipping object');
+                            continue;
+                        }
+
+
+                        DDB.entryPTR = DDB.doallEntryPTR;
+                        DDB.condactPTR =  DDB.doallPTR;
+                        debug('Next DOALL Object:' + nextDoallObjno);
+                        skipToRunCondact = true;
+                        moreDOALL = true;
+                        break;
+                    }
+                    else  
+                    {
+                        //If in DOALL but no more objects mark doall inactive and just let 
+                        //the process continue and finish normally}
+                        debug('No more DOALL Objets');
+                        DDB.doallPTR = 0; 
+                        break;
+                    }
+
+                } while (true);
+
+
             }
             
             if (!moreDOALL)
@@ -1109,25 +1130,26 @@ function fixSpanishCharacters(str)
   var output = '';
   for (var i=0;i<str.length;i++) 
   {
-        switch(str.charAt(i))
+        var c = str.charAt(i);
+        switch(c)
         {
-        case 'ñ': output += 'Ñ';break;
-        case 'ç': output += 'Ç';break;
+        case 'ñ': c = 'Ñ';break;
+        case 'ç': c = 'Ç';break;
         case 'á':
-        case 'Á': output +='A';break;
+        case 'Á': c ='A';break;
         case 'é':
-        case 'É': output +='E';break;
+        case 'É': c ='E';break;
         case 'í':
-        case 'Í': output +='I';break;
+        case 'Í': c ='I';break;
         case 'ó':
-        case 'Ó': output +='O';break;
+        case 'Ó': c ='O';break;
         case 'ú':
         case 'Ú':
         case 'Ü': 
-        case 'ü': output +='U';break;
+        case 'ü': c ='U';break;
         }
-        if (encodeStr.indexOf(str.charAt(i))!=-1) output += String.fromCharCode(16 + encodeStr.indexOf(str.charAt(i)));
-        else output += str.charAt(i)
+        if (encodeStr.indexOf(c)!=-1) output += String.fromCharCode(16 + encodeStr.indexOf(c));
+        else output += c
     }
     return output; 
 }
@@ -1138,7 +1160,6 @@ function getCommand(usePrompt)
         inputBuffer = '';
         if (usePrompt) Sysmess(SM33); else writeText(' '); //the prompt
         //When the prompt appears the last pause line of all windows is resetted
-        for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
         inputBuffer = readText(); //fromEvent = false
 }
 
@@ -1221,6 +1242,7 @@ function getPlayerOrdersB()
         condactResult = ! result;
         done = false;
         inPARSE = false; // Mark we are finishing the interactive part
+        for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
         if (!condactResult) 
         {
             DDB.entryPTR +=4;
@@ -1230,7 +1252,7 @@ function getPlayerOrdersB()
         {
         //otherwise go to next condact
         DDB.condactPTR++;
-        run(true); // true --  go to  RunCondact
+        run(true); // true --  go to  RunCondact      
         }
 
     }
@@ -1493,24 +1515,14 @@ function replaceArticles(str, replace, caps, stopAtDot)
             //una, unos, unas --> la, los, las}
             if ((str.charAt(0).toUpperCase() == 'U') && (str.charAt(1).toUpperCase() == 'N')) 
             {
-                if (caps) newArticle = 'L'; else newArticle = 'L';
+                if (caps) newArticle = 'L'; else newArticle = 'l';
                 return newArticle + str.substring(2);
             }
         }
-        else // English
+        else //In English, we have to remove the first word, whatever it is (if there)
         {
             
-            //a -> empty string}
-            if ((str.charAt(0).toUpperCase() == 'A') && (str.charAt(1) == ' ')) 
-            {
-                return str.substring(2);
-            }
-        
-            //some -> empty string}
-            if ((str.charAt(0).toUpperCase() == 'S') && (str.charAt(1).toUpperCase() == 'O') && (str.charAt(2).toUpperCase() == 'M') && (str.charAt(3).toUpperCase() == 'E') && (str.charAt(4)==' ')) 
-            {        
-            return str.substring(5);
-            }
+           if (str.indexOf(' ') != -1) str = str.substring(str.indexOf(' ')+1);
         }
     }//if replace
     return str;  
@@ -1595,6 +1607,8 @@ function debug(string, style='normal')
         case 'development': css = 'background: #f00; color: #ffff;  border: 2px fixed black; padding: 10px; border-radius: 10px'; break;
     }
 
+    if (string.substr(string.length - 1) == CR) string +='[CR]';
+
     if (DEBUG_ENABLED) console.log('%c ' + string, css);
 }
 
@@ -1633,7 +1647,7 @@ function clickHandler(e)
         e.stopPropagation();
         if (!inMORE) DDB.condactPTR++; // Point to next condact
         inANYKEY = inMORE = false;
-        windows.windows[windows.activeWindow].lastPauseLine = 0;
+        for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
         run(true); // skipToRunCondact = true
     }
 }
@@ -1679,7 +1693,7 @@ function keydownHandler(e)
         e.stopPropagation();
         if (!inMORE) DDB.condactPTR++; // Point to next condact
         inANYKEY = inMORE = false;
-        windows.windows[windows.activeWindow].lastPauseLine = 0;
+        for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
         run(true); // skipToRunCondact = true
         return;
     }
@@ -1701,6 +1715,7 @@ function inputTimeoutHandler()
             inputBuffer = readTextStr = '';
             carriageReturn(); 
             inPARSE = false; // Mark we are finishing the interactive part
+            for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
             DDB.condactPTR++;
             run(true);       
         }
@@ -1711,7 +1726,7 @@ function inputTimeoutHandler()
         // we don't check the flag to know if timeout can happen in ANYKEY because the timeout handler is only started in ANYKEY if the bit flag is set
         if (!inMORE) DDB.condactPTR++; // Point to next condact
         inANYKEY = inMORE = false;
-        windows.windows[windows.activeWindow].lastPauseLine = 0;
+        for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
         run(true); // skipToRunCondact = true
     }
 }
@@ -1839,20 +1854,6 @@ function pixel(x,y, colour)
     pixelRGB(x, y, colours[colour][0],colours[colour][1], colours[colour][2]);
 }
 
-function nextChar()
-{
- //Increase X
- windows.windows[windows.activeWindow].currentX = windows.windows[windows.activeWindow].currentX + COLUMN_WIDTH; 
- //If out of boundary increase Y
- if (windows.windows[windows.activeWindow].currentX >= (windows.windows[windows.activeWindow].col + windows.windows[windows.activeWindow].width) * COLUMN_WIDTH )
- {
-    windows.windows[windows.activeWindow].currentX = windows.windows[windows.activeWindow].col * COLUMN_WIDTH;
-    windows.windows[windows.activeWindow].currentY = windows.windows[windows.activeWindow].currentY + LINE_HEIGHT;
-    //if out of boundary scroll window}
-    windows.lastPrintedIsCR = true;
-    if (windows.windows[windows.activeWindow].currentY >= (windows.windows[windows.activeWindow].line + windows.windows[windows.activeWindow].height) * LINE_HEIGHT )  ScrollCurrentWindow();
- }
-}
 
 function writeChar(c)
 {
@@ -1866,7 +1867,7 @@ function writeChar(c)
         {
             if (windows.windows[windows.activeWindow].currentX + COLUMN_WIDTH > (windows.windows[windows.activeWindow].col + windows.windows[windows.activeWindow].width) * COLUMN_WIDTH ) 
             {
-                nextChar();
+                carriageReturn();
                 writeChar(c);
             }
             else
@@ -1882,7 +1883,7 @@ function writeChar(c)
                     }
                 }
             }
-            nextChar();
+            windows.windows[windows.activeWindow].currentX = windows.windows[windows.activeWindow].currentX + COLUMN_WIDTH; 
         }
     } // switch(c)
 }
@@ -1905,8 +1906,11 @@ function getLastFittingChar(aText) // Given a text, calculates until which chara
 {
     var originalAtext = aText;
 
+
     var remainingLines  = windows.windows[windows.activeWindow].height - windows.windows[windows.activeWindow].lastPauseLine ;
     if (!remainingLines) return 0; // Not a single character will fit
+
+    
 
     //Now let's calculate how much text will fit in the remaining space. To do that we will have an array of pixel width per remaining line
     var remainingPixelsperLine = [];
@@ -1918,14 +1922,32 @@ function getLastFittingChar(aText) // Given a text, calculates until which chara
     
     for (var currentRemainingline=0; currentRemainingline < remainingPixelsperLine.length ; currentRemainingline++)
     {
+        var trailingSpaceRemoved = false;
+        if ((currentRemainingline!=0) && (aText.substring(0,1)==' ')) 
+        {
+            aText = aText.substring(1); // If we are in a new line, and the first character is a space, we remove it
+            trailingSpaceRemoved = true;
+        }
+
         var tempStr = aText.substring(0,remainingPixelsperLine[currentRemainingline] / COLUMN_WIDTH + 1); // Get the text that will fit in the current line plus one character      
-        var CRpos = tempStr.indexOf(String.fromCharCode(13));   // If a CR is in the string we shorten the string to the CR
+        var CRpos = tempStr.indexOf(CR);   // If a CR is in the string we shorten the string to the CR
         if (CRpos != -1) 
         {
-            aText = aText.substring(CRpos + 1);
-            tempStr = tempStr.substring(0,CRpos);
-            
-            fittingStr = fittingStr + tempStr + String.fromCharCode(13);
+            // Si es la última línea, ese CR provocaría un scroll que no deseamos, así que cortamos la cadena justo 
+            // antes del CR, y dejamos este para la parte
+            if (currentRemainingline==remainingPixelsperLine.length-1) 
+            {
+                aText = aText.substring(CRpos);
+                tempStr = tempStr.substring(0,CRpos);
+                fittingStr = fittingStr + (trailingSpaceRemoved?' ':'') + tempStr;
+            }
+            else
+            {
+                aText = aText.substring(CRpos + 1);
+                tempStr = tempStr.substring(0,CRpos);
+                fittingStr = fittingStr + (trailingSpaceRemoved?' ':'') + tempStr + CR;
+            }
+            if (aText.length==0) break; // If we have no more text to process, we are done
         }
         else    //Otherwise, we shorten it to the last space
         {
@@ -1938,15 +1960,12 @@ function getLastFittingChar(aText) // Given a text, calculates until which chara
                 else    // Otherwise, we look back for the last space, after removing that extra one.
                 {
                     tempStr = tempStr.substring(0,tempStr.length - 1); // remove extra character
-                    var preserveStr = tempStr;
                     while ((tempStr!='') && (tempStr.slice(-1)!=' ')) tempStr = tempStr.substring(0,tempStr.length - 1); // Look back for the space
-                    //if (tempStr == '') tempStr = preserveStr; // If no space found, then a very long word is there, and it will be written anyway up to where it fits.
                 }   
             }
             // Once we have the text that would actually fit, we add it to the fitting string, and remove it from the original string
             aText = aText.substring(tempStr.length);
-            fittingStr = fittingStr + tempStr;      
-            
+            fittingStr = fittingStr + (trailingSpaceRemoved?' ':'') + tempStr;      
             if (aText.length==0) break; // If we have no more text to process, we are done
         }
     }
@@ -1999,25 +2018,24 @@ function writeText(aText, doDebug=true)
     
     
     // 4.- Print what it should be printed now
-    if (doDebug) debug(aText, 'text');
     var aWord = '';
     for (var i=0; i < aText.length ; i++)
     {
         switch(aText.charCodeAt(i))
         {
-            case 13: writeWord(aWord);
+            case 13: writeWord(aWord, 'CR');
                      aWord='';
                      carriageReturn();
                      break
-            case 32: writeWord(aWord);
+            case 32: writeWord(aWord, 'SP');
                      aWord='';
-                     if (!windows.lastPrintedIsCR) writeWord(' '); // if we are not at the end of the line, write the seporator space
+                     if (!windows.lastPrintedIsCR) writeWord(' ', 'separator'); // if we are not at the end of the line, write the seporator space
                      break;
             default: aWord  = aWord + aText.charAt(i); 
                      break;
         }
     }
-    writeWord(aWord);
+    writeWord(aWord, 'END');
 }
 
 function PatchStr(Str)
@@ -2079,7 +2097,7 @@ function readTextB(keyCode)
     if ((keyCode>=32) && (keyCode<=255))
     {
         if ((readTextStr.length + 2) * COLUMN_WIDTH   + saveX  < Xlimit) // +2 because is one more for the new char being added and another one cause the cursor '_'
-        readTextStr += String.fromCharCode(keyCode).toUpperCase() //printable characters
+        readTextStr += String.fromCharCode(keyCode); //printable characters
     }
     else
     if ((keyCode==8) && (readTextStr!=''))
@@ -2103,11 +2121,13 @@ function readTextB(keyCode)
     }
 }
 
+
 function carriageReturn()
 {
     windows.windows[windows.activeWindow].currentX = windows.windows[windows.activeWindow].col * COLUMN_WIDTH;
     windows.windows[windows.activeWindow].currentY = windows.windows[windows.activeWindow].currentY + LINE_HEIGHT;
-    windows.windows[windows.activeWindow].lastPauseLine = windows.windows[windows.activeWindow].lastPauseLine + 1;
+    windows.windows[windows.activeWindow].lastPauseLine ++;
+    
     //if out of boundary scroll window
     if (windows.windows[windows.activeWindow].currentY >= (windows.windows[windows.activeWindow].line + windows.windows[windows.activeWindow].height) *  LINE_HEIGHT) 
      ScrollCurrentWindow();
@@ -2197,7 +2217,7 @@ function RestoreStream()
     if ((flags.getFlag(FTIMEOUT_CONTROL) & 0x10) == 0x10) 
     {
      Sysmess(SM33); //The prompt
-     writeText( patchedStr + String.fromCharCode(13));
+     writeText( patchedStr + CR);
     }
 }
 
@@ -2468,7 +2488,7 @@ function _QUITB()
      condactResult = true;
 
    flags.setFlag(FTIMEOUT, PreserveTimeout);
-   windows.windows[windows.activeWindow].lastPauseLine = 0;
+   for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
    inputBuffer = '';
    done = true;
    RestoreStream();
@@ -2503,7 +2523,7 @@ function _SAVEB()
     doSave(inputBuffer);
    
     flags.setFlag(FTIMEOUT, PreserveTimeout);
-    windows.windows[windows.activeWindow].lastPauseLine = 0;
+    for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
     inputBuffer = '';
     done = true;
     RestoreStream();
@@ -2534,7 +2554,7 @@ function _LOADB()
     inputBuffer = '';
     done = true;
     RestoreStream();
-
+    for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
     if (!condactResult) 
     {
         DDB.entryPTR +=4;
@@ -3297,7 +3317,7 @@ function _SAME()
 function _MES(withCR = false)
 {
     var message = getMessage(DDB.header.messagePos, Parameter1);
-    if (withCR) message += String.fromCharCode(13);
+    if (withCR) message += CR;
     done = true;
     writeText(message);
 }
@@ -3373,30 +3393,47 @@ function _PICTURE()
 /*--------------------------------------------------------------------------------------*/
 function _DOALL() 
 {
- if  (DDB.doallPTR!=0)
- {
-   writeText('Runtime error 4 - Invalid nested DOALL');
-   _ANYKEY;
-   Parameter1 = 0;
-  _EXIT;
- }
- var objno = objects.getNextObjectAt(-1, Parameter1);
- if (objno!=MAX_OBJECT)
- {
-    DDB.doallPTR = DDB.condactPTR + 1; //Point to next Condact after DOALL
-    DDB.doallEntryPTR = DDB.entryPTR;
-    DDB.doallLocation = Parameter1;
-    flags.setFlag(FDOALL,objno);
-    objects.setReferencedObject(objno);
-    done = true;
- }
- else 
- {
-    debug('Bad doall', 'error');
-    Sysmess(SM8);
-    newtext();
-    _DONE();
- } 
+    if  (DDB.doallPTR!=0)
+    {
+    writeText('Runtime error 4 - Invalid nested DOALL');
+    _ANYKEY;
+    Parameter1 = 0;
+    _EXIT;
+    }
+ 
+    var i = -1;
+    do 
+    {
+        var objno = objects.getNextObjectAt(i, Parameter1);
+
+    
+        if (objno!=MAX_OBJECT)
+        {
+            objects.setReferencedObject(objno);
+            flags.setFlag(FDOALL,objno);
+            if ((flags.getFlag(FNOUN) == flags.getFlag(FNOUN2)) && ((flags.getFlag(FADJECT) == flags.getFlag(FADJECT2)) || (flags.getFlag(FADJECT) == NO_WORD) || (flags.getFlag(FADJECT2) == NO_WORD))) 
+                            {
+                                debug('"Except" applied to Doall, skipping object');
+                                i++;
+                                continue;
+                            }
+
+
+            DDB.doallPTR = DDB.condactPTR + 1; //Point to next Condact after DOALL
+            DDB.doallEntryPTR = DDB.entryPTR;
+            DDB.doallLocation = Parameter1;
+            done = true;
+            break;
+        }
+        else 
+        {
+            debug('Bad doall', 'error');
+            Sysmess(SM8);
+            newtext();
+            _DONE();
+            break;
+        } 
+    } while (true);
 }
 
 /*--------------------------------------------------------------------------------------*/
@@ -3924,7 +3961,7 @@ function _RESET()
 
 $(document).ready(function()
 {
-    console.log('jDAAD 1.0 (C) Uto');
+    console.log('jDAAD 1.0 (C) Uto ' + versionDate);
 
     // Handlers
     $(window).resize(function()
