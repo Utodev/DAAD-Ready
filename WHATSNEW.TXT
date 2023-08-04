@@ -1,3 +1,12 @@
+DAAD Ready 0.8.1 04/08/2023
+===========================
+- Fixed an error in English base game that was preventing English games to work
+- jDAAD and PCDAAD: Added EXCEPT support for DOALL
+- jDAAD and PCDAAD: Article replacement properly implemented in English
+- jDAAD: Player orders can be lowercase now just like in other interpreters
+- jDAAD: "More..." feature improved after finding some cases where it was not working properly
+
+
 DAAD Ready 0.8 21/07/2023
 =========================
 
