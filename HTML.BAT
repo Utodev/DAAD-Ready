@@ -88,6 +88,7 @@ DEL %GAME%.DDB > nul 2>&1
 DEL %GAME%.JDDB > nul 2>&1
 DEL MALUVA   > nul 2>&1
 DEL %GAME%.json > nul 2>&1
+DEL 0.XMB > nul 2>&1
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
@@ -117,8 +118,10 @@ PAUSE
 REM ----  CLEANING ---- 
 DEL %GAME%.DDB > nul 2>&1
 DEL %GAME%.JDDB > nul 2>&1
+DEL 0.XMB > nul 2>&1
 DEL MALUVA   > nul 2>&1
 DEL %GAME%.json > nul 2>&1
+
 
 
 REM  --- CUSTOM AREA ---
