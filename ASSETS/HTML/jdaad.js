@@ -862,8 +862,6 @@ var globalParseOption = 0; // preseves the option given to PARSE calls (PARSE 0 
 var XmessagePart = 0;
 
 var keyBoardStatus = [];
-var keyBoardStatusShiftKeys = 0;
-var keyPressTreated = 0;
 
 // Global var for the ReadText functions
 var ticks = 0;
@@ -890,6 +888,7 @@ var inPARSE = false;
 var inANYKEY = false;
 var inEND = false;
 var inQUIT = false;
+var inINKEY = false;
 var inSAVE = false;
 var inLOAD = false;
 var inMORE =false; // Unlike the others, it's not a first level status variable, it's a type of inANYKEY. So there could be inANYKEY=true, inMORE=true (when on More..) and inAnykey=true, inMORE=false (when on ANYKEY)
@@ -1006,69 +1005,72 @@ function run(skipToRunCondact)
     {
         skipToRunCondact = false;
 
-        // First check if there's pending text to write
-        if (writeTextBuffer!='')
+        if (!inINKEY)
         {
-            while(writeTextBuffer!='')
+            // First check if there's pending text to write
+            if (writeTextBuffer!='')
             {
-                done =writeTextDone;
-                writeText('');
-                if (inMORE) return;
-            }
-            DDB.condactPTR++;
-            done =false;
-        }
-        
-        //Then check if no more condacts in the entry, if so, move to next entry
-        condactResult = true;
-        var opcode = DDB.getByte(DDB.condactPTR);
-        if (opcode == END_OF_CONDACTS_MARK)
-        {
-            debug('    EOC', 'terminator');
-            DDB.entryPTR += 4;
-            continue RunEntry;
-        }
-
-        //These flags should have specific values that code can use to determine the machine running the DDB
-        // so they are being set after every condact to make sure even when modified, their value is restored
-        flags.setFlag(FSCREENMODE, 14 + 128); //Makes sure flag 62 has proper value: mode 14 (JDAAD Screen) and bit 7 set
-        flags.setFlag(FMOUSE, 128); //Makes sure flag 29 has "graphics" available set, and the rest is empty}
-
-        //Let's run the condact
-        var indirection =  ((opcode & 0x80) != 0) 
-        if (indirection) opcode &= 0x7F;
-        var debugStr = condactTable[opcode].condactName + ' ';
-        var  condactStyle = 'condact';
-        if ((debugStr == 'DONE    ') || (debugStr == 'NOTDONE ') || (debugStr == 'RESTART ') || (debugStr == 'REDO    ') || (debugStr == 'END     ') || (debugStr == 'OK      ')) condactStyle = 'terminator'; 
-        
-        //get parameters
-        if (condactTable[opcode].numParams > 0) 
-        {
-            DDB.condactPTR++;
-            Parameter1 = DDB.getByte(DDB.condactPTR);
-            debugStr = debugStr + (indirection?'@':'') + Parameter1;
-            if (indirection)
-            {
-                var PrevParameter1 = Parameter1;
-                Parameter1 = flags.getFlag(Parameter1);  
-                debugStr += '                 ( @' + PrevParameter1 + ' = ' + Parameter1 + ' )';
+                while(writeTextBuffer!='')
+                {
+                    done =writeTextDone;
+                    writeText('');
+                    if (inMORE) return;
+                }
+                DDB.condactPTR++;
+                done =false;
             }
             
-            if (condactTable[opcode].numParams>1) 
+            //Then check if no more condacts in the entry, if so, move to next entry
+            condactResult = true;
+            var opcode = DDB.getByte(DDB.condactPTR);
+            if (opcode == END_OF_CONDACTS_MARK)
+            {
+                debug('    EOC', 'terminator');
+                DDB.entryPTR += 4;
+                continue RunEntry;
+            }
+
+            //These flags should have specific values that code can use to determine the machine running the DDB
+            // so they are being set after every condact to make sure even when modified, their value is restored
+            flags.setFlag(FSCREENMODE, 14 + 128); //Makes sure flag 62 has proper value: mode 14 (JDAAD Screen) and bit 7 set
+            flags.setFlag(FMOUSE, 128); //Makes sure flag 29 has "graphics" available set, and the rest is empty}
+
+            //Let's run the condact
+            var indirection =  ((opcode & 0x80) != 0) 
+            if (indirection) opcode &= 0x7F;
+            var debugStr = condactTable[opcode].condactName + ' ';
+            var  condactStyle = 'condact';
+            if ((debugStr == 'DONE    ') || (debugStr == 'NOTDONE ') || (debugStr == 'RESTART ') || (debugStr == 'REDO    ') || (debugStr == 'END     ') || (debugStr == 'OK      ')) condactStyle = 'terminator'; 
+            
+            //get parameters
+            if (condactTable[opcode].numParams > 0) 
             {
                 DDB.condactPTR++;
-                Parameter2 = DDB.getByte(DDB.condactPTR);
-                debugStr = debugStr + ' ' + Parameter2;
+                Parameter1 = DDB.getByte(DDB.condactPTR);
+                debugStr = debugStr + (indirection?'@':'') + Parameter1;
+                if (indirection)
+                {
+                    var PrevParameter1 = Parameter1;
+                    Parameter1 = flags.getFlag(Parameter1);  
+                    debugStr += '                 ( @' + PrevParameter1 + ' = ' + Parameter1 + ' )';
+                }
+                
+                if (condactTable[opcode].numParams>1) 
+                {
+                    DDB.condactPTR++;
+                    Parameter2 = DDB.getByte(DDB.condactPTR);
+                    debugStr = debugStr + ' ' + Parameter2;
+                }
             }
-        }
-        
-        debug('    ' + debugStr, condactStyle);
-        //run condact
-        condactResult = true;
-        playerPressedKey = false;
-        
-        condactTable[opcode].condactRoutine(); //Execute the condact
-        if (inPARSE || inANYKEY || inQUIT ||inEND || inSAVE || inLOAD)  return; // get out of main loop as we are now just waiting for keypress 
+            
+            debug('    ' + debugStr, condactStyle);
+            //run condact
+            condactResult = true;
+            playerPressedKey = false;
+            
+            condactTable[opcode].condactRoutine(); //Execute the condact
+            if (inPARSE || inANYKEY || inQUIT ||inEND || inSAVE || inLOAD || inINKEY)  return; // get out of main loop as we are now just waiting for keypress (or waiting for a key event in the case of inINKEY)
+        } else inINKEY=false;
         //If condact execution failed, go to next entry
         if (!condactResult) 
         {
@@ -1123,6 +1125,17 @@ function initializeParser()
     } //while
 };
 
+
+function getKeyCodeFromKey(key)
+{
+    if (key.length == 1) return key.charCodeAt(0);
+    switch(key.toUpperCase())
+    {
+        case 'BACKSPACE': return 8; break;
+        case 'ENTER': return 13; break;
+    }
+    return 0;
+}
 
 function fixSpanishCharacters(str)
 {
@@ -1612,33 +1625,6 @@ function debug(string, style='normal')
     if (DEBUG_ENABLED) console.log('%c ' + string, css);
 }
 
-function setShiftKeys(e)
-{
-    keyBoardStatusShiftKeys = 0;
-    if (e.shiftKey) keyBoardStatusShiftKeys+=1;
-    if (e.altKey) keyBoardStatusShiftKeys+=2;
-    if (e.ctrlKey) keyBoardStatusShiftKeys+=4;
-    if (e.metaKey) keyBoardStatusShiftKeys+=8;
-}
-
-function keyupHandler(e)
-{
-    //Save keyup status for each key to be used with INKEY
-    if (keyBoardStatus.includes(e.keyCode)) 
-        keyBoardStatus.splice(keyBoardStatus.indexOf(e.keyCode))
-    setShiftKeys(e);
-
-}
-
-function checkSpecialKeyCodes(keyCode, ctrlKey)
-{
-    if (keyCode == 116) return true; //F5
-    if (keyCode == 123) return true; //F12
-    if ((ctrlKey) && (keyCode==82)) return true; // Ctrl+R
-
-}
-    
-
 function clickHandler(e)
 {
     if (inANYKEY)
@@ -1652,50 +1638,46 @@ function clickHandler(e)
     }
 }
 
-
-function keypressHandler(e)
+function keyupHandler(e)
 {
-    if (inQUIT || inEND || inSAVE || inLOAD || inPARSE)
-    {
-        // If keyDown didn't handle it
-        if (!keyPressTreated) readTextB(e.charCode);
-    }
+    //Save keyup status for each key to be used with INKEY
+    var keyCode = getKeyCodeFromKey(e.key);
+    if (keyBoardStatus.includes(keyCode)) keyBoardStatus.splice(keyBoardStatus.indexOf(keyCode));
+}
+
+
+function isSpecialKey(key)
+{
+    if (key == 'F5') return true; 
+    if (key == 'F12') return true; 
 }
 
 function keydownHandler(e)
 {
-    playerPressedKey = true;
-    keyPressTreated = false;
-
-    //Save keydown status for each key to be used with INKEY    
-    if (!keyBoardStatus.includes(e.keyCode)) 
-        keyBoardStatus.push(e.keyCode); 
-    setShiftKeys(e)
-
-    if (inQUIT || inEND || inSAVE || inLOAD || inPARSE)
+    if (!isSpecialKey(e.key)) 
     {
-        if (checkSpecialKeyCodes(e.keyCode, e.ctrlKey)) return true; 
-        
-        //if it's not standard ascii letter try to process the code
-        if (e.keyCode < 32)
+
+        playerPressedKey = true;
+
+        //Save keydown status for each key to be used with INKEY    
+        var keyCode = getKeyCodeFromKey(e.key);
+        if ((keyBoardStatus) && (!keyBoardStatus.includes(keyCode))) keyBoardStatus.push(getKeyCodeFromKey(e.key)); 
+
+        if (inQUIT || inEND || inSAVE || inLOAD || inPARSE)
         {
-            keyPressTreated = true;
-            readTextB(e.keyCode);
-            return;
+                readTextB(e.key);
+                return;
         } 
-            
-    }
+                
 
-    if (inANYKEY)
-    {
-        if (checkSpecialKeyCodes(e.keyCode, e.ctrlKey)) return true; 
-        e.preventDefault();
-        e.stopPropagation();
-        if (!inMORE) DDB.condactPTR++; // Point to next condact
-        inANYKEY = inMORE = false;
-        for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
-        run(true); // skipToRunCondact = true
-        return;
+        if (inANYKEY)
+        {
+            if (!inMORE) DDB.condactPTR++; // Point to next condact
+            inANYKEY = inMORE = false;
+            for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
+            run(true); // skipToRunCondact = true
+            return;
+        }
     }
 }
 
@@ -2101,8 +2083,13 @@ function readText()
     // The main "wait for a key" loop would start here, but we exit to leave things in hands of the keydown handler
 }
 
-function readTextB(keyCode)
+
+
+function readTextB(key)
 {
+
+    var keyCode = getKeyCodeFromKey(key);
+
     var Xlimit = (windows.windows[windows.activeWindow].col +  windows.windows[windows.activeWindow].width) * COLUMN_WIDTH; //First pixel out of the window
     if ((keyCode>=32) && (keyCode<=255))
     {
@@ -3845,12 +3832,27 @@ function _EXIT()
 }
 
 /*--------------------------------------------------------------------------------------*/
+/* INKEY requires active keyboard reading, but we can't do it while there main thread
+is running, so what we do is setting inINKEY to true and start a timeout of 50ms. That
+allows keyboard events to happen, which will, in other part of the code, fill up the
+keyboardStatus array. When the timeout expires, _INKEY2 checks if there is a key pressed
+and updates data accordingly. 50 milliseconds is a good value, because it allows the
+engine to receive events, but doesn't hold the game too long. */
 function _INKEY() 
+{
+    if ((keyBoardStatus.length == 1) && (keyBoardStatus[0] == 13)) keyBoardStatus = []; // Remove pending CR
+    inINKEY = true;
+    setTimeout(() => {
+        _INKEY2();
+    }, 50);
+}
+
+function _INKEY2()
 {
     if (keyBoardStatus.length)
     {
         flags.setFlag(FKEY1, keyBoardStatus[keyBoardStatus.length-1]);
-        flags.setFlag(FKEY2, keyBoardStatusShiftKeys);
+        flags.setFlag(FKEY2,0);
         condactResult = true;
     }
     else
@@ -3859,6 +3861,8 @@ function _INKEY()
         flags.setFlag(FKEY2,0);
         condactResult = false;
     } 
+    run(true);
+
 }
 
 /*--------------------------------------------------------------------------------------*/
@@ -3986,11 +3990,6 @@ $(document).ready(function()
 
     $(document).keyup(function(e) {
         keyupHandler(e);        
-    });
-
-
-    $(document).keypress(function(e) {
-        keypressHandler(e);        
     });
 
 
