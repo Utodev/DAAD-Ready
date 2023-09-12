@@ -1733,15 +1733,25 @@ function inputTimeoutHandler()
 
 function Extern(a, b)
 {
-    if (externHandlers[b] === null) // Extern hasn't been loaded
+    if (typeof externHandlers === "undefined") // Extern hasn't been loaded
     {
         var script = document.createElement("script");
         script.setAttribute("type", "text/javascript");
-        script.setAttribute("src", 'extern' + b + '.js');
+        script.setAttribute("src", 'extern' + '.js');
         document.getElementsByTagName("head")[0].appendChild(script);
+
+        return new Promise(() => {
+            script.onload = function() {
+                var callFunction = externHandlers[b];
+                callFunction(a);
+            }
+        })
     }
-    var callFunction = externHandlers[b];
-    callFunction(a);
+
+    if (typeof externHandlers !== "undefined") {
+        var callFunction = externHandlers[b];
+        callFunction(a);
+    }
 }
 
 
