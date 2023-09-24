@@ -104,7 +104,7 @@ ECHO "EL JUEGO SE HA COMPILADO CORRECTAMENTE, PULSE ENTER PARA INICIAR EL EMULAD
 tools\cecho\cecho {07}
 PAUSE
 CD TOOLS\HATARI
-HATARI --harddrive ..\..\RELEASE\ATARIST --confirm-quit 0 --auto C:\%GAME%.PRG --fast-boot 1 -W
+HATARI --harddrive ..\..\RELEASE\ATARIST --confirm-quit 0 --auto C:\%GAME%.PRG --fast-boot 1 
 
 cd ..\..
 
