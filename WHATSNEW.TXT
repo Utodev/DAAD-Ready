@@ -1,3 +1,14 @@
+DAAD Ready 0.8.2 24/09/2023
+===========================
+- AtariST: pacthed interpreters included, allowing the creation of EXTERN in the 8 bit style
+- jDAAD: Keyboard input has been refactored and works better now. Also fixes a bug with INKEY.
+- jDAAD: EXTERN has been fixed.
+- jDAAD: Fixed non working XMESSAGE code
+- ZXDAAD128: Fixed a bug with XPICTURE in tape target
+- ZXDAAD128: fixed bug with INKEY
+- ZX48: Optional loading screen added
+- ZX48 and ZXNEXT:added control on daadmaker failure cause of Spectrum memory full
+
 DAAD Ready 0.8.1 04/08/2023
 ===========================
 - Fixed an error in English base game that was preventing English games to work
@@ -5,6 +16,7 @@ DAAD Ready 0.8.1 04/08/2023
 - jDAAD and PCDAAD: Article replacement properly implemented in English
 - jDAAD: Player orders can be lowercase now just like in other interpreters
 - jDAAD: "More..." feature improved after finding some cases where it was not working properly
+
 
 
 DAAD Ready 0.8 21/07/2023
