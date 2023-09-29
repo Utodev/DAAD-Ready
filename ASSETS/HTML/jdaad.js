@@ -2680,7 +2680,7 @@ function _CLS()
 function _DROPALL() 
 {
    var here = flags.getFlag(FPLAYER);
-   for(var locno = LOC_CARRIED; locno<=LOC_WORN; locno++)
+   for(var locno = LOC_WORN; locno<=LOC_CARRIED; locno++)
    {
     var nextObject = - 1;
         do
