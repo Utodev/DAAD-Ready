@@ -1,5 +1,4 @@
 @echo off
-SET DAADSCRIPT=ZX128PLUS3
 
 REM ----  VARIABLES ---- 
 CALL CONFIG.BAT
@@ -51,9 +50,9 @@ REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 CD IMAGES
-for /L %%i in (0, 1, 9) do (CALL :CHECK_IF_COMPRESS 00%%i.SCR 00%%i.DCP && (..\TOOLS\ZXDAAD128\DCP -f 00%%i.SCR 00%%i.DCP > nul 2>&1))
-for /L %%i in (10, 1, 99) do (CALL :CHECK_IF_COMPRESS 0%%i.SCR 0%%i.DCP && (..\TOOLS\ZXDAAD128\DCP -f 0%%i.SCR 0%%i.DCP > nul 2>&1))
-for /L %%i in (100, 1, 256) do (CALL :CHECK_IF_COMPRESS %%i.SCR %%i.DCP && (..\TOOLS\ZXDAAD128\DCP -f %%i.SCR %%i.DCP > nul 2>&1))
+for /L %%i in (0, 1, 9) do (CALL :CHECK_IF_COMPRESS 00%%i.SCR 00%%i.DCP && (..\TOOLS\ZXDAAD128\DCP -l=%IMGLINES% -f -o=00%%i.DCP 00%%i.SCR  > nul 2>&1))
+for /L %%i in (10, 1, 99) do (CALL :CHECK_IF_COMPRESS 0%%i.SCR 0%%i.DCP && (..\TOOLS\ZXDAAD128\DCP -l=%IMGLINES% -f -o=0%%i.DCP 0%%i.SCR  > nul 2>&1))
+for /L %%i in (100, 1, 256) do (CALL :CHECK_IF_COMPRESS %%i.SCR %%i.DCP && (..\TOOLS\ZXDAAD128\DCP -l=%IMGLINES% -f -o=%%i.DCP %%i.SCR  > nul 2>&1))
 CD ..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -101,15 +100,12 @@ MOVE %GAME%.DSK RELEASE\ZX128PLUS3 > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
-IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
 REM ----  CLEANING ---- 
 DEL %GAME%.AD? > nul 2>&1
 DEL %GAME%.json > nul 2>&1
 DEL disk > nul 2>&1
 DEL daad.bin > nul 2>&1
 
-IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
-IF ERRORLEVEL  1 GOTO CUSTOM
 REM ---- TESTER ---- 
 tools\cecho\cecho {03}
 ECHO "Press any key to run emulator, or Ctrl+C to cancel." 
@@ -147,7 +143,3 @@ DEL %GAME%.AD? > nul 2>&1
 DEL %GAME%.json > nul 2>&1
 DEL disk > nul 2>&1
 DEL daad.bin > nul 2>&1
-
-REM  --- CUSTOM AREA ---
-:CUSTOM
-IF exist CUSTOM3.BAT CALL CUSTOM3.BAT 
