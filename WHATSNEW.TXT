@@ -1,3 +1,11 @@
+
+DAAD Ready 0.9 ??/??/????
+============================
+
+- jDAAD: DROPALL fixed
+- PCDAAD: DROPALL fixed
+- PCDAAD: New SVGA mode
+
 DAAD Ready 0.8.2 24/09/2023
 ===========================
 - AtariST: pacthed interpreters included, allowing the creation of EXTERN in the 8 bit style
@@ -16,8 +24,6 @@ DAAD Ready 0.8.1 04/08/2023
 - jDAAD and PCDAAD: Article replacement properly implemented in English
 - jDAAD: Player orders can be lowercase now just like in other interpreters
 - jDAAD: "More..." feature improved after finding some cases where it was not working properly
-
-
 
 DAAD Ready 0.8 21/07/2023
 =========================

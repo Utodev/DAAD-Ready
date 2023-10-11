@@ -69,25 +69,38 @@ ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
 
+IF "%SVGA%"=="" (
+        ECHO Creating VGA GAME
+        SET IMGPATH=IMAGES\PC
+        SET IMGPATHBACK=..\..
+    ) ELSE (
+        SET IMGPATH=IMAGES\PC\SVGA
+        SET IMGPATHBACK=..\..\..
+        SET PARAMETER=-s
+        ECHO Creating SVGA GAME
+    )
+
 
 REM  ---- COPY FILES  ---- 
 COPY  %GAME%.DDB RELEASE\MSDOS\GAME\DAAD.DDB > nul 2>&1
 ECHO @dosbox.exe -noconsole > RELEASE/MSDOS/%GAME%.BAT
 
-echo PCDAAD  >> RELEASE\MSDOS\dosbox.conf
+echo PCDAAD %PARAMETER% >> RELEASE\MSDOS\dosbox.conf
 echo exit >> RELEASE\MSDOS\dosbox.conf
-echo @PCDAAD   > RELEASE\MSDOS\GAME\%GAME%.BAT
+echo @PCDAAD  %PARAMETER% > RELEASE\MSDOS\GAME\%GAME%.BAT
 
 REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
+
 ECHO.
-CD IMAGES\PC
+CD %IMGPATH%
 echo Wait while preparing images (if any)...
-for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX ..\..\TOOLS\PCXFIXER\pcxfixer 00%%i.PCX 00%%i.VGA  > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX  ..\..\TOOLS\PCXFIXER\pcxfixer 0%%i.PCX 0%%i.VGA > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\..\TOOLS\PCXFIXER\pcxfixer %%i.PCX %%i.VGA > nul 2>&1
-IF exist DAAD.PCX ..\..\TOOLS\PCXFIXER\pcxfixer DAAD.PCX DAAD.VGA
-CD ..\..
+
+IF exist DAAD.PCX %IMGPATHBACK%\TOOLS\PCXFIXER\pcxfixer DAAD.PCX DAAD.VGA > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX %IMGPATHBACK%\TOOLS\PCXFIXER\pcxfixer.exe 00%%i.PCX 00%%i.VGA > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX  %IMGPATHBACK%\TOOLS\PCXFIXER\pcxfixer.exe 0%%i.PCX 0%%i.VGA > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX  %IMGPATHBACK%\TOOLS\PCXFIXER\pcxfixer.exe %%i.PCX %%i.VGA > nul 2>&1
+CD %IMGPATHBACK%
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -95,10 +108,10 @@ tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
 REM  ---- COPY FILES ---- 
 IF exist 0.XMB copy 0.XMB RELEASE\MSDOS\GAME > nul 2>&1
-IF exist IMAGES\PC\DAAD.VGA copy IMAGES\PC\DAAD.VGA RELEASE\MSDOS\GAME > nul 2>&1
-for /L %%i in (0, 1, 9) do IF exist IMAGES\PC\00%%i.VGA COPY IMAGES\PC\00%%i.VGA  RELEASE\MSDOS\GAME > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist IMAGES\PC\0%%i.VGA COPY IMAGES\PC\0%%i.VGA  RELEASE\MSDOS\GAME > nul 2>&1
-for /L %%i in (100, 1, 255) do IF exist IMAGES\PC\%%i.VGA COPY IMAGES\PC\%%i.VGA  RELEASE\MSDOS\GAME > nul 2>&1
+IF exist %IMGPATH%\DAAD.VGA copy %IMGPATH%\DAAD.VGA RELEASE\MSDOS\GAME > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist %IMGPATH%\00%%i.VGA COPY %IMGPATH%\00%%i.VGA  RELEASE\MSDOS\GAME  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist %IMGPATH%\0%%i.VGA COPY %IMGPATH%\0%%i.VGA  RELEASE\MSDOS\GAME  > nul 2>&1
+for /L %%i in (100, 1, 255) do IF exist %IMGPATH%\%%i.VGA COPY %IMGPATH%\%%i.VGA  RELEASE\MSDOS\GAME  > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -115,12 +128,16 @@ REM ---- TESTER ----
 ECHO.
 tools\cecho\cecho {03}
 IF "%BASELANG%" == "EN" (
-ECHO "Game ready,press any key to test or  CTRL+C to stop"
-ECHO "NOTE: game is located at RELEASE\MSDOS\GAME. At RELEASE\MSDOS there is the DOSBOX that launches te game from Windows"
+ECHO Game ready,press any key to test or  CTRL+C to stop
+ECHO NOTES:
+ECHO  - Game is located at RELEASE\MSDOS\GAME. At RELEASE\MSDOS you can find a DOSBOX launcher to test the game from Windows.
+ECHO  - Game will be created for VGA by default. If you want SVGA, please add 'SET SVGA=1' in CONFIG.BAT and put images in IMAGES\PC\SVGA folder.
 )
 IF "%BASELANG%" == "ES" (
-ECHO "Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar."
-ECHO "NOTA: El juego  en si ha quedado en RELEASE\MSDOS\GAME. En RELEASE\MSDOS está el dosbox que lo lanza en Windows"
+ECHO Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar.
+ECHO NOTAS:
+ECHO  - El juego  en si ha quedado en RELEASE\MSDOS\GAME. En RELEASE\MSDOS está el dosbox que lo lanza en Windows.
+ECHO  - El juego se creará por defecto para VGA. Si quieres SVGA, añade 'SET SVGA=1' en CONFIG.BAT y pon las imágenes en IMAGES\PC\SVGA.
 )
 tools\cecho\cecho {07}
 PAUSE
@@ -131,7 +148,7 @@ GOTO FIN
 
 :ERROR
 tools\cecho\cecho {04}
-ECHO "Compile error, please check"
+ECHO Compile error, please check
 tools\cecho\cecho {07}
 PAUSE
 :FIN
