@@ -109,6 +109,13 @@ if errorlevel 2 (
     copy readme.txt  WINDOWS > nul 2>&1
 
 
+    echo Cleaning WINDOWS_EXPERIMENTAL...
+    md WINDOWS_EXPERIMENTAL > nul 2>&1
+    del /q /s WINDOWS_EXPERIMENTAL\*.* > nul 2>&1
+    copy readme.txt  WINDOWS_EXPERIMENTAL > nul 2>&1
+
+
+
     del readme.txt > nul 2>&1
     pause   
 
