@@ -137,7 +137,7 @@ IF "%BASELANG%" == "ES" (
 ECHO Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar.
 ECHO NOTAS:
 ECHO  - El juego  en si ha quedado en RELEASE\MSDOS\GAME. En RELEASE\MSDOS está el dosbox que lo lanza en Windows.
-ECHO  - El juego se creará por defecto para VGA. Si quieres SVGA, añade 'SET SVGA=1' en CONFIG.BAT y pon las imágenes en IMAGES\PC\SVGA.
+ECHO  - El juego se creará por defecto para VGA. Si quieres SVGA, pon 'SET SVGA=1' en el fichero CONFIG.BAT y pon las imágenes en IMAGES\PC\SVGA.
 )
 tools\cecho\cecho {07}
 PAUSE

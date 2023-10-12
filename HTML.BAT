@@ -97,10 +97,10 @@ REM ---- TESTER ----
 ECHO.
 tools\cecho\cecho {03}
 IF "%BASELANG%" == "EN" (
-ECHO "Game ready,press any key to test or  CTRL+C to stop"
+ECHO Game ready,press any key to test or  CTRL+C to stop
 )
 IF "%BASELANG%" == "ES" (
-ECHO "Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar."
+ECHO Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar.
 )
 PAUSE
 CD RELEASE\HTML 
@@ -110,7 +110,7 @@ GOTO FIN
 
 :ERROR
 tools\cecho\cecho {04}
-ECHO "Compile error, please check"
+ECHO Compile error, please check
 tools\cecho\cecho {07}
 PAUSE
 :FIN

@@ -87,12 +87,12 @@ IF ERRORLEVEL  1 GOTO CUSTOM
 REM ---- TESTER ---- 
 ECHO.
 IF "%BASELANG%" == "EN" (
-ECHO "Game ready,press any key to test or  CTRL+C to stop"
-ECHO "NOTE: game is located at RELEASE\OLDMSDOS\GAME. At RELEASE\OLDMSDOS there is the DOSBOX that launches te game from Windows"
+ECHO Game ready,press any key to test or  CTRL+C to stop
+ECHO NOTE: game is located at RELEASE\OLDMSDOS\GAME. At RELEASE\OLDMSDOS there is the DOSBOX that launches te game from Windows
 )
 IF "%BASELANG%" == "ES" (
-ECHO "Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar."
-ECHO "NOTA: El juego  en si ha quedado en RELEASE\OLDMSDOS\GAME. En RELEASE\OLDMSDOS está el dosbox que lo lanza en Windows"
+ECHO Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar.
+ECHO NOTA: El juego  en si ha quedado en RELEASE\OLDMSDOS\GAME. En RELEASE\OLDMSDOS está el dosbox que lo lanza en Windows
 )
 PAUSE
 CD RELEASE\OLDMSDOS 
@@ -101,7 +101,7 @@ CD ..\..
 GOTO FIN
 
 :ERROR
-ECHO "Compile error, please check"
+ECHO Compile error, please check
 PAUSE
 :FIN
 

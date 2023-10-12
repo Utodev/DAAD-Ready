@@ -109,8 +109,8 @@ IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
 REM ---- TESTER ---- 
 tools\cecho\cecho {03}
-ECHO "Press any key to run emulator, or Ctrl+C to cancel." 
-ECHO "To exit ZEsarUX emulator, press F5, then F10." 
+ECHO Press any key to run emulator, or Ctrl+C to cancel.
+ECHO To exit ZEsarUX emulator, press F5, then F10.
 tools\cecho\cecho {07}
 
 PAUSE
@@ -121,7 +121,7 @@ GOTO END
 
 :ERROR
 tools\cecho\cecho {04}
-ECHO "Compile error, please check"
+ECHO Compile error, please check
 tools\cecho\cecho {07}
 PAUSE
 :END

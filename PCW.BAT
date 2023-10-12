@@ -105,12 +105,12 @@ ECHO.
 MOVE %GAME%.DSK RELEASE\PCW > nul 2>&1
 tools\cecho\cecho {03}
 IF "%BASELANG%" == "EN" (
-ECHO "Game ready,press any key to test or  CTRL+C to stop"
-echo "When emulator starts, just press enter and then choose part 1"
+ECHO Game ready,press any key to test or  CTRL+C to stop
+echo When emulator starts, just press enter and then choose part 1
 )
 IF "%BASELANG%" == "ES" (
-ECHO "EL JUEGO SE HA COMPILADO CORRECTAMENTE, PULSE ENTER PARA INICIAR EL EMULADOR, O CTRL+C PARA PARAR"
-ECHO "CUANDO ARRANQUE EL EMULADOR SIMPLEMENTE PULSA ENTER y LUEGO ELIGE LA PARTE 1"
+ECHO EL JUEGO SE HA COMPILADO CORRECTAMENTE, PULSE ENTER PARA INICIAR EL EMULADOR, O CTRL+C PARA PARAR
+ECHO CUANDO ARRANQUE EL EMULADOR SIMPLEMENTE PULSA ENTER y LUEGO ELIGE LA PARTE 1
 )
 tools\cecho\cecho {07}
 PAUSE
@@ -123,7 +123,7 @@ GOTO FIN
 
 :ERROR
 tools\cecho\cecho {04}
-ECHO "Compile error, please check"
+ECHO Compile error, please check
 tools\cecho\cecho {07}
 PAUSE
 :FIN

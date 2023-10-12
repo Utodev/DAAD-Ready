@@ -108,10 +108,10 @@ ECHO.
 tools\cecho\cecho {03}
 MOVE %GAME%.DSK RELEASE\CPC > nul 2>&1
 IF "%BASELANG%" == "EN" (
-ECHO "Game ready,press any key to test or  CTRL+C to stop"
+ECHO Game ready,press any key to test or  CTRL+C to stop
 )
 IF "%BASELANG%" == "ES" (
-ECHO "Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar."
+ECHO Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar.
 )
 tools\cecho\cecho {07}
 PAUSE
@@ -121,7 +121,7 @@ CD ..\..
 GOTO FIN
 
 :ERROR
-ECHO "Compile error, please check"
+ECHO Compile error, please check
 PAUSE
 :FIN
 

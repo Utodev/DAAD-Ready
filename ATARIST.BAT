@@ -96,10 +96,10 @@ REM ---- TESTER ----
 ECHO.
 tools\cecho\cecho {03}
 IF "%BASELANG%" == "EN" (
-ECHO "Game ready,press any key to test or CTRL+C to stop"
+ECHO Game ready,press any key to test or CTRL+C to stop
 )
 IF "%BASELANG%" == "ES" (
-ECHO "EL JUEGO SE HA COMPILADO CORRECTAMENTE, PULSE ENTER PARA INICIAR EL EMULADOR, O CTRL+C PARA PARAR"
+ECHO EL JUEGO SE HA COMPILADO CORRECTAMENTE, PULSE ENTER PARA INICIAR EL EMULADOR, O CTRL+C PARA PARAR
 )
 tools\cecho\cecho {07}
 PAUSE
@@ -112,7 +112,7 @@ GOTO FIN
 
 :ERROR
 tools\cecho\cecho {04}
-ECHO "Compile error, please check"
+ECHO Compile error, please check
 tools\cecho\cecho {07}
 PAUSE
 :FIN

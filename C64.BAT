@@ -85,23 +85,23 @@ ECHO.
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
 REM  ---- PREPARE THE FONT -----
-COPY ASSETS\C64\apart1.prg 
-TOOLS\DD\DD count=16 bs=1 if=apart1.prg of=apart1.HEAD 
-TOOLS\DD\DD skip=2064 count=36 bs=1 if=apart1.prg of=apart1.TAIL 
-COPY /B apart1.HEAD + ASSETS\CHARSET\%FONTB% + apart1.TAIL APART1.TMP
+COPY ASSETS\C64\apart1.prg  > nul 2>&1
+TOOLS\DD\DD count=16 bs=1 if=apart1.prg of=apart1.HEAD  > nul 2>&1
+TOOLS\DD\DD skip=2064 count=36 bs=1 if=apart1.prg of=apart1.TAIL  > nul 2>&1
+COPY /B apart1.HEAD + ASSETS\CHARSET\%FONTB% + apart1.TAIL APART1.TMP > nul 2>&1
 DEL apart1.HEAD > nul 2>&1
 DEL apart1.TAIL > nul 2>&1
 DEL apart1.prg > nul 2>&1
 
 
 REM  ---- COPY FILES ---- 
-tools\c1541\c1541.exe -attach %GAME%.D64 -write APART1.TMP apart1
-tools\c1541\c1541.exe -attach %GAME%.D64 -write DAAD.DDB bpart1
-for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i64 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\00%%i64 00%%i64
-for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i64 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\0%%i64 0%%i64
-for /L %%i in (100, 1, 256) do IF exist IMAGES\%%i64  tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\%%i64 %%i64
-for /L %%i in (0, 1, 32) do IF exist 0%%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write 0%%i.XMB 0%%i
-for /L %%i in (10, 1, 32) do IF exist %%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write %%i.XMB 0%%i
+tools\c1541\c1541.exe -attach %GAME%.D64 -write APART1.TMP apart1 > nul 2>&1
+tools\c1541\c1541.exe -attach %GAME%.D64 -write DAAD.DDB bpart1 > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i64 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\00%%i64 00%%i64 > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i64 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\0%%i64 0%%i64 > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist IMAGES\%%i64  tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\%%i64 %%i64 > nul 2>&1
+for /L %%i in (0, 1, 32) do IF exist 0%%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write 0%%i.XMB 0%%i > nul 2>&1
+for /L %%i in (10, 1, 32) do IF exist %%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write %%i.XMB 0%%i > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -120,29 +120,29 @@ ECHO.
 MOVE %GAME%.D64 RELEASE\c64 > nul 2>&1
 tools\cecho\cecho {03}
 IF "%BASELANG%" == "EN" (
-ECHO "Game ready, press any key to test, or CTRL+C to stop"
-echo "--------------------------------------------------------------------"
-echo "| Type    LOAD "*",8,1   lo load the game                          |"
-echo "| Loading from disk is slow in C64, it will take some time. To     |"
-echo "| speed it up a bit press Ctrl+P (warp), but it still will be slow.|"
-echo "| To see game Full Screen, press Ctrl+F1                           |"
-echo "| Please notice C64DEbugger is beerware, you can send some beer to |"
-echo "| slajerek@gmail.com, or some money to                             |"
-echo "| http://tinyurl.com/C64Debugger-PayPal                            |"                  
-echo "--------------------------------------------------------------------"
+ECHO Game ready, press any key to test, or CTRL+C to stop
+echo ------------------------------------------------------------------
+echo  Type    LOAD "*",8,1   lo load the game                          
+echo  Loading from disk is slow in C64, it will take some time. To     
+echo  speed it up a bit press Ctrl+P [warp], but it still will be slow.
+echo  To see game Full Screen, press Ctrl+F1                           
+echo  Please notice C64DEbugger is beerware, you can send some beer to 
+echo  slajerek@gmail.com, or some money to                             
+echo  http://tinyurl.com/C64Debugger-PayPal                                              
+echo ------------------------------------------------------------------
 )
 IF "%BASELANG%" == "ES" (
-ECHO "Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar."
-echo "--------------------------------------------------------------------"
-echo "| Teclea    LOAD "*",8,1    para cargar el juego                   |"
-echo "| En C64Debugger '*' esta en la tecla justo a la izq. de borrar <- |"
-echo "| La emulacion de disquetera es lenta, tardara en cargar, se puede |"
-echo "| acelerar un poco pulsando Ctrl+P (warp) pero aun sera lenta.     |"
-echo "| Para ver el juego en pantalla grande, pulsar Ctrl+F1             |"
-echo "| Por favor ten en cuenta que C64DEbugger es beerware, puedes      |"
-echo "| cerveza a slajerek@gmail.com, o dinero para comprarla a          |"
-echo "| http://tinyurl.com/C64Debugger-PayPal                            |"                  
-echo "--------------------------------------------------------------------"
+ECHO Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar.
+echo ------------------------------------------------------------------
+echo  Teclea    LOAD "*",8,1    para cargar el juego                   
+echo  En C64Debugger '*' esta en la tecla justo a la izq. de borrar  
+echo  La emulacion de disquetera es lenta, tardara en cargar, se puede 
+echo  acelerar un poco pulsando Ctrl+P [warp] pero aun sera lenta.     
+echo  Para ver el juego en pantalla grande, pulsar Ctrl+F1             
+echo  Por favor ten en cuenta que C64DEbugger es beerware, puedes      
+echo  cerveza a slajerek@gmail.com, o dinero para comprarla a          
+echo  http://tinyurl.com/C64Debugger-PayPal                                              
+echo ------------------------------------------------------------------
 )
 tools\cecho\cecho {07}
 PAUSE
