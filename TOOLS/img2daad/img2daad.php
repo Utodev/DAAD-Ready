@@ -159,6 +159,7 @@ foreach ($files as $file)
     $extension = strtoupper(explode('.',"$file.")[1]);
     if (($extension != 'PI1') && ($extension != 'PNG') && ($extension != 'JSON')) continue;
     $location = explode('.',"$file.")[0];
+    if (strtoupper($location)=='DAAD') continue; // Skip loading screen if present
     if (!is_numeric($location)) error("Invalid location number in $file.");
     $location = intval($location);
     if (($location<0) ||($location>255)) error("Invalid location number in $file.");
