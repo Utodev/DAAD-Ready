@@ -114,6 +114,10 @@ if errorlevel 2 (
     del /q /s WINDOWS_EXPERIMENTAL\*.* > nul 2>&1
     copy readme.txt  WINDOWS_EXPERIMENTAL > nul 2>&1
 
+    echo Cleaning MACOS_EXPERIMENTAL...
+    md MACOS_EXPERIMENTAL > nul 2>&1
+    del /q /s MACOS_EXPERIMENTAL\*.* > nul 2>&1
+    copy readme.txt  MACOS_EXPERIMENTAL > nul 2>&1
 
 
     del readme.txt > nul 2>&1
