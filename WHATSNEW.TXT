@@ -1,10 +1,12 @@
 
-DAAD Ready 0.9 ??/??/????
-============================
+DAAD Ready 0.9 15/10/2023
+=========================
 
+- MSDOS (PCDAAD): New SVGA mode
+- HTML (jDAAD): new virtual keyboard built-in for touch devices
+- New Windows and MacOS targets using ADP (experimental)
 - jDAAD: DROPALL fixed
 - PCDAAD: DROPALL fixed
-- PCDAAD: New SVGA mode
 
 DAAD Ready 0.8.2 24/09/2023
 ===========================
