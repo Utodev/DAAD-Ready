@@ -7,12 +7,67 @@ body,html {
 }
 body {
 	font-family: GraublauWeb, Verdana, arial, helvetica;
-	background-image: url("background.png");
-	background-repeat: repeat;
-	background-size: cover;
-	color: #14143d;
+	background-color: #111;
 }
 
+.virtualKeyboard
+{
+	width: 100%;
+	border: 0px;
+	display: none;
+	position: relative;
+	top: 700px;
+	z-index: 10000;
+}
+
+.keyboardRow
+{
+	margin: 0px;
+	margin-top: 5px;
+	border: 0px;
+	padding: 0px;
+	width: 100%;
+	white-space: nowrap;
+}
+
+.key 
+{
+	display: inline-block;
+	font-size: 4vw;
+	font-weight: normal;
+	background-color: #35564d;
+	color: #ffffff;
+	border: 0px;
+	border-radius: 1vw;
+	margin-right: 0.65vw;
+	margin-left: 0.8vw;
+	width: 8vw;
+	height: 7.5vw;
+	padding-left: 1vw;
+	padding-top: 1vw;
+	margin-bottom: 2vw;
+
+}
+
+.keyEnter
+{
+	width: 21vw;
+	font-weight: normal;
+	
+}
+
+.keySpace
+{
+	width: 51vw;
+	margin-right: 2vw;
+}
+
+.keyBackspace
+{
+	width: 20vw;;
+	padding-left: 8px;
+	margin-right: 2vw;
+}
 
 a {
 	color: cornflowerblue;
@@ -36,7 +91,23 @@ a:hover {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+	height: 100vh;
 }
+
+.mobileScreenClass 
+{
+	position: absolute;
+	min-width: 320px;
+	min-height: 200px;
+	top: 20px;
+	left:50%;
+	margin-right: auto;
+	margin-left: auto;
+	height: 50vh;
+	transform: translate(-50%, 0);
+}
+
+
 
 .paperClass { /* the PAPER area */
 	position: absolute;
@@ -45,6 +116,7 @@ a:hover {
 	right: 0;
 	bottom: 0;
 	height: 100%;
+	width:100%;
 	background-color: black;
     image-rendering: -moz-crisp-edges;
     image-rendering: -webkit-crisp-edges;
@@ -77,10 +149,9 @@ a:hover {
 	z-index: -1;
 }
 
-.anykey_layer {
-	width: 100vw;
-	height: 100vh;
-	position: absolute;
+.wholescreen {
+	width: 100%;
+	height: 100%;
 	left: 0;
 	top:0;
 	bottom:0;
@@ -100,7 +171,7 @@ a:hover {
 .scanlines:before {
   width: 100%;
   height: 2px;
-  z-index: 2147483649;
+  z-index: 8000;
   background: rgba(0, 0, 0, 0.3);
   opacity: 0.75;
   -webkit-animation: scanline 6s linear infinite;

@@ -4,44 +4,76 @@
       <title>jDAAD</title>
       <meta charset="UTF-8">
       <meta name="description" content="text adventure game">
+      <link href="jdaad.css" rel="stylesheet" type="text/css" />
       <script type="text/javascript" src="jquery-3.6.0.min.js"></script>
       <script type="text/javascript" src="daad.jddb"></script>
       <script type="text/javascript" src="images.js"></script>
       <script type="text/javascript" src="font.js"></script>
       <script type="text/javascript" src="jdaad.js"></script>
-      <!-- <script type="text/javascript" src="jDAAD.js"></script>-->
-      <link href="jdaad.css" rel="stylesheet" type="text/css" />
    </head>
    <body>
-      <div id="screen" class='screenClass' aria-live="polite">
+      
+      <div id="screen" class='screenClass'>
          <canvas id="paper" width="320" height="200" class="paperClass"></canvas>
+         <div id="scanlines" class='wholescreen scanlines'></div> <!-- If you want to eliminate scanlines, delete class 'scanlines' / Si quieres eliminar las scanlines, borra la clase 'scanlines' -->
       </div>
-  
-      <div class='anykey_layer scanlines'></div> <!-- If you want to eliminate scanlines, delete class 'scanlines' / Si quieres eliminar las scanlines, borra la clase 'scanlines' -->
+      
+      <div class="virtualKeyboard" id="virtualKeyboardDAAD">
+         <div class="keyboardRow">
+            <span class="key" id="1">1</span>
+            <span class="key" id="2">2</span>
+            <span class="key" id="3">3</span>
+            <span class="key" id="4">4</span>
+            <span class="key" id="5">5</span>
+            <span class="key" id="6">6</span>
+            <span class="key" id="7">7</span>
+            <span class="key" id="8">8</span>
+            <span class="key" id="9">9</span>
+            <span class="key" id="10">0</span>
+         </div>
+         <div class="keyboardRow">
+            <span class="key" id="Q">Q</span> 
+            <span class="key" id="W">W</span>
+            <span class="key" id="E">E</span>
+            <span class="key" id="R">R</span>
+            <span class="key" id="T">T</span>
+            <span class="key" id="Y">Y</span>
+            <span class="key" id="U">U</span>
+            <span class="key" id="I">I</span>
+            <span class="key" id="O">O</span>
+            <span class="key" id="P">P</span>
+         </div>
+         <div class="keyboardRow">
+            <span class="key" id="A">A</span>
+            <span class="key" id="S">S</span>
+            <span class="key" id="D">D</span>
+            <span class="key" id="F">F</span>
+            <span class="key" id="G">G</span>
+            <span class="key" id="H">H</span>
+            <span class="key" id="J">J</span>
+            <span class="key" id="K">K</span>
+            <span class="key" id="L">L</span>
+            <span class="key" id="Ñ">Ñ</span>
+         </div>
+         <div class="keyboardRow">
+            <span class="key" id="Z">Z</span>
+            <span class="key" id="X">X</span>
+            <span class="key" id="C">C</span>
+            <span class="key" id="V">V</span>
+            <span class="key" id="B">B</span>
+            <span class="key" id="N">N</span>
+            <span class="key" id="M">M</span>
+            <span class="key" id="COMMA">,</span>
+            <span class="key" id="DOT">.</span>
+            <span class="key" id="QUOTE">"</span>
+         </div>
+         <div class="keyboardRow">
+            <span class="key keyBackspace" id="BACKSPACE">&#x2190;</span>
+            <span class="key keySpace" id="SPACE">&nbsp;</span>
+            <span class="key keyEnter" id="ENTER">Enter</span>
+         </div>
+      </div>
+      
       <div class='goodbye'>Goodbye!</div>
    </body>
-   <script>
-	var canvas = document.getElementById('paper');
-	  
-	function calculateAspectRatioFit(maxWidth, maxHeight) {
-	  var ratio = Math.min(maxWidth / 320, maxHeight / 200);
-
-	  return {
-		width: 320 * ratio,
-		height: 200 * ratio
-	  };
-	};
-	  
-	function resizeIt() {
-	  var container = document.getElementsByClassName('screenClass')[0];
-	  var size = calculateAspectRatioFit((window.innerWidth * 8 / 10), (window.innerHeight * 8 / 10));
-	  container.style.height = size.height + 'px';
-	  container.style.width = size.width + 'px';
-	};
-	
-    window.addEventListener('resize', resizeIt);
-	
-	resizeIt();
-  </script>
-
 </html>
