@@ -46,8 +46,13 @@ body {
 	padding-left: 1vw;
 	padding-top: 1vw;
 	margin-bottom: 2vw;
-
+	user-select: false;
+	-webkit-user-select: none;
+  	-moz-user-select: none;
+  	-ms-user-select: none;
+	-webkit-user-modify: read-only;
 }
+
 
 .keyEnter
 {
