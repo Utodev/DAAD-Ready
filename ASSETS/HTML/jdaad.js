@@ -1582,8 +1582,8 @@ function getMessageInternal(tableOffset, messageNumber)
         ptr++;
         aByte = DDB.getByte(ptr);
     }   
+    debug(workStr, 'text');
     return workStr;
-
 }
 
 function getMessage(tableOffset, mesno)
@@ -1674,6 +1674,7 @@ function keydownHandler(e)
 
 function inputTimeoutHandler()
 {
+
     var control = flags.getFlag(FTIMEOUT_CONTROL);
     if (inPARSE)
     {
@@ -2608,6 +2609,7 @@ function _OK()
 /*--------------------------------------------------------------------------------------*/
 function _ANYKEY() 
 {
+    if ((keyBoardStatus.length == 1) && (keyBoardStatus[0] == 13)) keyBoardStatus = []; // Remove pending CR
     inANYKEY = true;
     if (flags.getFlag(FTIMEOUT)) // Timeout duration != 0
     if ((flags.getFlag(FTIMEOUT_CONTROL) & 4) == 4) // Timeout can happen in ANYKEY
@@ -4005,7 +4007,6 @@ function initVirtualKeyboard()
     // Set handlers
 
     virtualKeys = Array.from(window.document.querySelectorAll('.key'));
-    console.log(virtualKeys);
 
     virtualKeys.forEach(function(key) 
     {
@@ -4045,27 +4046,28 @@ $(document).ready(function()
     });
 
 
-    $(document).click(function(e)
-    {
-        clickHandler(e);
-    });
 
     $(window).resize(function()
     {
         resizeScreen();
     });
-
     
 	  
-    // Virtual keyboard initialization
-        
-
+    // Virtual keyboard initialization    
     paper = document.getElementById('paper').getContext('2d', { willReadFrequently: true });
     
     resizeScreen();  
     // Init game  
     isMobileDevice = ('ontouchstart' in document.documentElement);
     if (isMobileDevice) initVirtualKeyboard();
+    else 
+    {
+        $(document).click(function(e)
+        {
+            clickHandler(e);
+        });
+    
+    }
     
 
     
