@@ -51,6 +51,7 @@ body {
   	-moz-user-select: none;
   	-ms-user-select: none;
 	-webkit-user-modify: read-only;
+	touch-action: manipulation;
 }
 
 
