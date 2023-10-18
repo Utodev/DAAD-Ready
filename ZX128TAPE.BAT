@@ -1,6 +1,19 @@
 @echo off
 SET DAADSCRIPT=ZX128TAPE
 
+GOTO START
+REM ---- Check if the file to compress is already compressed or is newer
+:CHECK_IF_COMPRESS
+  IF not exist %1 exit /b 1
+  IF not exist %2 exit /b 0
+  FOR %%i IN (%1) DO SET DATE1=%%~ti
+  FOR %%i IN (%2) DO SET DATE2=%%~ti
+  IF "%DATE1%"=="%DATE2%" exit /b 0
+  FOR /F %%i IN ('DIR /B /O:D %1 %2') DO SET NEWEST=%%i
+  IF "%2"=="%NEWEST%" exit /b 1
+  exit /b 0
+:START
+
 REM ----  VARIABLES ---- 
 CALL CONFIG.BAT
 IF exist CUSTOM.BAT CALL CUSTOM.BAT
@@ -117,16 +130,6 @@ zesarux --noconfigfile --quickexit --zoom 2 --machine 128k --realvideo --nosplas
 CD ..\..
 GOTO END
 
-REM ---- Check if the file to compress is already compressed or is newer
-:CHECK_IF_COMPRESS
-  IF not exist %1 exit /b 1
-  IF not exist %2 exit /b 0
-  FOR %%i IN (%1) DO SET DATE1=%%~ti
-  FOR %%i IN (%2) DO SET DATE2=%%~ti
-  IF "%DATE1%"=="%DATE2%" exit /b 0
-  FOR /F %%i IN ('DIR /B /O:D %1 %2') DO SET NEWEST=%%i
-  IF "%2"=="%NEWEST%" exit /b 1
-  exit /b 0
 
 :ERROR
 :ERROR
