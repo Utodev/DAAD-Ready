@@ -1,3 +1,14 @@
+DAAD Ready 0.9.1 28/10/2023
+===========================
+- jDAAD (HTML): fixed bug with ANYKEY when using virtual Keyboard
+- jDAAD (HTML): fixed bug that made virtual keyboard keys' text selectable
+- ZX128TAPE and ZX128PLUS3 can now include images which use only their 96 first lines, just like
+  other Maluva targets do. These targets can now also save space by making mirrored images (images
+  where right half is an exact mirror of left half). The system will detect it and save just half
+  the image, saving RAM.
+- ZX128TAPE and ZX128PLUS3: fixed bug with Spanish pronoun sufixes
+
+
 
 DAAD Ready 0.9 15/10/2023
 =========================
