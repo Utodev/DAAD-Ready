@@ -3342,6 +3342,7 @@ function _NOTSAME()
 function _MODE()
 {
  windows.windows[windows.activeWindow].OperationMode = Parameter1;
+ windows.charsetShift = (Parameter1 == 1) ? 128 : 0;
  done = true;
 }
 
