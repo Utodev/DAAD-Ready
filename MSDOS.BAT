@@ -43,7 +43,8 @@ REM ---- RESOURCES  ----
 tools\cecho\cecho {06}Copying required files...{07}
 echo.
 XCOPY ASSETS\MSDOS\*.* RELEASE\MSDOS /s /y > nul 2>&1
-COPY /Y ASSETS\CHARSET\%FONTPCDAAD% RELEASE\MSDOS\GAME\DAAD.FNT 
+IF exist ASSETS\CHARSET\%FONTPCDAAD% COPY /Y ASSETS\CHARSET\%FONTPCDAAD% RELEASE\MSDOS\GAME\DAAD.FNT 
+IF not exist ASSETS\CHARSET\%FONTPCDAAD% COPY /Y ASSETS\CHARSET\%FONT6% RELEASE\MSDOS\GAME\DAAD.CHR
 REM ----  CREATE FAKE EXTERN ----
 ECHO "1">MALUVA 
 tools\cecho\cecho {02}[OK]{07}
@@ -137,7 +138,7 @@ IF "%BASELANG%" == "ES" (
 ECHO Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar.
 ECHO NOTAS:
 ECHO  - El juego  en si ha quedado en RELEASE\MSDOS\GAME. En RELEASE\MSDOS está el dosbox que lo lanza en Windows.
-ECHO  - El juego se creará por defecto para VGA. Si quieres SVGA, pon 'SET SVGA=1' en el fichero CONFIG.BAT y pon las imágenes en IMAGES\PC\SVGA.
+ECHO  - El juego se creara por defecto para VGA. Si quieres SVGA, pon 'SET SVGA=1' en el fichero CONFIG.BAT y pon las imagenes en IMAGES\PC\SVGA.
 )
 tools\cecho\cecho {07}
 PAUSE
