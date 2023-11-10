@@ -199,6 +199,7 @@ const   NO_OBJECT = MAX_OBJECT;
 const   LOC_NOT_CREATED = 252;
 const   LOC_CARRIED = 254;
 const   LOC_WORN = 253;
+const   LOC_HERE = 255;
 
 
 // The palette
@@ -3049,6 +3050,7 @@ function _SWAP()
 /*--------------------------------------------------------------------------------------*/
 function _PLACE()
 {
+ if (Parameter2 = LOC_HERE) Parameter2 = flags.getFlag(FPLAYER);
  if (objects.getObjectLocation(Parameter1) == LOC_CARRIED) flags.setFlag(FCARRIED, flags.getFlag(FCARRIED) - 1);
  objects.setObjectLocation(Parameter1, Parameter2);
  if (objects.getObjectLocation(Parameter1) == LOC_CARRIED) flags.setFlag(FCARRIED, flags.getFlag(FCARRIED) +1);
@@ -3118,6 +3120,7 @@ function _SYSMESS()
 /*--------------------------------------------------------------------------------------*/
 function _ISAT()
 {
+    if (Parameter2 = LOC_HERE) Parameter2 = flags.getFlag(FPLAYER);
     condactResult = objects.getObjectLocation(Parameter1) == Parameter2;
 }
 
@@ -3273,6 +3276,7 @@ function _PARSE()
 /*--------------------------------------------------------------------------------------*/
 function _LISTAT()
 {
+    if (Parameter1 = LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
     listObjects(Parameter1, true); 
     done = true;
 }
@@ -3447,6 +3451,7 @@ done = true;
 /*--------------------------------------------------------------------------------------*/
 function _ISNOTAT()
 {
+    if (Parameter2 = LOC_HERE) Parameter2 = flags.getFlag(FPLAYER);
     condactResult = objects.getObjectLocation(Parameter1) != Parameter2;
 }
 
