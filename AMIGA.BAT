@@ -86,6 +86,13 @@ ECHO.
 MOVE %GAME%.DDB RELEASE\AMIGA\PART1.DDB > nul 2>&1
 ECHO.
 
+tools\cecho\cecho {06}Preparing .ADF floppy disk image file{07}
+DEL RELEASE\AMIGA\FLOPPY\%GAME%.ADF > nul 2>&1
+RMDIR RELEASE\AMIGA\FLOPPY\ > nul 2>&1
+TOOLS\exe2adf\exe2adf.exe -d RELEASE\AMIGA\ -l %GAME% -a RELEASE\%GAME%.ADF 
+MD RELEASE\AMIGA\FLOPPY\ > nul 2>&1
+MOVE RELEASE\%GAME%.ADF RELEASE\AMIGA\FLOPPY\%GAME%.ADF > nul 2>&1
+
 IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
 REM ----  CLEAN ---- 
 DEL %GAME%.json > nul 2>&1
@@ -120,9 +127,15 @@ ECHO.
 tools\cecho\cecho {03}
 IF "%BASELANG%" == "EN" (
 ECHO Game ready,press any key to test or CTRL+C to stop
+ECHO The game will be executed from RELEASE\AMIGA, but you can also find it in RELEASE\AMIGA\FLOPPY,
+ECHO in .ADF format, as long as it fits in a disk.
+
 )
 IF "%BASELANG%" == "ES" (
 ECHO EL JUEGO SE HA COMPILADO CORRECTAMENTE, PULSE ENTER PARA INICIAR EL EMULADOR, O CTRL+C PARA PARAR
+ECHO El juego que se ejecutará está en RELEASE\AMIGA, pero podéis encontrarlo también en la carpeta
+ECHO RELEASE\AMIGA\FLOPPY, en formato .aDF, siempre que quepa en un disco.
+
 )
 tools\cecho\cecho {07}
 PAUSE
