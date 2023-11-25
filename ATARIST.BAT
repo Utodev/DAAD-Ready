@@ -95,7 +95,7 @@ DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.CHR > nul 2>&1
 
-tools\cecho\cecho {06}Preparing .ST Image files{07}
+tools\cecho\cecho {06}Preparing .ST floppy disk image file{07}
 REM ----  COMPRESS AND PREPARE .ST IMAGE----
 MD RELEASE\ATARIST\FLOPPY\ > nul 2>&1
 DEL RELEASE\ATARIST\%GAME%.ZIP > nul 2>&1
@@ -118,7 +118,7 @@ ECHO in .ST format, as long as it fits in a 720Kb disk.
 IF "%BASELANG%" == "ES" (  
 ECHO EL JUEGO SE HA COMPILADO CORRECTAMENTE, PULSE ENTER PARA INICIAR EL EMULADOR, O CTRL+C PARA PARAR
 ECHO El juego que se ejecutará está en RELEASE\ATARIST, pero podéis encontrarlo también en la carpeta
-EHCO RELEASE\ATARIST\FLOPPY, en formato .ST, siempre que quepa en un disco de 720Kb.
+ECHO RELEASE\ATARIST\FLOPPY, en formato .ST, siempre que quepa en un disco de 720Kb.
 )
 tools\cecho\cecho {07}
 PAUSE
