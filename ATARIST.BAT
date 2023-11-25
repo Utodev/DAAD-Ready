@@ -97,16 +97,13 @@ DEL *.CHR > nul 2>&1
 
 tools\cecho\cecho {06}Preparing .ST Image files{07}
 REM ----  COMPRESS AND PREPARE .ST IMAGE----
-DEL RELEASE\%GAME%.ZIP > nul 2>&1
-DEL RELEASE\ATARIST\%GAME%.ST > nul 2>&1
-DEL RELEASE\%GAME%.ST > nul 2>&1
-TOOLS\ZIP\ZIP -j -9 RELEASE\%GAME%.ZIP RELEASE\ATARIST\PART1.* RELEASE\ATARIST\%GAME%.* > nul 2>&1 
-TOOLS\MSA\msa.exe convert RELEASE\%GAME%.ZIP ST 1 exit > nul 2>&1
-DEL RELEASE\%GAME%.ZIP > nul 2>&1
-MOVE RELEASE\ATARIST\README.TXT RELEASE\ >nul 2>&1
-DEL /Q RELEASE\ATARIST\*.* 
-MOVE RELEASE\%GAME%.ST RELEASE\ATARIST\%GAME%.ST > nul 2>&1
-MOVE RELEASE\README.TXT RELEASE\ATARIST >nul 2>&1
+MD RELEASE\ATARIST\FLOPPY\ > nul 2>&1
+DEL RELEASE\ATARIST\%GAME%.ZIP > nul 2>&1
+DEL RELEASE\ATARIST\FLOPPY\%GAME%.ST > nul 2>&1
+TOOLS\ZIP\ZIP -j -9 RELEASE\ATARIST\FLOPPY\%GAME%.ZIP RELEASE\ATARIST\PART1.* RELEASE\ATARIST\%GAME%.* > nul 2>&1 
+TOOLS\MSA\msa.exe convert RELEASE\ATARIST\FLOPPY\%GAME%.ZIP ST 1 exit > nul 2>&1
+DEL RELEASE\ATARIST\FLOPPY\%GAME%.ZIP > nul 2>&1
+
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
@@ -115,14 +112,18 @@ ECHO.
 tools\cecho\cecho {03}
 IF "%BASELANG%" == "EN" (
 ECHO Game ready,press any key to test or CTRL+C to stop
+ECHO The game will be executed from RELEASE\ATARIST, but you can also find it in RELEASE\ATARIST\FLOPPY,
+ECHO in .ST format, as long as it fits in a 720Kb disk.
 )
-IF "%BASELANG%" == "ES" (
+IF "%BASELANG%" == "ES" (  
 ECHO EL JUEGO SE HA COMPILADO CORRECTAMENTE, PULSE ENTER PARA INICIAR EL EMULADOR, O CTRL+C PARA PARAR
+ECHO El juego que se ejecutará está en RELEASE\ATARIST, pero podéis encontrarlo también en la carpeta
+EHCO RELEASE\ATARIST\FLOPPY, en formato .ST, siempre que quepa en un disco de 720Kb.
 )
 tools\cecho\cecho {07}
 PAUSE
 CD TOOLS\HATARI
-HATARI --drive-a 1 --fastfdc 1 --disk-a ..\..\RELEASE\ATARIST\%GAME%.ST --confirm-quit 0 --auto A:\%GAME%.PRG --fast-boot 1 
+HATARI --harddrive ..\..\RELEASE\ATARIST --confirm-quit 0 --auto C:\%GAME%.PRG --fast-boot 1 
 cd ..\..
 
 GOTO FIN
