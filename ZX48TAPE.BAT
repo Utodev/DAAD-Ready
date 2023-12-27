@@ -44,7 +44,8 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF zx esxdos %GAME%.DSF tape48
+REM Please notice subtarget is ESXDOS because DRC requires one, but this is a pure tape target
+TOOLS\DRC\DRF zx esxdos %GAME%.DSF tape
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -78,7 +79,7 @@ ECHO.
 IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
 REM ----  CLEANING ---- 
 DEL %GAME%.DDB > nul 2>&1
-DEL %GAME%.json > nul 2>&1
+rem DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 
