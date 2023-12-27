@@ -1,0 +1,2710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TQCD5NSXW6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TQCD5NSXW6');
+</script>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>DAAD Ready</title>
+  <meta name="description" content="DAAD Ready Documentation">
+  <meta name="author" content="@Uto_dev">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="normalize.css">
+  <link rel="stylesheet" href="skeleton.css">
+
+ 
+
+</head>
+<body style='font-family: Speccy, Verdana, Arial, Helvetica'>
+
+<div class="skip"><a href="#content">Jump to content</a></div>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+      <div class="twelve column" style='background-color:#045FB4;color:white'>
+      <h2><a href="/">DAAD Ready</a></h2>
+      </div>
+    </div>
+
+<div class="row">
+<div class="twelve column">
+<a name='content'></a>
+<h4>DAAD Ready Documentation</h4>
+
+<p>In Spanish <a href="doc_es.html">here <img src="../wikires/spanish.gif"></a></p>
+
+<p>This document uses parts from the DAAD v2 Manual (C) Infinite Imaginations 1988/89/91, which was written by Tim Gilberts, compiled back to modern format by Pedro Fernandez from Andres Samudio’s disks, and had some amendments appointed or made by a few people more, and very specially by Stefan Vogt. This manual has been expanded, modified, cut, and cropped by Uto. </p>
+
+<p>PLEASE NOTICE THIS IS NOT THE DAAD MANUAL, BUT AN ADAPTED VERSION MADE FOR DAAD READY PACKAGE.</p>
+
+<p>READ THIS MANUAL TO USE DAAD READY, YOU WON’T NEED TO READ DAAD ORIGINAL MANUAL, BUT ONCE YOU KNOW WELL HOW DAAD READY WORKS, MAYBE YOU WANT TO HAVE A LOOK AT IT.</p>
+  
+
+<H4>TABLE OF CONTENTS</H4>
+
+<ul>
+  <li><a href='#overview'>Overview</a></li>
+  <ul>
+    <li><a href='#thesource'>The Source</a></li>
+    <li><a href='#thecompiler'>The Compiler</a></li>
+    <li><a href='#theinterpreters'>The Interpreters</a></li>
+    <li><a href='#thegraphics'>The Graphics</a></li>
+    <li><a href='#help'>Getting help</a></li>
+    <li><a href='#supportedlanguages'>Supported Languages</a></li>
+  </ul>
+ 
+  <li><a href='#graphics'>Graphics</a></li>
+  <ul>
+    <li><a href='#graphicsoverview'>Graphics Overview</a></li>
+    <li><a href='#recommendedtools'>Recommended Tools</a></li>
+    <li><a href='#loadingscreens'>Loading Screens</a></li>
+  </ul>
+    
+  <li><a href='#howtousedaadready'>How to use DAAD Ready</a></li>
+  <ul>
+    <li><a href='#otherdetails'>Other Details</a></li>
+    <li><a href='#recommendedtools'>Recommended Tools</a></li>
+    <li><a href='#loadingscreens'>Loading Screens</a></li>
+  </ul>
+
+  <li><a href='#daadprogramming'>DAAD Programming</a></li>
+  <ul>
+    <li><a href='#programmingoverview'>Overview</a></li>
+    <li><a href='#theflags'>The flags</a></li>
+    <li><a href='#initialization'>Initialization</a></li>
+    <li><a href='#condacts'>CondActs</a></li>
+    <li><a href='#indirection'>Indirection</a></li>
+    <li><a href='#conditions'>Conditions</a></li>
+    <li><a href='#actions'>Actions</a></li>
+    <li><a href='#maluvacondacts'>Maluva Condacts</a></li>
+    <li><a href='#daadforquillpawdevelopers'>DAAD for The Quill or PAW developers</a></li>
+    <li><a href='#errors'>Errors</a></li>
+    <li><a href='#theparser'>The Parser</a></li>
+    <li><a href='#systemflags'>System Flags</a></li>
+  </ul>
+  
+  <li><a href='#thesourcefile'>The Source File</a></li>
+  <ul>
+    <li><a href='#sections'>Sections</a></li>
+    <li><a href='#escapechars'>Escape Chars</a></li>
+    <li><a href='#preprocessorcommands'>Preprocessor Commands</a></li>
+  </ul>
+
+  <li><a href='#appendix'>Appendix</a></li>
+  <ul>
+    <li><a href='#appendixa'>A - The Character Set</a></li>
+    <li><a href='#appendixb'>B - Ending Spectrum Next Games</a></li>
+    <li><a href='#appendixc'>C - DAAD Ready Customization</a></li>
+    <li><a href='#appendixd'>D - Greetings</a></li>
+    <li><a href='#appendixe'>E - Licenses</a></li>  
+  </ul>
+</ul>
+
+<a name="overview"></a>
+<H4>OVERVIEW</H4>
+
+<p>DAAD Ready makes easy for developers to have their game running in emulators, without having to care about building disks, transferring files, and may other options that required a lot of manual work both in the current emulator world, and in the original real machines one.
+</p>
+
+<p>With DAAD Ready you will just have to concentrate in creating your game, cause building a .DSK, .D64 or whatever other format required for your target platform, is as easy as double clicking the .BAT file for your target (i.e. C64.BAT to generate the .D64 file for Commodore 64).</p>
+
+<p>Due to all this, in this manual you may find references to DAAD itself, the original tool, and DAAD Ready, the package you have in your hands, which includes DRC (the new compiler, by Uto), original DAAD interpreters (by Infinite Imaginations),  Maluva Extension (to use disk based graphics instead of vector ones, by Uto), the new MSX2 interpreter (by NatyPC), the new Plus/4 interpreter (by Imre Szell, based on the C64 one), the new MSDOS interpreter (by Uto) and several tools for testing and packaging (emulators and other tools). The use of all these is transparent to the writer/programmer, that, as said above, just must click a BAT file to get the game running in the included emulator for each target.</p>
+
+<p>The basic principle behind DAAD is to provide a system where a game needs to be written only once and will then work on all machines. This of course is not truly possible without sacrificing facilities. So, a compromise has been arrived at where an amount of extra work may need to be done to allow each machine to be used to best advantage. The core of the game design remains independent reducing development and debugging time considerably.</p>
+
+<p>The basic principle behind DAAD Ready is to make all that possible in one click, and use modern storage units, which leads to using raster graphics rather than vector ones.</p>
+ 
+<p>DAAD Ready can create games for:</p>
+
+<ul>
+  <li><b>Amstrad CPC</b> (floppy disk, so either 664 or 6128). Also, M4 interface works. With graphics.</li>
+  <li><b>Commodore 64 or 128</b> (floppy disk, with graphics)</li>
+  <li><b>Atari ST</b> </li>
+  <li><b>Commodore Amiga</b></li>
+  <li><b>MS-DOS</b> (VGA 256 colours)</li>
+  <li><b>MSX</b> 1 with at least 64K of RAM (floppy disk, with graphics)</li>
+  <li><b>MSX 2</b> computers (floppy disk, with graphics)</li>
+  <li><b>Amstrad PCW</b> 8000/9000 Series (floppy disk, no graphics)</li>
+  <li><b>Commodore Plus/4</b> (floppy disk, with graphics)</li>
+  <li><b>Sinclair ZX Spectrum 48k</b> (tape, no graphics)</li>
+  <li><b>Sinclair ZX Spectrum 48K with DivMMC/IDE</b> (SD Card, with graphics)</li>
+  <li><b>Sinclair ZX Spectrum +3</b> (floppy disk, with graphics).</li>
+  <li><b>Sinclair ZX Spectrum 128K</b> (tape, with graphics)</li>
+  <li><b>Sinclair ZX Spectrum Next</b> (SD Card, with graphics)</li>
+  <li><b>ZX-Uno</b> (SD card, with graphics)</li>
+  <li><b>Windows</b> (Setup file)- bundles DOS version with DOSBOX</li>
+  <li><b>HTML/Javascript</b> (to play in the browser)</li>
+  <li><b>Windows Experimental</b>: using ADP interpreter, still in beta version, but creating a native Windows game. Unlike old Windows target, does not yet create a Setup file. Also, can’t do SVGA graphics or 256 colours graphics like DOS+DOSBOX bundle does.</li>
+  <li><b>MacOS Experimental</b>: same than above, but for MacOS. Please notice MacOS can’t run this unsigned game unless you allow it in the settings.</li>
+</ul>
+
+
+<p>Also, there are two OLD MSDOS and PLUS3 targets, which are deprecated, and remain for historical reasons.</p>
+
+<p>Please notice DAAD Ready is no table to generate games with graphics for Amstrad PCW, so the only way to add them is using the original DOS software included with DAAD. Please check the original DAAD manual.</p>
+
+<p>DAAD uses a programming language designed especially for writing Adventure Games. It is loosely based on the QUILL and PAW systems (by Gilsoft), and a familiarity with their operation is useful. There is a section further on this manual where you can find some help if you are/were a Quill or PAW author.</p>
+
+<p>DAAD Ready can be divided into four main functional area:</p>
+
+<a name="thesource"></a>
+<h6>The Source</h6>
+
+<p>The source (.DSF files, DAAD Source File) are a collection of tables, which contain all the information to define an adventure game. That includes location descriptions, objects description & weight, and the game logic.</p>
+
+<p>The .DSF files are in the format of an ASCII Text file using ISO 8859-1 encoding. Please bear this in mind cause many modern editors tend to use UTF-8 by default, and that can have side effects if you are creating a non-English game with special non English characters (i.e. “ñ”, “á”, “è”, etc.). For English, you do not really care about that.</p>
+
+<a name="thecompiler"></a>
+<h6>The Compiler</h6>
+<p>This program is provided for the development machine only. The Compiler checks the source file for errors and converts it into a DAAD database for the specified machine (.DDB file) which the Interpreters can understand. DAAD Ready includes DRC as compiler, DRC is a new compiler made by Uto in late 10s decade. You don’t really have to care too much about the compiler, cause DAAD Ready takes care of using it for you, but you can find your game does not compile well if you make some mistakes when changing DSF files. For those cases, you will see compile errors that you would have to fix. In case you are not sure, reverse latest changes in DSF file, and try again.</p>
+
+<a name="theinterpreters"></a>
+<h6>The Interpreters</h6>
+<p>These are the real heart of DAAD. There is an interpreter for each computer supported on the DAAD system. It runs the game using its collection of routines to carry out the tasks needed by adventure games. It provides the machine independent aspect of DAAD. DAAD Ready also takes care of the interpreters, and creates a .DSK file, .D64 , etc. file for each target machine, which already includes the interpreter, so you don’t really have to care about choosing the right interpreter, DAAD Ready does it for you.</p>
+
+
+<a name="thegraphics"></a>
+<h6>The Graphics</h6>
+<p>Unlike original DAAD, DAAD Ready is not using vector graphics for location images, it is using raster graphics in lieu. To add raster graphics DAAD Ready is using Maluva extension by Uto. We will provide more details about this later in this manual.</p>
+
+<a name="help"></a>
+<h6>Getting help</h6>
+<p>Should you need help understanding this or other DAAD topics, you may join the following groups in Telegram:</p>
+
+  <ul>
+    <li><a href='https://t.me/daadready'>DAAD Ready official support group (English and Spanish)</a></li>
+    <li><a href='https://t.me/Advent8bit'>A general purpose text adventure group (English)</a></li>
+    <li><a href='https://t.me/RetroAventuras'>A general purpose text adventure group (Spanish)</a></li>
+  </ul>
+
+<a name="supportedlanguages"></a>
+<h6>Supported Languages</h6>
+<p>Despite DAAD does only support English and Spanish, some limited support for Portuguese, French and German has been added to DAAD Ready. You can skip this section if you are creating Spanish or Eng-lish games.</p>
+<p>Limited means that although you will be able to create games which use the special characters of those languages as “ô” “ß” or “õ”, the interpreter below will always be the English one (for German and French) and the Spanish one (for Portuguese), so player won’t be able to provide orders with  those characters, and parsing will be made thinking the language is English/Spanish. That also influences object listing: </p>
+
+<ul>
+  <li>If an object description starts with “a” or “some” in English games, when added to a message like “You take the _.” that underscore will be replaced by the object text without the arti-cle. That way an object named “a lamp” will be display “You take the lamp.” when taken, instead of “You take the a lamp.”</li>
+  <li>If an object description stars with “una”, “un”, “una”, “unos” in a Spanish game, that definite article would be replaced by the indefinite one, so “Tomas _.” would work, so “una lámpara” will show “Tomas la lámpara.” when taken.</li>
+</ul>
+
+<p>Sadly, those are very language specific behaviors, so for German, French and Portuguese articles are neither removed nor modified, as those languages articles do not match the removal/replacement rules. Thus, a reasonable approach has been taken for each language: in French and Portuguese, the message will use the indefinite article, and in German, messages like those will not show the object text, and will just say “Taken.”.</p>
+<p>Other languages may be used with DAAD, in a similar way than Portu-guese, French or German are. Please join some of the Telegram groups above if you need help using DAAD Ready with your own language. Please notice these are the special characters supported by DAAD, other than English ones:</p>
+<p>ª ¡ ¿ á é í ó ú ñ Ñ ç Ç ü Ü à ã â ä è ê ë ì î ï ò ô ö õ ù û Ý
+  Á É Í Ó Ú Â Ê Î Ô Û À È Ì Ò Ù Ä Ë Ï Ö Ü ý Ý þ Þ å Å ð Ð ø Ø ß 
+</p>
+<p>If your language uses special symbols other than these, still it can be done, provided it still uses roman alphabet in general.</p>
+
+<a name="graphics"></a>
+<h4>Graphics</h4>
+<a name="graphicsoverview"></a>
+<h6>Graphics Overview</h6>
+<p>As stated above, DAAD Ready uses raster graphics for adventures, rather than vector graphics, and it uses Maluva extension for it.</p>
+
+<p>To add graphics, of course you would need different formats for each machine, as they differ a lot.</p>
+
+<p>To add graphics for your adventures, you must place images in the IMAGES subfolder in the DAAD Ready folder, except for CPC games, that you must add the images in the IMAGES/CPC folder, and PC, that you must add the images in the IMAGES/PC folder.</p>
+
+<p>All the images you will have to add will be full screen images, what means 256x192 for Spectrum or MSX1, 160x200 for C64 (HiColor), 320x200 for Plus/4, etc. On the other hand, DAAD Ready will only use first 96 scanlines of every picture, so whatever is below that will be ignored. So, the rule is: you create full screen images for each target you want to have pictures, and DAAD Ready will show first 96-pixel rows per each image. There is an exception for that: PC images must be already 96x200 pixels.</p>
+
+<p>To add graphics, you will have to place images in specific formats in the mentioned folders, those formats are:</p>
+
+<ul>
+  <li>Spectrum SCR format for Spectrum +3, Spectrum 128K or ESXDOS</li>
+  <li>256 color indexed PCX format for Spectrum Next</li>
+  <li>MLT or MLT+PAL file for ZX-Uno</li>
+  <li>Spectrum 48K TAP version does not support graphics in DAAD Ready</li>
+  <li>Amstrad SCR + PAL format, mode 0, for Amstrad CPC</li>
+  <li>Koala (.KLA) format for C64 HiColor or ART for HiRes</li>
+  <li>PRG format for Commodore Plus/4</li>
+  <li>SC2 format for MSX 1</li>
+  <li>SC8 format for MSX 2</li>
+  <li>256 colors indexed PCX file for PC (Maximum 320x200 for VGA or 640x400 for SVA)</li>
+  <li>TrueColor PNG image for HTML/Javascript</li>
+  <li>The Windows version is actually a bundle of the DOS game with DOSBOX, so same graphics are used.</li>
+  <li>The experimental Windows and MacOS targets use the Atari ST/Amiga graphics.</li>
+</ul>
+
+<p>All these formats are very common and easy to create for each platform. </p>
+
+<p>For graphics to work in DAAD Ready they should be named after the location where they should be shown, using three digits. So, if you want a graphic to be the one for location 12, you should put a file named 012.KLA, or 012.PRG, or 012.SCR, etc. depending on the target, in the required folder.</p>
+
+<p>Also, you can add graphics which are not related to locations, using any number of a non-existing location, for instance you can add a graphic file 200.KLA, that won’t be shown automatically because there is not a location #200, but can be loaded on demand by using the XPICTURE condAct (See Maluva CondActs section below).</p>
+
+<p>Please notice DAAD Ready is a simple tool to help you start coding with DAAD and don’t worry about many things, that is why pictures in DAAD Ready games are always placed on top of the screen and are 96 pixels high. It is possible to change that of course, but that is out of DAAD Ready scope.</p>
+
+<a name="recommendedtools"></a>
+<h6>Recommended Tools</h6>
+
+<p>Many of the image formats required for each platform are made easily with emulation tools, this is a list of recommended tools:</p>
+
+<table>
+  <tr><td>Spectrum .SCR 256x192</td><td>This is exported by almost all emulators. ZX Paintbtush can handle them too.</td></tr>
+  <tr><td>Spectrum Next .PCX 256x192</td><td>This is easy to generate with Gimp, just make sure the palette is set to indexed and you picture has no less than 17 colors, cause otherwise Gimp will generate an invalid 16-color PCX.</td></tr>
+  <tr><td>ZX-Uno MLT/PAL 256x192</td><td>MLT files can be created with ZX-Paintbrush or Image2Ulaplus. If the MLT is 12,288 bytes long, the palette information is not in there, please also add a tap file with same name with the palette information (ZX-Paintbrush can export it).</td></tr>
+  <tr><td>CPC .SCR and .PAL 320x200</td><td>CPCImgConv is a good tool to get images finished. It is important to have in mind color 0 of the image would be used as background for all the screen, and color 1 for text, so either you handle palette so 0 is black and 1 is white, or you find a way to make text readable by ensuring colours 0 and 1 have a decent contrast. Remember that you have to export both the .SCR and the .PAL file for each location, and put them in the folder.</td></tr>
+  <tr><td>C64 .KLA 160x200 and .ART 320x200</td><td>Multipaint is a very good tool for C64 Multicolor images creation.</td></tr>
+  <tr><td>Plus/4 320x200</td><td>The images should be in Boticceli HiRes format and named 001.PRG, 002.PRG, 003.PRG, etc. Botticeli is a Plus/4 application</td></tr>
+  <tr><td>MSX 1 .SC2 256x192</td><td>Same converter than MSX1 but use SC8 format.</td></tr>
+  <tr><td>PC .PCX 320x200 or 640x400</td><td>This is easy to generate with Gimp, just make sure the palette is set to indexed and you picture has no less than 17 colors, cause otherwise Gimp will generate an invalid 16-color PCX.</td></tr>
+  <tr><td>Atari ST .PNG 320x200</td><td>With a máximum of 16 different colours. Alternatively, you can also use PI1 Degas files.</td></tr>
+  <tr><td>Amiga .PNG 320x200</td><td>Same as Atari ST</td></tr>
+  <tr><td>HTML .PNG 320x200 Truecolor</td><td>Any modern graphics editor. i.e. Gimp.</td></tr>
+  <tr><td>MSDOS 320x200 or 640x400</td><td>This is easy to generate with Gimp, just make sure the palette is set to indexed and you picture has no less than 17 colors, cause otherwise Gimp will generate an invalid 16-color PCX. will work for both VGA and SVGA modes.</td></tr>
+  <tr><td>Windows</td><td>It’s actually embedding the DOS version into DOSBOX, so no need to add graphics.</td></tr>
+  <tr><td>Windows Experimental</td><td>Uses he AtariST/Amiga graphics</td></tr>
+  <tr><td>MacOS Experimental</td><td>Uses he AtariST/Amiga graphics</td></tr>
+</table>
+
+<p>Please notice original DAAD interpreter used HiRes mode for C64 and Mode 1 for CPC. Those are not the best modes for C64 and CPC when you think about the pictures, although are the best ones that suit both text and pictures. Maluva extension used by DAAD Ready allows you to use what is called a “split mode”, where the upper part of the screen is in one mode and the lower one uses another one. That allows C64 games to user HiColor graphics in top of the screen, while still using HiRes mode at the bottom, so the text is readable. Same goes for CPC, that uses Mode 0 on top and Mode 1 at the bottom.</p>
+
+<p>Sadly, keeping those modes running like this requires complicated interrupt routines that are hard to keep on running while reading from disk. That’s why you would see images or the whole screen is hidden when loading graphics, and you may see some flickering when loading text messages when you use the XMESSAGE o XMES condActs (see Maluva Condacts).</p>
+
+<p>If you do not like that to happen, you can always use traditional modes, and have all the game in HiRes (C64) or mode 1 (CPC). To do that just make sure you edit CONGIF.BAT and change the line showing SET SPLITSCR=SPLIT to SET SPLITSCR=NOSPLIT. Then make sure you use the proper images (Mode 1 images for CPC, and ART files instead of KLA for C64).</p>
+
+<p>If you want to user SVGA graphics in DOS, add “SET SVGA=1” to the CONFIG.BAT file, and the put 640x400, indexed 256 colours PCX files in the IMAGES\PC\SVGA folder instead of IMAGES\PC.</p>
+
+<a name="loadingscreens"></a>
+<h6>Loading Screens</h6>
+
+<p>It’s possible to add a loading screen for some targets using DAAD-Ready. Please check the following list:</p>
+
+<table>
+<tr><td>Spectrum</td><td>Enabled for tape targets and PLUS3 target(not for OLDPLUS3). Put a file named DAAD.SCR in the images folder.</td></tr>
+<tr><td>MSX 2</td><td>Put a file named DAAD.SC8 in the images folder.</td></tr>
+<tr><td>PC/DOS</td><td>Put a file named DAAD.PCX in the PC images folder (or the SVGA folder)</td></tr>
+<tr><td>Atari ST</td><td>Put a file named DAAD.PNG in the images folder</td></tr>
+<tr><td>Windows Experimental</td><td>Put a file named DAAD.PNG in the images folder</td></tr>
+<tr><td>MacoS Experimental</td><td>Put a file named DAAD.PNG in the images folder</td></tr>
+</table>
+
+<p>Have in mind for targets that that are not in this list, that doesn’t mean you cannot add a loading screen in most cases, it just means you would have to do it manually as DAAD-Ready doesn’t do it for you. </p>
+
+
+<a name="howtousedaadready"></a>
+<h4>How to use DAAD Ready</h4>
+
+<p>Here is a summary of the major points needed to produce a game:</p>
+
+<ul>
+<li>To begin with, click on any of the BAT files (ZXESXDOS.BAT for instance). You will be asked which language the game will be using, then an empty game will be compiled, and you would be asked to press enter to continue, do it, and then just close the emulator launched after you press any key.</li>
+
+<li>Well, once you have run any of the BAT files, you will find a TEST.DSF file in your DAAD Ready folder. That one is your source file. Start editing your source file with your preferred text editor. Make sure encoding is correct (ISO 8859-1) unless you are making an English game (if so, encoding does not matter).</li>
+
+<li>You can make changes in the source file by knowing how to develop in DAAD language/format, check further into this document.</li>
+
+<li>Each BAT file run compiles the game for the specified target (i.e. C64.BAT for Commodore 64) and tests the game. Please notice there will be a pause before launching the emulator, you could press CTRL+C in order to cancel emulation being launched if you just wanted to know if your changes were ok, but not testing.</li>
+
+<li>Also, notice in that pause, sometimes you get instructions about what to do when emulators are launched, cause sometimes you must do something after the emulator runs (game does not start automatically).</li>
+
+<li>Finally, you should know the game you are testing it is stored at the RELEASE folder, where you can find a folder per target. You could find the D64, DSK or whatever file in there once you want to release the game.</li>
+
+</ul>
+
+
+<table>
+  <tr><td>AMIGA.BAT</td><td>Commodore Amiga</td></tr>
+  <tr><td>ATARIST.BAT</td><td>Atari ST</td></tr>
+  <tr><td>C64.BAT</td><td>Commodore 64</td></tr>
+  <tr><td>CPC.BAT</td><td>Amstrad CPC</td></tr>
+  <tr><td>CPLUS4.BAT</td><td>Commodore Plus/4</td></tr>
+  <tr><td>MSDOS.BAT</td><td>MSDOS</td></tr>
+  <tr><td>MSX1.BAT</td><td>MSX 1</td></tr>
+  <tr><td>MSX2.BAT</td><td>MSX 2</td></tr>
+  <tr><td>ZX48TAPE.BAT</td><td>ZX Spectrum 48k (no graphics but loading screen)</td></tr>
+  <tr><td>ZX128TAPE.BAT</td><td>ZX Spectrum 128k (tape)</td></tr>
+  <tr><td>ZX128PLUS3.BAT</td><td>ZX Spectrum Plus 3 (disk)</td></tr>
+  <tr><td>ZXESXDOS.BAT</td><td>For Spectrum 48K or above with DivMMC/DivIDE interface.</td></tr>
+  <tr><td>ZXUNO.BAT</td><td>For ZX-Uno</td></tr>
+  <tr><td>PCW.BAT</td><td>Amstrad PCW</td></tr>
+  <tr><td>HTML.BAT</td><td>HTML/Javascript</td></tr>
+  <tr><td>WINDOWS.BAT</td><td>Windows</td></tr>
+  <tr><td>WINDOWS_EXPERIMENTAL.BAT</td><td>Windows Experimental</td></tr>
+  <tr><td>MACOS_EXPERIMENTAL.BAT</td><td>MacOS Experimental</td></tr>
+  <tr><td>OLDMSDOS.BAT</td><td>MSDOS (old version, no graphics)</td></tr>
+  <tr><td>OLDPLUS3.BAT</td><td>ZX Spectrum Plus 3 (uses original interpreter)</td></tr>
+</table>
+
+
+<a name="otherdetails"></a>
+<h6>Other Details</h6>
+
+<ul>
+  <li>Once you have selected a language your DAAD Ready setup will consider the game you are making is in that language. In case you want to create a different game at the same time, just unzip the DAAD Ready zip file in some other folder, and work with that game there. I know, is like using a sledgehammer to crack a nut, but for the time being, that is the way to do it.</li>
+  <li>Visual Studio Code is a recommended editor as it has an addon made by Chris Ainsley which provides syntax highlighting, check for DAAD in the addons option of the editor.</li>
+</ul>
+
+<a name="daadprogramming"></a>
+<h4>DAAD Programming</h4>
+
+<p>Please notice that apart of this detailed information, there is an online tutorial made by Uto. You can find it by clicking <a href='https://medium.com/@uto_dev/a-daad-tutorial-for-beginners-1-b2568ec4df05' target='_BLANK'>this link</a>.</p>
+
+<a name="programmingoverview"></a>
+<h6>Overview</h6>
+
+<p>When the game interpreter starts, it will run the information you entered in the TEST.DSF file. If you have had a look at those files, you may have found several sections to define objects, locations, etc. and at the end the processes. The processes are the DAAD programming code, which will determine how the game works. When a game starts, process 0 is run first (“/PRO 0” section).</p>
+
+<p>Please notice TEST.DSF file already contain code that makes DAAD behave very much like PAW, so if you ever used PAW, it would be easy for you to adapt.</p>
+
+<a name="theflags"></a>
+<h6>The Flags</h6>
+
+<p>The flags are like containers that can hold a value, you can change the value and check later, so you know something has happened. For instance you can set a flag to value 1 when an evil troll has run away due to some player action, and then you can check if that action has been performed when you want to cross a bridge where the evil troll was, and determine if he run away or not.</p>
+
+<p>There are 256 flags available in DAAD, so you have plenty of them for your puzzles, despite some of them have an internal meaning. For instance, flag 38, also known as “fPlayer”, holds the number of the location where the player is right now, so if you change it, you are moving the player somewhere else, but also you can use it to check if the player is at a given location or not, in order to determine if he can perform some action (i.e. sleep in the bedroom, but not in the bathroom). System flags, as they are named, are explained later in this section.</p>
+
+<a name="initialization"></a>
+<h6>Initialization</h6>
+
+<p>When the game starts, the system initialization is carried out only once. All flags and object positions are cleared. The screen is cleared (although this may change on 8-bit to provide loading screen maintenance). Note that clearing the flags has the effect that the game always starts at location zero. This is because flag 38, fPlayer, is now zero.</p>
+
+<p><b>Start</b></p>
+
+<p>The program makes a call to process 0. On exit from that table a  return is made to the operating system or to restart the game with only a partial initialize.</p>
+
+<p><b>Search Process Table 0</b></p>
+
+<p>Process table 0 will normally be the main loop of the interpreter. </p>
+
+<p>Figure 1 and the next section describe the scanning of a process table, this applies to Process 0 as it operates just like any other table. The exception being that a DONE or falling off the end will cause a return to the OS rather than a calling table</p>
+
+<center><img src='Image1.png' alt="Figure 1"><br/>Figure 1</center>
+
+
+<p><b>Scan a Process Table</b></p>
+
+<p>Essentially DAAD will look at each entry in the table until it is exhausted - the table of entries, not DAAD! Assuming there is an entry, it will ensure the Verb and Noun match those of the current Logical Sentence (LS) - This will be set up by a PARSE statement somewhere in the main loop for a traditional text game.</p>
+
+<p>The use of the word "_", as either the Verb or the Noun, will cause a match with any word in that part of the logical sentence. Thus, an entry in a table of "> _ _", will cause a trigger of the entry no matter what the LS. This will be the normal entry in Process 0 as it will be very unlikely that a valid LS is present or meaningful for the main loop of the game. Please notice “>” sign marks a new entry and should be followed by VERB and NOUN or the “_” sign(s).</p>
+
+<p>DAAD will then look at each CondAct in turn; if it is a condition, which succeeds, then DAAD will look at the next CondAct. Otherwise it will drop out of the current CondAct list and look at the next entry, if present, in the table. If it is an action it will be carried out. Actions can be divided into five main groups:</p>
+
+<ul>
+<li>RESTART, which will completely exit the execution of all tables (i.e. even if in a 10th level sub-process) and jump to the start of Process 0.</li>
+<li>END/EXIT, (a group on their own) which will completely exit the execution of all tables and jump to initialize a new game or exit to the operating system.</li>
+<li>Exit: any action which will stop processing of the current table and exit to the calling table. e.g. DONE etc.</li>
+<li>Conditional Exit: any action which will stop processing of the current table and exit to the calling table if it fails to do its required function. e.g. GET, PUTIN etc. Otherwise it will continue with the next CondAct.</li>
+<li>Normal; any action which carries out its function and allows DAAD to continue looking at the next CondAct in the current entry. e.g. COPYFF, PLUS, etc.</li>
+</ul>
+
+<p>Note: Several CondActs in DAAD behave differently to those with the same name in QUILL/PAW, so ensure you check in this manual before using them. QUIT is an example, in DAAD it is a true condition. The use of DESC may be specially confusing, as in DAAD it is much like MESSAGE but for the locations table, while the way DESC worked in PAW is done by RESTART condact.</p>
+
+<a name="condacts"></a>
+<h6>CondActs</h6>
+
+<p>There now follows a detailed description of each CondAct that may be included in an entry. They are divided into groups according to the subject they deal with in DAAD; such as flags, objects, etc. and give some hints as to a possible use.</p>
+
+<p>For those used to the PAW systems. Be careful! Several actions have been removed, while others have changed in function. Make sure, you check on their function within DAAD. E.g. TURN & SCORE are deleted - they must now be soft coded. Also, TIMEOUT, PROMPT and GRAPHIC are gone as 'HASAT fTimeout', 'LET fPrompt x' and 'LET fGFlags expression' will do the same.</p>
+
+<p>Several abbreviations are used in the descriptions as follows:</p>
+
+<ul>
+  <li>locno. is a valid location number.</li>
+  <li>locno+ is a valid location number or 252 or "_" (meaning not-created), 253 or "WORN", 254 or "CARRIED" and 255 or "HERE" (which is converted into the current location of the player).</li>
+  <li>mesno. is a valid message.</li>
+  <li>sysno. is a valid system message.</li>
+  <li>flagno. is any flag (0 to 255).</li>
+  <li>procno. is a valid sub-process number.</li>
+  <li>word is word of the required type, which is present in the vocabulary, or "_" which ensures no-word - not an any match as normal.</li>
+  <li>value is a value from 0 to 255.</li>
+</ul>
+
+<a name="indirection"></a>
+<h6>Indirection</h6>
+<p>The first parameter on most condActs can use indirection. This is indicated by placing at sign (@) before the first parameter of a CondAct. This will cause not the number itself to be used, but the contents of the flag corresponding to that number. Only the first parameter may be indirected but this provides a powerful facility. Although not all commands can indirect, most that have a flag, object, or number as the first parameter can be indirected.</p>
+
+<p>E.g. 'MESSAGE @100' will print the message number that is given by the value in Flag 100 - as opposed to 'MESSAGE 100' which would print message 100!</p>
+
+<a name="conditions"></a>
+<h6>Conditions</h6>
+
+<p><u>Conditions which deal with the location of the player</u></p>
+<a name="at"></a>
+<condact>AT locno</condact>
+
+<p>Succeeds if the current location is the same as locno. </p>  
+
+<a name="notat"></a>
+<condact>NOTAT locno</condact>
+<p>Succeeds if the current location is different to locno.</p>
+
+<a name="atgt"></a>
+<condact>ATGT locno</condact>
+
+<p>Succeeds if the current location is greater than locno.</p>
+
+<a name="atlt"></a>
+<condact>ATLT locno</condact>
+
+<p>Succeeds if the current location is less than locno.</p>
+
+<p><u>Conditions which deal with the current location of an object</u></p>
+
+<a name="present"></a>
+<condact>PRESENT objno.</condact>
+
+<p>Succeeds if Object objno. is carried, worn or at the current location.</p>
+
+<a name="absent"></a>
+<condact>ABSENT objno.</condact>
+
+<p>Succeeds if Object objno. is not carried, not worn and not at the current location.</p>
+ 
+<a name="worn"></a>
+<condact>WORN objno.</condact>
+
+<p></p>Succeeds if object objno. is worn.</p>
+
+<a name="notworn"></a>
+<condact>NOTWORN objno.</condact>
+
+<p>Succeeds if Object objno. is not worn.</p>
+
+<a name="carried"></a>
+<condact>CARRIED objno.</condact>
+
+<p>Succeeds if Object objno. is carried.</p>
+ 
+<a name="notcarr"></a>
+<condact>NOTCARR objno.</condact>
+
+<p>Succeeds if Object objno. is not carried.</p>
+
+<a name="isat"></a>
+<condact>ISAT objno. locno+</condact>
+
+<p>Succeeds if Object objno. is at Location locno.</p>
+
+<a name="isnotat"></a>
+<condact>ISNOTAT objno. locno+</condact>
+
+<p>Succeeds if Object objno. is not at Location locno.</p>
+
+<p><u>Conditions which deal with the value and comparison of flags</u></p>
+
+<a name="zero"></a>
+<condact>ZERO flagno.</condact>
+
+<p>Succeeds if flag flagno. is set to zero.</p>
+
+<a name="notzero"></a>
+<condact>NOTZERO flagno.</condact>
+<p>Succeeds if flag flagno. is not set to zero.</p>
+
+<a name="eq"></a>
+<condact>EQ flagno. value</condact>
+<p>Succeeds if flag flagno. is equal to value.</p>
+
+<a name="noteq"></a>
+<condact>NOTEQ flagno. value</condact>
+<p>Succeeds if flag flagno. is not equal to value.</p>
+
+<a name="gt"></a>
+<condact>GT flagno. value</condact>
+<p>Succeeds if flag flagno. is greater than value.</p>
+
+<a name="lt"></a>
+<condact>LT flagno. value</condact>
+<p>Succeeds if flag flagno. is less than value.</p> 
+
+<a name="same"></a>
+<condact>SAME flagno1. flagno2.</condact>
+<p>Succeeds if flag flagno1 has the same value as flag flagno2.</p>
+
+<a name="notsame"></a>
+<condact>NOTSAME flagno1. flagno2.</condact>
+<p>Succeeds if flag flagno1 does not have the same value as flag flagno2.</p>
+
+<a name="bigger"></a>
+<condact>BIGGER flagno1. flagno2.</condact>
+<p>Succeeds if flag flagno1 is larger than flag flagno2.</p>
+
+<a name="smaller"></a>
+<condact>SMALLER flagno1. flagno2.</condact>
+<p>Succeeds if flag flagno1 is smaller than flag flagno2. It is not actually needed as reversing the parameters of BIGGER would do the same, but it may make programs more readable and indirection can be used with 'either' flag by using the appropriate condition.</p>
+
+<p><u>Conditions to check for an extended logical sentence</u></p>
+
+<p>It is best to use these conditions only if the specific word (or absence of word using "_") is really needed. Doing that allows greater flexibility in the commands 
+  understood by the game. That is, although you can force player to write “UNLOCK DOOR WITH KEY” don’t do it unless the game script really requires the player to specify 
+  he wants to unlock the door with the key and not with something else, because doing it with the key is not the most logical thing to do. Just allow “UNLOCK DOOR” 
+  to work while key is carried.</p>
+
+<a name="adject1"></a>
+<condact>ADJECT1 word</condact>
+<p>Succeeds if the first noun's adjective in the current LS is word.</p>
+
+<a name="adverb"></a>
+<condact>ADVERB word</condact>
+<p>Succeeds if the adverb in the current LS is word.</p>
+
+<a name="prep"></a>
+<condact>PREP word</condact>
+<p>Succeeds if the preposition in the current LS is word.</p>
+
+<a name="noun2"></a>
+<condact>NOUN2 word</condact>
+<p>Succeeds if the second noun in the current LS is word.</p>
+
+<a name="adject2"></a>
+<condact>ADJECT2 word</condact>
+<p>Succeeds if the second noun's adjective in the current LS is word.</p>
+
+<p><u>Conditions for random occurrences</u></p>
+
+<p>You could use it to provide a chance of a tree falling on the player during a lightning strike or a bridge collapsing etc. Do not abuse this facility, always allow a player a way of preventing the problem, such as rubber boots for the lightning, or similar.</p>
+
+<a name="chance"></a>
+<condact>CHANCE percent</condact>
+<p>Succeeds if percent is less than or equal to a random number in the range 1-100 (inclusive). Thus, a CHANCE 50 condition would allow DAAD to look at the next CondAct only if the random number generated was between 1 and 50, a 50% chance of success.</p>
+
+<p><u>Conditions providing a boolean TRUE/FALSE for subprocess calls</u></p>
+
+<a name="isdone"></a>
+<condact>ISDONE</condact>
+<p>Succeeds if the last table ended by exiting after executing at least one Action. This is useful to test for a single succeed/fail boolean value from a Sub-Process. A DONE action will cause the 'done' condition, as will any condact causing exit, or falling off the end of the table - assuming at least one CondAct (other than NOTDONE) was done.</p>
+<p>See also <a hef='#isndone'>ISNDONE</a> and <a href='#notdone'>NOTDONE</a> actions.</p>
+
+<a name="isndone"></a>
+<condact>ISNDONE</condact>
+<p>Succeeds if the last table ended without doing anything or with a NOTDONE action.</p>
+
+<p><u>Conditions for object attributes</u></p>
+<a name="hasat"></a>
+<a name="hasnat"></a>
+<condact>HASAT/HASNAT value</condact>
+
+<p>This condacts checks the object attribute specified by value. 0-15 are the object attributes for the current referenced object. This is the use most of you will give to the condact, but HASAT/HASNAT are actually more powerful, but to properly understand it you will have to know about handling flags bitwise. If you think you understand that, please continue reading, if not, just continue to the next condact:</p>
+
+<p>The truth is HASAT and HASNAT do not check object attributes, they actually check bits in some flags. It happens that HASAT 0-7 checks bits in flag 59, and 8-15 checks bits in flag 58. As flags 58 and 59 containt a copy of the attributes of the currently referenced, HASAT seems to check the attributes, but it’s actually checking the flags.</p>
+
+<p>And here comes what it’s really interesting : as HASAT parameter can have a value from 0 to 255, as you can imagine, next 8 values for HASAT/HASNAT 16-23 check bits of flag 57, and next 8 values (24-31), bits of flag 56, and so on until values 248-255 check bits of flag 28, which happens not to be a system flag, but a general purpose one.</p>
+
+<p>So, for instance, as bit 7 of flag 57 determines if the currently referenced obejct is wearable, HASAT 23 will succeed of the currently referenced object is wearable.</p>
+ 
+<p>When you see the System Flags table further on this Will make more sense, but see some simples of whan can be done:</p>
+
+<table>
+  <tr><th>Symbol</th><th>Flag</th><th>Attr. Number</th><th>Description</th></tr>
+  <tr><td>WEARABLE</td><td>57-Bit7</td><td>23</td><td>Current object is wearable</td></tr>
+  <tr><td>CONTAINER</td><td>56-Bit7</td><td>31</td><td>Current object is a container</td></tr>
+  <tr><td>LISTED</td><td>53-Bit7</td><td>55</td><td>If objects listed by LISTOBJ</td></tr>
+  <tr><td>TIMEOUT</td><td>49-Bit7</td><td>87</td><td>If Timeout last frame</td></tr>
+  <tr><td>GMODE</td><td>29-Bit7</td><td>247</td><td>Graphics available</td></tr>
+  <tr><td>MOUSE</td><td>29-bit0</td><td>240</td><td>Mouse available</td></tr>
+  <tr><td>CUSTOM</td><td>28-Bit7</td><td>255</td><td>Bit 7 of flag 28, user flag</td></tr>
+</table>
+
+<p>As a further example, The TIMEOUT condition of PAW is implemented in DAAD by</p>
+
+<code>HASAT TIMEOUT</code><br /><br/>
+
+<p>That also allows a simulation of "NOTTIMEOUT", that can be done with:</p>
+
+<code>HASNAT TIMEOUT</code><br/><br/>
+
+<p>HASAT/HASNAT can check bits from flags 28 to 59, a total of 32 flags.</p>
+
+<p><u>Conditions to interact with the player </u></p>
+
+<a name="INKEY"></a>
+<condact>INKEY</condact>
+<p>Is a condition which will be satisfied if the player is pressing
+a key. In 16Bit machines Flags Key1 and Key2 (60 & 61) will be a
+standard IBM ASCII code pair. On 8-bit only Key1 will be valid,
+and the code will be machine specific.</p>
+
+<a name="QUIT"></a>
+<condact>QUIT</condact>
+<p>SM12 ("Are you sure?") is printed and the input routine 
+called. Will succeed if the player replies with a word which
+starts with the first letter of SM30 ("Y") to the prompt. If not
+then the remainder of the entry is discarded and the next entry
+is carried out.</p>
+
+<a name="actions"></a>
+<h6>Actions</h6>
+
+ 
+
+<p><u>Actions to deal with the manipulation of object positions</u></p>
+
+<a name="get"></a>
+<condact>GET objno.</condact>
+<p>If Object objno. is worn or carried, SM25 ("I already have the _.") is printed and actions NEWTEXT & DONE are performed.</p>
+<p>If Object objno. is not at the current location, SM26 ("There isn't one of those here.") is printed and actions NEWTEXT & DONE
+  are performed.
+</p>
+
+<p>If the total weight of the objects carried and worn by the player plus Object objno. would exceed the maximum conveyable weight (Flag 52) then SM43 ("The _ weighs too much for me.") is printed and actions NEWTEXT & DONE are performed.</p>
+
+<p>If the maximum number of objects is being carried (Flag 1 is greater than, or the same as, Flag 37), SM27 ("I can't carry any
+more things.") is printed and actions NEWTEXT & DONE are performed. In addition, any current DOALL loop is cancelled.</p>
+
+<p>Otherwise the position of Object objno. is changed to carried, Flag 1 is incremented and SM36 ("I now have the _.") is printed.</p>
+
+<a name="drop"></a>
+<condact>DROP objno.</condact>
+
+
+
+<p>If Object objno. is worn then SM24 ("I can't. I'm wearing the
+_.") is printed and actions NEWTEXT & DONE are performed.</p>
+
+<p>If Object objno. is at the current location (but neither worn nor
+carried), SM49 ("I don't have the _.") is printed and actions
+NEWTEXT & DONE are performed.</p>
+
+<p>If Object objno. is not at the current location then SM28 ("I
+don't have one of those.") is printed and actions NEWTEXT & DONE
+are performed.</p>
+
+<p>Otherwise the position of Object objno. is changed to the current
+location, Flag 1 is decremented and SM39 ("I've dropped the _.")
+is printed.</p>
+
+<a name="wear"></a>
+<condact>WEAR objno.</condact>
+
+<p>If Object objno. is at the current location (but not carried or
+worn) SM49 ("I don't have the _.") is printed and actions NEWTEXT
+& DONE are performed.</p>
+
+<p>If Object objno. is worn, SM29 ("I'm already wearing the _.") is
+printed and actions NEWTEXT & DONE are performed.</p>
+
+<p>If Object objno. is not carried, SM28 ("I don't have one of
+those.") is printed and actions NEWTEXT & DONE are performed.</p>
+
+<p>If Object objno. is not wearable (as specified in the object
+definition section) then SM40 ("I can't wear the _.") is printed
+and actions NEWTEXT & DONE are performed.</p>
+
+<p>Otherwise the position of Object objno. is changed to worn, Flag
+1 is decremented and SM37 ("I'm now wearing the _.") is printed.</p>
+
+<a name="remove"></a>
+<condact>REMOVE objno.</condact>
+
+<p>If Object objno. is carried or at the current location (but not
+worn) then SM50 ("I'm not wearing the _.") is printed and actions
+NEWTEXT & DONE are performed.</p>
+
+<p>If Object objno. is not at the current location, SM23 ("I'm not
+wearing one of those.") is printed and actions NEWTEXT & DONE are
+performed.</p>
+
+<p>If Object objno. is not wearable (and thus removable) then SM41
+("I can't remove the _.") is printed and actions NEWTEXT & DONE
+are performed.</p>
+
+<p>If the maximum number of objects is being carried (Flag 1 is
+greater than, or the same as, Flag 37), SM42 ("I can't remove the
+_. My hands are full.") is printed and actions NEWTEXT & DONE
+are performed.</p>
+
+<p>Otherwise the position of Object objno. is changed to carried.
+Flag 1 is incremented and SM38 ("I've removed the _.") printed.</p>
+
+<a name="create"></a>
+<condact>CREATE objno.</condact>
+
+<p>The position of Object objno. is changed to the current location
+and Flag 1 is decremented if the object was carried.</p>
+
+<a name="destroy"></a>
+<condact>DESTROY objno.</condact>
+
+<p>The position of Object objno. is changed to not created (252) and Flag
+1 is decremented if the object was carried.</p>
+
+<a name="swap"></a>
+<condact>SWAP objno1. objno2.</condact>
+
+<p>The positions of the two objects are exchanged. Flag 1 is not
+adjusted. The currently referenced object is set to be Object
+objno 2.</p>
+
+<a name="place"></a>
+<condact>PLACE objno. locno+</condact>
+
+<p>The position of Object objno. is changed to Location locno. Flag
+1 is decremented if the object was carried. It is incremented if
+the object is placed at location 254 (carried).</p>
+
+<a name="puto"></a>
+<condact>PUTO locno+</condact>
+
+<p>The position of the currently referenced object (i.e. that object
+whose number is given in flag 51), is changed to be Location
+locno. Flag 54 remains its old location. Flag 1 is decremented if
+the object was carried. It is incremented if the object is placed
+at location 254 (carried).</p>
+
+<a name="putin"></a>
+<condact>PUTIN objno. locno+</condact>
+
+<p>If Object objno. is worn then SM24 ("I can't. I'm wearing the
+_.") is printed and actions NEWTEXT & DONE are performed.</p>
+
+<p>If Object objno. is at the current location (but neither worn nor
+carried), SM49 ("I don't have the _.") is printed and actions
+NEWTEXT & DONE are performed.</p>
+
+<p>If Object objno. is not at the current location, but not carried,
+then SM28 ("I don't have one of those.") is printed and actions
+NEWTEXT & DONE are performed.</p>
+
+<p>Otherwise the position of Object objno. is changed to Location
+locno. Flag 1 is decremented and SM44 ("The _ is in the"), a
+description of Object locno. and SM51 (".") is printed.</p>
+
+<a name="takeout"></a>
+<condact>TAKEOUT objno. locno+</condact>
+
+<p>If Object objno. is worn or carried, SM25 ("I already have the
+_.") is printed and actions NEWTEXT & DONE are performed.</p>
+
+<p>If Object objno. is at the current location, SM45 ("The _ isn't
+in the"), a description of Object locno. and SM51 (".") is
+printed and actions NEWTEXT & DONE are performed.</p>
+
+<p>If Object objno. is not at the current location and not at
+Location locno. then SM52 ("There isn't one of those in the"), a
+description of Object locno. and SM51 (".") is printed and
+actions NEWTEXT & DONE are performed.</p>
+
+<p>If Object locno. is not carried or worn, and the total weight of
+the objects carried and worn by the player plus Object objno.
+would exceed the maximum conveyable weight (Flag 52) then SM43
+("The _ weighs too much for me.") is printed and actions NEWTEXT
+& DONE are performed.</p>
+
+<p>If the maximum number of objects is being carried (Flag 1 is
+greater than, or the same as, Flag 37), SM27 ("I can't carry any
+more things.") is printed and actions NEWTEXT & DONE are
+performed. In addition, any current DOALL loop is cancelled.
+</p>
+
+<p>Otherwise the position of Object objno. is changed to carried,
+Flag 1 is incremented and SM36 ("I now have the _.") is printed.
+</p>
+ 
+<p>Note: No check is made, by either PUTIN or TAKEOUT, that Object
+locno. is present. This must be carried out by yourself if
+required.</p>
+
+<a name="dropall"></a>
+<condact>DROPALL</condact>
+
+<p>All objects which are carried or worn are created at the current
+location (i.e. all objects are dropped) and Flag 1 is set to 0.
+This is included for compatibility with older writing systems.
+Note that a DOALL 254 will carry out a true DROP ALL, taking care
+of any special actions included.</p>
+
+<hr />
+
+<p>The next six actions are automatic versions of GET, DROP, WEAR,
+REMOVE, PUTIN and TAKEOUT. They are automatic in that instead of
+needing to specify the object number, they each convert
+Noun (Adjective)1 into the currently referenced object - by
+searching the object definition section. The search is for an
+object which is at one of several locations in descending order
+of priority - see individual descriptions. This search against
+priority allows DAAD to 'know' which object is implied if more
+than one object with the same Noun description (when the player
+has not specified an adjective) exists, at the current location,
+carried or worn - and in the container in the case of TAKEOUT.</p>
+
+<a name="autog"></a>
+<condact>AUTOG</condact>
+
+<p>A search for the object number represented by Noun (Adjective)1 is
+made in the object definition section in order of location
+priority; here, carried, worn. i.e. The player is more likely to
+be trying to GET an object that is at the current location than
+one that is carried or worn. If an object is found its number is
+passed to the GET action. Otherwise if there is an object in
+existence anywhere in the game or if Noun1 was not in the
+vocabulary then SM26 ("There isn't one of those here.") is
+printed. Else SM8 ("I can't do that.") is printed (i.e. It is not
+a valid object but does exist in the game). Either way actions
+NEWTEXT & DONE are performed</p>
+ 
+<a name="autod"></a>
+<condact>AUTOD</condact>
+
+<p>A search for the object number represented by Noun (Adjective)1 is
+made in the object definition section in order of location
+priority; carried, worn, here. i.e. The player is more likely to
+be trying to DROP a carried object than one that is worn or here.
+If an object is found its number is passed to the DROP action.
+Otherwise if there is an object in existence anywhere in the game
+or if Noun1 was not in the vocabulary then SM28 ("I don't have
+one of those.") is printed. Else SM8 ("I can't do that.") is
+printed (i.e. It is not a valid object but does exist in the
+game). Either way actions NEWTEXT & DONE are performed.</p>
+
+<a name="autow"></a>
+<condact>AUTOW</condact>
+
+<p>A search for the object number represented by Noun (Adjective)1 is
+made in the object definition section in order of location
+priority; carried, worn, here. i.e. The player is more likely to
+be trying to WEAR a carried object than one that is worn or here.
+If an object is found its number is passed to the WEAR action.
+Otherwise if there is an object in existence anywhere in the game
+or if Noun1 was not in the vocabulary then SM28 ("I don't have
+one of those.") is printed. Else SM8 ("I can't do that.") is
+printed (i.e. It is not a valid object but does exist in the
+game). Either way actions NEWTEXT & DONE are performed.</p>
+
+<a name="autor"></a>
+<condact>AUTOR</condact>
+
+<p>A search for the object number represented by Noun (Adjective)1 is
+made in the object definition section in order of location
+priority; worn, carried, here. i.e. The player is more likely to
+be trying to REMOVE a worn object than one that is carried or
+here. If an object is found its number is passed to the REMOVE
+action. Otherwise if there is an object in existence anywhere in
+the game or if Noun1 was not in the vocabulary then SM23 ("I'm
+not wearing one of those.") is printed. Else SM8 ("I can't do
+that.") is printed (i.e. It is not a valid object but does exist
+in the game). Either way actions NEWTEXT & DONE are performed.</p>
+
+<a name="autop"></a>
+<condact>AUTOP locno.</condact>
+
+<p>A search for the object number represented by Noun (Adjective)1 is
+made in the object definition section in order of location
+priority; carried, worn, here. i.e. The player is more likely to
+be trying to PUT a carried object inside another than one that is
+worn or here. If an object is found its number is passed to the
+PUTIN action. Otherwise if there is an object in existence
+anywhere in the game or if Noun1 was not in the vocabulary then
+SM28 ("I don't have one of those.") is printed. Else SM8 ("I
+can't do that.") is printed (i.e. It is not a valid object but
+does exist in the game). Either way actions NEWTEXT & DONE are
+performed.</p>
+
+<a name="autot"></a>
+<condact>AUTOT locno.</condact>
+
+<p>A search for the object number represented by Noun (Adjective)1 is
+made in the object definition section in order of location
+priority: in container, carried, worn, here. i.e. The player is
+more likely to be trying to get an object out of a container
+which is in there than one that is carried, worn or
+here. If an object is found its number is passed to the TAKEOUT
+action. Otherwise if there is an object in existence anywhere in
+the game or if Noun1 was not in the vocabulary then SM52 ("There
+isn't one of those in the"), a description of Object locno. and
+SM51 (".") is printed. Else SM8 ("I can't do that.") is printed
+(i.e. It is not a valid object but does exist in the game).
+Either way actions NEWTEXT & DONE are performed.</p>
+
+<p>Note: No check is made, by either AUTOP or AUTOT, that Object
+locno. is present. This must be carried out by you - if
+required.</p>
+
+<a name="copyoo"></a>
+<condact>COPYOO objno1. objno2.</condact>
+
+<p>The position of Object objno 2 is set to be the same as the
+position of Object Objno 1. The currently referenced object is set
+to be Object objno 2.
+</p>
+
+<a name="reset"></a>
+<condact>RESET</condact>
+
+<p>This Action bears no resemblance to the one with the same name in
+PAW. It has the pure function of placing all objects at the
+position given in the Object start table. It also sets the
+relevant flags dealing with no of objects carried etc.</p>
+
+<p><u>Some actions to interchange flag and objects data</u></p>
+
+<a name="copyof"></a>
+<condact>COPYOF objno. flagno.</condact>
+
+<p>The position of Object objno. is copied into Flag flagno. This
+could be used to examine the location of an object in a
+comparison with another flag value. e.g.</p>
+
+<code>
+COPYOF 1 110<br />
+SAME 110 fPlayer
+</code> 
+
+<p>could be used to check that object 1 was at the same location as
+the player - although ISAT 1 255 would be better!</p>
+
+<a name="copyfo"></a>
+<condact>COPYFO flagno. objno.</condact>
+
+<p>The position of Object objno. is set to be the contents of Flag
+flagno. An attempt to copy from a flag containing 255 will result
+in a runtime error. Setting an object to an invalid location
+will still be accepted as it presents no danger to the operation
+of DAAD.</p>
+
+<a name="whato"></a>
+<condact>WHATO</condact>
+
+<p>A search for the object number represented by Noun (Adjective)1 is
+made in the object definition section in order of location
+priority; carried, worn, here. This is because it is assumed any
+use of WHATO will be related to carried objects rather than any
+that are worn or here. If an object is found its number is placed
+in flag 51, along with the standard current object parameters in
+flags 54-57. This allows you to create other auto actions (the
+tutorial gives an example of this for dropping objects in the
+tree).</p>
+
+<a name="setco"></a>
+<condact>SETCO objno.</condact>
+
+<p>Sets the currently referenced object to objno.</p>
+
+<a name="weigh"></a>
+<condact>WEIGH objno. flagno.</condact>
+
+<p>The true weight of Object objno. is calculated (i.e. if it is a
+container, any objects inside have their weight added - do not
+forget that nested containers stop adding their contents after
+ten levels) and the value is placed in Flag flagno. This will
+have a maximum value of 255 which will not be exceeded. If Object
+objno. is a container of zero weight, Flag flagno. will be
+cleared as objects in zero weight containers, also weigh zero!
+</p>
+
+  
+<p><u>Actions to manipulate the flags</u></p>
+
+<a name="set"></a>
+<condact>SET flagno.</condact>
+
+<p>Flag flagno. is set to 255.</p>
+
+<a name="clear"></a>
+<condact>CLEAR flagno.</condact>
+
+<p>Flag flagno. is cleared to 0.</p>
+
+<a name="let"></a>
+<condact>LET flagno. value</condact>
+
+<p>Flag flagno. is set to value.</p>
+
+<a name="plus"></a>
+<condact>PLUS flagno. value</condact>
+
+<p>Flag flagno. is increased by value. If the result exceeds 255
+the flag is set to 255.</p>
+
+<a name="minus"></a>
+<condact>MINUS flagno. value</condact>
+
+<p>Flag flagno. is decreased by value. If the result is negative
+the flag is set to 0.</p>
+
+<a name="add"></a>
+<condact>ADD flagno1. flagno2.</condact>
+
+<p>Flag flagno 2 has the contents of Flag flagno 1 added to it. If the result exceeds 255 the flag is set to 255.</p>
+
+<a name="sub"></a>
+<condact>SUB flagno1. flagno2.</condact>
+
+<p>Flag flagno 2 has the contents of Flag flagno 1 subtracted from it. If the result is negative the flag is set to 0.</p>
+
+<a name="copyff"></a>
+<condact>COPYFF flagno1. flagno2.</condact>
+
+<p>The contents of Flag flagno 1 is copied to Flag flagno 2.</p>
+
+<a name="copybf"></a>
+<condact>COPYBF flagno1. flagno2.</condact>
+
+<p>Same as COPYFF but the source and destination are reversed, so
+that indirection can be used. This will hopefully be replaced by
+a comprehensive system of dual parameter redirection for COPY
+actions in the future.</p>
+
+<a name="random"></a>
+<condact>RANDOM flagno.</condact>
+
+<p>Flag flagno. is set to a number from the Pseudo-random sequence
+from 1 to 100. This could be useful to allow random decisions to
+be made in a more flexible way than with the CHANCE condition.</p>
+
+<a name="move"></a>
+<condact>MOVE flagno.</condact>
+
+<p>This is a very powerful action designed to manipulate PSI's. It
+allows the current LS Verb to be used to scan the connections
+section for the location given in Flag flagno. If the Verb is
+found then Flag flagno. is changed to be the location number
+associated with it, and the next condact is considered. If the
+verb is not found, or the original location number was invalid,
+then DAAD considers the next entry in the table - if present.</p>
+
+<p>This feature could be used to provide characters with random
+movement in valid directions; by setting the LS Verb to a random
+movement word and allowing MOVE to decide if the character can go
+that way. Note that any special movements which are dealt with in
+Response for the player, must be dealt with separately for a PSI
+as well.</p>
+
+<p><u>Actions to manipulate the flags dealing with the player</u></p>
+
+<a name="goto"></a>
+<condact>GOTO locno.</condact>
+
+<p>Changes the current location to locno. This effectively sets flag
+38 to the value locno.</p>
+
+<a name="weight"></a>
+<condact>WEIGHT flagno.</condact>
+
+<p>Calculates the true weight of all objects carried and worn by the
+player (i.e. any containers will have the weight of their
+content added up to a maximum of 255), this value is then placed
+in Flag flagno. This would be useful to ensure the player was
+not carrying too much weight to cross a bridge without it
+collapsing etc.</p>
+
+<a name="ability"></a>
+<condact>ABILITY value1 value2</condact>
+
+<p>This sets Flag 37, the maximum number of objects conveyable, to
+value 1 and Flag 52, the maximum weight of objects the player 
+may carry and wear at any one time (or their strength), to be value 2.</p>
+<p>No checks are made to ensure that the player is not already
+carrying more than the maximum. GET and so on, which check the
+values, will still work correctly and prevent the player carrying
+any more objects, even if you set the value lower than that which
+is already carried!</p>
+
+
+<p><u>Actions to manipulate the flags for screen mode, format, etc.</u></p>
+
+<a name="mode"></a>
+<condact>MODE option</condact>
+
+
+<p>Allows the current window to have its operation flags changed. 
+To calculate the number to use for the option just add
+the numbers shown next to each item to achieve the required
+combination.</p>
+
+ <ul>
+  <li>1 - Use the upper character set. (A permanent ^G)</li>
+  <li>2 - SM32 ("More...") will not appear when the window fills.</li>
+</ul>
+
+<p>e.g. MODE 3 stops the 'More...' prompt and causes all characters
+to be translated to the 128-256 range.</p>
+
+<a name="input"></a>
+<condact>INPUT stream option</condact>
+
+<p>The 'stream' parameter will set the bulk of input to come from
+the given window/stream. A value of 0 for 'stream' will not use
+the graphics stream as might be expected, but instead causes
+input to come from the current stream when the input occurs.</p>
+
+<p>Options:</p>
+
+<ul>
+<li>1 - Clear window after input.</li>
+<li>2 - Reprint input line in current stream when complete.</li>
+<li>4 - Reprint current text of input after a timeout.</li>
+</ul>
+
+<a name="time"></a>
+<condact>TIME duration option</condact>
+
+<p>Allows input to be set to 'timeout' after a specific duration in
+1 second intervals, i.e. the Process 2 table will be called again
+if the player types nothing for the specified period. This
+action alters flags 48 & 49. 'option' allows this to also occur
+on ANYKEY and the "More..." prompt. In order to calculate the
+number to use for the option just add the numbers shown next to
+each item to achieve the required combination.</p>
+
+<ul>
+ <li>1 - While waiting for first character of Input only.</li>
+ <li>2 - While waiting for the key on the "More..." prompt.</li>
+ <li>4 - While waiting for the key on the ANYKEY action.</li>
+</ul> 
+
+<p>e.g. TIME 5 6 (option = 2+4) will allow 5 seconds of inactivity
+on behalf of the player on input, ANYKEY or "More..." and between
+each key press. Whereas TIME 5 3 (option = 1+2) allows it only on
+the first character of input and on "More...".</p>
+
+<p>TIME 0 0 will stop timeouts (default).
+
+<p><u>Actions to deal with screen output and control</u></p>
+
+<a name="window"></a>
+<condact>WINDOW window</condact>
+
+<p>Selects window (0-7) as current print output stream.</p>
+
+<a name="winat"></a>
+<condact>WINAT line col</condact>
+
+<p>Sets current window to start at given line and column. Clipping
+height and width to fit available screen.</p>
+
+<a name="winsize"></a>
+<condact>WINSIZE height width</condact>
+
+<p>Sets current window size to given height and width. Clipping as
+needed to fit available screen.</p>
+
+<a name="centre"></a>
+<condact>CENTRE</condact>
+
+<p>Will ensure the current window is centered for the current column
+width of the screen. (Does not affect line position).</p>
+
+<a name="cls"></a>
+<condact>CLS</condact>
+
+<p>Clears the current window.</p>
+
+<a name="saveat"></a>
+<condact>SAVEAT</condact>
+
+<p>Saves print position for current window. This allows
+you to maintain the print position for example while printing
+elsewhere in the window. You should consider using a separate
+window for most tasks. This may find use in the creation of a
+new input line or in animation sequences...</p>
+
+<a name="backat"></a>
+<condact>BACKAT</condact>
+
+<p>Restores print position.</p>
+
+<a name="paper"></a>
+<condact>PAPER colour</condact>
+Sets current window paper colour according to the lookup table given in
+the graphics editors, or as a palette number for machines with a
+palette.
+
+<a name="ink"></a>
+<condact>INK colour</condact>
+
+Sets current window ink colour according to the lookup table given in
+the graphics editors, or as a palette number for machines with a
+palette.
+
+<a name="border"></a>
+<condact>BORDER colour</condact>
+
+<p>Sets main screen border colour - this is machine specific.</p>
+
+<a name="printat"></a>
+<condact>PRINTAT line col</condact>
+
+<p>Sets current print position to given point if in current window.
+If not, then print position becomes top left of window.</p>
+
+<a name="tab"></a>
+<condact>TAB col</condact>
+
+<p>Sets current print position to given column on current line.</p>
+
+<a name="mes"></a>
+<condact>MES mesno.</condact>
+
+<p>Prints Message mesno.</p>
+
+<condact>MES "string"</condact>
+
+<p>Prints message between quotes.</p>
+
+<p>Please notice you can either user double or single quotes for the string but use the same for starting and ending.</p>
+
+<a name="message"></a>
+<condact>MESSAGE mesno.</condact>
+
+<p>Prints Message mesno. After printing either message, it prints a new line.</p>
+
+<condact>MESSAGE mesno. or MESSAGE "string"</condact>
+
+<p>Prints message between quotes. After printing either message, it prints a new line.</p>
+
+<p>Please notice you can either user double or single quotes for the string but use the same for starting and ending.</p>
+
+<a name="sysmess"></a>
+<condact>SYSMESS sysno.</condact>
+
+<p>Prints System Message sysno.</p>
+
+<condact>SYSMESS "string"</condact>
+
+<p>Prints message between quotes.</p>
+
+<a name="desc"></a>
+<condact>DESC locno.</condact>
+<p>Prints the text for location locno. without a NEWLINE.</p>
+
+<condact>DESC "string"</condact>
+<p>Prints the text between quotes.</p>
+
+<a name="space"></a>
+<condact>SPACE</condact>
+
+<p>Will simply print a space to the current output stream. Shorter
+than MES Space!</p>
+
+<a name="newline"></a>
+<condact>NEWLINE</condact>
+
+<p>Prints a carriage return/line feed.</p>
+
+<p>So what's the difference between DESC/MES/SYSMESS/MESSAGE when used with a string? Basically, the compiler adds internally that new message to the corresponding table, 
+  so MES/MESSAGE will add that message to MTX table (user messages), SYSMESS will add it to STX table (system messages) and DESC to LTX table (Locations). In the end it 
+doesn't really matter, but take in mind each table has a limit of 256 messages, so you can use SYSMESS or DESC if you run out of space in MTX table.</p>
+
+<p>The truth is the new DRC compiler already does that for you, so you can always use MES/MESSAGE and forget about it, the compiler will automatically put the message in the table where there is still some space.</p>
+
+<p><u>Actions to deal with the printing of flag values on the screen</u></p>
+
+<a name="print"></a>
+<condact>PRINT flagno.</condact>
+
+<p>The value of Flag flagno. is displayed without
+leading or trailing spaces. This is a very useful action. Say
+flag 100 contained the number of coins carried by the player,
+then an entry in a process table of:</p>
+
+<code>
+   MES "You have "<br/>
+   PRINT 100<br/>
+   MESSAGE " gold coins."
+  </code>   
+
+<p>could be used to display this to the player.</p>
+
+<a name="dprint"></a>
+<condact>DPRINT flagno</condact>
+
+<p>Will print the contents of flagno and flagno+1 as a two byte
+number.</p>
+
+<p>i.e. a number in the range 0-65535 generated as: (flagno+1) * 256 + (flagno)</p>
+
+<p>DPRINT 255 is meaningless and will produce a random result.</p>
+
+<p><u>Actions dealing with listing objects on the screen. </u></p>
+
+<p>They are controlled/set by the value of flag 53 as described in the chapter on objects.</p>
+
+<a name="listobj"></a>
+<condact>LISTOBJ</condact>
+
+<p>If any objects are present, then SM1 ("I can also see:") is
+printed, followed by a list of all objects present at the current
+location. If there are no objects then nothing (as in null, not
+the word!) is printed.</p>
+
+<a name="listat"></a>
+<condact>LISTAT locno+.</condact>
+
+<p>If any objects are present, then they are listed. Otherwise SM53
+("nothing.") is printed - note that you will usually have to
+precede this action with a message along the lines of "In the bag
+is:" etc.</p>
+
+<p>><u>Actions to load or save the current state of the game</u></p>
+
+<ul>
+  <li>0 - Normal action</li>
+  <li>1 - Save to TAPE (i.e. does not ask "Disc or Tape?")</li>
+  <li>2 - Save to DISC (ditto)</li>
+</ul>
+
+<a name="save"></a>
+<condact>SAVE opt</condact>
+SAVE opt
+
+This action saves the current game position on disc or tape. SM60
+("Type in name of file.") is printed and the input routine is
+called to get the filename from the player. If the supplied
+filename is not acceptable SM59 ("File name error.") is printed -
+this is not checked on 8-bit machines, the file name is MADE
+acceptable!</p>
+
+<ul>
+  <li>0 - Normal action</li>
+  <li>1 - Save to TAPE (i.e. does not ask "Disc or Tape?")</li>
+  <li>2 - Save to DISC (ditto)</li>
+</ul>
+
+<a name="load"></a>
+<condact>LOAD opt</condact>
+
+<p>This action loads a game position from disc or tape. A filename
+is obtained in the same way as for SAVE. A variety of errors may
+appear on each machine if the file is not found or suffers a load
+error. Usually 'I/O Error'. The next action is carried out only
+if the load is successful. Otherwise a system clear, GOTO 0,
+RESTART is carried out.</p>
+
+<ul>
+  <li>0 - Normal action</li>
+  <li>1 - Save to TAPE (i.e. does not ask "Disc or Tape?")</li>
+  <li>2 - Save to DISC (ditto)</li>
+</ul>
+
+<a name="ramsave"></a>
+<condact>RAMSAVE</condact>
+
+<p>In a similar way to SAVE this action saves all the information
+relevant to the game in progress not onto disc but into a memory
+buffer. This buffer is of course volatile and will be destroyed
+when the machine is turned off which should be made clear to the
+player. The next action is always carried out.</p>
+
+<a name="ramload"></a>
+<condact>RAMLOAD flagno.</condact>
+
+<p>This action is the counterpart of RAMSAVE and allows the saved
+buffer to be restored. The parameter specifies the last flag to
+be reloaded which can be used to preserve values over a restore,
+for example, an entry of:</p>
+
+<code>
+ > RAMLO _ <br/>
+    COPYFF 30 255<br/>
+    RAMLOAD 254<br/>
+    COPYFF 255 30<br/>
+    RESTART
+</code>  
+
+<p>could be used to maintain the current score, so that the player
+can not use RAMSAVE/LOAD as an easy option for achieving 100%!</p>
+
+<p>
+Note 1: The RAM actions could be used to implement an OOPS
+command that is common on other systems to take back the previous
+move; by creating an entry in the main loop which does an
+automatic RAMSAVE every time the player enters a move.</p>
+
+<p>Note 2: These four actions allow the next CondAct to be carried
+out. They should normally always be followed by a RESTART or
+describe in order that the game state is restored to an identical
+position.</p>
+
+
+<p><u>Actions to allow the game to be paused</u></p>
+
+<a name="anykey"></a>
+<condact>ANYKEY</condact>
+
+<p>SM16 ("Press any key to continue") is printed and the keyboard is
+scanned until a key is pressed or until the timeout duration has
+elapsed if enabled.</p>
+
+<a name="pause"></a>
+<condact>PAUSE value</condact>
+ 
+<p>Pauses for value/50 secs. However, if value is zero then the
+pause is for 256/50 secs.</p>
+
+<p><u>Actions to deal with control of the parser</u></p>
+
+<a name="parse"></a>
+<condact>PARSE n</condact>
+
+The parameter 'n' controls which level of string indentation is
+to be searched. Now only two are supported by the interpreters 
+so only the values 0 and 1 are valid.
+
+ <ul>
+  <li>0 - Parse the main input line for the next LS.</li>
+ <li>1 - Parse any string (phrase enclosed in quotes [""]) that was contained in the last LS extracted.</li>
+</ul>
+
+<p>Mode 0 is the primary method for converting the current input line
+of the player to a logical sentence (LS). The detailed
+description of the parser provides further details. The command
+will extract the next LS from the current input line.</p>
+
+<p>Mode 1 was designed to deal with speech to PSIs. Any string (i.e.
+a further phrase enclosed in quotes [""]) that was present in the
+players current phrase is converted into a LS - overwriting the
+existing LS formed originally for that phrase.</p>
+
+<p>If no phrase is present at level 0 then the input line is called
+preceded with a random prompt - this gets a new input line from
+the player automatically when required, removing the problem of
+handling multiple phrases by the programmer. At level 1 and above
+the next CondAct is carried out. This occurs at all levels if the
+LS is invalid. Note that DAAD will look at the next condact in
+what can be considered a fail situation - this is different to
+what you might expect. Otherwise the next entry is considered 
+with the new LS of the speech made to the PSI. Because it
+overwrites the current LS it must be used carefully - this is
+also, the reason for doing the next CondAct in a fail situation,
+think about it!</p>
+
+<p>If you are using a text-based command structure you will need at
+least one PARSE 0 CondAct in the main loop somewhere.</p>
+
+<p>e.g. the minimum process 0 without an initialization might be: -</p>
+
+<code>
+> _ _<br/>
+ PARSE 0<br/>
+ MESSAGE "I don't understand"<br/>
+ REDO<br/>
+ <br/>
+> _ _ <br/>
+ PROCESS x ; Deal with any commands<br/>
+ REDO
+</code>
+
+<p>To use it to speak to a PSI there will be two or more calling
+  entries (in process x of the above example) which will be similar
+  to:
+  </p>
+
+
+  <code>
+  > SAY name <br/>
+  SAME pos 38 ;Are they here?<br/>
+  PROCESS y ;Decode speech…<br/>
+  DONE ;LS destroyed so always DONE.<br/>
+  <br/>
+> SAY name <br/>
+  MESSAGE z ;"They are not here!"<br/>
+  DONE
+  </code>
+
+<p>With a “PROCESS y” similar to:</p>
+
+<code>
+  > _ _ <br/>
+  PARSE ;Always do this entry<br/>
+  MESSAGE x ;"They don't understand"<br/>
+  DONE<br/>
+  <br/>
+> word word<br/>
+  CondAct list ;Any phrases PSI understands<br/>
+  <br/>
+> _ _ <br/>
+  MESSAGE x ;as above or different message
+</code>
+
+<a name="newtext"></a>
+<condact>NEWTEXT</condact>
+
+<p>Forces the loss of any remaining phrases on the current input
+line. You would use this to prevent the player continuing without
+a fresh input should something go badly for his situation. e.g.
+the GET action carries out a NEWTEXT if it fails to get the
+required object for any reason, to prevent disaster with a
+sentence such as:</p>
+
+<p>GET SWORD AND KILL ORC WITH IT</p>
+
+<p>as attacking the ORC without the sword may be dangerous!</p>
+
+<a name="synonym"></a>
+<condact>SYNONYM verb noun</condact>
+
+<p>Substitutes the given verb and noun in the LS. Nullword (Usually
+'_') can be used to suppress substitution for one or the other
+- or both I suppose!</p>
+
+ <p>e.g. MATCH ON SYNONYM LIGHT MATCH</p>
+
+<code>
+> STRIKE MATCH<br/>
+  SYNONYM LIGHT _<br/>
+  <br/>
+> LIGHT MATCH <br/>
+  ; Actions...<br/>
+</code>  
+
+<p>will switch the LS into a standard format for several different
+entries. Allowing only one to deal with the actual actions.</p>
+
+<p><u>Actions which deal with jumping, looping and subroutine control</u></p>
+
+<a name="process"></a>
+<condact>PROCESS procno.</condact>
+
+<p>This powerful action transfers the attention of DAAD to the specified Process table number. Note that it is a true subroutine call and any exit from the new table (e.g. DONE, OK etc.) will return control to the condact which follows the calling PROCESS action. A sub-process can call (nest) further process' to a depth of 10 at which point a runtime error will be generated.</p>
+
+<a name="redo"></a>
+<condact>REDO</condact>
+
+<p>Will restart the currently executing table.</p>
+
+<a name="doall"></a>
+<condact>DOALL locno+</condact>
+
+<p>Another powerful action which allows the implementation of an
+'ALL' type command.</p>
+
+<ul>
+ <li>1 - An attempt is made to find an object at Location locno.
+ If this is unsuccessful the DOALL is cancelled, system message 8 
+ “You can’t do that” is shown, and action DONE is performed.</li>
+
+ <li>2 - The object number is converted into the LS Noun1 (and
+ Adjective1 if present) by reference to the object 
+ definition section. If Noun (Adjective)1 matches
+ Noun (Adjective)2 then a return is made to step 1. This
+ implements the "Verb ALL EXCEPT object" facility of the
+ parser.</li>
+
+ <li>3 - The next condact and/or entry in the table is then
+ considered. This effectively converts a phrase of "Verb
+ All" into "Verb object" which is then processed by the
+ table as if the player had typed it in.</li>
+
+ <li>4 - When an attempt is made to exit the current table, if
+ the DOALL is still active (i.e. has not been cancelled
+ by an action) then the attention of DAAD is returned to
+ the DOALL as from step 1; with the object search
+ continuing from the next highest object number to that
+ just considered.</li>
+</ul>
+
+<p>The main ramification of the search method through the object
+definition section is objects which have the same Noun (Adjective) description
+ (where the game works out which object is referred to by its presence) must be checked 
+ for in ascending order of object number, or one of them may be missed. </p>
+
+<p>Use of DOALL to implement things like OPEN ALL must account for
+the fact that doors are often flags only and would have to be
+made into objects if they were to be included in a DOALL.</p>
+
+<p>The DOS interpreter supports an extended DOALL mode where DOALLs can be nested if 
+  they are in different processes (i.e. while in DOALL, a call to PROCESS is made,
+  and that process has another DOALL). To enable that, you have to call the
+   interpreter with -NDOALL (nested doall) parameter. It’s not likely that can be used 
+   often as it’s not supported by other interpreters, but it’s worth knowing.</p>
+
+<a name="skip"></a>
+<condact>SKIP distance | label</condact>
+
+<p>where distance is -128 to 128, or to the specified label.</p>
+
+<p>Will move the current entry in a table back or fore. 0 means next
+entry (so is meaningless). -1 means restart current entry
+(Dangerous). There is no error checking so it should be possible
+to jump out of the table (Fatal).</p>
+
+<p>Skip can also accept as a parameter a local symbol. This is a
+symbol preceded by a $ sign. They are local to each process
+table and will not affect any global symbols used. The big
+advantage is that they can forward reference.</p>
+
+<p>This is implemented with rear patching. The symbol is defined by
+placing it in the source file immediately before the entry it
+refers to:</p>
+ 
+<p>e.g.</p>
+
+<code> 
+$backloop<br/>
+> _ _ <br/>
+  PRINT Flag<br/>
+  MINUS Flag 1<br/>
+  NOTZERO Flag<br/>
+  SKIP $backloop<br/>
+  <br/>
+> _ _ <br/>
+  ZERO Error<br/>
+  SKIP $Forward<br/>
+  <br/>
+> _ _ <br/>
+  EXIT 0<br/>
+  <br/>
+$Forward<br/>
+<br/>
+> _ _<br/> 
+…<br/>
+</code>
+
+<p><u>Actions which completely exit Response/Process execution</u></p>
+
+<a name="restart"></a>
+<condact>RESTART</condact>
+
+<p>Will cancel any DOALL loop, any sub-process calls and make a jump
+to execute process 0 again from the start.</p>
+
+<a name="end"></a>
+<condact>END</condact>
+
+<p>SM13 ("Would you like to play again?") is printed and the input
+routine called. Any DOALL loop and sub-process calls are
+cancelled. If the reply does not start with the first character
+of SM31 a jump is made to Initialize. Otherwise the player is
+returned to the operating system - by doing the command EXIT 0.</p>
+
+<a name="exit"></a>
+<condact>EXIT value</condact>
+
+<p>If value is 0 then will return directly to the operating system.
+Any value other than 0 will restart the whole game. Note that
+unlike RESTART which only restarts processing, this will clear
+and reset windows etc. The non-zero numbers specify a part number to
+ jump to on AUTOLOAD versions. Only the PCW supports this feature now. 
+ It will probably be added to PC as part of the HYPERCARD work. So
+  if you intend using it as a reset ensure you use your PART number 
+  as the non-zero value!
+</p>
+
+
+<p><u>Exit table actions</u></p>
+
+<a name="done"></a>
+<condact>DONE</condact>
+
+<p>This action jumps to the end of the process table and flags to
+DAAD that an action has been carried out. i.e. no more condacts
+or entries are considered. A return will thus be made to the
+previous calling process table, or to the start point of any
+active DOALL loop.</p>
+
+<a name="notdone"></a>
+<condact>NOTDONE</condact>
+
+<p>This action jumps to the end of the process table and flags DAAD
+that #no# action has been carried out. i.e. no more condacts or entries
+are considered. A return will thus be made to the previous calling process
+table or to the start point of any active DOALL loop. This will
+cause DAAD to print one of the "I can't" messages if needed. i.e. if no
+other action is carried out and no entry is present in the connections 
+section for the current Verb.
+
+<a name="ok"></a>
+<condact>OK</condact>
+
+<p>SM15 ("OK") is printed and action DONE is performed.</p>
+
+<p><u>Action to deal with sound</u></p>
+
+<a name="beep"></a>
+<condact>BEEP value value</condact>
+
+<p>Being first value the duration 1/50th of a second (i.e. 50 = 1 second), and the second value the frequency.</p>
+
+<p>For a list of frequencies see the XBEEP condact further in this manual.</p>
+
+<p><u>Actions to call external DAAD Routines</u></p>
+
+<p>There are four actions used to call an external routine to DAAD: SFX, GFX, EXTERN and CALL. Despite they are powerful, they are also complicated, and EXTERN is used internally by DAAD Ready, so we will not detail them in the DAAD Ready manual. Please refer to original DAAD manual.</p>
+
+<p><u>Actions to implement the primary graphics handling</u></p>
+
+<p>Much as in the previous section, PICTURE and DISPLAY are used mainly for vector graphics, and DAAD Ready is not using them. It may affect you when creating games with graphics for DOS, PCW, Amiga and ST, but once again, we suggest you check DAAD original manual.</p>
+
+<a name="maluvacondacts"></a>
+<h6>Maluva CondActs</h6>
+
+<p>Maluva is a DAAD extension which is included de facto in DAAD Ready Maluva handles many things and standardizes some others. For instance, using Maluva you can use new condActs that allow you to load pictures from disk, add additional texts, etc.</p>
+
+<p>Please bear in mind DRC (the new compiler) knows about these condacts, and sometimes may replace them with old condacts automatically, when the original interpreter does not support them, but supports others. For instance it will replace any XPICTURE call with PICTURE calls in all 16 bit targets and PCW, or will replace XBEEP with BEEP in interpreters already supporting BEEP.</p>
+
+<a name="xpicture"></a>
+<condact>XPICTURE locno</condact>
+
+<p>Draws the picture for location locno on top of the screen if the picture file exists.</p>
+
+<a name="xsave"></a>
+<condact>XSAVE opt</condact>
+
+<p>Saves the current game status to disk. The opt parameter is included for backwards compatibility with SAVE condact, but it is ignored. You can use XSAVE 0.</p>
+
+<a name="xload"></a>
+<condact>XLOAD opt</condact>
+
+<p>Loads the current game status from disk. The opt parameter it is also ignored.</p>
+
+<a name="xmessage"></a>
+<condact>XMESSAGE "string"</condact>
+
+<p>Displays the string in between quotes. Please notice this condact allows you to add additional messages apart of those in the message tables, so in case you need more text you can expand your game. XMES has the following limitations:</p>
+
+<ul>
+  <li>Each message cannot be longer than 511 characters</li>
+  <li>All messages created with XMES or XMESSAGE condacts, once compressed, cannot exceed 64K.</li>
+  <li>Xmessages are read from disk on demand, so for some machines or devices this can be slow. Please use it with care. That also means that some glitches can appear in machine using split modes (C64, CPC and ZX-Uno) when using Xmessage, although for ZX-Uno it is hard to happen as it reads from a very fast SD card.</li>
+</ul>
+
+<a name="xmessage"></a>
+<condact>XMESSSAGE "string"</condact>
+
+<p>Same as XMES but executes NEWLINE condact after printing text.</p>
+
+<a name="xpart"></a>
+<condact>XPART value</condact>
+
+<p>If you have a two-part game and want to hold the files in the same disk, you may run into a problem when you must store two different XMB (xmessage) files. As Maluva expect them to be named the same for both parts writing them on same disk would make one overwrite the other. XPART may be run before any XMESSAGE/XMES is executed, so Ma-luva knows it is running some other part.</p>
+<ul>
+  <li>For Spectrum and MSX, the parameter will be added to the '0' at'0.XMB'. So, for instance if value is 1, then Maluva will load 1.XMB instead of 0.XMB, if value is 7 then 7.XMB would be loaded, etc. Do not try to use values above 9, it will not work as you expect.</li>
+  <li>For C64 and CPC, if value is not zero, then 50 will be added to file names. That means instead of loading 00.XMB, 01.XMB, etc. the files 50.XMB, 51.XMB will be loaded. On C64 instead, of file "00" Maluva will read "50", instead of "01", it will take "51", etc.</li>  
+</ul>
+
+<a name="xsplitscr"></a>
+<condact>XSPLITSCR value</condact>
+<p>For machines supporting split screen (currently Amstrad CPC and Com-modore 64), this condact allows defining which mode will be used. Please notice the value has nothing to do with specific video modes in the target machine, but for a given configuration of modes. This is what mode means for each machine:</p>
+
+<table>
+<tr><th>target</th><th>upper half video mode</th><th>lower half video mode</th></tr>
+<tr><td>CPC 0</td><td>Mode 1</td><td>Mode 1</td></tr>
+<tr><td>CPC 1</td><td>Mode 0</td><td>Mode 1</td></tr>
+<tr><td>CPC 2</td><td>Mode 2</td><td>Mode 1</td></tr>
+<tr><td>C64 0</td><td>HiRes</td><td>HiRes</td></tr>
+<tr><td>C64 1</td><td>Multicolor</td><td>HiRes</td></tr>
+<tr><td>ZX-Uno 0</td><td>ULA Standard</td><td>ULA Standard</td></tr>
+<tr><td>ZX-Uno 1</td>Timex HiColor with ULAPlus<td></td><td>ULA Standard</td></tr>
+</table>
+
+<a name="xundone"></a>
+<condact>XUNDONE</condact>
+
+<p>
+XUNDONE changes the "done" status to not done. Every time DAAD exe-cutes an action, the internal interpreter status of "done" is set. That means if ISDONE or ISNDONE conditions are executed, they will succeed or not accordingly.
+Please notice unlike NOTDONE, XUNDONE just clears the done status, but does not go to the end of the current process.
+There are cases where even when an action is executed in a process, we do not want to consider the process "done". A clear example is the SYNONYM action. If you write an entry like this, so TURN ON LIGHT it is synonym to SWITCH ON, as soon as SYNONYM is executed, the internal status is already "done".
+</p>
+
+<code>
+> TURN LIGHT<br/>
+    SYNONYM SWITCH _
+</code>    
+
+<p>If later you write this entry, it may happen if the user forgot to type "ON", as PREP will fail, the entry will not be successful:</p>
+
+<code>
+ > SWITCH _<br/>
+ PREP ON<br/>
+ MESSAGE "You turn on the lights."<br/>
+ DONE
+</code> 
+
+<p>But as SYNONYM was executed and DAAD considers something has been done, when the response table ends, as status is "done", there won't be a "I don't understand" or "You can't do that message", just noth-ing, so the game will look like this:</p>
+
+<code>
+> TURN LIGHT<br/>
+    SYNONYM SWITCH _<br/>
+> (next prompt)
+</code>
+
+<p>For this case and others were, despite something having been done, you do not want the "done" status to remain set, you can use XUNDONE, which will clear the "done" flag.
+Pleas notice there is no XDONE or like activate he DONE flag, be-cause you can activate it by running any action condact. If you want a condact which does nothing, you can use "GOTO @38".</p>
+
+<a name="xspeed"></a>
+<condact>XSPEED value</condact>
+
+<p>This function allows you to set CPU Speed in ZX-Uno and ZX Spectrum Next targets. Value can be 0 or 1, 
+  so 0 is 3.5Mhz and 1 is 7Mhz. Although both machines support faster speeds, they do sometimes in-terfere 
+  with some Maluva features, so we have kept 7Mhz as safe speed. Please notice if value is not 0 or 1,
+  XSPEED call will be just ignored. Increasing the speed makes the game text be printed faster and helps 
+  a lot with image loading. Sadly, original BEEP implementation in the ZX Spectrum interpreter is also speed
+  up, so please make sure you restore standard speed before a BEEP or XPLAY, or it will sound at a higher
+  frequency (sharper).</p>
+
+<a name="xbeep"></a>
+<condact>XBEEP duration tone</condact>
+
+<ul>
+  <li>Duration is in 1/50 for second, so duration 50 equals one sec-ond.</li>
+  <li>Tone is a value from 48 to 238, which allow playing notes for 8 different octaves. Values above or below will be taken as silence.</li>
+</ul>
+
+<p>Only even values are valid, that is C is 48, C# is 50, D is 52, D# is 64, E is 66, F is 68, etc. If you use an odd value, you will probably just get noise.</p>
+
+<p>For each octave this are the ranges:</p>
+
+<table>
+<tr><th>Octave</th><th>Range</th></tr>
+<tr><td>1</td><td>48-70</td></tr>
+<tr><td>2</td><td>72-96</td></tr>
+<tr><td>3</td><td>98-118</td></tr>
+<tr><td>4</td><td>120-142</td></tr>
+<tr><td>5</td><td>144-166</td></tr>
+<tr><td>6</td><td>168-190</td></tr>
+<tr><td>7</td><td>192-214</td></tr>
+<tr><td>8</td><td>216-238</td></tr>
+</table>
+
+<p>For machines not supporting XBEEP, DRC compiler will replace XBEEP with BEEP.</p>
+
+<a name="xplay"></a>
+<condact>XPLAY “string”</condact>
+
+<p>Although not exactly a Maluva condact, but a fake condact, XPLAY al-lows you to play melodies using BEEP in much convenient way.</p>
+
+<p>The string expected it’s a subset of MML format (see below).</p>
+
+<p>Works in all 8 bit machines except for PCW (because so far it doesn't support BEEP or XBEEP).
+
+XPLAY is not reallya condact, but a compiler fake condact. When the compiler finds XPLAY, it will replace with a chain of XBEEP/BEEP  and PAUSE condacts, and each machine will play the notes 
+as it uses to play them (i.e Spectrum will use the speaker, CPC will use the AY chip). 
+
+<p>Only one channel is supported by DAAD.</p>
+<p>Please make also sure you read the notes about XBEEP and XPLAY in the description of XSPEED condact above, if you are targeting Spectrum Next or ZX-Uno.</p>
+
+<p><u>The MML format</u></p>
+
+<table>
+<tr><th>Symbol and meaning</th></tr>
+<tr><td>[A-G][#:halftone][num:length][.:period] Period increases length</td></tr>
+<tr><td>L = Length sets note length [1-64] (1=full note, 2=half note, 3=third note, ..., default:4)</td></tr>
+<tr><td>R = Pause [1-64] (1=full pause, 2=half pause, 3=third pause, ...)</td></tr>
+<tr><td>N = Note Pitch [0-96]</td></tr>
+<tr><td>O = Octave [1-8] (default:4)</td></tr>
+<tr><td>T = Tempo [32-255] (indicates the number of quarter notes per minute, default:120)</td></tr>
+<tr><td>V = Volume [0-15] (default:8)</td></tr>
+<tr><td>&lt; = Down one octave</td></tr>
+<tr><td>&gt; = Up one octave</td></tr>
+</table>
+
+<p>This is a string which plays Bocherinni’s minuetto:</p>
+
+<p>T110S3M5000O5G16F#16G16A16G8O4G4B4O5D8D8C8C4C16O4B16O5C16D16C8O4D4A4O5C8C8O4B8B4O5G4.E16D8C#8C#8C#8G4.E16D8C#8C#8C#8G4.E16F#8D8O4B8O5G8E4.D32E32D4</p>
+
+<a name="xnextcls"></a>
+<condact>XNEXTCLS</condact>
+
+<p>This is a Spectrum Next exclusive function, which clears and disa-bles layer 2. As in Spectrum Next games the pictures are painted in layer 2, DAAD cannot delete them with CLS. To allow the author to remove the pictures you can call this Maluva function.</p>
+
+<a name="xnextrst"></a>
+<condact>XNEXTRST</condact>
+
+<p>This Spectrum Next exclusive function just makes a soft reset. The reason behind this function is if you use END condact to finish a Next game, it makes a reset without clearing and disabling the lay-er2, so you may find the game resets but the picture is still there beside your Next menu. To avoid that, it is recommended to avoid us-ing END, and replace it with a combination of INKEY and this func-tion. See “Ending Next games” section at the end of this manual.</p>
+
+<p><u>Error handling in Maluva condacts</u></p>
+
+<p>Some Maluva functions may fail cause of external reasons. For in-stance, reading a picture from disk by XPICTURE may fail cause the file is not there, cause the user extracted the disk, etc. Maluva does nothing in those cases, at least apparently, so if for instance a picture is not there, no picture will be loaded, and if the XMes-sage file is not there, the message will not be shown but nothing else.</p>
+<p>But Maluva does something: when a call to Maluva fails, the 7th bit of flag 20 is set, when it succeeds, the 7th bit of flag 20 is cleared. In other words, if after a XPICTURE call you do "GT 20 127", that condition will succeeded if the picture failed to load. That way, you can check and display a message (i.e. Warning: image not found, please insert disk):</p>
+
+<code>
+>_ _ <br/>
+XPICTURE @38<br/>
+GT 20 127<br/>
+MESSAGE "Warning: image not found, please insert disk"<br/>
+</code>
+
+<p>or even this if you want to wait until the disk is inserted</p>
+
+<code>
+    > _ _ <br/>
+XPICTURE @38<br/>
+GT 20 127<br/>
+MESSAGE "Warning: image not found, please insert disk and press any key"<br/>
+ANYKEY<br/>
+SKIP -1
+</code>
+
+<p>On the other hand, Maluva can also report errors via de "done" flag status. If you set bit 0 of flag 20 (LET 20 1), Maluva, aside of saving result to flag 20, will also update the internal "done" flag accordingly, so if the call succeeds, the done status will be set but if not the done status will remain as it was when the call was executed. That way you can use ISDONE or ISNDONE after Maluva call. For instance, if in the initialization process you have done that LET 20 1, you can later:</p>
+
+<code>
+>	_ _ <br/>
+AT 200<br/>
+LET 20 1<br/>
+XPICTURE 120<br/>
+ISNDONE<br/>
+MESSAGE "Error: picture not found, please insert disk"<br/>
+</code>
+
+<a name="daadforquillpawdevelopers"></a>
+<h6>DAAD for Quill/Paw developers</h6>
+
+<p>This is a list of notes for people that used Gilsoft PAWS or The Quill</p>
+
+<p><u>The processes</u></p>
+
+<ul>
+  <li>0 -> Do not change it</li>
+<li>1 -> Do not change it</li>
+<li>2 -> Do not change it</li>
+<li>3 -> This works like PAW's process 1</li>
+<li>4 -> This works like PAW's process 2</li>
+<li>5 -> This works like PAW's response table</li>
+<li>6 -> Initialization process, you can show some messages here, or pictures, initilalize flags, etc. if you add them at the end of process etc.</li>
+
+</ul>
+
+<p><u>Objects</u></p>
+
+<p>DAAD allows object attributes, which means each object has 16 values that can be active (1) or inactive (0). You can see that in the /OBJ section. Using HASNAT and HASAT condActs,
+   you can check if a given object has a given value for some attribute. For instance, you can define that a specific attribute means the object is sharp,
+    then you can make puzzle that can be solved with any object having the “sharp” attribute.</p>
+
+<p><u>Indirection</u></p>    
+<p>It has been explained above, and it was not supported by PAW nor Quill.</p>
+
+<p><u>Message printing</u></p>
+
+<p>Rather than DAAD, this is an advantage of DRC, the new DAAD compiler. As you have seen in the description of MESSAGE, MES, SYSMESS and DESC, you can now just make MESSAGE have a string as parameter, so you do not have to bother with message numbers.</p>
+
+<p>Also, Maluva provides XMESSAGE condAct, that also expects a string as parameter, and will give you 64K more of messages for longer adventures. Please notice xmessages are limited by memory used (64K) and not by number of messages.</p>
+
+<p>Also is DRC the one that handles international character printing and takes care about repeated messages, so if you write same message twice, only one is used internally</p>
+
+<a name="errors"></a>
+<h6>Errors</h6>
+
+<p>Although we do as much checking as we can in the compiler, there are a few errors that cannot be detected until runtime.</p>
+
+<p>The interpreters can throw up several types of error. Usually in a little window at the top left on 8 bit and centered on 16 bits, but if during a SAVE they will be printed in the current input stream as they do not cause the game to restart.</p>
+
+<p>The errors are:</p>
+
+<ul>
+<li>I/O Error : Something wrong happened while loading or saving a file.</li>
+<li>BREAK : Player pressed break</li>
+<li>Error n: This is a machine specific error, please refer to that specific machine manual to find what error number n is.</li>
+<li>Game Error n:</li>
+<ul>
+  <li>0 - Invalid object number</li>
+  <li>1 - Illegal assignment to HERE (Flag 38)</li>
+  <li>2 - Attempt to set object to loc 255</li>
+  <li>3 - Limit reached on PROCESS calls</li>
+  <li>4 - Attempt to nest DOALL</li>
+  <li>5 - Illegal CondAct (corrupt or old db!)</li>
+  <li>6 - Invalid process call</li>
+  <li>7 - Invalid message number</li>
+  <li>8 - Invalid PICTURE (drawstring only)</li>
+</ul>
+</ul>
+
+<a name="theparser"></a>
+<h6>The parser</h6>
+
+<p>The parser works by scanning an input line (up to 125 characters)
+for words which are in the vocabulary, extracting 'Phrases' which
+it can turn into Logical sentences.</p>
+
+<p>When a phrase has been extracted, the Response and Connections
+tables are scanned to see if the Logical Sentence is recognized.
+If not then system message 8 ("I can't do that") or system message 7
+("I can't go in that direction") will be displayed depending on the Verb value (i.e. if
+less than 14 then system message 7 will be used) and a new text input is requested. A
+new text input will also be requested if an action fails in some way (e.g. an object too heavy) or
+if the writer forces it with a NEWTEXT action. The results might otherwise be catastrophic for the player. 
+e.g. GET AXE AND ATTACK TROLL, if you do not have the axe you wouldn't really want to tackle the Troll!</p>
+
+<p>If the LS is successfully executed, then another phrase is extracted, or new text requested if there is no more text in the
+buffer.</p>
+
+<p>Phrases are separated by conjugations ("AND" & "THEN" usually) and by any punctuation.</p>
+
+<p>In English, a Pronoun ("IT" usually) can be used to refer to the
+Noun/Adjective used in the previous Phrase - even if this was a
+separate input. Nouns with word values less than 50 are Proper
+Nouns and will not affect the Pronoun. Spanish implementes same
+feature with pronominal suffixes like -lo, -la , -los, -las.</p>
+
+<p>The Logical Sentence format is as follows: -</p>
+
+
+<code>
+   (Adverb)Verb(Adjective1(Noun1))(preposition)(Adjective2(Noun2))
+  </code>   
+
+
+<p>where bracketed types are optional. i.e. the minimum phrase is a
+Verb (or a Conversion Noun - a Noun with a word value &lt;20 - which
+if no Verb is found in a phrase will be converted into a Verb
+e.g. NORTH). If the Verb is omitted, then the LS will assume the
+previously used Verb is required. i.e. GET SWORD AND SHIELD will
+work correctly! The current 'IT' (pronoun) will become the first
+Noun in a list like this. I.e. 'IT' would be replaced with SWORD in
+the example. It (if you will excuse the pun) will not change
+until a different Verb (or conversion Noun) is used.</p>
+
+<p>Note that the phrase does not strictly have to be typed in by the
+player in this format. As an example:</p>
+
+<code>
+ GET THE SMALL SWORD QUICKLY<br />
+ QUICKLY GET THE SMALL SWORD<br />
+ QUICKLY THE SMALL SWORD GET
+</code> 
+
+<p>are all equivalent phrases producing the same LS. Although the
+third version is rather dubious English.</p>
+
+<p>A true sentence could be: -</p>
+ 
+<code>
+ GET ALL. OPEN THE DOOR AND GO SOUTH THEN GET THE BUCKET AND
+ LOOK IN IT.
+</code> 
+
+<p>which will become five LS’s: -</p>
+
+
+<code>
+ GET ALL<br/>
+ OPEN DOOR (because THE is not in the vocabulary)<br/>
+ SOUTH (because GO is not in the vocabulary)<br/>
+ GET BUCKET<br/>
+ LOOK BUCKET (from IT) IN (preposition)
+</code>
+
+<p>Note that DOALL will not generate the object described by
+Noun (Adjective)2 of the Logical sentence. This provides a simple
+method of implementing EXCEPT. e.g. GET ALL EXCEPT THE FISH, it
+has the side effect of not allowing PUT ALL EXCEPT THE FISH IN
+THE BUCKET, as this has three nouns!</p>
+
+<p><u>Spanish</u></p>
+
+<p>If a Verb is less than 5 letters you will need to include the lo, la, los and las versions in the vocabulary. Obviously if it is four
+letters you only need 'l' ending as a synonym (TOMA -> TOMAL) if it is three letters you need 'lo' and 'la' (PON -> PONLO, PONLA)
+ synonyms and if it is one or two letters you need 'lo','la','los' & 'las'! (DA -> DALE, DALOS, DALA, DALAS)</p>
+
+<p>If you have a plural noun in the game which changes its stress
+then you need to include the stressed and unstressed.</p>
+
+<p>The Spanish Parser deals with NOUNS, PRONOUNS and ADJECTIVES differently to the English. Specifically, it assumes that adjectives FOLLOW nouns, 
+  and does not deal with compound nouns. A compound noun is where an object is described by two nouns such as
+  PARK BENCH. where the player may use either or both words to describe the item. E.g. GET BENCH, GET PARK, GET PARK BENCH.
+  PARK and BENCH would probably be synonyms and the problem does not arise until you use a second noun. E.g. PAINT PARK 
+  BENCH WITH BRUSH. Here BRUSH should be NOUN2, but the parser would assume PARK was NOUN1 and BENCH was NOUN2. 
+  The English parser deals with this situation, but it is complicated to do for Spanish.
+
+
+<p><u>Other languages</u></p>
+
+<p>Despite DAAD it is only supporting English and Spanish, DAAD Ready has a limited support for other languages as Portuguese, 
+  French and German. That means, DAAD Ready is able to print special characters for those two languages, as “õ” or “ß”,
+   but doesn’t make any change in the parser, so the Portuguese games will be using the Spanish interpreter and the German 
+   and French games will be using the English interpreter. Please bear that in mind if creating games for those languages.</p>
+
+<p>There is no support for other languages right now, but DAAD Ready supports
+printing characters from other languages, basically most of the characters
+ in the LATIN-1 alphabet are printable.</p>
+
+<a name="systemflags"></a>  
+<h6>System Flags</h6>
+
+<p>The normal flags are free for use in any way in games. But if you look at the TEST.DSF file, you will see it defines a use for every flag from 0-63 - the 'system' flags. It also defines symbolic names for the system flags. Although DAAD does not reference all of these (only those shown below) they may be treated specially by future upgrades so treat them with care.</p>
+
+<p>The best way to test the bit defined flags is to use the <a href='#hasat'>HASAT</a> CondAct. For example, HASAT MOUSE will be true if a mouse is present.</p>
+
+
+<table>
+  <tr><th>Flag #</th><th>Usage/meaning</th></tr>  
+  <tr><td>0</td><td>When nonzero indicates game is dark (see also object 0)</td></tr>
+  <tr><td>1</td><td>Holds quantity of objects player is carrying (but not wearing)</td></tr>
+  <tr><td>2 to 28</td><td>These are not actually used by the DAAD interpreters anywhere. Thus, they would be free for use in your own games, but on the other hand the TEST.DSF file included within DAAD Ready it is using flag 28 for internal functionalities, and Maluva extension is using flag 20. Thus, you should not use those flags, and in fact our recommendation is, to avoid conflicts with future expansions, that you start using flag 254 for your own tasks, then 254, then 253, etc. That way you will be far from any conflict and your game may be recompiled in 20 years without problems.</td></tr>
+  <tr><td>29</td><td>Bit 0 - Mouse present (16 -it only).</td></tr>
+  <tr><td>30</td><td>Score flag - not actually used directly by DAAD but its traditional!</td></tr>
+  <tr><td>31/32</td><td>(LSB/MSB) holds number of turns player has taken (actually, this is the number of phrases extracted from the players input).</td></tr>
+  <tr><td>33</td><td>holds the Verb for the current logical sentence</td></tr>
+  <tr><td>34</td><td>holds the first Noun for the current logical sentence</td></tr>
+  <tr><td>35</td><td>holds the Adjective for the current logical sentence</td></tr>
+  <tr><td>36</td><td>holds the Adverb for the current logical sentence</td></tr>
+  <tr><td>37</td><td>holds maximum number of objects conveyable (initially 4) Set using ABILITY action</td></tr>
+  <tr><td>38</td><td>holds current location of player</td></tr>
+  <tr><td>39/40</td><td>Unused</td></tr>
+  <tr><td>41</td><td>Gives stream number for input to use. 0 means current stream. Used Modulo 8. I.e. 8 is considered as 0!</td></tr>
+  <tr><td>42</td><td>holds prompt to use a system message number - (0 selects one of four randomly)</td></tr>
+  <tr><td>43</td><td>holds the Preposition in the current logical sentence</td></tr>
+  <tr><td>44</td><td>holds the second Noun in the current logical sentence</td></tr>
+  <tr><td>45</td><td>holds the Adjective for the second Noun in the current logical sentence</td></tr>
+  <tr><td>46</td><td>holds the current pronoun ("IT" usually) Noun</td></tr>
+  <tr><td>47</td><td>holds the current pronoun ("IT" usually) Adjective</td></tr>
+  <tr><td>48</td><td>holds Timeout duration required</td></tr>
+  <tr><td>49</td><td>holds Timeout Control flags. Set bitwise:
+                    <table>
+                      <tr><th>Bit</th><th>Meaning</th></tr>
+                      <tr><td>7</td><td>Set if timeout occurred last frame</td></tr>
+                      <tr><td>6</td><td>Set if data available for recall (not of use to writer)</td></tr>
+                      <tr><td>5</td><td>Set this to cause auto recall of input buffer after timeout</td></tr>
+                      <tr><td>4</td><td>Set this to print input in current stream after edit</td></tr>
+                      <tr><td>3</td><td>Set this to clear input window</td></tr>
+                      <tr><td>2</td><td>Set this so timeout can occur on ANYKEY</td></tr>
+                      <tr><td>1</td><td>Set this so timeout can occur on "More..."</td></tr>
+                      <tr><td>0</td><td>Set this so timeout can occur at start of input only</td></tr>
+                    </table>
+  </td></tr>
+  <tr><td>50</td><td>holds object number for DOALL loop. i.e. value following DOALL</td></tr>
+  <tr><td>51</td><td>holds last object referenced by GET/DROP/WEAR/WHATO etc.</td></tr>
+  <tr><td>52</td><td>holds players strength (maximum weight of objects carried and worn - initially 10). Set with ABILITY action.</td></tr>
+  <tr><td>53</td><td>holds object print flags, Set bitwise:
+       <table>
+        <tr><th>Bit</th><th>Meaning</th></tr>
+        <tr><td>7</td><td>Set if any object printed as part of LISTOBJ or LISTAT</td></tr>
+        <tr><td>6</td><td>Set this to cause continuous object listing. i.e. LET 53 64 will make DAAD list objects on the same line forming a valid sentence.</td></tr>
+      </table>
+    </td></tr>
+  <tr><td>54</td><td>holds the present location of the currently referenced object</td></tr>
+  <tr><td>55</td><td>holds the weight of the currently referenced object</td></tr>
+  <tr><td>56</td><td>is 128 if the currently referenced object is a container.</td></tr>
+  <tr><td>57</td><td>is 128 if the currently referenced object is wearable</td></tr>
+  <tr><td>58/59</td><td>are the currently referenced objects user attributes</td></tr>
+  <tr><td>60/61</td><td>are the Key flags which give the key code returned after an INKEY condition succeeds. Flag 61 is only relevant on IBM, ST and AMIGA where it is used to provide the extended codes when a cursor or function key is pressed. In this case Flag 60 is zero and Flag 61 contains the IBM extended code.</td></tr>
+  <tr><td>62</td><td>on ST and PC gives the absolute screen mode in use on the machine. This allows checks to be made as to size of screen etc, but to determine if you are in graphics mode see Flag 29. On the ST 0 means lo-res and 1 med-res. 
+    On the PC 4 means CGA, 7 means mono character only, 13 is EGA or VGA and +128 (Bit 7 is set) in VGA to indicate you have palette switching.
+  </td></tr>
+  <tr><td>63</td><td>defines the currently active window. Note that this is a copy so changing its value will not affect the DAAD system.</td></tr>
+  <tr><td>64-254</td><td>Available for your own use</td></tr>
+</table>  
+
+
+<a name="thesourcefile"></a>
+<h6>The Source File</h6>
+
+<p>The source file consists of several inter-related sections
+  describing the adventure. They usually correspond with the areas
+  found in the database. 
+  </p>
+
+  <a name="sections"></a>
+  <h6>Sections</h6>
+
+  <p><u>The Control (CTL) section</u></p>
+
+<p>This section is obsolete and not used anymore. There should be an underscore character in there, but it is just for historical reasons.</p>
+
+<p><u>The Vocabulary (VOC) section</u></p>
+
+<p>Each entry in this section contains a word (or the first five
+characters of a word), a word value and a word type. Words with
+the same word value and type are called synonyms. </p>
+
+
+<p><u>The System Messages (STX) section</u></p>
+
+<p>This section contains the messages used by the Interpreter which
+are numbered from 0 upwards. The description of the Interpreter
+shows when these messages are used. In addition, extra messages
+can be inserted by the writer to provide messages for the game if
+required.</p>
+
+
+<p><u>The Message Text (MTX) section</u></p>
+
+<p>This section contains the text of any messages which are needed for the adventure. The messages are numbered from 0 upwards.
+With DAAD Ready you don’t really need to add messages here like in the old PAWS or original DAAD, you can just write things like this in
+the processes, and the compiler will take care of creating a message for you. It will even find if you are using the
+ same text twice or more, and use same message in that case:</p>
+
+<code>
+  MESSAGE “Hello World!”
+</code>
+
+<p>Still, the table may be used because you want to have some messages with some specific number, to be used with indirection (i.e. MESSAGE @100, which will print the message whose number is at flag 100).</p>
+
+
+<p><u>The Object Text (OTX) section</u></p>
+
+<p>This section, which has an entry for each object, contains the text which is printed when an object is described. An object is anything in the adventure which may be manipulated, and objects are numbered from 0 upwards. Object 0 is assumed by the Interpreter to be a source of light. </p>
+
+
+<p><u>The Location Text (LTX) section</u></p>
+
+<p>This section, which has an entry for each location, contains the text which is printed when a location is described. The entries are numbered from 0 upwards and location 0 is the location at
+which the adventure starts. </p>
+
+<p><u>The Connections (CON) section</u></p>
+
+<p>This section has an entry for each location and each entry may
+either be empty (null) or contain several movements. A movement consists
+ of a Verb (or conversion Noun) from the vocabulary followed by a location number.
+  This means that any Verb (or conversion Noun) with that word value causes
+  movement to that location. A typical entry could be: -</p>
+
+  <code>
+SOUTH 6<br />
+EAST 7<br />
+LEAVE 6<br />
+NORTH 5
+</code>
+
+<p>which means that SOUTH or LEAVE or their synonyms cause movement
+to location 6, EAST or its synonyms to location 7 and NORTH or
+its synonyms to location 5.</p>
+
+<p>Note 1. When the adventure is being played it is only the LS Verb
+ which will cause movement.</p>
+
+<p>Note 2. If a movement is performed by an entry in the Response
+ table using the GOTO action, then it may not be needed in
+ the Connections table, unless that entry is required for
+ a PSI who can move unconditionally.</p>
+
+
+<p><u>The Object Definition (OBJ) section</u></p>
+
+<p>This section has an entry for each object which specifies: </p>
+
+<ul>
+<li>The object’s number</li>
+<li>The location at which the object is situated at the beginning of the adventure.</li>
+<li>The object’s weight (0-63).</li>
+<li>Whether the object is a container.</li>
+<li>Whether the object can be worn/removed.</li>
+<li>The state of the other object attributes</li>
+<li>The noun and adjective associated with the object.</li>
+</ul>
+
+<p><u>The Process tables (PRO) section</u></p>
+
+<p>This section forms the heart of the source file providing the
+main game control. Each table consists of several entries. Each entry 
+contains the Verb and Noun for the LS the entry is to deal
+ with followed by any number of condActs. When the adventure is played if there is an entry
+  in the table which matches the Verb and Noun1 of the LS entered then the condActs are performed.
+ The condActs that may be present and the effect that they have is fully specified in
+ the description of the Interpreter. The LS can of course, be set using a method other than the PARSE
+ action. This would allow the creation of a menu system, multiple-choice entry etc.</p>
+
+<p><u>Process table 0</u></p>
+
+<p>This contains the main control of a DAAD program. It is entered
+after initialization with the current LS empty. It will normally
+consist of '> _ _' word entries and some form of looping.</p>
+
+<p><u>Process 1 (and upwards)</u></p>
+
+<p>These are optional and define sub-processes that can be
+referenced using the PROCESS action.</p>
+
+<p><u>Processes bundled with DAAD Ready</u></p>
+
+<p>Please notice the DAAD Ready TEST.DSF file already contains more processes, to simulate the way of working of Gilsoft's PAW. Thus, Process 0, 1, 2 and 6
+   are internal to build that, but process 3 is much like process 1 in PAW, process 4 is much like process 2, and process 5 just like the response table.</p>
+
+
+<a name="escapechars"></a>
+<h6>Escape Characters</h6>
+
+<p>While printing message, you can use some specific characters that will print not just what you they look like, but something in place. Please look at this table to understand what is printed:</p>
+
+<table>
+  <tr><th>Escape code</th><th>Description</th></tr>
+  <tr><td>_</td><td>It is replaced by the current referenced object description, if an indefinite article is found, it’s removed. That allows system messages be like “You take the _.”, so object “a lamp” gets “You take the lamp.” as associated message.</td></tr>
+  <tr><td>@</td><td>Same as the underscore, but the article has its first letter uppercased. Only works for Spanish interpreter.</td></tr>
+  <tr><td>#b or #s</td><td>Prints a blank space</td></tr>
+  <tr><td>#k</td><td>When this character is printed, the game is paused and waits for a key to be pressed.</td></tr>
+  <tr><td>#n or \n</td><td>Prints a carriage return</td></tr>
+  <tr><td>#g</td><td>Prints nothing, but from this moment on, every text printed will be using the upper 128 characters font. So, for instance #gt will print the character “t” of the upper font</td></tr>
+  <tr><td>#t</td><td>Restores the lower part of the character set.</td></tr>
+  <tr><td>#e</td><td>Prints the euro sign (€).</td></tr>
+</table>
+
+<a name="preprocessorcommands"></a>
+<h6>Preprocessor commands</h6>
+
+<p>Please notice this section is not for newbies, so do not worry if you don’t get a word. You can even skip it if starting with DAAD once you have seen the #define and #ifdef definitions.</p>
+
+<p>All preprocessor commands are preceded by a hash or gate character ('#'). They must occupy a line of their own. Generally, they can be placed almost anywhere, although it may not be appropriate or useful!</p>
+
+<a name="define"></a>
+<condact>#define symbol expression</condact>
+
+<p>Define the case sensitive label to have the value given by expression. This can consist of other symbols, numbers, and operations between quotes. The symbols can usually be used anywhere a number is required along with fixed numbers and the operators. This does not apply to IF statements which accept a single symbol only.</p>
+
+<code>
+#define hours 24<br/>
+#define days 2<br/>
+#define weekendHours “days*hours”<br/>
+#define noon “hours/2”
+</code>
+
+<p>Note that as the compiler is single pass you must define all
+symbols before you use them. This does not apply to local symbols
+(those preceeded with a $) as detailed elsewhere.</p>
+
+<p>The compiler defines several symbols automatically. It assigns a
+non-zero (TRUE) value according to the command line options for machine target:</p>
+
+<p>“pc”,”zx”,”cpc”,”msx”,”msx2”,”c64”,”cp4”,etc.</p>
+
+<p>Also, defines two symbols for machine subtarget when present, for instance “MODE_plus3” and “plus3” or “mode_next” and “next” for Spectrum.</p>
+
+<p>It also creates the symbol BIT8 or BIT16 depending on target.</p>
+
+<p>Also creates two symbols ROWS and COLS whose values are the text rows and columns for the whole screen for that target.</p>
+
+<p>Please notice #define is there for two main reasons: </p>
+
+<p>1)	Being able to refer things by name instead of number, for instance if object 2 is a lamp, then you can make a define and reference it like this:</p>
+
+
+<code>
+                #define oLamp 2<br/>
+                <br/>
+                CARRIED oLamp<br/>
+                DESTROY oLamp<br/>
+
+</code>                
+
+
+<p>Instead of using this old approach:</p>
+
+<code>
+                CARRIED 2<br/>
+                DESTROY 2
+              </code>                
+
+
+<p>It also increases code readability if you must come back some day and fix something you wrote months or years ago.</p>
+
+<p>2)	To use with “ifdef” (see below).</p>
+
+ <code>
+#ifdef “symbol”<br/>
+{#else}<br/>
+#endif
+</code>
+
+<p>This group of commands will occur together. Note that the #else is
+optional. Any lines following the #ifdef (up until the next #else or #endif) will be included in the compilation only if the symbol
+has a non zero (TRUE) value. If you use #ifndef instead of #ifdef, then it happens if FALSE.</p>
+
+<code>
+#ifdef “zx”<br/>
+MESSAGE “It’s hard to do that with a Spectrum”<br/>
+#else<br/>
+MESSAGE “It’s hard to do that without a Spectrum”<br/>
+#endif
+</code>
+
+<p>If you add that to the code, when the target is “ZX” (compiling for any ZX Spectrum target) players will get the first message, otherwise they will get the second one.</p>
+
+<p>Although this is a simple example, you can use that to create different code that compiles depending on whether symbols have been defined or not.</p>
+
+<a name="ifdef"></a>
+<condact>#ifdef "symbol"</condact>
+
+<p>The code between ifdef and #endif will be compiled only if symbol is defined.</p>
+
+<p>You can also use #else to say which code to be included if symbol is not defined.</p>
+
+<a name="ifndef"></a>
+<condact>#ifndef "symbol"</condact>
+
+<p>Same as above, but the code inside is included only if symbol is not defined.</p>
+
+<p> You can also use #else with ifndef, so </p>
+
+<code>
+  #ifdef "X"<br/>
+  XXXX<br/>
+  #else<br/>
+  YYYY<br/>
+  #endif
+</code>
+
+<p>is basically the same as:</p>
+<code>
+  #ifndef "X"<br/>
+  YYYY<br/>
+  #else<br/>
+  XXXX<br/>
+  #endif
+</code>
+
+
+<a name="include"></a>
+<condact>#include “filespec”</condact>
+
+<p>Will switch the compiler to use the specified source file. At the
+end of the file the compiler returns to the line after the
+#include in the original source file. Includes can't be nested.</p>
+
+
+<a name="echo"></a>
+<condact>#echo “text”</condact>
+
+<p>Output text to the console during compilation - usually to
+indicate titles and the inclusion of a file with conditional
+options.</p>
+
+<p>e.g.</p>
+
+<code>
+ #ifdef “PC”<br/>
+ #echo Including IBM Display handler<br/>
+ #include \LIB\PCDISP.DSF<br/>
+ #endif
+</code> 
+
+<a name="incbin"></a>
+<condact>#incbin “filespec”</condact>
+ 
+
+<p>Will include a memory image file at the current position in the
+database. This allows just about any type of data to be included
+in the database segment.</p>
+ 
+
+<a name="defb"></a>
+<condact>#defb “expression”</condact>
+
+<p>Will include the indicated byte value(s) in the database at the
+current address. For example:</p>
+
+<code>
+ #DEFB 1<br/>
+ #defb PSIFLAG-1
+</code>
+
+<a name="defw"></a>
+<condact>#defw “expression”</condact>
+
+
+<p>Will include the indicated word value(s) in the database at the
+current address. For example:</p>
+
+<code>
+ #defw 6578<br />
+ #defw IOADDR+4<br />
+</code>
+
+<p>
+#defb/w commands may be used in preference to INCBIN if you need
+to include only a few values or ones that are calculated from
+symbol values.
+</p>
+
+<a name="dbaddr"></a>
+<condact>#dbaddr symbol</condact>
+
+<p>Will give symbol the current address in the database. This can be
+sed for CALL, #userptr or #defw commands.</p>
+
+<a name="userptr"></a>
+<condact>#userptr n</condact>
+
+<p>Where n is from 0-9.</p>
+
+<p>This command is designed to overcome the forward reference
+limitation of the single pass compiler. It places the current
+database address in one of ten vectors whose position is fixed at
+the start of the database. Thus, an external routine can locate
+inserted data in the database by looking at the fixed vector.
+</p>
+
+<a name="extern"></a>
+<condact>#extern “filespec”</condact>
+
+<a name="sfx"></a>
+<condact>#sfx “filespec”</condact>
+
+<a name="gfx"></a>
+<condact>#gfx “filespec”</condact>
+
+<p>For 8 bit only. These three commands are like #USERPTR, but
+the value stored by them is copied by the interpreter on database
+load to the corresponding EXTERN vector. Note that SFX already
+has a default effect of writing to the sound chip registers. So
+any routine using this vector will replace this function. The
+EXTERN.SCE file uses EXTERN to achieve the sound so that the SFX
+command continues to function.</p>
+
+<p>Now any EXTERN or SFX commands will be directed to your routine.</p>
+
+<p>The interpreters recognize 3 external vectors. The third is for a
+50Hz interrupt: -</p>
+ 
+<a name="int"></a>
+<condact>#int “filespec”</condact>
+
+<p>For 8 bit machines only. Any routine placed on this vector will
+be called 50 times a second for the entire period that the game
+is running. Thus, there is no command in the DAAD language to call
+the routine. The Z80 ones save only the AF and HL registers (as
+HL is given as your address), so be sure to save any other
+registers you use. The 6502 interpreters save the entire
+processor state.</p>
+
+<p>If you include the filename in the #EXTERN, #SFX or #INT commands
+then it will cause the given file to be included in the database 
+- as if the command was followed by #INCBIN. </p>
+
+<a name="appendix"></a>
+<h4>Appendix</h4>
+
+<a name="appendixa"></a>
+<h6>Appendix A - The character set</h6>
+
+<p>Throughout the whole DAAD system the same character set of 256
+characters is used. </p>
+
+<p>DAAD Ready is using some of the chars in upper 128 bytes to represent international character other than the original Spanish ones already supported. </p>
+
+<p>DAAD Ready allows you to change the font for your game:</p>
+
+<p>If you want to change your game font, you just must change the files at the ASSETS/CHARSET folder. These are the files:</p>
+
+<ul>
+  <li>AD8x6.CHR is for Spectrum, MSX, Amstrad PCW, Amiga, AtariST and OLDMSDOS.</li>
+  <li>AD8x8.CHR is used by Amstrad CPC</li>
+  <li>C64bold.CHR is used by C64 and Plus/4.</li>
+  <li>MSDOS.FNT is used for MSDOS.</li>
+</ul>
+
+
+<p>To modify the font, you can use GCS application at TOOLS\GCS.ZX-Paintbursh can also open them. If you save the font from GCS, save it for 8 bit, even if you want to use it for 16 bit targets, with the only exception of MSDOS.FNT, tha you must save in SINTAC format.</p>
+
+<p>Please consider this:</p>
+
+<ul>
+  <li>AD8x6.CHR font is shown as a 6 pixels wide font, so you must avoid using three rightmost columns. The two rightmost ones will not be even shown, the third one you better keep empty to avoid characters appear to close from each other.</li>
+  <li>AD8x8.CHR font is shown using 8 pixels wide font. Despite that, it is the same font, so text in CPC is shown with more gaps between characters. You can modify the font to take two more columns, try not to use last column for the same reason said above.</li>
+  <li>C64bold.CHR for C64 is a bold font, because CRT TVs connected to C64 via RF connection have problems showing thin letters in a way that is readable.</li>
+</ul>
+
+
+<p>Please take in mind if you redefine characters in the upper font used for languages other than English, you won’t be able to use the for that language, but if you need to redefine the characters, you can always use one of the character you are not using (i.e. “ñ” if your game is in German or “õ” if your game is in Spanish).</p>
+
+<a name="appendixb"></a>
+<h6>Appendix B - Ending Spectrum Next Games</h6>
+
+<p>There is a small problem with ending Next games, as restarting the game does not clear the Layer2 memory area. To avoid that you will need to replace any END condAct in your code, with calling a specific process, whose code would have to be the following:</p>
+
+
+<code>
+  #define yesScancode 121;"y" keyboard code, for Spanish replace with 115 <br/>
+  #define noScancode 110;"n" keyboard scancode<br/>
+  <br/>
+     > _     _       SYSMESS 13; ¿Play again?<br/>
+                     NEWLINE<br/>
+                     NEWLINE<br/>
+                     PAUSE 10<br/>
+                     <br/>
+     > _     _       INKEY <br/>
+                     SKIP 1; Some key was pressed, let's check which one<br/>
+                     <br/>
+                     <br/>
+     > _     _       SKIP -2; Nothing pressed, wait for keypress<br/>
+     <br/>
+     <br/>
+     > _     _       EQ 60 yesScancode<br/>
+                     GOTO 0<br/>
+                     RESTART    <br/>
+                     <br/>
+     > _     _       EQ 60 noScancode<br/>
+                     XNEXTCLS<br/>
+                     XNEXTRST        ; Next cleanup and machine reset<br/>
+                     <br/>
+     > _     _       SKIP -5; neither "y" not "n" was pressed
+  </code>
+
+<p>  Then, instead of writing "END" condact, call the process you created by calling "PROCESS x".
+This has not been included in the default code because is very Spectrum Next specific and it is difficult to determine when you would use END condact (probably in every player death point).
+</p>
+
+<a name="appendixc"></a>
+<h6>Appendix C - Daad Ready customizations</h6>
+
+<p>DAAD Ready saves some settings in the CONFIG.BAT file, which is loaded by all the other .BAT files (one per target). Also, DAAD Ready checks if CUSTOM.BAT file exists, and if so, loads it after CONFIG.BAT. That allows third-party tools, as Adventuron, integrate with DAAD Ready and modify values in CONFIG.BAT file.</p>
+<p>Also, the bat files for each machine have several points where some external files are called if they exist, check the BAT files for more information.</p>
+
+<a name="appendixd"></a>
+<h6>Appendix D - Greetings</h6>
+
+<ul>
+  <li>Tim Gilberts, from Gilsoft/Infinite Imaginations, for creating DAAD (among others)</li>
+  <li>Graeme Yeandle and Huw-Hammer Powel, as co-authors of the previous engines together with Tim (PAWS, The Quill, SWAN)</li>
+  <li>Andrés Samudio, from Aventuras AD, for allowing public and free distribution of DAAD</li>
+  <li>Richard Wilson, for creating WinAPE. Despite is not used by DAAD Ready Anymore, it was used for a long time.</li>
+  <li>César Hernández, for creating ZEsarUX</li>
+  <li>Mochilote, for creating CPCDiskXP</li>
+  <li>Attila Grósz, for creating Yape</li>
+  <li>Natalia Pujol, for the new MSX2 interpreter</li>
+  <li>Imre Szell, for the new Plus/4 interpreter</li>
+  <li>Marcin Skoczylas, for creating C64Debugger</li>
+  <li>Habi, for creating CP/M Box, PCW Emulator</li>
+  <li>To all those working in dosbox, VICE64, OpenMSX, etc.</li>
+  <li>To Javier San José, for GCS font editor</li>
+  <li>To John Newbigin, for DD for Windows</li>
+  <li>To Amstrad and Locomotive, for allowing using their ROMS in Spectrum and CPC emulators.</li>
+  <li>To Juan José Torres, for the DAAD logo.</li>
+  <li>To Chris Ainsley, for his ideas, and for Visual Studio Code addon.</li>
+  <li>To Sergio Chico (Chronomantic), author of the fantastic Spectrum 128K interpreter and utilities.</li>
+  <li>To José Luis Cebrián, author of the new Windows and MacOS interpreters (among others)</li>
+  <li>To Cesar Nicolás Gonzalez, author of CPCE</li>
+  <li>To Mark Adler, John Bush, Karl Davis, Harald Denker, Jean-Michel Dubois,Jean-loup Gailly, Hunter Goatley, Ed Gordon, Ian Gorman, Chris Herborth, Dirk Haase, Greg Hartwig, Robert Heath, Jonathan Hudson, Paul Kienitz, David Kirschbaum, Johnny Lee, Onno van der Linden, Igor Mandrichenko, Steve P. Miller, Sergio Monesi, Keith Owens, George Petrov, Greg Roelofs, Kai Uwe Rommel, Steve Salisbury, Dave Smith, Steven M. Schweda, Christian Spieler, Cosmin Truta, Antoine Verheijen, Paul von Behren, Rich Wales and Mike White, authors of ZIP utility.</li>
+  <li>To Zorg, author of MSA Converter</li>
+</ul>
+
+<a name="appendixe"></a>
+<h6>Appendix E - Licenses</h6>
+
+<p>DAAD Ready contains software of a lot of parts and has been built by Uto (@utodev), which is author of Maluva (DAAD extension AKA extern) and DRC (New DAAD compiler). All software used is either free or open source with free distribution, and some special cases where license was not specified, permission has been granted by authors.</p>
+
+<ul>
+<li>DRC and Maluva are (C) Uto and are both subject to their respective licenses. See more information and source code <a href="https://github.com/daad-adventure-writer/DRC/wiki#LICENSE">here</a>.</li>
+<li>ZeSarUX is (C) César Hernández and it is subject to its own license, please see license file at TOOLS/ZESARUX folder. Also find more information and source code at <a href="https://github.com/chernandezba/zesarux/">Github repository</a>.</li>
+<li>WinAPE is (C) Richard Wilson. WinAPE is Freeware.</li>
+<li>OpenMSX is (C) several authors. Find more information at <a href="https://openmsx.org/">OpenMSX website</a>.</li>
+<li>C64DEbugger is (C) Marcin Skoczylas, although is also using some of the Vice64 code. If you like it and use it consider donating beer to
+<a href="mailto:slajerek@gmail.com">slajerek@gmail.com</a> or if you prefer money, at <a href="http://tinyurl.com/C64Debugger-PayPal">http://tinyurl.com/C64Debugger-PayPal</a>.</li>
+<li>Yape is (C) Attila Grósz and its freeware. Please find more information at <a href="http://yape.plus4.net">Yape website</a>.</li>
+<li>DOSBOX is (C) Peter "Qbix" Veenstra, Sjoerd "Harekiet" van der Berg, Tommy "fanskapet" Frössman, Ulf "Finster" Wohlers. Find source code and info at <a href="https://www.dosbox.com/">dosbox.com</a>.</li>
+<li>CP/M Box (PCW emulator) is (C) Habisoft. Find more information at <a href="http://www.habisoft.com/pcw/index_uk.asp">Habisoft website</a>.</li>
+<li>MSX2DAAD is (C) NataliaPC, find more information and source code at <a href="https://github.com/nataliapc/msx2daad/wiki">its repository</a>.</li>
+<li>CPCDiskXP is (C) Mochilote. Get more information at <a href="http://www.cpcmania.com/news.htm">CPCMania website</a>.</li>
+<li>C1541 is part of Vice64. Find more information at <a href="https://vice-emu.sourceforge.io/">Vice website</a>.</li>
+<li>dsktool is (C) Ricardo Bittencourt, Tony Cruise and NataliaPC. Find source code and lastest info at <a href="https://github.com/nataliapc/MSX_devs/tree/master/dsktool">its repository</a>.</li>  
+<li>PHP is (C) several users. Please find more information at <a href="https://www.php.net/">php.net</a>.</li>
+<li>DD for windows is (c) John Newbigin and it's licensed under the GPL v2. Find more information at <a href="http://www.chami.com/html-kit/">Chami website</a>.</li>
+<li>GCS is (C) Javier San José and Uto, and license it's pending to define.</li>
+<li>Several ROM images supplied with CPCE and ZEsarUX are still (C) to Amstrad Plc and Locomotive Software. Amstrad and Locomotive have given permission for these ROM images to be distributed with CPC emulators, but retains the (C).</li>
+<li>WinUAE is (C) Bernd Schmidt, Toni Wilen, Richard Drummond, Mustafa 'GnoStiC' TUFAN, Frode Solheim  and Rupert Hausberger , and is subject to GNU GPL license.</li>
+<li>Hatari is (C)Thomas Hut, Nicolas Pomarède, Eero Tamminen and others, and is subject to GNU GPL license, although it contains a library  (DLL) with a more restrictive license, whose restrictivemess only affects distribution together with paid software, which is not the case with DAAD Ready. Please notice anyway that it’s not legal to distribute your game together with our game if it’s not free (as in free beer).</li>
+<li>ZXDAAD128 and its related tools are GPL and (C) Sergio Chico, DRB128 is (C)UtoDev and Sergio Chico.</li>
+<li>ADG is (C) Jose Luis Cebrián and is released under the MIT license. Please check <a href="https://github.com/jlcebrian/ADP">its repository</a> for details.</li>
+<li>-	ZIP is © Mark Adler, John Bush, Karl Davis, Harald Denker, Jean-Michel Dubois,Jean-loup Gailly, Hunter Goatley, Ed Gordon, Ian Gorman, Chris Herborth, Dirk Haase, Greg Hartwig, Robert Heath, Jonathan Hudson, Paul Kienitz, David Kirschbaum, Johnny Lee, Onno van der Linden, Igor Mandrichenko, Steve P. Miller, Sergio Monesi, Keith Owens, George Petrov, Greg Roelofs, Kai Uwe Rommel, Steve Salisbury, Dave Smith, Steven M. Schweda, Christian Spieler, Cosmin Truta, Antoine Verheijen, Paul von Behren,   Rich Wales and Mike White, and its license is includ-ed in the LICENSE.TXT file at TOOLS/ZIP folder.</li>
+<li>-	MSA Converter is (C) Zorg</li>
+
+
+</ul>
+
+
+
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</div>
+</div>
+</div>
+
+</body>
+</html>
+
