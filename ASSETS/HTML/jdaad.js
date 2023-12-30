@@ -1572,7 +1572,7 @@ function getMessageInternal(tableOffset, messageNumber)
         else 
         {
             var mychar = String.fromCharCode(aByte ^ OFUSCATE_VALUE);
-            if ((mychar == ESCAPE_OBJNAME) || (mychar == ESCAPE_OBJNAME_CAPS))
+            if ((mychar == ESCAPE_OBJNAME) || ((mychar == ESCAPE_OBJNAME_CAPS) && DDB.isSpanish()) )
             {
                 var escapeText = getMessageInternal(DDB.header.objectPos, flags.getFlag(FREFOBJ));
                 escapeText = replaceArticles(escapeText, true, aByte == ESCAPE_OBJNAME_CAPS, true);
