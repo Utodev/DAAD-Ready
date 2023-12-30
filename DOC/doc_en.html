@@ -50,7 +50,7 @@
 <a name='content'></a>
 <h4>DAAD Ready Documentation</h4>
 
-<p>In Spanish <a href="doc_es.html">here <img src="../wikires/spanish.gif"></a></p>
+<p>En español <a href="doc_es.html">aquí<img src="spanish.gif"></a></p>
 
 <p>This document uses parts from the DAAD v2 Manual (C) Infinite Imaginations 1988/89/91, which was written by Tim Gilberts, compiled back to modern format by Pedro Fernandez from Andres Samudio’s disks, and had some amendments appointed or made by a few people more, and very specially by Stefan Vogt. This manual has been expanded, modified, cut, and cropped by Uto. </p>
 
@@ -82,8 +82,6 @@
   <li><a href='#howtousedaadready'>How to use DAAD Ready</a></li>
   <ul>
     <li><a href='#otherdetails'>Other Details</a></li>
-    <li><a href='#recommendedtools'>Recommended Tools</a></li>
-    <li><a href='#loadingscreens'>Loading Screens</a></li>
   </ul>
 
   <li><a href='#daadprogramming'>DAAD Programming</a></li>
@@ -239,6 +237,7 @@
   <li>SC8 format for MSX 2</li>
   <li>256 colors indexed PCX file for PC (Maximum 320x200 for VGA or 640x400 for SVA)</li>
   <li>TrueColor PNG image for HTML/Javascript</li>
+  <li>PNG with 16 colours max, 320x200, for Amiga and Atari ST</li>
   <li>The Windows version is actually a bundle of the DOS game with DOSBOX, so same graphics are used.</li>
   <li>The experimental Windows and MacOS targets use the Atari ST/Amiga graphics.</li>
 </ul>
@@ -263,7 +262,8 @@
   <tr><td>CPC .SCR and .PAL 320x200</td><td>CPCImgConv is a good tool to get images finished. It is important to have in mind color 0 of the image would be used as background for all the screen, and color 1 for text, so either you handle palette so 0 is black and 1 is white, or you find a way to make text readable by ensuring colours 0 and 1 have a decent contrast. Remember that you have to export both the .SCR and the .PAL file for each location, and put them in the folder.</td></tr>
   <tr><td>C64 .KLA 160x200 and .ART 320x200</td><td>Multipaint is a very good tool for C64 Multicolor images creation.</td></tr>
   <tr><td>Plus/4 320x200</td><td>The images should be in Boticceli HiRes format and named 001.PRG, 002.PRG, 003.PRG, etc. Botticeli is a Plus/4 application</td></tr>
-  <tr><td>MSX 1 .SC2 256x192</td><td>Same converter than MSX1 but use SC8 format.</td></tr>
+  <tr><td>MSX 1 .SC2 256x192</td><td>Nice converter at <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>. AsegúrateMake sure you use standard MSX 1 palette.</td></tr>
+  <tr><td>MSX 2 .SC8 256x212</td><td>Same converter than MSX1 but use SC8 format.</td></tr>
   <tr><td>PC .PCX 320x200 or 640x400</td><td>This is easy to generate with Gimp, just make sure the palette is set to indexed and you picture has no less than 17 colors, cause otherwise Gimp will generate an invalid 16-color PCX.</td></tr>
   <tr><td>Atari ST .PNG 320x200</td><td>With a máximum of 16 different colours. Alternatively, you can also use PI1 Degas files.</td></tr>
   <tr><td>Amiga .PNG 320x200</td><td>Same as Atari ST</td></tr>

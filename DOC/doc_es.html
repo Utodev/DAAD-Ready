@@ -1,0 +1,2604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TQCD5NSXW6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-TQCD5NSXW6');
+</script>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>DAAD Ready</title>
+  <meta name="description" content="Documentación DAAD Ready">
+  <meta name="author" content="@Uto_dev">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="normalize.css">
+  <link rel="stylesheet" href="skeleton.css">
+
+ 
+
+</head>
+<body style='font-family: Speccy, Verdana, Arial, Helvetica'>
+
+<div class="skip"><a href="#content">Saltar al contenido</a></div>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div class="container">
+    <div class="row">
+      <div class="twelve column" style='background-color:#045FB4;color:white'>
+      <h2><a href="/">DAAD Ready</a></h2>
+      </div>
+    </div>
+
+<div class="row">
+<div class="twelve column">
+<a name='content'></a>
+<h4>Documentación de DAAD Ready</h4>
+
+<p>In English <a href="doc_en.html">here <img src="english.gif"></a></p>
+
+<p>Este documento usa partes del manual de DAAD v2 (C) Infinite
+    Imaginations 1988/89/91 , que fue escrito originalmente por Tim
+    Gilberts , organizado de nuevo en formato actual por Pedro Fernández ,
+    partiendo de lo encontrado en los discos de Andrés Samudio, y tiene
+    correcciones realizadas por la experiencia de muchos usuarios, con
+    especial mención a Stefan Vogt. Este manual ha sido creado , añadiendo
+    nuevas secciones, revisando otras, y retirando aquellas que no son
+    relevantes para DAAD Ready, por Uto.
+    </p>
+
+<p>POR FAVOR TEN EN CUENTA QUE ESTE NO ES EL MANUAL DE DAAD, SINO UNA
+    ADAPTACIÓN HECHA PARA DAAD READY.</p>
+
+<p>LEE ESTE MANUAL PARA SABER COMO USAR DAAD READY , PROBABLEMENTE NO
+    NECESITARAS LEER EL MANUAL ORIGINAL, PERO UNA VEZ QUE CONOZCAS BIEN
+    DAAD READY PUEDES LEERLO.</p>
+  
+
+<H4>TABLA DE CONTENIDOS</H4>
+
+<ul>
+  <li><a href='#overview'>Introducción</a></li>
+  <ul>
+    <li><a href='#whatis'>¿Qué es DAAD Ready?</a></li></li>
+    <li><a href='#howtousedaadready'>Como usar DAAD Ready</a></li>
+    <li><a href='#otherdetails'>Otros detalles</a></li>
+    <li><a href='#thesource'>El fichero fuente</a></li>
+    <li><a href='#thecompiler'>El compilador</a></li>
+    <li><a href='#theinterpreters'>Los intérpretes</a></li>
+    <li><a href='#thegraphics'>Los gráficos</a></li>
+    <li><a href='#help'>Necesito ayuda</a></li>
+    
+  </ul>
+ 
+  <li><a href='#daadprogramming'>Programación DAAD</a></li>
+  <ul>
+    <li><a href='#programmingoverview'>Introducción</a></li>
+    <li><a href='#thesourcefilesections'>Secciones del fichero fuente</a></li>
+    <li><a href='#theflags'>Los flags</a></li>
+    <li><a href='#windows'>Ventanas</li>
+    <li><a href='#mainloop'>La lógica de los procesos</a></li>
+    <li><a href="#firststeps">Primeros pasos</a></li>
+    <li><a href='#condacts'>CondActos</a></li>
+    <li><a href='#conditions'>Condiciones</a></li>
+    <li><a href='#actions'>Acciones</a></li>
+    <li><a href='#maluvacondacts'>Condactos Maluva</a></li>
+    <li><a href='#maluvaerrorcontrol'>Condactos Maluva</a></li>   
+    <li><a href='#indirection'>Indirección</a></li>
+    <li><a href='#daadforquillpawdevelopers'>DAAD para el programador The Quill o PAW</a></li>
+    <li><a href='#errors'>Errores</a></li>
+    <li><a href='#theparser'>El analizador sintáctico (parser)</a></li>
+    <li><a href='#systemflags'>Flags del Sistema</a></li>
+    <li><a href='#escapechars'>Secuencias de Escape</a></li>
+    <li><a href='#preprocessorcommands'>Comandos del preprocesador</a></li>
+  </ul>
+  
+  <li><a href='#graphics'>Gráficos</a></li>
+  <ul>
+    <li><a href='#graphicsoverview'>Introdución a los gráficos</a></li>
+    <li><a href='#recommendedtools'>Herramientas recomendadas</a></li>
+    <li><a href='#loadingscreens'>Pantallas de carga</a></li>
+  </ul>
+
+  <li><a href='#appendix'>Apéndices</a></li>
+  <ul>
+    <li><a href='#appendixa'>A - El juego de caracteres</a></li>
+    <li><a href='#appendixb'>B - Finalizando juegos de Spectrum Next</a></li>
+    <li><a href='#appendixc'>C - Personalización de DAAD Ready</a></li>
+    <li><a href='#appendixd'>D - Idiomas soportados</a></li>
+    <li><a href='#appendixe'>E - Agradecimientos</a></li>
+    <li><a href='#appendixf'>F - Licencias</a></li>  
+  </ul>
+</ul>
+
+<a name="overview"></a>
+<H4>INTRODUCCIÓN</H4>
+
+<a name="whatis"></a>
+<h3>¿Qué es DAAD Ready?</h3>
+
+<p>DAAD Ready es un conjunto de utilidades para crear aventuras conversacionales con o sin gráficos, para varios ordenadores de 8 y 16 bits.</p>
+
+<p>La pieza principal dentro de DAAD Ready es DAAD, el sistema de creación de aventuras conversacionales creado por Infinite Imaginations en los
+  años 80 para Aventuras AD. Además de eso, se incluyen múltiples utilidades para crear ficheros en los formatos de distintos emuladores de dichas
+ máquinas, emuladores para probarlas, y por supuesto el propio DAAD.</p>
+
+<p>Con DAAD Ready, el autor de aventuras no tiene que preocuparse de construir ficheros para probar el juego en emuladores, porque DAAD Ready lo hace por él. 
+  Por eso, aunque hay muchas utilidades dentro de DAAD Ready, en este manual no se explica (o casi) el uso de ninguna, dado que el sistema preparado por 
+  DAAD Ready las usa silenciosa y transparentemente al autor.</p>
+
+<p>Como autor, solo deberás preocuparte de crear una historia, puzzles, y de probar a fondo tu aventura, pero no de como construir un fichero .DSK para emuladores
+  de Spectrum, o un ADF para Amiga, etc.</p>
+
+<p>DAAD es una herramienta que permite crear juegos para muchas máquinas de 8 y 16 bits de manera más o menos simultánea. Una vez que se tiene para una máquina,
+  convertirlo para otra es sencillo, porque las diferencias son menores. A veces no obstante hay que hacer pequeños retoques, o incluso añadir código específico 
+  para alguna máquina en concreto, pero en general las diferencias van a ser pocas, excepto en el caso de los gráficos.</p>
+
+<p>Logicamente, los gráficos son diferentes según el ordenador utilizado, por lo que si vas a poner gráficos a tu aventura, te toca crear gráficos distintos para cada
+   máquina. DAAD Ready te ayuda a hacer eso, pero no lo hace por ti.</p>
+
+   <p>El sistema DAAD usaba gráficos vectoriales para las máquinas de 8 bit (salvo Amstrad PCW), pero DAAD Ready solo utiliza gráficos bitmap, por lo cual los juegos
+    generados por DAAD Ready, salvo contadas excepciones, son para formatos de disco o disquete.</p>
+
+<p>DAAD Ready puede crear juegos para:</p>
+
+<ul>
+  <li><b>Amstrad CPC</b> (floppy disk, tanto 664 como 6128). Tambien, el interfaz M4 funciona. Con gráficos.</li>
+  <li><b>Commodore 64 o 128</b> (floppy disk, con gráficos)</li>
+  <li><b>Atari ST</b> </li>
+  <li><b>Commodore Amiga</b></li>
+  <li><b>MSDOS</b>Con gráficos VGA o SVGA a 256 colores</li>
+  <li><b>MSX 1</b> con al menos 64K de RAM (floppy disk, con gráficos)</li>
+  <li><b>MSX 2</b> (floppy disk, con gráficos)</li>
+  <li><b>Amstrad PCW</b> 8000/9000 Series (floppy disk, sin gráficos)</li>
+  <li><b>Commodore Plus/4</b> (floppy disk, con gráficos)</li>
+  <li><b>Sinclair ZX Spectrum 48k</b> (cinta, sin gráficos)</li>
+  <li><b>Sinclair ZX Spectrum 48K with DivMMC/IDE</b> (Tarjeta SD, con gráficos)</li>
+  <li><b>Sinclair ZX Spectrum +3</b> (floppy disk, con gráficos).</li>
+  <li><b>Sinclair ZX Spectrum 128K</b> (cinta, con gráficos)</li>
+  <li><b>Sinclair ZX Spectrum Next</b> (Tarjeta SD, con gráficos)</li>
+  <li><b>ZX-Uno</b> (Tarjeta SD, con gráficos)</li>
+  <li><b>Windows</b> (Fichero de instalación)- creado usando DOSBOX</li>
+  <li><b>HTML/Javascript</b> (para ejecutar en un navegador)</li>
+  <li><b>Windows Experimental</b>: usando el intérprete ADP, aun en version beta, pero creando juegos Windows nativos. A diferencia del target Windows normal, aun no se crea un fichero de Setup. Por otro lado, no puede hacer gráficos SVGA (la version de Windows normal, que usa la de MSDOS, puede).</li>
+  <li><b>MacOS Experimental</b>: lo mismo que el anterior pero para MacOS. Notese que MacOS no puede ejecutar juegos sin firmar a no ser que se permita en los ajustes del SO.</li>
+</ul>
+
+<p>Algunas de estas máquinas ya estaban soportadas por el DAAD original. Otras se deben a extensiones o a nuevo software creado una vez se recuperó el DAAD a mediados de la década de los 2010s.</p>
+
+<p>DAAD usa un lenguaje de programación creado especialmente para escribir aventuras. Esta basado en el de The Quill y PAW de
+    Gilsoft, así que si conoces dichos sistemas te será útil.</p>
+
+
+<a name="howtousedaadready"></a>
+<h6>Cómo usar DAAD Ready</h6>
+
+<ul>
+
+  <li>Para empezar, descomprime el paquete de DAAD Ready en la carpeta que prefieras y ejecuta cualquiera de los .BAT excepto el CONFIG.BAT.  Te preguntará qué idioma va a usar el juego y un juego con
+    una plantilla vacía será compilado y ejecutado. Limítate por ahora a cerrar el emulador cuando este se abra.</li>
+
+  <li>Bien, una vez que has ejecutado cualquiera de los .BAT tendrás un fichero TEST.DSF en la carpeta de DAAD Ready. Ese fichero es el código fuente de tu 
+    aventura, que  debes editar para convertirlo en tu juego. Es importante, sobre todo si tu juego no está en inglés, que te asegures que tu editor favorito
+    lo edita con codificación ISO 8859-1. Esto va a depender del editor que uses, pero es importante que leas la documentación de tu editor o te informes 
+      como asegurarte que usa 8859-1, y no UTF8.
+    </li>
+
+
+<li>Cada .BAT compila juegos para la máquina de destino correspondiente. Ten en cuenta que habrá una pausa antes de lanzar el emulador, en
+    la que puedes pulsar Ctrl + C si no quieres ejecutarlo.</li>
+
+<li>También ten en cuenta que a veces antes de lanzar el emulador te salen en pantalla unas notas sobre cosas que debes hacer cuando el
+  emulador se lance, porque no todos los emuladores permiten cargar el juego directamente, a veces tienes que hacer a mano el típico
+  LOAD o RUN.</li>
+<li>Finalmente, ten en cuenta que cada vez que ejecutas un BAT, en la carpeta RELEASE de DAAD Ready se crea el fichero o ficheros que deberás
+  después distribuir a los jugadores. Por ejemplo, en la carpeta RELEASE\CPC podrás encontrar el fichero .DSK que es la imagen de disco quedan
+  puedes ejecutar en los emuladores de Amstrad CPC.</li>
+
+<li>En el caso de Amiga y Atari ST, la emulación de disquete es un poco lenta, por lo que para pruebas se usa una imagen de disco duro cuyos contenidos se crean en 
+  RELEASE\AMIGA y RELEASE\ATARIST, pero tambien se crea dentro de esas carpetas otra carpeta FLOPPY en la que se graba una imagen de disco para distribuir.
+</li>
+
+<p>Haz pruebas a ejecutar los distintos ficheros BAT para ir viendo como el mismo juego (la plantilla base) se genera. Aunque los nombres son más o 
+  menos identificativos, esta es la lista de ficheros BAT y para qué sirven:</p>
+
+</ul>
+
+
+<table>
+  <tr><td>AMIGA.BAT</td><td>Commodore Amiga</td></tr>
+  <tr><td>ATARIST.BAT</td><td>Atari ST</td></tr>
+  <tr><td>C64.BAT</td><td>Commodore 64</td></tr>
+  <tr><td>CPC.BAT</td><td>Amstrad CPC</td></tr>
+  <tr><td>CPLUS4.BAT</td><td>Commodore Plus/4</td></tr>
+  <tr><td>MSDOS.BAT</td><td>MSDOS</td></tr>
+  <tr><td>MSX1.BAT</td><td>MSX 1</td></tr>
+  <tr><td>MSX2.BAT</td><td>MSX 2</td></tr>
+  <tr><td>ZX48TAPE.BAT</td><td>ZX Spectrum 48k (sin gráficos)</td></tr>
+  <tr><td>ZX128TAPE.BAT</td><td>ZX Spectrum 128k (cinta)</td></tr>
+  <tr><td>ZX128PLUS3.BAT</td><td>ZX Spectrum Plus 3 (dico)</td></tr>
+  <tr><td>ZXESXDOS.BAT</td><td>Spectrum 48K o superior con interfaz DivMMC/DivIDE.</td></tr>
+  <tr><td>ZXUNO.BAT</td><td>ZX-Uno</td></tr>
+  <tr><td>PCW.BAT</td><td>Amstrad PCW</td></tr>
+  <tr><td>HTML.BAT</td><td>HTML/Javascript (navegador)</td></tr>
+  <tr><td>WINDOWS.BAT</td><td>Windows</td></tr>
+  <tr><td>WINDOWS_EXPERIMENTAL.BAT</td><td>Windows Experimental</td></tr>
+  <tr><td>MACOS_EXPERIMENTAL.BAT</td><td>MacOS Experimental</td></tr>
+  <tr><td>OLDMSDOS.BAT</td><td>MSDOS (version antigua, sin gráficos)</td></tr>
+  <tr><td>OLDPLUS3.BAT</td><td>ZX Spectrum Plus 3 (version antigua que usa el DAAD original)</td></tr>
+</table>
+
+
+<a name="otherdetails"></a>
+<h6>Otros detalles</h6>
+
+<ul>
+  <li>Una vez seleccionado un idioma, se considerará que estás  haciendo un juego en ese idioma. Si quieres crear uno en otro lenguaje,o simplemete otro juego en el mismo idioma, 
+    por ahora solo se puede instalar otra copia de DAAD Ready en otra carpeta. Es matar moscas a cañonazos, pero ahora mismo no hay otra opción</li>
+  <li>A dia de hoy el editor recomendado para editar código DAAD es Visual Studio Code, que mejora mucho con el addon "DAAD" de Chris Ainsley (buscar en en los add-on de VSCode).
+    Además, Visual Studio code te muestra claramente la codificación (abajo a la derecha). Si ves UTF8, haz click sobre el propio UTF8 y luego reopen with encoding 8859-1.</li>
+</ul>
+
+<a name="thesource"></a>
+<h6>El fichero fuente</h6>
+
+<p>El fichero TEST.DSF (la extensión significa DAAD Source File), es una colección de tablas que contienen toda la información para definir una Aventura.
+   Esto incluye la descripción de localidades, conexiones,los objetos con su peso y descripción, etc. Por supuesto incluye también la programación de la lógica del juego.</p>
+
+<a name="thecompiler"></a>
+<h6>El Compilador</h6>
+
+  <p>Al ejecutar cualquiera de los ficheros BAT, una herramienta llamada "el compilador" convierte tu fichero DSF a un fichero .DDB, que contiene toda la información
+    de la aventura. El propio BAT tambien crea el fichero DSK, ADF, o el formato que sea que necesite el emulador en cuestión, y lanza el emulador con el juego cargado.</p>
+
+  <p>En realidad, no es necesario que sepas demasiado sobre el compilador, pero sí podrías encontrar que tu juego no compila bien al ejecutar el BAT, porque has cometido algún
+     error al modificar el fichero fuente. Si así es, verás el error en  pantalla. Arregla el error, o si no sabes de donde viene, deshaz los últimos cambios e inténtalo
+      de nuevo.</p>
+
+
+<a name="theinterpreters"></a>
+<h6>Los Intérpretes</h6>
+
+<p>Un intérprete es un programa que coge la información que hay en el fichero .DDB, que creamos a partir de nuestro DSF, y ejecuta el juego. Hay uno por cada máquina 
+  destinataria. Los BAT también se encargan de meter el intérprete adecuado para cada máquina, por lo que para ti, autor, esto también es transparente. </p>
+
+<a name="thegraphics"></a>
+<h6>Los gráficos</h6>
+<p>A diferencia del DAAD original, DAAD Ready no usa gráficos vectoriales para las imágenes de localidad , en su lugar utiliza
+    gráficos bitmap. Para añadir gráficos a las máquinas que originalmente usaban gráficos vectoriales , DAAD Ready usa la extensión
+    Maluva de Uto, o bien los nuevos intérpretes ya soportan de serie esto. Facilitaremos más detalle sobre esto más tarde en
+    este manual.</p>
+
+<a name="help"></a>
+<h6>Necesito ayuda</h6>
+<p>Antes de meternos en faena, debes saber que si necesitas más ayuda entendiendo cualquier asunto sobre DAAD, puedes encontrar ayuda en los siguientes grupos de Telegram:</p>
+
+  <ul>
+    <li><a href='https://t.me/daadready'>Grupo oficial de soporte de DAAD Ready (español e inglés)</a></li>
+    <li><a href='https://t.me/RetroAventuras'>Un grupo de propósito general sobre aventuras (español)</a></li>
+    <li><a href='https://t.me/Advent8bit'>Un grupo de propósito general sobre aventuras (inglés)</a></li>
+  </ul>
+
+
+<a name="daadprogramming"></a>
+<h4>Programando DAAD</h4>
+
+<p>Por favor ten en cuenta que además de la información que sigue, hay un tutorial hecho por Uto. Lo puedes encontrar hacien click <a href='https://medium.com/@uto_dev/a-daad-tutorial-for-beginners-1-b2568ec4df05' target='_BLANK'>aquí</a>.</p>
+
+<a name="programmingoverview"></a>
+<h6>Introducción</h6>
+
+<p>Cuando un intérprete de juego se inicia, empezará a ejecutar la información que pusiste en el fichero TEST.DSF. Si le echas un
+  vistazo al fichero DSF, verás varias secciones para definir objetos (OTX, OBJ),  localidades (LTX), etc. y al final los procesos. Los procesos son el código
+  de programación de DAAD, que determina la lógica del juego. Cuando una aventura comienza, el proceso 0 es el primero en ejecutarse (sección “/PRO 0").</p>
+
+<p>La plantilla del fichero TEST.DSF que viene con DAAD Ready ya contiene código que hace que DAAD se comporte con el tipico bucle de pedir orden al jugador
+  y hacer lo que este dice, describir localidades, etc. De hecho, esa plantilla hace que se parezca bastante a como funcionaba el PAW de Gilsoft, por lo que si
+  por lo que si lo conoces no será difícil adaptarte.</p>
+
+<a name="thesourcefilesections"></a>
+<h6>Secciones del fichero fuente</h6>
+
+<p>El fichero fuente de DAAD consiste en varias secciones relacionadas que describen la Aventura. Las secciones son:</p>
+
+<p><u>La sección inicial</u></p>
+
+<p>No se trata de una sección en si mism, sino de lo que hay antes del /CTL, que es donde realmente está la primera. Veréis que está
+  lleno de #define, lo cual explicaremos más tarde, pero llamaremos a este bloque de código la sección inicial o de definiciones.
+</p>
+
+<p><u>La sección de Control (CTL)</u></p>
+
+<p>Esta sección está obsoleta y no se usa ya. Debe haber un caracter “_” en ella, pero es por razones</p>
+
+<p><u>La sección de Vocabulario (VOC)</u></p>
+
+<p>Cada entrada en esta sección contiene una palabra, un valor numérico de la palabra, y un tipo.
+  Las palabras que tienen el mismo número y tipo son consideradas sinónimas, y pueden usarse indistintamente por el jugador. Por ejemplo si ponemos esto no 
+  harbá diferencia entre usar LAPICERO o LAPIZ:</p>
+
+  <code>
+    LAPIZ 100 noun<br />
+    LAPICERO 100 noun<br />
+  </code>
+
+
+<p><u>La sección de mensajes del sistema(STX)</u></p>
+
+<p>Esta sección contiene mensajes usados por los intérpretes, numerados del 0 al 255 (aunque no se usan todos). Estos mensajes son usados por algunas
+  órdenes internas de programación de DAAD, y podemos personalizarlos aquí. No se usan todos los posibles hasta el 255, por lo que los restantes los podemos
+  usar para nuestros propios mensajes, aunque lo normal es usar los mensaje de usuario (ver más abajo).</p>
+  
+  
+<p><u>La sección de Mensajes de usuario (MTX)</u></p>
+
+<p>Esta sección contiene los textos que será necesarios para la Aventura.
+Los mensajes se numeran del 0 al 255. Con DAAD Ready no necesitas realmente añadir 
+mensajes a esta tabla como antes se hacía en el DAAD original, porque te deja
+escribir los textos directamente en la parte de la lógica de programación. Con 
+DAAD y sus antecesores, tu rellenabas la tabla de mensajes y luego en la lógica
+ponias MESSAGE 10 cuando querías que salier el décimo mensaje de la tabla. Con DAAD Ready
+puedes escribir directamente el texto en la lógica, y así escribir:
+<code>
+MESSAGE “¡Hola mundo!“
+</code>
+
+Aun así, la tabla puede ser usada cuando necesites mensajes con un
+número específico, para ser usado con indirección por ejemplo (ver más adelante).
+
+<p><u>La sección de Texto de Objetos (OTX)</u></p>
+
+<p>Esta sección tiene un texto por cada objeto que haya en el juego, que es mostrado cuando el objeto es descrito. Un objeto es cualquier
+  cosa en la Aventura que pueda ser manipulada o llevada, y se numera igualmente de 0 a 255.</p>
+
+
+<p><u>La sección de Localidades (LTX)</u></p>
+
+<p>Esta sección tiene una entrada por cada localidad, que será mostrada cuando lleguemos a cada localidad. Se numeran de 0 a 255, y la
+  aventura empieza siempre en la localidad 0. Las localidaes 252 en adelante no pueden usarse.</p>
+
+<p><u>La sección de Conexiones (CON)</u></p>
+
+<p>Un movimiento se forma por un verbo (o nombre convertible) y una
+  localidad de destino. Esto significa que, tecleando ese verbo desde
+  la localidad indicada por la entrada, iríamos a la localidad de
+  destino indicada en ese movimiento.</p>
+  
+<p>El contenido típico de una entrada podría ser:</p>
+
+<code>
+SUR 6<br />
+ESTE 7<br />
+SALIR 6<br />
+NORTE 5
+</code>
+
+<p>Esto significa que SUR o SALIR llevarían a la localidad 6, ESTE a la 7 y NORTE a la 5. Notese que que como N es sinónimo de NORTE (ver sección VOC) tiene el mismo efecto teclear N que NORTE, y lo mismo ocurre en los otros casos  (E/ESTE y S/SUR).</p>
+
+<p><u>La sección de Definición de Objetos (OBJ)</u></p>
+
+<p>Esta sección tiene una entrada para cada objeto que especifica:</p>
+
+<ul>
+<li>El número de objeto</li>
+<li>El número de localidad en la que está el objeto al iniciar el juego.</li>
+<li>El peso del objeto (0-63).</li>
+<li>Si es un contenedor (ej: una caja).</li>
+<li>Si es una prenda (ej: un sombrero).</li>
+<li>El estado de otros atributos de objeto</li>
+<li>El nombre y adjetivo (si lo hay) asociados al objeto.</li>
+</ul>
+
+<p>El peso no está expresado en ningún tipo de medida concreta, dependiendo del juego el autor puede decidir qué significa el valor de peso que se da ahí.</p>
+<p>Un objeto puede ser contenedor y prenda a la vez (ej: una mochila)</p>
+<p>Los otros atributos de objeto son valores sí o no que se pueden asignar a un objeto, como el de prenda o contenedor. Es el autor el que decide qué significa
+  cada uno, o incluso decidir que no signifiquen nada. Por ejemplo, podría decidir que le primer atributo extra siginifica "grande", y ponerlo a 1 en objetos 
+  grandes como una carretilla o un balón de nivea. Después, es su labor programar que el jugador no pueda llevarse objetos grandes, o que no pueda entrar en
+  localidades pequeñas con objetos grandes, etc. </p>
+
+  <p>Hay tres localidades de inicio especiales:</p>
+  <ul>
+    <li>La localidad 252 indica que el objeto no está en ningun sitio, no existe al iniciar el juego.</li>
+    <li>La localidad 253 indica que el objeto lo lleva puesto como prenda el jugador.</li>
+    <li>La localidad 254 indica que el objeto lo lleva en el inventario el juegador.</li>
+  </ul>
+
+<p><u>The Process tables (PRO) section</u></p>
+
+<p>Esta sección es el corazón de las fuentes , generando la lógica del
+  juego. Cada tabla consiste en varias entradas, cada entrada contiene
+  un verbo y nombre para encajar con las órdenes del jugador, o bien
+  el carácter “_” para indicar que el verbo, el nombre, o ambos, son
+  indiferentes de lo que haya escrito el jugador.</p>
+
+  <p>Al verbo y nombre sigue una serie de condActos, las acciones y Condiciones
+    de programación de DAAD (ver más adelante). Por ejemplo:
+  </p>
+
+  <code>
+> ENCENDER LUZ<br/>
+      AT fGaraje<br/>
+      ZERO fLuzEncendida<br/>
+      MESSAGE “Enciendes la luz”<br/>
+      SET fLuzEncendida<br/>
+      DONE<br/>
+ </code>
+
+ <p>En esta entrada, si el jugador ha tecleado "ENCENDER LUZ" y estamos en el garaje (AT GARAJE), y la luz no está encendida (ZERO fLuzEncendida) se mostrará el mensaje
+  "Enciendes la luz" y se marcará internamente que la luz está encendida (SET fLuzEncendida). Es un poco pronto para explicar las condiciones y acciones, pero básicamente
+  DAAD reacciona a lo que escribe el jugador, y nosotros podemos añadir otras condiciones, fruto de la lógica de nuestra aventura, para decidir si se puede o no se puede
+  hacer lo que dice el jugador, y si se puede, qué es lo que pasa exactamente.
+ </p>
+
+<p>
+  La entrada de procesos 0, /PRO 0, es la que se ejecuta cuando el juego empieza, por lo que la plantilla de DAAD que hay en TEST.DSF ya tiene contenido aquí que recrea el bucle
+  principal de una aventura. Así mismo, otros procesos ya tiene otras funciones, siendo especialmente importantes:
+
+  <ul>
+    <li>El proceso 6 se ejecuta una sola vez al iniciar la aventura. Aqui es donde teneis que poner cualquier cosa que queráis que sea parte de inicialización, como por ejemplo
+      poner la vida del jugador a 100, poner que su bolsa lleva 30 monedas, etc. Las entradas en el proceso 6 suelen ser sin verbo ni nombre (> _ _) porque se van a ejecutar
+    independientemente de lo que haya escrito el jugador la última orden, es más, cuando se ejecutan, el jugador aun no ha podido escribir nada.</li>
+    <li>El proceso 5 es la tabla de respuestas, basicamente aquí sí que las entradas vienen teniendo verbo y nombre, o al menos verbo, para responder a lo que dice el jugador. Si alguna vez habeis usado el PAW, esto es la misma tabla de respuestas.</li>
+    <li>El proceso 3 se ejecuta después de describir la localidad, suele tener entradas sin verbo ni nombre también, y sirve, por ejemplo, para añadir cosas a la descripcion de localidades, que no sean siempre así. Por ejemplo, cosas como "la puerta esá abierta" o "un rayo se marca en el horizonte". Si habeis usado PAW, es como el proceso 1 de PAW.</li>
+    <li>El proceso 4 se ejecuta después de cada orden del jugador, pero no contiene cosas que respondan al jugador, sino que pasen a cada turno, por lo que suele tener entradas sin verbo ni nombre también,
+       y sirve, por ejemplo, para ir contando turnos y que algo pase a los x turnos, o para ir quitando vida a un jugador que está bajo el agua, etc. Si habeis usado PAW, es como el proceso 2 de PAW.</li>
+  </ul>
+</p>
+
+
+<a name="theflags"></a>
+<h6>Los Flags</h6>
+
+<p>Los flags son como contenedores que pueden almacenar un valor. Puedes cambiar ese valor y comprobar el valor más tarde, y así saber si
+  algo en concreto pasó anteriormente. Por ejemplo, puedes dar a un flag el valor 1 cuando un malvado troll ha huido debido a la acción
+  del jugador, y después comprobar si ese flag contiene el valor 1 cuando el jugador trata de cruzar el puente donde estaba el troll,
+  de modo que, si vale 1, le dejamos cruzar, y si no, le decimos que el troll está allí y que no puede pasar.</p>
+
+  <p>Hay 256 flags disponibles, así que tienes más que suficiente para tus puzles. 
+    A pesar de que algunos de ellos tienen un funcionamiento interno, los conocidos
+    como "flags del sistema" y no los podrás usar, aun quedan muchos flags libres para
+    tus cosas. Por ejemplo, el flag 38, también conocido como “fPlayer”, contiene el
+    número de la localidad donde está el jugador, así que, si lo cambias, en
+    realidad estarás llevando al jugador a otro lugar. Puedes usarlo
+    también para saber si el jugador está en determinada localidad y,  por ejemplo, 
+    permitirle dormir en el dormitorio, pero no en el baño.</p>
+ <p>Los flags del sistema, como se les llama y para qué sirven, está explicados más adelante.</p>
+
+
+<a name="windows"></a>
+<h6>Ventanas</h6>
+
+<p>DAAD permite definir ventanas dentro de la pantalla. Una ventana es un recuadro dentro de la pantalla,
+  que empieza en unas coordenadas y tiene un ancho y un alto. Dentro de la ventana se puede escribir texto,
+  poner gráficos, o lo que sea, y DAAD se encarga de que no se salga el texto o los gráficos de ahí. Cuando
+  una ventana está activa, por regla general todo lo que escribes o dibujas va a esa ventana. Hay 8 ventanas
+  disponibles en DAAD, numeradas de la 0 a la 7. Al arrancar, todas las ventanas ocupan la pantalla completa (están solapadas).
+</p>
+
+<p>En DAAD Ready, se usa la ventana 0 para gráficos, y se situa arriba, en las 12 primeras filas de caracteres. El texto se situa
+  en la ventana 1, a partir de la linea 14 (dejamos una en blanco), y hasta el final de la pantalla. Ambas ventanas tienen el ancho máximo posible.</p>
+</p>
+
+<p>Obviamente, esto se puede cambiar, y para eso hay acciones específicas para gestionar la ventanas, pero DAAD Ready usa esta disposición simple y muy común en aventuras de texto.</p>
+
+<p>En las máquinas de 8 bit, el pintado de gráficos se hace gracias a la extensión Maluva o a soporte en nuevos intérpretes. Estas extensiones ignoran la ventana activa y siempre pintan
+  arriba, por lo que es una excepcion a la regla de que todo lo que se pinta va a la ventana activa. En cualquier caso DAAD Ready ya ha tenido eso en cuenta y la ventana
+  0 justo tiene la posicion, ancho y alto de los gráficos que pinta la extensión.</p>
+</p>
+
+
+
+<a name="mainloop"></a>
+<h6>La lógica de los procesos</h6>
+
+<p>Cuando el juego se inicia, el  intérprete realiza la inicialización
+  solo una vez, la cual implica que todos los flags se ponen al valor
+  0 y la pantalla es borrada. Nótese que es por esto por lo que el jugador 
+  siempre empieza en la localidad 0, porque el flag 38 (fPlayer) vale cero.</p>
+
+<p><b>Inicio</b></p>
+
+<p>El intérprete llama al proceso 0, cuando sale de ese proceso se llama
+  de nuevo al sistema operativo o se reinicia el ordenador. Normalmente
+  esto solo ocurrirá si el jugador realizar un fin de partida y dice
+  que no quiere jugar de nuevo.</p>
+
+<p>La figura 1 describe como se ejecuta cada tabla de procesos. Notese que si la tabla de procesos 0 finaliza no se salta a la tabla 1, para saltar de una tabla a otra hay una orden concreta "PROCESS"
+  que salta a otra tabla. Cuando esa tabla termina, se vuelve a la posición desde que se la llamó.</p>
+  
+
+<center><img src='Image1.png' alt="Figure 1"></center>
+
+
+<p>Básicamente DAAD buscará en cada entrada (comienzan por el carácter “>”) hasta que el proceso se le acabe.
+   Asumiendo que hay alguna entrada, comprobará que el verbo y nombre de estas correspondan con
+el verbo y nombre de la orden dada por el jugador, al cual habrá
+sido extraída por una orden PARSE en el proceso.</p>
+
+<p>El uso de la palabra “_” en lugar del verbo o el nombre, implica que
+esa entrada no realizará comprobación del verbo o el nombre. Así una
+entrada del tipo “> _ _” se ejecuta con indiferencia de lo que haya
+escrito el jugador, mientras que una entrada “> ABRIR _” se ejecutará si el
+jugador escribió “ABRIR” o un sinónimo, independientemente de qué
+pidiera abrir (ABRIR PUERTA, ABRIR CAJA, etc.), y una entrada “> _
+LLAVE” se ejecutará si el jugador pide hacer cualquier cosa con la
+llave (MIRAR LLAVE, DEJAR LLAVE, COGER LLAVE, etc.)</p>
+
+<p>Ejemplo de una entrada:</p>
+
+<code>
+> VERBO NOMBRE <br/>
+    Condacto1<br/>
+    Condacto2<br/>
+    ...<br/>
+    CondactoN<br/>
+</code>
+
+<p>Ejemplo de una entrada doble equivale a poner dos entradas con los mismos condactos, se suele usar para frases sinónimas (ENCENDER LUZ, PULSAR INTERRUPTOR):</p>
+
+<code>
+> VERBO1 NOMBRE1<br/>
+> VERBO2 NOMBRE2<br/>
+    Condacto1<br/>
+    Condacto2<br/>
+    ...<br/>
+    CondactoN<br/>
+</code>
+
+
+<p>Una vez que vemos que una entrada cumple las condiciones verbo/nombre,
+ejecutaremos los ejecutaremos los condActos de la entrada uno a uno y de arriba a abajo.</p>
+
+<p>Cuando un condActo es de tipo condición, se evalua si tiene éxito (por ejemplo "CARRIED 8" tiene éxito si el jugador lleva el objeto número 8 de la tabla OBJ/OTX). En caso de no tener éxito 
+  no salimos de dicha entrada, es decir, no ejecutamos el resto de condactos de la misma, y volvemos a evaluar el verbo/nombre de la siguiente entrada. Si el condActo tiene éxito, pasamos al 
+  siguiente condActo de la misma entrada, y así hasta que se acaben los condActos de la entrada o una condición falle y nos saque.
+</p>
+
+<a name="firststeps"></a>
+<h6>Primeros pasos</h6>
+
+<p>Programar en DAAD requiere aprender una serie de órdenes llamadas condactos, que veremos en el apartado siguiente, pero antes vamos a tratar de ver algunos ejemplos prácticos, siguiendo la lógica
+  vista en el apartado anterior. </p>
+
+<p>Imaginemos primero, que el jugador puede pulsar un botón, y que al pulsarlo, una llave se materializa en la habitación actual. Empezamos por añadir la llave a la sección OBJ:</p>
+
+<code>
+  /1      252 1       _ _  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _    LLAVE  _
+</code>
+
+<p>A la sección OTX:</p>
+
+<code>
+  /1 "una llave"
+</code>
+
+<p>Y al vocabulario (sección VOC):</p>
+
+<code>
+  LLAVE 100 noun<br/>
+  BOTON 101 noun<br/>
+  PULSAR 120 verb<br/>
+</code>
+
+<p>Notas: la elección de 100 y 101 como el número que representa a las palabras llave y botón es arbitraria, se puede elegir cualquier que no esté siendo usado por otro 'noun', porque de repetir el mismo, ambos nombres serían considerados sinónimos, cosa que no queremos. Asímismo, el valor 252 como localidad de inicio en el apartado OBJ, indica que el objeto no está creado, no existe al iniciar el juego.</p>
+
+<p>Pues bien, como lo que queremos hacer es responde a la orden del jugador "PULSAR BOTON", el sitio donde tenemos que ponerlo es la sección PRO 5. Ahí es donde va lo que llamaremos "tabla de respuestas". Ponemos lo sigiuiente al final de dicha sección (justo antes del /PRO 6):</p>
+
+<code>
+> PULSAR BOTON<br/>
+  AT 1<br/>
+  ISAT 1 252<br/>
+  MESSAGE "Pulsas el botón y una llave aparece en el suelo."<br/>
+  CREATE 1<br/>
+  DONE<br/>
+</code>
+
+<p>Con esto le estamos diciendo a DAAD que si el jugador escribe "PULSAR BOTON", estamos en la localidad 1 y el objeto 1 (la llave) está en la localidad 252 (sin crear), escriba en pantalla el mensaje "Pulsas el botón y una llave aparece en el suelo", cree el objeto 1 (la llave) en la localidad 1, y termine el proceso 5 (DONE).</p> 
+
+<p>Si ahora ejecutamos el BAT, veremos que al pulsar el botón aparece la llave. Pero si volvemos a pulsar el botón, no aparecerá ya otra llave, porque la condición ISAT 1 252 no se va a cumplir. Nos vamos a encontrar con "No puedes hacer eso" en su lugar.</p>
+
+<p>Para evitar eso, vamos a poner una entrada más detrás.</p>
+
+<code>
+> PULSAR BOTON<br/>
+  AT 1<br/>
+  ISNOTAT 1 252<br/>
+  MESSAGE "Pulsas el botón y no pasa nada."<br/>
+  DONE<br/>  
+</code>
+
+<p>Esta segunda entrada hace que si estamos en la localidad 1, pero la llave ya se ha creado (no está en 252), nos salga el otro mensaje y no pase nada más.</p>
+
+<p><u>Añadiendo detalles</u></p>
+
+<p>Las descripciones de localidad suelen tener un descripción fija, pero a veces nos gustaría cambiar algo durante el juego. Vayamos a la sección LTX y cambiemos la linea de la localida 1 por:</p>
+
+<code>
+  /1 "Has entrado a la mazmorra. Puedes ver un botón."<br />
+</code>
+
+<p>Ahora podremos ver el botón al entrar a la localidad 1, y así tener una razón para pulsarlo. Pero vamos más allá. ¿que pasa cuando ya hemos pulsado el botón?</p>
+
+<p>Vamos a poner los siguiente al principio del proceso 3, que es un proceso por el que DAAD pasa justo después de escribir la descripción de una localidad, por lo que es ideal para añadir pequeños detalles a la descripción:</p>
+
+<code>
+  > _ _ <br/>
+  AT 1<br/>
+  ISNOTAT 1 252<br/>
+  MES "El botón está pulsado."<br/>
+</code>
+
+<p>Si os fijáis, no hay verbo ni nombre en esta entrada. Esto es así porque es irrelevante lo que escribió el jugador en la última orden a la hora de poner este texto aquí o no. Tampoco usamos DONE al final, porque
+  queremos que el proceso 3 se siga ejecutando. Esto es así porque, para empezar, detrás queda una entrada que ya está en el proceso 3, que es la que se encarga de listar los objetos de la localidad, y si no la ejecutamos, no se listarán los objetos. 
+</p>
+
+<p><u>Eventos</u></p>
+
+<p>A veces las cosas pasan. Un rayo cae, un rio se desborda, aparece un hada madrina, nos ataca un malvado troll...</p>
+
+<p>El proceso 4 se ejecuta a cada turno, y es el lugar ideal para que pasen cosas que tienen que pasar. Por ejemplo, imaginemos que en la localidad 2 hay un troll, y que este nos ataca a los tres turnos, amenazándonos antes. Podemo hacer lo siguiente en el PRO 4:</p>
+
+<code>
+  >_ _ <br/>
+  AT 2<br/>
+  EQ 254 2<br/>
+  MES "El troll te ataca con su garrote y te golpea hasta la muerte."<br/>
+  END<br/>
+
+  >_ _ <br/>
+  AT 2<br/>
+  EQ 254 1<br/>
+  LET 254 2<br/>
+  MES "El troll golpea el suelo con su garrote amenazadoramente."<br/>
+
+  > _ _<br/>
+  AT 2<br/>
+  ZERO 254<br/>
+  LET 254 1<br/>
+  MES "Un troll te mira amenazadoramente."<br/>
+
+
+</code>
+
+<p>Estamos usando un flag, el 254, para contar turnos. Por defecto todos los flags valen 0, por lo que el flag 254 valdrá 0 de inicio. Es por eso que al entrar en el proceso 4 (cada turno se ejecuta)
+  la entrada que va a ser ejecutada es la tercera, porque la condición ZERO 254 se cumple (el flag 254 vale 0). En esa entrada, cambiamos el flag 254 a 1, y mostramos el mensaje "Un troll te mira amenazadoramente".</p>
+<p>Un turno más tarde, con el flag 254 ya valiendo 1, la segunda entrada es la que se ejecuta, porque la condición EQ 254 1 se cumple (el flag 254 vale 1). Mostramos el mensaje "El troll golpea el suelo con su garrote amenazadoramente."</p>
+<p>Un turno más tarde, con el flag 254 ya valiendo 2, la primera entrada es la que se ejecuta, porque la condición EQ 254 2 se cumple (el flag 254 vale 2). Mostramos el mensaje "El troll te ataca con su garrote y te golpea hasta la muerte." y terminamos el juego (END).</p>
+
+<a name="condacts"></a>
+<h6>CondActos</h6>
+
+<p>Aquí sigue una descripción detallada de cada condActo exitente en DAAD. Se dividen en grupos dependiendo del asunto
+  que tratan en DAAD, como flags, objetos, etc. y da algunas pistas sobre su posible uso en ocasiones.</p>
+
+<p>Tened en cuenta que son muchos condactos, por lo que es poco probable que entendáis todos a la primera. Os recomiendo una primera mirada por encima para ver qué puede hacer cada uno y que os suenen.
+   Después, seguid con el manual y dejad la lista de condactos como referencia.</p>  
+
+<p>Nota para aquellos acostumbrados a PAW: tened cuidado. Algunas acciones
+  han desaparecido, otras han cambiado su función. Se parece mucho pero no es igual.
+  Aseguraos de  comprobar la función en DAAD. Por ejemplo, TURNS y SCORE se han borrado, y ahora deben ser
+  programadas por código (con PRINT y DPRINT, por ejemplo). También TIMEOUT,  PROMPT y GRAPHIC se han ido,
+  dado que “HASAT fTimeout ” o “LET fPrompt x” y “LET fGFlags expresión”  harán lo mismo. Finalmente, lo
+  que antes hacía DESC lo hace ahora en la práctica RESTART, y DESC es un tercer tipo de MESSAGE (después
+  de MES/MESSAGE y SYSMESS).</p>
+
+<p>Varias abreviaturas serán usadas:
+  
+<ul>
+  <li><b>locno.</b> es un número de localidad válido</li>
+  <li><b>locno+.</b> es un número de localidad válido, más las tres localidades especiales 252,253,254</li>
+  <li><b>mesno.</b> es un número de mensaje de usuario válido</li>
+  <li><b>sysno.</b> es un número de mensaje del sistema válido</li>
+  <li><b>flagno.</b> es un número de flag válido (0-255)</li>
+  <li><b>procno.</b> es un número de proceso válido</li>
+  <li><b>word.</b> es una palabra del vocabulario</li>
+  <li><b>value.</b> es un valor, generalmente entre 0 y 255, aunque a veces puede estar más limitado (segun el condacto)</li>
+<ul>
+
+<a name="conditions"></a>
+<h6>Condiciones</h6>
+
+<p><u>Condiciones sobre la localidad del jugador</u></p>
+<a name="at"></a>
+<condact>AT locno</condact>
+
+<p>Tiene éxito si la localidad actual es locno.</p>  
+
+<a name="notat"></a>
+<condact>NOTAT locno</condact>
+<p>Tiene éxito si la localidad actual no es locno.</p>
+
+<a name="atgt"></a>
+<condact>ATGT locno</condact>
+
+<p>Tiene éxito si el número de la localidad actual es mayor que locno.</p>
+
+<a name="atlt"></a>
+<condact>ATLT locno</condact>
+
+<p>Tiene éxito si el número de la localidad actual es menor que locno. </p>
+
+<p><u>Condiciones sobre la localidad actual de un objeto</u></p>
+
+<a name="present"></a>
+<condact>PRESENT objno.</condact>
+
+<p>Tiene éxito si el objeto objno. lo llevamos, lo llevamos puesto o está en la localidad actual del jugador.</p>
+
+<a name="absent"></a>
+<condact>ABSENT objno.</condact>
+
+<p>Tiene éxito si el objeto objno. no lo llevamos, no lo llevamos puesto u no está en la localidad actual del jugador.</p>
+ 
+<a name="worn"></a>
+<condact>WORN objno.</condact>
+
+<p>Tiene éxito si el objeto objno. lo llevamos puesto.</p>
+
+<a name="notworn"></a>
+<condact>NOTWORN objno.</condact>
+
+<p>Tiene éxito si el objeto objno. no lo llevamos puesto.</p>
+
+<a name="carried"></a>
+<condact>CARRIED objno.</condact>
+
+<p>Tiene éxito si el objeto objno. lo llevamos en el inventario, pero no puesto.</p>
+ 
+<a name="notcarr"></a>
+<condact>NOTCARR objno.</condact>
+
+<p>Tiene éxito si el objeto objno. no lo llevamos en el inventario.</p>
+
+<a name="isat"></a>
+<condact>ISAT objno. locno+</condact>
+
+<p>Tiene éxito si el objeto objno. está en la localidad locno.</p>
+
+<a name="isnotat"></a>
+<condact>ISNOTAT objno. locno+</condact>
+
+<p>Tiene éxito si el objeto objno. no está en la localidad locno.</p>
+
+<p><u>Condiciones que comparan valores de flags</u></p>
+
+<a name="zero"></a>
+<condact>ZERO flagno.</condact>
+
+<p>Tiene éxito si el flag flagno. vale cero.</p>
+
+<a name="notzero"></a>
+<condact>NOTZERO flagno.</condact>
+<p>Tiene éxito si el flag flagno. no vale cero.</p>
+
+<a name="eq"></a>
+<condact>EQ flagno. value</condact>
+<p>Tiene éxito si el flag flagno. vale "value".</p>
+
+<a name="noteq"></a>
+<condact>NOTEQ flagno. value</condact>
+<p>Tiene éxito si el flag flagno. no vale "value".</p>
+
+<a name="gt"></a>
+<condact>GT flagno. value</condact>
+<p>Tiene éxito si el flag flagno. vale más que "value".</p>
+
+<a name="lt"></a>
+<condact>LT flagno. value</condact>
+<p>Tiene éxito si el flag flagno. vale menos que "value".</p> 
+
+<a name="same"></a>
+<condact>SAME flagno1. flagno2.</condact>
+<p>Tiene éxito si ambos flags valen lo mismo.</p>
+
+<a name="notsame"></a>
+<condact>NOTSAME flagno1. flagno2.</condact>
+<p>Tiene éxito si ambos flags no valen lo mismo.</p>
+
+<a name="bigger"></a>
+<condact>BIGGER flagno1. flagno2.</condact>
+<p>Tiene éxito si el flag flagno tiene un valor mayor que el flag flagno2.</p>
+
+<a name="smaller"></a>
+<condact>SMALLER flagno1. flagno2.</condact>
+<p>Tiene éxito si el flag flagno tiene un valor menor que el flag flagno2.</p>
+
+<p><u>Condiciones de comprobar otras palabras en la orden del jugador</u></p>
+
+<p>En general es mejor usar estas condiciones con una palabra específica, o con la ausencia de esta usando “_”, 
+  si la presencia o ausencia de esta es requerida para una situación concreta. Hacerlo de manera genérica solo
+  reduce la flexibilidad del juego y puede llevar a la frustración del jugador. Es decir, si fuerzas al jugador
+  a escribir “ABRIR CANDADO CON LLAVE” en lugar de “ABRIR CANDADO”, cuando el jugador lleva una llave, es añadir
+  dificultad a una acción bastante natural. Fuerza el “CON LLAVE” solo cuando poner CON LLAVE no sería
+  lo más natural.</p>
+
+<a name="adject1"></a>
+<condact>ADJECT1 word</condact>
+<p>Tiene éxito si el adjetivo del primer nombre de la orden del jugador es el especificado, o bien si no hay un adjetivo y el parámetro era “_”.</p>
+
+<a name="adverb"></a>
+<condact>ADVERB word</condact>
+<p>Tiene éxito si el hay un adverbio en la orden del jugador, y es el especificado, o bien si no hay un adverbio y el parámetro era “_”.</p>
+
+<a name="prep"></a>
+<condact>PREP word</condact>
+<p>Tiene éxito si hay una preposición en la orden del jugador y es la especificada, o bien si no hay una preposición y el parámetro era “_”.</p>
+
+<a name="noun2"></a>
+<condact>NOUN2 word</condact>
+<p>Tiene éxito si hay un segundo nombre en la orden del jugador, y es el especificado, o bien si no hay un segundo nombre y el parámetro era “_”.</p>
+
+<a name="adject2"></a>
+<condact>ADJECT2 word</condact>
+<p>Tiene éxito si hay un adjetivo para el segundo nombre de la orden del jugador, y es el especificado, o bien si no hay un segundo adjetivo y el parámetro era “_”.</p>
+
+<p><u>Condiciones para asuntos aleatorios</u></p>
+
+<p>Puedes hacer que determinadas cosas tengan unas posibilidades aleatorias, por ejemplo que un jugador se caiga de un árbol, reciba un rayo, o de que un Puente se hunda.
+   No abuses de esto o dale al jugador una manera de evitar el problema, porque el jugador puede ver injusta esa aleatoriedad.</p>
+
+<a name="chance"></a>
+<condact>CHANCE percent</condact>
+<p>Tiene éxito si el porcentaje es menor o igual que un número aleatorio de 1 a 100 (inclusivos). Así, CHANCE 50 tiene una posibilidad de éxito del 50%.</p>
+
+<p><u>Condiciones con un resultado VERDAD/FALSO en llamadas a procesos</u></p>
+
+<p>Cuando se llama a un proceso, este puede finalizar con estado de DONE o no. Normalmente, nos ocuparemos de que si ocurre algo en dicho proceso así sea. Estas condiciones sirven para comprobar, a la salida del proceso, como ha acabado, y tomar una decisión en consecuencia.</p>
+
+<a name="isdone"></a>
+<condact>ISDONE</condact>
+<p>Tiene éxito si la última tabla de procesos ejecutada realizó al menos una acción. Esto es útil para comprobar el resultado de éxito o fallo de un proceso. Una acción DONE causará el estado de “hecho”, así como cualquier condActo de acción ejecutado al acabar la tabla, siempre que esa acción no sea NOTDONE.</p>
+
+
+<a name="isndone"></a>
+<condact>ISNDONE</condact>
+<p>Tiene éxito si el último proceso ejecutado terminó sin ninguna acción ejecutada, o con una acción NOTDONE.</p>
+
+<p><u>Condiciones para los atributos de objeto</u></p>
+<a name="hasat"></a>
+<a name="hasnat"></a>
+<condact>HASAT/HASNAT value</condact>
+
+<p>En principio estos condactos se utilizan para comprobar que el atributo de objeto especificado esté activo (HASTAT) o inactivo (HASNAT). Es decir, los valores 0-15 son para los 16 atributos de objeto que vimos en la descripción de las sección OBJ.
+  Por ejemplo, si decidimos que el atributo 15 signifique "grande", aquí es donde podríamos usar HASAT 15 para comprobar si el atributo 15 está activo o no. Si lo que queremos es comprobar que algo no es grande, usaríamos HASNAT 15.
+</p>
+<p>HASAT y HASNAT tienen, además, un uso más poderoso, pero para entenderlo hace falta que entiendas como leer un número de 8 bits a nivel de bit. Si no sabes de que hablamos, quedate con HASAT y HASNAT para chequear los
+  atributos de objeto, y saltate lo que sigue hasta el siguiente condacto.</p>
+
+<p>HASAT y HASNAT en realidad no chequean los atributos, chequean bits de flags. Lo que pasa es que HASAT 0-7 chequea los bits del flag 59, y hasta 8-15 los del flag 58. Como los flags 58 y 59 contiene los atributos del objeto referenciado (ver flags del sistema) HASAT parece chequear los atributos, pero no, chequea los flags.</p>
+
+<p>Lo bueno, es que HASAT tiene un valor que puede ser de 0 a 255, así que como os podéis imaginar, los 8 siguientes valores de HASAT/HASNAT 16-23 chequean los bits del flag 57, los 8 siguientes (24-31), los bits del flag 56, y así sucesivamente hasta los valores 248-255, que corresponden a los bits del flag 28, que además resulta ser un flag de uso libre para el usuario.</p>
+
+<p>Así, por ejemplo, como el bit 7 del flag del sistema 57 indica si el objeto actualmente referenciado es una prenda (ver tabla de flags del sistema más adelante), un HASAT 23 nos dirá si el Objeto referenciado es prenda o no.</p>
+ 
+<p>Cuando veáis la tabla de flags del sistema todo esto se entenderá mejor, pero esos valores son algunos ejemplos de lo que se puede hacer:</p>
+
+<table><tr><th>Símbolo</th><th>Flag</th><th>Número de Atr.</th><th>Descripción</th></tr>
+<tr><td>WEARABLE</td><td>57-Bit7</td><td>23</td><td>El objeto actual es prenda</td></tr>
+<tr><td>CONTAINER</td><td>56-Bit7</td><td>31</td><td>El objeto actual es contenedor</td></tr>
+<tr><td>LISTED</td><td>53-Bit7</td><td>55</td><td>Si los objetos son listados por LISTOBJ</td></tr>
+<tr><td>TIMEOUT</td><td>49-Bit7</td><td>87</td><td>Si hubo un timeout en el último input</td></tr>
+<tr><td>GMODE</td><td>29-Bit7</td><td>247</td><td>Gráficos disponibles (sin mucho sentido en DAAD Ready)</td></tr>
+<tr><td>MOUSE</td><td>29-Bit0</td><td>240</td><td>Ratón disponible</td></tr>
+<tr><td>CUSTOM</td><td>28-Bit7</td><td>255</td><td>Bit 7 del flag 28, flag libre</td></tr>
+</table>
+
+
+
+<p>Por ejemplo, para saber si hubo un timeout (el jugador no escribió nada en mucho tiempo y pasó turno) podemos usar:</p>
+  
+<code>HASAT TIMEOUT</code><br /><br/>
+
+<p>Para los que usaron PAW, esto equivale a la condición TIMEOUT (que no existe en DAAD), pero también permite simular un "NOTTIMEOUT":</p>
+
+<code>HASNAT TIMEOUT</code><br/><br/>
+
+<p>HASAT/HASNAT accede por tanto individualmente a los bits de los flags 28 a 59, 32 flags en total.</p>
+
+<p><u>Condiciones para interactuar con el jugador</u></p>
+
+<a name="INKEY"></a>
+<condact>INKEY</condact>
+<p>Es una condición que tendrá éxito si el jugador está pulsando una tecla cuando se ejecute. En las máquinas de 16 bit, los flags fKey1 y fKey2 (60 y 61) se actualizarán con los valores correspondientes a la tecla en el IBM estándar ASCII code. En 8 bit solo fKey será modificado, y su valor es diferente para cada máquina.</p>
+
+<a name="QUIT"></a>
+<condact>QUIT</condact>
+<p>Se muestra el mensaje del Sistema 12 ("¿Estás seguro?") y se llama a la rutina de input. La condición tendrá éxito si el jugador responde con una frase que empieza por la letra que hay en el mensaje del sistema 30 (“S”). En caso contrario, el resto de lo tecleado por el jugador es descartado y saltamos a la siguiente entrada.</p>
+
+<a name="actions"></a>
+<h6>Acciones</h6>
+ 
+<p><u>Acciones que modifican la posición de los objetos</u></p>
+
+<a name="get"></a>
+<condact>GET objno.</condact>
+<p>Si el objeto objno lo llevamos o lo llevamos puesto, se imprime el mensaje del Sistema 25 (“Ya tengo _.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>Si el objeto objno no está en la localidad actual, se imprime el mensaje del Sistema 26 (“No veo eso por aquí.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>Si el peso total de los objetos que lleva el jugador, más las prendas que lleva puestas, más el peso del objeto en cuestión excede el máximo peso que puede llevar el jugador (flag 52) se imprime el mensaje del Sistema 43 (“@ pesa demasiado.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>Si el número de objetos que lleva el jugador (flag 1) es mayor o igual que el máximo de objetos que puede llevar (Flag 37), se imprime el mensaje del Sistema 27 (“Llevo demasiadas cosas.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>Si no ocurre nada de lo anterior la posición del objeto en cuestión es cambiada a “llevado” (localidad 254), el flag 1 es incrementado en una unidad, y se imprime el mensaje del sistema 36 (“Ahora llevo _.”).</p>
+
+<a name="drop"></a>
+<condact>DROP objno.</condact>
+
+<p>Si el objeto objno es una prenda que el jugador lleva puesta se imprime el mensaje del Sistema 24 (“No puedo. Llevo puesto _.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>Si el objeto objno está en la localidad actual, pero ni llevado ni puesto, se imprime el mensaje del Sistema 49 (“No tengo _.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>Si el objeto objno no está en la localidad actual, se imprime el mensaje del Sistema 28 (“No tengo eso.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>Si no ocurre nada de lo anterior, el objeto es movido a la localidad actual, el flag 1 es decrementado en una unidad, y se imprime el mensaje del sistema 39 (“He dejado _.”).</p>
+
+<a name="wear"></a>
+<condact>WEAR objno.</condact>
+
+<p>Si el objeto objno está en la localidad actual, pero ni llevado ni puesto, se imprime el mensaje del Sistema 49 (“No tengo _.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>Si el objeto objno es una prenda que ya llevamos puesta, se imprime el mensaje del Sistema 29 (“Ya llevo puesto _.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>Si no llevamos el objeto objno, se imprime el mensaje del Sistema 28 (“No llevo eso.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>Si el objeto en cuestión no es una prenda (Como se especifica en la sección /OBJ), se imprime el mensaje del Sistema 40 (“No puedo ponerme eso.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>En caso contrario, el objeto es movido a la localidad de objetos puestos (253), el flag 1 es decrementado en una unidad, y el mensaje del sistema 37 (“Ahora llevo puesto _.”) es mostrado.</p>
+
+<a name="remove"></a>
+<condact>REMOVE objno.</condact>
+
+<p>Si el objeto objno lo llevamos o bien está en la localidad actual (pero no puesto), se imprime el mensaje del Sistema 50 (“No llevo puesto _.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>Si el objeto objno no está en la localidad actual, se imprime el mensaje del Sistema 23 (“No llevo puesto eso.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>Si el objeto objno no es una prenda, se imprime el mensaje del Sistema 41 (“No puedo quitarme _.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>Si el máximo de objetos que el jugador lleva (flag 1) es mayor o igual que el número de objeto llevables (flag 37), se imprime el mensaje del Sistema 42 (“No puedo quitarme _. Mis manos están llenas.”) y una acción NEWTEXT y DONE son ejecutados.</p>
+<p>En caso contrario la posición del objeto en cuestión es cambiada a llevado (localidad 254), el flag 1 es incrementado, y se muestra el mensaje del sistema 38 (“Me he quitado _.”)</p>
+
+
+<a name="create"></a>
+<condact>CREATE objno.</condact>
+
+<p>La posición del objeto objno pasa a ser la localidad actual. El flag 1 se decrementa si antes de eso el objeto lo llevaba el jugador.</p>
+
+<a name="destroy"></a>
+<condact>DESTROY objno.</condact>
+
+<p>La posición del objeto objno pasa a ser la localidad de objetos no creados (252). El flag 1 se decrementa si antes de eso el objeto lo llevaba el jugador.</p>
+
+<a name="swap"></a>
+<condact>SWAP objno1. objno2.</condact>
+
+<p>La posición de ambos objetos es intercambiada. El flag 1 no se ve afectado. El objeto referenciado actual pasa a ser el objeto objno2.</p>
+
+<a name="place"></a>
+<condact>PLACE objno. locno+</condact>
+
+<p>La posición del objeto objno pasa a ser la localidad locno+. El flag 1 se decrementa si antes de eso el objeto lo llevaba el jugador, y es incrementado si el locno+ es 254 (llevado).</p>
+
+<a name="puto"></a>
+<condact>PUTO locno+</condact>
+
+<p>La posición del objeto al que se refiere actualmente (el objeto a cuyo número esté en la bandera 51) se cambia para ser el número de localidad de locno. La bandera 54 permanece cono su vieja localidad. La bandera 1 se decrementa si el objeto era llevado, y se incrementa si el objeto se pone en la localidad 254 (llevado).</p>
+
+<a name="putin"></a>
+<condact>PUTIN objno. locno+</condact>
+<p>Si el objeto con número de locno. no existe o no está marcado como un contenedor (opción C en el menú de Objetos Peso) entonces se genera un error de "Argumento Ilegal". </p>
+<p>Si el objeto al que se refiere objno. es llevado puesto encima, entonces el Mensaje del Sistema 24 "No puedo, llevo puesto _" se imprime y las acciones NEWTEXT y DONE se ejecutan. </p>
+<p>Si el objeto al que se refiere objno. está en la localidad actual (pero ni se lleva puesto encima, ni se lleva) el Mensaje del Sistema número 49 "No tengo _" se imprime, y las acciones NEWTEXT y DONE se ejecutan. </p>
+<p>Si el objeto al que se refiere objno. no está en la localidad actual, pero tampoco está llevado, entonces un Mensaje del Sistema número 28 "No tengo uno de esos" se imprime, y las acciones NEWTEXT y DONE se ejecutan. </p>
+<p>De cualquier otra forma, la posición del objeto al que se refiere objno. se cambia a la localidad a la que se refiere locno. La bandera 1 se decrementa y el Mensaje del Sistema 44 "El _ está en la", viene entonces una descripción de la localidad del objeto y luego el Mensaje del Sistema 51 ".", se imprime. </p>
+
+
+<a name="takeout"></a>
+<condact>TAKEOUT objno. locno+</condact>
+
+<p>Si el objeto al que se refiere locno. no existe o no está marcado como un contenedor (la opción C en el menú de objetos y pesos) entonces se genera un error de "Argumento Ilegal". </p>
+<p>Si el objeto al que se refiere objno. se lleva puesto encima o es llevado, el Mensaje del Sistema número 25 "Ya tengo _" se imprime y las acciones NEWTEXT y DONE se ejecutan. </p>
+<p>Si el objeto al que se refiere objno. está en la localidad actual, el Mensaje del Sistema número 45 "_ no está en la", viene una descripción del objeto que va a ser usado como localidad, y luego el Mensaje del Sistema 51 "." se imprime y las acciones NEWTEXT y DONE se ejecutan. </p>
+<p>Si el objeto al que se refiere locno. no se lleva o no está puesto y el peso total de los objetos llevados por el jugador, más el objeto al que se refiere objno. excede del peso máximo llevable (bandera 52), entonces el Mensaje del Sistema 46 "El _ pesa mucho para mí" se imprime y las acciones NEWTEXT y DONE se ejecutan. </p>
+<p>Si el máximo número de objetos ya se lleva (o sea, que la bandera 1 es mayor o igual que la bandera 37), el Mensaje del Sistema 27 "No puedo llevar más cosas" se imprime y las acciones NEWTEXT y DONE se ejecutan. En adición, cualquier bucle DOALL se cancela. </p>
+<p>De otro modo, la posición del objeto al que se refiere objno. cambia a llevado, la bandera 1 se incrementa, y el Mensaje del Sistema 36 "Ahora tengo” se imprime. </p>
+
+<p>Nota Importante: No se hace ningún chequeo ni para PUTIN ni para TAKEOUT de qué objeto utilizado cano locno. esté actualmente presente. Esto debes hacerlo tú si es necesario.</p>
+
+
+<a name="dropall"></a>
+<condact>DROPALL</condact>
+
+<p>Todos los objetos que sean llevados o puestos encima se crearán en la localidad actual (lo que dará el efecto de que todos los objetos han sido dejados caer) la bandera 1 se pondrá a 0. Este comando se ha incluido para compatibilidad con los antiguos sistemas, (léase QUILL). Es de notar que un DOALL 254 llevará a cabo un verdadero DROP ALL, y además tendrá en cuenta cualquier otra acción especial que se incluya.</p>
+
+<hr />
+
+<p>Las siguientes seis acciones tratan de versiones automáticas como COGER, DEJAR, LLEVAR PUESTOS, QUITAR DE ENCIMA, PONER DENTRO y SACAR DE, (GET, DROP, WEAR, REMOVE, PUTIN and TAKEOUT). Son automáticos por el hecho de que en vez de necesitar que se especifique el número del objeto, ellos convertirán el primer Nombre con su Adjetivo en el objeto actualmente indicado o referenciado, buscándolo en la tabla de Objetos Palabras. La búsqueda se hace por un objeto que esté en una de las siguientes localidades en orden descendente de prioridad. (Mirar las descripciones individuales). Esta búsqueda con prioridades permite que DAAD "sepa" de qué objeto se trata, si más de un objeto tiene el mismo nombre descriptivo (cuando el jugador no haya especificado un Adjetivo), en la localidad actual llevado o puesto encima o en un contenedor (si se trata del comando TAKEOUT).</p>
+
+<a name="autog"></a>
+<condact>AUTOG</condact>
+
+<p>Una búsqueda del número del objeto representado por Nombre (Adjetivo) 1 se hace en la tabla de Objetos Palabra según su prioridad de localización que será: aquí, llevado, puesto, etc. Es más lógico que el jugador esté tratando de coger un objeto que esté en la localidad actual, que uno que lleve o tenga puesto encima, por eso el orden de prioridades. Si el objeto es encontrado, su número se pasa a la acción GET. De otra forma, si es un objeto que existe en cualquier otra parte del juego o si el Nombre1 no está en el Vocabulario, el Mensaje del Sistema número 26 "No hay uno de esos aquí" se imprime. Si no, el Mensaje del Sistema número 8 "No puedo hacer eso" se imprime (significa que no es un objeto válido pero que existe en el juego). De todas formas, las acciones NEWTEXT y DONE se ejecutan.</p>
+ 
+<a name="autod"></a>
+<condact>AUTOD</condact>
+
+<p>Una búsqueda por el número del objeto representado por Nombre (Adjetivo) 1 se hace en la tabla de Objetos Palabras según la prioridad de localidad: llevado, puesto encima, aquí. Por ejemplo, lo más probable es que el jugador esté intentando dejar caer (DROP) un objeto que lleve, que lleve puesto encima o esté aquí. Si se encuentra un objeto, su número se pasa a la acción DROP. De otra forma si hay un objeto que existe en cualquier parte del juego, o si el Nombre1 no está en el Vocabulario, el Mensaje del Sistema 28 "No tengo uno de esos" se imprime. Si no, el Mensaje número 8 "No puedo hacer eso" se imprime, es decir (no es un objeto válido, pero sí que existe en el juego). De cualquier forma, las acciones NEWTEXT y DONE son ejecutadas.</p>
+
+<a name="autow"></a>
+<condact>AUTOW</condact>
+
+<p>En una búsqueda del número del objeto representado por Nombre (Adjetivo) 1 se hace en la tabla de objetos en orden de prioridad de: llevado, puesto encima, aquí. Es más probable que el jugador esté intentando ponerse encima (WEAR) un objeto que lleve en sus manos, que uno que lleve puesto o que uno que esté aquí. Si el objeto se encuentra, su número se pasa a la acción WEAR. De otra manera, si hay un objeto en existencia en cualquier parte del juego o si el Nombre1 no estaba en el Vocabulario, entonces el Mensaje del Sistema número 28 "No tengo uno de esos" se imprime. Si no, el Mensaje del Sistema número 8 "No puedo hacer eso" se imprime. No es un objeto válido, pero sí existe en el juego. De cualquier modo, las acciones NEWTEXT y DONE se ejecutan.</p>
+
+<a name="autor"></a>
+<condact>AUTOR</condact>
+
+<p>Una búsqueda por el número del objeto representado por el Nombre (Adjetivo) 1 se hace en la tabla de objetos con una prioridad de: puesto encima, llevado, aquí. El jugador, lo más probable es que esté tratando de quitarse (REMOVE) un objeto que lleve puesto, que uno que lleve en sus manos o que esté aquí. Si un objeto se encuentra, su número se pasa a la acción REMOVE. Si hay un objeto en existencia en cualquier parte del juego o si el Nombre1 no estaba en el Vocabulario, entonces el Mensaje del Sistema 23 "No llevo uno de esos" se imprime. Si no, el Mensaje del Sistema número 8 "No puedo hacer eso" se imprime (no es un objeto válido, pero existe en el juego). De cualquier forma, las acciones NEWTEXT y DONE se ejecutan.</p>
+
+<a name="autop"></a>
+<condact>AUTOP locno.</condact>
+
+<p>Una búsqueda del número del objeto representado por el Nombre (Adjetivo) 1 se hace en la tabla de Objetos Palabras en el siguiente orden de prioridad: llevado, puesto, aquí. Es más factible que el jugador esté intentando poner un objeto que lleva en sus manos dentro de otro, que uno que lleva puesto encima o está aquí. Si el objeto se encuentra, su número se pasa a la acción PUTIN. Si hay un objeto en existencia en cualquier parte del juego o si el Nombre1 no está en el Vocabulario, entonces el Mensaje del Sistema 28 "No tengo uno de esos" se imprime. Si no, el Mensaje del Sistema número 8 "No puedo hacer eso" se imprime. No es un objeto válido, pero existe en el juego. De todos modos, las acciones NEWTEXT y DONE son ejecutadas.</p>
+
+<a name="autot"></a>
+<condact>AUTOT locno.</condact>
+
+<p>Una búsqueda por el número del objeto representado por el Nombre (Adjetivo) 1 se hace en la tabla de Objetos Palabras según la siguiente prioridad: un contenedor, llevado, puesto, aquí. El jugador es más probable que esté intentando sacar un objeto que esté dentro de un contenedor que un objeto que sea llevado, puesto encima, o aquí. Si un objeto se encuentra, su número se pasa a la acción TAKEOUT. Si hay un objeto en existencia en cualquier parte del juego o si el Nombre1 no está en el Vocabulario entonces el Mensaje del Sistema "No hay uno de esos en él", viene luego una descripción del objeto que sirve de localidad, y luego el Mensaje 51 del sistema “.” se imprime. Si no, el Mensaje del Sistema 8 "No puedo hacer eso" se imprime. (No es un objeto válido, pero existe en el juego). De cualquier modo, las acciones NEWTEXT y DONE se ejecutan. </p>
+
+<p>Nota Importante: No se hace ningún chequeo, ni por AUTOP ni por AUTOT, de que el objeto que se va a usar como contenedor, o sea el de locno. esté actualmente presente. Esto debe ser hecho por ti, si así es requerido.</p>
+
+
+<a name="copyoo"></a>
+<condact>COPYOO objno1. objno2.</condact>
+
+<p>La posición del objeto al que se refiere objno2 se hace la misma que la posición en que estaba el objeto objno1. El objeto que se toma actualmente como referencia se pone en objno2.</p>
+
+<a name="reset"></a>
+<condact>RESET</condact>
+
+<p>Esta acción no se parece a la de igual nombre de PAW. Tiene la función de poner todos los objetos en la posición inicial. Además, establace todos los flags que tienen relación con el número de objetos llevados.</p>
+
+<p><u>Acciones que cambian datos de objetos a flags y viceversa</u></p>
+
+<a name="copyof"></a>
+<condact>COPYOF objno. flagno.</condact>
+
+<p>La posición del objeto al que se refiere objno. se copia en el flagno. de la bandera. Esto puede ser usado para examinar la localización de un objeto en comparación con otro valor de la bandera. 
+  Por ejemplo: [COFYOF 1 11 SAME 11 38] puede ser usado para chequear que el objeto 1 esté en la misma localidad del jugador.</p>
+
+<a name="copyfo"></a>
+<condact>COPYFO flagno. objno.</condact>
+
+<p>La posición del objeto al que se refiere objno. se pone como contenido del flagno. de la bandera. Una intención de copiar de una bandera que contenga 255 resultará en un error de "Argumento Inválido". El poner un objeto en una localidad inválida será aceptada puesto que no acarrea ningún peligro para las operaciones de DAAD. Esto debes tenerlo en cuenta (y no hacerlo) tú.</p>
+
+<a name="whato"></a>
+<condact>WHATO</condact>
+
+<p>Una búsqueda para el número del objeto representado por el Nombre (Adjetivo) 1 se hace en la tabla de Objetos Palabras en la siguiente prioridad: llevado, puesto, aquí. Esto es, porque se supone que cualquier uso del comando WHATO se referirá más que todo a objetos llevados que a cualquier objeto que se lleve puesto o esté aquí. Si un objeto se encuentra su número se pone en la bandera 51, lo mismo que con cualquier parámetro del objeto al cual se refiera actualmente en las banderas 54 a 57. Esto te permite crear otras acciones de tipo automático (en el manual de introducción dábamos el ejemplo de esto dejando caer objetos desde el árbol).</p>
+
+<a name="setco"></a>
+<condact>SETCO objno.</condact>
+
+<p>Establece objno. como el objeto referenciado actual (lo cual actualiza varios flags del sistemna, ver lista)</p>
+
+<a name="weigh"></a>
+<condact>WEIGH objno. flagno.</condact>
+
+<p>El verdadero peso al que se refiere objno. se calcula (por ejemplo: si es un contenedor, cualquier objeto que lleve dentro hará aumentar su peso, no te olvides de que puede haber varios contenedores uno dentro de otro y todos sus pesos se pueden añadir hasta el nivel 10) y el valor que dé, se pone en el flagno. de la bandera. El máximo es 255. Si el objeto al que se refiere objno. es un contenedor de peso cero, el flagno. de la bandera se pondrá a cero, puesto que cualquier objeto que esté en un contenedor que pese cero se considera que tiene un peso de cero (Sería un dispositivo antigravedad en una aventura de ciencia ficción).</p>
+
+  
+<p><u>Acciones para manipular los valores de flags</u></p>
+
+<a name="set"></a>
+<condact>SET flagno.</condact>
+
+<p>El flag flagno pasa a valer 255.</p>
+
+<a name="clear"></a>
+<condact>CLEAR flagno.</condact>
+
+<p>El flag flagno pasa a valer 0.</p>
+
+<a name="let"></a>
+<condact>LET flagno. value</condact>
+
+<p>El flag flagno pasa a valer "value".</p>
+
+<a name="plus"></a>
+<condact>PLUS flagno. value</condact>
+
+<p>El flag flagno es incrementado en el “value” especificado. Si el resultado excede de 255, pasa a valer 255.</p>
+
+<a name="minus"></a>
+<condact>MINUS flagno. value</condact>
+
+<p>El flag flagno es decrementado en el “value” especificado. Si el resultado es menor de 0, pasa a valer 0.</p>
+
+<a name="add"></a>
+<condact>ADD flagno1. flagno2.</condact>
+
+<p>El flag flagno2 es incrementado en el valor del flag flagno1. Si el resultado excede de 255, el flag flagno2 pasa a valer 255.</p>
+
+<a name="sub"></a>
+<condact>SUB flagno1. flagno2.</condact>
+
+<p>El flag flagno2 es decrementado en el valor del flag flagno1. Si el resultado es menor que 0, el flag flagno2 pasa a valer 0.</p>
+
+<a name="copyff"></a>
+<condact>COPYFF flagno1. flagno2.</condact>
+
+<p>El valor del flag flagno2 pasa a ser el mismo que el del flag flagno1</p>
+
+<a name="copybf"></a>
+<condact>COPYBF flagno1. flagno2.</condact>
+
+<p>El valor del flag flagno1 pasa a ser el mismo que el del flag flagno2. Es decir, es como COPYFF pero en sentido inverso.</p>
+
+<a name="random"></a>
+<condact>RANDOM flagno.</condact>
+
+<p>El flag flagno pasa a tener un valor aleatorio entre 1 y 100. Puede ser útil para realizar acciones aleatorias en una manera más flexible que la que permite CHANCE.</p>
+
+<a name="move"></a>
+<condact>MOVE flagno.</condact>
+
+<p>Esta es una acción muy poderosa diseñada para manipular PSI’s (PNJs). Permite que la sentencia lógica actual se evalué contra la tabla de conexiones de la localidad indicada en el valor del flag flagno.</p>
+<p>Si el verbo es encontrado (por ejemplo, el verbo era NORTE y hay una salida al norte), entonces el flag se actualiza para contener la localidad a la que esa conexión lleva.</p>
+<p>Si no se encuentra el verbo, o el número de localidad original no era válido, entonces PAW salta a la siguiente entrada si la hay.</p>
+<p>Esta funcionalidad puede usarse para facilitar que los personajes se muevan aleatoriamente, haciendo que el flag del verbo actual se modifique a un valor aleatorio, y luego tratar de hacer MOVE a ver si puede moverse. Nótese que cualquier movimiento que no esté en la tabla de conexiones no podrá realizarse con MOVE.</p>
+
+<a name="goto"></a>
+<condact>GOTO locno.</condact>
+
+<p>Cambia la localidad actual del jugador. Es equivalente a LET 38 locno., pero no tiene ningún efecto adicional (no cambia el gráfico, no se redescribe la nueva localidad, nada). Es por esto muy común que detrás de un GOTO  vaya un RESTART (ver más adelante), que fuerce al juego a pasar por la parte donde se describe la nueva localidad. </p>
+
+<a name="weight"></a>
+<condact>WEIGHT flagno.</condact>
+
+<p>Calcula el peso real de los objetos llevado y puestos (esto es, calcula también lo que pesan los objetos dentro de contenedores llevados) hasta un máximo de 255. Dicho valor se almacena en el flag flagno.</p>
+
+<p>Podría ser útil para determinar si un jugador puede cruzar un puente sin que se hunda, por ejemplo.</p>
+
+<a name="ability"></a>
+<condact>ABILITY value1 value2</condact>
+
+<p>Hace que el flag 37, máximo de objetos llevables, pase a valer “value1”, y el flag 52, máximo peso de los objetors llevables, pase a valer “value2”.</p>
+
+  <p>No se realizan comprobaciones para asegurarse de que el jugador no lleve ya más del nuevo máximo.</p>
+  
+  <p>Equivale a:</p>
+  <code>
+  LET 37 value1<br/>
+  LET 53 value2<br/>
+  </code>
+  
+<p><u>Acciones para manipular los flags del modo y formato de pantalla</u></p>
+
+<a name="mode"></a>
+<condact>MODE option</condact>
+
+
+<p>Permite cambiar el modo de operación de la ventana actualmente seleccionad. Lo valores indicados aquí deben ser sumados para cada opción que se desee, y facilitados en el parámetro option.</p>
+
+ <ul>
+  <li>1 – Usa el set de caracteres superior (los 128 caracteres más altos del set de caracteres). Equivale a un #g permanente, como veréis después en el apartado de escape chars.</li>
+  <li>2 – No aparecerá el mensaje del sistema 32 ("Más...") si la ventana se llena.</li>
+ </ul>
+  
+<p>Por ejemplo, MODE 3 hace que no salga el 'Más...' y además usa el set de caracteres superior.</p>
+
+<a name="input"></a>
+<condact>INPUT stream option</condact>
+
+<p>El parámetro stream hará que el input (la entrada de órdenes) vaya a la ventana especificada. Un valor 0 no provocará que se use la ventana 0 sin embargo, sino la ventana actualmente seleccionada.</p>
+
+<p>El valor de option se obtiene sumando las opciones siguientes que se quieran aplicar:</p>
+  
+
+<ul>
+<li>1 - Borrar ventana tras el input.</li>
+<li>2 - Escribir el input en la ventana actual cuando termine.</li>
+<li>4 - Recuperar el texto que teníamos escrito tras un timeout.</li>
+</ul>
+
+<a name="time"></a>
+<condact>TIME duration option</condact>
+
+<p>Permite que la entrada de órdenes del jugador tenga un “timeout” (demasiado tiempo esperando una orden) tras una duración especificada en segundos. En consecuencia, el sistema seguirá procesando las tablas sin esperar al jugador.</p>
+
+<p>El parámetro 'option' indica si esto debe ocurrir también durante un ANYKEY o cuando sale un "Más..." porque se llena la ventana de texto.  Para calcular el número que hay que poner en option, suma los valores de la siguiente tabla que quieres que ocurran:
+</p>
+
+<ul>
+ <li>1 - Solo ocurre cuando en el input no se ha tecleado nada aún.</li>
+ <li>2 - Ocurre también en "Más...".</li>
+ <li>4 - Ocurre cuando esperamos tecla en un ANYKEY.</li>
+</ul> 
+
+<p>Por ejemplo, TIME 5 6 (option = 2+4) permite 5 segundos sin teclear nada entre cada pulsación de tecla, y que ocurra en el ANYKEY, mientras que TIME 5 3 (option = 1+2) sólo permite que ocurra antes de teclear algo y en el "Más...".</p>
+
+<p>TIME 0 0 deshabilita los timeouts (que es lo que ocurre por defecto)</p>
+
+<p><u>Acciones para controlar la salida de pantalla</u></p>
+
+<a name="window"></a>
+<condact>WINDOW window</condact>
+
+<p>Selecciona la ventana actual (0-7) como stream de salida de datos.</p>
+
+<a name="winat"></a>
+<condact>WINAT line col</condact>
+
+<p>Define la Ventana actualmente seleccionada, determinando donde comienza su esquina superior izquierda con los valores de línea y columna. Si la ventana tenía definido un ancho y un alto que hacen que exceda la pantalla, será recortada para tener un tamaño que quepa.</p>
+
+<a name="winsize"></a>
+<condact>WINSIZE height width</condact>
+
+<p>Define el alto y ancho de la ventana actualmente seleccionada. Si la Ventana excede el tamaño de la pantalla será recortada para caber.</p>
+
+<a name="centre"></a>
+<condact>CENTRE</condact>
+
+<p>Se asegura de que la ventana actual está centrada para el ancho de columna de la maquina actual. No afecta a la posición de la línea.</p>
+
+<a name="cls"></a>
+<condact>CLS</condact>
+
+<p>Borra la ventana actual.</p>
+
+<a name="saveat"></a>
+<condact>SAVEAT</condact>
+
+<p>Guarda la posición de escritura. Esto permite que mantener una posición mientras escribes en algún otro sitio en la misma ventana.</p>
+
+<a name="backat"></a>
+<condact>BACKAT</condact>
+
+<p>Restaura la posición de escritura..</p>
+
+<a name="paper"></a>
+<condact>PAPER colour</condact>
+<p>Selecciona el color de fondo. Colour depende de la máquina, y puede configurarse según el software que viene con el DAAD original para crear los gráficos vectoriales. Dado que DAAD Ready no usa este modelo de gráficos, recomendamos que simplemente se utilice #ifdef (ver más adelante) para definir colores, dado que el uso de DG y otras herramientas de gráficos, es complejo.</p
+
+<a name="ink"></a>
+<condact>INK colour</condact>
+
+<p>Selecciona el color de tinta. Colour depende de la máquina, y puede configurarse según el software que viene con el DAAD original para crear los gráficos vectoriales. Dado que DAAD Ready no usa este modelo de gráficos, recomendamos que simplemente se utilice #ifdef (ver más adelante) para definir colores, dado que el uso de DG y otras herramientas de gráficos, es complejo.</p
+<a name="border"></a>
+<condact>BORDER colour</condact>
+
+<p>Cambia los colores del borde de la pantalla. Es específico por máquina.</p>
+
+<a name="printat"></a>
+<condact>PRINTAT line col</condact>
+
+<p>Cambia la posición de escritura de la ventana actual para que sea la indicada por line y col. Si las coordenadas no caben dentro de la ventana, se cambia la esquina superior izquierda de la ventana.</p>
+
+<a name="tab"></a>
+<condact>TAB col</condact>
+
+<p>Mueve la posición de escritura actual a la columna indicada. Es como hacer un PRINTAT siendo line “la línea actual”.</p>
+
+<a name="mes"></a>
+<condact>MES mesno.</condact>
+
+<p>Escribe el mensaje mesno. de la tabla de mensajes de usuario.</p>
+
+<condact>MES "string"</condact>
+
+<p>Imprime el mensaje entre comillas.</p>
+
+<p>Ten en cuenta que para la cadena de texto puedes usar comillas simples o dobles indistintamente, siempre que cierres y abras de igual modo.</p>
+
+<a name="message"></a>
+<condact>MESSAGE mesno.</condact>
+
+<p>Igual que MES mesno., pero al terminar añade un retorno de carro (salta a la línea siguiente).</p>
+
+<condact>MESSAGE "string"</condact>
+
+<p>Igual que MES "string", pero al terminar añade un retorno de carro (salta a la línea siguiente).</p>
+
+
+<a name="sysmess"></a>
+<condact>SYSMESS sysno.</condact>
+
+<p>Escribe el mensaje del sistema sysno.</p>
+
+<condact>SYSMESS "string"</condact>
+
+<p>Escribe el mensaje entre comillas, mismo efecto que MES "string"</p>
+
+<a name="desc"></a>
+<condact>DESC locno.</condact>
+<p>Escribe la descripción de la localidad locno.</p>
+
+<condact>DESC "string"</condact>
+<p>Escribe el mensaje entre comillas, mismo efecto que MES "string"</p>
+
+<a name="space"></a>
+<condact>SPACE</condact>
+
+<p>Simplemente escribe un espacio. Más corto y ocupa menos que MES “ “.</p>
+
+<a name="newline"></a>
+<condact>NEWLINE</condact>
+
+<p>Imprime un retorno de carro (salta a la línea siguiente).</p>
+
+<p><u>Acciones para imprimir valores de flags en pantalla</u></p>
+
+<a name="print"></a>
+<condact>PRINT flagno.</condact>
+
+<p>El contenido en decimal de la bandera a que se refiere flagno. se imprime con los colores actuales sin dejar espacios ni antes ni después. Esta es una acción muy eficaz. Por ejemplo, si la bandera 100 contiene el número de monedas que lleva el jugador, entonces una entrada en la tabla de Procesos del tipo MES "Tienes " y después PRINT 100 MESSAGE " monedas de oro.", se usaría para que se imprimiera el número de monedas que tiene.</p>
+
+<code>
+   MES "Tienes "<br/>
+   PRINT 100<br/>
+   MESSAGE " monedas de oro."
+  </code>   
+
+
+<a name="dprint"></a>
+<condact>DPRINT flagno</condact>
+
+<p>Escribirá los contenidos de flagno y flagno+1 como un valor de dos bytes, generando un número en el rango 0-65535.</p>
+<p>El contenido es generado multiplicando el valor del flag flagno+1 por 256 y sumando el valor del flag flagno.</p>
+<p>DPRINT 255 carece de sentido, y producirá un valor sin sentido.</p>
+
+<p><u>Acciones que manejan listados de objetos en pantalla.</u></p>
+
+<p>Están controlados por el flag del sistema 53 (ver más adelante).</p>
+
+<a name="listobj"></a>
+<condact>LISTOBJ</condact>
+
+<p>Si cualquier objeto está presente, entonces el mensaje del sistema número 1 "Además puedo ver" se imprime, seguido de una lista de los objetos presentes en la localidad actual. Si no hay ningún objeto, entonces no se imprime nada.</p>
+
+<a name="listat"></a>
+<condact>LISTAT locno+.</condact>
+
+<p>Si hay algunos objetos presentes, se listan. Si no, el mensaje del sistema número 53 "Nada" se imprime. Hay que tener en cuenta que usualmente hay que preceder esta acción con un mensaje del tipo de "En la bolsa hay", etc..</p>
+
+<p>><u>Acciones para grabar o cargar el estado actual del juego</u></p>
+
+<ul>
+  <li>0 - Acción normal</li>
+  <li>1 - Grabar a cinta (no preguntar “disco o cinta”)</li>
+  <li>2 - Grabar a disco (no preguntar “disco o cinta”)</li>
+</ul>
+
+<a name="save"></a>
+<condact>SAVE opt</condact>
+SAVE opt
+
+<p>Esta acción graba el estado actual del juego en disco o cinta. El mensaje del sistema 60 (“Escribe el nombre del fichero:”) se imprime, y la rutina de input es llamada para que el jugador escriba el nombre. Si el nombre facilita no es válido se muestra el mensaje del sistema 59 “Error en nombre de fichero”. En las máquinas de 8 bits este dato no es comprobado, simplemente hace que el fichero sea aceptable.</p>
+
+
+<a name="load"></a>
+<condact>LOAD opt</condact>
+
+<p>Esta acción carga una partida grabada de disco o de cinta. Se pide un nombre de fichero igual que con SAVE. Una variedad de errores puede ocurrir en cada máquina si el fichero no se encuentra (generalmente ‘Error de E/S’). Si la carga tiene éxito la siguiente acción es ejecutada, en caso contrario una limpieza del sistema, GOTO 0, RESTART es ejecutado (dando como resultado en general el reinicio del juego).</p>
+
+
+<a name="ramsave"></a>
+<condact>RAMSAVE</condact>
+
+<p>De una manera similar a SAVE , la información de progreso en el juego es grabada, pero no en disco o cinta, sino en la memoria del ordenador. Este buffer es por supuesto volátil, y desaparecerá si apagamos el ordenador.</p>
+
+<a name="ramload"></a>
+<condact>RAMLOAD flagno.</condact>
+
+<p>Esta acción restaura los datos grabados por RAMSAVE. El parámetro indica cual es el último flag restaurado, lo cual puede usarse para preservar valores a través de una recargar. Por ejemplo con una entrada así:</p>
+
+<code>
+ > RAMLO _ <br/>
+    COPYFF 30 255<br/>
+    RAMLOAD 254<br/>
+    COPYFF 255 30<br/>
+    RESTART
+</code>  
+
+<p>Que permite guardar la puntuación actual a pesar del RAMSAVE/RAMLOAD.</p>
+
+<p>
+  Nota 1: las acciones “RAM” pueden ser usadas para implementar OOPS, la acción que permite deshacer la última acción, creando una entrada en el bucle principal que haga RAMSAVE a cada ciclo.</p>
+
+<p>Nota 2: Las cuatro acciones de grabar/cargar permiten el siguiente condActo ejecutarse, normalmente deben ir seguidas de un “RESTART” para que el juego muestre los cambios.</p>
+
+<p><u>Acciones que permiten pausar el juego</u></p>
+
+<a name="anykey"></a>
+<condact>ANYKEY</condact>
+
+<p>El mensaje del sistema 16 ("Pulsa una tecla para continuar") se muestra, y el teclado es comprobado hasta que una tecla es pulsada, u ocurre un timeout (si habilitados en ANYKEY).</p>
+
+<a name="pause"></a>
+<condact>PAUSE value</condact>
+ 
+<p>Pausa por un valor/50 segundos (Pause 50 = 1 segundo). Sin embargo, si el valor es cero entonces la Pausa es por 256/50 segundos. Hay que destacar que el teclado se desconecta durante la duración de una pausa.</p>
+
+<p><u>Acciones para el control del analizador sintáctico (parser)</u></p>
+
+<a name="parse"></a>
+<condact>PARSE n</condact>
+
+<p>El parámetro ‘n’ controla el nivel de indentación que debe buscarse. En este momento solo se soportan dos valores, siendo:</p>
+
+<ul>
+  <li>0 - Analiza el input principal para conseguir una sentencia lógica.</li>
+  <li>1 - Analiza cualquier cadena metida entre comillas dobles (“) para que estuviera contenida en la sentencia lógica extraída.</li>
+</ul>
+
+<p>El modo 0 es el método primario para convertir las órdenes del jugador en sentencias lógicas.</p>
+
+<p>El modo 1 se ha diseñado para manejar PSIs (PNJs). Cualquier cadena metida en comillas que es encontrada en el input es convertida en la SL, reemplazando la frase principal.</p>
+
+<p>Si no hay frase presente a nivel 0 entonces se llama a la rutina de input para pedir nueva frase, siempre que no hubiera un buffer de ordenes previo del que sacar más senrencias logícas.</p>
+
+<p>En nivel 1 y superior el siguiente condActo es ejecutado. Esto ocurre en todos los niveles si la SL es inválida. Nótese que DAAD mirará el siguiente condActo en lo que puede ser considerado una situación de “fallo”, lo cual es diferente a lo habitual. En otro caso, se pasa a la siguiente entrada.</p>
+
+<p>Imaginemos que no tenemos el template que se genera en TEST.DSF, y tuvieramos que partir de cero, lo mínimo necesario sería tener esto en el proceso 0:</p>
+
+
+<code>
+> _ _<br/>
+ PARSE 0<br/>
+ MESSAGE "No entiendo"<br/>
+ REDO<br/>
+ <br/>
+> _ _ <br/>
+ PROCESS x ; Atender a la orden<br/>
+ REDO
+</code>
+
+<p>Para usarlo para hablar con PSIs PNJs) habrá dos llamadas más, en el proceso x del ejemplo anterior, que serían similares a:</p>
+
+
+  <code>
+  > DECIR nombre <br/>
+  SAME pos 38 ;Está aqui?<br/>
+  PROCESS y ; Decodificar lo dicho<br/>
+  DONE ; se ha destruido la sentencia logica actual, así que siempre DONE.<br/>
+  <br/>
+> DECIR nombre <br/>
+  MESSAGE z ;"No están aqui!"<br/>
+  DONE
+  </code>
+
+<p>Con un “PROCESS y” similar a:</p>
+
+<code>
+  > _ _ <br/>
+  PARSE 1; Siempre ejecuta esto<br/>
+  MESSAGE x ;"No te entiende"<br/>
+  DONE<br/>
+  <br/>
+> word word<br/>
+  CondAct list ;Cualquier frase el PSI entiende.<br/>
+  <br/>
+> _ _ <br/>
+  MESSAGE x ;as above or different message
+</code>
+
+<a name="newtext"></a>
+<condact>NEWTEXT</condact>
+
+<p>Fuerza que se pierda cualquier frase que permanezca en la línea actual de INPUT. Se debe usar para prevenir que el jugador continúe con un INPUT dañado, sin tener un nuevo INPUT, si algo sucede durante una situación. Por ejemplo, la acción COGER (GET) ya de por sí lleva un NEWTEXT si por alguna razón falla en coger el objeto que se requiere. Ello se usa para prevenir el desastre en una frase como: COGE LA ESPADA Y MATA A MANOLO CON ELLA por si se lleva a cabo un ataque a Manolo sin tener la espada, lo cual es muy peligroso.</p>
+
+<a name="synonym"></a>
+<condact>SYNONYM verb noun</condact>
+
+<p>Sustituye el verbo y/o nombre de la SL actual por los dados. Si uno de los dos es un guion bajo “_” ese no se sustituye</p>
+
+ <p>Ejemplo:</p>
+
+<code>
+> ENCENDER LUZ <br/>
+  SYNONYM PULSAR INTERRUPTOR<br/>
+  <br/>
+> PULSAR INTERRUPTOR<br/>
+  ; Acciones y condiciones...<br/>
+</code>
+
+<p>Nota importante: SYNONYM es una acción, por lo que el estado de “hecho” del proceso en curso queda activado por su ejecución. Será necesario que haya por tanto un match posterior en el proceso, o podría resultar el proceso “hecho” sin aparentemente haber hecho nada.</p>
+
+<p><u>Acciones de saltos, bucles y subrutinas</u></p>
+
+<a name="process"></a>
+<condact>PROCESS procno.</condact>
+
+<p>Esta poderosa acción transfiere la atención de DAAD hacia el número de tabla de Proceso especificado por procno. Este subproceso exhibirá las mismas características que la tabla que lo llamó. Por ejemplo, si ha sido llamado desde la tabla de Respuestas, DAAD seguirá buscando la correlación del Verbo y el primer Nombre de la SL y las palabras que hayan sido entradas en la tabla principal. Hay que darse cuenta de que es una verdadera llamada a una subrutina y de que cualquier salida desde la tabla nueva (por ejemplo, causada por un DONE, OK, etc.) llevará de nuevo el control al siguiente condActo que esté en lista después de la acción PROCESS. Un subproceso puede ser llamado (anidar) a otros procesos hasta una profundidad de 10 en cuyo punto se creará un error de "Límite Alcanzado".</p>
+
+<a name="redo"></a>
+<condact>REDO</condact>
+
+<p>Reinicia el procesado de la tabla actual. Dicho de otro modo, volverá al principio del proceso actual y volverá a evaluar las entradas como si acabara de entrar en él.</p>
+
+<a name="doall"></a>
+<condact>DOALL locno+</condact>
+
+<p>Otra acción muy poderosa que permite la mejora de cualquier comando de tipo "ALL" (como COGER TODO). </p>
+
+<ul>
+ <li>1 - Se intenta encontrar un objeto en la localidad a la que se refiere locno. Si no se encuentra (no es satisfactorio) el DOALL se cancela, el mensaje del sistema 8 “No puedes hacer eso es mostrado”,  y una acción DONE se ejecuta. </li>
+ <li>2 - TSi se encuentra un objeto, el número del objeto se convierte en el Nombre1 de la SL (y el Adjetivo1 si está presente) por medio de una referencia a la tabla de Objetos Palabras. Si Nombre (Adjetivo) 1 es similar o hace juego con Nombre (Adjetivo) 2 entonces se hace una vuelta al paso 1. Esto es para facilitar el "Verbo TODO EXCEPTO objeto" (coge todo excepto...). </li>
+ <li>3 - El siguiente condActo y/o entrada en la tabla se considera entonces. Esto convierte efectivamente una frase del tipo "Verbo todo" en una del tipo "Verbo objeto" la cual será entonces procesada por la tabla como si el jugador lo hubiese tecleado de la última forma. </li>
+ <li>4 - WCuando se hace un intento de salida de la tabla actual, si el DOALL todavía está activo (por ejemplo, no ha sido cancelado por una acción), entonces la atención del PAW vuelve de nuevo al bucle DOALL desde el paso 1. La búsqueda continuará desde el siguiente objeto (el que tenga un número más alto). </li>
+</ul>
+
+<p>La consecuencia de este método de búsqueda a través de la tabla de Objetos Palabras es que los objetos que tengan el mismo Nombre y Adjetivo en su descripción, (y en donde el juego sólo sabe a cuál objeto se refiere por su presencia en esa localidad) son buscados en un orden ascendente de número de objeto, si no algunos de ellos se perderían.</p>
+
+<p>Si se usa un DOALL para cosas como abrir todo, hay que tener en cuenta el hecho de que, en el funcionamiento de la mayoría de las puertas, se han puesto banderas y que entonces habría que convertir esas banderas en objetos para poderlas incluir en un bucle DOALL.</p>
+
+<p>The DOS interpreter supports an extended DOALL mode where DOALLs can be nested if 
+  they are in different processes (i.e. while in DOALL, a call to PROCESS is made,
+  and that process has another DOALL). To enable that, you have to call the
+   interpreter with -NDOALL (nested doall) parameter. It’s not likely that can be used 
+   often as it’s not supported by other interpreters, but it’s worth knowing.</p>
+
+<a name="skip"></a>
+<condact>SKIP distance | label</condact>
+
+<p>Donde distancia es de -128 a 128, o una etiqueta.</p>
+
+<p>Cambiará la ejecución al principio de una entrada en la misma tabla, donde -1 es la misma entrada, -1 la anterior, etc. También se puede saltar hacia delante, siendo 0 la siguiente entrada, 1 la subsiguiente, etc.</p>
+
+<p>SKIP puede también aceptar como parámetro una etiqueta, que es un símbolo precedido por un signo de dólar ($), que debe colocarse justo antes de una entrada.</p>
+
+<p>Utilizar etiquetas es más cómodo (no tienes que contar entradas) y además más fácil de mantener, que usar valores absolutos. Es más fácil de mantener porque contando entradas un día te puede cuadrar poner -4, pero luego vas y metes otra entrada por medio por cualquier razón, y ahora debería ser -5, pero como no estás viendo el SKIP no lo cambias y de repente te fallan cosas que antes funcionaban.</p>
+ 
+<p>Por ejemplo:</p>
+<code>
+  $saltoatras<br/>
+> _ _ <br/>
+  PRINT Flag<br/>
+  MINUS Flag 1<br/>
+  NOTZERO Flag<br/>
+  SKIP $saltoatras<br/>
+  <br/>
+> _ _ <br/>
+  ZERO Error<br/>
+  SKIP $Adelante<br/>
+  <br/>
+> _ _ <br/>
+  EXIT 0<br/>
+  <br/>
+$ Adelante<br/>
+> _ _ <br/>
+…<br/>
+</code>
+
+<p><u>Acciones que salen de la ejecución de procesos</u></p>
+
+<a name="restart"></a>
+<condact>RESTART</condact>
+
+<p>Cancela cualquier bucle DOALL y cualquier llamada a sub-procesos, y salta para empezar a ejecutar el proceso 0 de nuevo. Si usásteis PAW, esto equivale al antiguo DESC (el DESC de DAAD hace otra cosa, como ya se ha visto).</p>
+
+<a name="end"></a>
+<condact>END</condact>
+
+<p>Se muestra el mensaje del sistema 13 ("¿Quieres jugar de nuevo?") y se llama a la rutina de input.  Cualquier DOALL y sub-procesos son cancelados. Si la respuesta no empieza con el primer carácter del mensaje del sistema 31 (“N”) se salta a la inicialización. En caso contrario el jugador es devuelto al sistema operativo, haciendo un EXIT 0.</p>
+
+<a name="exit"></a>
+<condact>EXIT value</condact>
+
+<p>Si el valor el s0, se devuelve al jugador al sistema operativo (se sale del juego). Cualquier valor distinto a 0 reinicia el juego.</p>
+
+  <p>Nótese que a diferencia de RESTART que solo reinicia procesos, este procedimiento borra, reinicia ventanas, etc.</p>
+
+<p><u>Acciones de salida de tabla</u></p>
+
+<a name="done"></a>
+<condact>DONE</condact>
+
+<p>Esta acción salta al final del proceso en ejecución y marca el estado interno de “hecho” que le dice a DAAD que algo se ha hecho ya. No se evalúan más entradas de ese proceso ni más condActos de la entrada donde esté el DONE.</p>
+<p>En consecuencia, se devolverá el control al proceso que llamó a ese proceso, o bien volveremos al punto de bucle si estamos dentro de un DOALL.</p>
+
+<a name="notdone"></a>
+<condact>NOTDONE</condact>
+
+<p>Esta acción ejecuta un salto al final de la tabla de Procesos y le índica a DAAD que ninguna acción ha sido hecha. Quiere decir que no se consideran más condActos ni entradas. Causará una vuelta a cualquier tabla de Procesos previa o a un punto de partida de cualquier bucle DOALL que esté activo. Esto hará que DAAD imprima uno de los mensajes "No puedes" si es necesario, es decir, si no hay más acciones y no hay entradas presentes en las conexiones para el Verbo actual.</p>
+
+<a name="ok"></a>
+<condact>OK</condact>
+
+<p>El Mensaje del Sistema número 15 "Vale" o "Bien" se imprime y la acción DONE se ejecuta.</p>
+
+<p><u>Acciones para el manejo del sonido</u></p>
+
+<a name="beep"></a>
+<condact>BEEP value value</condact>
+
+<p>Realiza un pitido por el altavoz de duración tantos 1/50 de segundo como el primer valor diga, y de la frecuencia que dice el segundo.</p>
+
+<p>Para un detalle sobre los valores a facilitar ver el conducto XBEEP en este mismo manual.</p>
+
+<p><u>Acciones para llamar a rutinas externas de DAAD</u></p>
+
+<p>Estas acciones serían EXTERN, CALL, SFX y GFX. Sin embargo, dado que DAAD Ready gestiona internamente EXTERN, y las demás no son consideradas precisamente sencillas de utilizar, dejamos fuera del manual de DAAD Ready estas cuatro acciones. Si quieres más información la tienes en el manual original de DAAD.</p>
+
+<p><u>Acciones para el manejo de gráficos</u></p>
+
+
+
+<a name="picture"></a>
+<condact>PICTURE picno</condact>
+
+<p>Carga en memoria el gráfico cuyo número es picno, por ejemplo, PICTURE 7 carga el gráfico 007. Si la carga se realiza sin problemas, se ejecuta el siguiente conducto, si no, pasamos a la siguiente entrada. PICTURE no pinta ningún gráfico en pantalla, solo lo carga en memoria.</p>
+<p>PICTURE solamente es usado en DAAD-Ready para las máquinas de 16 bit, el Amstrad PCW y el target HTML. Para el resto de máquinas de 8 bit se usa XPICTURE (ver más adelante)</p>
+
+<a name="display"></a>
+<condact>DISPLAY value</condact>
+<p>Si value vale 0, se pinta en pantalla el gráfico que hubiera cargado en memoria (por PICTURE).</p>
+<p>Si el valor no es 0 y la imagen no es una subrutina, entonces la zona de imágenes es borrada. </p>
+<p>DISPLAY solamente es usado en DAAD-Ready para las máquinas de 16 bit, el Amstrad PCW y el target HTML. Para el resto de máquinas de 8 bit XPICTURE hace la función de PICTURE y DISPLAY a la vez.</p>
+
+
+<a name="maluvacondacts"></a>
+<h6>Condactos Maluva</h6>
+
+<p>Maluva es una extensiond de DAAD incluida con DAAD Ready para las máquinas de 8 bit menos Amstrad PCW, es decir, para Spectrum y sus variaciones, CPC, C64, Plus/4 y MSX 1.</p>
+<p>Además, el nuevo intérprete de MSX2 y el de ZX 128K emulan sus funcionalidades, e incluso los intérpretes de MSDOS y HTML soportan algunas de sus funcionalidades.</p>
+<p>En principio se creó para poder mostrar gráficos bitmap en lugar de vectoriales en dichas máquinas, a base de cargarlos desde disquete, tarjeta SD, disco duro, etc. Acabó sin embargo 
+  teniendo otras funcionalidades, como cargar texto extra desde disco si nos quedamos sin memoria.</p>  
+<p>Conocer estos condactos puede ser útil, pero en realidad la plantilla de DAAD Ready ya los lleva casi todos allá donde hace falta. Algunos, como XSAVE o XBEEP, vienen a sustituir o 
+  a paliar deficiencias en algunas máquinas, porque ya existe SAVE o BEEP, pero por ejemplo SAVE graba disquete o cinta, pero no puede grabar en tarjeta SD. DAAD Ready a veces sustituye
+  condactos clasicos por condactos Maluva o viceversa sobre la marcha, para que no tengas que preocuparte por ello..</p>
+</p>  
+
+<a name="xpicture"></a>
+<condact>XPICTURE locno</condact>
+
+<p>Dibuja la imagen locno en la parte superior de la pantalla si esta existe.
+
+<p><u>Sobre PICTURE y XPICTURE</u></p>
+<p>Habrás notado ya que hay dos condactos para mostrar imágenes, uno es PICTURE (HTML, AMIGA, ST, DOS y PCW) y el otro es XPICTURE (Spectrum, CPC, MSX1 y 2, C64 y Plus/4).</p>
+<p>La plantilla de DAAD Ready va a seleccionar uno u otro dependiendo del .BAT que uses, pero aquí se describen las diferencias para que las tengas en cuenta si decides añadir imágenes en otros sitios.</p>
+
+<ul>
+  <li>PICTURE, si falla al cargar una imagen, no ejecuta el resto de la entrada. XPICTURE por su parte no funciona así de serie.</li>
+  <li>PICTURE no pinta la imagen, solo la carga, depende de DISPLAY para mostrarla. XPICTURE pinta la imagen en pantalla.</li>
+</ul>
+
+
+<a name="xsave"></a>
+<condact>XSAVE opt</condact>
+
+<p>Guarda la partida en curso en el disco. Por compatibilidad con SAVE mantiene el parámetro opt, pero es ignorado.</p>
+
+<a name="xload"></a>
+<condact>XLOAD opt</condact>
+
+<p>Carga la partida previamente grabada. El parámetro opt también es ignorado.</p>
+
+<a name="xmes"></a>
+<condact>XMES "string"</condact>
+
+<p>Escribe la cadena entre comillas. Nótese que este condActo permite textos adicionales a los de los de las tablas de mensajes y los condActos MES, MESSAGE, SYSMESS y DESC, con lo que tu juego tiene una capacidad de escribir muchos más textos. XMES tiene las siguientes limitaciones:</p>
+
+<ul>
+  <li>-	Cada mensaje no puede tener más de 511 caracteres.</li>
+  <li>-	Todos los mensajes usados por XMES y XMESSAGE no pueden superar, una vez comprimidos, los 64K.</li>
+  <li>-	Estos xmessages son leídos desde discos a demanda, por lo que dependiendo del dispositivo de lectura, su tiempo de respuesta puede ser lento. 
+    Úsalos con cuidado. 
+    Esto también significa que en máquinas que usan un split-mode en los gráficos (ver más adelante), como C64, CPC y ZX-Uno, se pueden producir efectos extraños en pantalla 
+    mientras se leen del disco, especialmente en CPC y C64. La solución a esto, si se necesita usar XMES porque es una aventura muy larga, es no usar split-mode, aunque esos
+    reduce la calidad de los gráficos mostrables.</li>
+</ul>
+
+<a name="xmessage"></a>
+<condact>XMESSSAGE "string"</condact>
+
+<p>Igual que XMES pero ejecuta un NEWLINE al final.</p>
+
+<a name="xpart"></a>
+<condact>XPART value</condact>
+
+<p>Si tienes un juego de dos partes y quieres tener ambas en la misma cara de un disco, y ambas usan xmessages, hay un problema porque am-bas tienen los xmessages guardados en ficheros con extensión XMB de igual nombre, y se pisarían.</p>
+<p>XPART puede ejecutarse antes de cualquier XMES/XMESSAGE para que DAAD sepa que estamos en la parte 2, 3, etc.</p>
+<ul>
+  <li>Para Spectrum y MSX, el parámetro “value” es añadido al 0 de 0.xmb, así que si el valor es 1, en lugar de cargar los mensa-jes desde 0.XMB los cargará desde 1.XMB</li>
+  <li>Para C64 y CPC, si el valor no es 0, sumará 50. Así en lugar de cargar los mensajes desde 00.XMB, 01.XMB, etc, lo hará desde 50.XMB, 51.XMB, etc.</li>  
+</ul>
+
+<a name="xsplitscr"></a>
+<condact>XSPLITSCR value</condact>
+<p>Para las máquinas que soportan split screen (actualmente CPC, C64 y ZX-Uno) este condActo define el modo en el que lo hace.</p>
+<p>Split screen significa que tenemos un modo gráfico distinto en la parte superior de la pantalla (donde salen los gráficos) y la inferior (donde sale el texto).</p>
+<p>Esto es lo que "value" significa para cada máquina:</p>
+
+<table>
+  <tr><th>Máquina</th><th>value</th><th>Modo parte superior</th><th>Modo parte inferior</th></tr>
+  <tr><td>CPC</td><td>0</td><td>CPC Modo 1</td><td>CPC Modo 1</td></tr>
+  <tr><td>CPC</td><td>1</td><td>CPC Modo 0</td><td>CPC Modo 1</td></tr>
+  <tr><td>CPC</td><td>2</td><td>CPC Modo 2</td><td>CPC Modo 1</td></tr>
+  <tr><td>C64</td><td>0</td><td>C64 HiRes</td><td>C64 HiRes</td></tr>
+  <tr><td>C64</td><td>1</td><td>C64 Multicolor</td><td>C64 Hires</td></tr>
+  <tr><td>ZXUno</td><td>0</td><td>ULA Standard</td><td>ULA Standard</td></tr>
+  <tr><td>ZXUno</td><td>1</td><td>Timex HiColor con ULAPlus</td><td>ULA Standard</td></tr>
+</table>
+
+<a name="xundone"></a>
+<condact>XUNDONE</condact>
+
+<p>
+  XUNDONE cambia el estado de “hecho” interno. Cada vez que DAAD eje-cuta una acción, el intérprete actica el estado “hecho” interno. Eso significa que, si ISDONE o ISNDONE son ejecutadas, tendrán éxito o no dependiendo de ese estado.
+</p>
+<p>
+  Nótese que a diferencia de NOTDONE, XUNDONE solo borra ese estado, pero no va al final del proceso actual.
+</p>
+
+<p>
+  Hay casos en los que incluso cunado una acción se ejecuta en un pro-ceso, no queremos que se marque el estado de hecho. Esto es muy cla-ro en el caso de usar SYNONYM, porque por regla general, aunque SY-NONYM se trata de una acción, en la práctica, y a ojos del jugador, realmente no hace nada.
+</p>
+
+<code>
+> ENCENDER LUZ<br/>
+SYNONYM PULSAR INTERRUPTOR
+</code>    
+
+<p>Si más tarde pones esta entrada, y resulta que ya estaba pulsado, la entrada fallará:</p>
+
+<code>
+  > PULSAR INTERRUPTOR<br/>
+  ZERO fInterruptorPulsado<br/>
+  MESSAGE "Enciendes la luz."<br/>
+  SET fInterruptorPulsado<br/>
+  DONE<br/>
+</code> 
+
+<p>Sin embargo, como DAAD considera que ya se ha hecho algo, por ese SYNONYM, en lugar de llegar a un “No entiendo” nos pasaría esto:</p>
+
+<code>
+  ¿Qué vas a hacer ahora?<br/>
+  > PULSAR INTERRUPTOR<br/>
+  ¿Qué vas a hacer ahora?<br/>
+  ><br/>
+</code>
+
+<p>Para estos casos y otros, en los que pese haber algo “hecho” no nos interesa que se marque el valor interno de “hecho”, está XUNDONE.</p>
+
+<p>Nótese que no hay un condActo XDONE para marcar como “hecho”, porque puedes hacerlo con cualquier condActo que no haga nada, como por ejemplo COPYFF 100 100”.</p>
+
+<a name="xspeed"></a>
+<condact>XSPEED value</condact>
+
+<p>Hace que la CPU del ZX-Uno y el ZX-Spectrum Next pase a estar a 7Mhz si el valor es 1, volviendo al estándar 3.5Mhz con el valor 0. Otros valores son ignorados.
+  Incrementar la velocidad hace que los textos y los gráficos salgan más rápido, pero también afecta a  BEEP, XBEEP y XPLAY (ver más adelante), haciendo que suenen más agudos, 
+  por lo que recomendamos pasar a velocidad normal si queremos reproducir sonidos.
+</p>
+
+<a name="xbeep"></a>
+<condact>XBEEP duration tone</condact>
+
+<ul>
+  <li>•	La duración es 1/50 de segundos, así que duración 50 es un segundo.</li>
+  <li>•	El tone es un valor de 48 a 238, que permite tocar notas en 8 octavas diferentes. Los valores por encima o por debajo de esos son tomados como silencios.</li>
+</ul>
+
+<p>•	Solo son válidos los valores pares, así que Do es 48, Do# es 50, Re es 52, Re# es 54, Mi es 56, Fa es 58, etc. Si usas valores impares, probablemente solo oirás ruido.</p>
+
+<p>Para cada octava estos son los rangos:</p>
+
+<table>
+<tr><th>Octava</th><th>Rango</th></tr>
+<tr><td>1</td><td>48-70</td></tr>
+<tr><td>2</td><td>72-96</td></tr>
+<tr><td>3</td><td>98-118</td></tr>
+<tr><td>4</td><td>120-142</td></tr>
+<tr><td>5</td><td>144-166</td></tr>
+<tr><td>6</td><td>168-190</td></tr>
+<tr><td>7</td><td>192-214</td></tr>
+<tr><td>8</td><td>216-238</td></tr>
+</table>
+
+<p>Para las máquinas que no soporta XBEEP, DAAD Ready cambiará estas llamadas por BEEP (que funciona igual), por lo que es posible escribir siempre XBEEP y dejar que se cambie internamente.</p>
+
+<a name="xplay"></a>
+<condact>XPLAY “string”</condact>
+
+
+<p>Aunque no es exactamente un condActo Maluva, sino un falso condActo, XPLAY permite tocar melodías usando BEEP en una manera más cómoda.</p>
+
+<p>Cuando ejecutas los BAT para cada máquina, DAAD Ready convierte la cadena que lleva XPLAY como parámetro, por condactos BEEP y PAUSE, así que más que un condActo es una "macro". </p>
+  
+<p>Solo un canal es soportado.</p>
+<p>No olvides tampoco leer las notas de XSPEED (arriba) si vas a usar Spectrum Next o ZX-Uno, porque afectan a la reproducción de música.</p>
+
+<p>La cadena esperada es un subconjunto del formato MML (ver más abajo).</p>
+
+<p><u>El formato MML</u></p>
+
+<table>
+<tr><th>Símbolo y significado</th></tr>
+<tr><td>[A-G][#:semitono][num:duración][.:periodp] El periodo incrementa la duración</td></tr>
+<tr><td>L = Duración de la nota [1-64] (1=nota completa (blanca), 2=media nota, 3=tercio de nota, ..., por defecto es 4)</td></tr>
+<tr><td>R = Pausa [1-64] (1=pausa completa (blanca), 2=media pausa, 3=tercio de pausa, ...)</td></tr>
+<tr><td>N = Tono de nota [0-96]</td></tr>
+<tr><td>O = Octava [1-8] (por defecto:4)</td></tr>
+<tr><td>T = Tempo [32-255] (indica el número de cuartos de nota por minuto, por defecto 120)</td></tr>
+<tr><td>V = Volumen [0-15] (por defecto:8)</td></tr>
+<tr><td>&lt; = Baja una octava</td></tr>
+<tr><td>&gt; = Sube una octava</td></tr>
+</table>
+
+<p>Esta cadena reproduce el minueto de Bocherinni:</p>
+
+<p>T110S3M5000O5G16F#16G16A16G8O4G4B4O5D8D8C8C4C16O4B16O5C16D16C8O4D4A4O5C8C8O4B8B4O5G4.E16D8C#8C#8C#8G4.E16D8C#8C#8C#8G4.E16F#8D8O4B8O5G8E4.D32E32D4</p>
+
+<a name="xnextcls"></a>
+<condact>XNEXTCLS</condact>
+
+<p>Esta funcionalidad es solo para el Spectrum Next. Como las imágenes en el Next son pintadas en su “layer2” (ver manual de Spectrum Next), un CLS normal no funciona, así que si quieres borrar las imágenes, debes usar esta función.</p>
+
+<a name="xnextrst"></a>
+<condact>XNEXTRST</condact>
+
+<p>También exclusive para el Next. Es usada para realizar parte de la función que hace el condActo END, que por la misma razón que el CLS, no funciona como debería. Mira la sección “finalizando juegos de Next” al final de este manual.</p>
+
+<a name="maluvaerrorcontrol"></a>
+<h6>Control de errores en condActos Maluva</h6>
+
+<p>Algunas funciones de Maluva pueden fallar por razones externas. Por ejemplo, leer una imagen desde disco puede fallar porque el fichero no esté, porque el usuario sacó el disco, etc. DAAD y Maluva no ha-cen nada aparentemente en esos casos, básicamente no pintan la ima-gen, o no pintan el texto si era un XMESSAGE y no están los ficheros.</p>
+<p>Pero sí que pasa algo internamente: cuando estas funciones fallan, el bit 7 del flag 20 se pone a 1, y cuando tienen éxito el mismo bit se pone a 0. Así, tras un XPICTURE se puede hacer un "GT 20 127", y la condición tendrá éxito si la carga falló, lo que permite dar men-sajes como “Por favor introduzca el disco”.</p>
+
+<code>
+>_ _ <br/>
+XPICTURE @38<br/>
+GT 20 127<br/>
+MESSAGE "Aviso: imagen no encontrada, por favor meta el disco"<br/>
+</code>
+
+<p>O incluso esperar a que el disco se meta:</p>
+
+<code>
+    > _ _ <br/>
+XPICTURE @38<br/>
+GT 20 127<br/>
+MESSAGE "Por favor pulse una tecla cuando haya metido el disco."<br/>
+ANYKEY<br/>
+SKIP -1
+</code>
+
+<p>Por otro lado, Maluva puede también reportar este tipo de errores mediante el estado de “hecho” interno. Si pones a 1 el bit 0 del flag 20 (LET 20 1), Maluva, aparte de grabar el resultado en el bit 7 del flag 20, marcará la acción como hecha o no dependiendo del resultado. Así puede usarse ISDONE e ISNDONE tras la llamada a XPICTURE o XMESSAGE:</p>
+
+<code>
+>	_ _ <br/>
+AT 200<br/>
+LET 20 1<br/>
+XPICTURE 120<br/>
+ISNDONE<br/>
+MESSAGE "Error: imagen no encontrada, por favor inserte disco"<br/>
+</code>
+
+
+
+<a name="indirection"></a>
+<h6>Indirection</h6>
+<p>El primer parámetro de casi todos los condActos puede usar indireccón. Esto, cuando indicado poniendo un signo @ antes de dicho parámetrom hará que en lugar de usarse
+  el parámetro como tal, se use en su lugar el valor del flag indicado. </p>
+
+<p>Solo el primer parámetro soporta esto, y no todos los condactos los permiten, pero aquellos que tienen un flag, objeto o número como primer parámetro lo hacen.</p>   
+
+<p>Por ejemplo 'MESSAGE @100' escribirá no el mensaje 100, sino el mensaje cuyo número está en el flag 100. Si por ejemplo el flag 100 tiene el valor 20, escribirá el mensaje 20, haciendo que ese MESSAGE @100 sea como un MESSAGE 20.</p>
+
+
+<a name="daadforquillpawdevelopers"></a>
+<h6>DAAD para autores PAW o Quill</h6>
+
+<p>Esta es una lista de notas para aquellos que usaron PAW o The Quill, si no es tu caso, salta al siguiente capítulo.</p>
+
+<p><u>Los procesos</u></p>
+
+<ul>
+  <li>0 -> No lo toques</li>
+<li>1 -> No lo toques</li>
+<li>2 -> No lo toques</li>
+<li>3 -> Hace la función del proceso 1 en PAW</li>
+<li>4 -> Hace la función del proceso 2 en PAW</li>
+<li>5 -> Hace la función de la tabla de respuestas en PAW</li>
+<li>6 -> Proceso de inicialización, puedes poner tus propios mensajes o imá-genes aquí, o cualquier otro tipo de inicialización.</li>
+
+</ul>
+
+<p><u>Objetos</u></p>
+
+<p>DAAD permite atributos, lo cual significa que cada objeto tiene una serie de 16 valores que pueden estar activos (1) o inactivos (0). Los puedes ver en la sección /OBJ, y se puede comprobar su valor con los condActos HASAT y HASNAT. Con esto, por ejemplo, puedes definir un determinado puzle que permita cortar algo con objetos afilados, y determinar que el atributo 7 es “afilado” y ponérselo a 1 a una espada y a un cuchillo. Después, para resolver el puzle, puedes comprobar si el objeto que usa es afilado (con HASAT) en lugar de comprobar si lleva la espada o el cuchillo. También podrían hacerse objetos “voluminosos”, que de llevarlos no puedas pasar por una grieta estrecha en una cueva, etc.</p>
+
+<p><u>Indirección</u></p>    
+<p>Se ha explicado arriba, y no la soportaba PAW ni Quill.</p>
+
+<p><u>Escribiendo mensajes</u></p>
+
+<p>Mas que de DAAD, esta es una ventaja de DRC, el nuevo compilador que va incluido con DAAD Ready. Como habrás visto en la descripción de MESSAGE, MES, SYSMESS y DESC, ahora puedes poner el mensaje en texto como parámetro, y así no preocuparte de los números de mensaje.</p>
+
+<p>Además, Maluva facilita el condActo XMESSAGE (y XMES), que espera una cadena como parámetro, y que escribirá ese texto, pero lo almacenará en un fichero aparte. Esto permite 64K más de mensajes en un juego hecho con DAAD Ready Los XMESSAGES además no están limitados en 256, como con las otras tablas. Solo se acaban cuando se acaban los 64K extra.</p>
+
+<p>Also is DRC the one that handles international character printing and takes care about repeated messages, so if you write same message twice, only one is used internally</p>
+
+<a name="errors"></a>
+<h6>Errors</h6>
+
+<p>Aunque hacemos lo posible por comprobar todo desde el compilador, algunos errores no se podrán detectar hasta que se esté probando el juego.</p>
+
+<p>Los intérpretes pueden lanzar varios tipos de error. Generalmente será una pequeña Ventana en la esquina en los 8 bit y centrada en los 16 bit.</p>
+
+<p>Los errores son:</p>
+
+<ul>
+<li>I/O Error : Error al cargar o grabar un fichero.</li>
+<li>BREAK : El jugador pulsó break.</li>
+<li>Error n: Esto es un error específico de esa máquina, es necesario mirar el manual de esa máquina para saber qué es el error “n”.</li>
+<li>Game Error n:</li>
+<ul>
+  <li>0 - Número de objeto no válido</li>
+  <li>1 - Asignación ilegal a HERE (Flag 38)</li>
+  <li>2 - Intento de que la localidad pase a ser 255</li>
+  <li>3 - Demasiadas llamadas anidadas a procesos</li>
+  <li>4 - Se intenta anidar DOALL</li>
+  <li>5 - CondActo ilegal</li>
+  <li>6 - Llamada a proceso no válida</li>
+  <li>7 - Número de mensaje no válido</li>
+  <li>8 - PICTURE no valida (solo lo gráficos vectoriales, no aplica en DAAD Ready)</li>
+</ul>
+</ul>
+
+
+
+<a name="theparser"></a>
+<h6>El analizador sintáctico (parser)</h6>
+
+<p>El parser trabaja escaneando cada entrada de texto del jugador para encontrar palabras que estén en el vocabulario, y extrae frases que puede convertir en sentencias lógicas (SL).</p>
+
+<p>Cuando se extrae una frase, la tabla de respuestas y conexiones son analizada para ver si son reconocidas. Si no se muestra el mensaje del sistema 8 (“No puedes hacer eso.”) o el 7 (“No puedes ir en esa dirección”) dependiendo del valor del verbo (si el verbo es menor que el verbo 14, se usa el 7, porque es un verbo de dirección). </p>
+
+<p>Una nueva orden se pide también si alguna acción falla de alguna manera, por ejemplo “pesa demasiado” al coger algo, para evitar situaciones catastróficas como que el jugador escriba “COGE ESPADA Y MATA TROLL” y ocurra esto:</p>
+
+<code>
+  ¿Qué quieres hacer ahora?
+  >	COGE ESPADA Y MATA TROLL
+  Llevas demasiado peso, no puedes coger la espada.
+  Intentas matar el troll con tus manos vacías, pero mueres en el intento.
+</code>
+
+<p>Si una sentencia lógica tiene éxito, entonces otra trata de extraerse si hay más texto en el buffer, o si no lo hay se le pide más órdenes al jugador.</p>
+
+<p>Las frases se separan por las conjunciones del vocabulario (Y, ENTONCES) y por cualquier signo de puntuación (“DEJA LLAVE, COGE ESPADA Y MATA TROLL” son tres frases).</p>
+<p>Las terminaciones pronominales -lo, -la, -los, etc. puede usarse para referirse al objeto de la frase anterior, incluso si no se escriben ambas frases a la vez. Por ejemplo: “COGE ESPADA Y LIMPIALA” o “COGE ESPADA” y después “LIMPIALA”.</p>
+
+<p>Los nombres con valores inferiores a 50 son nombres propios y no les afectarán las terminaciones pronominales.</p>
+<p>Una sentencia lógica se configura así:</p>
+<code>(Adverbio)Verbo(Adjetivo1(Nombre1))(preposicion)(Adjetivo2(Nombre2))</code>
+<p>Donde las cosas entre paréntesis son opcionales, por lo que la mínima frase es un verbo, o un nombre convertible a verbo (los nombre con valor menor de 20 que si no hay verbo en la frase se convertirán en verbo, por ejemplo, NORTE).</p>
+<p>Si el verbo se omite, el analizador asumirá que la SL usa el verbo de la orden anterior, para que “COGER ESPADA Y ESCUDO” se convierta de hecho en “COGER ESPADA” + “COGER ESCUDO”.</p>
+<p>Nótese que la frase puede escribirse de mala manera y el parser aun entenderla, por ejemplo “LLAVE COGER” o “COGER LENTAMENTE  LLAVE”.</p>
+<p>Una orden real podría ser:</p>
+<code>COGE TODO. ABRE LA PUERTA Y VE AL SUR ENTONCES COGE EL CUBO Y MIRALO”</code>
+<p>de la cual saldrán cinco sentencias lógicas:</p>
+
+<code>
+COGE TODO<br/>
+ABRE PUERTA (porque LA no está en el vocabulario)<br/>
+SUR (porque VE no está tampoco)<br/>
+COGE CUBO<br/>
+MIRA CUBO (por la terminación -LO)<br/>
+</code>
+
+<p>Nótese que DOALL no pasará por el objeto que coincida con el segundo nombre y adjetivo, lo que facilita una manera simple de hacer un “COGER TODO MENOS XXX”.</p>
+
+<p><u>Español</u></p>
+
+<p>Si el verbo es de menos de 6 letras tendrás que incluir sinónimos en el vocabulario que incluyan hasta 5. Si ya tiene 4 tienes que añadir una solo (TOMA -> TOMAL), si tiene 3 hay que añadir dos 'lo' and 'la' (PON -> PONLO, PONLA), y si tiene solo dos, hay que añadir todas las terminaciones (DA -> DALE, DALOS, DALA, DALAS, DALES)</p>
+<p>El parser español maneja los nombres, pronombres y adjetivos de manera diferente al inglés. Específicamente, asume que el adjetivo va detrás del nombre.</p>
+
+<p><u>Otros idiomas</u></p>
+
+<p>A pesar de que DAAD solo soporta inglés y español, DAAD Ready tiene un soporte limitado de portugués y alemán. Eso significa que los caracteres de otros idiomas como “õ” o “ß” pueden mostrarse, pero no cambia el parser, así que por debajo de un juego en alemán está el parser de inglés, y de un juego portugués el de español. Tenedlo en cuenta para juegos en esos idiomas.</p>
+<p>Ahora mismo no hay soporte para otros idiomas, pero debería ser posible con cierta facilidad dar soporte a cualquier idioma que use el juego de caracteres LATIN-1 (la mayoría de los idiomas europeos lo usan).</p>
+
+
+************
+VOY POR Aqui
+************
+
+
+
+
+
+<a name="systemflags"></a>  
+<h6>Flags del sistema</h6>
+
+<p>Los flags normales están libres para ser usado por tus juegos, pero si le echas un ojo a TEST.DSF, podrás ver que define un uso para cada flag en el rango 0-63, los flags del sistema.</p>
+<p>Además, define nombres simbólicos para dichos flags.</p>
+
+<p>Algunos flags del sistema se definen a nivel de bit. Si no entiendes que es eso, no te preocupes, es poco probable que lo necesite. Si lo entiendes, la mejor manera de comprobar algunos flags que se usan a nivel de bit es usar HASAT. Por ejemplo, HASAT MOUSE se cumplirá si el sistema soporta ratón.</p>
+
+
+<table>
+  <tr><th>Flag #</th><th>Uso/significado</th></tr>  
+  <tr><td>0</td><td>Si lo cambiamos a un valor que no sea cero indicamos que n hay luz. La plantilla de TEST.DSF tiene esto en cuenta y muestra el mensaje "Está muy oscuro" en lugar de la descripción de localides. El objeto 0, para esta plantilla, da luz, por lo que si está presente eso no pasa.</td></tr>
+  <tr><td>1</td><td>Guarda la cantidad que el jugador lleva, pero no lleva puestos como prenda. Este valor se mantiene cuando se cogen y dejan objetos, pero queda inicializado a cero por defecto, así que si de salida llevamos algún objeto, conviene inicializar el flag 1 con el valor del número de objetos llevados, si después vamos a usarlo (al final del proceso 6 se hace eso).</td></tr>
+  <tr><td>2 to 28</td><td>Estos flags no son usados por los intérpretes DAAD, por lo que en principio estarían libres para tus juegos. Sin embargo, el fichero TEST.DSF está usando el flag 28 para funcionalidades internas de la plantilla, mientras que Maluva usa el flag 20. Por tanto, no puedes usar los flags 20 y 28, pero además recomendamos no usar ninguno de este bloque porque podrían
+     ser usados para futuras extensiones. Nuestra recomendación es que empieces por usar el flag 254 para tus cosas, luego el 253, 252, etc. Así quedarás lejos de peligro.</td></tr>
+  <tr><td>29</td><td>Bit 0 - Mouse presente (16 bit solo).</td></tr>
+  <tr><td>30</td><td>Flag de puntuación (score) – no es realmente usado directamente por DAAD pero es tradicional (de PAW).</td></tr>
+  <tr><td>31/32</td><td>Guardan el número de órdenes que el jugador ha dado.</td></tr>
+  <tr><td>33</td><td>Guarda el número del verbo de la sentencia lógica actual.</td></tr>
+  <tr><td>34</td><td>Guarda el número del primer nombre de la sentencia lógica actual.</td></tr>
+  <tr><td>35</td><td>Guarda el número del primer adjetivo de la sentencia lógica actual.</td></tr>
+  <tr><td>36</td><td>Guarda el número del adverbio de la sentencia lógica actual.</td></tr>
+  <tr><td>37</td><td>Guarda el número máximo de objetos que el jugador puede llevar (inicialmente 4), Se cambia usando ABILITY.</td></tr>
+  <tr><td>38</td><td>Guarda la localidad actual del jugador.</td></tr>
+  <tr><td>39/40</td><td>No se usa</td></tr>
+  <tr><td>41</td><td>Da el número de stream para recibir el input. 0 significa el stream actual. Se usa en módulo 8, por lo que un valor de 8 es considerado un 0</td></tr>
+  <tr><td>42</td><td>Guarda el número de mensaje de sistema que se usa para predir para la entrada de órdenes del jugador (¿qué quieres hacer ahora?). Si vale 0 selecciona uno aleatorio entre 4 que hay disponibles.</td></tr>
+  <tr><td>43</td><td>Guarda el número de la preposición de la sentencia lógica actual</td></tr>
+  <tr><td>44</td><td>Guarda el número del segundo nombre de la sentencia lógica actual</td></tr>
+  <tr><td>45</td><td>Guarda el número del segundo adjetivo de la sentencia lógica actual</td></tr>
+  <tr><td>46</td><td>Guarda el número del nombre referenciado por el pronombre actual, el nombre al que sustituiría “IT” o la terminación “-lo”,”-la”, etc.</td></tr>
+  <tr><td>47</td><td>Guarda el número del adjetivo referenciado por el pronombre actual.</td></tr>
+  <tr><td>48</td><td>Guarda la duración de un timeout. Si vale 0 (por defecto) no puede haber timeouts mientras el jugador escribe órdenes.</td></tr>
+  <tr><td>49</td><td>Guarda los flags de control de timeout (nivel de bit):
+                    <table>
+                      <tr><th>Bit</th><th>Significado</th></tr>
+                      <tr><td>7</td><td>Vale 1 si ocurrió un timeout</td></tr>
+                      <tr><td>6</td><td>Vale 1 si había texto escrito que recuperar (no es de uso para el autor)</td></tr>
+                      <tr><td>5</td><td>Si vale 1 el texto escrito se recupera tras el timeout</td></tr>
+                      <tr><td>4</td><td>Si vale 1 se pone el input en el stream activo tras editar</td></tr>
+                      <tr><td>3</td><td>Si vale 1 se borra la ventana de input</td></tr>
+                      <tr><td>2</td><td>Si vale 1 un timeout pueda ocurrir durante un ANYKEY</td></tr>
+                      <tr><td>1</td><td>Si vale 1 un timeout pueda ocurrir durante un "Más..."</td></tr>
+                      <tr><td>0</td><td>Si vale 1 un timeout pueda ocurrir solo al principio del input (cuando aun no se ha tecleado nada)</td></tr>
+                    </table>
+  </td></tr>
+  <tr><td>50</td><td>Guarda el valor del objeto para el bucle DOALL, es decir, el valor que sigue al DOALL. Modificar este valor podría hacer DOALL entrar en un bucle infinito, pero también se puede modificar para, por ejemplo, saltar objetos concretos.</td></tr>
+  <tr><td>51</td><td>Guarda el número del último objeto referenciado por GET/DROP/WEAR/WHATO etc. Es el número del objeto actualmente referenciado tal y como se muestra en muchos mensajes con el guion bajo.</td></tr>
+  <tr><td>52</td><td>Guarda la fuerza del jugador (máximo peso que puede llevar, inicialmente 10). Se establece con ABILITY.</td></tr>
+  <tr><td>53</td><td>Guarda los flags de listar objetos:
+       <table>
+        <tr><th>Bit</th><th>Significado</th></tr>
+        <tr><td>7</td><td>Se pone a 1 si al menos un fue listado en el último LISTAT/LISTOBJ</td></tr>
+        <tr><td>6</td><td>Ponerlo a 1 generará listados de objetos continuos, en lugar de uno encima de otro. LET 53 64 hará que DAAD liste los objetos en una línea generando una frase válida.</td></tr>
+      </table>
+    </td></tr>
+  <tr><td>54</td><td>Guarda la localidad del último objeto referenciado.</td></tr>
+  <tr><td>55</td><td>Guarda el peso del ultimo objeto referenciado.</td></tr>
+  <tr><td>56</td><td>Guarda 128 si el último objeto referenciado es un contenedor.</td></tr>
+  <tr><td>57</td><td>Guarda 128 si el último objeto referenciado es una prenda.</td></tr>
+  <tr><td>58/59</td><td>Guardan los atributos de usuario del último objeto referenciado.</td></tr>
+  <tr><td>60/61</td><td>Son los flags de teclado. Ver INKEY.</td></tr>
+  <tr><td>62</td><td>Es un flag usado para controlar los distintos modos de video que usan el intérprete de PC y de ST. Como DAAD Ready solo usa un modo en PC (320x200x16) y no genera para ST, no tiene uso.
+  </td></tr>
+  <tr><td>63</td><td>Guarda el número de la ventana activa en este momento. Nótese que es solo una copia del número, por lo que cambiarlo no tendrá efecto. Para cambiar de ventana activa hay que usar WINDOW.</td></tr>
+  <tr><td>64-254</td><td>Disponibles para tu propio uso</td></tr>
+</table>  
+
+
+
+
+<a name="escapechars"></a>
+<h6>Escape Characters</h6>
+
+<p>Cuando se imprimen mensajes, puedes usar algunos caracteres espaciales que no se mostrarán como se ven, sino que harán algunos efectos en el texto:</p>
+
+<table>
+  <tr><th>Escape code</th><th>Descripción</th></tr>
+  <tr><td>_ (guion bajo)</td><td>Es reemplazado por el objeto actualmente referenciado. En inglés, la primera palabra del texto de objeto que aparece en el apartado OTX se quita, en español, si se encuentra un artículo indefinido, lo reemplaza por el definido(por ejemplo, reemplaza “un” con ”el”).</td></tr>
+  <tr><td>@</td><td>Igual pero el artículo reemplazado pasa a tener su primer letra en mayúsculas (“un”-“El”). Solo funciona si el juego está español.</td></tr>
+  <tr><td>#b or #s</td><td>Escribe un caracter blanco. Es una herencia del antiguo DAAD que no tiene mucho sentido en DAAD Ready.</td></tr>
+  <tr><td>#k</td><td>Cuanto este carácter es imprimido, el juego hace una pausa y espera que pulsen una tecla. </td></tr>
+  <tr><td>#n or \n</td><td>Genera un salto de línea.</td></tr>
+  <tr><td>#g</td><td>No imprime nada, pero a partir de ese momento los textos se pintarán con los 128 caracteres superiores del juego de caracteres (ver apéndices). Así, “#gt” pintará el carácter “t” del set superior. (ver el apartado sobre el juego de caracteres más adelante).</td></tr>
+  <tr><td>#t</td><td>Vuelve a usar el juego de caracteres inferior.</td></tr>
+  <tr><td>#e</td><td>Escribe el signo del euro (€).</td></tr>
+</table>
+
+<a name="preprocessorcommands"></a>
+<h6>Preprocessor commands</h6>
+
+<p>Por favor, ten en cuenta que esta sección no es para novatos, así que no te preocupes si no la entiendes demasiado. De hecho, si eres nuevo, una vez leas #define e #ifdef puedes saltar al siguiente capítulo.</p>
+
+<p>Todos los comandos del preprocesador empiezan por una almohadilla ('#').</p>
+
+<a name="define"></a>
+<condact>#define symbol expression</condact>
+
+<p>Define la etiqueta “symbol” para que tenga el valor dado por la expresión. Puede ser un número, otros símbolos, o incluso una operación matemática entre comillas. Los símbolos pueden en general ser usados allá donde se puede usar un número. Esto no afecta a los #ifdef que veremos más adelante, que aceptan un solo símbolo.</p>
+
+<code>
+#define horas 24<br/>
+#define dias 2<br/>
+#define horasFinDeSemana “days*hours”<br/>
+#define Mediodia “hours/2”<br/>
+</code>
+
+<p>Ten en cuenta que el compilador es de un solo paso por lo que debes hacer los #define antes de usar los símbolos. </p>
+
+<p>El compilador define de manera automática varios símbolos. Leas asigna un valor 1 dependiendo de la máquina objetivo:</p>
+
+<p>“pc”,”zx”,”cpc”,”msx”,”msx2”,”c64”,”cp4”,etc.</p>
+
+<p>Además, también define símbolos para sub targets, cuando lo hay, por ejemplo MODE_plus3 o MODE_next” para Spectrum</p>
+
+<p>Además, genera los símbolos BIT8 o BIT16 dependiendo del target.</p>
+
+<p>Así mismo, crea dos símbolos: ROWS y COLS cuyos valores son las filas y columnas de texto que hay en esa máquina</p>
+
+<p>#define existe por dos razones: </p>
+
+<ul>
+<li><p>1)	Ser posible referenciar cosas por nombre en lugar de número. Por ejemplo, si el objeto 2 es una lámpara, puedes hacer un #define y después referenciarla así:</p>
+  <code>
+    #define oLampara 2<br/>
+    CARRIED oLampara<br/>
+    DESTROY oLampara<br/>
+  </code>
+
+  <p>En lugar de la aproximación antigua:</p>
+  <code>
+    CARRIED 2<br/>
+    DESTROY 2<br/>
+  </code>
+
+  <p>Esto incrementa la legibilidad del Código cuando vuelves a revisarlo meses o años más tarde.</p>
+</li>
+<li>
+  2)	Para usarlo con “ifdef” (ver debajo).
+</li>
+</ul>
+
+#ifdef “symbol”<br/>
+{#else}<br/>
+#endif
+</code>
+
+<p>Este grupo de comandos ocurren juntos. Poner #else es opcional. Cualquier línea que siga el #ifdef hasta el #else si lo hay o hasta
+   el #endif se incluirán en el juego solo si el “symbol” tiene un valor que no es cero.</p>
+
+<p>Si usas #ifndef en vez de #ifdef, ocurrirá al contrario.   </p>
+
+<code>
+#ifdef “zx”<br/>
+MESSAGE “¡Estás jugando en un Spectrum!”<br/>
+#else<br/>
+MESSAGE “¡No estás jugando en un Spectrum!”<br/>
+#endif
+</code>
+
+<p>Si añades esto al código, cuando uses los BAT de “ZX” (cualquier tipo de Spectrum) el jugador verá el primer mensaje, en los de las otras máquinas verá el otro.</p>
+
+<p>Aunque eso es un ejemplo muy simple, puedes usar esto para hacer que parte de la lógica se añada o no a un juego dependiendo de qué símbolos se han creado. Por ejemplo, 
+  puedes hacer que si te quedas corto de memoria en CPC o Spectrum -que suelen ser los primeros en caer- un determinado puzzle no entre en el juego, o sea sustituid por otro
+  código más sencillo y corto que pongas en la parte del #else.</p>
+</p>
+
+<a name="ifdef"></a>
+<condact>#ifdef "symbol"</condact>
+
+<p>El código entre #ifdef y #endif solo se incluye en el juego si "symbol" está definido.</p>
+
+<p>Puedes tambien usar #else para cuando no se cumple (ver arriba).</p>
+
+<a name="ifndef"></a>
+<condact>#ifndef "symbol"</condact>
+
+<p>El código entre #ifdef y #endif solo se incluye en el juego si "symbol" NO está definido.</p>
+
+<p>Puedes tambien usar #else para cuando se cumple (ver arriba).</p>
+
+<code>
+  #ifdef "X"<br/>
+  XXXX<br/>
+  #else<br/>
+  YYYY<br/>
+  #endif
+</code>
+
+<p>is basically the same as:</p>
+<code>
+  #ifndef "X"<br/>
+  YYYY<br/>
+  #else<br/>
+  XXXX<br/>
+  #endif
+</code>
+
+
+<a name="include"></a>
+<condact>#include “filespec”</condact>
+
+<p>Hará que el compilador pase a leer de ese otro fichero (“filespec”) hasta que finalice, momento en el que seguirá leyendo en el DSF actual.</p>
+
+
+<p>No puedes poner un include en un fichero que ha sido a su vez incluido.</p>
+
+
+<a name="echo"></a>
+<condact>#echo “text”</condact>
+
+<p>Muestra el texto en consola. Generalmente se usa para tener feedback visual de si un #ifdef ha ocurrido o no cuando ejecutas los BAT.</p>
+<p>P.ej:</p>
+
+<code>
+ #ifdef “PC”<br/>
+ #echo Incluyendo librería de SVGA<br/>
+ #include \LIB\SVGA.DSF<br/>
+ #endif
+</code> 
+
+<a name="incbin"></a>
+<condact>#incbin “filespec”</condact>
+ 
+
+<p>Esto incluye un fichero binario tal cual viene en la DDB. No es algo muy común y está relacionado con asuntos técnicos de los EXTERN que son cosas un poco complicadas para el alcance de DAAD Ready.</p>
+ 
+
+<a name="defb"></a>
+<condact>#defb “expression”</condact>
+
+<p>Similar a INCBIN pero directamente le damos un valor de byte en la expresión que incluir.</p>
+
+<code>
+ #DEFB 1<br/>
+ #defb PSIFLAG-1
+</code>
+
+<a name="defw"></a>
+<condact>#defw “expression”</condact>
+
+
+<p>Similar a DEFB pero incluye un Word, es decir, dos bytes.</p>
+
+<code>
+ #defw 6578<br />
+ #defw IOADDR+4<br />
+</code>
+
+<p>
+  #defb/w se pueden usar preferentemente a INCBIN si quieres incluir solo unos pocos bytes y dependen de otros símbolos.
+</p>
+
+<a name="dbaddr"></a>
+<condact>#dbaddr symbol</condact>
+
+<p>Le da al símbolo el valor actual de la dirección en la base de datos. Se puede usar luego para CALL, #userptr o #defw.</p>
+
+<a name="userptr"></a>
+<condact>#userptr n</condact>
+
+<p>Donde n es un valor de 0 a 9.</p>
+
+<p>Este comando es para evitar el problema de las referencias forward en un compilador de un solo paso. Pone la dirección actual en uno puntero, en la tabla de punteros que hay en un sitio fijo al principio de la DDB, así una rutina externa puede ir a esa tabla a buscar el puntero.</p>
+
+<a name="extern"></a>
+<condact>#extern “filespec”</condact>
+
+<a name="sfx"></a>
+<condact>#sfx “filespec”</condact>
+
+<a name="gfx"></a>
+<condact>#gfx “filespec”</condact>
+
+<p>Estos tres comandos son similares a #USERPTR, pero los valores son copiados en una tabla que luego es usado por los condActos EXTERN, SFX y GFX para el salto. Nótese que SFX ya tiene un valor por defecto para escribir en registros del chip de sonido, así que cualquier rutina que use esto reemplazará eso.</p>
+
+<a name="int"></a>
+<condact>#int “filespec”</condact>
+
+<p>Solo para 8 bit.  Cualquier rutina puesta en ese binario será llamada 50 veces por segundo durante el juego. No hay por tanto comando en DAAD para llamar a esta rutina. En Z80 se preservan solo los registros AF y HL (dado que HL es dado como tu address), así que asegúrate de preservar los registros que uses. En los intérpretes 6502 se preserva todo el estado del procesador.
+
+</p>
+
+<p>Al incluir el nombre de fichero en un #EXTERN, #SFX o @INT el fichero se incluirá en la base de datos DDB como si se hubiera hecho con INCBIN, pero además actualiza los punteros internos. </p>
+
+<a name="graphics"></a>
+<h4>Gráficos</h4>
+<a name="graphicsoverview"></a>
+<h6>Introducción a los gráficos</h6>
+<p>Como se ha indicado anteriormente, DAAD Ready usa gráficos bitmap para las aventuras, en lugar de gráficos vectoriales, y utiliza la
+    extensión Maluva para ello.</p>
+
+<p>Para añadir gráficos, necesitarás ficheros diferentes para cada  plataforma, dado que las plataformas y sus modos gráficos son muy
+    diferentes.</p>
+
+<p>Para añadir gráficos para tus aventuras, debes colocar las imágenes  en la carpeta "IMAGES" de DAAD Ready, excepto para CPC, que debes
+    ponerlas en la carpeta CPC que está dentro de IMAGES , y para PC, que  debes ponerlos en la carpeta PC que hay dentro de IMAGES (en 
+    PC/SVGA si estás haciendo un juego SVGA).</p>
+
+<p>Todas las imágenes que añadas deberán ser a pantalla completa para  la máquina respectiva, es decir 256x192 para Spectrum o MSX 1 , 
+    160x200 para C64 (HiColor), 320x200 para Plus/4, etc. A pesar de ello DAAD Ready solo va a usar las 96 primeras líneas de pixeles 
+    de cada gráfico que pongas, por lo que es indiferente lo que haya en esos  gráficos a pantalla completa por debajo de la línea 96. 
+    Hay una  excepción a esto: los gráficos para PC deben ser ya de 96x200 pixeles.</p>
+
+<p>Para añadir gráficos, añade ficheros en las carpetas mencionadas, en el formato correspondiente:</p>
+
+<ul>
+  <li>Formato Spectrum SCR para  Spectrum +3, Spectrum 128K o ESXDOS</li>
+  <li>PCX indexado de 256 colores para  Spectrum Next</li>
+  <li>MLT o MLT+PAL para ZX-Uno</li>
+  <li>La versión de 48K en cinta no soporta fráficos en DAAD Ready</li>
+  <li>Formato SCR de Amstrad SCR + PAL, modo 0, para Amstrad CPC</li>
+  <li>Formato Koala (.KLA) para C64 HiColor o ART para HiRes</li>
+  <li>Formato PRG para Commodore Plus/4</li>
+  <li>Formato SC2 para  MSX 1</li>
+  <li>Formato SC8 format para MSX 2</li>
+  <li>PXC indexado de 256 colors para PC (Maximum 320x200 for VGA o 640x400 para SVGA)</li>
+  <li>Formato PNG para HTML/Javascript</li>
+  <li>Formato PNG con 16 colores máximo, de 320x200, para Amiga y Atari ST</li>
+  <li>La versión Windows en realidad es un bundle del juego MSDOS con DOSBOX, así que usa los mismos gráficos.</li>
+  <li>La versión experimental de Windows y MacOS usan los mismos gráficos que el Amiga o el AtariST.</li>
+</ul>
+
+<p>Todos estos formatos son muy  comunes y fáciles de crear para cada plataforma.</p>
+
+<p>Para que DAAD Ready entienda los gráficos, estos deben ser nombrados  siguiendo la pauta de que funcionarán para cada localidad si
+    coinciden en número usando tres dígitos. Así, si quieres un gráfico para la localidad 12, deberás poner el gráfico 012, con la
+    extensión que corresponda para la máquina en cuestión (012.KLA, o 012.PRG, o 012.SCR, etc.)</p>
+
+<p>También puedes añadir gráficos no relacionados con localidades, simplemente metiendo un gráfico de una localidad que no exista. Por
+    ejemplo, si pones el 200.KLA este será añadido, y luego lo puedes  mostrarlo usando código DAAD (en concreto una acción llamada PICTURE).</p>
+
+<p>Ten en cuenta que DAAD Ready es una herramienta sencilla para ayudarte a empezar a trabajar con DAAD y no preocuparte de muchas
+    cosas. Hacer juegos con más o menos de 96 líneas es posible, hacer gráficos vectoriales es posible, etc. pero quedan fuera del ámbito
+    para el que DAAD Ready se ha creado.</p>
+
+<a name="recommendedtools"></a>
+<h6>Herramientas recomendadas</h6>
+
+<p>Muchos de los formatos de imágenes pueden ser generados fácilmente  con emuladores, esta es una lista de herramientas recomendadas (para Windows):</p>
+
+<table>
+    <tr><td>Spectrum .SCR 256x192</td><td>This is exported by almost all emulators. ZX Paintbtush can handle them too.</td></tr>
+    <tr><td>Spectrum Next .PCX 256x192</td><td>This is easy to generate with Gimp, just make sure the palette is set to indexed and you picture has no less than 17 colors, cause otherwise Gimp will generate an invalid 16-color PCX.</td></tr>
+    <tr><td>ZX-Uno MLT/PAL 256x192</td><td>MLT files can be created with ZX-Paintbrush or Image2Ulaplus. If the MLT is 12,288 bytes long, the palette information is not in there, please also add a .PAL file with same name with the palette information (ZX-Paintbrush can export it).</td></tr>
+    <tr><td>CPC .SCR y .PAL 320x200</td><td>CPCImgConv es una herramienta fantástica para conseguir las imágenes. Tener en cuenta que el color 0 de la paleta se usará para el fondo del texto, y el 1 para el texto en sí . Así que o
+      conseguís que el 0 sea negro y el  1 blanco, o al menos que esos  colores tengan un buen contraste.  Exporta tanto el SCR como el  fichero .PAL para cada localidad.</td></tr>
+    <tr><td>C64 .KLA 160x200 and .ART 320x200</td><td>Multipaint es una excelente herramienta para manejar imágenes C64 Multicolor.</td></tr>
+    <tr><td>Plus/4 320x200</td><td>Las imágenes pueden ser creadas con la aplicación Boticceli HiRes y exportadas como 001.PRG, 002.PRG, 003.PRG, etc. Botticeli es una aplicación para Plus/4.</td></tr>
+    <tr><td>MSX 1 .SC2 256x192</td><td>Hay un conversor bastante bueno en <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>. Asegúrate que usas la paleta que usas la paleta estándar MSX estándar MSX 1.</td></tr>
+    <tr><td>MSX 2 .SC8 256x212</td><td>Igual que MSX1 pero usando SC8</td></tr>
+  <tr><td>PC .PCX 320x200 or 640x400</td><td>Fácil de generar con Gimp. Simplemente asegúrate de que la  paleta está como indexada, y que tu imagen tiene 17 colores o más, o Gimp generará un PCX de 16  colores que no vale.</td></tr>
+  <tr><td>Atari ST .PNG 320x200</td><td>Con 16 colores diferentes como máximo. Alternativamente , se puede usar ficheros PI1 de Degas.</td></tr>
+  <tr><td>Amiga .PNG 320x200</td><td>Igual que Atari ST</td></tr>
+  <tr><td>HTML .PNG 320x200 Truecolor</td><td>Cualquier editor de gráficos moderno, por ejemplo Gimp.</td></tr>
+  <tr><td>MSDOS 320x200 or 640x400</td><td>Esto es fácil de generar con GIMP. Simplemente asegurate de que la paleta es indexada y que la imagen tiene al menos 17 colores para evitar que Gimp genere un PCX de 16 colores, que no vale. Puedes generar ficheros de 320x200 para VGA o de 640x400 para SVGA.</td></tr>
+  <tr><td>Windows</td><td>Usa los gráficos de MSDOS</td></tr>
+  <tr><td>Windows Experimental</td><td>Usa los gráficos de AtariST/Amiga</td></tr>
+  <tr><td>MacOS Experimental</td><td>Usa los gráficos de AtariST/Amiga</td></tr>
+</table>
+
+<p>Ten en cuenta que los intérpretes originales de DAAD usaban el modo HiRes para C64 y el modo 1 para CPC. Esos no son los mejores modos
+    para C64y CPC si piensas en los gráficos, pero son los modos que  soportan mejor pintar gráficos y pintar texto a la vez. La extensión
+    Maluva que usa DAAD Ready permite usar lo que se llama un “split  mode” (modo partido), en el que la parte superior de la pantalla usa
+    un modo gráfico y la inferior otro. Esto permite juegos de C64 con la parte superior en HiColor y la inferior en HiRes, y juegos en CPC
+    con la parte superior en modo 0 y la inferior en modo 1.</p>
+
+<p>Lamentablemente, mantener esos modos partidos funcionando requieren  complicadas rutinas de interrupción que son difíciles de mantener
+    cuando se lee de di s cos. Esto es por lo que verás que, en estos  ordenadores, la imagen o la pantalla completa son ocultadas mientras
+    lees de disco a siguiente imagen , y que incluso puedes ver algunos  parpadeos y efectos extraños cuando se leen mensajes con XMES o
+    XMESSAGE (ver condActos Maluva más adelante)</p>
+
+<p>Si no quieres que pase eso, siempre puedes usar los modos tradicionales, es decir HiRes y Modo 1 para toda la pantalla en C64 y CPC
+    respectivamente. Para hacer eso, edita el fichero CONFIG.BAT y cambia la línea que pone SET SPLITSCR=SPLIT a SET SPLITSCR=NOSPLIT. A partir
+    de ahí asegúrate de que usas las imágenes adecuadas (SCR en Modo 1  para CPC, o ficheros ART en lugar de KLA para C64).</p>
+
+<p>Por defecto el intérprete DOS genera un juego en VGA 320x00, si  quieres usar SVGA, edita el fichero CONFIG.BAT y añade la línea “SET SVGA=1”. Además, 
+    tendrás que poner los gráficos (de 640x400) en la  carpeta IMAGES/PC/SVGA en lugar de IMAGES/PC.</p>
+
+<a name="loadingscreens"></a>
+<h6>Pantallas de carga</h6>
+
+<p>Es posible añadir una pantalla de carga en DAAD Ready para alguno de los target. Estos son los detalles:</p>
+
+<table>
+<tr><td>Spectrum</td><td>Habilitado en las versiones de cinta y PLUS3 (no en OLDPLUS3). Poner un fichero llamado DAAD.SCR en la carpeta de imágenes.</td></tr>
+<tr><td>MSX 2</td><td>Poner un fichero DAAD.SC8 en la  carpeta de imágenes.</td></tr>
+<tr><td>PC/DOS/Windows</td><td>Poner un fichero DAAD.PCX en la carpeta de imágenes de PC, o de SVGA, según se prefiera.</td></tr>
+<tr><td>Atari ST</td><td>Poner un fichero DAAD.PNG en la carpeta de imágenes.</td></tr>
+<tr><td>Windows Experimental</td><td>Como en Atari ST</td></tr>
+<tr><td>MacoS Experimental</td><td>Como en Atari ST</td></tr>
+</table>
+
+<p>Ten en cuenta que el hecho de que para un target las pantalla de  carga no esté habilitado no significa necesariamente que no soporte
+    pantalla de carga. Normalmente es simplemente que no se ha incorporado en DAAD Ready el modo de incluirla.</p>
+
+
+<a name="appendix"></a>
+<h4>Appendix</h4>
+
+<a name="appendixa"></a>
+<h6>Appendix A - El juego de caracteres</h6>
+
+<p>El Sistema de DAAD usa un juego de caracteres de 256 caracteres.</p>
+
+<p>DAAD Ready está usando algunos caracteres del bloque de 128 caracteres superiores para representa caracteres internacionales que no estuvieran ya soportados antes (los españoles.)</p>
+
+<p>DAAD Ready permite cambiar el juego de caracteres de tu aventura:</p>
+
+<p>Si quieres cambiarlo, tienes que modificar los ficheros que hay en la carpeta ASSETS/CHARSET. Estos serían:</p>
+
+<ul>
+  <li>AD8x6.CHR es para Spectrum, MSX, Amstrad PCW, Amiga, AtariST y OLDMSDOS.</li>
+  <li>AD8x8.CHR es para Amstrad CPC</li>
+  <li>C64bold.CHR es para C64 y Plus/4.</li>
+  <li>MSDOS.FNT es para MSDOS.</li>
+</ul>
+
+
+<p>Para modificar el Fuente, puedes usar la aplicación GCS que está en TOOLS\GCS. ZX-Paintbursh también puede abrirlos. Si grabas la fuente con GCS, grábalo para 8 bit, incluso si vas a usarlo para un sistema de 16 bit, excepto el MSDOS.FNT, que debes grabarlo como fuente SINTAC.</p>
+
+<p>Por favor ten esto en cuenta:</p>
+
+<ul>
+  <li>AD8x6.CHR se muestra como un Fuente de 6 pixeles de ancho, así que debes evitar usar las tres columnas de pixeles de la derecha. Las dos más de la derecha ni siquiera se mostrarán, la tercera, si la usas, las letras quedarían pegadas unas con otras.</li>
+  <li>AD8x8.CHR es una fuente de 8 pixeles de ancho. A pesar de ello está definido como una fuente de 6 pixeles, que es por lo que en CPC el espacio entre letras es mayor. Puedes redefinir esta fuente para usar anchos reales, y así utilizar 7 columnas (dejando la octava para que haya espacio entre letras).</li>
+  <li>C64bold.CHR es una Fuente en negrita, porque en TVs CRT conectadas al C64 vía antena, las letras finas son poco legibles.</li>
+  <li>MSDOS.FNT es proporcional, hay caracteres más anchos que otros. GCS permite definir el ancho de cada carácter.</li>
+  <li>Si borras el fichero MSDOS.FNT, el intérprete DOS usará el AD8x6.CHR pero no sérá proporcional.</li>
+</ul>
+
+<p>Por favor ten en cuenta que si redefines los caracteres usados para los idiomas internacionales no podrás usarlo para esos caracteres. Si vas a hacerlo porque necesitas poner cualquier otro carácter o gráfico ahí, siempre puedes hacerlo empezando por los que pertenecen a un idioma que no estés usando. Por ejemplo
+  “ñ” si tu juego es en alemán, o “õ” si es en español).</p>
+
+
+
+<a name="appendixb"></a>
+<h6>Appendix B - Finalizando juegos de Spectrum Next</h6>
+
+<p>Hay un pequeño problema al finalizar (el jugador dice que no quiere jugar de nuevo) en Spectrum Next:</p>
+<p>El condActo END de DAAD desconoce la capa gráfica usada por el Spectrum Next para los gráficos (Layer2) por lo que el reset que hace ese condacto no lo borra. El reset del reinicia el Next, pero el último gráfico se queda
+  ahí, encima del menú de arranque del Next, dando la impresión de que hay un problema. Obviamente un reset físico lo soluciona, pero para evitar dudas y preguntas, esta es una solución:</p>
+  
+
+<code>
+  #define yesScancode 115;"s" keyboard code, para inglés usar 121 <br/>
+  #define noScancode 110;"n" keyboard scancode<br/>
+  <br/>
+     > _     _       SYSMESS 13; ¿Jugamos de nuevo?<br/>
+                     NEWLINE<br/>
+                     NEWLINE<br/>
+                     PAUSE 10<br/>
+                     <br/>
+     > _     _       INKEY <br/>
+                     SKIP 1; Algo se pulsó, veamos qué<br/>
+                     <br/>
+                     <br/>
+     > _     _       SKIP -2; Nada pulsado, seguir esperando<br/>
+     <br/>
+     <br/>
+     > _     _       EQ 60 yesScancode<br/>
+                     GOTO 0<br/>
+                     RESTART    <br/>
+                     <br/>
+     > _     _       EQ 60 noScancode<br/>
+                     XNEXTCLS<br/>
+                     XNEXTRST        ; Reset y limpieza real en el Spectrum Next<br/>
+                     <br/>
+     > _     _       SKIP -5; no fue ni "n" ni "s"
+  </code>
+
+<p>  A partir de ahí, allá donde pondrías el condActo “END" pones una llamada a un "PROCESS x", donde has puesto el código arriba indicado.</p>
+<p>Esto no se ha incluido en TEST.DSF porque es demasiado específico para Spectrum Next, y es difícil determinar dónde usarás el condActo END.</p>
+
+<a name="appendixc"></a>
+<h6>Apéndice C - Daad Ready customizations</h6>
+
+<p>DAAD Ready guarda algunos ajustes en el fichero CONFIG.BAT, que es cargado por todos los otros .BAT. Además, DAAD Ready comprueba si existe el fichero CUSTOM.BAT. Y si existe lo carga después de CONFIG.BAT.</p>
+<p>Eso permite a herramientas de terceros como Adventuron, integrarse con DAAD Ready e incluso cambiar cosas internamente.</p>
+
+<a name="appendixd"></a>
+<h6>Apéndice D - Idiomas soportados</h6>
+<p>A pesar de que DAAD solo soportaba español e inglés originalmente, se ha añadido un soporte limitado para portugués y alemán. Puedes
+    saltar esta sección si vas a crear un juego en inglés o español.</p>
+
+<p>“Limitado” significa que aunque será capaz de crear juegos que muestren textos usando caracteres de dichos idiomas como “ß” o “õ”, el
+    intérprete que subyace será siempre el inglés (para alemán o francés) o el español (para portugués), por lo que el jugador no será capaz de dar
+    órdenes al juego que incluyan esos caracteres, y análisis de las ordenes, pensará que es inglés o español, con las consecuencias que
+    eso pueda tener. Además, afecta al listado de objetos:</p>
+
+<ul>
+  <li>En juegos en inglés, cuando la descripción de un objeto es añadida a un mensaje como “You take the _.”, el 
+    guion bajo es sustituido por el texto del objeto sin el artículo. Así, un cuando ese mensaje sale para un objeto llamado “a lamp”,
+    mostrará “You take the lamp.”  en lugar de “You take the a lamp.”</li>
+  <li>En juegos en español, si la descripción de un objeto empieza por “una”, “un”, “una”, “unos” , ese artículo definido es
+    cambiado por el indefinido, así que un mensaje “Tomas _.” funcionará , y “una lámpara” generará “Tomas la lámpara.”</li>
+</ul>
+
+<p>Lamentablamente, este funcionamiento es muy específico del lenguaje, así que los juegos en alemán o portugués no tendrán sus artículos
+    modificados, porque no coinciden con lo esperado (además, el alemán  tiene tres géneros). En consecuencia, una solución razonable ha sido
+    tomada para esos idiomas: en portugués, los mensajes usarán el artículo indefinido, y en alemán o francés se evita usar el nombre del objeto
+    en la respuesta y contesta con un simple “OK, cogido.”</p>
+
+<p>Otros idiomas pueden ser usados con  DAAD Ready de una manera similar al portugués, francés y alemán. Por favor únete a los grupos de Telegram
+    si quieres crear soporte para otros lenguajes . Estos son los caracteres que soporta DAAD Ready aparte de los del inglés, si cuadran
+    con tu idioma en general será posible:</p>
+
+<p>ª ¡ ¿ á é í ó ú ñ Ñ ç Ç ü Ü à ã â ä è ê ë ì î ï ò ô ö õ ù û Ý
+  Á É Í Ó Ú Â Ê Î Ô Û À È Ì Ò Ù Ä Ë Ï Ö Ü ý Ý þ Þ å Å ð Ð ø Ø ß 
+</p>
+
+<p>Si tu idioma usa otros símbolos especiales, probablemente aun es viable, siempre y cuando usen el alfabeto romano.</p>
+
+
+<a name="appendixe"></a>
+<h6>Apéndice E - Agradecimientos</h6>
+
+<ul>
+  <li>Tim Gilberts, de Gilsfot/Infinite Imaginations, por crear DAAD</li>
+  <li>Graeme Yeandle y Huw-Hammer Powel, como co-autores de los engines previous junto a Tim (PAWS, The Quill, SWAN)</li>
+  <li>Andrés Samudio, de Aventuras AD, por permitir distribución gratuita de DAAD</li>
+  <li>Richard Wilson, por WinAPE. Aunque ya no se usa en DAAD Ready, muchas versiones anteriores se basaron en él para la emulación de Amstrad CPC</li>
+  <li>César Hernández, por ZEsarUX</li>
+  <li>Mochilote, por CPCDiskXP</li>
+  <li>Attila Grósz, por Yape</li>
+  <li>Natalia Pujol, por el nuevo intérprete MSX2</li>
+  <li>Imre Szell, por el nuevo intérprete Plus/4</li>
+  <li>Marcin Skoczylas, por C64Debugger</li>
+  <li>Habi, por CP/M Box, PCW Emulator</li>
+  <li>A todos aquellos trabajando en dosbox, VICE64, OpenMSX, etc.</li>
+  <li>A Javier San José, por el editor de fonts GCS</li>
+  <li>A John Newbigin, por el DD para Windows</li>
+  <li>A Amstrad y Locomotive, por permitir el uso de sus ROMS en los emuladores de Spectrum y Amstrad.</li>
+  <li>A Juan José Torres, por el logo de DAAD.</li>
+  <li>A Chris Ainsley, por sus ideas, y por el plugin de Visual Studio Code.</li>
+  <li>A Sergio Chico (Chronomantic), por su estupendo intérprete para Spectrum 128K y utilidades asociadas.</li>
+  <li>A Zorg, autor de MSA Converter.</li>
+  <li>A Jose Luis Cebrián, autor de ADP</li>
+  <li>A Vlado Banda (Bonefish), autor de exe2adf</li>
+  <li>A Mark Adler, John Bush, Karl Davis, Harald Denker, Jean-Michel Dubois,Jean-loup Gailly, Hunter Goatley, Ed Gordon, Ian Gorman, Chris Herborth, Dirk Haase, Greg Hartwig, Robert Heath, Jona-than Hudson, Paul Kienitz, David Kirschbaum, Johnny Lee, Onno van der Linden, Igor Mandrichenko, Steve P. Miller, Sergio Mo-nesi, Keith Owens, George Petrov, Greg Roelofs, Kai Uwe Rommel, Steve Salisbury, Dave Smith, Steven M. Schweda, Christian Spieler, Cosmin Truta, Antoine Verheijen, Paul von Behren,   Rich Wales and Mike White, por la utilidad ZIP.</li>
+  <li>Cesar Nicolás González, autor de CPCE</li>
+  </ul>
+
+
+  
+
+
+
+
+
+</ul>
+
+<a name="appendixf"></a>
+<h6>Apéndice F - Licencias</h6>
+
+<p>DAAD Ready contiene software de un montón de partes, y ha sido creado por Uto (@utodev) que es el autor de Maluva (la extensión de DAAD) y DRC (el nuevo compilador). Todo el software usado es free o de código abierto, y en algunos casos donde la licencia no estaba especificada, el permiso ha sido facilitado por el autor.</p>
+
+<ul>
+<li>DRC and Maluva are (C) Uto and are both subject to their respective licenses. See more information and source code <a href="https://github.com/daad-adventure-writer/DRC/wiki#LICENSE">here</a>.</li>
+<li>ZeSarUX is (C) César Hernández and it is subject to its own license, please see license file at TOOLS/ZESARUX folder. Also find more information and source code at <a href="https://github.com/chernandezba/zesarux/">Github repository</a>.</li>
+<li>OpenMSX is (C) several authors. Find more information at <a href="https://openmsx.org/">OpenMSX website</a>.</li>
+<li>C64DEbugger is (C) Marcin Skoczylas, although is also using some of the Vice64 code. If you like it and use it consider donating beer to
+<a href="mailto:slajerek@gmail.com">slajerek@gmail.com</a> or if you prefer money, at <a href="http://tinyurl.com/C64Debugger-PayPal">http://tinyurl.com/C64Debugger-PayPal</a>.</li>
+<li>Yape is (C) Attila Grósz and its freeware. Please find more information at <a href="http://yape.plus4.net">Yape website</a>.</li>
+<li>DOSBOX is (C) Peter "Qbix" Veenstra, Sjoerd "Harekiet" van der Berg, Tommy "fanskapet" Frössman, Ulf "Finster" Wohlers. Find source code and info at <a href="https://www.dosbox.com/">dosbox.com</a>.</li>
+<li>CP/M Box (PCW emulator) is (C) Habisoft. Find more information at <a href="http://www.habisoft.com/pcw/index_uk.asp">Habisoft website</a>.</li>
+<li>MSX2DAAD is (C) NataliaPC, find more information and source code at <a href="https://github.com/nataliapc/msx2daad/wiki">its repository</a>.</li>
+<li>CPCDiskXP is (C) Mochilote. Get more information at <a href="http://www.cpcmania.com/news.htm">CPCMania website</a>.</li>
+<li>C1541 is part of Vice64. Find more information at <a href="https://vice-emu.sourceforge.io/">Vice website</a>.</li>
+<li>dsktool is (C) Ricardo Bittencourt, Tony Cruise and NataliaPC. Find source code and lastest info at <a href="https://github.com/nataliapc/MSX_devs/tree/master/dsktool">its repository</a>.</li>  
+<li>PHP is (C) several users. Please find more information at <a href="https://www.php.net/">php.net</a>.</li>
+<li>DD for windows is (c) John Newbigin and it's licensed under the GPL v2. Find more information at <a href="http://www.chami.com/html-kit/">Chami website</a>.</li>
+<li>GCS is (C) Javier San José and Uto, and license it's pending to define.</li>
+<li>Several ROM images supplied with CPCE and ZEsarUX are still (C) to Amstrad Plc and Locomotive Software. Amstrad and Locomotive have given permission for these ROM images to be distributed with CPC emulators, but retains the (C).</li>
+<li>WinUAE is (C) Bernd Schmidt, Toni Wilen, Richard Drummond, Mustafa 'GnoStiC' TUFAN, Frode Solheim  and Rupert Hausberger , and is subject to GNU GPL license.</li>
+<li>Hatari is (C)Thomas Hut, Nicolas Pomarède, Eero Tamminen and others, and is subject to GNU GPL license, although it contains a library  (DLL) with a more restrictive license, whose restrictivemess only affects distribution together with paid software, which is not the case with DAAD Ready. Please notice anyway that it’s not legal to distribute your game together with our game if it’s not free (as in free beer).</li>
+<li>ZXDAAD128 and its related tools are GPL and (C) Sergio Chico, DRB128 is (C)UtoDev and Sergio Chico.</li>
+<li>ADG is (C) Jose Luis Cebrián and is released under the MIT license. Please check <a href="https://github.com/jlcebrian/ADP">its repository</a> for details.</li>
+<li>ZIP is © Mark Adler, John Bush, Karl Davis, Harald Denker, Jean-Michel Dubois,Jean-loup Gailly, Hunter Goatley, Ed Gordon, Ian Gorman, Chris Herborth, Dirk Haase, Greg Hartwig, Robert Heath, Jonathan Hudson, Paul Kienitz, David Kirschbaum, Johnny Lee, Onno van der Linden, Igor Mandrichenko, Steve P. Miller, Sergio Monesi, Keith Owens, George Petrov, Greg Roelofs, Kai Uwe Rommel, Steve Salisbury, Dave Smith, Steven M. Schweda, Christian Spieler, Cosmin Truta, Antoine Verheijen, Paul von Behren,   Rich Wales and Mike White, and its license is includ-ed in the LICENSE.TXT file at TOOLS/ZIP folder.</li>
+<li>MSA Converter is (C) Zorg</li>
+<li>CPCE es (C) César Nicolás González</li>
+</ul>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+</div>
+</div>
+</div>
+
+</body>
+</html>
+
+
