@@ -70,7 +70,7 @@ ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
 
-IF "%SVGA%"=="" (
+IF "%SVGA%"=="0" (
         ECHO Creating VGA GAME
         SET IMGPATH=IMAGES\PC
         SET IMGPATHBACK=..\..
