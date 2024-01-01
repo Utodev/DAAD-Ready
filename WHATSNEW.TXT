@@ -1,3 +1,24 @@
+DAAD Ready 0.9.2 01/01/2024
+===========================
+- MSDOS: Fixed bug with MODE condact and character selection
+- HTML : Fixed bug with MODE condact and character selection
+- ATARIST: now a proper .ST floppy disk image is created with your game. The floppy disk
+  image will be located at RELEASE\ATARIST\FLOPPY, although the testing will be done with
+  the separated files at RELEASE\ATARIST as is faster to test with them.
+- AMIGA: now a proper .ADF floppy disk image is created with your game. The floppy disk
+  image will be located at RELEASE\AMIGA\FLOPPY, although the testing will be done with
+  the separated files at RELEASE\AMIGA as is faster to test with them.
+- MSDOS, HTML, ZX128TAPE and ZX128PLUS3: Fixed bug with '@' being replaced in English games
+- ZX128TAPE and ZX128PLUS3: Fixed bug with with TAKEOUT, as flags were not being updated
+- ZX128TAPE and ZX128PLUS3: Fixed bug with HABLA in Spanish interpreter
+- DRC: the compiler accepts processes in any order now.
+- Start databases: start DSF files for all 5 languages have been updated for easy readability
+- HTML: fixed another bug with "More..." feature that was happening when the input prompt was
+  the text forcing "More..." to happen
+- Compiler: processes can now appear in any order and process list can have gaps. Also the same
+  process can appear more than one (if so, those with some number are just merged together as 
+  if they were parts of a single process)
+  
 DAAD Ready 0.9.1 28/10/2023
 ===========================
 - jDAAD (HTML): fixed bug with ANYKEY when using virtual Keyboard
@@ -9,10 +30,8 @@ DAAD Ready 0.9.1 28/10/2023
 - ZX128TAPE and ZX128PLUS3: fixed bug with Spanish pronoun sufixes
 
 
-
 DAAD Ready 0.9 15/10/2023
 =========================
-
 - MSDOS (PCDAAD): New SVGA mode
 - HTML (jDAAD): new virtual keyboard built-in for touch devices
 - New Windows and MacOS targets using ADP (experimental)
