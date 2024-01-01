@@ -992,7 +992,6 @@ function run(skipToRunCondact)
 
     }   
 
-
     RunCondact: while (true)
     {
         skipToRunCondact = false;
@@ -1006,13 +1005,16 @@ function run(skipToRunCondact)
                 {
                     done =writeTextDone;
                     writeText('');
-                    if (inMORE) return;
+                    if (inMORE) return; // If still more text to write, get out from run() as we are in More...
                 }
-                DDB.condactPTR++;
+                // If the text pending to write was part of the PARSE, SAVE, LOAD etc. text output, get out of run() as we are still waiting for player orders
+                if (inQUIT || inEND || inSAVE || inLOAD || inPARSE) return;
                 done =false;
             }
             
+
             //Then check if no more condacts in the entry, if so, move to next entry
+            
             condactResult = true;
             var opcode = DDB.getByte(DDB.condactPTR);
             if (opcode == END_OF_CONDACTS_MARK)
@@ -1059,7 +1061,6 @@ function run(skipToRunCondact)
             //run condact
             condactResult = true;
             playerPressedKey = false;
-            
             condactTable[opcode].condactRoutine(); //Execute the condact
             if (inPARSE || inANYKEY || inQUIT ||inEND || inSAVE || inLOAD || inINKEY)  return; // get out of main loop as we are now just waiting for keypress (or waiting for a key event in the case of inINKEY)
         } else inINKEY=false;
@@ -1160,12 +1161,12 @@ function fixSpanishCharacters(str)
 }
 
 
-function getCommand(usePrompt)
+function getCommand()
 {
         inputBuffer = '';
-        if (usePrompt) Sysmess(SM33); else writeText(' '); //the prompt
+        var thePrompt = getMessage(DDB.header.sysmessPos, SM33);
         //When the prompt appears the last pause line of all windows is resetted
-        inputBuffer = readText(); //fromEvent = false
+        inputBuffer = readText(thePrompt); //fromEvent = false
 }
 
 function getCommandB()
@@ -1227,9 +1228,9 @@ function getWordByCodeType(aCode, aVocType)
 }
 
 
-function getPlayerOrders(usePrompt)
+function getPlayerOrders()
 {
-    getCommand(usePrompt); 
+    getCommand(); 
 }
 
 function getPlayerOrdersB()
@@ -1306,6 +1307,8 @@ function parse(Option)
         inputTakenFromPlayer = false;
         if (inputBuffer=='')
         {
+            
+            inPARSE=true; // Make the keyboardHanlder active as we will ask for an order
             PreserveStream();
             // Print prompt
             if (flags.getFlag(FPROMPT) == 0)
@@ -1314,12 +1317,8 @@ function parse(Option)
                 Sysmess(SM2 + i);
             }
             else if (flags.getFlag(FPROMPT) < DDB.header.numSys) Sysmess(flags.getFlag(FPROMPT));
-
             
-        
-
-            inPARSE=true; // Make the keyboardHanlder active as we will ask for an order
-            getPlayerOrders(true);
+            getPlayerOrders();
             return;
         } 
 
@@ -1655,6 +1654,18 @@ function keydownHandler(e)
         var keyCode = getKeyCodeFromKey(e.key);
         if ((keyBoardStatus) && (!keyBoardStatus.includes(keyCode))) keyBoardStatus.push(getKeyCodeFromKey(e.key)); 
 
+        if (inANYKEY)
+        {
+            e.preventDefault();
+            e.stopPropagation();   
+            if (!inMORE) DDB.condactPTR++; // Point to next condact
+            inANYKEY = inMORE = false;
+            for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
+            run(true); // skipToRunCondact = true
+            return;
+        }
+
+
         if (inQUIT || inEND || inSAVE || inLOAD || inPARSE)
         {
                 readTextB(e.key);
@@ -1662,14 +1673,6 @@ function keydownHandler(e)
         } 
                 
 
-        if (inANYKEY)
-        {
-            if (!inMORE) DDB.condactPTR++; // Point to next condact
-            inANYKEY = inMORE = false;
-            for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
-            run(true); // skipToRunCondact = true
-            return;
-        }
     }
 }
 
@@ -1966,7 +1969,8 @@ function getLastFittingChar(aText) // Given a text, calculates until which chara
 //Writes any text to output
 function writeText(aText, doDebug=true)
 {
-    
+    debug('writeText IN ("' + aText + '") X: ' + windows.windows[windows.activeWindow].currentX + ' Y: ' + windows.windows[windows.activeWindow].currentY);
+     
     // 1.- Recover the buffer
     aText = writeTextBuffer + aText;
     writeTextBuffer = '';
@@ -2008,19 +2012,20 @@ function writeText(aText, doDebug=true)
     {
         switch(aText.charCodeAt(i))
         {
-            case 13: writeWord(aWord, 'CR');
+            case 13: writeWord(aWord);
                      aWord='';
                      carriageReturn();
                      break
-            case 32: writeWord(aWord, 'SP');
+            case 32: writeWord(aWord);
                      aWord='';
-                     if (!windows.lastPrintedIsCR) writeWord(' ', 'separator'); // if we are not at the end of the line, write the seporator space
+                     if (!windows.lastPrintedIsCR) writeWord(' '); // if we are not at the end of the line, write the seporator space
                      break;
             default: aWord  = aWord + aText.charAt(i); 
                      break;
         }
     }
-    writeWord(aWord, 'END');
+    writeWord(aWord);
+    debug('writeText OUT ("' + aText + '") X: ' + windows.windows[windows.activeWindow].currentX + ' Y: ' + windows.windows[windows.activeWindow].currentY);
 }
 
 function PatchStr(Str)
@@ -2054,11 +2059,13 @@ function PatchStr(Str)
        
 
 // The original PCDAAD readText is split in parts as the key pressing part shoud be somwhere in an eveny handler
-function readText()
+function readText(thePrompt)
 {
-    readTextStr = '';
+    
+    readTextStr = thePrompt;
     saveX  =windows.windows[windows.activeWindow].currentX;
     saveY  =windows.windows[windows.activeWindow].currentY;
+
     /*if timeout last frame, and there is text to recover, and we should recover*/
     /*bits 7, 6 and 5 for FTIMEOUT_CONTROL set*/
     if ((flags.getFlag(FTIMEOUT_CONTROL) & 0xE0) == 0xE0) 
@@ -2082,6 +2089,7 @@ function readTextB(key)
 {
 
     var keyCode = getKeyCodeFromKey(key);
+    var thePrompt = getMessage(DDB.header.sysmessPos, SM33) //The prompt
 
     var Xlimit = (windows.windows[windows.activeWindow].col +  windows.windows[windows.activeWindow].width) * COLUMN_WIDTH; //First pixel out of the window
     if ((keyCode>=32) && (keyCode<=255))
@@ -2090,11 +2098,12 @@ function readTextB(key)
         readTextStr += String.fromCharCode(keyCode); //printable characters
     }
     else
-    if ((keyCode==8) && (readTextStr!=''))
+    if ((keyCode==8) && (readTextStr!=thePrompt))
     {
         clearWindow(saveX + (readTextStr.length)* COLUMN_WIDTH, saveY, COLUMN_WIDTH, LINE_HEIGHT , windows.windows[windows.activeWindow].PAPER);
         readTextStr = readTextStr.slice(0, -1);
     }
+
     windows.windows[windows.activeWindow].currentX = saveX;
     windows.windows[windows.activeWindow].currentY = saveY;
     patchedStr = PatchStr(readTextStr);
@@ -2106,7 +2115,7 @@ function readTextB(key)
         carriageReturn();
         // Ok, now we have the content of the text readed. Now, depending on the condact that asked for a text to be read (PARSE, QUIT or END), we 
         // need to return to the main loop in a different way
-        inputBuffer = readTextStr;
+        inputBuffer = readTextStr.substring(thePrompt.length);
         getCommandB();
     }
 }
@@ -3987,7 +3996,7 @@ function getVirtualKeyboardKey(key)
 
 function initVirtualKeyboard()
 {
-    console.log('Mobile device detected');
+    debug('Mobile device detected', 'info');
     
     document.getElementById('screen').classList.remove("screenClass");
     document.getElementById('screen').classList.add("mobileScreenClass");
