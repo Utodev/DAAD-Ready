@@ -14,3 +14,5 @@ REM Height in pixels of the images. Please notice if you change this value you s
 SET IMGLINES=96
 REM CHange to 1 if you want to use SVGA graphic modes in MSDOS/PC target
 SET SVGA=0
+REM Language settings
+
