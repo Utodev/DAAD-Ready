@@ -37,7 +37,9 @@
 #ifndef "st"
 #ifndef "amiga"
 #ifndef "zx128"
+#ifndef "next"
     #extern "MALUVA"
+#endif
 #endif
 #endif
 #endif
@@ -65,10 +67,6 @@
 
 #ifdef "st"
 #define nativeraster 1
-#endif
-
-#ifdef "nativeraster"
-#echo  "La máquina de destino soporta gráficos raster de manera nativa"
 #endif
 
 #ifdef "uno"

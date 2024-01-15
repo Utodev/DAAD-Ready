@@ -32,7 +32,9 @@
 #ifndef "st"
 #ifndef "amiga"
 #ifndef "zx128"
+#ifndef "next"
     #extern "MALUVA"
+#endif
 #endif
 #endif
 #endif
@@ -62,9 +64,6 @@
 #define nativeraster 1
 #endif
 
-#ifdef "nativeraster"
-#echo  "La máquina de destino soporta gráficos raster de manera nativa"
-#endif
 
 #ifdef "uno"
 #int "MLV_UNO_INT.BIN"

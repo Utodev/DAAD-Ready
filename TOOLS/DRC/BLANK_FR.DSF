@@ -36,14 +36,12 @@
 #ifndef "st"
 #ifndef "amiga"
 #ifndef "zx128"
+#ifndef "next"
     #extern "MALUVA"
 #endif
 #endif
 #endif
 #endif
-
-#ifdef "zx128"
-#define nativeraster 1
 #endif
 
 #ifdef "html"
