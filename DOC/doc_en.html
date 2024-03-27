@@ -88,7 +88,9 @@
   <ul>
     <li><a href='#programmingoverview'>Overview</a></li>
     <li><a href='#theflags'>The flags</a></li>
-    <li><a href='#initialization'>Initialization</a></li>
+    <li><a href="#windows">Layout windows</a></li>
+    <li><a href='#mainloop'>The processes workflow</a></li>
+    <li><a href="#firststeps">First steps</a></li>
     <li><a href='#condacts'>CondActs</a></li>
     <li><a href='#indirection'>Indirection</a></li>
     <li><a href='#conditions'>Conditions</a></li>
@@ -112,8 +114,11 @@
     <li><a href='#appendixa'>A - The Character Set</a></li>
     <li><a href='#appendixb'>B - Ending Spectrum Next Games</a></li>
     <li><a href='#appendixc'>C - DAAD Ready Customization</a></li>
-    <li><a href='#appendixd'>D - Greetings</a></li>
-    <li><a href='#appendixe'>E - Licenses</a></li>  
+    <li><a href='#appendixd'>D - Supported languages</a></li>
+    <li><a href='#appendixE'>E - Symbols</a></li>
+    <li><a href='#appendixf'>F - Greetings</a></li>  
+    <li><a href='#appendixg'>G - Licenses</a></li>  
+
   </ul>
 </ul>
 
@@ -364,6 +369,24 @@
 
 <p>Please notice TEST.DSF file already contain code that makes DAAD behave very much like PAW, so if you ever used PAW, it would be easy for you to adapt.</p>
 
+<a name="windows"></a>
+<h6>Layout windows</h6>
+
+<p>DAAD allows you to define windows within the screen. A window is a box within the screen, which starts at some coordinates and has
+   a width and a height. Inside the window you can write text, draw graphics, or whatever, and DAAD will take care of not letting the
+   text or graphics to go outside the window. When a window is active, by default everything you write or draw goes to that window.
+   There are 8 windows available in DAAD, numbered from 0 to 7. When the game starts, all windows are full screen (overlapping).</p>
+
+   <p>With DAAD Ready, window #0 is used for graphics, and it is placed at the top of the screen, in the first 12 rows of characters. 
+    Text is placed in window #1, starting at line 14 (we leave one blank), and until the end of the screen. Both windows have maximum width.</p>
+
+    <p>Obviously, this can be changed, and there are specific actions to manage windows, but DAAD Ready uses this simple and very common layout in text adventures.</p>
+
+    <p>In 8 bit machines, graphics are shown using the Maluva extension, or directly supported by the new interpreters. These extensions ignore the active window and always draw on top, 
+      so it is an exception to the rule that everything you draw goes to the active window. Anyway, DAAD Ready has already taken that into account, and window 0 has the exact position,
+      width and height of the graphics it draws.</p>
+
+
 <a name="theflags"></a>
 <h6>The Flags</h6>
 
@@ -371,41 +394,175 @@
 
 <p>There are 256 flags available in DAAD, so you have plenty of them for your puzzles, despite some of them have an internal meaning. For instance, flag 38, also known as “fPlayer”, holds the number of the location where the player is right now, so if you change it, you are moving the player somewhere else, but also you can use it to check if the player is at a given location or not, in order to determine if he can perform some action (i.e. sleep in the bedroom, but not in the bathroom). System flags, as they are named, are explained later in this section.</p>
 
-<a name="initialization"></a>
-<h6>Initialization</h6>
+<a name="mainloop"></a>
+<h6>The processes workflow</h6>
 
-<p>When the game starts, the system initialization is carried out only once. All flags and object positions are cleared. The screen is cleared (although this may change on 8-bit to provide loading screen maintenance). Note that clearing the flags has the effect that the game always starts at location zero. This is because flag 38, fPlayer, is now zero.</p>
+<p>When the game starts, the interpreter performs initialization just once, which implies all
+  flags are set to 0 and the screen is cleared. Notice that is why the player always starts 
+  at location 0, because flag 38 (fPlayer) is set to 0.</p> 
 
 <p><b>Start</b></p>
 
-<p>The program makes a call to process 0. On exit from that table a  return is made to the operating system or to restart the game with only a partial initialize.</p>
+<p>The interpreter calls process 0, when it exits that process it calls the operating system or restarts the computer.
+   Normally this will only happen if the player performs an end of game action and says he does not want to play again.</p>
 
-<p><b>Search Process Table 0</b></p>
+   <p>Figure 1 describes how the processes table is executed. Note that if process 0 ends, it does not jump to process 1,
+     to jump from one table to another there is a specific order "PROCESS" that jumps to another table. When that table ends,
+     it returns to the position from which it was called.</p>
 
-<p>Process table 0 will normally be the main loop of the interpreter. </p>
+<center><img src='Image1.png' alt="Figure 1"></center>
 
-<p>Figure 1 and the next section describe the scanning of a process table, this applies to Process 0 as it operates just like any other table. The exception being that a DONE or falling off the end will cause a return to the OS rather than a calling table</p>
+<p> DAAD will search in each enrty (they start with the character ">") until the process ends.
+   Assuming there is some entry, it will check that the verb and name of these correspond with
+   the verb and name of the order given by the player, which will have  been extracted by a PARSE order in the process.</p>
 
-<center><img src='Image1.png' alt="Figure 1"><br/>Figure 1</center>
+<p>Using word "_" in the verb or name of an entry means that it will be executed regardless of the verb or name of the order given by the player. 
+   Thus, an entry "> _ _" is run regardless of what the player wrote, while an entry "> OPEN _" is run if the player asked to open something
+   (OPEN DOOR, OPEN BOX, etc.), and an entry "> _ KEY" is run if the player asked to do anything with the key (LOOK KEY, LEAVE KEY, TAKE KEY, etc.)</p>
+
+<p>Example of an entry:</p>
+
+<code>
+> VERB NOUN <br/>
+    Condact1<br/>
+    Condact2<br/>
+    ...<br/>
+    CondactN<br/>
+</code>
+
+<p>Example o a double entry which is the same as adding two entries with the same condactos (generally used for sentences that do the same like PUSH BUTTON and CALL LIFT):</p>
+
+<code>
+> VERB1 NOUN1<br/>
+> VERB2 NOUN2<br/>
+    Condact1<br/>
+    Condact2<br/>
+    ...<br/>
+    CondactN<br/>
+</code>
+
+<p>Once we see an entry that matches the verb and name of the order given by the player, we will execute the condacts of that entry one by one, from top to bottom.</p>
+
+<p>When a condact is a condition, we will check if it is fulfilled or not. If it is fulfilled, we will execute the next condact of the same entry, and so on until
+   we finish the condacts of that entry or a condition fails. If a condition fails, we will not execute the rest of the condacts of that entry, and we will
+   evaluate the verb and name of the next entry. If condition is fullfilled, we will execute the next condact of the same entry, and so on until we finish
+   that entry or another condition fails.
+</p>
+
+<a name="firststeps"></a>
+<h6>First steps</h6>
+
+<p>DAAD programming requires learning a series of orders called condacts, which we will see in the next section, but first we are going to try to see some practical examples, following the logic seen in the previous section.</p>
+
+<p>First let's imagine the player can press a button, and when he does, a key appears on the floor. Let's imagine start by adding the ket to OBJ section:</p>
 
 
-<p><b>Scan a Process Table</b></p>
+<code>
+  /1      252 1       _ _  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _    KEY  _
+</code>
 
-<p>Essentially DAAD will look at each entry in the table until it is exhausted - the table of entries, not DAAD! Assuming there is an entry, it will ensure the Verb and Noun match those of the current Logical Sentence (LS) - This will be set up by a PARSE statement somewhere in the main loop for a traditional text game.</p>
+<p>And to OTX section:</p>
 
-<p>The use of the word "_", as either the Verb or the Noun, will cause a match with any word in that part of the logical sentence. Thus, an entry in a table of "> _ _", will cause a trigger of the entry no matter what the LS. This will be the normal entry in Process 0 as it will be very unlikely that a valid LS is present or meaningful for the main loop of the game. Please notice “>” sign marks a new entry and should be followed by VERB and NOUN or the “_” sign(s).</p>
+<code>
+  /1 "a key"
+</code>
 
-<p>DAAD will then look at each CondAct in turn; if it is a condition, which succeeds, then DAAD will look at the next CondAct. Otherwise it will drop out of the current CondAct list and look at the next entry, if present, in the table. If it is an action it will be carried out. Actions can be divided into five main groups:</p>
+<p>Also, vocabulary (VOC section):</p>
 
-<ul>
-<li>RESTART, which will completely exit the execution of all tables (i.e. even if in a 10th level sub-process) and jump to the start of Process 0.</li>
-<li>END/EXIT, (a group on their own) which will completely exit the execution of all tables and jump to initialize a new game or exit to the operating system.</li>
-<li>Exit: any action which will stop processing of the current table and exit to the calling table. e.g. DONE etc.</li>
-<li>Conditional Exit: any action which will stop processing of the current table and exit to the calling table if it fails to do its required function. e.g. GET, PUTIN etc. Otherwise it will continue with the next CondAct.</li>
-<li>Normal; any action which carries out its function and allows DAAD to continue looking at the next CondAct in the current entry. e.g. COPYFF, PLUS, etc.</li>
-</ul>
+<code>
+  KEY 100 noun<br/>
+  BUTTON 101 noun<br/>
+  PUSH 120 verb<br/>
+</code>
 
-<p>Note: Several CondActs in DAAD behave differently to those with the same name in QUILL/PAW, so ensure you check in this manual before using them. QUIT is an example, in DAAD it is a true condition. The use of DESC may be specially confusing, as in DAAD it is much like MESSAGE but for the locations table, while the way DESC worked in PAW is done by RESTART condact.</p>
+<p>Notes: the election of 100 and 101 as the number representing the key and button words is arbitrary, you can choose any that is not being used by another noun, because if you repeat the same, both names would be considered synonyms, which we do not want. Likewise, the value 252 as the starting location in the OBJ section, indicates that the object is not created, it does not exist when the game starts.</p>
+
+<p>Well, as we want the player to be able to press the button, we must add an entry in the PRO 5 section. There goes what we call "response table". We put the following at the end of that section (just before /PRO 6):</p>
+
+
+<code>
+> PUSH BUTTON<br/>
+  AT 1<br/>
+  ISAT 1 252<br/>
+  MESSAGE "You press the button and a key appear on the floor."<br/>
+  CREATE 1<br/>
+  DONE<br/>
+</code>
+
+<p>With this, we are telling DAAD that if the player writes "PUSH BUTTON", we are in location 1 and object 1 (the key) is in location 252 (not created), write on screen the message "You press the button and a key appear on the floor", create object 1 (the key) in location 1, and end process 5 (DONE).</p>
+
+<p>If we run the BAT file now, we will see that when we write "PUSH BUTTON" we get the message, but the key does not appear because the condition ISANT 1 252 is not fulfilled, because the key is already created in location 1. We will see the "You can't do that" message in place.</p>
+
+<p>To avoid that, let's add another entry to process 5:</p>
+
+<code>
+> PUSH BUTTON<br/>
+  AT 1<br/>
+  ISNOTAT 1 252<br/>
+  MESSAGE "You press the button but nothing happens."<br/>
+  DONE<br/>  
+</code>
+
+<p>This second entry makes that if we are in location 1, but the key has already been created (it is not in 252), we get the other message and nothing else happens.</p>
+
+
+<p><u>Adding details</u></p>
+
+<p>Location descriptions usually have a fixed description, but sometimes we would like to change something during the game. Let's go to the LTX section and change the line of location 1 to:</p>
+
+<code>
+  /1 "You have entered the dungeon, you see a button."<br />
+</code>
+
+<p>We can now see the button when entering location1, and so have a reason to press it. But let's go further. What happens when we press the button?</p>
+<p>We will be adding the following at the beginning of the PRO 3 section (just after /PRO 3). Process 3 is run just after printing the location description, so it's ideal to add details to the location text:</p>
+
+<code>
+  > _ _ <br/>
+  AT 1<br/>
+  ISNOTAT 1 252<br/>
+  MES "The button is pressed."<br/>
+</code>
+
+<p>If you look at the entry, you will see that it does not have a verb or a name, so it will be executed regardless of what the player writes. It will only be executed if we are in location 1 and the 
+  key has already been created (it is not in 252). It will show the message "The button is pressed" and nothing else.</p>
+
+<p><u>Events</u></p>
+
+<p>Sometimes thingds happen in the game that are not related to the player's actions. For instance a lightning falls, a river overflows, a fairy appears, a troll attacks us, etc. These are called events, and they are executed in process 4, which is run every turn. </p>
+
+
+<p>For instance, let's say in location 2 there is a troll, which will attack us after 3 turns, threatening us before. We can do the following in PRO 4:</p>
+
+<code>
+  >_ _ <br/>
+  AT 2<br/>
+  EQ 254 2<br/>
+  MES "The troll attacks you with his mace. You're dead."<br/>
+  END<br/>
+
+  >_ _ <br/>
+  AT 2<br/>
+  EQ 254 1<br/>
+  LET 254 2<br/>
+  MES "The troll threatens you with his mace."<br/>
+  
+
+  > _ _<br/>
+  AT 2<br/>
+  ZERO 254<br/>
+  LET 254 1<br/>
+  MES "The troll looks at you threateningly."<br/>
+  
+
+
+</code>
+
+<p>We are using a flag, #254, to count turns. By default all flags are 0, so flag 254 will be 0 at the beginning. That is why when entering process 4 (each turn is run) the entry that will be executed is the third one,
+   because the condition ZERO 254 is fulfilled (flag 254 is 0). In that entry, we change flag 254 to 1, and show the message "A troll looks at you threateningly".</p>
+
+<p>One turn later, flag 254 will be 1, so the second entry will be executed, because the condition EQ 254 1 is fulfilled (flag 254 is 1). In that entry, we change flag 254 to 2, and show the message "The troll threatens you with his mace".</p>
+<p>Finally, one more turn later, flag 254 will be 2, so the first entry will be executed, because the condition EQ 254 2 is fulfilled (flag 254 is 2). In that entry, we show the message "The troll attacks you with his mace. You're dead", and end the game (END).</p>
 
 <a name="condacts"></a>
 <h6>CondActs</h6>
@@ -625,14 +782,14 @@
 
 <p><u>Conditions to interact with the player </u></p>
 
-<a name="INKEY"></a>
+<a name="inkey"></a>
 <condact>INKEY</condact>
 <p>Is a condition which will be satisfied if the player is pressing
 a key. In 16Bit machines Flags Key1 and Key2 (60 & 61) will be a
 standard IBM ASCII code pair. On 8-bit only Key1 will be valid,
 and the code will be machine specific.</p>
 
-<a name="QUIT"></a>
+<a name="quit"></a>
 <condact>QUIT</condact>
 <p>SM12 ("Are you sure?") is printed and the input routine 
 called. Will succeed if the player replies with a word which
@@ -1900,6 +2057,25 @@ as it uses to play them (i.e Spectrum will use the speaker, CPC will use the AY 
 
 <p>T110S3M5000O5G16F#16G16A16G8O4G4B4O5D8D8C8C4C16O4B16O5C16D16C8O4D4A4O5C8C8O4B8B4O5G4.E16D8C#8C#8C#8G4.E16D8C#8C#8C#8G4.E16F#8D8O4B8O5G8E4.D32E32D4</p>
 
+<a name="xdata"></a>
+<condact>XDATA</condact>
+
+<p>This is also a fake condact. In a way very similar to XPLAY, that is converted to a series of BEEPs (and PAUSEs), XDATA is converted into a series of LETs.</p>
+
+<p>For instance:</p>
+<code>
+  XDATA "100 2 8 9"<br/>
+</code>
+<p>becomes</p>
+<code>
+  LET 100 2<br/>
+  LET 101 8<br/>
+  LET 102 9<br/>
+</code>
+
+<p>It's useful if you want to organize data into the flags, and eases the process of writing too many LETs.</p>
+
+
 <a name="xnextcls"></a>
 <condact>XNEXTCLS</condact>
 
@@ -2348,17 +2524,6 @@ referenced using the PROCESS action.</p>
 symbols before you use them. This does not apply to local symbols
 (those preceeded with a $) as detailed elsewhere.</p>
 
-<p>The compiler defines several symbols automatically. It assigns a
-non-zero (TRUE) value according to the command line options for machine target:</p>
-
-<p>“pc”,”zx”,”cpc”,”msx”,”msx2”,”c64”,”cp4”,etc.</p>
-
-<p>Also, defines two symbols for machine subtarget when present, for instance “MODE_plus3” and “plus3” or “mode_next” and “next” for Spectrum.</p>
-
-<p>It also creates the symbol BIT8 or BIT16 depending on target.</p>
-
-<p>Also creates two symbols ROWS and COLS whose values are the text rows and columns for the whole screen for that target.</p>
-
 <p>Please notice #define is there for two main reasons: </p>
 
 <p>1)	Being able to refer things by name instead of number, for instance if object 2 is a lamp, then you can make a define and reference it like this:</p>
@@ -2635,8 +2800,90 @@ This has not been included in the default code because is very Spectrum Next spe
 <p>DAAD Ready saves some settings in the CONFIG.BAT file, which is loaded by all the other .BAT files (one per target). Also, DAAD Ready checks if CUSTOM.BAT file exists, and if so, loads it after CONFIG.BAT. That allows third-party tools, as Adventuron, integrate with DAAD Ready and modify values in CONFIG.BAT file.</p>
 <p>Also, the bat files for each machine have several points where some external files are called if they exist, check the BAT files for more information.</p>
 
+
 <a name="appendixd"></a>
-<h6>Appendix D - Greetings</h6>
+<h6>Appendix D - Supported languages</h6>
+
+<p>Although DAAD only supported Spanish and English originally, limited support for Portuguese and German has been added. You can 
+  skip this section if you are going to create a game in English or Spanish.</p>
+
+<p>“Limited” means that although you will be able to create games that display text using characters from those languages like “ß” or “õ”, the underlying interpreter will always be English (for German or French) or Spanish (for Portuguese), so the player will not be able to give orders to the game that include those characters, and the analysis of the orders will think it is English or Spanish, with the consequences that may have. It also affects the list of objects:</p>
+
+<ul>
+  <li>In English games, when the description of an object is added to a message like “You take the _.”, the underscore is replaced by the object text without the article. So, when that message is shown for an object called “a lamp”, it will show “You take the lamp.” instead of “You take the a lamp.”</li>
+  <li>In Spanish games, the same happens, but the article is kept, so the message “Tomas _.” will show “Tomas la lámpara.” instead of “Tomas lámpara.”</li>
+</ul>
+
+<p>Sadly, this behavior is very specific to the language, so games in German or French will not have their articles modified, because they do not match the expected ones (also, German has
+three genres). As a consequence, a reasonable solution has been taken for those languages: in Portuguese, the messages will use the indefinite article, and in German or French the object 
+name is avoided in the response and answers with a simple “OK, taken.”</p>
+
+<p>Other languages can be used with DAAD Ready in a similar way to Portuguese, French and German. Please join the Telegram groups if you want to create support for other languages. These are the characters that DAAD Ready supports apart from English, if they match your language in general it will be possible:</p>
+
+<p>ª ¡ ¿ á é í ó ú ñ Ñ ç Ç ü Ü à ã â ä è ê ë ì î ï ò ô ö õ ù û Ý
+  Á É Í Ó Ú Â Ê Î Ô Û À È Ì Ò Ù Ä Ë Ï Ö Ü ý Ý þ Þ å Å ð Ð ø Ø ß 
+</p>
+
+<p>If your language uses other special symbols, it is probably still viable, as long as it uses the Roman alphabet.</p>
+
+
+<a name="appendixe"></a>
+<h6>Appendix E - Symbols</h6>
+
+<p>DAAD Ready provides a series of values that you can use in your code, so you don't have to calculate them, and even in some cases, it will provide you with a different value depending on the .BAT you use,
+   so you won't have to put something different depending on the machine you work with. For example, there is a symbol called "NOT_CREATED" that 
+   is worth 252. You can remember to put 252 in your code, or put NOT_CREATED instead, which will be easier to
+   remember (ISAT oKey NOT_CREATED instead of ISAT 7 252)</p>
+
+<p>This is the list of symbols that DAAD Ready gives you by default, apart from those you can create with #define:</p>
+
+
+<ul>
+  <li>COLS : Number of text columns in the target machine.</li>
+  <li>ROWS : Number of text rows in the target machine.</li>
+  <li>NOT_CREATED : 252. It is the value used to indicate that an object has not been created.</li>
+  <li>WORN : 253. It is the value used to indicate that an object is worn.</li>
+  <li>CARRIED : 254. It is the value used to indicate that an object is carried.</li>
+  <li>HERE : 255. Some condacts allow using this value to compare with the current location, instead of 255.</li>
+  <li>DSTRINGS: although of little use in DAAD Ready, if this symbol is defined, it indicates that the machine originally supported vector graphics.</li>
+  <li>YEARHIGH: the two digits of the current year.</li>
+  <li>YEARLOW: the lower two digits of the current year.</li>
+  <li>MONTH: the current month.</li>
+  <li>DAY: the current day. These four together allow you to save in your code the date it was generated:
+    <code>
+      > HELP _
+      LET 100 YEARHIGH
+      LET 101 YEARLOW
+      LET 102 MONTH
+      LET 103 DAY
+      MES "Game written on "
+      PRINT 103
+      MES "/"
+      PRINT 102
+      MES "/"
+      PRINT 100
+      PRINT 101
+      NEWLINE
+      DONE
+    </code>
+  </li>
+  <li>LAST_OBJECT: the number of the last object in the object list.</li>
+  <li>LAST_LOCATION: the number of the last location in the location list.</li>
+  <li>NUM_OBJECTS: the number of objects in the game.</li>
+  <li>NUM_LOCATIONS: the number of locations in the game.</li>
+  <li>NUM_CARRIED: the number of objects the player carries at the start of the game.</li>
+  <li>NUM_WORN: the number of objects the player wears at the start of the game.</li>
+  <li>BIT8: This symbol is defined if the target machine is 8 bit.</li>
+  <li>BIT16: This symbol is defined if the target machine is 16 bit. Note that "Window Experimental" and "MacOS Experimental" are compiled as if they were Atari ST games, so it will have the BIT16 symbol. The HTML, however, does not have it (nor the 8 bit one).</li>
+  <li>Also, a symbol is defined with the target machine: ZX, CPC, C64, CP4, MSX, MSX2, PCW, AMIGA, ST, PC or HTML.</li>
+  <li>Also, the subtarget of some machines is added as a symbol, preceded by the text "MODE_". For example, for ZX, in addition to the "ZX" symbol, "MODE_PLUS3", "MODE_ESXDOS", "MODE_NEXT", or "MODE_UNO" will be generated according to the case.</li>
+  <li>Finally, all the words in the vocabulary are added as symbols, added with the prefix "_VOC_". So, if the verb LEAVE is number 80, the symbol _VOC_LEAVE will be 80.</li>
+</ul>
+
+<p>Obviously, using these symbols may not be necessary in many adventures, but some can be very convenient. For example, if we have a code that looks at all the objects to see if we carry them, we can make it look from object 0 to 15, because when we write the code the last object is 15, but if we add more objects, the code will not work. Instead, we can use the LAST_OBJECT symbol, which will always have the value of the last object, and so the code will always work.</p>
+
+<a name="appendixf"></a>
+<h6>Appendix F - Greetings</h6>
 
 <ul>
   <li>Tim Gilberts, from Gilsoft/Infinite Imaginations, for creating DAAD (among others)</li>
@@ -2663,14 +2910,14 @@ This has not been included in the default code because is very Spectrum Next spe
   <li>To Zorg, author of MSA Converter</li>
 </ul>
 
-<a name="appendixe"></a>
-<h6>Appendix E - Licenses</h6>
+<a name="appendixg"></a>
+<h6>Appendix G - Licenses</h6>
 
 <p>DAAD Ready contains software of a lot of parts and has been built by Uto (@utodev), which is author of Maluva (DAAD extension AKA extern) and DRC (New DAAD compiler). All software used is either free or open source with free distribution, and some special cases where license was not specified, permission has been granted by authors.</p>
 
 <ul>
 <li>DRC and Maluva are (C) Uto and are both subject to their respective licenses. See more information and source code <a href="https://github.com/daad-adventure-writer/DRC/wiki#LICENSE">here</a>.</li>
-<li>ZeSarUX is (C) César Hernández and it is subject to its own license, please see license file at TOOLS/ZESARUX folder. Also find more information and source code at <a href="https://github.com/chernandezba/zesarux/">Github repository</a>.</li>
+<li>ZEsarUX is (C) César Hernández and it is subject to its own license, please see license file at TOOLS/ZEsarUX folder. Also find more information and source code at <a href="https://github.com/chernandezba/ZEsarUX/">Github repository</a>.</li>
 <li>WinAPE is (C) Richard Wilson. WinAPE is Freeware.</li>
 <li>OpenMSX is (C) several authors. Find more information at <a href="https://openmsx.org/">OpenMSX website</a>.</li>
 <li>C64DEbugger is (C) Marcin Skoczylas, although is also using some of the Vice64 code. If you like it and use it consider donating beer to

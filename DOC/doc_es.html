@@ -121,8 +121,9 @@
     <li><a href='#appendixb'>B - Finalizando juegos de Spectrum Next</a></li>
     <li><a href='#appendixc'>C - Personalización de DAAD Ready</a></li>
     <li><a href='#appendixd'>D - Idiomas soportados</a></li>
-    <li><a href='#appendixe'>E - Agradecimientos</a></li>
-    <li><a href='#appendixf'>F - Licencias</a></li>  
+    <li><a href='#appendixe'>E - Símbolos</a></li>
+    <li><a href='#appendixf'>F - Agradecimientos</a></li>
+    <li><a href='#appendixg'>G - Licencias</a></li>  
   </ul>
 </ul>
 
@@ -522,7 +523,7 @@ NORTE 5
   que salta a otra tabla. Cuando esa tabla termina, se vuelve a la posición desde que se la llamó.</p>
   
 
-<center><img src='Image1.png' alt="Figure 1"></center>
+<center><img src='Image1.png' alt="Figura 1"></center>
 
 
 <p>Básicamente DAAD buscará en cada entrada (comienzan por el carácter “>”) hasta que el proceso se le acabe.
@@ -912,11 +913,11 @@ ejecutaremos los ejecutaremos los condActos de la entrada uno a uno y de arriba 
 
 <p><u>Condiciones para interactuar con el jugador</u></p>
 
-<a name="INKEY"></a>
+<a name="inkey"></a>
 <condact>INKEY</condact>
 <p>Es una condición que tendrá éxito si el jugador está pulsando una tecla cuando se ejecute. En las máquinas de 16 bit, los flags fKey1 y fKey2 (60 y 61) se actualizarán con los valores correspondientes a la tecla en el IBM estándar ASCII code. En 8 bit solo fKey será modificado, y su valor es diferente para cada máquina.</p>
 
-<a name="QUIT"></a>
+<a name="quit"></a>
 <condact>QUIT</condact>
 <p>Se muestra el mensaje del Sistema 12 ("¿Estás seguro?") y se llama a la rutina de input. La condición tendrá éxito si el jugador responde con una frase que empieza por la letra que hay en el mensaje del sistema 30 (“S”). En caso contrario, el resto de lo tecleado por el jugador es descartado y saltamos a la siguiente entrada.</p>
 
@@ -1830,6 +1831,24 @@ SYNONYM PULSAR INTERRUPTOR
 
 <p>T110S3M5000O5G16F#16G16A16G8O4G4B4O5D8D8C8C4C16O4B16O5C16D16C8O4D4A4O5C8C8O4B8B4O5G4.E16D8C#8C#8C#8G4.E16D8C#8C#8C#8G4.E16F#8D8O4B8O5G8E4.D32E32D4</p>
 
+<a name="xdata"></a>
+<condact>XDATA</condact>
+
+<p>También es un condacto falso. De manera similar a como XPLAY se convierte en una serie de BEEPs (y PAUSEs), XDATA se convierte en una serie de LETs.</p>
+
+<p>Por ejemplo:</p>
+<code>
+  XDATA "100 2 8 9"<br/>
+</code>
+<p>se convierte en </p>
+<code>
+  LET 100 2<br/>
+  LET 101 8<br/>
+  LET 102 9<br/>
+</code>
+
+<p>Es muy útil cuando quieres organizar ciertos datos en los flags, te facilita el proceso de escribir muchos LETs.</p>
+
 <a name="xnextcls"></a>
 <condact>XNEXTCLS</condact>
 
@@ -2117,16 +2136,6 @@ VOY POR Aqui
 </code>
 
 <p>Ten en cuenta que el compilador es de un solo paso por lo que debes hacer los #define antes de usar los símbolos. </p>
-
-<p>El compilador define de manera automática varios símbolos. Leas asigna un valor 1 dependiendo de la máquina objetivo:</p>
-
-<p>“pc”,”zx”,”cpc”,”msx”,”msx2”,”c64”,”cp4”,etc.</p>
-
-<p>Además, también define símbolos para sub targets, cuando lo hay, por ejemplo MODE_plus3 o MODE_next” para Spectrum</p>
-
-<p>Además, genera los símbolos BIT8 o BIT16 dependiendo del target.</p>
-
-<p>Así mismo, crea dos símbolos: ROWS y COLS cuyos valores son las filas y columnas de texto que hay en esa máquina</p>
 
 <p>#define existe por dos razones: </p>
 
@@ -2522,9 +2531,67 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
 
 <p>Si tu idioma usa otros símbolos especiales, probablemente aun es viable, siempre y cuando usen el alfabeto romano.</p>
 
-
 <a name="appendixe"></a>
-<h6>Apéndice E - Agradecimientos</h6>
+<h6>Apéndice E - Símbolos</h6>
+
+<p>DAAD Ready facilita para tu código una serie de valores que puedes utilizar en tu código, de modo que te evita tener que calcularlos, e 
+  incluso en ocasiones, te va a facilitar un valor diferente dependiendo del .BAT que utilices, de modo que no tendrás que poner algo 
+  distinto según para que máquina trabajes. Por ejemplo, hay un símbolo llamado "NOT_CREATED" que vale 252. Puedes acordarte de poner 252
+  en tu código, o poner en su lugar NOT_CREATED, que te resultará más fácil de recordar (ISAT oLlave NOT_CREATED en lugar de ISAT 7 252)
+</p>
+
+<p>Esta es la lista de símbolos que te da DAAD Ready de serie, aparte de los que puedas crear tú con #define:</p>
+
+<ul>
+  <li>COLS : Tiene por valor el número de columnas de caracteres de la máquina de destino.</li>
+  <li>ROWS : Tiene por valor el número de filas de caracteres de la máquina de destino.</li>
+  <li>NOT_CREATED : Tiene por valor 252. Es el valor que se usa para indicar que un objeto no ha sido creado.</li>
+  <li>WORN : Tiene por valor 253. Es el valor que se usa para indicar que un objeto lo llevamos puesto.</li>
+  <li>CARRIED : Tiene por valor 254. Es el valor que se usa para indicar que un objeto lo llevamos.</li>
+  <li>HERE : Tiene por valor 255. Algunos condactos permiten usar ese valor para comparar con la localidad actual, en lugar de con 255.</li>
+  <li>DSTRINGS: aunque de poco uso en DAAD Ready, si está definido este símbolo indica que la máquina originalmente soportaba gráficos vectoriales.</li>
+  <li>YEARHIGH: los dós digitos del año actual.</li>
+  <li>YEARLOW: los dós digitos inferiores del año actual.</li>
+  <li>MONTH: el mes actual.</li>
+  <li>DAY: el día actual. Estos cuatro juntos permite guardar en tu código la fecha en que se generó:
+
+    <code>
+      > AYUDA _
+      LET 100 YEARHIGH
+      LET 101 YEARLOW
+      LET 102 MONTH
+      LET 103 DAY
+      MES "Juego creado el "
+      PRINT 103
+      MES "/"
+      PRINT 102
+      MES "/"
+      PRINT 100
+      PRINT 101
+      NEWLINE
+      DONE
+    </code>
+  </li>
+  <li>LAST_OBJECT: el número del último objeto de la lista de objetos.</li>
+  <li>LAST_LOCATION: el número de la última localidad de la lista de localidades.</li>
+  <li>NUM_OBJECTS: el número de objetos en el juego.</li>
+  <li>NUM_LOCATIONS: el número de localidades en el juego.</li>
+  <li>NUM_CARRIED: el número de objetos que el jugador lleva al iniciar el juego.</li>
+  <li>NUM_WORN: el número de objetos que el jugador lleva puestos al iniciar el juego.</li>
+  <li>BIT8: Este símbolo es definido si la máquina de destino es de 8 bit.</li>
+  <li>BIT16: Este símbolo es definido si la máquina de destino es de 16 bit. Ten en cuenta que "Window Experimental" y "MacOS Experimental" se compilan como si fueran juegos Atari ST, así que tendrá activo el símbolo BIT16. El HTML sin embargo no lo tiene (ni el de 8 bit).</li>
+  <li>Asímismo, un símbolo se define con la máquina de destino: ZX, CPC, C64, CP4, MSX, MSX2, PCW, AMIGA, ST, PC o HTML.</li>
+  <li>También, el subtarget de algunas máquinas es añadido como símbolo, precedido del texto "MODE_". Por ejemplo para ZX, además del símbolo "ZX" se generará "MODE_PLUS3", "MODE_ESXDOS", "MODE_NEXT", o "MODE_UNO" según el caso.</li>
+  <li>Finalmente, todas las palabras del vocabulario se añaden como símbolos, añadidas con el prefijo "_VOC_". Así, si el verbo DEJAR es el número 80, el símbolo _VOC_DEJAR valdrá 80.</li>
+</ul>
+
+<p>Obviamente, usar estos símbolos puede no ser necesario en muchas aventuras, pero algunos pueden ser muy convenientes. Por ejemplo, si tenemos un código que mira todos los obejtos a ver si los llevamos podemos hacer
+  que se mire desde el objeto 0 al 15, porque cuando hacemos el código el último objeto es el 15, pero si luego añadimos más objetos, el código no funcionará. En lugar de eso, podemos usar el símbolo LAST_OBJECT, que
+  siempre tendrá el valor del último objeto, y así el código funcionará siempre.</p>
+</p>
+
+<a name="appendixf"></a>
+<h6>Apéndice F - Agradecimientos</h6>
 
 <ul>
   <li>Tim Gilberts, de Gilsfot/Infinite Imaginations, por crear DAAD</li>
@@ -2561,14 +2628,14 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
 
 </ul>
 
-<a name="appendixf"></a>
-<h6>Apéndice F - Licencias</h6>
+<a name="appendixg"></a>
+<h6>Apéndice G - Licencias</h6>
 
 <p>DAAD Ready contiene software de un montón de partes, y ha sido creado por Uto (@utodev) que es el autor de Maluva (la extensión de DAAD) y DRC (el nuevo compilador). Todo el software usado es free o de código abierto, y en algunos casos donde la licencia no estaba especificada, el permiso ha sido facilitado por el autor.</p>
 
 <ul>
 <li>DRC and Maluva are (C) Uto and are both subject to their respective licenses. See more information and source code <a href="https://github.com/daad-adventure-writer/DRC/wiki#LICENSE">here</a>.</li>
-<li>ZeSarUX is (C) César Hernández and it is subject to its own license, please see license file at TOOLS/ZESARUX folder. Also find more information and source code at <a href="https://github.com/chernandezba/zesarux/">Github repository</a>.</li>
+<li>ZEsarUX is (C) César Hernández and it is subject to its own license, please see license file at TOOLS/ZEsarUX folder. Also find more information and source code at <a href="https://github.com/chernandezba/ZEsarUX/">Github repository</a>.</li>
 <li>OpenMSX is (C) several authors. Find more information at <a href="https://openmsx.org/">OpenMSX website</a>.</li>
 <li>C64DEbugger is (C) Marcin Skoczylas, although is also using some of the Vice64 code. If you like it and use it consider donating beer to
 <a href="mailto:slajerek@gmail.com">slajerek@gmail.com</a> or if you prefer money, at <a href="http://tinyurl.com/C64Debugger-PayPal">http://tinyurl.com/C64Debugger-PayPal</a>.</li>
