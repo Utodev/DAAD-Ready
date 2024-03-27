@@ -48,7 +48,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF zx next %GAME%.DSF -check-maluva-disabled
+TOOLS\DRC\DRF zx next %GAME%.DSF oldnext
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -88,8 +88,8 @@ ECHO.
 tools\cecho\cecho {06}Preparing tap file{07}
 ECHO.
 REM --- PREPARE TAP FILE ----
-SET INTERPRETER=ASSETS\ZX\DSNEXTE.BIN
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\DSNEXTS.BIN
+SET INTERPRETER=ASSETS\ZX\DS48IE.P3F
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\DS48IS.P3F 
 TOOLS\DRC\daadmaker.exe %GAME%.TAP %INTERPRETER% %GAME%.DDB ASSETS\CHARSET\%FONT6%
 IF ERRORLEVEL 1 GOTO ERROR
 MOVE %GAME%.TAP RELEASE\NEXT > nul 2>&1
