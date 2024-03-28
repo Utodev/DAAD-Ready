@@ -7,10 +7,10 @@ TOOLS/WinUAE/kick13.rom
 TOOLS/WinUAE/winuaebootlog.txt
 TOOLS/WinAPE/WinAPE.ini
 images/00*
-images/PC/00*
-images/PC/SVGA/00*
-images/CPC/00*
-images/DAAD.*
+IMAGES/PC/00*
+IMAGES/PC/SVGA/*
+IMAGES/CPC/00*
+IMAGES/DAAD.*
 *~$AD Ready*
 TODO.txt
 RELEASE/
