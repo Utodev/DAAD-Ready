@@ -1,14 +1,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <meta  content="text/html; charset=ISO-8859-1"  http-equiv="content-type">
+    <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
     <title>Yape User Manual</title>
   </head>
   <body>
     <h1>Yape User Manual</h1>
-    <p>YAPE (Yet Another Plus/4 Emulator) is copyright <a  href="mailto:gyros@freemail.hu">Attila
-        Grósz</a>, 2000-2016<br>
-      Homepage: <a  href="http://yape.plus4.net">http://yape.plus4.net</a><br>
+    <p>YAPE (Yet Another Plus/4 Emulator) is copyright <a href="mailto:gyros@freemail.hu">Attila
+        Grósz</a>, 2000-2023<br>
+      Homepage: <a href="http://yape.plus4.net">http://yape.plus4.net</a><br>
     </p>
     <h2>Legal</h2>
     <p>YAPE is FREEWARE and as such comes without warranty of any kind, either
@@ -35,7 +35,7 @@
       emulation. The user interface aims to exploit the potentials of the
       Windows operating environment. The emulator is written in C++ and is
       compiled with MS Visual C++. There's an older port to other platforms than
-      Windows (using the <a  href="http://libsdl.org">SDL library</a>). In the
+      Windows (using the <a href="http://libsdl.org">SDL library</a>). In the
       future there'll probably be other ports made.<br>
     </p>
     <p>YAPE was born out of a disassembler project during the summer of 2000 and
@@ -51,7 +51,7 @@
     </p>
     <p>PII 333 MHz or higher without sound and true drive emulation.<br>
       PII 500 MHz or higher for both sound and true drive emulation.<br>
-      Windows 9x/Me/2000/XP/Vista/Win7/Win8/Win10<br>
+      Windows 9x/Me/2000/XP/Vista/Win7/Win8/Win10/Win11<br>
     </p>
     <h2>Features</h2>
     <p>All the known 264 family members are emulated:<br>
@@ -98,6 +98,7 @@
         emulation<br>
       </li>
       <li>user port (RS-232) lightpen</li>
+      <li>1531 mouse via the SID card analogue port</li>
       <li>partial PAL emulation (dynamic YUV palette: brightness, contrast,
         gamma correction, saturation; the emulator expects 'valid' vblank
         signals otherwise the emulator screen may start flickering like the real
@@ -105,33 +106,35 @@
       </li>
       <li>emulator and multimedia snapshot (video, audio), screenshot support</li>
     </ul>
-    Note, that the SID card and the 256 KB RAM are hobbyist extensions to the
-    original hardware and not to be found in stock machines.<br>
+    Note, that the SID card, the YM2149 ("DIGIMUZ") and the 256 KB RAM are
+    hobbyist extensions to the original hardware and not to be found in stock
+    machines.<br>
     <br>
-    The following are <span  style="font-weight: bold;">not</span> emulated at
+    The following are <span style="font-weight: bold;">not</span> emulated at
     the moment:<br>
     <ul>
       <li>all low level TV signals</li>
       <li>157x series of floppy drives</li>
+      <li>Csory RAM extension</li>
     </ul>
     There are three emulation accuracy levels. These are:<br>
     <ul>
-      <li><span  style="font-style: italic;">low level:</span> the emulation is
+      <li><span style="font-style: italic;">low level:</span> the emulation is
         line based, the timers are also updated every line only. Provides very
         good performace on older computers while at the same time adequate
         accuracy for playing most of the well-known classic games, though true
         drive emulation is not available. Also do not try running demos in this
         mode.</li>
-      <li><span  style="font-style: italic;">high level (default)</span>: the
+      <li><span style="font-style: italic;">high level (default)</span>: the
         emulation is very accurate, the only missing features are the video
         shift register emulation and a few weird quirks of the clocking. Runs
         99.9 percent of the programs perfectly, only a handful of demos will
         fail, that are deliberately overwriting the horizontal counter (and not
         even all of them fail per se)<br>
       </li>
-      <li><span  style="font-style: italic;">very high accuracy</span>: all
-        known TED effects are emulated, should run all programs ~100%
-        accurately; if not, report it immediately :)<br>
+      <li><span style="font-style: italic;">very high accuracy</span>: all known
+        TED effects are emulated, should run all programs ~100% accurately; if
+        not, report it immediately :)<br>
       </li>
     </ul>
     In case you're coding a demo, the last option is the best choice, otherwise
@@ -141,26 +144,26 @@
     YAPE can interact with the Windows operating environment in the following
     ways:<br>
     <ul>
-      <li>You can <span  style="font-weight: bold;">copy the contents of the
+      <li>You can <span style="font-weight: bold;">copy the contents of the
           screen memory to the Windows clipboard</span> by pressing ALT+C</li>
-      <li>You can <span  style="font-weight: bold;">copy the contents of the
+      <li>You can <span style="font-weight: bold;">copy the contents of the
           Windows clipboard to the emulator</span>. In this case the clipboard
         is interpreted as text and will be feeded to the emulated machines's
         keyboard buffer</li>
-      <li>You can <span  style="font-weight: bold;">associate YAPE with the
-          most common CBM emulator images</span> (PRG, D64, G64, TAP). Select
-        'File associations'from the File menu and tick the file extensions you
-        want to get associated. Untick causes the association to be deleted from
-        the Windows Registry.</li>
-      <li><span  style="font-weight: bold;">Drag'n' drop support</span>: by
+      <li>You can <span style="font-weight: bold;">associate YAPE with the most
+          common CBM emulator images</span> (PRG, D64, G64, TAP). Select 'File
+        associations'from the File menu and tick the file extensions you want to
+        get associated. Untick causes the association to be deleted from the
+        Windows Registry.</li>
+      <li><span style="font-weight: bold;">Drag'n' drop support</span>: by
         dragging a supported emulator image over the window of the emulator,
         it'll get autostarted as if you had selected 'Autostart image' from the
         menu. If you drag an image file with the Ctrl key pressed it won't
         autostart though.</li>
-      <li><span  style="font-weight: bold;">Always on top</span>: you can force
+      <li><span style="font-weight: bold;">Always on top</span>: you can force
         YAPE to be the topmost window on your desktop even when it's not the
         active window. Select 'Always on top' from the Screen menu</li>
-      <li>You can make <span  style="font-weight: bold;">screenshots </span>ofthe
+      <li>You can make <span style="font-weight: bold;">screenshots </span>ofthe
 emulator's
         screen in BMP or GIF format by pressing F6. The file gets placed in the
         current folder (not necessarily where the emulator resides, but where
@@ -170,7 +173,7 @@ emulator's
         0000 is a serial number so you can place more screenshots of the same
         program (up to 10,000) in the actual folder without overwriting the
         older ones.</li>
-      <li>You can make <span  style="font-weight: bold;">multimedia snapshots</span>,
+      <li>You can make <span style="font-weight: bold;">multimedia snapshots</span>,
         either in video or audio format. When recording to video, first you will
         be presented with the default codec-selector dialog window where all the
         system-wide installed video encoders are present. Choose one that
@@ -179,7 +182,7 @@ emulator's
         presently only available into 16 bit mono, 44,1 kHz uncompressed PCM
         (WAV) format.<br>
       </li>
-      <li>You can switch to <span  style="font-weight: bold;">full screen mode</span>
+      <li>You can switch to <span style="font-weight: bold;">full screen mode</span>
         and back to windowed by pressing ALT+ENTER or selecting 'Full screen'
         from the Machine menu. Full screen mode is meant to be the quickest as
         it uses DirectX and direct primary surface access. Select it of you
@@ -274,17 +277,17 @@ emulator's
       confirmation dialog window, F12 and ALT+F4 quits immediately.<br>
     </p>
     <h2>Loading and starting programs</h2>
-    <p>Most Commodore plus/4 programs are distributed in either PRG (raw) or D64
-      (disk format). There are some other formats as it was noted above but they
-      are much scarcer. The most convenient way of loading programs to YAPE is
-      to choose 'Autostart image' from the File menu (or by pressing F7). You'll
-      be presented a file dialog window where all supported images in the actual
-      folder can be seen. If you select any of them, YAPE loads and tries to RUN
-      it. If the program is in PRG/P00 format and has a SYS startup code, it'll
-      fail. In that case you have to find out the start address yourself
-      (probably from the file name or the documentation). Note, that the
-      autostart feature will reset the emulated machine hence all previous RAM
-      contents will be lost. </p>
+    <p>Most Commodore plus/4 programs are usually distributed in either PRG
+      (raw) or D64 (disk format). There are some other formats as it was noted
+      above but they are much scarcer. The most convenient way of loading
+      programs to YAPE is to choose 'Autostart image' from the File menu (or by
+      pressing F7) or simply via drag'n'drop. You'll be presented a file dialog
+      window where all supported images in the actual folder can be seen. If you
+      select any of them, YAPE loads and tries to RUN it. If the program is in
+      PRG/P00 format and has a SYS startup code, it'll fail. In that case you
+      have to find out the start address yourself (probably from the file name
+      or the documentation). Note, that the autostart feature will reset the
+      emulated machine hence all previous RAM contents will be lost. </p>
     <p>There are other ways of loading programs to the emulator, but these are
       dependent on the format, and won't be started automatically. Also the
       memory contents will not be lost:<br>
@@ -295,7 +298,8 @@ emulator's
       <li>for TAP images you can select the 'Attach TAP' option from the Tape
         menu then type LOAD and press ENTER. You are faced with a text that says
         'PRESS PLAY ON TAPE'. To press the Play button the virtual tape device,
-        press F5 or select 'Play' from the 'Tape" menu</li>
+        press F5 or select 'Play' from the 'Tape" menu. YAPE can load TAP
+        images&nbsp; </li>
       <li>for D64 images you can press ALT+D or select 'Attach D64' option from
         the File menu: in the file dialog you can see some other options. If
         you're emulating a 1551 drive in YAPE, you can select under which drive
@@ -305,16 +309,16 @@ emulator's
         'Autostart image' option</li>
     </ul>
     For games, demos and programs, visit: <br>
-    <a  href="http://plus4.emucamp.com">http://plus4.emucamp.com</a> or <br>
-    <a  href="ftp://c64.rulez.org/pub/plus4">ftp://c64.rulez.org/pub/plus4</a>
+    <a href="http://plus4world.com">http://plus4world.com</a> or <br>
+    <a href="http://c64.rulez.org/pub/plus4">http://c64.rulez.org/pub/plus4</a>
     or<br>
-    <a  href="http://www.c16.de">http://www.c16.de</a> or<br>
-    <a  href="ftp://ftp.funet.fi/pub/cbm/plus4">ftp://ftp.funet.fi/pub/cbm/plus4</a><br>
+    <a href="http://www.commodore16.com">http://www.commodore16.com</a> or<br>
+    <a href="http://www.zimmers.net/anonftp/pub/cbm/plus4/">http://www.zimmers.net/anonftp/pub/cbm/plus4/</a><br>
     <br>
     On how to make TAP or WAV images from your original tapes that can then be
     loaded into the emulator, visit:<br>
-    <a  href="http://markus.brenner.de">http://markus.brenner.de</a><br>
-    <a  href="http://minus4.plus4.net">http://minus4.plus4.net<br>
+    <a href="http://markus.brenner.de">http://markus.brenner.de</a><br>
+    <a href="http://minus4.plus4.net">http://minus4.plus4.net<br>
     </a>
     <h2>Keyboard and joystick control</h2>
     The emulated C= 264 keyboard is mapped to its original place wherever it was
@@ -334,24 +338,24 @@ emulator's
     (these are mostly valid in symbolic keymapping mode, too!):<br>
     plus/4 PC<br>
     <br>
-    <span  style="font-family: monospace;">ESCAPE: ` (tilde)</span><br  style="font-family: monospace;">
-    <span  style="font-family: monospace;">COMMODORE: left Ctrl</span><br  style="font-family: monospace;">
-    <span  style="font-family: monospace;">CTRL: right Ctrl or Insert (for
-      laptops)</span><br  style="font-family: monospace;">
-    <span  style="font-family: monospace;">SHIFT LOCK: Caps Lock</span><br  style="font-family: monospace;">
-    <span  style="font-family: monospace;">RUN/STOP: Tab</span><br  style="font-family: monospace;">
-    <span  style="font-family: monospace;">HOME: Home</span><br  style="font-family: monospace;">
-    <span  style="font-family: monospace;">POUND: End</span><br  style="font-family: monospace;">
-    <span  style="font-family: monospace;">INS/DEL: BackSpace</span><br  style="font-family: monospace;">
-    <span  style="font-family: monospace;">CURSOR PAD: cursor keys</span><br  style="font-family: monospace;">
-    <span  style="font-family: monospace;">RESET: F11</span><br>
+    <span style="font-family: monospace;">ESCAPE: ` (tilde)</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">COMMODORE: left Ctrl</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">CTRL: right Ctrl or Insert (for
+      laptops)</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">SHIFT LOCK: Caps Lock</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">RUN/STOP: Tab</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">HOME: Home</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">POUND: End</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">INS/DEL: BackSpace</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">CURSOR PAD: cursor keys</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">RESET: F11</span><br>
     <br>
     These are the key mappings when the josytick is emulated through the PC
     keyboard.<br>
     <br>
-    <span  style="font-family: monospace;">JOYSTICK MOVE: cursor keys or numpad
-      2, 4, 6, 8 (selectable via the Input dialog window)</span><br  style="font-family: monospace;">
-    <span  style="font-family: monospace;">JOYSTICK FIRE: numeric 0</span><br>
+    <span style="font-family: monospace;">JOYSTICK MOVE: cursor keys or numpad
+      2, 4, 6, 8 (selectable via the Input dialog window)</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">JOYSTICK FIRE: numeric 0</span><br>
     <br>
     Select 'Joystick emulation' from the 'Settings' submenu to plug the virtual
     joystick to the numeric keypad and the numeric 0 key. If you do not succeed
@@ -468,6 +472,15 @@ emulator's
       The advantage is that you can create working WAV/RAW samples without any
       special hardware if you're lucky enough.<br>
     </p>
+    <h2>Lightpen support</h2>
+    <p>Parallel port lightpen is supported at the address $FD0D. The PC mouse
+      cursor is then translated as the lightpen's tip. Note, that the lightpen
+      quality on the 264 series was poor due to lack of dedicated hardware IRQ.</p>
+    <h2>Mouse support</h2>
+    <p>Real 1531 analogue mouse is supported via the SID card's I/O port. Use
+      the middle button to capture the mouse's movements.</p>
+    <p></p>
+    <h2></h2>
     <h2>The external monitor</h2>
     <p>YAPE has a simple external monitor which you can use to track the
       internals of the emulated machine. You can enter the monitor by pressing
@@ -484,6 +497,7 @@ emulator's
       <li>almost all functionality that can be found in the TEDMON (the 264
         famliy's built-in machine code monitor)</li>
       <ul>
+        <li>assemble instructions (A or .)</li>
         <li>display memory contents (M)</li>
         <li>change memory conents (&gt;)<br>
         </li>
@@ -524,7 +538,9 @@ emulator's
         emulation is selected (W). If it's followed by a device number, Yape
         will switch to that device's (drive's) context.</li>
       <li>'@' will toggle between the machine's RAM and current ROM banking
-        scheme's<br>
+        scheme's. An optional parameter [ID] can be used to specify the ROM bank
+        to be used. Lower 2 bits identify one of the four LO slots, upper 2 bits
+        the HI slots.<br>
       </li>
     </ul>
     You can get a simple help on these commands from the monitor itself by
@@ -537,21 +553,22 @@ emulator's
     cross-development tool. Programming information on the 264-family hardware
     can be found:<br>
     <ul>
-      <li><a  href="http://www.funet.fi/pub/cbm/plus4/programming/index.html">http://www.funet.fi/pub/cbm/plus4/programming/</a></li>
+      <li><a href="http://www.funet.fi/pub/cbm/plus4/programming/index.html">http://www.funet.fi/pub/cbm/plus4/programming/</a></li>
     </ul>
     <ul>
-      <li><a  href="http://www.plus4.org/program.htm">http://www.plus4.org/program.htm</a></li>
+      <li><a href="http://www.plus4.org/program.htm">http://www.plus4.org/program.htm</a></li>
     </ul>
     <p>Cross development tools that can be used with YAPE directly:<br>
     </p>
     <ul>
-      <li><a  href="http://www.ajordison.co.uk/">CBM .prg Studio</a> by Arthur
+      <li><a href="http://www.ajordison.co.uk/">CBM .prg Studio</a> by Arthur
         Jordison</li>
-      <li><a  href="http://plus4.emucamp.com/tools/plus4ide/">PLUS4IDE</a>
+      <li><a href="http://plus4.emucamp.com/tools/plus4ide/">PLUS4IDE</a>
         by&nbsp;Csaba Pankaczy: open source integrated development environment
         using the AS65 or the TASM compilers</li>
-      <li><a  href="http://elvtars.hu/timna/pub/">AP4</a> by Zoltán Péter:
-        assembler and IDE in one, discontinued<br>
+      <li><a href="https://sourceforge.net/projects/tass64/" title="64TASS">64TASS</a>,
+        Commodore turbo assembler (cross-assembler), source code syntax
+        compatible with the old native Turbo Assembler 64<br>
       </li>
     </ul>
     <h2>Credits</h2>
@@ -601,26 +618,16 @@ emulator's
     <p>If you like YAPE you may wish to check out my other emulator projects:<br>
     </p>
     <ul>
-      <li> 'yapeSDL': is an incomplete open source SDL2 port of YAPE with
-        Commodore 64 emulation as well. Link: <a  href="http://yapesdl.codeplex.com">http://yapesdl.codeplex.com</a>.
+      <li> 'yapeSDL': is a less feature rich open source SDL2 port of YAPE with
+        Commodore 64 and VIC20 emulation as well. Link: <a href="https://github.com/calmopyrin/yapesdl">https://github.com/calmopyrin/yapesdl</a>.
       </li>
       <li> 'tedplay': is a Commodore format music player supporting SID, C8M and
-        PRG files. Link: <a  href="http://tedplay.codeplex.com">http://tedplay.codeplex.com</a>.
-      </li>
-      <li>'HoLa!': it emulates a Hungarian 8-bit micro called HomeLab, the
-        "Hungarian Apple ][". Find it at: <a  href="http://homelab.8bit.hu">http://homelab.8bit.hu</a>
-        (in Hungarian only).</li>
-      <li>'HT1080Z': a System-80 emulator. It is a very similar machine to the
-        TRS-80 Model I Level 2. Homepage (in Hungarian): <a  href="http://ht.homeserver.hu/">http://ht.homeserver.hu</a></li>
-      <li>'Ultimo': it emulates a Hungarian 8-bit microcomputer called Primo,
-        manufactured between 1984 and 1986. Find it at: <a  href="http://primo.homeserver.hu">http://primo.homeserver.hu</a>
-        (in Hungarian only).</li>
-      <li>'WinTVC': it emulates another Hungarian 8-bit micro called TV
-        Computer, very similar to the ill-faited Enterprise 128, manufactured
-        between 1986 and 1989. Find it at: <a  href="http://tvc.homeserver.hu">http://tvc.homeserver.hu</a>
-        (in Hungarian only).</li>
-      <li><a  href="http://gaia.atilia.eu">My own homepage</a> that hosts all
-        the above emulators at one place.</li>
+        PRG files. Link: <a href="https://github.com/calmopyrin/tedplay">https://github.com/calmopyrin/tedplay</a>.</li>
+      <li>'mtapwav': is a utility to convert between WAV and MTAP images. Link:
+        <a href="https://github.com/calmopyrin/mtapwav">https://github.com/calmopyrin/mtapwav</a>.</li>
+      <li><a href="http://gaia.atilia.eu">My own homepage</a> that hosts a bunch
+        of other Z80-based computer emulators (HT1080Z / Colour Genie,
+        Mickey-80, Primo, TV Computer, Homelab).</li>
     </ul>
   </body>
 </html>

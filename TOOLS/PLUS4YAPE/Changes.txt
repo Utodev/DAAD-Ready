@@ -1,7 +1,73 @@
        YAPE  -  Yet Another Plus/4 Emulator
-                version 1.1.7
-  Copyright © 2000-2019 by Attila Grósz (gyros @ freemail . hu)
-             http://yape.plus4.net
+                version 1.2.3
+  Copyright © 2000-2023 by Attila Grósz (gyros @ freemail . hu)
+             http://yape.homeserver.hu
+
+CHANGES IN 1.2.4 FROM 1.2.3
+----------------------------
+released on Oct 28, 2023
+
+- [NEW] readded legacy DDraw mode for some folks (without CRT emulation)
+- [FIX] timer scaling could cause a lockup on some machines with older OS's
+- [FIX] noise LFSR phase & reset fix
+
+CHANGES IN 1.2.3 FROM 1.2.2
+----------------------------
+released on June 26, 2023
+
+- [NEW] more informative trace window in 32 bit developer build
+- [NEW] ability to use external sound libraries
+- [NEW] debug DLL support
+- [FIX] improved CPU halt
+- [FIX] improved PAL display phase inversion
+- [FIX] bug in unmapped memory write in 16kB mode
+- [FIX] joystick reset and uninitialized state vector
+- [FIX] more reliable monitor command history and navigation
+- [FIX] various palette related bugs fixed (in high accuracy mode; digi palette in OpenGL mode etc.)
+
+CHANGES IN 1.2.2 FROM 1.2.1
+----------------------------
+released on Jan 2, 2023
+
+- [NEW] SID card mouse emulation (in DirectInput mode)
+- [NEW] Manufacturer dependent RAM powerup patterns
+- [NEW] copy emulator window to the clipboard as a bitmap
+- [NEW] the 32-bit build has now an opcode trace window
+- [FIX] quotation mark printing bug (MPS-803)
+- [FIX] drive VIA emulation accuracy improvements
+
+CHANGES IN 1.2.1 FROM 1.2.0
+----------------------------
+released on Nov 19, 2021
+
+- [NEW] rotate screen in OpenGL mode
+- [FIX] sound device selection regression bug
+- [FIX] reduced TED volume to avoid clipping when using all three voice sources
+- [FIX] substandard rasterline count threshold
+- [FIX] #10 and #11 drive selection crash
+
+CHANGES IN 1.2.0 FROM 1.2.0
+----------------------------
+released on May 2, 2021
+
+- [NEW] AY-3-8910 (aka YM2149 or "DIGIMUZ") support
+- [NEW] paste from clipboard in the external monitor
+- [FIX] improved performance when running multiple instances
+- [FIX] improved recognition of start address in filename
+- [FIX] CPU regression with SHX ironed out
+- [FIX] potential XAudio crash on Win 8+ systems
+
+CHANGES IN 1.1.8 FROM 1.1.7
+----------------------------
+released on Dec 11, 2020
+
+- [NEW] SID card jostick support (via the active game controller)
+- [NEW] conditional fill command in the external monitor
+- [FIX] improved, more robust and intuitive video recording
+- [FIX] improved command history in monitor
+- [FIX] recent crash on some newer machines/videocards when switching to fullscreen in D3D mode
+- [FIX] minor VIA fix
+- [FIX] some residual TED regression bugs fixed (noise channel, DMA handling etc.)
 
 CHANGES IN 1.1.7 FROM 1.1.6
 ----------------------------
@@ -51,7 +117,7 @@ released on Jun 3, 2017
 - [NEW] unlimited frame rate option added
 - [FIX] keyboard driver regression fixes and improvements
 - [FIX] TED regressions
-- [FIX] create empty D64 image bug in x64 build 
+- [FIX] create empty D64 image bug in x64 build
 
 CHANGES IN 1.1.2 FROM 1.1.1
 ----------------------------
@@ -187,7 +253,7 @@ CHANGES IN 1.0.4 FROM 1.0.3
 ---------------------------
 released on Dec 18, 2012
 
-- [NEW] /LOAD:filename to type text on startup from a text file 
+- [NEW] /LOAD:filename to type text on startup from a text file
 - [NEW] improved ("increased") oversampling
 - [NEW] forward looking adaptive sound buffering
 - [FIX] more accurate interim CPU read cycles
@@ -519,7 +585,7 @@ released on Apr 15, 2005
 - [NEW] better VDU emulation
 - [NEW] Ctrl key is accessible thru the 'Insert' as well (for laptops)
 - [NEW] drag'n'drop with Ctrl hold down won't autostart
-- [FIX] fixed a BAM corruption bug in IEC/1551 mode 
+- [FIX] fixed a BAM corruption bug in IEC/1551 mode
 - [FIX] fixed fullscreen size in VDU emulation mode (was hardwired to 1024x768)
 - [FIX] stupid sound oversampling bug corrected
 - [FIX] some TED fixes
@@ -635,7 +701,7 @@ released on Nov 13, 2003
 
 - [NEW] PAL TV emulation
 - [NEW] screenshots in YUV format (PAL screen)
-- [NEW] update D64 in 1551/CPU emulation 
+- [NEW] update D64 in 1551/CPU emulation
 - [NEW] joystick setup dialog window
 - [NEW] support for 2 PC joysticks
 - [NEW] joystick emulation via keyboard now configurable
@@ -1036,7 +1102,7 @@ released on Dec 2, 2000
 - double size mode works now in DirectX mode, and is also faaast :-)
 - fullscreen DirectX mode is now supposed to work in all cases
 - miscellaneous fixes
-          	       
+
 CHANGES IN 0.25 FROM 0.24
 -------------------------
 released on Nov 25, 2000
@@ -1070,7 +1136,7 @@ CHANGES IN 0.23 FROM 0.22
 -------------------------
 released on Nov 11, 2000
 
-- exact TED timings at last, including "correct" color and character buffering (this actually broke 
+- exact TED timings at last, including "correct" color and character buffering (this actually broke
   some already working games...)
 - MTAP support, the same tape format that is used in CCS64 and VICE is now supported!
   (you can even save/load to/from external TAP files now! Turboloaders also work!)
@@ -1169,8 +1235,8 @@ released on Sep 25, 2000
 - many new illegal opcodes are implemented
 - miscellaneous bugs in the timers fixed (Dizasterblaster works)
 - minor speed optimisations
-- double size selection now works as expected... 
-			
+- double size selection now works as expected...
+
 CHANGES IN 0.14 FROM 0.13
 -------------------------
 released on Sep 23, 2000
@@ -1197,16 +1263,16 @@ CHANGES IN 0.12 FROM 0.11
 -------------------------
 released on Sep 19, 2000
 
-- yet some more speed improvements (still sluggish below P2 though) 
-- CPU bug fixed (SBC) 
-- two illegal opcodes are implemented (NOP $0000,X) 
-- palette selection in GDI mode (monochrome rulez!!) 
-- multicolor character mode done 
-- preliminary joystick emulation 
-- vertical TED register is ready 
-- wrong color handling in high resolution bitmap mode fixed 
-- stupid PRG loader bugs fixed, more decompressors work fine 
-- added yet some more games to the package 
+- yet some more speed improvements (still sluggish below P2 though)
+- CPU bug fixed (SBC)
+- two illegal opcodes are implemented (NOP $0000,X)
+- palette selection in GDI mode (monochrome rulez!!)
+- multicolor character mode done
+- preliminary joystick emulation
+- vertical TED register is ready
+- wrong color handling in high resolution bitmap mode fixed
+- stupid PRG loader bugs fixed, more decompressors work fine
+- added yet some more games to the package
 - some new bugs introduced :-))
 
 
