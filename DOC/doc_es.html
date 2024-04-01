@@ -115,6 +115,11 @@
     <li><a href='#loadingscreens'>Pantallas de carga</a></li>
   </ul>
 
+  <li><a href='#sound'>Sonidos</a></li>
+  <ul>
+    <li><a href='#soundoverview'>Introducción al sonido</a></li>
+  </ul>
+
   <li><a href='#appendix'>Apéndices</a></li>
   <ul>
     <li><a href='#appendixa'>A - El juego de caracteres</a></li>
@@ -185,6 +190,9 @@
 <p>DAAD usa un lenguaje de programación creado especialmente para escribir aventuras. Esta basado en el de The Quill y PAW de
     Gilsoft, así que si conoces dichos sistemas te será útil.</p>
 
+
+    
+    
 
 <a name="howtousedaadready"></a>
 <h6>Cómo usar DAAD Ready</h6>
@@ -1624,6 +1632,67 @@ $ Adelante<br/>
 
 <p><u>Acciones para el manejo de gráficos</u></p>
 
+<a name="sfx"></a>
+<condact>SFX value value</condact>
+
+<p>SFX no hace nada en la mayoría de los targets, pero los targets de AtariST y MSDOS tienen una manera de reproducir samples, que es diferente entre ellos, pero factible para ambos. 
+  MSDOS puede también reproducir música OPL2.</p>
+<p>Para AtariST, tendrás que incluir los archivos de muestra en formato SPL en DMG, la herramienta original para crear bases de datos gráficas y de sonido. El formato SPL es aparentemente
+   exclusivo de Atari ST, y se puede crear con Soundlab. SoundLab solo acepta SPL o AVR como entrada, por lo que tendrás que convertir tus muestras a AVR antes de usarlas en DAAD. Por 
+   ahora incluir esto automáticamente en DAAD-Ready está fuera de alcance, por lo que tendrás que trabajar con esto manualmente si quieres incluir muestras en juegos de Atari ST.</p>
+<p>Una vez tengas el recurso en tu base de datos DMG, puedes reproducirlos usando PICTURE n, SFX 0 255, donde n es el número de recurso. Sí, PICTURE, por raro que suene.</p>
+<p>Para MSDOS las cosas son un poco más fáciles. Solo tienes que poner tus archivos WAV (deben ser mono, PCM 8 bit, y máximo 64K) en la carpeta SOUNDS de DAAD Ready, nombrados con el 
+  número de recurso con tres dígitos (es decir, 001.wav, 023.wav o 233.wav) y DAAD-Ready hará el trabajo por ti. Puedes exportar fácilmente a ese formato usando Audacity, por ejemplo.
+   Asegúrate de crear un archivo mono, y exportarlo como WAV PCM de 8 bits sin signo. Reducir el tamaño del archivo es cosa tuya, pero reducir la frecuencia de muestreo ayuda mucho.</p>
+
+<p>Para la música, basta poner un fichero en formato DRO 2.0 en la misma carpeta SOUNDS (001.DRO, 023.DRO, etc.)</p>
+
+<p>El formato DRO es un formato de captura de DOSBOX 0.74. Puedes usar el tracker OPL/Adlin que prefieras siempre que este sea para DOS, componer en él, y lo único que tienes que hacer
+  es, al terminar la composición, pulsat Ctrl+Alt+F7 en DOSBOX para iniciar la captura, reproducir la música, y al terminar la captura, pulsar Ctrl+Alt+F7 de nuevo para detenerla. El 
+  fichero DRO quedará grabado en la carpeta "capture", allá donde tengas instalado DOSBOX.
+</p>
+  
+
+<p>Una vez tengas tus archivos en su sitio, puedes reproducirlos con SFX de esta manera:</p>
+
+<table>
+  <tr><th>Acción</th><th>Parametro 1</th><th>Parametro 2</th></tr>
+  <tr><td>Reproducir efecto de sonido</td><td>Número de sonido</td><td>0</td></tr>
+  <tr><td>Reproducir efecto de sonido en bucle sin fin</td><td>Número de sonido</td><td>1</td></tr>
+  <tr><td>Reproducir efecto de sonido con frecuencia específica</td><td>Número de sonido</td><td>2</td></tr>
+  <tr><td>Reproducir efecto de sonido en bucle sin fin con frecuencia específica</td><td>Número de sonido</td><td>3</td></tr>
+  <tr><td>Detener bucle sin fin de efecto de sonido</td><td>Indiferente</td><td>4</td></tr>
+  <tr><td>Reproducir música</td><td>Número de música</td><td>5</td></tr>
+  <tr><td>Reproducir música en bucle sin fin</td><td>Número de música</td><td>6</td></tr>
+  <tr><td>Detener bucle sin fin de música</td><td>Indiferente</td><td>7</td></tr>
+
+</table>
+
+<p>Para la reproducción de efectos de sonido con una frecuencia específica, tienes que especificar la frecuencia, como un valor de 0-255 (cuanto más alto el valor,
+   más alta la frecuencia), y tienes que hacerlo de esta manera:</p>
+
+<code>
+  SFX 100 2<br/>
+  #defb 88 ; 88 es la nueva frecuencia<br/>
+</code>
+
+<p>Por favor ten en cuenta:</p>
+<ul>
+  <li>El primer parámetro en las acciones de parar reproducción es irrelevante, puedes poner cualquier valor entre 0 y 255.</li>
+  <li>No puedes reproducir dos sonidos a la vez. DAAD fallará silenciosamente si intentas reproducir un sonido mientras otro está en curso.</li>
+  <li>Tampoco puedes reproducir dos músicas a la vez. DAAD fallará silenciosamente si intentas reproducir una música mientras otra está en curso.</li>
+  <li>Lo que sí se puede es reproducir música y sonido a la vez.</li>
+  <li>DAAD no detendrá un efecto de sonido en curso hasta que termine. Eso es exactamente lo que "Detener bucle sin fin" significa. Sin embargo, la música sí será parada de inmediato.</li>
+  <li>Si tratas de reproducir un efecto de sonido que no existe, o una música que no existe, no pasa nada.</li>
+  <li>PCDAAD soporta forma DRO 2.0. Versiones antiguas de DOSBOX soportan formato 1.0. PCDAAD no reproducirá los ficheros DRO si ve que son v1.0.</li>
+  <li>PCDAAD soporta OPL2 y OPL2-dual, no soporta el chip OPL3 por lo que capturar música OPL3 puede tener malos resultados al ser reproducida después (PCDAAD lo intentará).</li>
+  <li>Hay un flag de sistema que incluye algún control sobre el sonido en MSDOS.</li>
+</ul>
+
+
+
+
+
 
 
 <a name="picture"></a>
@@ -2041,8 +2110,17 @@ VOY POR Aqui
   <tr><th>Flag #</th><th>Uso/significado</th></tr>  
   <tr><td>0</td><td>Si lo cambiamos a un valor que no sea cero indicamos que n hay luz. La plantilla de TEST.DSF tiene esto en cuenta y muestra el mensaje "Está muy oscuro" en lugar de la descripción de localides. El objeto 0, para esta plantilla, da luz, por lo que si está presente eso no pasa.</td></tr>
   <tr><td>1</td><td>Guarda la cantidad que el jugador lleva, pero no lleva puestos como prenda. Este valor se mantiene cuando se cogen y dejan objetos, pero queda inicializado a cero por defecto, así que si de salida llevamos algún objeto, conviene inicializar el flag 1 con el valor del número de objetos llevados, si después vamos a usarlo (al final del proceso 6 se hace eso).</td></tr>
-  <tr><td>2 to 28</td><td>Estos flags no son usados por los intérpretes DAAD, por lo que en principio estarían libres para tus juegos. Sin embargo, el fichero TEST.DSF está usando el flag 28 para funcionalidades internas de la plantilla, mientras que Maluva usa el flag 20. Por tanto, no puedes usar los flags 20 y 28, pero además recomendamos no usar ninguno de este bloque porque podrían
+  <tr><td>2 to 28</td><td>Estos flags no son usados por los intérpretes DAAD, por lo que en principio estarían libres para tus juegos. Sin embargo, el fichero TEST.DSF está usando el flag 28 para funcionalidades internas de la plantilla, mientras que Maluva usa el flag 20 y el intérprete de MSDOS usa el flag 21 (ver más abajo). Por tanto, no puedes usar los flags 20 y 28, pero además recomendamos no usar ninguno de este bloque porque podrían
      ser usados para futuras extensiones. Nuestra recomendación es que empieces por usar el flag 254 para tus cosas, luego el 253, 252, etc. Así quedarás lejos de peligro.</td></tr>
+     <tr><td>21</td><td>MSDOS exclusivo, usado para control de sonido: <br/><br/>
+      <table>
+        <tr><th>Bit</th><th>Significado</th></tr>
+        <tr><td>0</td><td>1 = SFX engine activa</td></tr>
+        <tr><td>2</td><td>1 = SFX se reproduce en bucle</td></tr>
+        <tr><td>4</td><td>1 = SFX está en reproducción</td></tr>
+      </table> 
+      <p>Por favor, ten en cuenta que puedes escribir en este flag, pero no tendrá efecto, excepto en el bit de bucle, que en caso de ser cambiado afectará al bucle.</p>
+    </td></tr>
   <tr><td>29</td><td>Bit 0 - Mouse presente (16 bit solo).</td></tr>
   <tr><td>30</td><td>Flag de puntuación (score) – no es realmente usado directamente por DAAD pero es tradicional (de PAW).</td></tr>
   <tr><td>31/32</td><td>Guardan el número de órdenes que el jugador ha dado.</td></tr>
@@ -2415,6 +2493,23 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
     pantalla de carga. Normalmente es simplemente que no se ha incorporado en DAAD Ready el modo de incluirla.</p>
 
 
+
+<a name="sound"></a>
+<h4>Sonidos</h4>
+<a name="soundoverview"></a>
+<h6>Intropducción al sonido</h6>
+
+
+<p>DAAD no es especialmente bueno con el sonido en los tiempos actuales. Aunque tiene algunas características integradas, como el condacto <a href='#beep'>BEEP</a>,
+que se puede usar para reproducir un sonido en la máquina objetivo, no es realmente una buena manera de reproducir música o efectos de sonido.</p>
+
+<p>El nuevo compilador DAAD DRC, incluido en DAAD Ready, te permite usar el condacto falso <a href="#xplay">XPLAY</a>, que te permite escribir una serie de notas,
+y las reproducirá en la máquina objetivo, pero lo hará de forma sincrónica, por lo que el jugador tendrá que esperar a que la música termine para seguir jugando.
+Además, el comando BEEP utiliza el altavoz básico de las máquinas, que, en algunas de ellas, significa el chip AY, pero en otras es simplemente el altavoz interno.</p>
+
+<p>A pesar de todo esto, hay algunos objetivos que tienen una forma específica de añadir muestras, que son Atari ST y MSDOS. El antiguo intérprete de AtariST ya incluía
+    una forma de reproducir muestras, y el nuevo intérprete de MSDOS también puede hacerlo. Por favor, consulta la sección <a href="#sfx">SFX</a> para obtener más información.</p>
+
 <a name="appendix"></a>
 <h4>Appendix</h4>
 
@@ -2456,6 +2551,8 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
 
 <a name="appendixb"></a>
 <h6>Appendix B - Finalizando juegos de Spectrum Next</h6>
+
+<p>Nota: los problemas referidos en este apéndice, son relativos a la versión de Spectrum Next que ahora se lanza con OLDZXNEXT.BAT. Para la nueva versión (desde DAAD Ready 0.9.3) nada de esto aplica, y esta sección es irrelevante.</p>
 
 <p>Hay un pequeño problema al finalizar (el jugador dice que no quiere jugar de nuevo) en Spectrum Next:</p>
 <p>El condActo END de DAAD desconoce la capa gráfica usada por el Spectrum Next para los gráficos (Layer2) por lo que el reset que hace ese condacto no lo borra. El reset del reinicia el Next, pero el último gráfico se queda
@@ -2550,28 +2647,7 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
   <li>CARRIED : Tiene por valor 254. Es el valor que se usa para indicar que un objeto lo llevamos.</li>
   <li>HERE : Tiene por valor 255. Algunos condactos permiten usar ese valor para comparar con la localidad actual, en lugar de con 255.</li>
   <li>DSTRINGS: aunque de poco uso en DAAD Ready, si está definido este símbolo indica que la máquina originalmente soportaba gráficos vectoriales.</li>
-  <li>YEARHIGH: los dós digitos del año actual.</li>
-  <li>YEARLOW: los dós digitos inferiores del año actual.</li>
-  <li>MONTH: el mes actual.</li>
-  <li>DAY: el día actual. Estos cuatro juntos permite guardar en tu código la fecha en que se generó:
-
-    <code>
-      > AYUDA _
-      LET 100 YEARHIGH
-      LET 101 YEARLOW
-      LET 102 MONTH
-      LET 103 DAY
-      MES "Juego creado el "
-      PRINT 103
-      MES "/"
-      PRINT 102
-      MES "/"
-      PRINT 100
-      PRINT 101
-      NEWLINE
-      DONE
-    </code>
-  </li>
+  
   <li>LAST_OBJECT: el número del último objeto de la lista de objetos.</li>
   <li>LAST_LOCATION: el número de la última localidad de la lista de localidades.</li>
   <li>NUM_OBJECTS: el número de objetos en el juego.</li>
@@ -2580,6 +2656,28 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
   <li>NUM_WORN: el número de objetos que el jugador lleva puestos al iniciar el juego.</li>
   <li>BIT8: Este símbolo es definido si la máquina de destino es de 8 bit.</li>
   <li>BIT16: Este símbolo es definido si la máquina de destino es de 16 bit. Ten en cuenta que "Window Experimental" y "MacOS Experimental" se compilan como si fueran juegos Atari ST, así que tendrá activo el símbolo BIT16. El HTML sin embargo no lo tiene (ni el de 8 bit).</li>
+  <li>YEARHIGH: los dós digitos del año actual.</li>
+  <li>YEARLOW: los dós digitos inferiores del año actual.</li>
+  <li>MONTH: el mes actual.</li>
+  <li>DAY: el día actual. Estos cuatro juntos permite guardar en tu código la fecha en que se generó:
+
+    <code>
+      > AYUDA _
+      LET 100 YEARHIGH<br/>
+      LET 101 YEARLOW<br/>
+      LET 102 MONTH<br/>
+      LET 103 DAY<br/>
+      MES "Juego creado el "<br/>
+      PRINT 103<br/>
+      MES "/"<br/>
+      PRINT 102<br/>
+      MES "/"<br/>
+      PRINT 100<br/>
+      PRINT 101<br/>
+      NEWLINE<br/>
+      DONE<br/>
+    </code>
+  </li>
   <li>Asímismo, un símbolo se define con la máquina de destino: ZX, CPC, C64, CP4, MSX, MSX2, PCW, AMIGA, ST, PC o HTML.</li>
   <li>También, el subtarget de algunas máquinas es añadido como símbolo, precedido del texto "MODE_". Por ejemplo para ZX, además del símbolo "ZX" se generará "MODE_PLUS3", "MODE_ESXDOS", "MODE_NEXT", o "MODE_UNO" según el caso.</li>
   <li>Finalmente, todas las palabras del vocabulario se añaden como símbolos, añadidas con el prefijo "_VOC_". Así, si el verbo DEJAR es el número 80, el símbolo _VOC_DEJAR valdrá 80.</li>

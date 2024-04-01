@@ -78,6 +78,11 @@
     <li><a href='#recommendedtools'>Recommended Tools</a></li>
     <li><a href='#loadingscreens'>Loading Screens</a></li>
   </ul>
+
+  <li><a href='#sound'>Sound</a></li>
+  <ul>
+    <li><a href='#soundoverview'>Sound Overview</a></li>
+  </ul>
     
   <li><a href='#howtousedaadready'>How to use DAAD Ready</a></li>
   <ul>
@@ -302,6 +307,25 @@
 </table>
 
 <p>Have in mind for targets that that are not in this list, that doesn’t mean you cannot add a loading screen in most cases, it just means you would have to do it manually as DAAD-Ready doesn’t do it for you. </p>
+
+<a name="sound"></a>
+<h4>Sound</h4>
+<a name="soundoverview"></a>
+<h6>Sound Overview</h6>
+
+<p>
+  DAAD is not really good with sound for the current times. Although it has some built in features, like the <a href='#beep'>BEEP</a> condact, that can 
+  be used to play a sound in the target machine, it is not really a good way to play music or sound effects.</p>
+
+  <p>The new DAAD compiler DRC, included in DAAD-Ready, allows you to use the fake condact <a href="#xplay">XPLAY</a>, which allows you to type in a series 
+    of notes, and it will play them in the target machine, but will do it synchronously, so the player has to wait until the music finishes to keep on 
+    playing. Also, the BEEP command uses the basic speaker of the machines, which, in some of them means the AY chip, but in other is just the internal speaker.</p>
+   </p>
+
+   <p>Despite all that, there are some targets that have a specific way of adding samples, which are Atari ST and MSDOS. The old AtariST interpreter did already include
+    a way to play samples, and the new MSDOS interpreter, can do it as well. Please check <a href="#sfx">SFX</a> condact for more information.</p>
+   </p>
+</p>
 
 
 <a name="howtousedaadready"></a>
@@ -1890,6 +1914,84 @@ section for the current Verb.
 
 <p>Much as in the previous section, PICTURE and DISPLAY are used mainly for vector graphics, and DAAD Ready is not using them. It may affect you when creating games with graphics for DOS, PCW, Amiga and ST, but once again, we suggest you check DAAD original manual.</p>
 
+<a name="sfx"></a>
+<condact>SFX value value</condact>
+
+<p>SFX does nothing in most targets, but AtariST and MSDOS targets have a way to play samples, which is different among them, but doable for both. MSDOS target can also play OPL2 music.</p>
+
+<p>For AtariST, you will have to include the sample files in SPL format into DMG, the original tool to create graphic and sound databases. The SPL format is apparently exclusive to
+   Atari ST, and can be created with Soundlab. SoundLab only accepts SPL or AVR as input, so you will have to convert your samples to AVR before using them in DAAD. 
+   For the time being, including this automatically in DAAD-Ready is out of scope, so you will have to work with this manually if you want to include samples in Atari ST games. </p>
+
+<p>Once you have the resource into your DMG database, you can play them by using PICTURE n , SFX 0 255, where n is the resource number. Yes, PICTURE, as weird as it sounds.</p>
+
+<p>For MSDOS things are a bit easier. You just have to put your WAV files (must be mono, PCM 8 bit, and maximum 64K) in the SOUNDS folder of DAAD Ready, named with the resource number 
+  with three digits (i.e. 001.wav, 023.wav or 233.wav) and DAAD-Ready will do the work for you. You can easily export to that format using Audacity, for instance. Make sure you create
+  a mono file, and export it as unsigned 8 bit PCM WAV. Making the file small enough is up to you, but reducing the sample rate does of course help a lot.</p>
+
+  <p>For music, you just have to put a DRO 2.0 file in the same SOUNDS folder (001.DRO, 023.DRO, etc.)</p>
+
+ <p>DRO format is a capture format of DOSBOX 0.74. You can use any OPL/Adlib tracker you prefer as long as it is for DOS, compose in it, and the only thing you have to do is, when you finish
+    the composition, press Ctrl+Alt+F7 in DOSBOX to start the capture, play the music, and when you finish the capture, press Ctrl+Alt+F7 again to stop it. The DRO file will be saved in the
+    "capture" folder, wherever you have DOSBOX installed.</p>
+
+  <p>If you captured music in excess, there is a software called <a href="https://jestarjokin.net/apps/drotrimmer/">DRO Trim</a> that can help you.</p>  
+
+<p>Once you have your files in place, you can play them with SFX, this way:</p>
+
+
+<table>
+  <tr><th>Action</th><th>Parameter 1</th><th>Parameter 2</th></tr>
+  <tr><td>Play sample</td><td>Sample number</td><td>0</td></tr>
+  <tr><td>Play sample in endless loop</td><td>Sample number</td><td>1</td></tr>
+  <tr><td>Play sample with specific frequency</td><td>Sample number</td><td>2</td></tr>
+  <tr><td>Play sample in endless loop with specific frequency</td><td>Sample number</td><td>3</td></tr>
+  <tr><td>Stop sample loop</td><td>Music number</td><td>4</td></tr>
+  <tr><td>Play music</td><td>Sample number</td><td>5</td></tr>
+  <tr><td>Play music in endless loop</td><td>Music number</td><td>5</td></tr>
+  <tr><td>Stop music loop</td><td>Music number</td><td>7</td></tr>
+  
+</table>
+
+<p>For those actions with a specific frequency, you have to specify the frequency, as a value 0-255 (the higher the value, the higher the frequency), 
+and you have to do it this way:</p>
+
+<code>
+  SFX 2 100<br/>
+  #defb 88 ; 88 is the new frequency<br/>
+</code>
+
+<p>Please notice:</p>
+<ul>
+  <li>First parameter in stop actions is irrelevant, you can put any value between 0 and 255.</li>
+  <li>A sample cannot be played while other is being played. DAAD will fail to play it silently if you try.</li>
+  <li>DAAD will not stop a sample if you try to play another one. That action will fail silently and the first sample will continue playing.</li>
+  <li>DAAD will not stop a music if you try to play another music. That action will fail silently and the first music will continue playing.</li>
+  <li>What you can do is play a music and sample at the same time.</li>
+  <li>DAAD won't stop a sound effect until it finishes. That's what "Stop sample loop" means. On the other hand, stopping a music will have immediate effect.</li>
+  <li>If you try to play a music or sample that doesn't exist, DAAD will fail silently.</li>
+  <li>PCDAAD supports DRO 2.0 format. Old versions of DOSBOX support format 1.0. PCDAAD will not play DRO files if it sees they are v1.0.</li>
+  <li>PCDAAD supports OPL2 and OPL2-dual chips, it does not support OPL3 chip, so capturing OPL3 music may have bad results when played later (PCDAAD will try).</li>
+  <li>There is a flag in the system that includes some control over sound in MSDOS.</li>
+  </ul>
+
+
+<a name="picture"></a>
+<condact>PICTURE picno</condact>
+
+<p>Loads in RAM the graphic whose number is picno, for example, PICTURE 7 loads graphic 007. If the load is successful, the next condact is executed, if not, it goes to the next entry. PICTURE does not paint any graphic on screen, it just loads it in RAM.</p>
+<p>PICTURE is only used in DAAD-Ready for 16 bit machines, Amstrad PCW and HTML target. For the rest of 8 bit machines, XPICTURE is used (see below)</p>
+
+<a name="display"></a>
+<condact>DISPLAY value</condact>
+<p>If value is 0, the graphic loaded in RAM is painted on screen (loaded in RAM by PICTURE).</p>
+<p>If the value is not 0 and the graphic is not a subroutine, then the graphic area is cleared.</p>
+<p>DISPLAY is only used in DAAD-Ready for 16 bit machines, Amstrad PCW and HTML target. For the rest of 8 bit machines, XPICTURE is used (see below)</p>
+
+
+
+
+
 <a name="maluvacondacts"></a>
 <h6>Maluva CondActs</h6>
 
@@ -2303,7 +2405,16 @@ printing characters from other languages, basically most of the characters
   <tr><th>Flag #</th><th>Usage/meaning</th></tr>  
   <tr><td>0</td><td>When nonzero indicates game is dark (see also object 0)</td></tr>
   <tr><td>1</td><td>Holds quantity of objects player is carrying (but not wearing)</td></tr>
-  <tr><td>2 to 28</td><td>These are not actually used by the DAAD interpreters anywhere. Thus, they would be free for use in your own games, but on the other hand the TEST.DSF file included within DAAD Ready it is using flag 28 for internal functionalities, and Maluva extension is using flag 20. Thus, you should not use those flags, and in fact our recommendation is, to avoid conflicts with future expansions, that you start using flag 254 for your own tasks, then 254, then 253, etc. That way you will be far from any conflict and your game may be recompiled in 20 years without problems.</td></tr>
+  <tr><td>2 to 28</td><td>These are not actually used by the DAAD interpreters anywhere. Thus, they would be free for use in your own games, but on the other hand the TEST.DSF file included within DAAD Ready it is using flag 28 for internal functionalities, and Maluva extension is using flag 20. Also MSDOS target uses flag 21 (see below). Thus, you should not use those flags, and in fact our recommendation is, to avoid conflicts with future expansions, that you start using flag 254 for your own tasks, then 254, then 253, etc. That way you will be far from any conflict and your game may be recompiled in 20 years without problems.</td></tr>
+  <tr><td>21</td><td>MSDOS exclusive, used for sound control: <br/><br/>
+    <table>
+      <tr><th>Bit</th><th>Meaning</th></tr>
+      <tr><td>0</td><td>1 = SFX engine enabled</td></tr>
+      <tr><td>2</td><td>1 = SFX plays in loop mode</td></tr>
+      <tr><td>4</td><td>1 = SFX is playing</td></tr>
+    </table> 
+    <p>Please notice you can write to this flag, but will have no effect, except for loop bit, wich in case of being changed will affect the loop.</p>
+  </td></tr>
   <tr><td>29</td><td>Bit 0 - Mouse present (16 -it only).</td></tr>
   <tr><td>30</td><td>Score flag - not actually used directly by DAAD but its traditional!</td></tr>
   <tr><td>31/32</td><td>(LSB/MSB) holds number of turns player has taken (actually, this is the number of phrases extracted from the players input).</td></tr>
@@ -2760,6 +2871,8 @@ characters is used. </p>
 <a name="appendixb"></a>
 <h6>Appendix B - Ending Spectrum Next Games</h6>
 
+<p>Note: the problems referred in this appendix are related to the Spectrum Next version that is now launched with OLDZXNEXT.BAT. For the new version (from DAAD Ready 0.9.3) none of this applies, and this section is irrelevant.</p>
+
 <p>There is a small problem with ending Next games, as restarting the game does not clear the Layer2 memory area. To avoid that you will need to replace any END condAct in your code, with calling a specific process, whose code would have to be the following:</p>
 
 
@@ -2846,27 +2959,7 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
   <li>CARRIED : 254. It is the value used to indicate that an object is carried.</li>
   <li>HERE : 255. Some condacts allow using this value to compare with the current location, instead of 255.</li>
   <li>DSTRINGS: although of little use in DAAD Ready, if this symbol is defined, it indicates that the machine originally supported vector graphics.</li>
-  <li>YEARHIGH: the two digits of the current year.</li>
-  <li>YEARLOW: the lower two digits of the current year.</li>
-  <li>MONTH: the current month.</li>
-  <li>DAY: the current day. These four together allow you to save in your code the date it was generated:
-    <code>
-      > HELP _
-      LET 100 YEARHIGH
-      LET 101 YEARLOW
-      LET 102 MONTH
-      LET 103 DAY
-      MES "Game written on "
-      PRINT 103
-      MES "/"
-      PRINT 102
-      MES "/"
-      PRINT 100
-      PRINT 101
-      NEWLINE
-      DONE
-    </code>
-  </li>
+  
   <li>LAST_OBJECT: the number of the last object in the object list.</li>
   <li>LAST_LOCATION: the number of the last location in the location list.</li>
   <li>NUM_OBJECTS: the number of objects in the game.</li>
@@ -2875,6 +2968,27 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
   <li>NUM_WORN: the number of objects the player wears at the start of the game.</li>
   <li>BIT8: This symbol is defined if the target machine is 8 bit.</li>
   <li>BIT16: This symbol is defined if the target machine is 16 bit. Note that "Window Experimental" and "MacOS Experimental" are compiled as if they were Atari ST games, so it will have the BIT16 symbol. The HTML, however, does not have it (nor the 8 bit one).</li>
+  <li>YEARHIGH: the two digits of the current year.</li>
+  <li>YEARLOW: the lower two digits of the current year.</li>
+  <li>MONTH: the current month.</li>
+  <li>DAY: the current day. These four together allow you to save in your code the date it was generated:
+    <code>
+      > HELP _<br/>
+      LET 100 YEARHIGH<br/>
+      LET 101 YEARLOW<br/>
+      LET 102 MONTH<br/>
+      LET 103 DAY<br/>
+      MES "Game written on "<br/>
+      PRINT 103<br/>
+      MES "/"<br/>
+      PRINT 102<br/>
+      MES "/"<br/>
+      PRINT 100<br/>
+      PRINT 101<br/>
+      NEWLINE<br/>
+      DONE<br/>
+    </code>
+  </li>
   <li>Also, a symbol is defined with the target machine: ZX, CPC, C64, CP4, MSX, MSX2, PCW, AMIGA, ST, PC or HTML.</li>
   <li>Also, the subtarget of some machines is added as a symbol, preceded by the text "MODE_". For example, for ZX, in addition to the "ZX" symbol, "MODE_PLUS3", "MODE_ESXDOS", "MODE_NEXT", or "MODE_UNO" will be generated according to the case.</li>
   <li>Finally, all the words in the vocabulary are added as symbols, added with the prefix "_VOC_". So, if the verb LEAVE is number 80, the symbol _VOC_LEAVE will be 80.</li>

@@ -99,11 +99,22 @@ echo Wait while preparing images (if any)...
 
 IF exist DAAD.PCX %IMGPATHBACK%\TOOLS\PCXFIXER\pcxfixer DAAD.PCX DAAD.VGA > nul 2>&1
 for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX %IMGPATHBACK%\TOOLS\PCXFIXER\pcxfixer.exe 00%%i.PCX 00%%i.VGA > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX  %IMGPATHBACK%\TOOLS\PCXFIXER\pcxfixer.exe 0%%i.PCX 0%%i.VGA > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX  %IMGPATHBACK%\TOOLS\PCXFIXER\pcxfixer.exe %%i.PCX %%i.VGA > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX %IMGPATHBACK%\TOOLS\PCXFIXER\pcxfixer.exe 0%%i.PCX 0%%i.VGA > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\PCXFIXER\pcxfixer.exe %%i.PCX %%i.VGA > nul 2>&1
 CD %IMGPATHBACK%
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
+
+tools\cecho\cecho {06}Preparing SFX sounds (if any){07}
+ECHO .
+CD SOUNDS
+echo Wait while preparing sfx files (if any)...
+for /L %%i in (0, 1, 9) do IF exist 00%%i.WAV ..\TOOLS\WAV2SFX\wav2sfx.exe 00%%i.WAV 00%%i.SFX > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.WAV ..\TOOLS\WAV2SFX\wav2sfx.exe 0%%i.WAV 0%%i.SFX > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.WAV ..\TOOLS\WAV2SFX\wav2sfx.exe %%i.WAV %%i.SFX > nul 2>&1
+cd ..
+tools\cecho\cecho {02}[OK]{07}
+
 
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
@@ -113,6 +124,12 @@ IF exist %IMGPATH%\DAAD.VGA copy %IMGPATH%\DAAD.VGA RELEASE\MSDOS\GAME > nul 2>&
 for /L %%i in (0, 1, 9) do IF exist %IMGPATH%\00%%i.VGA COPY %IMGPATH%\00%%i.VGA  RELEASE\MSDOS\GAME  > nul 2>&1
 for /L %%i in (10, 1, 99) do IF exist %IMGPATH%\0%%i.VGA COPY %IMGPATH%\0%%i.VGA  RELEASE\MSDOS\GAME  > nul 2>&1
 for /L %%i in (100, 1, 255) do IF exist %IMGPATH%\%%i.VGA COPY %IMGPATH%\%%i.VGA  RELEASE\MSDOS\GAME  > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist SOUNDS\00%%i.SFX COPY SOUNDS\00%%i.SFX  RELEASE\MSDOS\GAME  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist SOUNDS\0%%i.SFX COPY SOUNDS\0%%i.SFX  RELEASE\MSDOS\GAME  > nul 2>&1
+for /L %%i in (100, 1, 255) do IF exist SOUNDS\%%i.SFX COPY SOUNDS\%%i.SFX  RELEASE\MSDOS\GAME  > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist SOUNDS\00%%i.DRO COPY SOUNDS\00%%i.DRO  RELEASE\MSDOS\GAME  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist SOUNDS\0%%i.DRO COPY SOUNDS\0%%i.DRO  RELEASE\MSDOS\GAME  > nul 2>&1
+for /L %%i in (100, 1, 255) do IF exist SOUNDS\%%i.DRO COPY SOUNDS\%%i.DRO  RELEASE\MSDOS\GAME  > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
