@@ -1,3 +1,30 @@
+DAAD Ready 0.9.4 ??/??/2024
+===========================
+
+- MSDOS: support for OPL2 music and 8 bit mono sound effects vía SFX condact.
+
+
+DAAD Ready 0.9.3 27/03/2024
+===========================
+
+- Spectrum Next: New interpreter. Embeds Maluva features such as XPICTURE/XMESSAGE/XUNDONE/XSPEED. 
+  Also, fixes the issues we had with END/EXIT not erasing last picture on game exit, and restores 
+  normal speed on EXIT. As counterpart, it does not include drawstrings (vector) graphics support.
+  This interpreter has about 2 more kilobytes available for the DDB. The old Spectrum Next intrepreter
+  is still available under the OLDZXNEXT.BAT file, in case you need drawstring. Also, the
+  compiler has been updated for Spectrum Next new interpreter.
+
+- HTML: jDAAD More... feature has been improved, again. 
+
+- MSDOS: Fixed bug with END condact. Last convertible noun is now #39 instead of #19. Fixed support 
+         of locno+ in several condacts. Fixed weight and height in PCX load.  Fixed bug with article
+         replacing in English.
+
+- ZX128PLUS3 and ZX128TAPE: Fixed bug with XPICTURE that was drawing a black band. Last convertible noun is now #39 
+  instead of #19
+
+- Compiler: New symbols NUM_CARRIED and NUM_WORN added, to allow the programmer to automatically know how many objects are carried or worn when the game starts.
+
 DAAD Ready 0.9.2 01/01/2024
 ===========================
 - MSDOS: Fixed bug with MODE condact and character selection
