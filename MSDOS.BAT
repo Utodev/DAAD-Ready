@@ -127,9 +127,16 @@ for /L %%i in (100, 1, 255) do IF exist %IMGPATH%\%%i.VGA COPY %IMGPATH%\%%i.VGA
 for /L %%i in (0, 1, 9) do IF exist SOUNDS\00%%i.SFX COPY SOUNDS\00%%i.SFX  RELEASE\MSDOS\GAME  > nul 2>&1
 for /L %%i in (10, 1, 99) do IF exist SOUNDS\0%%i.SFX COPY SOUNDS\0%%i.SFX  RELEASE\MSDOS\GAME  > nul 2>&1
 for /L %%i in (100, 1, 255) do IF exist SOUNDS\%%i.SFX COPY SOUNDS\%%i.SFX  RELEASE\MSDOS\GAME  > nul 2>&1
+
 for /L %%i in (0, 1, 9) do IF exist SOUNDS\00%%i.DRO COPY SOUNDS\00%%i.DRO  RELEASE\MSDOS\GAME  > nul 2>&1
 for /L %%i in (10, 1, 99) do IF exist SOUNDS\0%%i.DRO COPY SOUNDS\0%%i.DRO  RELEASE\MSDOS\GAME  > nul 2>&1
 for /L %%i in (100, 1, 255) do IF exist SOUNDS\%%i.DRO COPY SOUNDS\%%i.DRO  RELEASE\MSDOS\GAME  > nul 2>&1
+
+for /L %%i in (0, 1, 9) do IF exist %IMGPATH%\00%%i.FLI COPY %IMGPATH%\00%%i.FLI  RELEASE\MSDOS\GAME  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist %IMGPATH%\0%%i.FLI COPY %IMGPATH%\0%%i.FLI  RELEASE\MSDOS\GAME  > nul 2>&1
+for /L %%i in (100, 1, 255) do IF exist %IMGPATH%\%%i.FLI COPY %IMGPATH%\%%i.FLI  RELEASE\MSDOS\GAME  > nul 2>&1
+
+
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
