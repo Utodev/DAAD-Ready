@@ -1917,41 +1917,58 @@ section for the current Verb.
 <a name="sfx"></a>
 <condact>SFX value value</condact>
 
-<p>SFX does nothing in most targets, but AtariST and MSDOS targets have a way to play samples, which is different among them, but doable for both. MSDOS target can also play OPL2 music.</p>
+<p>SFX does nothing in most targets but AtariST and MSDOS have a way to play multimedia files, which is different between them. AtariST can play sound effects,
+     and MSDOS can play effects, music and animations.</p>
 
-<p>For AtariST, you will have to include the sample files in SPL format into DMG, the original tool to create graphic and sound databases. The SPL format is apparently exclusive to
-   Atari ST, and can be created with Soundlab. SoundLab only accepts SPL or AVR as input, so you will have to convert your samples to AVR before using them in DAAD. 
-   For the time being, including this automatically in DAAD-Ready is out of scope, so you will have to work with this manually if you want to include samples in Atari ST games. </p>
 
-<p>Once you have the resource into your DMG database, you can play them by using PICTURE n , SFX 0 255, where n is the resource number. Yes, PICTURE, as weird as it sounds.</p>
+<p>For AtariST, you will have to include your sample files in SPL format in DMG, the original tool to create graphic and sound databases. SPL format is apparently exclusive to Atari ST, and can be created with Soundlab. SoundLab only accepts SPL or AVR as input, so you will have to convert your samples to AVR before using them in DAAD. For now including this automatically in DAAD-Ready is out of reach, so you will have to work with this manually if you want to include samples in Atari ST games.</p>
+<p>Once you have the resource in your DMG database, you can play them using PICTURE n, SFX 0 255, where n is the resource number. Yes, PICTURE, as weird as it sounds.</p>
 
-<p>For MSDOS things are a bit easier. You just have to put your WAV files (must be mono, PCM 8 bit, and maximum 64K) in the SOUNDS folder of DAAD Ready, named with the resource number 
-  with three digits (i.e. 001.wav, 023.wav or 233.wav) and DAAD-Ready will do the work for you. You can easily export to that format using Audacity, for instance. Make sure you create
-  a mono file, and export it as unsigned 8 bit PCM WAV. Making the file small enough is up to you, but reducing the sample rate does of course help a lot.</p>
+<p>For MSDOS things are a bit easier:</p>
 
-  <p>For music, you just have to put a DRO 2.0 file in the same SOUNDS folder (001.DRO, 023.DRO, etc.)</p>
 
- <p>DRO format is a capture format of DOSBOX 0.74. You can use any OPL/Adlib tracker you prefer as long as it is for DOS, compose in it, and the only thing you have to do is, when you finish
-    the composition, press Ctrl+Alt+F7 in DOSBOX to start the capture, play the music, and when you finish the capture, press Ctrl+Alt+F7 again to stop it. The DRO file will be saved in the
-    "capture" folder, wherever you have DOSBOX installed.</p>
+<ul>
+  <li>
+     For sound effects you just have to put your WAV files (they must be mono, PCM 8 bit, and maximum 64K) in the SOUNDS folder of DAAD Ready, named with the resource number with three digits (i.e. 001.wav, 023.wav or 233.wav) and DAAD-Ready will do the job for you. You can easily export to that format using Audacity, for example. Make sure to create a mono file, and export it as WAV PCM 8-bit unsigned. Reducing the file size is up to you, but reducing the sampling frequency helps a lot.
+  </li>
+  <li>
+    For music, you just have to put a DRO 2.0 file in the same SOUNDS folder (001.DRO, 023.DRO, etc.)
+  </li>
+  <li>
+    Finally, to play FLI animations, the files go in the IMAGES folder (001.FLI, 002.FLI, etc.)
+  </li>
+</ul>. 
 
-  <p>If you captured music in excess, there is a software called <a href="https://jestarjokin.net/apps/drotrimmer/">DRO Trim</a> that can help you.</p>  
+<p>
+  DROP format is a capture format used by DOSBOX 0.74. You can use any OPL/Adlib tracker you want as long as it is for DOS, compose in it, and
+   the only thing you have to do is, when you finish the composition, press Ctrl+Alt+F7 in DOSBOX to start the capture, play the music, and
+    when you finish the capture, press Ctrl+Alt+F7 again to stop it. The DRO file will be saved in the "capture" folder, wherever you have DOSBOX installed.
+</p>
+
+
+  <p>SFX does nothing in most targets but AtariST and MSDOS have a way to play multimedia files, which is different between them. AtariST can play sound effects,
+     and MSDOS can play effects, music and animations.</p>
+
+ <p>If you captured music in excess, there is a software called <a href="https://jestarjokin.net/apps/drotrimmer/">DRO Trim</a> that can help you.</p>  
 
 <p>Once you have your files in place, you can play them with SFX, this way:</p>
 
 
 <table>
   <tr><th>Action</th><th>Parameter 1</th><th>Parameter 2</th></tr>
-  <tr><td>Play sample</td><td>Sample number</td><td>0</td></tr>
-  <tr><td>Play sample in endless loop</td><td>Sample number</td><td>1</td></tr>
-  <tr><td>Play sample with specific frequency</td><td>Sample number</td><td>2</td></tr>
-  <tr><td>Play sample in endless loop with specific frequency</td><td>Sample number</td><td>3</td></tr>
-  <tr><td>Stop sample loop</td><td>Music number</td><td>4</td></tr>
-  <tr><td>Play music</td><td>Sample number</td><td>5</td></tr>
-  <tr><td>Play music in endless loop</td><td>Music number</td><td>5</td></tr>
-  <tr><td>Stop music loop</td><td>Music number</td><td>7</td></tr>
-  
+  <tr><td>Play sample</td><td>Sample number</td><td>1</td></tr>
+  <tr><td>Play sample in endless loop</td><td>Sample number</td><td>2</td></tr>
+  <tr><td>Play sample with specific frequency</td><td>Sample number</td><td>3</td></tr>
+  <tr><td>Play sample in endless loop with specific frequency</td><td>Sample number</td><td>4</td></tr>
+  <tr><td>Stop sample loop</td><td>Music number</td><td>5</td></tr>
+  <tr><td>Play music</td><td>Sample number</td><td>6</td></tr>
+  <tr><td>Play music in endless loop</td><td>Music number</td><td>7</td></tr>
+  <tr><td>Stop music loop</td><td>Music number</td><td>8</td></tr>
+  <tr><td>Play FLI animation</td><td>Animation number</td><td>9</td></tr>
+  <tr><td>Play FlI animation in endless loop</td><td>Animation number</td><td>10</td></tr>
 </table>
+
+<p>Any other value in parameter 2 will be ignored (nothing will happen).</p>
 
 <p>For those actions with a specific frequency, you have to specify the frequency, as a value 0-255 (the higher the value, the higher the frequency), 
 and you have to do it this way:</p>
@@ -1973,6 +1990,9 @@ and you have to do it this way:</p>
   <li>PCDAAD supports DRO 2.0 format. Old versions of DOSBOX support format 1.0. PCDAAD will not play DRO files if it sees they are v1.0.</li>
   <li>PCDAAD supports OPL2 and OPL2-dual chips, it does not support OPL3 chip, so capturing OPL3 music may have bad results when played later (PCDAAD will try).</li>
   <li>There is a flag in the system that includes some control over sound in MSDOS.</li>
+  <li>Only FLI format (Autodesk Animator) is supported, not FLC</li>
+  <li>Only 320x200 FLI is supported, if it is of another size, it will be ignored. If we are in SVGA mode, it will change to VGA to play the FLI, and then it will return to SVGA.</li>
+  <li>FLI animations can be stopped by pressing a key, no matter if it's looped or not.</li>
   </ul>
 
 
@@ -2991,6 +3011,23 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
   </li>
   <li>Also, a symbol is defined with the target machine: ZX, CPC, C64, CP4, MSX, MSX2, PCW, AMIGA, ST, PC or HTML.</li>
   <li>Also, the subtarget of some machines is added as a symbol, preceded by the text "MODE_". For example, for ZX, in addition to the "ZX" symbol, "MODE_PLUS3", "MODE_ESXDOS", "MODE_NEXT", or "MODE_UNO" will be generated according to the case.</li>
+  <li>There are also a few symbols made to be used wiTH SFX condact in MSDOS target, to make easier to remember how to play multimedia. These are the Symbols:
+    <table><tr><th>Symbol</th><th>Value</th></tr>
+      <tr><td>PLAYSFX</td><td>1</td></tr>
+      <tr><td>PLAYSFXL</td><td>2</td></tr>
+      <tr><td>PLAYSFXF</td><td>3</td></tr>
+      <tr><td>PLAYSFXFL</td><td>4</td></tr>
+      <tr><td>STOPSFX</td><td>5</td></tr>
+      <tr><td>PLAYDRO</td><td>6</td></tr>
+      <tr><td>PLAYDROL</td><td>7</td></tr>
+      <tr><td>STOPDRO</td><td>8</td></tr>
+      <tr><td>PLAYFLI</td><td>9</td></tr>
+      <tr><td>FPLAYFLIL</td><td>10</td></tr>
+     </table>
+
+    <p>For instance, you can enter "SFX 100 PLAYDRO" instead of "SFX 100 6".</p>
+
+  </li>
   <li>Finally, all the words in the vocabulary are added as symbols, added with the prefix "_VOC_". So, if the verb LEAVE is number 80, the symbol _VOC_LEAVE will be 80.</li>
 </ul>
 

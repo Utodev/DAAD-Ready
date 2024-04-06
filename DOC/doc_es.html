@@ -1635,44 +1635,61 @@ $ Adelante<br/>
 <a name="sfx"></a>
 <condact>SFX value value</condact>
 
-<p>SFX no hace nada en la mayoría de los targets, pero los targets de AtariST y MSDOS tienen una manera de reproducir samples, que es diferente entre ellos, pero factible para ambos. 
-  MSDOS puede también reproducir música OPL2.</p>
+<p>SFX no hace nada en la mayoría de los targets, pero los targets de AtariST y MSDOS tienen una manera de reproducir archivos multimedia, que es diferente entre ellos. AtariST puede reproducir 
+  efectos de sonido, y MSDOS puede reproducir efectos, música y animaciones.</p>
+
+
 <p>Para AtariST, tendrás que incluir los archivos de muestra en formato SPL en DMG, la herramienta original para crear bases de datos gráficas y de sonido. El formato SPL es aparentemente
    exclusivo de Atari ST, y se puede crear con Soundlab. SoundLab solo acepta SPL o AVR como entrada, por lo que tendrás que convertir tus muestras a AVR antes de usarlas en DAAD. Por 
    ahora incluir esto automáticamente en DAAD-Ready está fuera de alcance, por lo que tendrás que trabajar con esto manualmente si quieres incluir muestras en juegos de Atari ST.</p>
 <p>Una vez tengas el recurso en tu base de datos DMG, puedes reproducirlos usando PICTURE n, SFX 0 255, donde n es el número de recurso. Sí, PICTURE, por raro que suene.</p>
-<p>Para MSDOS las cosas son un poco más fáciles. Solo tienes que poner tus archivos WAV (deben ser mono, PCM 8 bit, y máximo 64K) en la carpeta SOUNDS de DAAD Ready, nombrados con el 
-  número de recurso con tres dígitos (es decir, 001.wav, 023.wav o 233.wav) y DAAD-Ready hará el trabajo por ti. Puedes exportar fácilmente a ese formato usando Audacity, por ejemplo.
-   Asegúrate de crear un archivo mono, y exportarlo como WAV PCM de 8 bits sin signo. Reducir el tamaño del archivo es cosa tuya, pero reducir la frecuencia de muestreo ayuda mucho.</p>
 
-<p>Para la música, basta poner un fichero en formato DRO 2.0 en la misma carpeta SOUNDS (001.DRO, 023.DRO, etc.)</p>
+<p>Para MSDOS las cosas son un poco más fáciles:</p>
 
-<p>El formato DRO es un formato de captura de DOSBOX 0.74. Puedes usar el tracker OPL/Adlin que prefieras siempre que este sea para DOS, componer en él, y lo único que tienes que hacer
+<ul>
+  <li>Para efectos de sonido, solo tienes que poner tus archivos WAV (deben ser mono, PCM 8 bit, y máximo 64K) en la carpeta SOUNDS de DAAD Ready, nombrados con el 
+    número de recurso con tres dígitos (es decir, 001.wav, 023.wav o 233.wav) y DAAD-Ready hará el trabajo por ti. Puedes exportar fácilmente a ese formato usando Audacity, por ejemplo.
+     Asegúrate de crear un archivo mono, y exportarlo como WAV PCM de 8 bits sin signo. Reducir el tamaño del archivo es cosa tuya, pero reducir la frecuencia de muestreo ayuda mucho.
+  </li>
+  <li>
+    Para música, solo tienes que poner un fichero en formato DRO 2.0 en la misma carpeta SOUNDS (001.DRO, 023.DRO, etc.)
+  </li>
+  <li>Finalmente para reproducir ficheros de animación FLI, los ficheros van en la carpeta IMAGES (001.FLI, 002.FLI, etc.)</li>
+</ul>. 
+
+<p>El formato DRO es un formato de captura de DOSBOX 0.74. Puedes usar el tracker OPL/Adlib que prefieras siempre que este sea para DOS, componer en él, y lo único que tienes que hacer
   es, al terminar la composición, pulsat Ctrl+Alt+F7 en DOSBOX para iniciar la captura, reproducir la música, y al terminar la captura, pulsar Ctrl+Alt+F7 de nuevo para detenerla. El 
   fichero DRO quedará grabado en la carpeta "capture", allá donde tengas instalado DOSBOX.
 </p>
+
+
+<p>Si capturaste música en exceso, hay un software llamado <a href="https://jestarjokin.net/apps/drotrimmer/">DRO Trim</a> que puede ayudarte.</p>
   
 
 <p>Una vez tengas tus archivos en su sitio, puedes reproducirlos con SFX de esta manera:</p>
 
 <table>
   <tr><th>Acción</th><th>Parametro 1</th><th>Parametro 2</th></tr>
-  <tr><td>Reproducir efecto de sonido</td><td>Número de sonido</td><td>0</td></tr>
-  <tr><td>Reproducir efecto de sonido en bucle sin fin</td><td>Número de sonido</td><td>1</td></tr>
-  <tr><td>Reproducir efecto de sonido con frecuencia específica</td><td>Número de sonido</td><td>2</td></tr>
-  <tr><td>Reproducir efecto de sonido en bucle sin fin con frecuencia específica</td><td>Número de sonido</td><td>3</td></tr>
-  <tr><td>Detener bucle sin fin de efecto de sonido</td><td>Indiferente</td><td>4</td></tr>
-  <tr><td>Reproducir música</td><td>Número de música</td><td>5</td></tr>
-  <tr><td>Reproducir música en bucle sin fin</td><td>Número de música</td><td>6</td></tr>
-  <tr><td>Detener bucle sin fin de música</td><td>Indiferente</td><td>7</td></tr>
-
+  <tr><td>Reproducir efecto de sonido</td><td>Número de sonido</td><td>1</td></tr>
+  <tr><td>Reproducir efecto de sonido en bucle sin fin</td><td>Número de sonido</td><td>2</td></tr>
+  <tr><td>Reproducir efecto de sonido con frecuencia específica</td><td>Número de sonido</td><td>3</td></tr>
+  <tr><td>Reproducir efecto de sonido en bucle sin fin con frecuencia específica</td><td>Número de sonido</td><td>4</td></tr>
+  <tr><td>Detener bucle sin fin de efecto de sonido</td><td>Indiferente</td><td>5</td></tr>
+  <tr><td>Reproducir música</td><td>Número de música</td><td>6</td></tr>
+  <tr><td>Reproducir música en bucle sin fin</td><td>Número de música</td><td>7</td></tr>
+  <tr><td>Detener bucle sin fin de música</td><td>Indiferente</td><td>8</td></tr>
+  <tr><td>Reproducir animación FLI</td><td>Número de animación</td><td>9</td></tr>
+  <tr><td>Reproducir animación FLI en bucle sin fin</td><td>Número de animación</td><td>10</td></tr>
 </table>
+
+
+<p>Cualquier otro valor en el parámetro 2 será ignorado (no pasará nada).</p>
 
 <p>Para la reproducción de efectos de sonido con una frecuencia específica, tienes que especificar la frecuencia, como un valor de 0-255 (cuanto más alto el valor,
    más alta la frecuencia), y tienes que hacerlo de esta manera:</p>
 
 <code>
-  SFX 100 2<br/>
+  SFX 100 2 ; Endless loop play sfx #100<br/>
   #defb 88 ; 88 es la nueva frecuencia<br/>
 </code>
 
@@ -1687,6 +1704,9 @@ $ Adelante<br/>
   <li>PCDAAD soporta forma DRO 2.0. Versiones antiguas de DOSBOX soportan formato 1.0. PCDAAD no reproducirá los ficheros DRO si ve que son v1.0.</li>
   <li>PCDAAD soporta OPL2 y OPL2-dual, no soporta el chip OPL3 por lo que capturar música OPL3 puede tener malos resultados al ser reproducida después (PCDAAD lo intentará).</li>
   <li>Hay un flag de sistema que incluye algún control sobre el sonido en MSDOS.</li>
+  <li>Solo se soporta formato FLI (Autodesk Animator), no FLC</li>
+  <li>Solo se soporta FLI de 320x200, si es de otro tamaño será ignorado. Si estamos en modo SVGA, se cambiará a VGA para reproducir el FLI, y después se volverá SVGA.</li>
+  <li>La animaciones FLI se pueden parar pulsando una tecla, no importa si está en bucle o no.</li>
 </ul>
 
 
@@ -2680,6 +2700,26 @@ Además, el comando BEEP utiliza el altavoz básico de las máquinas, que, en al
   </li>
   <li>Asímismo, un símbolo se define con la máquina de destino: ZX, CPC, C64, CP4, MSX, MSX2, PCW, AMIGA, ST, PC o HTML.</li>
   <li>También, el subtarget de algunas máquinas es añadido como símbolo, precedido del texto "MODE_". Por ejemplo para ZX, además del símbolo "ZX" se generará "MODE_PLUS3", "MODE_ESXDOS", "MODE_NEXT", o "MODE_UNO" según el caso.</li>
+  <li>
+    <li>
+        Hay tambien unos pocos símbolos hechos para ser usados con el condacto SFX en el target MSDOS, para hacer más fácil recordar cómo reproducir multimedia. Estos son los símbolos:
+      <table><tr><th>Symbol</th><th>Value</th></tr>
+        <tr><td>PLAYSFX</td><td>1</td></tr>
+        <tr><td>PLAYSFXL</td><td>2</td></tr>
+        <tr><td>PLAYSFXF</td><td>3</td></tr>
+        <tr><td>PLAYSFXFL</td><td>4</td></tr>
+        <tr><td>STOPSFX</td><td>5</td></tr>
+        <tr><td>PLAYDRO</td><td>6</td></tr>
+        <tr><td>PLAYDROL</td><td>7</td></tr>
+        <tr><td>STOPDRO</td><td>8</td></tr>
+        <tr><td>PLAYFLI</td><td>9</td></tr>
+        <tr><td>FPLAYFLIL</td><td>10</td></tr>
+       </table>
+  
+      <p>Por ejemplo, puedes poner "SFX 100 PLAYDRO" en lugar de "SFX 100 6".</p>
+  
+    </li>
+  </li>
   <li>Finalmente, todas las palabras del vocabulario se añaden como símbolos, añadidas con el prefijo "_VOC_". Así, si el verbo DEJAR es el número 80, el símbolo _VOC_DEJAR valdrá 80.</li>
 </ul>
 
