@@ -292,6 +292,8 @@
 
 <p>If you want to user SVGA graphics in DOS, add “SET SVGA=1” to the CONFIG.BAT file, and the put 640x400, indexed 256 colours PCX files in the IMAGES\PC\SVGA folder instead of IMAGES\PC.</p>
 
+<p>Please notice, if you use SVGA, the game will require a 386 to work.</p>
+
 <a name="loadingscreens"></a>
 <h6>Loading Screens</h6>
 
@@ -1899,6 +1901,57 @@ section for the current Verb.
 
 <p><u>Action to deal with sound</u></p>
 
+<a name="mouse"></a>
+<condact>MOUSE value value</condact>
+
+
+<p>Only available in MSDOS. Does nothing in other targets.</p>
+
+
+<p>The second value indicates an action to perform with the mouse. The first is a parameter for that action.</p>
+
+<table>
+  <tr><th>Action</th><th>Parametet 1</th><th>Parameter 2</th></tr>
+  <tr><td>Reset mouse</td><td>Any</td><td>0</td></tr>
+  <tr><td>Show pointer</td><td>Any</td><td>1</td></tr>
+  <tr><td>Show pointer</td><td>Any</td><td>2</td></tr>
+  <tr><td>Read position: the flag in the first parameter is the first in a list of flags. That flag will contain the state of the buttons, 
+    the next flag will contain the X position divided by 8 (in characters), and the next the Y position divided by 8 (the row). 
+    In the next flag the X position divided by 6 (narrow columns) will be stored.</td><td>flagno</td><td>3</td></tr>
+    
+  <tr><td>Read position(fine) : Similar to the previous one, but in the flag + 1 the X position divided by 2 will be stored
+     if we are in VGA mode, or divided by 4 if it is SVGA, and in the flag + 2 the Y position divided by two in SVGA mode,
+      and not divided if it is VGA.</td><td>flagno</td><td>4</td></tr>    
+  <tr><td>Modify pointer: load the file with PTR extension defined by first parameter. If first parameter is 1, it loads 001.PTR</td><td>Pointer number</td><td>5</td></tr>
+  <tr><td>Changes hotspot coord X value: originally the hotspot in the pointer is at x=0, y=0, that is the upper left corner of the opinter. If you change
+    the pointer maybe you would like to move the hotspot. For instance, if the pointer is a cross, you may want to put it at 5,5, which is the center of the
+      9x9 area.</td><td>X</td><td>6</td></tr>
+  <tr><td>Changes hotspot coord Y value: same as before, but for Y value.</td><td>Y</td><td>7</td></tr>
+</table>
+
+<ul>
+  <li>
+    The flag that contains the current status of the buttons will contain a 1 if the left button is pressed, a 2 for the right and a 4 for the center. If there is more than one
+     pressed the values are added. For example, left and right at the same time, the value will be 3.</li>
+  </li>
+  <li>
+    PTR files are 81 bytes long, 9x9, each byte represents a pixel in a 9x9 square. Color 0 is transparent.</li>
+
+</ul>
+
+
+<p>For instance, this code would allow you to use the mouse in DAAD:</p>
+
+<code>
+  MOUSE 0 0 ; Resets mouse<br/>
+  MOUSE 0 1 ; Shows pointer<br/>
+  MOUSE 100 4; Reads fine position in flags 100, 101 and 102<br/>
+</code>
+
+<p>There are specific symbols in the compiler that allow us to not remember the action numbers. See the symbols in the appendices.</p>
+
+
+
 <a name="beep"></a>
 <condact>BEEP value value</condact>
 
@@ -1935,7 +1988,7 @@ section for the current Verb.
     For music, you just have to put a DRO 2.0 file in the same SOUNDS folder (001.DRO, 023.DRO, etc.)
   </li>
   <li>
-    Finally, to play FLI animations, the files go in the IMAGES folder (001.FLI, 002.FLI, etc.)
+    Finally, to play FLI animations, the files go in the IMAGES folder (001.FLI, 002.FLI, etc.). The game will requiere a 286 or better to play game using FLI animations.
   </li>
 </ul>. 
 
@@ -2034,8 +2087,8 @@ and you have to do it this way:</p>
 
 <p>Loads the current game status from disk. The opt parameter it is also ignored.</p>
 
-<a name="xmessage"></a>
-<condact>XMESSAGE "string"</condact>
+<a name="xmes"></a>
+<condact>XMES "string"</condact>
 
 <p>Displays the string in between quotes. Please notice this condact allows you to add additional messages apart of those in the message tables, so in case you need more text you can expand your game. XMES has the following limitations:</p>
 
@@ -2046,7 +2099,7 @@ and you have to do it this way:</p>
 </ul>
 
 <a name="xmessage"></a>
-<condact>XMESSSAGE "string"</condact>
+<condact>XMESSAGE "string"</condact>
 
 <p>Same as XMES but executes NEWLINE condact after printing text.</p>
 
@@ -3028,6 +3081,23 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
     <p>For instance, you can enter "SFX 100 PLAYDRO" instead of "SFX 100 6".</p>
 
   </li>
+  <li>
+    Similarly, the actions of the second parameter of the MOUSE condact can be used with symbols:
+  <table><tr><th>Symbol</th><th>Value</th></tr>
+    <tr><td>RESETMS</td><td>0</td></tr>
+    <tr><td>SHOWMS</td><td>1</td></tr>
+    <tr><td>HIDEMS</td><td>2</td></tr>
+    <tr><td>GETMS</td><td>3</td></tr>
+    <tr><td>GETFINEMS</td><td>4</td></tr>
+    <tr><td>POINTERMS</td><td>5</td></tr>
+    <tr><td>DELTAXMS</td><td>6</td></tr>
+    <tr><td>DELTAYMS</td><td>7</td></tr>
+   </table>
+
+  <p>For instance, you can enter "MOUSE 100 GETMS" instead of "MOUSE 100 3".</p>
+
+</li>
+
   <li>Finally, all the words in the vocabulary are added as symbols, added with the prefix "_VOC_". So, if the verb LEAVE is number 80, the symbol _VOC_LEAVE will be 80.</li>
 </ul>
 

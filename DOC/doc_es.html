@@ -1619,6 +1619,50 @@ $ Adelante<br/>
 
 <p><u>Acciones para el manejo del sonido</u></p>
 
+<a name="mouse"></a>
+<condact>MOUSE value value</condact>
+
+<p>Solo disponible en MSDOS. No hace nada en otros target.</p>
+
+<p>El segúndo valor indica una acción que realizar con el ratón. El primero es un parámetro para esa accion.</p>
+
+<table>
+  <tr><th>Acción</th><th>Parámetro 1</th><th>Parámetro 2</th></tr>
+  <tr><td>Inicializar ratón</td><td>Indiferente</td><td>0</td></tr>
+  <tr><td>Mostrar puntero</td><td>Indiferente</td><td>1</td></tr>
+  <tr><td>Esconder puntero</td><td>Indiferente</td><td>2</td></tr>
+  <tr><td>Leer posición: El flag que se facilita como primer párametro es el primero de una lista. En ese flag se grabará el estado de los botones,
+    en el siguiente flag se grabará la posición X dividida por 8 (en caracteres), y en el siguiente la posición Y dividida por 8 (la fila). Además,
+    en siguiente se grabará la posición X dividida por 6 (columnas estrechas).</td><td>flagno</td><td>3</td></tr>
+  <tr><td>Leer posición fina: Similar pero en el flag + 1 se graba la posición X dividida por 2 si estamos en modo VGA, o dividida por 4 si es SVGA,
+    y en el flag + 2  la posición Y dividida por dos en modo SVGA, y sin dividir si es VGA.
+  </td><td>flagno</td><td>4</td></tr>
+  <tr><td>Modificar puntero: carga el fichero con extensión PTR indicado, modificando el puntero del ratón. Sí el número es 1, cargar el 001.PTR</td><td>Número de puntero</td><td>5</td></tr>
+  <tr><td>Cambia el hotspot de la coordenada X: originalmente el hotspot en el puntero está en x=0, y=0, es decir, la esquina superior izquierda del puntero. Si cambias
+    el puntero quizás quieras mover el hotspot. Por ejemplo, si el puntero es una cruz, quizás quieras ponerlo en 5,5, que es el centro del área 9x9. 
+  </td><td>X</td><td>6</td></tr>
+  <tr><td>Cambia el hotspot de la coordenada Y: igual que antes, pero para el valor Y.  </td><td>Y</td><td>7</td></tr>
+
+</table>
+
+<ul>
+  <li>El flag que contiene el estado de los botones contendrá un 1 si está pulsado el botón izquierdo, un 2 para el derecho y un 4 para el central. Si hay más de uno 
+    pulsado los valores se suman. Por ejemplo, izquierdo y derecho a la vez, el valor será 3.
+  </li>
+  <li>Los ficheros PTR son ficheros de 81 bytes, 9x9, cada byte representa un pixel en un cuadrado de 9x9. El color 0 es transparente.</li>
+</ul>
+
+<p>Por ejemplo, este código permitiría usar el ratón en DAAD:</p>
+
+<code>
+  MOUSE 0 0 ; Inicializa el ratón<br/>
+  MOUSE 0 1 ; Hace visible el puntero<br/>
+  MOUSE 100 4; Lee la posición fina en los flags 100, 101 y 102<br/>
+</code>
+
+<p>Existen símbolos específicos del compilador que nos permiten no tener que recordar los números de acción. Ver los símbolos en los apéndices.</p>
+
+
 <a name="beep"></a>
 <condact>BEEP value value</condact>
 
@@ -1707,6 +1751,7 @@ $ Adelante<br/>
   <li>Solo se soporta formato FLI (Autodesk Animator), no FLC</li>
   <li>Solo se soporta FLI de 320x200, si es de otro tamaño será ignorado. Si estamos en modo SVGA, se cambiará a VGA para reproducir el FLI, y después se volverá SVGA.</li>
   <li>La animaciones FLI se pueden parar pulsando una tecla, no importa si está en bucle o no.</li>
+  <li>La animación FLI requiere un 286 para ejecutarse, si las usas, el juego no funcionará en máquinas anteriores.</li>
 </ul>
 
 
@@ -1986,7 +2031,7 @@ MESSAGE "Error: imagen no encontrada, por favor inserte disco"<br/>
 
 
 <a name="indirection"></a>
-<h6>Indirection</h6>
+<h6>Indirección</h6>
 <p>El primer parámetro de casi todos los condActos puede usar indireccón. Esto, cuando indicado poniendo un signo @ antes de dicho parámetrom hará que en lugar de usarse
   el parámetro como tal, se use en su lugar el valor del flag indicado. </p>
 
@@ -2415,10 +2460,14 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
     ponerlas en la carpeta CPC que está dentro de IMAGES , y para PC, que  debes ponerlos en la carpeta PC que hay dentro de IMAGES (en 
     PC/SVGA si estás haciendo un juego SVGA).</p>
 
+    <p>Nota importante: si usas SVGA el juego requerirá un 386 o superior para funcionar.</p>
+
 <p>Todas las imágenes que añadas deberán ser a pantalla completa para  la máquina respectiva, es decir 256x192 para Spectrum o MSX 1 , 
     160x200 para C64 (HiColor), 320x200 para Plus/4, etc. A pesar de ello DAAD Ready solo va a usar las 96 primeras líneas de pixeles 
     de cada gráfico que pongas, por lo que es indiferente lo que haya en esos  gráficos a pantalla completa por debajo de la línea 96. 
     Hay una  excepción a esto: los gráficos para PC deben ser ya de 96x200 pixeles.</p>
+
+    
 
 <p>Para añadir gráficos, añade ficheros en las carpetas mencionadas, en el formato correspondiente:</p>
 
@@ -2701,7 +2750,6 @@ Además, el comando BEEP utiliza el altavoz básico de las máquinas, que, en al
   <li>Asímismo, un símbolo se define con la máquina de destino: ZX, CPC, C64, CP4, MSX, MSX2, PCW, AMIGA, ST, PC o HTML.</li>
   <li>También, el subtarget de algunas máquinas es añadido como símbolo, precedido del texto "MODE_". Por ejemplo para ZX, además del símbolo "ZX" se generará "MODE_PLUS3", "MODE_ESXDOS", "MODE_NEXT", o "MODE_UNO" según el caso.</li>
   <li>
-    <li>
         Hay tambien unos pocos símbolos hechos para ser usados con el condacto SFX en el target MSDOS, para hacer más fácil recordar cómo reproducir multimedia. Estos son los símbolos:
       <table><tr><th>Symbol</th><th>Value</th></tr>
         <tr><td>PLAYSFX</td><td>1</td></tr>
@@ -2718,9 +2766,24 @@ Además, el comando BEEP utiliza el altavoz básico de las máquinas, que, en al
   
       <p>Por ejemplo, puedes poner "SFX 100 PLAYDRO" en lugar de "SFX 100 6".</p>
   
-    </li>
   </li>
-  <li>Finalmente, todas las palabras del vocabulario se añaden como símbolos, añadidas con el prefijo "_VOC_". Así, si el verbo DEJAR es el número 80, el símbolo _VOC_DEJAR valdrá 80.</li>
+  <li>
+    De igual manera, las acciones del segundo parámetro del condacto MOUSE, pueden ser usadas con símbolos:
+  <table><tr><th>Symbol</th><th>Value</th></tr>
+    <tr><td>RESETMS</td><td>0</td></tr>
+    <tr><td>SHOWMS</td><td>1</td></tr>
+    <tr><td>HIDEMS</td><td>2</td></tr>
+    <tr><td>GETMS</td><td>3</td></tr>
+    <tr><td>GETFINEMS</td><td>4</td></tr>
+    <tr><td>POINTERMS</td><td>5</td></tr>
+    <tr><td>DELTAXMS</td><td>6</td></tr>
+    <tr><td>DELTAYMS</td><td>7</td></tr>
+   </table>
+
+  <p>Por ejemplo, puedes poner "MOUSE 100 GETMS" en lugar de "MOUSE 100 3".</p>
+
+</li>
+<li>Finalmente, todas las palabras del vocabulario se añaden como símbolos, añadidas con el prefijo "_VOC_". Así, si el verbo DEJAR es el número 80, el símbolo _VOC_DEJAR valdrá 80.</li>
 </ul>
 
 <p>Obviamente, usar estos símbolos puede no ser necesario en muchas aventuras, pero algunos pueden ser muy convenientes. Por ejemplo, si tenemos un código que mira todos los obejtos a ver si los llevamos podemos hacer
