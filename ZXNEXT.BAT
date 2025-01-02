@@ -1,5 +1,5 @@
 @echo off
-SET DAADSCRIPT=ZXNEXT
+SET DAADSCRIPT=%~n0
 
 REM ----  VARIABLES ---- 
 CALL CONFIG.BAT
@@ -48,7 +48,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF zx next %GAME%.DSF -check-maluva-disabled
+TOOLS\DRC\DRF zx next %GAME%.DSF -check-maluva-disabled -verbose native 
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -56,7 +56,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 echo.
-PHP\PHP TOOLS\DRC\DRB.PHP zx next %LANG% %GAME%.json %GAME%.DDB 
+PHP\PHP TOOLS\DRC\DRB.PHP zx next %LANG% %GAME%.json %GAME%.DDB -v
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -65,11 +65,14 @@ echo.
 
 REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
+REM Clean old format images to avoid confusion
+DEL images\*.NXT > nul 2>&1
+del RELEASE\NEXT\*.NXT > nul 2>&1
 ECHO.
 CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX ..\TOOLS\MALUVA\SC2DAAD next 00%%i.PCX 00%%i.NXT %IMGLINES% > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX  ..\TOOLS\MALUVA\SC2DAAD next 0%%i.PCX 0%%i.NXT %IMGLINES% > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\TOOLS\MALUVA\SC2DAAD next %%i.PCX %%i.NXT %IMGLINES% > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX ..\TOOLS\SCRMAKER\SCRMAKER specnext 00%%i.PCX 00%%i.LY2 256 %IMGLINES% 0,0 > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext 0%%i.PCX 0%%i.LY2 256 %IMGLINES% 0,0  > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext %%i.PCX %%i.LY2 256 %IMGLINES% 0,0  > nul 2>&1
 CD ..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -79,9 +82,9 @@ REM  ---- COPY FILES ----
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
 IF exist 0.XMB copy 0.XMB RELEASE\NEXT > nul 2>&1
-for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.NXT COPY IMAGES\00%%i.NXT  RELEASE\NEXT > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.NXT COPY IMAGES\0%%i.NXT  RELEASE\NEXT > nul 2>&1
-for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.NXT COPY IMAGES\%%i.NXT  RELEASE\NEXT > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.LY2 COPY IMAGES\00%%i.LY2  RELEASE\NEXT > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.LY2 COPY IMAGES\0%%i.LY2  RELEASE\NEXT > nul 2>&1
+for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.LY2 COPY IMAGES\%%i.LY2  RELEASE\NEXT > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -114,7 +117,7 @@ tools\cecho\cecho {07}
 
 PAUSE
 cd TOOLS\ZESARUX
-zesarux --noconfigfile --quickexit --zoom 1 --machine tbblue --realvideo --tbblue-fast-boot-mode --enable-esxdos-handler --esxdos-root-dir "..\..\RELEASE\NEXT" --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 ..\..\RELEASE\NEXT\%GAME%.tap"
+zesarux --noconfigfile --load-additional-config --fastautoload --quickexit --zoom 1 --machine tbblue --realvideo --tbblue-fast-boot-mode --enable-esxdos-handler --esxdos-root-dir "..\..\RELEASE\NEXT" --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 %OTHERSETTINGS% --smartloadpath ..\..\RELEASE\NEXT\ ..\..\RELEASE\NEXT\%GAME%.tap"
 CD ..\..
 GOTO END
 

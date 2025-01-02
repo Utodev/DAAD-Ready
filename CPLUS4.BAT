@@ -1,5 +1,5 @@
 @echo off
-SET DAADSCRIPT=CPLUS4
+SET DAADSCRIPT=%~n0
 
 REM ---- VARIABLES ---- 
 CALL CONFIG.BAT
@@ -67,7 +67,7 @@ ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
 
-REM  ---- PREPARAR LAS IM�GENES ----
+REM  ---- PREPARAR LAS IM GENES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 CD IMAGES

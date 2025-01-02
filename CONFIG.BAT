@@ -16,3 +16,5 @@ REM CHange to 1 if you want to use SVGA graphic modes in MSDOS/PC target
 SET SVGA=0
 REM Language settings
 
+SET LANG=ES
+SET BASELANG=ES

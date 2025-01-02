@@ -1,5 +1,5 @@
 @echo off
-SET DAADSCRIPT=ZX128TAPE
+SET DAADSCRIPT=%~n0
 
 GOTO START
 REM ---- Check if the file to compress is already compressed or is newer

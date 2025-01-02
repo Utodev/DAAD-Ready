@@ -132,7 +132,15 @@ A: They are both the same, both are dumps of mmc or ide cards/hard disks. I use 
 Besides using esxdos or other divide/divmmc firmware, you can browse inside these images (and any other disk image formated on FAT filesystem) from the Debug-> File utilites menu. Then select the file and choose the action "moUnt" (Shift+u)
 
 You can also access those file image cards using utilities for your operating system:
--GNU/Linux: you can use command "mount" with option -o loop to mount these images. It file image has a partition, you must first use losetup utility
+-GNU/Linux: you can use command "mount" with option -o loop to mount these images. It file image has a partition, you must first use losetup utility. Example: with the tbblue.mmc image:
+-- su root (or sudo su)
+-- fdisk -l tbblue.mmc
+-- Keep a look at value sector size (512) and the partition start (2048), you will use the values on the mount command
+-- mkdir /mnt/temporary
+-- mount -o offset=$((512*2048)) tbblue.mmc /mnt/temporary
+-- Then the contents of the tbblue.mmc are on /mnt/temporary
+-- Umount when finish using the card: umount /mnt/temporary
+
 -Mac OS X: change extension to .img and you can mount it using Finder. 
 to list it in File Selector
 -Windows: Windows doesn't have native support for mounting file images. You may use ImDisk:
@@ -235,6 +243,11 @@ A: These machines have "big" resolutions (compared to a Speccy 256x192). So mayb
 If you don't want to have this automatically changed, just change Settings-> General-> Autochange Zoom big display,
 or use command line setting: --no-autochange-zoom-big-display
 
+
+Q: I started ZEsarUX on Linux a pure text console mode, tried the fbdev driver but gives me an error:
+"fbdev: ioctl VT_GETSTATE: Inappropriate ioctl for device (not a linux console?)"
+A: You need to start it from a pseudo-text console mode, I mean, it's a text console but set in a graphics mode. To do that, you must set a vga mode parameter on the kernel boot. Try adding this parameter to the Grub boot: "vga=792"
+
 ----------------------------------------------------------------------------
 
 
@@ -287,6 +300,27 @@ Then, when a ZEsarUX kernel panic is generated, you will see the call names on t
 
 Q: I just added a command line breakpoint like this "PC=0" and it does not stop. Why?
 A: That breakpoint won't be fired just after booting ZEsarUX. The reason is that breakpoints are always evaluated after opcode execution, so the first time, the opcode at 0 is evaluated, which used to be a "DI" in a spectrum, so when the breakpoint is evaluated, PC=1. So, you can replace your breakpoint to PC=1 for example
+
+----------------------------------------------------------------------------
+
+
+Network Gaming (ZENG)
+---------------------
+
+Q: How do I configure ZENG for more than two ZEsarUX instances?
+A: On every ZEsarUX instance, you must specify the hostname/ip of the other nodes, and remember to set only one master one. For example, consider the three node schema:
+
+192.168.1.139 Host A (master ZENG)
+192.168.1.191 Host B (slave ZENG)
+192.168.1.147 Host C (slave ZENG)
+
+So, you must configure on ZENG menu:
+
+- On Host A, set hosts: 192.168.1.191,192.168.1.147. Set as master
+- On Host B, set hosts: 192.168.1.139,192.168.1.147. Uncheck master
+- On Host C, set hosts: 192.168.1.139,192.168.1.191. Uncheck master
+
+Do not write whitespaces between the hosts
 
 ----------------------------------------------------------------------------
 
@@ -468,6 +502,9 @@ A: Run a sentence like this:
 The /zesarux-extras/extras/media/spectrum/chloe/chloehd.mmc is the location to where you have downloaded the chloehd.mmc from the zesarux-extras package.
 The --nowelcomemessage is only needed to disable the ZEsarUX splash logo which hides the Chloe "boot logo" (the wolf)
 
+You can also use ESXDOS handler (without mmc image), having all the required files on a folder, with a sentence like this:
+./zesarux --noconfigfile --machine chloe280 --esxdos-root-dir /path_to_chloe_files/ --enable-esxdos-handler --enable-divmmc --nowelcomemessage 
+
 
 Q: How can I run programs from the MMC card?
 A: There are some commands to do that:
@@ -606,7 +643,10 @@ A: Yes. You can use the tbblue-fast-boot-mode setting and it will go directly to
 ./zesarux --noconfigfile --zoom 1 --machine tbblue --realvideo --enabletimexvideo --tbblue-fast-boot-mode --sna-no-change-machine --enable-esxdos-handler --esxdos-root-dir /Users/cesarhernandez/Downloads/Dungeonette/ /Users/cesarhernandez/Downloads/Dungeonette/project.sna
 
 You can also load a .nex file with a similar command line:
-./zesarux --noconfigfile --zoom 1  --machine tbblue --realvideo --enabletimexvideo --tbblue-fast-boot-mode --enable-esxdos-handler --esxdos-root-dir /Users/cesarhernandez/Downloads/Warhawk/ /Users/cesarhernandez/Downloads/Warhawk/Warhawk.nex
+./zesarux --noconfigfile --zoom 1 --machine tbblue --realvideo --enabletimexvideo --tbblue-fast-boot-mode --enable-esxdos-handler --esxdos-root-dir /Users/cesarhernandez/Downloads/Warhawk/ /Users/cesarhernandez/Downloads/Warhawk/Warhawk.nex
+
+Also, starting from ZEsarUX 11, when you load a .nex/.snx file, the folder where the snapshot is located, is automatically enabled on esxdos handler, so you can avoid the esxdos settings:
+./zesarux --noconfigfile --zoom 1 --machine tbblue --realvideo --enabletimexvideo --tbblue-fast-boot-mode /Users/cesarhernandez/Downloads/BattleTanks/BattleTanks.nex
 
 Q: Trying the breakout demo, it gives me the error: Nonsense in basic at line 10
 A: That is an old version which uses previous NextOS basic. Change line 10 to:
@@ -667,7 +707,7 @@ Q: What is CPC 4128?
 A: Is a fictional model with tape and 128kb RAM. I created it to be able to test some games which need 128kb but can load from tape (and not from disk, which I don't emulate on CPC)
 
 Q: Where is Copy key located?
-A: Copy key function is assigned to key Home on your PC keyboard 
+A: Copy key function is assigned to key End on your PC keyboard 
 
 
 ----------------------------------------------------------------------------
@@ -750,6 +790,35 @@ Q: I'm using cacalib or curses driver and the position of the kempston mouse is 
 A: Mouse position on text mode drivers (cacalib and curses) is only read when you push a button, and not when you move the mouse.
 
 
+Q: How do I use the Artificial Intelligence feature to get realistic images for Text Adventure Descriptions?
+A: ZEsarUX guesses the Text Adventure description text, and then uses external scripts to get images from an Artificial Intelligence.
+You can use any AI API for that task, but I have prepared scripts for OpenAI (which uses the Dall-E feature). They are located on text_image_filters/ folder, and there are scripts for Windows and Linux.
+You must first register to OpenAI website (not Dall-E website) and set your payment details. Yes, you must pay for that API, as I am using 512x512 images, the price is $0.018 / image. Get an API key and then:
+- On Linux, you must export the key before running ZEsarUX, so:
+
+export OPENAI_API_KEY="sk-EYH3Nblahblahblahblahblahandmoreblah"
+./zesarux
+
+- On Windows, you must export the key before running ZEsarUX, so:
+
+set OPENAI_API_KEY="sk-EYH3Nblahblahblahblahblahandmoreblah"
+zesarux.exe
+
+Then, go to menu Display-> Text Adventure Tools-> Location Description Processing.
+On Converter item, choose the script: dalle_text_to_image.bat on Windows, or dalle_text_to_image.sh on Linux. Both call an external Python script, dalle_aux_text_to_image.py, that need some dependencies. Look at that dalle_aux_text_to_image.py file and install Python and its module dependencies.
+The Algorith item, tells ZEsarUX how to guess the Text Description for every room:
+- Room_Number: Detect when you change the room (only works for Daad, Paws, Quill or GAC Adventure, which are the most)
+- CLS: Detect when the display has been cleared. It works for all kind of Text Adventure Games, the only requirement is that the display is cleared when you move to another room, and that doesn't happen on all adventures.
+I recommend you to choose both methods.
+The Window image item opens you the window that will show the image for that room.
+There are more settings in that menu, I recommend you to play a little.
+If everything is correct, you will see beautiful images on the Window image.
+
+One more thing... for Daad text adventures and some other adventures which don't use the standard ROM routines to print text, you will need to open the Print Char traps submenu and set the best method to detect characters (I recommend you "Enable 2nd trap detection" and "Auto&All detect routine").
+
+You may take a look at this demo video: https://youtu.be/LrCFvoAQdrk
+
+
 Q: Where is now located the extras folder in the source file?
 A: It has been moved to another repository. See:
 https://github.com/chernandezba/zesarux-extras
@@ -825,14 +894,18 @@ Q: Can I use ZEsarUX as a standalone AY player?
 A: Yes, you can run ZEsarUX from command line and enable a setting to exit emulator when finishing playing the ay file. 
 You can also specify a limit for "infinite" tracks (tracks defined with no limit length), for example:
 
-./zesarux --noconfigfile extras/media/ay_files/Spectrum/Games/CHASEHQ.AY --ayplayer-inf-length 60 --ayplayer-end-exit --vo null
+./zesarux --noconfigfile extras/media/ay_files/Spectrum/Games/CHASEHQ.AY --ayplayer-inf-length 60 --ayplayer-end-exit --ayplayer-show-info-console --vo null
 
-Using GNU/Linux or Mac you can also use ZEsarUX as a random ay file player, with the following piece of code:
+You can also use the shuffle setting to use ZEsarUX as a random ay file player, loading files to the playlist from a folder:
+
+./zesarux --noconfigfile --ayplayer-add-dir extras/media/ay_files/Spectrum/Games/ --ayplayer-start-playlist  --ayplayer-shuffle --ayplayer-inf-length 60 --ayplayer-show-info-console --vo null
+
+Before shuffle and playlist settings existed (version 10.10), you could also simulate this random ay file player with the following piece of code:
 
 while [ 1 == 1 ]; do
     ARCH=`ls -1 extras/media/ay_files/Spectrum/Games/| python -c "import sys; import random; print(random.choice(sys.stdin.readlines()).rstrip())"`
     echo $ARCH
-    ./zesarux --noconfigfile extras/media/ay_files/Spectrum/Games/$ARCH --ayplayer-inf-length 60 --ayplayer-end-exit --vo null
+    ./zesarux --noconfigfile extras/media/ay_files/Spectrum/Games/$ARCH --ayplayer-inf-length 60 --ayplayer-end-exit --ayplayer-show-info-console --vo null
 done
 
 
@@ -857,7 +930,7 @@ A: ZEsarUX is really very small. It only needs the following files to run (inclu
 -Some dll files on Windows version
 -rom files: Needed for all the emulated machines. You can delete specific rom files for machines you are not going to use.
 -keyboard*.bmp: Needed on the Help-> Keyboard Help window, you can delete them if you don't intend to use that window
--z88_shortcuts.bmp: Needed to shot Z88 shortcuts. You can delete it if you are not using Z88 or not enabling Z88 shortcuts setting
+-z88_shortcuts.bmp: Needed to show Z88 shortcuts. You can delete it if you are not using Z88 or not enabling Z88 shortcuts setting
 
 Also, if you want to run ZX-Uno or Next:
 -zxuno.flash if running ZX-Uno machine
@@ -937,6 +1010,8 @@ So, you can recompile with the "--spectrum-reduced-core" setting on the configur
 the command line setting "--spectrum-reduced-core" when running ZEsarUX, and even more, you can switch it on from the menu, Settings-> Hardware settings
 
 
+Q: What are RWA files?
+A: RWA means Raw Wave Audio file; it's an audio file without header, sampled at rate 15600 Hz, 8 bit unsigned, 1 channel. They are used widely in ZEsarUX
 
 
 Q: I have a question not listed here. What can I do?

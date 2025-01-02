@@ -12,7 +12,7 @@
     * Timex Computer 2048, 2068
     * Inves Spectrum +
     * Sam Coupe
-    * Pentagon 
+    * Pentagon
     * Chloe 140 SE, 280 SE
     * Chrome
     * Prism
@@ -23,7 +23,7 @@
     * Jupiter Ace
     * Amstrad CPC 464, CPC 4128, CPC 664, CPC 6128
     * Amstrad PCW 8256, PCW 8512
-    * MSX1 
+    * MSX1
     * Spectravideo 318/328
     * Colecovision
     * Sega SG1000
@@ -35,7 +35,7 @@
 
 * Emula flags y características no documentadas del Z80 y registro MEMPTR
 
-* Emula bus idle, memoria contenida y tiempos de ULA early/late 
+* Emula bus idle, memoria contenida y tiempos de ULA early/late
 
 * Emula Motorola CPU 68008 (Sinclair QL)
 
@@ -48,6 +48,8 @@
 * Emula Modo de Color Chroma81
 
 * Emula Modos de Video Spectra
+
+* Emula Modos de Video de Color del Amstrad PCW
 
 * Emula modos Video Timex (Modo 0 estándar, 1 dual screen, 2 hires color 8x1, 6 512x192 monocromo)
 
@@ -79,15 +81,19 @@
 
 * Soporta volcar audio & video a archivo
 
-* Soporta carga de cinta real mediante formatos de archivos: RWA, SMP, WAV, TZX, PZX, CDT, TAP, P, O. Soporta carga turbo de cintas o cualquier otro tipo de carga de cintas para rutinas de carga estándar/no estándar
+* Premite grabar pantalla a formatos: SCR, PBM, BMP, TXT, STL (Modelo 3D)
 
-* Soporta archivos de cinta de formato binario (TAP, TZX, O, P, CDT, CAS) en rutinas de ROM estándar para ZX Spectrum, ZX80, ZX81, Amstrad CPC, Jupiter Ace, MSX, Spectravideo
+* Permite cargar desde cinta real (cualquier fuente externa de sonido, como lector de casette, reproductor mp3, etc)
+
+* Soporta carga de cinta real mediante formatos de archivos: RWA, SMP, WAV, TZX, PZX, CDT, TAP, P, P81, O. Soporta carga turbo de cintas o cualquier otro tipo de carga de cintas para rutinas de carga estándar/no estándar
+
+* Soporta archivos de cinta de formato binario (TAP, TZX, O, P, P81, CDT, CAS) en rutinas de ROM estándar para ZX Spectrum, ZX80, ZX81, Amstrad CPC, Jupiter Ace, MSX, Spectravideo
 
 * Soporta carga de cinta real mediante archivos de formatos (RWA, SMP, WAV) en rutinas ROM estándar para ZX Spectrum, ZX80, ZX81, Amstrad CPC, Jupiter Ace
 
 * Simula carga de cinta real en rutinas ROM estándar para ZX Spectrum, ZX80, ZX81
 
-* Soporta formatos de snapshot: ZSF, ZX, Z80, SP, SPG, NEX, SNA, P, O, Z81, ACE
+* Soporta formatos de snapshot: ZSF, ZX, Z80, SP, SPG, NEX, SNA, P, P81, O, Z81, ACE
 
 * Soporta formatos de floppy disk: DSK
 
@@ -135,7 +141,7 @@
 
 * Soporta formatos comprimidos zip (con decompresor interno), y tar, rar, gz a través de utilidades externas
 
-* Emula AY Audio Chip, Turbosound (2 canales AY), 3 Canales AY, canales MIDI, diferentes DAC: Specdrum, Covox, ACB/ABC/BAC/CBA Stereo 
+* Emula AY Audio Chip, Turbosound (2 canales AY), 3 Canales AY, canales MIDI, diferentes DAC: Specdrum, Covox, ACB/ABC/BAC/CBA Stereo
 
 * Emula General Sound
 
@@ -155,7 +161,7 @@
 
 * Soporta RAM packs en Jupiter Ace hasta 51 KB
 
-* Emulación Joystick con joystick real (en GNU/Linux y Windows) y cursores de teclado: Kempston, Sinclair 1&2, Cursor Joystick, Cursor & Shift, OPQA, Fuller, Zebra, Mikro-Gen, ZXPand, SAM Coupe Cursors, CPC, MSX, Spectravideo. Función autodisparo también
+* Emulación Joystick con joystick real (en GNU/Linux y Windows) y cursores de teclado: Kempston, Sinclair 1&2, Cursor Joystick, Cursor & Shift, OPQA, Fuller, Zebra, Mikro-Gen, ZXPand, SAM Coupe Cursors, CPC, MSX, Spectravideo, Cascade, DKTronics. Función autodisparo también
 
 * Teclado en pantalla útil para jugar con joystick, dos tipos: uno con letras de teclado, y otras con palabras, útil para jugar a Aventuras Conversacionales. También una utilidad para extraer palabras de aventuras conversacionales (Daad, Paws, Quill y Gac)
 
@@ -171,7 +177,7 @@
 
 * Emulación Kempston mouse
 
-* Soporta juego en Red mediante su propio protocolo (ZEsarUX Network Gaming protocol - ZENG), que te permite jugar a cualquier juego emulado, mediante dos instancias de ZEsarUX, localizadas cada una en cualquier parte del mundo o en una red local. Los juegos no necesitan ser modificados, puedes jugar a cualquier juego existente
+* Soporta juego en Red mediante su propio protocolo (ZEsarUX Network Gaming protocol - ZENG), que te permite jugar a cualquier juego emulado de dos maneras: mediante dos o mas (hasta 16) instancias de ZEsarUX, localizadas cada una en cualquier parte del mundo o en una red local, o usando un servidor central (ZENG Online). Los juegos no necesitan ser modificados, puedes jugar a cualquier juego existente
 
 * Emulación Uart en modo puente: permite usar un dispositivo real uart-wifi conectado a tu ordenador, sólo para GNU/Linux (Windows, Mac pueden simularlo)
 
@@ -203,7 +209,9 @@
 
 * Potentes características de debug: Debugging hacia atrás, Historial de CPU, Ensamblador, Registros, Desensamblador, Breakpoints Condicionales usando expresiones de texto, Watches, Paso-a-paso, Paso-por-encima, EjecutarHasta, Ver posición del electrón de TV, Cargar código fuente, Editor Hexadecimal, Ver Sprites, Ver Tiles, Buscar bytes, Buscador de vidas infinitas, registro de transacciones de CPU, Ver BASIC, Ver variables BASIC, mensajes de debug en consola
 
-* Debugger de Aventuras Conversacionales: En un aventura conversacional de Quill/Paws/Daad puedes ejecutar un condacto Paso a Paso, ver flags/objetos, listar mensajes (objetos, mensajes usuario/sistema, localizaciones, tokens de compresión, vocabulario), conexiones, mapa localizaciones. Puedes también ver gráficos de aventuras hechas con Quill, Paws, Daad or Gac.
+* Debugger de Aventuras Conversacionales: En un aventura conversacional de Quill/Paws/Daad/Gac puedes ejecutar un condacto Paso a Paso, ver flags/objetos, listar mensajes (objetos, mensajes usuario/sistema, localizaciones, tokens de compresión, vocabulario), conexiones, mapa localizaciones. Puedes también ver gráficos de aventuras hechas con Quill, Paws, Daad or Gac.
+
+* Uso de inteligencia artificial para obtener imágenes realistas para el texto de descripción de la ubicación en Aventuras Conversacionales
 
 * Menú de utilidades de Archivos: Permite ver, expandir y convertir diferentes formatos de archivos comunes: tap, tzx, trd, dsk, mdv, hdf, etc. También puede navegar dentro de imágenes de sistemas de archivos (.mmc, .img, etc)
 
@@ -215,7 +223,9 @@
 
 * Soporta opciones en línea de comandos, opciones en archivo de configuración, y opciones personalizadas para cada juego
 
-* Otras características: Visualmem menu, CPU Statistics, Toy ZXeyes, Sensors
+* Soporta ejecución en Docker, probado en contenedores Debian, Ubuntu y Fedora
 
-* Incluye cinco huevos de pascua. Puedes encontrarlos? :)
+* Otras características: Visualmem menu, CPU Statistics, Juguete ZXeyes, Juguete ZXlife, Tabla Ascii, Sensors
+
+* Incluye siete huevos de pascua. Puedes encontrarlos? :)
 

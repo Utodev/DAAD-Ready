@@ -28,6 +28,29 @@ MorhpOS: can be compiled using the provided patch.
 
 
 
+Quick Compilation for Debian Based Systems
+------------------------------------------
+
+In case you don't want to read all this file and you use a Debian based system (Debian, Ubuntu, etc), just run the following:
+
+apt-get -y install git gcc make libncurses-dev libssl-dev xorg-dev libpulse-dev libsndfile1-dev libasound2-dev
+
+export CFLAGS="-O3"
+export LDFLAGS="-O3"
+
+./configure --enable-memptr --enable-visualmem --enable-cpustats --enable-ssl --disable-caca --disable-aa --disable-cursesw --prefix /usr && make clean && make -j2
+
+
+You can run it by just executing: ./zesarux
+
+If you want to install it:
+su root
+make install
+
+And it will be located in your path and can be called by just running: zesarux
+
+
+
 Core Requirements
 -----------------
 
@@ -82,35 +105,35 @@ The following is a list of complete features, all of which are optional.
 
 # Video Drivers
 
-- x11 (on GNU/Linux, other Unix and Raspberry): needs x11libs, x11extlibs, xf86vidmode, xxf86vm. Probably with the command "apt-get install xorg-dev" will be enough
+- x11 (on GNU/Linux, other Unix and Raspberry): needs x11libs, x11extlibs, xf86vidmode, xxf86vm. On debian-based systems the command "apt-get install xorg-dev" will be enough
 - x11 (on Mac OS X): needs XQuartz
 - cocoa (on Mac OS X): Compiling supported using XCode.
-- SDL 1.2 (on GNU/Linux, other Unix and Raspberry): needs sdllib-1.2. SDL2 is experimental
+- SDL 1.2 (on GNU/Linux, other Unix and Raspberry): needs sdllib-1.2. SDL2 is experimental. Run "apt-get install libsdl1.2-dev" on debian-based systems
 - caca: cacalib
 - aa: aalib
-- curses: curses-dev. You can also install cursesw to have 64x48 text resolution
+- curses: curses-dev. You can also install cursesw to have 64x48 text resolution. Run "apt-get install libncurses-dev" on debian-based systems
 - stdout: termios includes
 
 
 # Audio Drivers
 
 - OSS (dsp) (on GNU/Linux, other Unix and Raspberry): needs soundcard includes. Usually included on GNU/Linux systems.
-- alsa (on GNU/Linux, other Unix and Raspberry): needs alsalibs. Also needed if you want midi output
-- pulse (on GNU/Linux, other Unix and Raspberry): needs pulselibs.
+- alsa (on GNU/Linux, other Unix and Raspberry): needs alsalibs. Also needed if you want midi output. Run "apt-get install libasound2-dev" on debian-based systems
+- pulse (on GNU/Linux, other Unix and Raspberry): needs pulselibs. Run "apt-get install libpulse-dev" on debian-based systems
 - SDL 1.2 (on GNU/Linux, other Unix and Raspberry): needs sdllib. SDL2 is experimental.
 - coreaudio (on Mac OS X): Compiling supported using XCode.
 
 
 # Audio Output to a File
 
-- libsndfile to output audio to wav files.
+- libsndfile to output audio to wav files. Run "apt-get install libsndfile1-dev" on debian-based systems
 - Raw audio is always supported.
 
 
 # Other Enhancements
 
 - pthreads: pthread includes. Usually included on all Unix systems.
-- ssl library: to have the speccy online browser. Add "--enable-ssl" setting to the configure script.
+- ssl library: to have the speccy online browser. Add "--enable-ssl" setting to the configure script. Run "apt-get install libssl-dev" on debian-based systems
 ssl library is not included on Mac anymore; you can easily install it using https://brew.sh, after that, do a "brew install openssl"
 
 
@@ -213,14 +236,7 @@ The recommended way to start the emulator is using the following settings:
 Note for Haiku
 --------------
 
-You should not use the default gcc (2.97) as it should not compile.
-
-Before running configure script, please set:
-
-export CFLAGS=-DHAIKU_OS
-
-You need to run configure with setting (at least): --disable-networking
-(because it doesn't find some network functions)
+I'm using Haiku OS Beta 4 64 bits, so the following may change in different versions.
 
 If you want to compile ZEsarUX on Haiku with SDL support:
 
@@ -232,10 +248,22 @@ Before running configure, set:
 
 export LDFLAGS=-L/boot/system/develop/lib/
 
+So, you can run the following sentences as a quick start:
+
+--
+pkgman install libsdl_devel
+git clone https://github.com/chernandezba/zesarux.git
+cd zesarux/src
+export LDFLAGS="-L/boot/system/develop/lib"
+./configure
+make
+--
+
 When running ZEsarUX with SDL, you probably need to set before:
 
 export LIBRARY_PATH=/boot/system/lib/:$LIBRARY_PATH
 
+Note: If you use earlier versions of Haiku, maybe you need to use gcc-x86 instead of the default gcc and run configure with setting: --c-compiler gcc-x86
 
 Please don't ask me about Haiku help, I'm not an expert on this OS ;)
 
