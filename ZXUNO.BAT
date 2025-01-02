@@ -115,7 +115,7 @@ tools\cecho\cecho {07}
 
 PAUSE
 cd TOOLS\ZESARUX
-zesarux --noconfigfile --quickexit  --zxunospi-persistent-writes --machine zxuno --enabletimexvideo --enableulaplus --no-detect-realvideo --zoom 2 --enable-esxdos-handler --esxdos-root-dir "..\..\RELEASE\UNO"  --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage   --cpuspeed 100
+zesarux --noconfigfile --quickexit  --fastautoload --zxunospi-persistent-writes --machine zxuno --enabletimexvideo --enableulaplus --no-detect-realvideo --zoom 2 --enable-esxdos-handler --esxdos-root-dir "..\..\RELEASE\UNO"  --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage   --cpuspeed 100
 CD ..\..
 GOTO END
 
