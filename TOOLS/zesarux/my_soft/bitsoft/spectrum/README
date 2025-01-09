@@ -1,3 +1,26 @@
-elautobus.tzx seems to be based on game "The ticket" that came with the English PAWS version.
+-bittransfe.tap, bittransfe2.tap: a file transfer routine, like the Multiface but all in software (using interrupts)
 
-We are not sure if the game is finished or not
+-calendario.tap: program to get a calendar of a year
+
+-copiones.tap: modifications made by David to the common "blue copier" to allow turbo load and save
+-copiones2.tap: modifications made by David to the common "blue copier" to allow turbo load and save. copy 2-4 use the Turbo Sprit turbo routine, abd copy 5-7 use the World Series Basketball turbo routine
+
+-dibuja4.tzx. dibuja9.tap, dibuja10.tap, dibuja11.tap: a drawing program. different versions: 4,9,10 and 11
+
+-elautobus.tzx seems to be based on game "The ticket" that came with the English PAWS version. We are not sure if the game is finished or not
+
+-gusano.tap: a funny game located in Space...
+
+-gusano2.tap: improved version of gusano but with some sort routines by David brother (Cesar) - Man software
+
+-jornadas.tap: program to record soccer/basketball spanish league games. has also saved data of basketball teams
+
+-loadsave.tap: seems to be a load/save turbo routine
+
+-pantallas.tap: three different screens created probably from Basic
+
+-reloj_dobleborder.tap: two interrupt routines: to get two colours in border, and to get a permanent clock on the screen
+
+-sonido.tap: simple assembler source program (GEN format) to play a sound
+
+-telefonos.tap: simple Masterfile database of phone numbers

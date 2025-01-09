@@ -15,6 +15,9 @@
 -redraws de zxdesktop en determinados cambios (redimensionado/cierre ventana?) donde se queda a veces en negro
 
 
+-visual datadrive/visualcassettetape
+*indicar C60 o lo que sea. letras vectoriales?
+*otros detalles de una cinta real: nombre archivo?
 
 -iconos de dispositivos mmc/ide en escritorio
 
@@ -71,6 +74,8 @@ El problema es que las operaciones de dibujado, movimento etc recorren siempre l
 Por tanto si se aumenta ese limite, esas operaciones iran algo mas lentas
 Se deberian recorrer teniendo un indice que diga cual es el ultimo icono existente, y recorrer hasta ese indice. De
 esa manera si que se podría aumentar el límite sin perjudicar dichas operaciones
+
+-mas acciones boton derecho en dispositivos: +3 dsk, cartuchos msx, master sytem....
 
 --- FIN ZX Desktop
 
@@ -151,7 +156,6 @@ Una de ellas es el "About" pero ya esta usando dirty_user_must_draw_contents
 
 -poder usar tipo de letra de los iconos en el menu. cuando se active char width a 4
 
--hexadecimal editor deberia refrescar continuamente al estar dentro de la ventana?
 
 -opcion para minimizar ventanas a la parte baja de la ventana (o comportamiento como ahora, las minimiza donde estaban)
 
@@ -174,8 +178,6 @@ Esto no es un TO-DO como tal , solo un comentario del nuevo funcionamiento
 -ideas para zx vision: https://telcontar.net/Misc/GUI/RISCOS/
 
 -quiza un widget de sensors con la Z del logo?
-
--Si hay submenu, quizá gestionar desde propia función de menú. Y/o no cerrar menú anterior
 
 -Audio chip sheet en modo texto. Que salgan en 3 líneas de texto por cada canal y las notas y hagan scroll igual
 
@@ -390,13 +392,10 @@ frecuencias muy altas.
 
 -Opción no marcar registros en rojo que se van  a modificar en debug cpu
 
--teclado en pantalla que se pueda pulsar en teclas
-
 
 -Ventana ayuda teclado:
 * que se pudiera hacer sin multiplicar por zoom_gui? asi en next, cpc, ql etc no se verian el doble de grande
-* al iniciar emulador, si la ventana se ha guardado en background, siempre arranca por defecto inicialmente como spectrum48, y al pulsar
-en la ventana del teclado ya se actualiza con la máquina actual
+
 
 
 -Mostrar info en menu network de descargas, commits etc. Solo si hay ssl (porque github solo esta con https)
@@ -509,7 +508,7 @@ Info de tamaño ventana. Y tamaño ventana sin zoom
 
 -poder hacer hotswap de una maquina a zx-uno
 
--insistir en el tema de hotswap entre zx80-zx81
+-insistir en el tema de hotswap de zx81 a zx80 (de zx80 a zx81 ya se puede, conservando la rom del zx80)
 
 -joystick derecha para tab. solo en menu
 

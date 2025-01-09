@@ -1,3 +1,127 @@
+ZEsarUX 11.1-Beta2 - Bubble Bobble edition. 18 Diciembre 2024
+
+* Cosas nuevas agregadas:
+
+Agregado emulación del ZX Microdrive en ZX Spectrum: incluye:
+- Emulación estándar MDR. Permitir navegar dentro de archivos MDR, ver mapa de archivos, fragmentación, renombrar archivos, información sectores, chkdsk y emular sectores erróneos
+- Emulación del microdrive en crudo (Raw). Soporta otros sistemas de archivos aparte del de la rom del interface1, como extensión del espacio del microdrive por el Multiface 128 o el CP/M para memoria LEC. Permitir ver mapa en crudo del microdrive (zonas vacías, bytes de sync, datos) y tener "problemas reales", como autogenerar sectores erróneos o estiramiento del microdrive cuando es nuevo.
+- Simular sonido de los datos en lectura y escritura
+- Visual Microdrive: Permite ver un cartucho de microdrive en acción
+
+Agregada ventana de Visual Cassette Tape
+Agregada emulación de extensión de memoria LEC memory
+Agregadas máquinas Czerweny CZ 1000, CZ 1500, CZ 1000 Plus, CZ 1500 Plus, CZ 2000, CZ Spectrum, CZ Spectrum Plus
+Agregar función de "Memory Cheat": util para encontrar contadores de energia, bombas, munición o cualquier otro truco de un juego
+Agregado menú para buscar cadenas de texto en memoria
+Agregado función de grabado rápido de pantalla
+Agregada opción para desactivar escrituras persistentes en tarjetas de Z88
+Agregada emulación de ROMS adicionales en CPC
+
+* Mejoras:
+
+Permitir grabar pantalla a bmp para la mayoría de máquinas
+Permitir hotswap a Pentagon y a Spectrum +3
+Permitir hotswap desde Spectrum 128 a Spectrum +3
+Permitir cargar snapshots .SP de 64kb (como Shadow of Unicorn)
+Mejorar aviso de Azimuth en ventana External Audio Source
+Agregado soporte de direccionamiento de tarjetas SDHC
+Agregado modo Flash Color (128 colores)
+Permitir no guardar snapshot al salir de ZEsarUX
+Permitir cargar un archivo de configuración adicional .zesaruxdevrc
+Permitir definir Alt Izq, Ctrl Izq, Shift Izq o TAB como acción de Fuego de Joystick
+Permitir cambiar posicion de lectura actual en Visor de Cinta de Entrada para archivos .tap
+Permitir cargar rom de 8kb en ZX80 (por ejemplo la rom del ZX81, como un ZX80 actualizado a ZX81)
+Permitir aumentar sprites en View Sprites
+Agregado tipo de medidor Esfera en Ver Sensores
+Mejorada compilación: opciones --enable-memptr --enable-visualmem --enable-cpustats están activadas por defecto en ./configure
+Mejorada emulación del Inves Spectrum+: alertar cuando un juego puede resetearse debido al bug de Inves de write-on-interrupt
+Mejorado el core de emulación de Spectrum de la CPU Z80: agregado estado wait (necesario para emular el microdrive)
+Mejorado snapshot ZSF: guardar estado de Datagear DMA
+Permitir grabar snapshots .Z80 de TC2048, TC2068, TS2068. Permitir cargar snapshots .Z80 de TC2048, TC2068
+
+Mejorada emulación de Spectrum Next:
+- Agregado modos de capas 6 and 7 (modos mezcla)
+- Agregado NMI sin stack
+- Agregado Canales DAC A,B,C,D
+- Permitir tiles en RAM 7
+- Mejorar render de pantalla cuando solo capa de ula activada (reduce el uso de cpu un 6% menos de cpu en mi maquina)
+- Corregido timings de 128k/+2a/Pentagon
+- Corregido mapeo de DIVMMC después de RETN
+- Corregido temporización del Copper
+- Corregido llamada a esxdos DISK_FILEMAP
+- Corregido cambio en directorio local en esxdos handler cuando se carga un snapshot .nex
+- Corregido offset de paleta en layer 2
+- Corregido scroll horizontal de capa ULA
+- Corregido clipping de sprites en borde izquierdo y superior
+- Corregido límites de Tile en 16k/8k
+- Corregido burst mode de DMA cuando prescaler=0
+- Corregida transferencia de DMA reiniciando el contador de bytes al final de una transferencia
+- Corregida velocidad cpu al abrir archivo de cinta
+
+Mejorada emulación de Hilow Datadrive:
+- Agregada emulación en crudo (raw), como el dispositivo real
+- Permitir archivos ddh de tamaño variable (desde 3 hasta 256 sectores)
+- Permitir formatear solo una cara en archivos ddh
+- Permitir borrar contenido al formatear ("c/borrado" o "s/borrado") en archivos ddh
+
+Mejorado Debug:
+- CPU history: permitir cambiar el puntero de memoria según el registro PC mostrado en el historial
+- CPU history: permitir ver historial completo
+- Mostar cuando la CPU está en estado wait
+- Desensamblar parámetros numéricos en opcodes Z80N (Z80 Spectrum Next) (NEXTREG NN,A, TEST N, etc)
+- Agregada acción de breakpoint save-binary
+- Permitir activar/desactivar breakpoints en una dirección (no solo activar/eliminar), usando tecla 'L' mayúscula. Estado desactivado se guarda en la configuración
+- Agregada carga de Tabla de Símbolos
+
+Mejorado Hexadecimal editor:
+- Ahora los datos se refrescan también cuando la ventana tiene el foco
+- Ahora el puntero de memoria puede seguir una expresión (un registro de la CPU por ejemplo)
+
+Mejorado ZX Vision:
+- Mas mejoras en la interfaz siguiendo más indicaciones de la (retro)-especificación IBM CUA
+- Los menús muestran los previous menús al seleccionar submenús
+- Al seleccionar estilo de ZX Vision Style, se aplica al mover el cursor
+- Mejorar movimiento del cursor en menús al pulsar PgDn/PgUp
+- Permitir teclas Inicio/Fin en ventanas
+- Ventana de Video layers ahora se puede tener en segundo plano
+- Ventana de Debug DMA ahora se puede tener en segundo plano
+- Avisar en la marca de redimensionado cuando una ventana se tiene que aumentar de tamaño (porque hay texto mas allá del tamaño actual)
+- Permitir a una ventana desactivar acciones de scroll
+- El Process switcher se ubica en la parte izquierda-abajo de la pantalla por defecto
+- Ahora las barras de arcoiris en el título de ventanas son visibles en todos los estilos de GUI cuando aparece un error o un mensaje de splash
+- Añadida función directa para abrir ventana de Breakpoints
+
+Mejorado ZX Desktop:
+- Permitir activar/desactivar botones superiores e inferiores de manera independiente
+- Permitir boton derecho en los iconos de dispositivos ubicados en la parte inferior del ZX Desktop
+
+* Correcciones:
+
+Quitar indicador de buffer lleno al pulsar shift+e en ventana de Fuente de sonido externa
+Corregido pulsación boton derecho en botones superiores con menu cerrado y sin ventanas abiertas
+Corregido tecla alt pulsada al cambiar de ventana pulsando alt-tab en drivers xwindow, cocoa, sdl1 y sdl2
+Corregida autocarga de TZX como Cinta Real en Spectrum +3
+Corregida llamada a F_GETCWD en esxdos handler cuando directorio raíz (/)
+Corregida llamada a F_GETCWD en esxdos handler cuando directorio no existe
+Corregido hotswap ZX80 a ZX81, ZX81 a ZX80
+Corregido Scroll de Amstrad CPC
+Corregido sonido al grabar: permitir escucharlo en ordenadores: Jupiter Ace, CPC, MSX, Spectravideo
+Corregido mapa de memoria y comportamiento en Jupiter Ace: ahora es perfecto y mejor que cualquier otro emulador
+Corregida carga de snapshots .nex y la inicialización incorrecta de Layer 2 (corrige errores en Head Over Heels de Next por ejemplo)
+Corregida carga de snapshots .nex y la MMU no gestionada correctamente
+Corregida característica de Buscar menú. Ahora está habilitado por defecto
+Corregido error al grabar snapshots .ZSF de Z88 cuando el bloque de RAM o de tarjeta de memoria no está comprimido
+Corregido mostrar texto en footer de F5/Button menu
+Corregido bug que se reabria el menu al executar comando run desde debug cpu y la opcion --allow-background-windows estaba desactivada
+Corregido recuperación de posición de ventana después de restore/desminimizar
+Corregido sonido de MSX de pulsación de teclas
+
+
+* Como siempre, hay otras mejoras y correcciones de errores menores.
+
+----
+
+
 ZEsarUX 11.0 - David edition. 06 Junio 2024
 
 Esta versión está dedicada a mi hermano David. Descanse en paz.
@@ -16,6 +140,7 @@ Agregado soporte para grabar pantalla en archivo .stl, útil para imprimir en un
 Agregado soporte para archivos .P81 de ZX81
 Agregado soporte para grabación de snapshots .Z81 de ZX80 y ZX81
 Agregada Función para cambiar bits en el editor hexadecimal.
+Agregada nueva versión compilada: Haiku OS
 Agregado estilo GUI de TempleOS
 Agregado estilo GUI de QNX
 Agregada Configuración para forzar el modo CHR$ 128 en ZX81

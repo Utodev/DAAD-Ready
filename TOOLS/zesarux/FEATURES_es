@@ -8,6 +8,7 @@
     * Sinclair QL
     * Cambridge Z88
     * Microdigital TK80, TK82, TK82C, TK83, TK85, TK90X (Portugués y Español), TK95 (Portugués y Español)
+    * Czerweny CZ 1000, CZ 1500, CZ 1000 Plus, CZ 1500 Plus, CZ 2000, CZ Spectrum, CZ Spectrum Plus
     * Timex Sinclair 1000, 1500, 2068
     * Timex Computer 2048, 2068
     * Inves Spectrum +
@@ -44,6 +45,8 @@
 * Emula paleta de colores perfecta de ZX Spectrum 16k/48k
 
 * Emula ULAplus: Estándar paleta de 64 colores, modos lineales con 16 colores por pixel: Modo Radastan: 128x96, modos ZEsarUX: 256x96, 128x192, 256x192
+
+* Emula modo Flash Color (128 colores)
 
 * Emula Modo de Color Chroma81
 
@@ -95,6 +98,8 @@
 
 * Soporta formatos de snapshot: ZSF, ZX, Z80, SP, SPG, NEX, SNA, P, P81, O, Z81, ACE
 
+* Soporta formatos de microdrive: MDR (Spectrum) y MDV (formato QLAY format en QL)
+
 * Soporta formatos de floppy disk: DSK
 
 * Soporta formatos de tarjetas MMC/SD: HDF, IMG, RAW (.MMC)
@@ -112,6 +117,8 @@
 * Emula Datagear/MB02 DMA, ZX-Uno DMA
 
 * Emula controladora de disco Nec PD765, utilizada en Spectrum +3, CPC 664, CPC 6128, PCW
+
+* Emula ZX Microdrive en ZX Spectrum y QL: en ZX Spectrum soporta MDR (formato de sistema de archivos estándar) y formato en crudo "raw" (extensión MDR). En QL se simula mediante traps a la rom
 
 * Emula Betadisk/TR-DOS. Soporte directo para archivos .trd. scl files pueden convertirse desde el selector de archivos pulsando espacio
 
@@ -132,6 +139,8 @@
 * Emula Kartusho, iFrom interfaces de Antonio Villena
 
 * Emula SamRam interface de Gerton Lunter (autor del famoso Z80 emulator)
+
+* Emula LEC Memory extension
 
 * Emula HiLow DataDrive
 

@@ -9,7 +9,7 @@ I want to thank the help and the collaboration of the following people (date sor
 -Samir Ribic, for helping me with the uploading of ZXSpectr, and for all the information included in his Warajevo emulator.
 -Martijn van der Heide, for uploading ZXSpectr on http://worldofspectrum.org/
 -Phillip Kendall, for telling me a bug with the BIT instruction on ZXSpectr. I also use some code from his Fuse emulator (opcode timings & disassemble function)
--Pedro Gimeno, for the timings of some opcodes and contended memory information
+-Pedro Gimeno, for the timings of some opcodes, contended memory information, and bug on the Jupiter Ace memory map
 -Rodolfo Edison Guerra, for including ZXSpectr in his SpecBase, for all the information about TK90X and TK95 and lots more!
 -Paul Farrow, for the information and games for the ZX80 and ZX81 and Spectra Video modes. See http://www.fruitcake.plus.com/
 -Martin Korth, for the information about video signals on the ZX80 & ZX81. See http://nocash.emubase.de/zxdocs.htm
@@ -89,7 +89,11 @@ I want to thank the help and the collaboration of the following people (date sor
 -Ricardo Martínez (Kyp), for helping me with Transtape emulation
 -Álvaro Alea, for the Interface007 and Dynamid roms (probably the only person that had the Interface007 rom)
 -SonicaLabs, for the Poke F-Function and many other code contributions
-
+-Fran Gallego, helping me with the Amstrad CPC display
+-Fito, for the Memory Cheat idea and testing
+-Charles Ingley, for all the microdrive information
+-Jane McKay, for all the Hilow DataDrive information, tests, etc
+-Kev Brady, for lots of info on Spectrum Next features
 
 -Everyone at several forums about Spectrum, ZX80, ZX81, Z88, Raspberry Pi, etc for all the suggestions to my emulator
 -Everyone who test the beta and stable versions of the emulator and report bugs

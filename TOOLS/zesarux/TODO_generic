@@ -90,8 +90,7 @@ void reset_peek_byte_function_ram_refresh(void)
 
 -SDL2 mejor usar scancodes en vez de keycodes, al menos para teclas extendidas
 
--asumir opciones --enable-memptr --enable-visualmem --enable-cpustats por defecto activas
-Opciones en cambio para desactivarlas en script configure
+
 
 -en configure, al activar joystick, activa tambien pthread. porque???
 LDFLAGS="$LDFLAGS -lpthread"
@@ -191,7 +190,6 @@ esto a nivel de estadística, permito saber en estadisticas web (enviando un par
 
 -Mostrar juego cargado en titulo ventana. Desaparece al hacer reset. Que limite tiene el texto en los diferentes sistemas operativos?
 
--Browser cintas standard que permita alterar la posición de la cinta
 
 -Quiza registro DE al volver de rutina de trap load, deberia ser DE -=bytes_leidos
 
