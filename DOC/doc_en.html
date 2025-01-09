@@ -2,14 +2,14 @@
 <html lang="en">
 <head>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TQCD5NSXW6"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HKGF5S1N0F"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-TQCD5NSXW6');
+  gtag('config', 'G-HKGF5S1N0F');
 </script>
 
   <!-- Basic Page Needs
@@ -77,6 +77,7 @@
     <li><a href='#graphicsoverview'>Graphics Overview</a></li>
     <li><a href='#recommendedtools'>Recommended Tools</a></li>
     <li><a href='#loadingscreens'>Loading Screens</a></li>
+    <li><a href="#colourpalette">Colour palettes</a></li>
   </ul>
 
   <li><a href='#sound'>Sound</a></li>
@@ -117,12 +118,11 @@
   <li><a href='#appendix'>Appendix</a></li>
   <ul>
     <li><a href='#appendixa'>A - The Character Set</a></li>
-    <li><a href='#appendixb'>B - Ending Spectrum Next Games</a></li>
-    <li><a href='#appendixc'>C - DAAD Ready Customization</a></li>
-    <li><a href='#appendixd'>D - Supported languages</a></li>
-    <li><a href='#appendixE'>E - Symbols</a></li>
-    <li><a href='#appendixf'>F - Greetings</a></li>  
-    <li><a href='#appendixg'>G - Licenses</a></li>  
+    <li><a href='#appendixb'>B - DAAD Ready Customization</a></li>
+    <li><a href='#appendixc'>C - Supported languages</a></li>
+    <li><a href='#appendixd'>D - Symbols</a></li>
+    <li><a href='#appendixe'>E - Greetings</a></li>  
+    <li><a href='#appendixf'>F - Licenses</a></li>  
 
   </ul>
 </ul>
@@ -240,8 +240,8 @@
   <li>256 color indexed PCX format for Spectrum Next</li>
   <li>MLT or MLT+PAL file for ZX-Uno</li>
   <li>Spectrum 48K TAP version does not support graphics in DAAD Ready</li>
-  <li>Amstrad SCR + PAL format, mode 0, for Amstrad CPC</li>
-  <li>Koala (.KLA) format for C64 HiColor or ART for HiRes</li>
+  <li>Amstrad SCR + PAL format, mode 0, for Amstrad CPC (mode 1 if you don't use spliot screen).</li>
+  <li>Koala (.KLA) format for C64 HiColor or .ART for HiRes</li>
   <li>PRG format for Commodore Plus/4</li>
   <li>SC2 format for MSX 1</li>
   <li>SC8 format for MSX 2</li>
@@ -266,7 +266,7 @@
 <p>Many of the image formats required for each platform are made easily with emulation tools, this is a list of recommended tools:</p>
 
 <table>
-  <tr><td>Spectrum .SCR 256x192</td><td>This is exported by almost all emulators. ZX Paintbtush can handle them too.</td></tr>
+  <tr><td>Spectrum .SCR 256x192</td><td>This is exported by almost all emulators. ZX Paintbrush can handle them too.</td></tr>
   <tr><td>Spectrum Next .PCX 256x192</td><td>This is easy to generate with Gimp, just make sure the palette is set to indexed and you picture has no less than 17 colors, cause otherwise Gimp will generate an invalid 16-color PCX.</td></tr>
   <tr><td>ZX-Uno MLT/PAL 256x192</td><td>MLT files can be created with ZX-Paintbrush or Image2Ulaplus. If the MLT is 12,288 bytes long, the palette information is not in there, please also add a tap file with same name with the palette information (ZX-Paintbrush can export it).</td></tr>
   <tr><td>CPC .SCR and .PAL 320x200</td><td>CPCImgConv is a good tool to get images finished. It is important to have in mind color 0 of the image would be used as background for all the screen, and color 1 for text, so either you handle palette so 0 is black and 1 is white, or you find a way to make text readable by ensuring colours 0 and 1 have a decent contrast. Remember that you have to export both the .SCR and the .PAL file for each location, and put them in the folder.</td></tr>
@@ -275,7 +275,7 @@
   <tr><td>MSX 1 .SC2 256x192</td><td>Nice converter at <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>. AsegúrateMake sure you use standard MSX 1 palette.</td></tr>
   <tr><td>MSX 2 .SC8 256x212</td><td>Same converter than MSX1 but use SC8 format.</td></tr>
   <tr><td>PC .PCX 320x200 or 640x400</td><td>This is easy to generate with Gimp, just make sure the palette is set to indexed and you picture has no less than 17 colors, cause otherwise Gimp will generate an invalid 16-color PCX.</td></tr>
-  <tr><td>Atari ST .PNG 320x200</td><td>With a máximum of 16 different colours. Alternatively, you can also use PI1 Degas files.</td></tr>
+  <tr><td>Atari ST .PNG 320x200</td><td>With a máximum of 16 different colours. Alternatively, you can also use PI1 Degas files. This online tool may be useful: http://atari.anides.de/</td></tr>
   <tr><td>Amiga .PNG 320x200</td><td>Same as Atari ST</td></tr>
   <tr><td>HTML .PNG 320x200 Truecolor</td><td>Any modern graphics editor. i.e. Gimp.</td></tr>
   <tr><td>MSDOS 320x200 or 640x400</td><td>This is easy to generate with Gimp, just make sure the palette is set to indexed and you picture has no less than 17 colors, cause otherwise Gimp will generate an invalid 16-color PCX. will work for both VGA and SVGA modes.</td></tr>
@@ -309,6 +309,16 @@
 </table>
 
 <p>Have in mind for targets that that are not in this list, that doesn’t mean you cannot add a loading screen in most cases, it just means you would have to do it manually as DAAD-Ready doesn’t do it for you. </p>
+
+
+<a name="colourpalette"></a>
+<h6>Colour palette</hjson>
+
+  <p>Some machines supported by DAAD and/or DAAD Ready use what is called "colour palette". Examples are MSDOS, AMIGA, AtariST, Amstrad CPC or Spectrum Next.</p>
+  <p>When making graphics for these machines, you have to take into account that changing the palette will also change the text colours. For example, if in the current image the colour 7 is green, an INK 7 will be green. </p>
+  <p>DAAD Ready makes some efforts to avoid default colours being affected, but it is up to you to make sure that the colour palette of your images does not affect the colour of your texts.</p>
+  <p>The best solution is usually to use a fixed palette for all graphics, or at least fixed in colours 0-15, to avoid these problems.</p>
+
 
 <a name="sound"></a>
 <h4>Sound</h4>
@@ -2170,9 +2180,7 @@ Pleas notice there is no XDONE or like activate he DONE flag, be-cause you can a
 <a name="xspeed"></a>
 <condact>XSPEED value</condact>
 
-<p>This function allows you to set CPU Speed in ZX-Uno and ZX Spectrum Next targets. Value can be 0 or 1, 
-  so 0 is 3.5Mhz and 1 is 7Mhz. Although both machines support faster speeds, they do sometimes in-terfere 
-  with some Maluva features, so we have kept 7Mhz as safe speed. Please notice if value is not 0 or 1,
+<p>This function allows you to set CPU Speed in ZX-Uno to 7Mhz. Please notice if value is not 0 or 1,
   XSPEED call will be just ignored. Increasing the speed makes the game text be printed faster and helps 
   a lot with image loading. Sadly, original BEEP implementation in the ZX Spectrum interpreter is also speed
   up, so please make sure you restore standard speed before a BEEP or XPLAY, or it will sound at a higher
@@ -2217,7 +2225,7 @@ XPLAY is not reallya condact, but a compiler fake condact. When the compiler fin
 as it uses to play them (i.e Spectrum will use the speaker, CPC will use the AY chip). 
 
 <p>Only one channel is supported by DAAD.</p>
-<p>Please make also sure you read the notes about XBEEP and XPLAY in the description of XSPEED condact above, if you are targeting Spectrum Next or ZX-Uno.</p>
+<p>Please make also sure you read the notes about XBEEP and XPLAY in the description of XSPEED condact above, if you are targeting  ZX-Uno.</p>
 
 <p><u>The MML format</u></p>
 
@@ -2255,17 +2263,6 @@ as it uses to play them (i.e Spectrum will use the speaker, CPC will use the AY 
 </code>
 
 <p>It's useful if you want to organize data into the flags, and eases the process of writing too many LETs.</p>
-
-
-<a name="xnextcls"></a>
-<condact>XNEXTCLS</condact>
-
-<p>This is a Spectrum Next exclusive function, which clears and disa-bles layer 2. As in Spectrum Next games the pictures are painted in layer 2, DAAD cannot delete them with CLS. To allow the author to remove the pictures you can call this Maluva function.</p>
-
-<a name="xnextrst"></a>
-<condact>XNEXTRST</condact>
-
-<p>This Spectrum Next exclusive function just makes a soft reset. The reason behind this function is if you use END condact to finish a Next game, it makes a reset without clearing and disabling the lay-er2, so you may find the game resets but the picture is still there beside your Next menu. To avoid that, it is recommended to avoid us-ing END, and replace it with a combination of INKEY and this func-tion. See “Ending Next games” section at the end of this manual.</p>
 
 <p><u>Error handling in Maluva condacts</u></p>
 
@@ -2948,53 +2945,14 @@ characters is used. </p>
 <p>Please take in mind if you redefine characters in the upper font used for languages other than English, you won’t be able to use the for that language, but if you need to redefine the characters, you can always use one of the character you are not using (i.e. “ñ” if your game is in German or “õ” if your game is in Spanish).</p>
 
 <a name="appendixb"></a>
-<h6>Appendix B - Ending Spectrum Next Games</h6>
-
-<p>Note: the problems referred in this appendix are related to the Spectrum Next version that is now launched with OLDZXNEXT.BAT. For the new version (from DAAD Ready 0.9.3) none of this applies, and this section is irrelevant.</p>
-
-<p>There is a small problem with ending Next games, as restarting the game does not clear the Layer2 memory area. To avoid that you will need to replace any END condAct in your code, with calling a specific process, whose code would have to be the following:</p>
-
-
-<code>
-  #define yesScancode 121;"y" keyboard code, for Spanish replace with 115 <br/>
-  #define noScancode 110;"n" keyboard scancode<br/>
-  <br/>
-     > _     _       SYSMESS 13; ¿Play again?<br/>
-                     NEWLINE<br/>
-                     NEWLINE<br/>
-                     PAUSE 10<br/>
-                     <br/>
-     > _     _       INKEY <br/>
-                     SKIP 1; Some key was pressed, let's check which one<br/>
-                     <br/>
-                     <br/>
-     > _     _       SKIP -2; Nothing pressed, wait for keypress<br/>
-     <br/>
-     <br/>
-     > _     _       EQ 60 yesScancode<br/>
-                     GOTO 0<br/>
-                     RESTART    <br/>
-                     <br/>
-     > _     _       EQ 60 noScancode<br/>
-                     XNEXTCLS<br/>
-                     XNEXTRST        ; Next cleanup and machine reset<br/>
-                     <br/>
-     > _     _       SKIP -5; neither "y" not "n" was pressed
-  </code>
-
-<p>  Then, instead of writing "END" condact, call the process you created by calling "PROCESS x".
-This has not been included in the default code because is very Spectrum Next specific and it is difficult to determine when you would use END condact (probably in every player death point).
-</p>
-
-<a name="appendixc"></a>
-<h6>Appendix C - Daad Ready customizations</h6>
+<h6>Appendix B - Daad Ready customizations</h6>
 
 <p>DAAD Ready saves some settings in the CONFIG.BAT file, which is loaded by all the other .BAT files (one per target). Also, DAAD Ready checks if CUSTOM.BAT file exists, and if so, loads it after CONFIG.BAT. That allows third-party tools, as Adventuron, integrate with DAAD Ready and modify values in CONFIG.BAT file.</p>
 <p>Also, the bat files for each machine have several points where some external files are called if they exist, check the BAT files for more information.</p>
 
 
-<a name="appendixd"></a>
-<h6>Appendix D - Supported languages</h6>
+<a name="appendixc"></a>
+<h6>Appendix C - Supported languages</h6>
 
 <p>Although DAAD only supported Spanish and English originally, limited support for Portuguese and German has been added. You can 
   skip this section if you are going to create a game in English or Spanish.</p>
@@ -3019,8 +2977,8 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
 <p>If your language uses other special symbols, it is probably still viable, as long as it uses the Roman alphabet.</p>
 
 
-<a name="appendixe"></a>
-<h6>Appendix E - Symbols</h6>
+<a name="appendixd"></a>
+<h6>Appendix D - Symbols</h6>
 
 <p>DAAD Ready provides a series of values that you can use in your code, so you don't have to calculate them, and even in some cases, it will provide you with a different value depending on the .BAT you use,
    so you won't have to put something different depending on the machine you work with. For example, there is a symbol called "NOT_CREATED" that 
@@ -3109,8 +3067,8 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
 
 <p>Obviously, using these symbols may not be necessary in many adventures, but some can be very convenient. For example, if we have a code that looks at all the objects to see if we carry them, we can make it look from object 0 to 15, because when we write the code the last object is 15, but if we add more objects, the code will not work. Instead, we can use the LAST_OBJECT symbol, which will always have the value of the last object, and so the code will always work.</p>
 
-<a name="appendixf"></a>
-<h6>Appendix F - Greetings</h6>
+<a name="appendixe"></a>
+<h6>Appendix E - Greetings</h6>
 
 <ul>
   <li>Tim Gilberts, from Gilsoft/Infinite Imaginations, for creating DAAD (among others)</li>
@@ -3137,8 +3095,8 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
   <li>To Zorg, author of MSA Converter</li>
 </ul>
 
-<a name="appendixg"></a>
-<h6>Appendix G - Licenses</h6>
+<a name="appendixf"></a>
+<h6>Appendix F - Licenses</h6>
 
 <p>DAAD Ready contains software of a lot of parts and has been built by Uto (@utodev), which is author of Maluva (DAAD extension AKA extern) and DRC (New DAAD compiler). All software used is either free or open source with free distribution, and some special cases where license was not specified, permission has been granted by authors.</p>
 

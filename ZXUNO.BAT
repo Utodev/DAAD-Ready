@@ -49,7 +49,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF zx uno %GAME%.DSF %SPLITSCR%
+TOOLS\DRC\DRF zx uno %GAME%.DSF 
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -68,9 +68,9 @@ REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.MLT ..\TOOLS\MALUVA\SC2DAAD uno 00%%i.MLT 00%%i.UNO %IMGLINES% auto 0 > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.MLT  ..\TOOLS\MALUVA\SC2DAAD uno 0%%i.MLT 0%%i.UNO %IMGLINES% auto 0 > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.MLT  ..\TOOLS\MALUVA\SC2DAAD uno %%i.MLT %%i.UNO %IMGLINES% auto 0 > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.MLT ..\TOOLS\MALUVA\SC2DAAD uno 00%%i.MLT 00%%i.ZXU  256 %IMGLINES% auto 0 > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.MLT  ..\TOOLS\MALUVA\SC2DAAD uno 0%%i.MLT 0%%i.ZXU 256 %IMGLINES% auto 0 > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.MLT  ..\TOOLS\MALUVA\SC2DAAD uno %%i.MLT %%i.ZXU 256 %IMGLINES% auto 0 > nul 2>&1
 CD ..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -80,13 +80,17 @@ REM  ---- COPY FILES ----
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
 IF exist 0.XMB copy 0.XMB RELEASE\UNO > nul 2>&1
-for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.UNO COPY IMAGES\00%%i.UNO  RELEASE\UNO > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.UNO COPY IMAGES\0%%i.UNO  RELEASE\UNO > nul 2>&1
-for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.UNO COPY IMAGES\%%i.UNO  RELEASE\UNO > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.ZXU COPY IMAGES\00%%i.ZXU  RELEASE\UNO > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.ZXU COPY IMAGES\0%%i.ZXU  RELEASE\UNO > nul 2>&1
+for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.ZXU COPY IMAGES\%%i.ZXU  RELEASE\UNO > nul 2>&1
 
 REM --- PREPARE SD COMPILATION ----
-SET INTERPRETER=ASSETS\ZX\DS48IE.P3F
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\DS48IS.P3F
+SET INTERPRETER=ASSETS\ZX\DZXUNOE.BIN
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\DZXUNOS.BIN
+
+REM SET INTERPRETER=ASSETS\ZX\DS48IE.P3F
+REM IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\DS48IS.P3F
+
 COPY %INTERPRETER% RELEASE\UNO\DAAD.BIN  > nul 2>&1
 MKDIR RELEASE\UNO\SYS  > nul 2>&1
 COPY ASSETS\ZX\SYS\*.* RELEASE\UNO\SYS  > nul 2>&1
@@ -115,7 +119,7 @@ tools\cecho\cecho {07}
 
 PAUSE
 cd TOOLS\ZESARUX
-zesarux --noconfigfile --quickexit  --fastautoload --zxunospi-persistent-writes --machine zxuno --enabletimexvideo --enableulaplus --no-detect-realvideo --zoom 2 --enable-esxdos-handler --esxdos-root-dir "..\..\RELEASE\UNO"  --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage   --cpuspeed 100
+zesarux --noconfigfile --quickexit  --fastautoload --load-additional-config --zxunospi-persistent-writes --machine zxuno --enabletimexvideo --enableulaplus --no-detect-realvideo --zoom 2 --enable-esxdos-handler --esxdos-root-dir "..\..\RELEASE\UNO"  --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage   
 CD ..\..
 GOTO END
 

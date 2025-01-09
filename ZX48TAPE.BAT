@@ -94,7 +94,7 @@ tools\cecho\cecho {07}
 
 PAUSE
 cd TOOLS\ZESARUX
-zesarux --noconfigfile --quickexit --fastautoload --zoom 2 --machine 48k --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\ZXTAPE\%GAME%.tap"
+zesarux --noconfigfile --load-additional-config --quickexit --fastautoload --zoom 2 --machine 48k --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100  "..\..\RELEASE\ZXTAPE\%GAME%.tap" 
 CD ..\..
 GOTO END
 
