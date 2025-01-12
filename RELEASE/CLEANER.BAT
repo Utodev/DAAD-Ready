@@ -68,16 +68,16 @@ if errorlevel 2 (
     copy readme.txt ESXDOS > nul 2>&1
 
     echo Cleaning ZX Spectrum Next...
-    md NEXT> nul 2>&1
-    del /q /s NEXT\*.* > nul 2>&1
-    copy readme.txt NEXT > nul 2>&1
+    md ZXNEXT> nul 2>&1
+    del /q /s ZXNEXT\*.* > nul 2>&1
+    copy readme.txt ZXNEXT > nul 2>&1
    
     echo Cleaning ZX-Uno...
-    md UNO> nul 2>&1
-    del /q /s UNO\*.* > nul 2>&1
-    del /q /s UNO\SYS\*.* > nul 2>&1
-    rd UNO\SYS > nul 2>&1
-    copy readme.txt UNO > nul 2>&1 
+    md ZXUNO> nul 2>&1
+    del /q /s ZXUNO\*.* > nul 2>&1
+    del /q /s ZXUNO\SYS\*.* > nul 2>&1
+    rd ZXUNO\SYS > nul 2>&1
+    copy readme.txt ZXUNO > nul 2>&1 
 
     echo Cleaning Atari ST...
     md ATARIST> nul 2>&1
