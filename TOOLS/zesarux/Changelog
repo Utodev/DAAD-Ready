@@ -1,4 +1,4 @@
-ZEsarUX 11.1-Beta2 - Bubble Bobble edition. 18 December 2024
+ZEsarUX 12 - Bubble Bobble edition. 16 January 2025
 
 * New things added:
 
@@ -16,6 +16,7 @@ Added Find text string on memory menu
 Added Quicksave screen function
 Added setting to disable persistent writes on Z88 Cards
 Added CPC Additional ROMS emulation
+Added setting "--simplemenus" to have a very simple main menu
 
 * Improvements:
 
@@ -36,10 +37,13 @@ Added Sphere Meter Type to View Sensors
 Improve compilation: settings --enable-memptr --enable-visualmem --enable-cpustats are enabled by default on ./configure
 Improved Inves Spectrum+ emulation: alert when a game may crash due to the Inves write-on-interrupt bug
 Improved Spectrum Z80 CPU emulation core: add wait state (needed to emulate microdrive)
+Improved PCW emulation: add mode 3 (360x256x16), allow videomode changes by i/o port
+Improved Sega Master System emulation: allow to swap controls player 1 <-> player 2
 Improved ZSF snapshot: save Datagear DMA state
+Improved ZX Recreated keyboard support: allow to use it also on menu
 Allow saving .Z80 TC2048, TC2068, TS2068 snapshots. Allow loading .Z80 TC2048, TC2068 snapshots
 
-Improved Spectrum Next emulation:
+Improved Spectrum Next emulation (the following allows, for example, run Atic Atac version for Next):
 - Added Layer modes 6 and 7 (blend modes)
 - Added stackless NMI
 - Added DAC Channels A,B,C,D
@@ -75,7 +79,7 @@ Improved Debug:
 
 Improved Hexadecimal editor:
 - Now the data is refreshed when the window has the focus too
-- Now the memory pointer can follow a expression (CPU register for example)
+- Now the memory pointer can follow an expression (CPU register for example)
 
 Improved ZX Vision:
 - More GUI improvements following more guidelines from the (retro)-specification IBM CUA
@@ -83,6 +87,7 @@ Improved ZX Vision:
 - When selecting ZX Vision Style, it is applied on moving cursor
 - Improve cursor movement on menus when pressing PgDn/PgUp
 - Allow keys Home/End on windows
+- Added setting to allow use speccy keys for menu interaction: use keys 5678 as cursors, caps shift+space for ESC, caps shift+ctrl for TAB, caps shift+ctrl+m for Open Menu (F5)
 - Video layers window can now be backgrounded
 - Debug DMA window can now be backgrounded
 - Warn on the resize mark when a window has to be enlarged (because there is text beyond current size)
@@ -97,10 +102,20 @@ Improved ZX Desktop:
 
 * Fixes:
 
+Fixed ZX Vision:
+- Fixed right click on upper buttons when menu closed and no windows open
+- Fixed alt key pressed when changing to another window by using alt-tab on xwindow, cocoa, sdl1 and sdl2 drivers
+- Fixed recovering window position after restore/unminimize
+- Fixed bug reopening menu when executing run command on debug cpu and --allow-background-windows setting was disabled
+- Fixed text-to-speech on menu (bugs reading text on submenus and windows)
+- Fixed left clicking on an icon when menu was open
+
+Fixed cpu+memory leak bug using Linux and Xwindow driver. This is a bug that has always existed (a "long life bug" XD)
+Fixed ZX81 Online browser
 Remove buffer full indicator when pressing shift+e on External Audio Source window
-Fixed right click on upper buttons when menu closed and no windows open
-Fixed alt key pressed when changing to another window by using alt-tab on xwindow, cocoa, sdl1 and sdl2 drivers
 Fixed TZX autoload as Real Tape on Spectrum +3
+Fixed inserting TZX file with invalid header type
+Fixed saving .scr screen when located on RAM 7
 Fixed esxdos handler call F_GETCWD when root directory (/)
 Fixed esxdos handler call F_GETCWD when directory does not exist
 Fixed hotswap ZX80 to ZX81, ZX81 to ZX80
@@ -112,9 +127,8 @@ Fixed loading .nex snapshots and MMU not managed correctly
 Fixed Search menu feature. Now it's enabled by default
 Fixed bug saving .ZSF Z88 snapshot when RAM or Memory Card block is not compressed
 Fixed showing footer message F5/Button menu
-Fixed recovering window position after restore/unminimize
-Fixed bug reopening menu when executing run command on debug cpu and --allow-background-windows setting was disabled
 Fixed MSX keyclick sound
+Fixed ZX-Uno write on addresses 0000h-3fffh when using Chloe MMU and segment is not ROM
 
 
 * As always, there are some other minor bugfixes and improvements

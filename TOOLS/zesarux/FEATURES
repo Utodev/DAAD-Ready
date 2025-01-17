@@ -46,7 +46,7 @@
 
 * Emulates ULAplus: Standard 64 colour palette, linear modes with 16 colours per pixel: Radastan Mode: 128x96, ZEsarUX modes: 256x96, 128x192, 256x192
 
-* Emulates Flash Color mode (128 color)
+* Emulates Flash Color mode (128 colors)
 
 * Emulates Chroma81 ZX81 Colour mode
 
@@ -98,7 +98,7 @@
 
 * Handles snapshot formats: ZSF, ZX, Z80, SP, SPG, NEX, SNA, P, P81, O, Z81, ACE
 
-* Handles microdrive formats: MDR (Spectrum) and MDV (QLAY format on QL)
+* Handles microdrive formats: MDR, RMD and MDV
 
 * Handles floppy disk formats: DSK
 
@@ -110,7 +110,7 @@
 
 * Handles RZX playback
 
-* Emulates the following Copy Interfaces: Defcon, Dinamid3, Hilow Barbanegra, Interface007, Microhobby Pokeador Automatico, Multiface One, 128 and Three, Phoenix, Ramjet, Spec-Mate, Transtape
+* Emulates the following Copy Interfaces: Defcon, Dinamid3, Hilow Barbanegra, Interface007, Microhobby Pokeador Automatico, Multiface (One, 128 and Three), Phoenix, Ramjet, Spec-Mate, Transtape
 
 * Emulates Dinamic SD1
 
@@ -118,13 +118,13 @@
 
 * Emulates Nec PD765 floppy disk controller, used on Spectrum +3, CPC 664, CPC 6128, PCW
 
-* Emulates ZX Microdrive on ZX Spectrum and QL: on ZX Spectrum supports MDR (standard file system format) and raw format (extension MDR). On QL is simulated by rom traps
+* Emulates ZX Microdrive on ZX Spectrum and QL: on ZX Spectrum supports MDR (standard file system format) and raw format (extension RMD). On QL is simulated by rom traps, accessing files from your computer and also from MDV (QLAY format)
 
 * Emulates Betadisk/TR-DOS. Direct support for .trd files. scl files can be converted from file selector pressing space
 
 * Emulates ZX Spectrum MMC Interfaces: ZXMMC, DivMMC
 
-* Emulates ZX Spectrum IDE Interface: DivIDE, 8-bit simple
+* Emulates ZX Spectrum IDE Interfaces: DivIDE, 8-bit simple
 
 * Emulates ZX Spectrum ESXDOS file access using files from your computer
 
@@ -208,7 +208,11 @@
 
 * Visual Real Tape: you have an audio render of your tape, see tape blocks and rewind or move forward the cassette player
 
+* Visual Casette Tape: allow to see a real tape and the movement when loading a game
+
 * Visual Floppy: allow to see floppy activity: disk movement, reads, writes, head seek, etc
+
+* Visual Microdrive: allow to see microdrive activity
 
 * Supports ZEsarUX remote command protocol (ZRCP). This is a powerful communications protocol between a client and ZEsarUX, using a simple telnet client. One of the things you can do it is enhanced debugging on ZEsarUX from Visual Studio Code (see https://github.com/maziac/DeZog)
 
@@ -227,6 +231,8 @@
 * Accessibility support: Print char traps allows to capture generated text from almost any program or game, using standard ROM calls (RST 10H) or even non standard print character routines. Can send generated text from a game to a text-to-speech program. It's ready for text to speech support for blind or visually impaired people. Menu emulator can also be read by a text-to-speech program.
 
 * Translation support: Can translate text from almost any program or game using external scripts
+
+* Memory Cheat: useful to find counters of energy, bombs, ammo or any other cheat in a game
 
 * Simulates upper RAM memory refresh on Spectrum 48Kb, losing its contents when changing R register very quickly
 

@@ -1,4 +1,4 @@
-ZEsarUX 11.1-Beta2 - Bubble Bobble edition. 18 Diciembre 2024
+ZEsarUX 12 - Bubble Bobble edition. 16 Enero 2025
 
 * Cosas nuevas agregadas:
 
@@ -11,11 +11,12 @@ Agregado emulación del ZX Microdrive en ZX Spectrum: incluye:
 Agregada ventana de Visual Cassette Tape
 Agregada emulación de extensión de memoria LEC memory
 Agregadas máquinas Czerweny CZ 1000, CZ 1500, CZ 1000 Plus, CZ 1500 Plus, CZ 2000, CZ Spectrum, CZ Spectrum Plus
-Agregar función de "Memory Cheat": util para encontrar contadores de energia, bombas, munición o cualquier otro truco de un juego
+Agregar función de "Memory Cheat": útil para encontrar contadores de energia, bombas, munición o cualquier otro truco de un juego
 Agregado menú para buscar cadenas de texto en memoria
 Agregado función de grabado rápido de pantalla
 Agregada opción para desactivar escrituras persistentes en tarjetas de Z88
 Agregada emulación de ROMS adicionales en CPC
+Agregada opción "--simplemenus" para tener un menú principal muy simple
 
 * Mejoras:
 
@@ -36,15 +37,18 @@ Agregado tipo de medidor Esfera en Ver Sensores
 Mejorada compilación: opciones --enable-memptr --enable-visualmem --enable-cpustats están activadas por defecto en ./configure
 Mejorada emulación del Inves Spectrum+: alertar cuando un juego puede resetearse debido al bug de Inves de write-on-interrupt
 Mejorado el core de emulación de Spectrum de la CPU Z80: agregado estado wait (necesario para emular el microdrive)
+Mejorada emulación PCW: agregar modo 3 (360x256x16), permitir cambios de modo video mediante puerto i/o
+Mejorada emulación de Sega Master System: permitir intercambiar controles jugador 1 <-> jugador 2
 Mejorado snapshot ZSF: guardar estado de Datagear DMA
+Mejorada emulación de teclado ZX Recreated: permitir usarlo también en el menú
 Permitir grabar snapshots .Z80 de TC2048, TC2068, TS2068. Permitir cargar snapshots .Z80 de TC2048, TC2068
 
-Mejorada emulación de Spectrum Next:
-- Agregado modos de capas 6 and 7 (modos mezcla)
+Mejorada emulación de Spectrum Next (lo siguiente permite, por ejemplo, ejecutar la versión de Atic Atac para Next):
+- Agregado modos de Layer 6 y 7 (modos blend)
 - Agregado NMI sin stack
 - Agregado Canales DAC A,B,C,D
 - Permitir tiles en RAM 7
-- Mejorar render de pantalla cuando solo capa de ula activada (reduce el uso de cpu un 6% menos de cpu en mi maquina)
+- Mejorar render de pantalla cuando solo capa de ula activada (reduce el uso de cpu un 6% menos de cpu en mi máquina)
 - Corregido timings de 128k/+2a/Pentagon
 - Corregido mapeo de DIVMMC después de RETN
 - Corregido temporización del Copper
@@ -67,11 +71,11 @@ Mejorada emulación de Hilow Datadrive:
 Mejorado Debug:
 - CPU history: permitir cambiar el puntero de memoria según el registro PC mostrado en el historial
 - CPU history: permitir ver historial completo
-- Mostar cuando la CPU está en estado wait
+- Mostrar cuando la CPU está en estado wait
 - Desensamblar parámetros numéricos en opcodes Z80N (Z80 Spectrum Next) (NEXTREG NN,A, TEST N, etc)
 - Agregada acción de breakpoint save-binary
 - Permitir activar/desactivar breakpoints en una dirección (no solo activar/eliminar), usando tecla 'L' mayúscula. Estado desactivado se guarda en la configuración
-- Agregada carga de Tabla de Símbolos
+- Agregada carga de Tabla de Símbolos
 
 Mejorado Hexadecimal editor:
 - Ahora los datos se refrescan también cuando la ventana tiene el foco
@@ -79,10 +83,11 @@ Mejorado Hexadecimal editor:
 
 Mejorado ZX Vision:
 - Mas mejoras en la interfaz siguiendo más indicaciones de la (retro)-especificación IBM CUA
-- Los menús muestran los previous menús al seleccionar submenús
-- Al seleccionar estilo de ZX Vision Style, se aplica al mover el cursor
+- Los menús muestran los menús previos al seleccionar submenús
+- Al seleccionar estilo de ZX Vision, se aplica al mover el cursor
 - Mejorar movimiento del cursor en menús al pulsar PgDn/PgUp
 - Permitir teclas Inicio/Fin en ventanas
+- Agregada opción para permitir usar teclas speccy para interacción con el menú: usar teclas 5678 como cursores, caps shift+space para ESC, caps shift+ctrl para TAB, caps shift+ctrl+m para Abrir Menu (F5)
 - Ventana de Video layers ahora se puede tener en segundo plano
 - Ventana de Debug DMA ahora se puede tener en segundo plano
 - Avisar en la marca de redimensionado cuando una ventana se tiene que aumentar de tamaño (porque hay texto mas allá del tamaño actual)
@@ -93,14 +98,24 @@ Mejorado ZX Vision:
 
 Mejorado ZX Desktop:
 - Permitir activar/desactivar botones superiores e inferiores de manera independiente
-- Permitir boton derecho en los iconos de dispositivos ubicados en la parte inferior del ZX Desktop
+- Permitir botón derecho en los iconos de dispositivos ubicados en la parte inferior del ZX Desktop
 
 * Correcciones:
 
+Correciones en ZX Vision:
+- Corregido pulsación boton derecho en botones superiores con menu cerrado y sin ventanas abiertas
+- Corregido tecla alt pulsada al cambiar de ventana pulsando alt-tab en drivers xwindow, cocoa, sdl1 y sdl2
+- Corregido recuperación de posición de ventana después de restore/desminimizar
+- Corregido bug que se reabria el menu al ejecutar comando run desde debug cpu y la opcion --allow-background-windows estaba desactivada
+- Corregido texto-a-voz en menú (fallos leyendo texto de submenús y ventanas)
+- Corregido pulsación izquierda en un icono cuando menú estaba abierto
+
+Corregido fallo de cpu+memory leak en Linux usando el driver Xwindow. Este es un error que ha existido siempre (un "error de larga vida" XD)
+Corregido ZX81 Online browser
 Quitar indicador de buffer lleno al pulsar shift+e en ventana de Fuente de sonido externa
-Corregido pulsación boton derecho en botones superiores con menu cerrado y sin ventanas abiertas
-Corregido tecla alt pulsada al cambiar de ventana pulsando alt-tab en drivers xwindow, cocoa, sdl1 y sdl2
 Corregida autocarga de TZX como Cinta Real en Spectrum +3
+Corregida inserción de archivo TZX con tipo de cabecera inválida
+Corregida grabación de pantalla .scr cuando está ubicada en RAM 7
 Corregida llamada a F_GETCWD en esxdos handler cuando directorio raíz (/)
 Corregida llamada a F_GETCWD en esxdos handler cuando directorio no existe
 Corregido hotswap ZX80 a ZX81, ZX81 a ZX80
@@ -112,9 +127,8 @@ Corregida carga de snapshots .nex y la MMU no gestionada correctamente
 Corregida característica de Buscar menú. Ahora está habilitado por defecto
 Corregido error al grabar snapshots .ZSF de Z88 cuando el bloque de RAM o de tarjeta de memoria no está comprimido
 Corregido mostrar texto en footer de F5/Button menu
-Corregido bug que se reabria el menu al executar comando run desde debug cpu y la opcion --allow-background-windows estaba desactivada
-Corregido recuperación de posición de ventana después de restore/desminimizar
-Corregido sonido de MSX de pulsación de teclas
+Corregido sonido de pulsación de teclas en MSX
+Corregido escritura en ZX-Uno en direcciones 0000h-3fffh al usar MMU de Chloe y segmento no es ROM
 
 
 * Como siempre, hay otras mejoras y correcciones de errores menores.
