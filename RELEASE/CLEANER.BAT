@@ -63,9 +63,9 @@ if errorlevel 2 (
     copy readme.txt ZX128PLUS3 > nul 2>&1
 
     echo Cleaning ZX Spectrum ESXDOS...
-    md ESXDOS > nul 2>&1
-    del /q /s ESXDOS\*.* > nul 2>&1
-    copy readme.txt ESXDOS > nul 2>&1
+    md ZXESXDOS > nul 2>&1
+    del /q /s ZXESXDOS\*.* > nul 2>&1
+    copy readme.txt ZXESXDOS > nul 2>&1
 
     echo Cleaning ZX Spectrum Next...
     md ZXNEXT> nul 2>&1

@@ -48,7 +48,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF zx next %GAME%.DSF -check-maluva-disabled -verbose native 
+TOOLS\DRC\DRF zx next %GAME%.DSF 
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -56,7 +56,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 echo.
-PHP\PHP TOOLS\DRC\DRB.PHP zx next %LANG% %GAME%.json %GAME%.DDB -v
+PHP\PHP TOOLS\DRC\DRB.PHP zx next %LANG% %GAME%.json %GAME%.DDB
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -67,7 +67,7 @@ REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 REM Clean old format images to avoid confusion
 DEL images\*.NXT > nul 2>&1
-del RELEASE\NEXT\*.NXT > nul 2>&1
+del RELEASE\ZXNEXT\*.NXT > nul 2>&1
 ECHO.
 CD IMAGES
 for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX ..\TOOLS\SCRMAKER\SCRMAKER specnext 00%%i.PCX 00%%i.LY2 256 %IMGLINES% 0,0 > nul 2>&1
@@ -81,21 +81,21 @@ ECHO.
 REM  ---- COPY FILES ---- 
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
-IF exist 0.XMB copy 0.XMB RELEASE\NEXT > nul 2>&1
-for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.LY2 COPY IMAGES\00%%i.LY2  RELEASE\NEXT > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.LY2 COPY IMAGES\0%%i.LY2  RELEASE\NEXT > nul 2>&1
-for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.LY2 COPY IMAGES\%%i.LY2  RELEASE\NEXT > nul 2>&1
+IF exist 0.XMB copy 0.XMB RELEASE\ZXNEXT > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.LY2 MOVE IMAGES\00%%i.LY2  RELEASE\ZXNEXT > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.LY2 MOVE IMAGES\0%%i.LY2  RELEASE\ZXNEXT > nul 2>&1
+for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.LY2 MOVE IMAGES\%%i.LY2  RELEASE\ZXNEXT > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
 tools\cecho\cecho {06}Preparing tap file{07}
 ECHO.
 REM --- PREPARE TAP FILE ----
-SET INTERPRETER=ASSETS\ZX\DNEXTE.BIN
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\DNEXTS.BIN
+SET INTERPRETER=ASSETS\ZX\ZXNEXT\DNEXTE.BIN
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\ZXNEXT\DNEXTS.BIN
 TOOLS\DRC\daadmaker.exe %GAME%.TAP %INTERPRETER% %GAME%.DDB ASSETS\CHARSET\%FONT6%
 IF ERRORLEVEL 1 GOTO ERROR
-MOVE %GAME%.TAP RELEASE\NEXT > nul 2>&1
+MOVE %GAME%.TAP RELEASE\ZXNEXT > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -117,7 +117,7 @@ tools\cecho\cecho {07}
 
 PAUSE
 cd TOOLS\ZESARUX
-zesarux --noconfigfile --load-additional-config --fastautoload --quickexit --zoom 1 --machine tbblue --realvideo --tbblue-fast-boot-mode --enable-esxdos-handler --esxdos-root-dir "..\..\RELEASE\NEXT" --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 %OTHERSETTINGS% --smartloadpath ..\..\RELEASE\NEXT\ ..\..\RELEASE\NEXT\%GAME%.tap"
+zesarux --noconfigfile --load-additional-config --fastautoload --quickexit --zoom 1 --machine tbblue --realvideo --tbblue-fast-boot-mode --enable-esxdos-handler --esxdos-root-dir "..\..\RELEASE\ZXNEXT" --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 %OTHERSETTINGS% --smartloadpath ..\..\RELEASE\ZXNEXT\ ..\..\RELEASE\ZXNEXT\%GAME%.tap"
 CD ..\..
 GOTO END
 

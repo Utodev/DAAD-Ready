@@ -67,9 +67,9 @@ REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\MALUVA\SC2DAAD zx 00%%i.SCR 00%%i.ZXS %IMGLINES% auto 0 > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\MALUVA\SC2DAAD zx 0%%i.SCR 0%%i.ZXS %IMGLINES% auto 0 > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\MALUVA\SC2DAAD zx %%i.SCR %%i.ZXS %IMGLINES% auto 0 > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\SCRMAKER\SCRMAKER SPECTRUM 00%%i.SCR 00%%i.ZX 256 %IMGLINES% 0,0 > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER SPECTRUM 0%%i.SCR 0%%i.ZX 256 %IMGLINES% 0,0 > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER SPECTRUM %%i.SCR %%i.ZX 256 %IMGLINES% 0,0 > nul 2>&1
 CD ..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -78,21 +78,21 @@ ECHO.
 REM  ---- COPY FILES ---- 
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
-IF exist 0.XMB copy 0.XMB RELEASE\ESXDOS > nul 2>&1
-for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.ZXS COPY IMAGES\00%%i.ZXS  RELEASE\ESXDOS > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.ZXS COPY IMAGES\0%%i.ZXS  RELEASE\ESXDOS > nul 2>&1
-for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.ZXS COPY IMAGES\%%i.ZXS  RELEASE\ESXDOS > nul 2>&1
+IF exist 0.XMB copy 0.XMB RELEASE\ZXESXDOS > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.ZX COPY IMAGES\00%%i.ZX  RELEASE\ZXESXDOS > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.ZX COPY IMAGES\0%%i.ZX  RELEASE\ZXESXDOS > nul 2>&1
+for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.ZX COPY IMAGES\%%i.ZX  RELEASE\ZXESXDOS > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
 REM --- PREPARE TAP FILE ----
 tools\cecho\cecho {06}Preparing tap file{07}
 ECHO.
-SET INTERPRETER=ASSETS\ZX\DS48IE.P3F
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\DS48IS.P3F 
+SET INTERPRETER=ASSETS\ZX\ESXDOS\DESXDOSE.BIN
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\ESXDOS\DESXDOSS.BIN 
 TOOLS\DRC\daadmaker.exe %GAME%.TAP %INTERPRETER% %GAME%.DDB  ASSETS\CHARSET\%FONT6%
 IF ERRORLEVEL 1 GOTO ERROR
-MOVE %GAME%.TAP RELEASE\ESXDOS > nul 2>&1
+MOVE %GAME%.TAP RELEASE\ZXESXDOS > nul 2>&1
     tools\cecho\cecho {02}[OK]{07}
     ECHO.
 
@@ -114,7 +114,7 @@ tools\cecho\cecho {07}
 
 PAUSE
 cd TOOLS\ZESARUX
-zesarux --noconfigfile --load-additional-config --quickexit --fastautoload --machine 48k --no-detect-realvideo --zoom 2 --enable-esxdos-handler --esxdos-root-dir "..\..\RELEASE\ESXDOS"  --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage   --cpuspeed 100 "..\..\RELEASE\ESXDOS\%GAME%.tap"
+zesarux --noconfigfile --load-additional-config --quickexit --fastautoload --machine 48k --no-detect-realvideo --zoom 2 --enable-esxdos-handler --esxdos-root-dir "..\..\RELEASE\ZXESXDOS"  --nosplash --forcevisiblehotkeys --forceconfirmyes  --enable-divmmc-ports --enable-divmmc-paging --nowelcomemessage   --cpuspeed 100 "..\..\RELEASE\ZXESXDOS\%GAME%.tap"
 CD ..\..
 GOTO END
 

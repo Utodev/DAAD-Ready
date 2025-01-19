@@ -798,7 +798,6 @@ function getCondactsHash($adventure, $condacts, $from)
 
 function checkMaluva($adventure)
 {
-    if ($adventure->subtarget=='NEXT') return true;
     $count = 0;
     foreach ($adventure->externs as $extern)
     {
@@ -854,60 +853,19 @@ function generateProcesses($adventure, &$currentAddress, $outputFileHandler, $is
                     $condact->Param2 = 7; // Maluva function 7
                     $condact->Indirection1 = 0; // Also useless, but it must be set
                     $condact->Condact = 'EXTERN';
-                    if ((!CheckMaluva($adventure)) && ($target!='MSX2') && ($target!='HTML') && !(($target=='PC') && ($subtarget=='VGA256')))  Error('XUNDONE condact requires Maluva Extension');
+                    if ((!CheckMaluva($adventure)) && ($target!='HTML') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')) && ($subtarget!='ESXDOS') && ($subtarget!='NEXT') && ($subtarget!='UNO')) Error('XUNDONE condact requires Maluva Extension');
                 }
                 else if ($condact->Opcode == XNEXTCLS_OPCODE)
                 {
-                    $condact->Opcode = EXTERN_OPCODE;
-                    $condact->NumParams=2;
-                    $condact->Param1 = 0; // Useless but it must be set
-                    $condact->Param2 = 8; // Maluva function 8
-                    $condact->Indirection1 = 0; // Also useless, but it must be set
-                    $condact->Condact = 'EXTERN';
-                    if (!CheckMaluva($adventure)) Error('XNEXTCLS condact requires Maluva Extension');
-                    if (($target!='ZX') || ($subtarget!='NEXT'))  // If target does not support XNEXTCLS_OPCODE replace by always true condition "AT @38"
-                    {
-                        $condact->Opcode = AT_OPCODE;
-                        $condact->Condact = 'AT';
-                        $condact->Indirection1 = 1;
-                        $condact->Param1 = 38;
-                        $condact->NumPrams=1;
-                    }
+                    Error('XNEXTCLS condact is deprecated');
                 }
                 else if ($condact->Opcode == XNEXTRST_OPCODE)
                 {
-                    $condact->Opcode = EXTERN_OPCODE;
-                    $condact->NumParams=2;
-                    $condact->Param1 = 0; // Useless but it must be set
-                    $condact->Param2 = 9; // Maluva function 9
-                    $condact->Indirection1 = 0; // Also useless, but it must be set
-                    $condact->Condact = 'EXTERN';
-                    if (!CheckMaluva($adventure)) Error('XNEXTRST  condact requires Maluva Extension');
-                    if (($target!='ZX') || ($subtarget!='NEXT'))  // If target does not support XNEXTRST_OPCODE replace by always true condition "AT @38"
-                    {
-                        $condact->Opcode = AT_OPCODE;
-                        $condact->Condact = 'AT';
-                        $condact->Indirection1 = 1;
-                        $condact->Param1 = 38;
-                        $condact->NumPrams=1;
-                    }
+                    Error('XNEXTRST condact is deprecated');
                 }
                 else if ($condact->Opcode == XSPEED_OPCODE)
                 {
-                    $condact->Opcode = EXTERN_OPCODE;
-                    $condact->NumParams=2;
-                    $condact->Param2 = 10; // Maluva function 10
-                    $condact->Condact = 'EXTERN';
-                    if (!CheckMaluva($adventure)) Error('XSPEED condact requires Maluva Extension');
-                    $targetSubtarget = "${target}${subtarget}";
-                    if (($targetSubtarget!='ZXNEXT') && ($targetSubtarget!='ZXUNO'))  // If target does not support XSPEED_OPCODE replace by always true condition "AT @38"
-                    {
-                        $condact->Opcode = AT_OPCODE;
-                        $condact->Condact = 'AT';
-                        $condact->Indirection1 = 1;
-                        $condact->Param1 = 38;
-                        $condact->NumPrams=1;
-                    }
+                    Error('XSPEED condact is deprecated. ');
                 }
                 else if ($condact->Opcode == XSAVE_OPCODE)
                 {
@@ -931,7 +889,7 @@ function generateProcesses($adventure, &$currentAddress, $outputFileHandler, $is
                     $condact->NumParams=2;
                     $condact->Param2 = 4; // Maluva function 4
                     $condact->Condact = 'EXTERN';
-                    if ((!CheckMaluva($adventure))  && ($target!='HTML') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')))  Error('XPART condact requires Maluva Extension');
+                    if ((!CheckMaluva($adventure)) && ($target!='HTML') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')) && ($subtarget!='ESXDOS') && ($subtarget!='NEXT') && ($subtarget!='UNO'))  Error('XPART condact requires Maluva Extension');
                 }
                 else if ($condact->Opcode == XBEEP_OPCODE)
                 {
@@ -1864,7 +1822,7 @@ for ($j=0;$j<sizeof($compressionData->tokens);$j++)
 // Dump XMessagess if avaliable
 if (sizeof($adventure->xmessages))
 {
-    if ((!CheckMaluva($adventure)) && ($target!='HTML') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')))  Error('XMESSAGE condact requires Maluva Extension');
+    if ((!CheckMaluva($adventure)) && ($target!='HTML') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')) && ($subtarget!='ESXDOS') && ($subtarget!='NEXT') && ($subtarget!='UNO'))  Error('XMESSAGE condact requires Maluva Extension');
     generateXmessages($adventure, $target, $subtarget, $outputFileName);
 }
 
@@ -1884,6 +1842,26 @@ generateOTX($adventure, $currentAddress, $outputFileHandler,  $isLittleEndian, $
 $objectLookupOffset = $currentAddress - 2 * sizeof($adventure->object_data);
 if ($adventure->verbose) echo "Object texts      [" . prettyFormat($objectLookupOffset) . "]\n";
 addPaddingIfRequired($target, $outputFileHandler, $currentAddress);
+// Object names
+$objectNamesOffset = $currentAddress;
+if ($adventure->verbose) echo "Object words      [" . prettyFormat($objectNamesOffset) . "]\n";
+generateObjectNames($adventure, $currentAddress, $outputFileHandler);
+// Weight & standard Attr
+$objectWeightAndAttrOffset = $currentAddress;
+if ($adventure->verbose) "Weight & std attr [" . prettyFormat($objectWeightAndAttrOffset) . "]\n";
+generateObjectWeightAndAttr($adventure, $currentAddress, $outputFileHandler);
+addPaddingIfRequired($target, $outputFileHandler, $currentAddress);
+// Extra Attr
+$objectExtraAttrOffset = $currentAddress;
+if ($adventure->verbose) echo "Extra attr        [" . prettyFormat($objectExtraAttrOffset) . "]\n";
+generateObjectExtraAttr($adventure, $currentAddress, $outputFileHandler, $isLittleEndian);
+// InitiallyAt
+$initiallyAtOffset = $currentAddress;
+if ($adventure->verbose) echo "Initially at      [" . prettyFormat($initiallyAtOffset) . "]\n";
+generateObjectInitially($adventure, $currentAddress, $outputFileHandler);
+addPaddingIfRequired($target, $outputFileHandler, $currentAddress);
+
+addPaddingIfRequired($target, $outputFileHandler, $currentAddress);
 // Dump Vocabulary
 $vocabularyOffset = $currentAddress;
 if ($adventure->verbose) echo "Vocabulary        [" . prettyFormat($vocabularyOffset) . "]\n";
@@ -1893,16 +1871,19 @@ addPaddingIfRequired($target, $outputFileHandler, $currentAddress);
 if ($hasTokens) $compressedTextOffset = $currentAddress; else $compressedTextOffset = 0; // If no compression, the header should have 0x0000 in the compression pointer
 if ($adventure->verbose) echo "Tokens            [" . prettyFormat($compressedTextOffset) . "]\n";
 generateTokens($adventure , $currentAddress, $outputFileHandler, $hasTokens, $compressionData, $textSavings);
-addPaddingIfRequired($target, $outputFileHandler, $currentAddress);
-// Messages
-generateMTX($adventure, $currentAddress, $outputFileHandler,  $isLittleEndian, $target, $adventure->dumpToXMB, $XMBCurrentAddress, $XMBFileHandler);
-$messageLookupOffset = $currentAddress - 2 * sizeof($adventure->messages);
-if ($adventure->verbose) echo "Messages          [" . prettyFormat($messageLookupOffset) . "]\n";
+
 addPaddingIfRequired($target, $outputFileHandler, $currentAddress);
 // Sysmess
 generateSTX($adventure, $currentAddress, $outputFileHandler,  $isLittleEndian, $target, $adventure->dumpToXMB, $XMBCurrentAddress, $XMBFileHandler);
 $sysmessLookupOffset = $currentAddress - 2 * sizeof($adventure->sysmess);
 if ($adventure->verbose) echo "Sysmess           [" . prettyFormat($sysmessLookupOffset) . "]\n";
+
+addPaddingIfRequired($target, $outputFileHandler, $currentAddress);
+// Messages
+generateMTX($adventure, $currentAddress, $outputFileHandler,  $isLittleEndian, $target, $adventure->dumpToXMB, $XMBCurrentAddress, $XMBFileHandler);
+$messageLookupOffset = $currentAddress - 2 * sizeof($adventure->messages);
+if ($adventure->verbose) echo "Messages          [" . prettyFormat($messageLookupOffset) . "]\n";
+
 addPaddingIfRequired($target, $outputFileHandler, $currentAddress);
 
 if ($v3code)
@@ -1928,25 +1909,6 @@ $blockableConnectionsCount = $result[2];
 if ($adventure->verbose) echo "Connections       [" . prettyFormat($connectionsLookupOffset) . "]\n";
 if (($adventure->verbose) && ($v3code)) echo "Connections Init  [" . prettyFormat($blockableInitiallyOffset) . "]\n";
 
-addPaddingIfRequired($target, $outputFileHandler, $currentAddress);
-// Object names
-$objectNamesOffset = $currentAddress;
-if ($adventure->verbose) echo "Object words      [" . prettyFormat($objectNamesOffset) . "]\n";
-generateObjectNames($adventure, $currentAddress, $outputFileHandler);
-// Weight & standard Attr
-$objectWeightAndAttrOffset = $currentAddress;
-if ($adventure->verbose) "Weight & std attr [" . prettyFormat($objectWeightAndAttrOffset) . "]\n";
-generateObjectWeightAndAttr($adventure, $currentAddress, $outputFileHandler);
-addPaddingIfRequired($target, $outputFileHandler, $currentAddress);
-// Extra Attr
-$objectExtraAttrOffset = $currentAddress;
-if ($adventure->verbose) echo "Extra attr        [" . prettyFormat($objectExtraAttrOffset) . "]\n";
-generateObjectExtraAttr($adventure, $currentAddress, $outputFileHandler, $isLittleEndian);
-// InitiallyAt
-$initiallyAtOffset = $currentAddress;
-if ($adventure->verbose) echo "Initially at      [" . prettyFormat($initiallyAtOffset) . "]\n";
-generateObjectInitially($adventure, $currentAddress, $outputFileHandler);
-addPaddingIfRequired($target, $outputFileHandler, $currentAddress);
 
 // Dump Processes
 generateProcesses($adventure, $currentAddress, $outputFileHandler, $isLittleEndian, $target, $subtarget);
