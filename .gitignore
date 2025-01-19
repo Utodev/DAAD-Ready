@@ -10,6 +10,7 @@ images/00*
 IMAGES/PC/00*
 IMAGES/PC/SVGA/*
 IMAGES/CPC/00*
+IMAGES/ZXUNO/00*
 IMAGES/DAAD.*
 *~$AD Ready*
 TODO.txt
@@ -18,6 +19,6 @@ SOUNDS/*.WAV
 SOUNDS/*.wav
 SOUNDS/*.DRO
 SOUNDS/*.dro
-
-
+TOOLS/PCW/Config.ini
+TOOLS/zesarux/zesarux_index_menu.idx
 
