@@ -1191,11 +1191,11 @@ ejecutaremos los ejecutaremos los condActos de la entrada uno a uno y de arriba 
 <p>Permite cambiar el modo de operación de la ventana actualmente seleccionad. Lo valores indicados aquí deben ser sumados para cada opción que se desee, y facilitados en el parámetro option.</p>
 
  <ul>
-  <li>1 – Usa el set de caracteres superior (los 128 caracteres más altos del set de caracteres). Equivale a un #g permanente, como veréis después en el apartado de escape chars.</li>
+  <li>1 – Usa el set de caracteres alternativo (los 128 caracteresdel final del set de caracteres). Equivale a un #g permanente, como veréis después en el apartado de escape chars.</li>
   <li>2 – No aparecerá el mensaje del sistema 32 ("Más...") si la ventana se llena.</li>
  </ul>
   
-<p>Por ejemplo, MODE 3 hace que no salga el 'Más...' y además usa el set de caracteres superior.</p>
+<p>Por ejemplo, MODE 3 hace que no salga el 'Más...' y además usa el set de caracteres alternativo.</p>
 
 <a name="input"></a>
 <condact>INPUT stream option</condact>
@@ -2252,8 +2252,8 @@ VOY POR Aqui
   <tr><td>#b or #s</td><td>Escribe un caracter blanco. Es una herencia del antiguo DAAD que no tiene mucho sentido en DAAD Ready.</td></tr>
   <tr><td>#k</td><td>Cuanto este carácter es imprimido, el juego hace una pausa y espera que pulsen una tecla. </td></tr>
   <tr><td>#n or \n</td><td>Genera un salto de línea.</td></tr>
-  <tr><td>#g</td><td>No imprime nada, pero a partir de ese momento los textos se pintarán con los 128 caracteres superiores del juego de caracteres (ver apéndices). Así, “#gt” pintará el carácter “t” del set superior. (ver el apartado sobre el juego de caracteres más adelante).</td></tr>
-  <tr><td>#t</td><td>Vuelve a usar el juego de caracteres inferior.</td></tr>
+  <tr><td>#g</td><td>No imprime nada, pero a partir de ese momento los textos se pintarán con el juego de caracteres alternativo (ver apéndices). Así, “#gt” pintará el carácter “t” del set alternativo. (ver el apartado sobre el juego de caracteres más adelante).</td></tr>
+  <tr><td>#t</td><td>Opuesto a #g, vuelve a usar el juego de caracteres por defecto.</td></tr>
   <tr><td>#e</td><td>Escribe el signo del euro (€).</td></tr>
 </table>
 
@@ -2593,7 +2593,7 @@ Además, el comando BEEP utiliza el altavoz básico de las máquinas, que, en al
 
 <p>El Sistema de DAAD usa un juego de caracteres de 256 caracteres.</p>
 
-<p>DAAD Ready está usando algunos caracteres del bloque de 128 caracteres superiores para representa caracteres internacionales que no estuvieran ya soportados antes (los españoles.)</p>
+<p>DAAD Ready está usando algunos caracteres del set de caracteres alternativo para representar caracteres internacionales que no estuvieran ya soportados antes (los españoles.)</p>
 
 <p>DAAD Ready permite cambiar el juego de caracteres de tu aventura:</p>
 
@@ -2766,7 +2766,7 @@ Además, el comando BEEP utiliza el altavoz básico de las máquinas, que, en al
   <li>Graeme Yeandle y Huw-Hammer Powel, como co-autores de los engines previous junto a Tim (PAWS, The Quill, SWAN)</li>
   <li>Andrés Samudio, de Aventuras AD, por permitir distribución gratuita de DAAD</li>
   <li>Richard Wilson, por WinAPE. Aunque ya no se usa en DAAD Ready, muchas versiones anteriores se basaron en él para la emulación de Amstrad CPC</li>
-  <li>César Hernández, por ZEsarUX</li>
+  <li>César Hernández Bañó, por crear ZEsarUX, y por su gran ayuda mejorando ZEsarUX para desarroladores, sin su ayuda  Spectrum Next y el  ZX-Uno habrían sido imposibles.</li>
   <li>Mochilote, por CPCDiskXP</li>
   <li>Attila Grósz, por Yape</li>
   <li>Natalia Pujol, por el nuevo intérprete MSX2</li>

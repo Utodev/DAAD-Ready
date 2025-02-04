@@ -1313,7 +1313,7 @@ the numbers shown next to each item to achieve the required
 combination.</p>
 
  <ul>
-  <li>1 - Use the upper character set. (A permanent ^G)</li>
+  <li>1 - Use the alternative character set. (A permanent #g, see escape sequences below)</li>
   <li>2 - SM32 ("More...") will not appear when the window fills.</li>
 </ul>
 
@@ -2683,8 +2683,8 @@ referenced using the PROCESS action.</p>
   <tr><td>#b or #s</td><td>Prints a blank space</td></tr>
   <tr><td>#k</td><td>When this character is printed, the game is paused and waits for a key to be pressed.</td></tr>
   <tr><td>#n or \n</td><td>Prints a carriage return</td></tr>
-  <tr><td>#g</td><td>Prints nothing, but from this moment on, every text printed will be using the upper 128 characters font. So, for instance #gt will print the character “t” of the upper font</td></tr>
-  <tr><td>#t</td><td>Restores the lower part of the character set.</td></tr>
+  <tr><td>#g</td><td>Prints nothing, but from this moment on, every text printed will be using the alternative font. So, for instance #gt will print the character “t” of the alternative font</td></tr>
+  <tr><td>#t</td><td>Opposite to #g, starts using again the default character set.</td></tr>
   <tr><td>#e</td><td>Prints the euro sign (€).</td></tr>
 </table>
 
@@ -2917,7 +2917,7 @@ then it will cause the given file to be included in the database
 <p>Throughout the whole DAAD system the same character set of 256
 characters is used. </p>
 
-<p>DAAD Ready is using some of the chars in upper 128 bytes to represent international character other than the original Spanish ones already supported. </p>
+<p>DAAD Ready is using some of the chars in the alternative charset to represent international character other than the original Spanish ones already supported. </p>
 
 <p>DAAD Ready allows you to change the font for your game:</p>
 
@@ -2942,7 +2942,7 @@ characters is used. </p>
 </ul>
 
 
-<p>Please take in mind if you redefine characters in the upper font used for languages other than English, you won’t be able to use the for that language, but if you need to redefine the characters, you can always use one of the character you are not using (i.e. “ñ” if your game is in German or “õ” if your game is in Spanish).</p>
+<p>Please take in mind if you redefine characters in the alternative font used for languages other than English, you won’t be able to use the for that language, but if you need to redefine the characters, you can always use one of the character you are not using (i.e. “ñ” if your game is in German or “õ” if your game is in Spanish).</p>
 
 <a name="appendixb"></a>
 <h6>Appendix B - Daad Ready customizations</h6>
@@ -3075,7 +3075,7 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
   <li>Graeme Yeandle and Huw-Hammer Powel, as co-authors of the previous engines together with Tim (PAWS, The Quill, SWAN)</li>
   <li>Andrés Samudio, from Aventuras AD, for allowing public and free distribution of DAAD</li>
   <li>Richard Wilson, for creating WinAPE. Despite is not used by DAAD Ready Anymore, it was used for a long time.</li>
-  <li>César Hernández, for creating ZEsarUX</li>
+  <li>César Hernández Bañó, for creating ZEsarUX, and for his great help improving ZEsarUX debugger, which was absolutely helpful for Spectrum Next and ZX-Uno targets</li>
   <li>Mochilote, for creating CPCDiskXP</li>
   <li>Attila Grósz, for creating Yape</li>
   <li>Natalia Pujol, for the new MSX2 interpreter</li>
