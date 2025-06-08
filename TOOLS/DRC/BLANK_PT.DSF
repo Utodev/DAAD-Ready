@@ -555,11 +555,7 @@ $pictureOK
 
 /PRO 6 ; Inicialização
 
-> _       _     #ifdef "pc"
-                    PAPER 0
-                    INK 15
-                #endif
-                CLS
+> _       _     CLS
                 WINDOW  1               ; Janela de meio texto
                 WINAT 14 0
                 WINSIZE 25 128

@@ -570,11 +570,7 @@ $pictureOK
 ;------------------------------------------------------------------------------
 /PRO 6 ; Initialise le système DAAD
 
-> _       _     #ifdef "pc"
-                    PAPER 0
-                    INK 15
-                #endif
-                CLS
+> _       _     CLS
                 WINDOW  1               ; Fenêtre demi-texte
                 WINAT 14 0
                 WINSIZE 25 128

@@ -8,10 +8,12 @@
 
 global $adventure;
 global $xMessageOffsets;
+global $paddingSize;
 global $xMessageSize;
 global $maxFileSizeForXMessages;
 
 $xMessageSize = 0;
+$paddingSize = 0;
 
 define('FAKE_DEBUG_CONDACT_CODE',220);
 define('FAKE_USERPTR_CONDACT_CODE',256);    
@@ -420,7 +422,11 @@ function getXMessageFileSizeByTarget($target, $subtarget, $adventure)
     if ($adventure->dumpToXMB) return 64; // If generating TX messages in the XMEssages file, use 64K always as it would be hard disk based machine
     switch ($target) 
     {
-        case 'ZX'  : return 64; 
+        case 'ZX'  : switch($subtarget)
+                        {
+                            case 'PLUS3': return 16;
+                            default:  return 64;     
+                        }
         case 'MSX' : return 64; 
         case 'PCW' : return 64; 
         case 'MSX2': return 16; 
@@ -445,19 +451,29 @@ function generateXMessages($adventure, $target, $subtarget, $outputFileName)
     if (($maxFileSize==2048) && ($currentFile<10)) $currentFile = "0$currentFile";
     $outputFileName = "$currentFile.XMB";
     $fileHandler = fopen($outputFileName, "w");
+    
+    //Start the Spectrum +3 file with a gap of 512 bytes. In the latest implementation the +3 interpreter loads
+    // first 16K of the file in the RAM (page 1 in the 128K memory layout), but it will have to load other messages
+    // from disk (those beyond offset 16384 in the file. That's why this gap is added, so first real xmessage is
+    // at offset 512, and the first 512 bytes of that page can be used as buffer
+    if ($subtarget=='PLUS3') 
+    {
+        $gapSize = 512;
+        writeBlock($fileHandler, $gapSize); 
+        $currentOffset += $gapSize;   
+    }
+
     for($i=0;$i<sizeof($adventure->xmessages);$i++)
     {
         $message = $adventure->xmessages[$i];
         $messageLength = strlen($message->Text);
-        if ($messageLength + $currentOffset + 1  > $maxFileSize) // Won't fit, next File  , +1  for the end of message mark
+        // in case message won't fit in current file, change to next one. For +3, 512 bytes incluiding the message should fit (see +3 interpreter source code)
+        if (($messageLength + $currentOffset + 1  > $maxFileSize) || (($subtarget='PLUS3')&&(($currentOffset + 512  > $maxFileSize)))) 
         {
-            if ($target=="MSX2") 
-            {
-                writeBlock($fileHandler, $maxFileSize - $currentOffset);
-                $currentFile++;
-                $currentOffset = 0;
-            }
-            else 
+            // maxFileSize of the xmes files means when one file is "full" you have to close it and create the next one.
+            // But with some targets, there is only one file, which needs padding to $maxFileSize though, to be 
+            // able to load those parts in the RAM
+            if (($target!="MSX2") && ($subtarget!='PLUS3')) 
             {
                 fclose($fileHandler);
                 $currentFile++;
@@ -466,8 +482,16 @@ function generateXMessages($adventure, $target, $subtarget, $outputFileName)
                 $outputFileName = "$currentFile.XMB";
                 $fileHandler = fopen($outputFileName, "w");
             }
+            else 
+            {
+                writeBlock($fileHandler, $maxFileSize - $currentOffset); // Fill current 16K slot
+                $currentFile++;
+                $currentOffset = 0;   
+                $GLOBALS['paddingSize'] = $maxFileSize;
+            }
         }
         $GLOBALS['xMessageOffsets'][$i] = $currentOffset + $currentFile * $maxFileSize;
+        echo "XMessage #$i at " . prettyFormat($GLOBALS['xMessageOffsets'][$i]) .  " length is " .prettyFormat($messageLength+1) . 'so it ends at' . prettyFormat($GLOBALS['xMessageOffsets'][$i] + $messageLength+1) . "\n";   
         // Saving length as a truncated value to make it fit in one byte, the printing routine will have to recover the missing bit by filling with 1. That will provide 
         // a length which could be maximum 1 bytes longer than real, what is not really important cause the end of message mark will avoid that extra char being printed
         for ($j=0;$j<$messageLength;$j++)
@@ -479,6 +503,7 @@ function generateXMessages($adventure, $target, $subtarget, $outputFileName)
         $currentOffset++;
     }
     fclose($fileHandler);
+    if ($currentOffset>65535) Error("XMessages data exceeds 64K");
     $GLOBALS['xMessageSize'] = $maxFileSize * $currentFile + $currentOffset;
 }
 
@@ -853,7 +878,7 @@ function generateProcesses($adventure, &$currentAddress, $outputFileHandler, $is
                     $condact->Param2 = 7; // Maluva function 7
                     $condact->Indirection1 = 0; // Also useless, but it must be set
                     $condact->Condact = 'EXTERN';
-                    if ((!CheckMaluva($adventure)) && ($target!='HTML') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')) && ($subtarget!='ESXDOS') && ($subtarget!='NEXT') && ($subtarget!='UNO')) Error('XUNDONE condact requires Maluva Extension');
+                    if ((!CheckMaluva($adventure)) && ($target!='HTML') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')) && ($subtarget!='ESXDOS') && ($subtarget!='PLUS3') && ($subtarget!='NEXT') && ($subtarget!='UNO')) Error('XUNDONE condact requires Maluva Extension');
                 }
                 else if ($condact->Opcode == XNEXTCLS_OPCODE)
                 {
@@ -889,7 +914,7 @@ function generateProcesses($adventure, &$currentAddress, $outputFileHandler, $is
                     $condact->NumParams=2;
                     $condact->Param2 = 4; // Maluva function 4
                     $condact->Condact = 'EXTERN';
-                    if ((!CheckMaluva($adventure)) && ($target!='HTML') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')) && ($subtarget!='ESXDOS') && ($subtarget!='NEXT') && ($subtarget!='UNO'))  Error('XPART condact requires Maluva Extension');
+                    if ((!CheckMaluva($adventure)) && ($target!='HTML') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')) && ($subtarget!='ESXDOS') && ($subtarget!='PLUS3') && ($subtarget!='NEXT') && ($subtarget!='UNO'))  Error('XPART condact requires Maluva Extension');
                 }
                 else if ($condact->Opcode == XBEEP_OPCODE)
                 {
@@ -1493,7 +1518,7 @@ function mmlToBeep($note, &$values, $target, $subtarget)
                      'C-'=>-1,        'D-'=>1,         'E-'=>3, 'F-'=>4,         'G-'=>6,         'A-'=>8,          'B-'=>10);
     switch ($target)
     {
-        case 'ZX': if (($subtarget=='NEXT') || ($subtarget=='UNO')) $baseLength = 100; else $baseLength = 195; break;
+        case 'ZX': if (($subtarget=='NEXT') || ($subtarget=='PLUS3') || ($subtarget=='UNO')) $baseLength = 100; else $baseLength = 195; break;
         case 'C64':
         case 'CP4': $baseLength = 205; break;
         case 'PC':  
@@ -1822,7 +1847,7 @@ for ($j=0;$j<sizeof($compressionData->tokens);$j++)
 // Dump XMessagess if avaliable
 if (sizeof($adventure->xmessages))
 {
-    if ((!CheckMaluva($adventure)) && ($target!='HTML') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')) && ($subtarget!='ESXDOS') && ($subtarget!='NEXT') && ($subtarget!='UNO'))  Error('XMESSAGE condact requires Maluva Extension');
+    if ((!CheckMaluva($adventure)) && ($target!='HTML') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')) && ($subtarget!='PLUS3') && ($subtarget!='ESXDOS') && ($subtarget!='NEXT') && ($subtarget!='UNO'))  Error('XMESSAGE condact requires Maluva Extension');
     generateXmessages($adventure, $target, $subtarget, $outputFileName);
 }
 
@@ -1955,8 +1980,10 @@ if ($v3code)
     // Blockable connections lookup list position
     writeWord($outputFileHandler, $blockableInitiallyOffset, $isLittleEndian);
 }
-// File length 
+// File length  at SPARE position in the DDB
 $fileSize = $currentAddress;// - $baseAddress;
+// If target is PLUS3, we put the Xmessage size instead of the DDB size
+if (($xMessageSize) && ($subtarget=='PLUS3')) $fileSize = $xMessageSize;
 writeWord($outputFileHandler, $fileSize, $isLittleEndian);
 for($i=0;$i<13;$i++)
     writeWord($outputFileHandler, $adventure->extvec[$i],$isLittleEndian);
@@ -1966,13 +1993,12 @@ if ($adventure->verbose) summary($adventure);
 if ($adventure->verbose) echo "$outputFileName for $target created.\n";
 if ($currentAddress>0xFFFF) echo "Warning: DDB file goes " . ($currentAddress - 0xFFFF) . " bytes over the 65535 memory address boundary.\n";
 echo "DDB size is " . ($fileSize - $baseAddress) . " bytes.\nDatabase ends at address $currentAddress (". prettyFormat($currentAddress). ")\n";
-if ($xMessageSize) echo "XMessages size is $xMessageSize bytes in files of ". $maxFileSizeForXMessages. "K.\n";
-if (file_exists('0.XMB')) 
+if ($xMessageSize)
 {
-    $XMBSize = filesize('0.XMB');
-    echo "XMB file size is $XMBSize bytes.\n";
-    if ($XMBSize>65536) Error('Too many message texts. XMB file is bigger than 64K');
-}
+   
+    if ($paddingSize==0) echo "XMessages size is $xMessageSize bytes in files of ". $maxFileSizeForXMessages. "K.\n";
+    else echo "XMessages size is $xMessageSize bytes in files of 64K (" . round($paddingSize/1024,0) ."K padding) .\n";   
+} 
  
 if ($textSavings>0) echo "Text compression saving: $textSavings bytes.\n";
 if ($adventure->prependC64Header)

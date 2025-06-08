@@ -573,11 +573,7 @@ $pictureOK
 ;------------------------------------------------------------------------------
 /PRO 6 ; Initialisation
 
-> _       _     #ifdef "pc"
-                    PAPER 0
-                    INK 15
-                #endif
-                CLS
+> _       _     CLS
                 WINDOW  1               ; Half screen text window
                 WINAT 14 0
                 WINSIZE 25 128
