@@ -3180,6 +3180,7 @@ function _EXTERN()
     /*Please notice even with Maluva Enabled additional EXTERN code can be run, it just happens Maluva functions 
     can intervene and don't let execution come to this point, but if not, then standard EXTERN code may run */
     Extern(Parameter1, Parameter2); 
+    done = true;
 }
 
 /*--------------------------------------------------------------------------------------*/
@@ -3805,6 +3806,7 @@ function _MOVE()
         ptr+=2;
     } while (direction != END_OF_CONNECTIONS_MARK);
     condactResult = false; //If no movement, condition fails
+    done = true;
  }
 
 /*--------------------------------------------------------------------------------------*/
@@ -3828,6 +3830,7 @@ function _REDO()
 function _CENTRE()
 {
     windows.windows[windows.activeWindow].col = (NUM_COLUMNS - windows.windows[windows.activeWindow].width) >> 1;
+    done = true;
 }
 
 /*--------------------------------------------------------------------------------------*/
