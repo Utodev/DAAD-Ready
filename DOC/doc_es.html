@@ -26,8 +26,8 @@
   
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="normalize.css">
-  <link rel="stylesheet" href="skeleton.css">
+  <link rel="stylesheet" href="res/normalize.css">
+  <link rel="stylesheet" href="res/skeleton.css">
 
  
 
@@ -50,7 +50,7 @@
 <a name='content'></a>
 <h4>Documentación de DAAD Ready</h4>
 
-<p>In English <a href="doc_en.html">here <img src="english.gif"></a></p>
+<p>In English <a href="doc_en.html">here <img src="res/english.gif"></a></p>
 
 <p>Este documento usa partes del manual de DAAD v2 (C) Infinite
     Imaginations 1988/89/91 , que fue escrito originalmente por Tim
@@ -290,8 +290,7 @@
 <h6>Los gráficos</h6>
 <p>A diferencia del DAAD original, DAAD Ready no usa gráficos vectoriales para las imágenes de localidad , en su lugar utiliza
     gráficos bitmap. Para añadir gráficos a las máquinas que originalmente usaban gráficos vectoriales , DAAD Ready usa la extensión
-    Maluva de Uto, o bien los nuevos intérpretes ya soportan de serie esto. Facilitaremos más detalle sobre esto más tarde en
-    este manual.</p>
+    Maluva de Uto, o bien los nuevos intérpretes ya soportan de serie esto. Facilitaremos más detalle sobre esto más tarde en este manual.</p>
 
 <a name="help"></a>
 <h6>Necesito ayuda</h6>
@@ -531,7 +530,7 @@ NORTE 5
   que salta a otra tabla. Cuando esa tabla termina, se vuelve a la posición desde que se la llamó.</p>
   
 
-<center><img src='Image1.png' alt="Figura 1"></center>
+<center><img src='res/Image1.png' alt="Figura 1"></center>
 
 
 <p>Básicamente DAAD buscará en cada entrada (comienzan por el carácter “>”) hasta que el proceso se le acabe.
@@ -1560,11 +1559,11 @@ SAVE opt
 
 <p>Donde distancia es de -128 a 128, o una etiqueta.</p>
 
-<p>Cambiará la ejecución al principio de una entrada en la misma tabla, donde -1 es la misma entrada, -1 la anterior, etc. También se puede saltar hacia delante, siendo 0 la siguiente entrada, 1 la subsiguiente, etc.</p>
+<p>Cambiará la ejecución al principio de una entrada en la misma tabla, donde -1 es la misma entrada, -2 la anterior, etc. También se puede saltar hacia delante, siendo 0 la siguiente entrada, 1 la subsiguiente, etc.</p>
 
 <p>SKIP puede también aceptar como parámetro una etiqueta, que es un símbolo precedido por un signo de dólar ($), que debe colocarse justo antes de una entrada.</p>
 
-<p>Utilizar etiquetas es más cómodo (no tienes que contar entradas) y además más fácil de mantener, que usar valores absolutos. Es más fácil de mantener porque contando entradas un día te puede cuadrar poner -4, pero luego vas y metes otra entrada por medio por cualquier razón, y ahora debería ser -5, pero como no estás viendo el SKIP no lo cambias y de repente te fallan cosas que antes funcionaban.</p>
+<p>Utilizar etiquetas es más cómodo (no tienes que contar entradas) y además más fácil de mantener, que usar valores absolutos. Es más fácil de mantener porque contando entradas un día te puede cuadrar poner -4, pero posteriormente decides añadir otra entrada por medio, olvidas cambiar el SKIP para que ahora sea -5, y de repente fallan cosas que antes funcionaban.</p>
  
 <p>Por ejemplo:</p>
 <code>
@@ -2233,7 +2232,7 @@ VOY POR Aqui
   <tr><td>60/61</td><td>Son los flags de teclado. Ver INKEY.</td></tr>
   <tr><td>62</td><td>Es un flag usado para controlar los distintos modos de video que usan el intérprete de PC y de ST. Como DAAD Ready solo usa un modo en PC (320x200x16) y no genera para ST, no tiene uso.
   </td></tr>
-  <tr><td>63</td><td>Guarda el número de la ventana activa en este momento. Nótese que es solo una copia del número, por lo que cambiarlo no tendrá efecto. Para cambiar de ventana activa hay que usar WINDOW.</td></tr>
+  <tr><td>63</td><td>Guarda el número de la ventana activa en este momento. Nótese que es solo una copia del número, por lo que cambiarlo no tendrá efecto. Para cambiar de ventana activa hay que usar WINDOW. Importante: algunos intérpretes no actualizan este flag.</td></tr>
   <tr><td>64-254</td><td>Disponibles para tu propio uso</td></tr>
 </table>  
 
@@ -2449,7 +2448,7 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
 <a name="graphicsoverview"></a>
 <h6>Introducción a los gráficos</h6>
 <p>Como se ha indicado anteriormente, DAAD Ready usa gráficos bitmap para las aventuras, en lugar de gráficos vectoriales, y utiliza la
-    extensión Maluva para ello.</p>
+    extensión Maluva para ello en algunos.</p>
 
 <p>Para añadir gráficos, necesitarás ficheros diferentes para cada  plataforma, dado que las plataformas y sus modos gráficos son muy
     diferentes.</p>
@@ -2549,12 +2548,15 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
 <p>Es posible añadir una pantalla de carga en DAAD Ready para alguno de los target. Estos son los detalles:</p>
 
 <table>
+<tbody>
 <tr><td>Spectrum</td><td>Habilitado en las versiones de cinta y PLUS3 (no en OLDPLUS3). Poner un fichero llamado DAAD.SCR en la carpeta de imágenes.</td></tr>
-<tr><td>MSX 2</td><td>Poner un fichero DAAD.SC8 en la  carpeta de imágenes.</td></tr>
+<tr><td>MSX 1</td><td>Poner un fichero DAAD.SC2 en la carpeta de imágenes.</td></tr>
+<tr><td>MSX 2</td><td>Poner un fichero DAAD.SC8 en la carpeta de imágenes.</td></tr>
 <tr><td>PC/DOS/Windows</td><td>Poner un fichero DAAD.PCX en la carpeta de imágenes de PC, o de SVGA, según se prefiera.</td></tr>
 <tr><td>Atari ST</td><td>Poner un fichero DAAD.PNG en la carpeta de imágenes.</td></tr>
 <tr><td>Windows Experimental</td><td>Como en Atari ST</td></tr>
 <tr><td>MacoS Experimental</td><td>Como en Atari ST</td></tr>
+  </tbody>
 </table>
 
 <p>Ten en cuenta que el hecho de que para un target las pantalla de  carga no esté habilitado no significa necesariamente que no soporte
@@ -2572,7 +2574,7 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
 <a name="sound"></a>
 <h4>Sonidos</h4>
 <a name="soundoverview"></a>
-<h6>Intropducción al sonido</h6>
+<h6>Intropucción al sonido</h6>
 
 
 <p>DAAD no es especialmente bueno con el sonido en los tiempos actuales. Aunque tiene algunas características integradas, como el condacto <a href='#beep'>BEEP</a>,

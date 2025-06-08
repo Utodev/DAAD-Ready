@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HKGF5S1N0F"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HKGF5S1N0F');
+</script>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>DAAD Ready - Gráficos</title>
+  <meta name="description" content="Documentación DAAD Ready">
+  <meta name="author" content="@Uto_dev">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="res/normalize.css">
+  <link rel="stylesheet" href="res/skeleton.css">
+
+</head>
+<body style='font-family: Speccy, Verdana, Arial, Helvetica'>
+
+<div class="skip"><a href="#content">Saltar al contenido</a></div>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<div class="container">
+  <div class="row">
+    <div class="twelve column" style='background-color:#045FB4;color:white'>
+      <h2><a href="/">Gráficos en DAAD Ready</a></h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="twelve column">
+    <a name='content'></a>
+    <h4>Documentación sobre gráficos en DAAD Ready</h4>
+
+    <p>In English <a href="graphics_en.html">here <img src="res/english.gif" /></a></p>
+
+<p>Este documento extiende el contenido del manul de DAAD Ready, como referencia
+  para añadir gráficos a tu aventura. En cierta medida necesita conocer ya DAAD-Ready,
+  por lo que se recomeienda leer primero el manual de DAAD Ready, y luego este documento.</p>
+
+
+
+<H4>TABLA DE CONTENIDOS</H4>
+
+<ul>
+  <li><a href='#overview'>Introducción</a></li>
+  <ul>
+    <li><a href='#differences'>Diferencias entre DAAD y DAAD-Ready</a></li></li>
+    <li><a href='#maluva'>Maluva</a></li>
+    <li><a href='#newterps'>Nuevos intérpretes</a></li>
+    <li><a href='#daadready'>DAAD Ready</a></li>
+    
+  </ul>
+ 
+  <li><a href='#graphicsbyplatform'>Gráficos por plataforma</a></li>
+  <ul>
+    <li><a href='#zx48k'>ZX Spectrum 48K</a></li>
+    <li><a href='#zxplus3'>ZX Spectrum +3</a></li>
+    <li><a href='#zx128k'>ZX Spectrum 128K (tape)</a></li>
+    <li><a href="#zxnext">ZX Spectrum Next</a></li>
+    <li><a href='#esxdos'>ZX Spectrum with DivMMC/DivIDE interface</li>
+    <li><a href='#zxuno'>ZX-Uno</a></li>
+    <li><a href='#msx1'>MSX1</a></li>
+    <li><a href='#msx2'>MSX2</a></li>   
+    <li><a href='#c64'>Commodore 64</a></li>
+    <li><a href='#cplus4'>Commodore Plus/4</a></li>
+    <li><a href='#cpc'>Amstrad CPC</a></li>
+    <li><a href='#amiga'>Commodore Amiga</a></li>
+    <li><a href='#atarist'>Atari ST</a></li>
+    <li><a href='#pcdos'>PC/DOS</a></li>
+    <li><a href='#html'>HTML</a></li>
+    <li><a href='#windows'>Windows</a></li>
+    <li><a href='#macOS'>MacOS</a></li>   
+  </ul>
+  
+  <li><a href='#graphics'>Pantallas de carga</a></li>
+  <ul>
+    <li><a href='#loadingscreens'>Pantallas de carga</a></li>
+  </ul>
+
+  <li><a href='#advgraphicsbyplatform'>Gráficos avanzados por plataforma</a></li>
+  <ul>
+    <li><a href='#advzx128k'>ZX Spectrum 128K (tape)</a></li>
+    <li><a href='#advzxplus3'>ZX Spectrum +3</a></li>
+    <li><a href="#advzxnext">ZX Spectrum Next</a></li>
+    <li><a href='#advesxdos'>ZX Spectrum with DivMMC/DivIDE interface</li>
+    <li><a href='#advzxuno'>ZX-Uno</a></li>
+    <li><a href='#advc64'>Commodore 64</a></li>
+    <li><a href='#advcplus4'>Commodore Plus/4</a></li>
+    <li><a href='#advcpc'>Amstrad CPC</a></li>
+    <li><a href='#advmsx1'>MSX1</a></li>
+    <li><a href='#advmsx2'>MSX2</a></li>   
+    <li><a href='#advamiga'>Commodore Amiga</a></li>
+    <li><a href='#advatarist'>Atari ST</a></li>
+    <li><a href='#advpcdos'>PC/DOS</a></li>
+    <li><a href='#advhtml'>HTML</a></li>
+    <li><a href='#advwindows'>Windows</a></li>
+    <li><a href='#advmacOS'>MacOS</a></li>   
+  </ul>
+
+
+
+
+<a name="overview"></a>
+<H4>INTRODUCCIÓN</H4>
+
+<a name="differences"></a>
+<h3>Diferencias entre DAAD y DAAD-Ready</h3>
+
+<h4>DAAD</h4>
+
+<p>DAAD es un sistema de creación de aventuras conversacionales para máquinas de 8 y 16 bits, que fue desarrollado principalmente por Tim Gilberts, sobre la base de lo que antes había sido The Quill, PAWS y SWAN, por encargo expreso de la desaparecida compañía española Aventuras AD.</p>
+
+<p>A diferencia de The Quill o PAWS, en DAAD no se trabajaba sobre la máquina de destino, sino que estaba hecho para funcionar desde DOS y Atari ST.</p>
+
+<p>DAAD permaneció desaparecido por muchos años después de que Aventuras AD cerrara, para ser recuperado en la década de los 2010s. </p>
+
+<p>En ese momento el sistema era tal cual se abandonó en 1992, con las herramientas de entonces, para los ordenadores de entonces, y con instrucciones sobre como crear los discos para las distintas plataformas soportadas, basadas en sistemas de entonces. Años más tarde,
+   las intrucciones que indicaban como crear las aventuras para las distintas máquinas habían quedado obsoletas, y tampoco era necesario transportar los juegos a cada máquina para probar el resultado, gracias a la existencia de emuladores.</p>
+
+<p>Cada usuario de DAAD empezó a formar su propios métodos para crear los discos de un juego para CPC, Commodore64, Amiga, AtariST, MSDOS, ZX Spectrum, MSX o PCW, utilizando diferentes utilidades para crear discos y cintas virtuales para probar el juego en emuladores.
+   Esto era complicado para mucha gente, que dedicaba más tiempo a como crear el disquete o la cinta final, que a desarrollar la aventura, y por esa razón, y por la aparición de Maluva, aparece DAAD Ready.</p>
+
+<a name="maluva"></a>
+<h4>Maluva</h4>
+
+<p>Maluva es una extensión de DAAD que permite cambiar, en las máquinas de 8 bits, los gráficos vectoriales típicos de la época, por gráficos digitales más atractivos. Para ello había una contrapartida: Maluva solamente funciona con sistemas que tengan disquete. Es por eso que Maluva
+  se usaba para crear juegos de Amstrad CPC, Spectrum +3, Commodore 64 y MSX 1, pero solo en disquete.</p>
+
+<p>Maluva además se portó para permitir usar ciertas variantes del ZX Spectrum, concretamente el ZX Spectrum Next, el ZX-Uno y un ZX Spectrum con DivIDE o DivMMC, permitiendo también gráficos digitalizados para estas máquinas.</p>
+
+<a name="newterps"></a>
+<h4>Los nuevos intérpretes</h4>
+<p>Después aparecieron los nuevos intérpretes, capaces de ejecutar juegos hechos en DAAD en otras máquinas que no eran las originales, o en variaciones de las máquinas originales:</p>
+  <ul>
+    <li>MSX 2 (MSX2DAAD): se hizo de cero y permitía usar los módos gráficos de MSX 2 entre otras cosas.</li>
+    <li>Commodore Plus/4: un fork del de Commodore 64, para que el que se versionó también Maluva.</li>
+    <li>MSDOS (PCDAAD):  aunque ya había un intérprete DAAD para DOS, solo podía usar modo VGA de 16 colores, así que apreció uno nuevo que soporta los modos VGA y SVGA de 256 colores.</li>
+    <li>HTML (jDAAD): un port del anterior, que genera una página web que usa HTML y javascript, y que permite gráficos de 256 colores.</li>
+    <li>ZX Spectrum 128k (ZXDAAD128): capaz de poner juegos vectoriales en un juego en cinta de casette.</li>
+    <li>Windows y MacOS (ADP): aunque aun en un estado experimental, soportan los mismos gráficos que el Amiga o el Atari ST.</li>
+  </ul>
+
+  <p>Existe además otro intérprete capaz de ejecutar -en cualquier sistema operativo que soporte Python- un juego para cualquiera de las plataformas originales de DAAD: NAPS. No trataremos NAPS en este documento, dado que crear los gráficos para NAPS implica básicamente crear los juegos en una plataforma clásica, y por tanto no hay diferencia entre crear los gráficos para CPC, por ejemplo, y crearlos para NAPS funcionando en modo CPC.</p>
+
+  
+  <a name="daadready"></a>
+  <h4>DAAD Ready</h4>
+
+  <p>DAAD Ready es un conjunto de utilidades y scripts para Windows, que permiten a los autores concentrarse en crear las aventuras, y pone todo el tedioso trabajo de crear un fichero D64 para Commodore 64, o un DSK para Spectrum +3, ADF para Amiga, etc. sobre sus hombros.</p>
+
+  <p>Así, con solo editar un fichero que indica lo que ocurre en la aventura, y poner los gráficos necesarios en una carpeta concreta en el formato necesario para cada plataforma, le damos doble click a un script,
+     por ejemplo C64.BAT, y nos genera un fichero de disquete .D64 (la extensión común para discos en los emuladores de Commodore 64) listo para distribuir. 
+    Y no solo eso, sino que además abre dicho fichero en un emulador de Commodore 64  para probarlo.</p>
+
+  <p>Logicamente, los gráficos son diferentes según el ordenador utilizado, por lo que si vas a poner gráficos a tu aventura, te toca crear gráficos distintos para cada máquina. DAAD Ready te ayuda a hacer eso, pero no lo hace por ti.</p>
+
+  <p>Una de las simplificaciones de DAAD Ready, que además de para hacer las cosas complicadas sin enterararse, nace con la idea de simplificar la complejidad de algunos puntos de AAD, es que siempre se sigue la pauta de poner el gráfico arriba (en las primeras 96 scanlines de pantalla) y el texto abajo.
+    Esto es así porque es por un lado lo más común en las aventuras, y por otro porque Maluva y algunas otras funcionalidades que veremos en este documento, requieren que el gráfico esté en la parte superior de la pantalla.</p>
+  
+    <p>Es por supuesto posible poner gráficos en otros puntos de la pantalla, pero quizá no digitales, o quizá no en todos las máquinas, o quizá no en el modo de video que queremos que salga. Poner un gráfico de 96 pixeles de alto y el ancho completo de pantalla siempre es posible en todas las plataformas, por lo que 
+      DAAD Ready se queda con ese "máximo común denominador" para todos los sistemas.</p>
+    
+   
+  <a name="graphicsbyplatform"></a>
+  <h3>Gráficos por plataforma</h3>
+
+  <p>Añadir gráficos a las aventuras en DAAD Ready es sencillo en la teoría, pero laborioso en la práctica. En principio, basta con poner los gráficos en la carpeta 'images', y en el formato adecuado para cada plataforma, y nombrarlos con el número de localidad con tres cifras. Por ejemplo, para ZX Spectrum +3 se usa el cásico formato SCR de 6912 bytes, y para poner el gráfico de la localida 1, bastaría con poner en la carpeta 'images' el fichero 001.SCR, que contenga el gráfico de la localidad.</p>
+
+  <p>Podemos también crear gráficos que no son de localidad, por ejemplo añadir el 200.SCR, que luego se podría mostrar desde DAAD usando una instruccion llamada PICTURE a voluntad.</p>
+
+  <p>La regla general en DAAD Ready, es que los gráficos que facilitamos siempre son a pantalla completa, y ya se encarga DAAD Ready de recortar el gráfico a la altura habitual de 96 pixeles y mostrarlo en pantalla.</p>
+
+
+    <a name="zx48k"></a>
+    <h4>ZX Spectrum 48K</h4>
+
+    <p>Esta plataforma va a ser la más fácil de explicar, porque DAAD Ready no soporta gráficos para Spectrum 48k. Un Spectrum de 48K está muy limitado en RAM para poder cargar gráficos digitalizados, cabrían muy pocos, por lo que la única manera de añadir gráficos es usar el viejo método de poner gráficos
+      que se van dibujando (vectoriales), lo cual queda fuera del ámbito de DAAD-Ready.</p>
+    
+
+      <a name="zxplus3"></a>
+      <h4>ZX Spectrum +3</h4>
+
+      <p>Con el Spectrum +3, la cosa cambia. El +3 tiene 128K de RAM, y lo que es más importante, tiene disquete, lo que permite cargar gráficos digitalizados sobre la marcha, simplemente leyéndolos desde el disco, sin necesidad de ocupar memoria.</p>
+      
+      <p>Para añadir gráficos solo tenemos que crear ficheros SCR, DAAD Ready usa el formato .SCR de 6912, y ponerlos en la carpeta "images" de DAAD Ready. El nombre del fichero tiene que ser el número de localidad, con tres cifras, y la extensión .SCR. Por ejemplo,
+         para poner el gráfico de la localidad 1, bastaría con poner en la carpeta 'images' el fichero 001.SCR, que contenga el gráfico de la localidad.</p>
+
+      <p>Recuerda que solo los primeros 96 pixeles se van a mostrar, por lo que lo que haya en la imagen por debajo de ese pixel es irrelevante.</p>
+
+      <p>Para crear gráficos en formato SCR una utilidad muy adecuada es <a href="https://sourcesolutions.itch.io/zx-paintbrush">ZX Paintbrush.</a></p>
+      <p> Si tenéis una imagen digital, también podéis utilizar <a href="https://www.dadither.com/#Download">DaDither</a>, usando de plataforma ZX Spectrum, y de Screen la opción 256x192x4. Teniendo en cuenta las limitadas capacidades gráficas del Spectrum, covertir una imagen con DaDither es a veces complicado, y como habréis visto ya en alguna aventura, 
+        se suelen poner gráficos en blanco y negro, o mínimamente colorizados. La opción Mode/Gray de DaDither permite esto.
+      </p>
+      
+      <p>Tened en cuenta que cada imagen ocupará algo más de 3,3K en el disco, por lo que cabe una cantidad limitada de gráficos en un disquete de 3" de Spectrum +3. Algunos autores han optado por poner gráficos por las dos caras, y pedir al usuario que de la vuelta al disco cuando pasa de cierta zona, o vuelve a la zona inicial.</p>
+
+      
+
+      <a name='zx128k'></a>
+      <h4>Spectrum 128K</h4>
+
+      <p>El Spectrum 128K es un caso excepcional en el entorno de DAAD Ready, porque es la única plataforma soportada que genera ficheros para cinta de casette, en concreto el conocido formato .TAP. Este sistema hace uso de uno de los nuevos intérpretes que no son del DAAD Original: ZXDAAD128. </p>
+
+      <p>Este intérprete hace uso de la memoria extra del Spectrum 128K, así como de la compresión de imágenes, para acomodar en la memoria varios gráficos digitalizados.</p>
+
+      <p>Aun así, el espacio en RAM de un 128K es limitado, y nadie querría estar cargando de cinta todo el rato para ir viendo nuevos gráficos, por lo que hay que medir cuantos gráficos vamos a meter, porque puede que no quepan todos los que queramos.</p>
+
+      <p>Una solución a esto suele ser tener gráfico comodín que pueden usarse en varias localidades, o gráficos "de rellleno", que no son tales sino un logo o similar, o simplemente tener localidades sin gráfico.</p>
+
+      <p>Por el tipo de compresión que utiliza ZXDAAD128, cuanto más pixeles seguidos del mismo color en horizontal haya en el gráfico, mejor va a comprimir, y más gráficos cabrán.</p>
+
+      <p>Los mismos gráficos usados en Spectrum +3 se cargarán de manera automática en Spectrum 128k, pero tened en cuenta que el dithering que realiza <a href="https://www.dadither.com/#Download">DaDither</a> es casi lo peor que puede pasar en términos de compresión de imágenes, por lo que es poco recomedable, a no ser que tengamos pocos gráficos.</p>
+
+      <p>Nota: por si alguno tiene dudas, cuando hablamos de Spectrum 128K nos referimos tanto al Spectrum 128K original de Sinclair, como a los modelos +2 que fabricó Amstrad. No nos referimos al Spectrum +3, que aunque también es un Spectrum de 128K, tiene su propio apartado.</p>
+
+      <a name='zxnext'></a>
+      <h4>ZX Spectrum Next</h4>
+
+      <p>El Spectrum Next no existía en la época original de DAAD, por lo que os imaginaréis que el intérprete que le da soporte es nuevo. Pues os equivocáis. El intérprete de Spectrum Next es un derivado del de Spectrum, partiendo de los fuentes originales de DAAD.</p>
+
+      <p>Para añadir gráficos para Spectrum Next, simplemente hay que crear los gráficos en formato PCX, y ponerlos en la carpeta "images" de DAAD Ready, usando la misma convención para el nombre del archivo (ya sabeis, 001.PCX para la localidad 1). </p>
+
+      <p>Existe sin embargo un pequeño problema: el Spectrum Next tiene una paleta limitada, de solo 256 colores a elegir entre 512, mientras que el fichero PCX soporta 256 colores también, pero a elegir entre 262.144 colores. Esto significa que podríamos hacer un gráfico PCX pero usar colores que después no se pueden representar en el Spectrum Next.</p>
+
+      <p>Para evitar esto existen dos métodos: </p>
+
+      <ul>
+        <li>Si haces los gráficos a mano, asegúrate de usar colores en la siguiente paleta: <br/><img src="res/nextpalette512.png"/></li>
+        <li>
+          Si no tienes control sobre los colores utilizados, utiliza <a href="https://www.dadither.com/#Download">DaDither</a> para reducir a los colores apropiados. Para ello abre el fichero con el gráfico -ya con una imagen de 256x192 
+          en la que las 96 primera filas de pixeles sean la imagen de la localidad- en DaDither, elige plataforma Spectrum Next, Screen 256x192x8, paleta RBG333 y modo color, y conseguirás una imagen con los colores adecuados. Podemos exportalo
+          después en el menú Result/Save as PNG.
+         </li>
+      </ul>
+
+      <p>Una vez que tenemos una imagen de 256x192 que solamente utiliza los colores de la paleta del Spectrum Next, tenemos que convertirla en un PCX indexado de 256 colores. Para ello lo mejor es usar <a href="https://www.gimp.org/">Gimp</a>. Abrimos la imagen en Gimp, accedemos al menú
+      Imagen/modo y nos ponemos en el modo indexado, elegiendo 240 como número máximo de colores. Se elige 240 porque los 16 restantes los va a usar DAAD-Ready para los colores del texto, del INK 0 al INK 15. Si la imagen estuviera ya en modo indexado, pasamos a modo RGB y luego de vuelta a indexado
+      para asegurar que solo usamos 240.</p>
+
+      <p>Notas:
+        <ul>
+          <li>
+            Al bajar de 256 colores a 240 podría haber una mínima pérdida de calidad. Si el gráfico lo hacemos a mano procurad no usar más de 240 colores, y si es automatizado, solo nos queda confiar en la suerte.
+          </li>
+          <li>
+            Si la imagen tiene menos de 17 colores, Gimp va a crear un fichero PCX de 16 colores, que no sirve para DAAD Ready. Si así fuera, utiliza el menú Ventanas/Diálogos empotrables/mapa de calor, para añadir colores diferentes a la paleta, hasta tener al menos 17.
+          </li>
+        </ul> 
+      <p>
+
+      <p>Una vez tenemos el gráfico indexado, usamos el menú Archivo/Exportar como, para exportar como PCX, cosa que en Gimp se hace simplemente poniendo esa extensión al fichero guardado. No olvidad nombrarlo como nnn.PCX donde nnn es el número de localidad con 3 cifras. Por ejemplo 023.PCX, 008.PCX o 234.PCX.</p>
+
+
+  <a name='esxdos'></a>
+  <h4>ZX Spectrum con DivIDE/DivMMC</h4>
+
+  <p>Un DivIDE o DivMMC es un interfaz para ZX Spectrum que permite acceder a una tarjeta SD o CF como si fuera un disco, aunque es extremádamente más rápido que, por ejemplo, el disquete del +3. Por eso es una buena solución para la carga de gráficos digitalizados en aventuras, y de hecho, fue el 
+    primer modelos soportado por Maluva. Los gráficos para ESXDOS (el sistema operativo del DivMMC/DivIDE) son los mismos que los que usamos para Spectrum 128k o +3, por lo que no es necesaria más explicación.</p>
+
+    <a name='zxuno'></a>
+    <h4>ZX-Uno</h4>
+
+    <p>El ZX-Uno es un clon de Spectrum con algunas funcionalidades que soportaron algunos otros clones. Soporta por ejemplo el un modo en el que en lugar de tener atributos de 8x8 pixeles en los que solo puede haber un color de tinta y uno de papel, lo hace con atributos de 8x1 píxeles, lo cual
+      permite gráficos mucho más coloridos. Este modo se denomina modo Timex HiRes. Además, soporta ULAPlus, un sistema que permite cambiar los colores que soporta por defecto el Spectrum, y en la práctica usar 64 colores en pantalla.</p>
+
+      <p>Para hacer gráficos para el ZX-Uno podemos hacerlo de dos maneras:
+        <ul>
+          <li>
+            Podemos hacerlos a mano usando por ejemplo <a href="https://sourcesolutions.itch.io/zx-paintbrush">ZX Paintbrush</a> e <a href="https://worldofspectrum.net/zx-modules/83/index.html">Img2ULAPlus</a>
+          </li>
+          <li>
+            Podemos usar imágenes digitalizadas, y de nuevo pasarlas por <a href="https://www.dadither.com/#Download">DaDither</a>, eligiendo la plataforma ZX Spectrum ULAPlus, Screen 256x192x8 (8x1) y eligiendo la paleta (Color, 48 high colors, slow). Esto nos generará una imagen Que
+            podemos grabar desde el menú Result, en formato SCR, que podemos usar directamente en DAAD Ready. El modo de paleta "48 high colors" deja libres los primeros 16 colores, que como en otros sistemas dejaremos con los colores que usamos para textos. A diferentia de en el Spectrum 
+            normal, los ficheros generados deben ocupar 12.288 bytesm, en lugar de 6912.
+          </li>
+        </ul>
+      </p>
+
+      <a name='msx1'></a>
+      <h4>MSX1</h4>
+
+      <p>Para añadir imágenes al intérprete de MSX 1, necesitamos poner ficheros con extensión .SC2 de 256x192 en la carpeta images.</td>
+        
+        <p>SC2 es un formato muy común en MSX, que corresponde a un modo de video similar al de ZX-Uno, solo que sin poder cambiar de paleta.</p>
+        <p>Hay un conversor bastante bueno en <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>. Asegúrate seleccionar Screen 2, y paleta estándar MSX estándar MSX 1.</p>
+
+      <a name='msx2'></a>
+      <h4>MSX2</h4>
+      <p>MSX2 utiliza en su lugar imágenes en el formato standar SC8 de MSX, que permite una paleta avanzada de 256 colores, y que se puede usar en modo de 256x212.</p>
+      <p>Podemos usar también el convesor de <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>, pero usamos Screen 8. Otra opción es usar DaDither eligiendo plataforma MSX, Screen 8 256x212x8.</p>
+    
+
+      <p>Estos conversores no evitan el uso de los primeros 16 colores, así que <sPAN style="background-color: yellow;">ME FALTA mirar como hacer en MSX que el texto no se vea afectado</sPAN> </p>
+
+      <a name='c64'></a>
+      <h4>Commodore 64</h4>
+      <p>
+      Para añadir imágenes al intérprete de Commodore 64, necesitamos poner ficheros con extensión .KOA (formato Koala) de 320x200 en la carpeta images. El formato Koala es un formato muy común en Commodore 64, y corresponde al modo
+      de video denominado multicolor.</p>
+      <p>Originalmente DAAD no permite usar ese modo, y se limitaba a usar el modo HiRes de Commodore 64, pero Maluva habilita la posibilidad de usar modo Multicolor en la parte de arriba de la pantalla (donde está el gráfico),
+        mientras que la parte de abajo sigue en modo Hires, más adecuado para el texto.    </p>
+      
+    <p>Lamentablemente, mantener ese modo "partido" funcionando requiere complicadas rutinas de interrupción que son difíciles de mantener
+    cuando se lee de disco. Esto es por lo que verás que, en estos  ordenadores, la imagen o la pantalla completa son ocultadas mientras
+    lees de disco a siguiente imagen , y que incluso puedes ver algunos  parpadeos y efectos extraños ocasionalmente al leer o escribir en disco.
+
+    <p>Si no quieres que pase eso, siempre puedes usar el  modo tradicional, es decir HiRes. Para hacer eso, edita el fichero CONFIG.BAT y cambia la línea que pone SET SPLITSCR=SPLIT a SET SPLITSCR=NOSPLIT. A partir
+    de ahí asegúrate de que usas las imágenes adecuadas (que pasa a er ficheros en formato ART en lugar de KLA para C64).</p>
+
+    <p>Para diseñar imágenes directamente en formato Koala <a href="http://multipaint.kameli.net/">Multipaint</a> es una excelente utilidad.</p>
+
+    <p>También se puede usar Dadither, pero no es recomendable, por dos razones:</p>
+    <ul><li>No obtine gran calidad con la limitada paleta de colores de Commodore 64. Aunque mejora lo que se puede conseguir en ZX Spectrum, sigue siendo un poco deficiente.</li>    
+        <li>Los disquetes de Commodore 64 son especialmente lento. Por ello los gráficos de Commodore64 se comprimen para que tarden lo menos posible en cargar. El difuminado que hace DaDither comprime se comprime muy poco, por lo que tendrá efecto en el rendimiento del juego.</li>
+    </ul> 
+
+    <p>Si aun así decidís usar Dadither, el modo correcto es del 160x200 si usais el multicolor, o 320x200 si usais modo Hires. Podéis exportar en formato KOA o ART respectivamente desde el menú Result de DaDither.</p>
+
+    <a name='cplus4'></a>
+    <h4>Commodore Plus/4</h4>
+
+    <p>DAAD Ready utiliza el modo HiRes de Commodore Plus/4 para las imágenes. Estas deben ser creadas en formato PRG, un formato que se puede crear, para Plus/4 con la aplicación <a href="https://plus4world.powweb.com/software/Botticelli">Boticceli</a> desde el propio Plus/4, pero lo más cómodo es usar <a href="http://multipaint.kameli.net/">Multipaint</a> para crear imágenes en formato PRG.</p>
+
+      
+  <a name='cpc'></a>
+  <h4>Amstrad CPC</h4>
+  <p>Para añadir imágenes al intérprete de Amstrad CPC, necesitamos poner ficheros con extensión .SCR de 320x200 en la carpeta images. El formato SCR es un formato muy común en Amstrad CPC.</p>
+
+  <p>Originalmente DAAD no permite usar modo 0 en el Amstrad CPC, y se limitaba a usar el modo 1, pero Maluva habilita la posibilidad de usar modo 0 en la parte de arriba de la pantalla (donde está el gráfico), mientras que la parte de abajo sigue en modo 1, más adecuado para el texto. Las imágenes se deben 
+    generar como dos ficheros, uno con extensión SCR y otro PAL (la paleta). Por ejemplo 001.SCR y 001.PAL para la localidad 1.</p>
+
+
+    <p>Si no quieres que pase eso, siempre puedes usar el  modo tradicional, es decir modo 1. Para hacer eso, edita el fichero CONFIG.BAT y cambia la línea que pone SET SPLITSCR=SPLIT a SET SPLITSCR=NOSPLIT. 
+  
+
+    <p>Las imágenes deben añadirse a la carpeta images/CPC, para evitar sobreescribir los SCR que hay para Spectrum, y que tienen otro formato. Si se usa el modo 0 los .SCR deben ser de modo 0, y si se usa el modo 1, de modo 1.</p>
+  
+      
+    <p>Para diseñar imágenes directamente en formato SCR de CPC <a href="http://multipaint.kameli.net/">Multipaint</a> es una excelente utilidad. <a href="https://www.cpcwiki.eu/index.php/ConvImgCPC">ConvImageCPC</a> permite convertir imágenes a formatos CPC, y por último se puede usar <a href="https://www.dadither.com/#Download">DaDither</a>,
+    utilizando el modo 0 160x200 con Palette de Gate Array (RGB) </p>
+
+     <p>Al igual que en Commodore 64, mantener el modo "partido" funcionando requiere complicadas rutinas de interrupción que son difíciles de mantener cuando se lee de disco. </p>
+
+
+     <a name='amiga'></a>
+     <h4>Commodore Amiga</h4>
+      <p>Para añadir imágenes al intérprete de Commodore Amiga, necesitamos poner ficheros con extensión .PNG de 320x200 en la carpeta images. En DAAD el Amiga puede representar un máximo de 16 colores de entre la paleta de 4096 colores del Amiga. Sí, son 16 y no 32, una cuestión
+        histórica probablemente debido a alinear con la paleta del Atari ST original, o del IBM PC con tarjeta EGA. </p>
+
+      <p>Por tanto es importante que los gráficos que creemos usen solamente 16 colores, cosa que se puede hacer a mano con <a href="http://multipaint.kameli.net/">Multipaint</a>, eligiendo modo Amiga Low, o con <a href="https://www.dadither.com/#Download">DaDither</a>, seleccionando Platform Amiga ECS, 320x200x6 NTSC LowRes,
+      bajando el plane count a 4, y deshabilitando los checks de EBH y HAM. Luego guardar como PNG. </p>
+
+      <p>También se puede reducir el número de colores con Gimp, convirtiendo la imagen en un PNG indexado de 16 colores, y después volviendo a convertirlo en RGB. De hecho, será necesario pasar por <a href="https://www.gimp.org/">Gimp</a>, porque Amiga tiene el problema de que usa los mismos 16 colores para el gráfico que para el texto,
+      por lo que seguramente tenéis que utilizar la funcionalidad de mapa de color de Gimp para reordenar la paleta y colocar los colores mas parecidos al blanco para la tinta, y al negro para el fondo (o los que use vuestra aventura) en los sitios adecuados. Esto se hace 
+      pulsando sobre cualquier color en el mapa de color de un gráfico indexado, con el botón derecho del ratón, y dando a la opción de reordenar.</p>
+
+      <a name="atarist"></a>
+      <h4>Atari ST(e)</h4>
+
+      <p>Atari ST usa básicamente los mismos gráficos que el Amiga si queremos apuntar al Atari STe, así que usar los mismos gráficos será suficiente. </p>
+      <p>Sin embargo, si se cargan esos juegos en un AtariST, se verá un poco peor, porque su paleta es solo de 512 colores, en vez de 4096. Si los gráficos son suficientemente buenos así puede servir. Si no, tendréis que hacer gráficos espacificos para Atari ST, cosa
+        que se puede hacer con <a href="http://multipaint.kameli.net/">Multipaint</a>, o bien usando la paleta  RGB333 en <a href="https://www.dadither.com/#Download">DaDither</a>.
+      </p>
+
+      <a name="pcdos"></a>
+      <h4>PC/DOS</h4>
+
+
+      <p>DAAD Ready para PC/DOS usa gráficos en modo VGA 320x200, con 256 colores de una paleta de 262.144 colores. Para crear gráficos para PC/DOS, simplemente hay que crear los gráficos en formato PCX, y ponerlos en la carpeta "images/PC" de DAAD Ready, usando la misma convención para el nombre del archivo (ya sabeis, 001.PCX para la localidad 1). </p>
+
+      <p>DAAD originalmente no soportaba este modo, sino como máximo el modo VGA de 320x200 de 16 colores. La implementación actual es soportada por un intérprete moderno llamado PCDAAD.</p>
+
+      <p>PCDAAD soporta también gráficos SVGA en 640x400, 256 colores. Para usar este modo hay que cambiar en el fichero CONFIG.BAT y añadir la línea “SET SVGA=1”. Además, tendrás que poner los gráficos (de 640x400) en la  carpeta IMAGES/PC/SVGA en lugar de IMAGES/PC.</p>
+
+      <p>Debemos, de una manera muy parecida a en Spectrum Next, pero en resolucion de 320x200 o 640x400, generar ficheros PCX indexados de 256 colores, pero usando solo 240. Se elige 240 porque los 16 restantes los va a usar DAAD-Ready para los colores del texto, del INK 0 al INK 15. </p>
+
+      <p>Reducir a 240 colores es fácil de hacer usando <a href="https://www.gimp.org/">Gimp</a>, y convirtiendo la imagen a modo indexado, indicando máximo número de colores 240. Si la imagen ya fuera de modo indexado (menú Imagen/modo) conviertela a modo RGB, y después otra vez a indeado para poder marcar los 240 de limite.</p>
+
+
+
+
+      
+
+
+      
+      
+</div>
+
+</body>
+</html>
+
+

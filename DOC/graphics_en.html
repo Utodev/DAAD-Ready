@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HKGF5S1N0F"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HKGF5S1N0F');
+</script>
+
+  <!-- Basic Page Needs
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta charset="utf-8">
+  <title>DAAD Ready</title>
+  <meta name="description" content="DAAD Ready Documentation">
+  <meta name="author" content="@Uto_dev">
+
+  <!-- Mobile Specific Metas
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- CSS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="res/normalize.css">
+  <link rel="stylesheet" href="res/skeleton.css">
+
+</head>
+<body style='font-family: Speccy, Verdana, Arial, Helvetica'>
+
+<div class="skip"><a href="#content">Skip to content</a></div>
+
+  <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<div class="container">
+  <div class="row">
+    <div class="twelve column" style='background-color:#045FB4;color:white'>
+      <h2><a href="/">Graphics in DAAD Ready</a></h2>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="twelve column">
+    <a name='content'></a>
+    <h4>Documentation on graphics in DAAD Ready</h4>
+
+    <p>In English <a href="graphics_en.html">here <img src="res/english.gif" /></a></p>
+
+<p>This document extends the content of the DAAD Ready manual, serving as a reference for adding graphics to your adventure. To a certain extent, it assumes you are already familiar with DAAD Ready, so it is recommended that you first read the DAAD Ready manual and then this document.</p>
+
+<H4>TABLE OF CONTENTS</H4>
+
+<ul>
+  <li><a href='#overview'>Introduction</a></li>
+  <ul>
+    <li><a href='#differences'>Differences between DAAD and DAAD-Ready</a></li>
+    <li><a href='#maluva'>Maluva</a></li>
+    <li><a href='#newterps'>New Interpreters</a></li>
+    <li><a href='#daadready'>DAAD Ready</a></li>
+  </ul>
+ 
+  <li><a href='#graphicsbyplatform'>Graphics by Platform</a></li>
+  <ul>
+    <li><a href='#zx48k'>ZX Spectrum 48K</a></li>
+    <li><a href='#zxplus3'>ZX Spectrum +3</a></li>
+    <li><a href='#zx128k'>ZX Spectrum 128K (tape)</a></li>
+    <li><a href="#zxnext">ZX Spectrum Next</a></li>
+    <li><a href='#esxdos'>ZX Spectrum with DivMMC/DivIDE interface</a></li>
+    <li><a href='#zxuno'>ZX-Uno</a></li>
+    <li><a href='#c64'>Commodore 64</a></li>
+    <li><a href='#cplus4'>Commodore Plus/4</a></li>
+    <li><a href='#cpc'>Amstrad CPC</a></li>
+    <li><a href='#msx1'>MSX1</a></li>
+    <li><a href='#msx2'>MSX2</a></li>   
+    <li><a href='#amiga'>Commodore Amiga</a></li>
+    <li><a href='#atarist'>Atari ST</a></li>
+    <li><a href='#pcdos'>PC/DOS</a></li>
+    <li><a href='#html'>HTML</a></li>
+    <li><a href='#windows'>Windows</a></li>
+    <li><a href='#macOS'>MacOS</a></li>   
+  </ul>
+  
+  <li><a href='#graphics'>Loading Screens</a></li>
+  <ul>
+    <li><a href='#loadingscreens'>Loading Screens</a></li>
+  </ul>
+
+  <li><a href='#advgraphicsbyplatform'>Advanced Graphics by Platform</a></li>
+  <ul>
+    <li><a href='#advzx128k'>ZX Spectrum 128K (tape)</a></li>
+    <li><a href='#advzxplus3'>ZX Spectrum +3</a></li>
+    <li><a href="#advzxnext">ZX Spectrum Next</a></li>
+    <li><a href='#advesxdos'>ZX Spectrum with DivMMC/DivIDE interface</a></li>
+    <li><a href='#advzxuno'>ZX-Uno</a></li>
+    <li><a href='#advc64'>Commodore 64</a></li>
+    <li><a href='#advcplus4'>Commodore Plus/4</a></li>
+    <li><a href='#advcpc'>Amstrad CPC</a></li>
+    <li><a href='#advmsx1'>MSX1</a></li>
+    <li><a href='#advmsx2'>MSX2</a></li>   
+    <li><a href='#advamiga'>Commodore Amiga</a></li>
+    <li><a href='#advatarist'>Atari ST</a></li>
+    <li><a href='#advpcdos'>PC/DOS</a></li>
+    <li><a href='#advhtml'>HTML</a></li>
+    <li><a href='#advwindows'>Windows</a></li>
+    <li><a href='#advmacOS'>MacOS</a></li>   
+  </ul>
+
+<a name="overview"></a>
+<H4>INTRODUCTION</H4>
+
+<a name="differences"></a>
+<h3>Differences between DAAD and DAAD-Ready</h3>
+
+<h4>DAAD</h4>
+
+<p>DAAD is a system for creating conversational adventures for 8- and 16-bit machines, developed primarily by Tim Gilberts. It was based on what had previously been The Quill, PAWS, and SWAN, created under the direct commission of the now-defunct Spanish company Aventuras AD.</p>
+
+<p>Unlike The Quill or PAWS, DAAD was not developed directly on the target machine; it was designed to run from DOS and Atari ST.</p>
+
+<p>DAAD remained lost for many years after Aventuras AD closed, until it was recovered in the 2010s.</p>
+
+<p>At that time, the system was exactly as it had been left in 1992—with the tools of that era, for the computers of that era, and with instructions on how to create the disks for the various supported platforms based on the systems of that time. Years later, the instructions on how to create adventures for the different machines became obsolete, and it was no longer necessary to transfer games to each machine for testing, thanks to the existence of emulators.</p>
+
+<p>Each DAAD user started to develop their own methods for creating the disks of a game for platforms such as CPC, Commodore 64, Amiga, Atari ST, MSDOS, ZX Spectrum, MSX, or PCW, using different utilities to create disks and virtual tapes for testing the game on emulators.
+   This was complicated for many people, who spent more time figuring out how to create the final floppy disk or tape rather than developing the adventure. For that reason, and with the emergence of Maluva, DAAD Ready was born.</p>
+
+<a name="maluva"></a>
+<h4>Maluva</h4>
+
+<p>Maluva is an extension of DAAD that allows the replacement of the typical vector graphics of the era on 8-bit machines with more attractive digital graphics. However, there was a caveat: Maluva only works with systems that use floppy disks. That is why Maluva was used to create games for Amstrad CPC, Spectrum +3, Commodore 64, and MSX 1, but only on floppy disk.</p>
+
+<p>Maluva was also ported to enable the use of certain variants of the ZX Spectrum, specifically the ZX Spectrum Next, the ZX-Uno, and a ZX Spectrum with DivIDE or DivMMC, thereby also allowing digitized graphics for these machines.</p>
+
+<a name="newterps"></a>
+<h4>New Interpreters</h4>
+<p>Later, new interpreters were developed, capable of running games made in DAAD on machines other than the originals, or on variations of the original machines:</p>
+  <ul>
+    <li>MSX 2 (MSX2DAAD): built from scratch and allowed the use of MSX 2’s enhanced graphics among other features.</li>
+    <li>Commodore Plus/4: a fork of the Commodore 64 interpreter, enabling a version that also supported Maluva.</li>
+    <li>MSDOS (PCDAAD): although there was already a DAAD interpreter for DOS that only supported 16-color VGA mode, a new one was developed which supports both VGA and 256-color SVGA modes.</li>
+    <li>HTML (jDAAD): a port of the previous one that generates a web page using HTML and JavaScript, allowing 256-color graphics.</li>
+    <li>ZX Spectrum 128k (ZXDAAD128): capable of running vector games on a cassette tape game.</li>
+    <li>Windows and MacOS (ADP): although still experimental, they support the same graphics as the Amiga or Atari ST.</li>
+  </ul>
+
+  <p>There is also another interpreter capable of running a game designed for any of DAAD’s original platforms on any operating system that supports Python: NAPS. We will not cover NAPS in this document, as creating graphics for NAPS essentially involves creating games on a classic platform, meaning there is no difference between creating graphics for, say, CPC and creating them for NAPS running in CPC mode.</p>
+
+  
+  <a name="daadready"></a>
+  <h4>DAAD Ready</h4>
+
+  <p>DAAD Ready is a set of utilities and scripts for Windows that allows authors to focus on creating adventures, taking on all the tedious work of creating a .D64 file for Commodore 64, or a DSK for Spectrum +3, an ADF for Amiga, etc.</p>
+
+  <p>Thus, by simply editing a file that indicates what happens in the adventure and placing the necessary graphics in a specific folder in the format required for each platform, you just double-click a script— for example, C64.BAT— and it generates a .D64 floppy disk file (the common extension for disks in Commodore 64 emulators) ready for distribution.
+    Moreover, it even opens that file in a Commodore 64 emulator for testing.</p>
+
+  <p>Obviously, the graphics differ depending on the computer used. Therefore, if you are going to add graphics to your adventure, you must create different graphics for each machine. DAAD Ready helps you do that, but it does not do it for you.</p>
+
+  <p>One of the simplifications of DAAD Ready, which—aside from making complicated tasks easier—was born from the idea of simplifying some of DAAD's complexities, is that it always follows the rule of placing the graphic at the top (in the first 96 scanlines of the screen) and the text at the bottom.
+    This is because, on one hand, it is the most common layout in adventures, and on the other hand, because Maluva and some other functionalities discussed in this document require the graphic to be at the top of the screen.</p>
+  
+    <p>Of course, it is possible to place graphics in other parts of the screen, but perhaps not in digital form, or not on all machines, or not in the desired video mode. Placing a graphic of 96 pixels in height and the full width of the screen is always possible on all platforms, so DAAD Ready uses this as the "common denominator" for all systems.</p>
+    
+   
+  <a name="graphicsbyplatform"></a>
+  <h3>Graphics by Platform</h3>
+
+  <p>Adding graphics to adventures in DAAD Ready is simple in theory but laborious in practice. In principle, you just need to place the graphics in the 'images' folder, in the format appropriate for each platform, and name them with the location number using three digits. For example, for ZX Spectrum +3 the classic SCR format of 6912 bytes is used, so to add the graphic for location 1, you would simply place the file 001.SCR in the 'images' folder containing the location graphic.</p>
+
+  <p>You can also create graphics that are not tied to a specific location; for instance, adding 200.SCR, which can later be displayed in DAAD using an instruction called PICTURE on demand.</p>
+
+  <p>The general rule in DAAD Ready is that the graphics we provide are always full-screen, and DAAD Ready takes care of cropping the graphic to the usual height of 96 pixels and displaying it on screen.</p>
+
+
+    <a name='zx48k'>
+    <h4>ZX Spectrum 48K</h4>
+
+    <p>This platform is the easiest to explain because DAAD Ready does not support graphics for the 48K Spectrum. A 48K Spectrum is very limited in RAM, making it nearly impossible to load digitized graphics; only a few could fit. Therefore, the only way to add graphics is to use the old method of drawing graphics (vector-based), which is beyond the scope of DAAD Ready.</p>
+    
+
+      <a name='zxplus3'>
+      <h4>ZX Spectrum +3</h4>
+
+      <p>With the Spectrum +3, things change. The +3 has 128K of RAM and, more importantly, a floppy drive, which allows for the loading of digitized graphics on the fly, simply by reading them from the disk without the need to occupy memory.</p>
+      
+      <p>To add graphics, you only need to create SCR files. DAAD Ready uses the .SCR format of 6912 bytes and places them in the "images" folder of DAAD Ready. The file name must be the location number in three digits with the .SCR extension. For example, to add the graphic for location 1, simply place the file 001.SCR containing the location graphic in the 'images' folder.</p>
+
+      <p>Remember that only the first 96 pixels will be displayed, so anything below that pixel in the image is irrelevant.</p>
+
+      <p>A very useful tool for creating graphics in SCR format is ZX Paintbrush.</p>
+      <p>If you have a digital image, you can also use DaDither, selecting ZX Spectrum as the platform and choosing the 256x192x4 option for Screen. Considering the limited graphic capabilities of the Spectrum, converting an image with DaDither is sometimes complicated, and as you may have seen in some adventures, graphics are usually in black and white or minimally colored. The Mode/Gray option in DaDither allows for this.</p>
+      
+      <p>Keep in mind that each image will take up slightly more than 3.3K on the disk, so there is a limited amount of graphics that can fit on a 3" Spectrum +3 floppy disk. Some authors have opted to place graphics on both sides and ask the user to flip the disk when moving past a certain area or returning to the initial zone.</p>
+
+      
+
+
+      <a name='zx128k'>ZX Spectrum 128K</a>
+
+      <p>The ZX Spectrum 128K is an exceptional case within DAAD Ready because it is the only supported platform that generates files for cassette tapes, specifically the well-known .TAP format. This system makes use of one of the new interpreters that is not part of the Original DAAD: ZXDAAD128.</p>
+
+      <p>This interpreter utilizes the extra memory of the ZX Spectrum 128K, as well as image compression, to accommodate several digitized graphics in memory.</p>
+
+      <p>Even so, the RAM available in a 128K is limited, and no one would want to load the tape continuously to see new graphics, so you have to measure how many graphics you’re going to include because not all of them might fit.</p>
+
+      <p>A common solution is to have a generic graphic that can be used in several locations, or "filler" graphics that are not really graphics but rather a logo or similar, or simply to have locations without a graphic.</p>
+
+      <p>Due to the type of compression used by ZXDAAD128, the more consecutive horizontal pixels of the same color there are in the graphic, the better it compresses, and the more graphics can fit.</p>
+
+      <p>The same graphics used in Spectrum +3 will automatically load on the ZX Spectrum 128K, but keep in mind that dithering with DaDither is almost the worst scenario in terms of image compression, so it is not highly recommended unless you have very few graphics.</p>
+
+      <p>Note: For those who may have doubts, when we refer to the ZX Spectrum 128K we mean both Sinclair’s original ZX Spectrum 128K and Amstrad’s +2 models. We are not referring to the Spectrum +3, which, although it is a 128K Spectrum, has its own section.</p>
+  
+
+</div>
+
+</body>
+</html>

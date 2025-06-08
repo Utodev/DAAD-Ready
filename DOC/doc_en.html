@@ -26,8 +26,8 @@
   
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="normalize.css">
-  <link rel="stylesheet" href="skeleton.css">
+  <link rel="stylesheet" href="res/normalize.css">
+  <link rel="stylesheet" href="res/skeleton.css">
 
  
 
@@ -50,7 +50,7 @@
 <a name='content'></a>
 <h4>DAAD Ready Documentation</h4>
 
-<p>En español <a href="doc_es.html">aquí<img src="spanish.gif"></a></p>
+<p>En español <a href="doc_es.html">aquí<img src="res/spanish.gif"></a></p>
 
 <p>This document uses parts from the DAAD v2 Manual (C) Infinite Imaginations 1988/89/91, which was written by Tim Gilberts, compiled back to modern format by Pedro Fernandez from Andres Samudio’s disks, and had some amendments appointed or made by a few people more, and very specially by Stefan Vogt. This manual has been expanded, modified, cut, and cropped by Uto. </p>
 
@@ -236,15 +236,15 @@
 <p>To add graphics, you will have to place images in specific formats in the mentioned folders, those formats are:</p>
 
 <ul>
-  <li>Spectrum SCR format for Spectrum +3, Spectrum 128K or ESXDOS</li>
-  <li>256 color indexed PCX format for Spectrum Next</li>
-  <li>MLT or MLT+PAL file for ZX-Uno</li>
+  <li>Spectrum 256x192 SCR format for Spectrum +3, Spectrum 128K or ESXDOS</li>
+  <li>256 color indexed PCX 256x192 format for Spectrum Next</li>
+  <li>SCR (extended), MLT or MLT+PAL 256x192 file for ZX-Uno</li>
   <li>Spectrum 48K TAP version does not support graphics in DAAD Ready</li>
-  <li>Amstrad SCR + PAL format, mode 0, for Amstrad CPC (mode 1 if you don't use spliot screen).</li>
-  <li>Koala (.KLA) format for C64 HiColor or .ART for HiRes</li>
-  <li>PRG format for Commodore Plus/4</li>
-  <li>SC2 format for MSX 1</li>
-  <li>SC8 format for MSX 2</li>
+  <li>Amstrad SCR + PAL format, mode 0, 160x200 for Amstrad CPC (mode 1 320x200 if you don't use split screen).</li>
+  <li>Koala (.KLA) format for C64 HiColor (160x200) or .ART (320x200) for HiRes (without split screen)</li>
+  <li>PRG format for Commodore Plus/4 (320x200)</li>
+  <li>SC2 format for MSX 1 (256x192)</li>
+  <li>SC8 format for MSX 2 (256x192)</li>
   <li>256 colors indexed PCX file for PC (Maximum 320x200 for VGA or 640x400 for SVA)</li>
   <li>TrueColor PNG image for HTML/Javascript</li>
   <li>PNG with 16 colours max, 320x200, for Amiga and Atari ST</li>
@@ -268,8 +268,8 @@
 <table>
   <tr><td>Spectrum .SCR 256x192</td><td>This is exported by almost all emulators. ZX Paintbrush can handle them too.</td></tr>
   <tr><td>Spectrum Next .PCX 256x192</td><td>This is easy to generate with Gimp, just make sure the palette is set to indexed and you picture has no less than 17 colors, cause otherwise Gimp will generate an invalid 16-color PCX.</td></tr>
-  <tr><td>ZX-Uno MLT/PAL 256x192</td><td>MLT files can be created with ZX-Paintbrush or Image2Ulaplus. If the MLT is 12,288 bytes long, the palette information is not in there, please also add a tap file with same name with the palette information (ZX-Paintbrush can export it).</td></tr>
-  <tr><td>CPC .SCR and .PAL 320x200</td><td>CPCImgConv is a good tool to get images finished. It is important to have in mind color 0 of the image would be used as background for all the screen, and color 1 for text, so either you handle palette so 0 is black and 1 is white, or you find a way to make text readable by ensuring colours 0 and 1 have a decent contrast. Remember that you have to export both the .SCR and the .PAL file for each location, and put them in the folder.</td></tr>
+  <tr><td>ZX-Uno MLT/PAL 256x192</td><td>MLT files can be created with ZX-Paintbrush or Image2Ulaplus. If the MLT is 12,288 bytes long, the palette information is not in there, please also add a tap file with same name with the palette information (ZX-Paintbrush can export it). DaDither generates better images, but at the moment can't skip the colors needed fro DAAD Ready.</td></tr>
+  <tr><td>CPC .SCR and .PAL 320x200</td><td>ConvImgCPC is a good tool to get images finished. It is important to have in mind color 0 of the image would be used as background for all the screen, and color 1 for text, so either you handle palette so 0 is black and 1 is white, or you find a way to make text readable by ensuring colours 0 and 1 have a decent contrast. Remember that you have to export both the .SCR and the .PAL file for each location, and put them in the folder.</td></tr>
   <tr><td>C64 .KLA 160x200 and .ART 320x200</td><td>Multipaint is a very good tool for C64 Multicolor images creation.</td></tr>
   <tr><td>Plus/4 320x200</td><td>The images should be in Boticceli HiRes format and named 001.PRG, 002.PRG, 003.PRG, etc. Botticeli is a Plus/4 application</td></tr>
   <tr><td>MSX 1 .SC2 256x192</td><td>Nice converter at <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>. AsegúrateMake sure you use standard MSX 1 palette.</td></tr>
@@ -300,12 +300,15 @@
 <p>It’s possible to add a loading screen for some targets using DAAD-Ready. Please check the following list:</p>
 
 <table>
+<tbody>
 <tr><td>Spectrum</td><td>Enabled for tape targets and PLUS3 target(not for OLDPLUS3). Put a file named DAAD.SCR in the images folder.</td></tr>
+<tr><td>MSX 1</td><td>Put a file named DAAD.SC2 in the images folder.</td></tr>
 <tr><td>MSX 2</td><td>Put a file named DAAD.SC8 in the images folder.</td></tr>
 <tr><td>PC/DOS</td><td>Put a file named DAAD.PCX in the PC images folder (or the SVGA folder)</td></tr>
 <tr><td>Atari ST</td><td>Put a file named DAAD.PNG in the images folder</td></tr>
 <tr><td>Windows Experimental</td><td>Put a file named DAAD.PNG in the images folder</td></tr>
 <tr><td>MacoS Experimental</td><td>Put a file named DAAD.PNG in the images folder</td></tr>
+</tbody>
 </table>
 
 <p>Have in mind for targets that that are not in this list, that doesn’t mean you cannot add a loading screen in most cases, it just means you would have to do it manually as DAAD-Ready doesn’t do it for you. </p>
@@ -446,7 +449,7 @@
      to jump from one table to another there is a specific order "PROCESS" that jumps to another table. When that table ends,
      it returns to the position from which it was called.</p>
 
-<center><img src='Image1.png' alt="Figure 1"></center>
+<center><img src='res/Image1.png' alt="Figure 1"></center>
 
 <p> DAAD will search in each enrty (they start with the character ">") until the process ends.
    Assuming there is some entry, it will check that the verb and name of these correspond with
@@ -1820,19 +1823,13 @@ made into objects if they were to be included in a DOALL.</p>
 
 <p>where distance is -128 to 128, or to the specified label.</p>
 
-<p>Will move the current entry in a table back or fore. 0 means next
-entry (so is meaningless). -1 means restart current entry
-(Dangerous). There is no error checking so it should be possible
-to jump out of the table (Fatal).</p>
+<p>Will move the current entry in a table back or forward. Parameter -1 means restart current entry, -2 the previous one, etc. It also can jump forward where 0 is next entry, 1 the one after, etc.
+  
+There is no error checking so it should be possible to jump out of the table (what would be fatal).</p>
 
-<p>Skip can also accept as a parameter a local symbol. This is a
-symbol preceded by a $ sign. They are local to each process
-table and will not affect any global symbols used. The big
-advantage is that they can forward reference.</p>
+<p>Skip can also accept as a parameter a local symbol. This is a symbol preceded by a $ sign. They are local to each process table and will not affect any global symbols used. The big advantage is that they can forward reference.</p>
 
-<p>This is implemented with rear patching. The symbol is defined by
-placing it in the source file immediately before the entry it
-refers to:</p>
+<p>This is implemented with rear patching. The symbol is defined by placing it in the source file immediately before the entry it refers to:</p>
  
 <p>e.g.</p>
 
@@ -2541,7 +2538,7 @@ printing characters from other languages, basically most of the characters
   <tr><td>62</td><td>on ST and PC gives the absolute screen mode in use on the machine. This allows checks to be made as to size of screen etc, but to determine if you are in graphics mode see Flag 29. On the ST 0 means lo-res and 1 med-res. 
     On the PC 4 means CGA, 7 means mono character only, 13 is EGA or VGA and +128 (Bit 7 is set) in VGA to indicate you have palette switching.
   </td></tr>
-  <tr><td>63</td><td>defines the currently active window. Note that this is a copy so changing its value will not affect the DAAD system.</td></tr>
+  <tr><td>63</td><td>defines the currently active window. Note that this is a copy so changing its value will not affect the DAAD system. Important: some interpreters don't update this flag.</td></tr>
   <tr><td>64-254</td><td>Available for your own use</td></tr>
 </table>  
 
