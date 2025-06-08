@@ -48,9 +48,9 @@ if errorlevel 2 (
     copy readme.txt ZXTAPE > nul 2>&1
 
     echo Cleaning ZX Spectrum +3...
-    md PLUS3> nul 2>&1
-    del /q /s PLUS3\*.* > nul 2>&1
-    copy readme.txt PLUS3 > nul 2>&1
+    md ZXPLUS3> nul 2>&1
+    del /q /s ZXPLUS3\*.* > nul 2>&1
+    copy readme.txt ZXPLUS3 > nul 2>&1
 
     echo Cleaning ZX Spectrum 128K tape...
     md ZX128TAPE> nul 2>&1
