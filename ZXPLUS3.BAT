@@ -41,8 +41,11 @@ IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
 REM ---- GET RESOURCES  ---- 
 tools\cecho\cecho {06}Copying required files...{07}
 echo.
-COPY TOOLS\MALUVA\*.BIN > nul 2>&1
-COPY ASSETS\ZX\PLUS3%BASELANG%.DSK %GAME%.DSK > nul 2>&1
+
+SET INTERPRETER=ASSETS\ZX\PLUS3\DSP3E.BIN
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\PLUS3\DSP3S.BIN
+COPY %INTERPRETER% DSP3TEMP.BIN > nul 2>&1
+COPY ASSETS\ZX\PLUS3\PLUS3.DSK %GAME%.DSK > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 
 ECHO.
@@ -56,7 +59,7 @@ tools\cecho\cecho {02}[OK]{07}
 ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
-PHP\PHP TOOLS\DRC\DRB.PHP zx plus3 %LANG% %GAME%.json %GAME%.DDB -3h
+PHP\PHP TOOLS\DRC\DRB.PHP zx plus3 %LANG% %GAME%.json %GAME%.DDB -3h -v
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -64,19 +67,19 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 MOVE %GAME%.DDB DAAD.DDB > nul 2>&1
 
-REM  ---- PREPARE  IMAGES ----
+REM  ---- PREPARE THE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 
 CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\MALUVA\SC2DAAD zx 00%%i.SCR 00%%i.ZXS %IMGLINES%
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\MALUVA\SC2DAAD zx 0%%i.SCR 0%%i.ZXS %IMGLINES%
-for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\MALUVA\SC2DAAD zx %%i.SCR %%i.ZXS %IMGLINES% 
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\SCRMAKER\SCRMAKER zx 00%%i.SCR 00%%i.ZX 256 %IMGLINES% 0,0  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER zx 0%%i.SCR 0%%i.ZX 256 %IMGLINES% 0,0  > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER zx %%i.SCR %%i.ZX 256 %IMGLINES% 0,0  > nul 2>&1
 CD ..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
-REM  ---- PREPARE THE FONT -----
+REM  ---- PREPARE AND ADD THE FONT -----
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
 COPY ASSETS\ZX\DAAD.SDG > nul 2>&1
@@ -88,21 +91,29 @@ DEL SDG.HEAD > nul 2>&1
 DEL SDG.TAIL > nul 2>&1
 DEL DAAD.SDG > nul 2>&1
 MOVE DAAD.TMP.zxb DAAD.SDG > nul 2>&1
-
-
-REM  ---- COPY TO DISK  ---- 
-TOOLS\CPCDiskXP\CPCDiskXP -File DAAD.DDB -AddToExistingDsk %GAME%.DSK > nul 2>&1
 TOOLS\CPCDiskXP\CPCDiskXP -File DAAD.SDG -AddToExistingDsk %GAME%.DSK > nul 2>&1
+
+REM  ---- PREPARE AND ADD THE INTERPRETER ----
+TOOLS\SPECFORM\SPECFORM -a 24576 DSP3TEMP.BIN > nul 2>&1
+MOVE DSP3TEMP.BIN.zxb DSP3.BIN > nul 2>&1
+TOOLS\CPCDiskXP\CPCDiskXP -File DSP3.BIN -AddToExistingDsk %GAME%.DSK > nul 2>&1
+
+REM ---- ADD THE DDB ----
+TOOLS\CPCDiskXP\CPCDiskXP -File DAAD.DDB -AddToExistingDsk %GAME%.DSK > nul 2>&1
+
+REM ---- ADD THE XMESSAGES ----
 IF exist 0.XMB TOOLS\CPCDiskXP\CPCDiskXP -File 0.XMB -AddToExistingDsk %GAME%.DSK
+
+REM ---- ADD THE IMAGES ----
 if exist IMAGES\DAAD.SCR  (
     TOOLS\SPECFORM\SPECFORM IMAGES\DAAD.SCR > nul 2>&1
     MOVE IMAGES\DAAD.SCR.zxb DAAD.SCR > nul 2>&1
     TOOLS\CPCDiskXP\CPCDiskXP -File DAAD.SCR -AddToExistingDsk %GAME%.DSK
     DEL DAAD.SCR  > nul 2>&1
 )
-for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.ZXS TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\00%%i.ZXS -AddToExistingDsk %GAME%.DSK
-for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.ZXS TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\0%%i.ZXS -AddToExistingDsk %GAME%.DSK
-for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.ZXS TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\%%i.ZXS -AddToExistingDsk %GAME%.DSK
+for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.ZX TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\00%%i.ZX -AddToExistingDsk %GAME%.DSK
+for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.ZX TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\0%%i.ZX -AddToExistingDsk %GAME%.DSK
+for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.ZX TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\%%i.ZX -AddToExistingDsk %GAME%.DSK
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -116,12 +127,13 @@ DEL *.XMB > nul 2>&1
 DEL *.SDG > nul 2>&1
 DEL *.TMP > nul 2>&1
 DEL *.CHR > nul 2>&1
+DEL *.P3F > nul 2>&1
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
 REM ---- TESTER ---- 
 ECHO.
-MOVE %GAME%.DSK RELEASE\PLUS3 > nul 2>&1
+MOVE %GAME%.DSK RELEASE\ZXPLUS3 > nul 2>&1
 
 tools\cecho\cecho {03}
 ECHO Game is ready, press any key to test or Ctrl+C to cancel
@@ -129,7 +141,7 @@ ECHO When in emulator, select the "LOADER" option at the +3 menu
 tools\cecho\cecho {07}
 PAUSE
 cd TOOLS\ZESARUX
-zesarux --noconfigfile --quickexit --zoom 2 --machine P341 --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\PLUS3\%GAME%.DSK"
+zesarux --noconfigfile --load-additional-config --quickexit --zoom 2 --machine P341 --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\ZXPLUS3\%GAME%.DSK"
 CD ..\..
 GOTO END
 
@@ -147,6 +159,7 @@ DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.TMP > nul 2>&1
 DEL *.CHR > nul 2>&1
+DEL *.P3F > nul 2>&1
 
 REM  --- CUSTOM AREA ---
 :CUSTOM
