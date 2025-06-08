@@ -18,6 +18,28 @@ REM ----  VARIABLES ----
 CALL CONFIG.BAT
 IF exist CUSTOM.BAT CALL CUSTOM.BAT
 
+
+IF NOT EXIST "ASSETS\ZXPLUS3.warning" (
+    if "%BASELANG%" == "ES" (
+
+        tools\cecho\cecho {06}AVISO: ESTA BAT GENERA UNA DISTRIBUCION PARA SPECTRUM +3 UTILIZANDO EL NUEVO INTERPRETE ZXDAAD128, que no es un intérprete original de DAAD. {07} 
+        tools\cecho\cecho {06}Aunque ZXDAAD ha sido ya probado bastante, podrian aparecer problemas o incompatibilidades inesperadas. {07}
+        tools\cecho\cecho {06}Por favor, antes de reportar un error comprueba que el comportamiento es diferente en ZXPLUS3.BAT.{07}    
+        echo.
+        PAUSE
+        echo "OK" > ASSETS\ZXPLUS3.warning
+    )
+    if "%BASELANG%" == "EN" (
+        tools\cecho\cecho "{06}WARNING: THIS BAT GENERATES A DISTRIBUTION FOR SPECTRUM +3 USING NEW ZXDAAD128 INTERPRETER, which is not an original DAAD interpreter.{07}" 
+        tools\cecho\cecho "{06}Although ZXDAAD has been tested quite a lot, unexpected problems or incompatibilities could appear. {07}"
+        echo.
+        tools\cecho\cecho "{06}Before reporting a bug, please check that the behaviour is different in ZXPLUS3.BAT.{07}"
+        PAUSE
+        echo "OK" > ASSETS\ZXPLUS3.warning
+    )
+)
+
+
 REM ----  CHECK IF LANG IS SET ---- 
 IF  NOT DEFINED LANG (
         ECHO.
@@ -47,6 +69,26 @@ IF  NOT DEFINED LANG (
         ECHO SET BASELANG=!BASELANG!>>CONFIG.BAT
     )
 echo Language: %LANG% %BASELANG%
+
+IF NOT EXIST "ASSETS\ZX128PLUS3.warning" (
+    if "%BASELANG%" == "ES" (
+
+        tools\cecho\cecho {06}AVISO: ESTA BAT GENERA UNA DISTRIBUCION PARA SPECTRUM +3 UTILIZANDO EL NUEVO INTERPRETE ZXDAAD128.{07} 
+        tools\cecho\cecho {06}ZXDAAD128 esta en una etapa de pruebas, y aunque en general ha sido ya probado, podrian aparecer problemas o incompatibilidades inesperadas. {07}
+        tools\cecho\cecho {06}Por favor, antes de reportar un error comprueba que el comportamiento es diferente en otros targets.{07}    
+        echo.
+        PAUSE
+        echo "OK" > ASSETS\ZX128PLUS3.warning
+    )
+    if "%BASELANG%" == "EN" (
+        tools\cecho\cecho "{06}WARNING: THIS BAT GENERATES A DISTRIBUTION FOR SPECTRUM +3 USING NEW ZXDAAD128 INTERPRETER{07}" 
+        tools\cecho\cecho "{06}ZXDAAD128 is in early stages of development, and although it has been tested quite a lot, unexpected problems or incompatibilities could appear. {07}"
+        echo.
+        tools\cecho\cecho "{06}Before reporting a bug, please check that the behaviour is different in other targets.{07}"
+        PAUSE
+        echo "OK" > ASSETS\ZX128PLUS3.warning
+    )
+)
 
 REM ----  SET CHARACTERS PER LINE ---- 
 IF  NOT DEFINED CHARSLINE (
@@ -110,7 +152,7 @@ TOOLS\CPCDiskXP\CPCDiskXP -File daad.bin -AddToExistingDsk %GAME%.DSK > nul 2>&1
 for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.DCP TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\00%%i.DCP -AddToExistingDsk %GAME%.DSK
 for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.DCP TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\0%%i.DCP -AddToExistingDsk %GAME%.DSK
 for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.DCP TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\%%i.DCP -AddToExistingDsk %GAME%.DSK
-MOVE %GAME%.DSK RELEASE\ZX128PLUS3 > nul 2>&1
+MOVE %GAME%.DSK RELEASE\ZXPLUS3_EXPERIMENTAL > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -125,14 +167,30 @@ IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
 REM ---- TESTER ---- 
 tools\cecho\cecho {03}
+
+
+
+
+tools\cecho\cecho {0C}
+IF "%BASELANG%" == "EN" (
 ECHO Press any key to run emulator, or Ctrl+C to cancel.
 ECHO To exit ZEsarUX emulator, press F5, then F10.
+tools\cecho\cecho {0C}
+ECHO IMPORTANT: This is an experimental new interpreter for DAAD. It may have bugs or incompatibilities. If you find somrthing that doesn't work as expected, check other Spectrum targets to determine if it's your fault or a bug in the interpreter.
+)
+
+IF "%BASELANG%" == "ES"  (
+ECHO Pulsa una tecla para ejecutar el emulador, o Ctrl+C para cancelar.
+ECHO Para salir del emulador ZEsarUX, pulsa F5, luego F10.
+tools\cecho\cecho {0C}
+ECHO IMPORTANTE: Este es un nuevo interprete experimental para DAAD. Puede tener errores o incompatibilidades. Si encuentras algo que no funciona como esperas, comprueba otros BAT de Spectrum para determinar si es fallo tuyo o un error en el interprete.
+)
 tools\cecho\cecho {07}
 
 
 PAUSE
 cd TOOLS\ZESARUX
-zesarux --noconfigfile --quickexit --fastautoload --zoom 2 --machine P341 --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\ZX128PLUS3\%GAME%.DSK"
+zesarux --noconfigfile --quickexit --fastautoload --zoom 2 --machine P341 --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\ZXPLUS3_EXPERIMENTAL\%GAME%.DSK"
 CD ..\..
 GOTO END
 

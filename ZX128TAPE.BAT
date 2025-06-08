@@ -48,6 +48,26 @@ IF  NOT DEFINED LANG (
     )
 echo Language: %LANG% %BASELANG%
 
+IF NOT EXIST "ASSETS\ZX128TAPE.warning" (
+    if "%BASELANG%" == "ES" (
+
+        tools\cecho\cecho {06}AVISO: ESTA BAT GENERA UNA DISTRIBUCION PARA SPECTRUM 128K UTILIZANDO EL NUEVO INTERPRETE ZXDAAD128, que no es un intérprete original de DAAD. {07} 
+        tools\cecho\cecho {06}ZXDAAD128 esta en una etapa de pruebas, y aunque en general ha sido ya probado, podrian aparecer problemas o incompatibilidades inesperadas. {07}
+        tools\cecho\cecho {06}Por favor, antes de reportar un error comprueba que el comportamiento es diferente en otros targets.{07}    
+        echo.
+        PAUSE
+        echo "OK" > ASSETS\ZX128TAPE.warning
+    )
+    if "%BASELANG%" == "EN" (
+        tools\cecho\cecho "{06}WARNING: THIS BAT GENERATES A DISTRIBUTION FOR SPECTRUM 128K USING NEW ZXDAAD128 INTERPRETER, WHICH IS NOT AN ORIGINAL DAAD interpreter{07}" 
+        tools\cecho\cecho "{06}ZXDAAD128 is in early stages of development, and although it has been tested quite a lot, unexpected problems or incompatibilities could appear. {07}"
+        echo.
+        tools\cecho\cecho "{06}Before reporting a bug, please check that the behaviour is different in other targets.{07}"
+        PAUSE
+        echo "OK" > ASSETS\ZX128TAPE.warning
+    )
+)
+
 REM ----  SET CHARACTERS PER LINE ---- 
 IF  NOT DEFINED CHARSLINE (
         SET CHARSLINE=42
@@ -117,11 +137,28 @@ DEL %GAME%.json > nul 2>&1
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
+
+
+
+
 REM ---- TESTER ---- 
-tools\cecho\cecho {03}
-ECHO Press any key to run emulator, or Ctrl+C to cancel. 
-ECHO To exit ZEsarUX emulator, press F5, then F10. 
+
+
+
+
+
+tools\cecho\cecho {0C}
+IF "%BASELANG%" == "EN" (
+ECHO Press any key to run emulator, or Ctrl+C to cancel.
+ECHO To exit ZEsarUX emulator, press F5, then F10.
+)
+
+IF "%BASELANG%" == "ES"  (
+ECHO Pulsa una tecla para ejecutar el emulador, o Ctrl+C para cancelar.
+ECHO Para salir del emulador ZEsarUX, pulsa F5, luego F10.
+)
 tools\cecho\cecho {07}
+
 
 
 PAUSE

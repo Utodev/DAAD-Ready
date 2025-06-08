@@ -37,6 +37,27 @@ IF  NOT DEFINED LANG (
 echo Language: %LANG% %BASELANG%
 
 
+IF NOT EXIST "ASSETS\MSX2.warning" (
+    if "%BASELANG%" == "ES" (
+
+        tools\cecho\cecho {06}AVISO: ESTA BAT GENERA UNA DISTRIBUCION PARA MSX2 UTILIZANDO EL NUEVO INTERPRETE MSX2DAAD, que no es un intérprete original de DAAD. {07} 
+        tools\cecho\cecho {06}MSX2DAAD esta en una etapa de pruebas, y aunque en general ha sido ya probado, podrian aparecer problemas o incompatibilidades inesperadas. {07}
+        tools\cecho\cecho {06}Por favor, antes de reportar un error comprueba que el comportamiento es diferente en otros targets.{07}    
+        echo.
+        PAUSE
+        echo "OK" > ASSETS\MSX2.warning
+    )
+    if "%BASELANG%" == "EN" (
+        tools\cecho\cecho "{06}WARNING: THIS BAT GENERATES A DISTRIBUTION FOR MSX2 USING NEW MSX2DAAD INTERPRETER, WHICH IS NOT AN ORIGINAL DAAD interpreter{07}" 
+        tools\cecho\cecho "{06}MSX2DAAD is in early stages of development, and although it has been tested quite a lot, unexpected problems or incompatibilities could appear. {07}"
+        echo.
+        tools\cecho\cecho "{06}Before reporting a bug, please check that the behaviour is different in other targets.{07}"
+        PAUSE
+        echo "OK" > ASSETS\MSX2.warning
+    )
+)
+
+
 IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
 
 
@@ -44,8 +65,8 @@ REM ---- OBTENER RECURSOS ----
 tools\cecho\cecho {06}Copying required files...{07}
 echo.
 COPY TOOLS\MALUVA\*.BIN > nul 2>&1
-COPY ASSETS\MSX\MSX2_%BASELANG%.DSK %GAME%.DSK > nul 2>&1
-COPY ASSETS\MSX\msx2daad_1.5.1_%BASELANG%_SC8.com msx2daad.com > nul 2>&1
+COPY ASSETS\MSX\MSX2\MSX2.DSK %GAME%.DSK > nul 2>&1
+COPY ASSETS\MSX\MSX2\msx2daad_1.5.1_%BASELANG%_SC8.com msx2daad.com > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 
 ECHO.
@@ -98,7 +119,7 @@ php\php TOOLS\imgwizard\imgwizard.php c font0.SC8 32 RLE > nul 2>&1
 php\php TOOLS\imgwizard\imgwizard.php d font0.IM8 1 > nul 2>&1
 php\php TOOLS\imgwizard\imgwizard.php c font1.SC8 40 RLE > nul 2>&1
 php\php TOOLS\imgwizard\imgwizard.php d font1.IM8 1 > nul 2>&1
-php\php TOOLS\imgwizard\imgwizard.php j FONT.IM8 font0.IM8 ASSETS\MSX\GLUE.IM8 font1.IM8 > nul 2>&1
+php\php TOOLS\imgwizard\imgwizard.php j FONT.IM8 font0.IM8 ASSETS\MSX\MSX2\GLUE.IM8 font1.IM8 > nul 2>&1
 
 
 REM Clean
@@ -124,19 +145,20 @@ if exist LOADING.IM8 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK LOADING.IM8
 
 for /L %%i in (0, 1, 9) do IF exist 00%%i.IM8 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK 00%%i.IM8  > nul 2>&1
 for /L %%i in (10, 1, 99) do IF exist 0%%i.IM8 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK 0%%i.IM8  > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.IM8 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK %%i.IM8  > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.IM8 ..\TOOLS\dsktool
+\dsktool a ..\%GAME%.DSK %%i.IM8  > nul 2>&1
 CD ..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
 IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
 REM ----  CLEAN ---- 
-DEL DAAD.DDB > nul 2>&1
-DEL %GAME%.json > nul 2>&1
+;DEL DAAD.DDB > nul 2>&1
+;DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
-DEL MSX2DAAD.COM > nul 2>&1
-DEL FONT.IM8 > nul 2>&1
+;DEL MSX2DAAD.COM > nul 2>&1
+;DEL FONT.IM8 > nul 2>&1
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM

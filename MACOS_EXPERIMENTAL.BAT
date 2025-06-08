@@ -4,6 +4,8 @@ SET DAADSCRIPT=%~n0
 CALL CONFIG.BAT
 IF exist CUSTOM.BAT CALL CUSTOM.BAT
 
+
+
 REM ----  CHECK IF LANG IS SET ---- 
 IF  NOT DEFINED LANG (
         ECHO.
@@ -33,6 +35,26 @@ IF  NOT DEFINED LANG (
         ECHO SET BASELANG=!BASELANG!>>CONFIG.BAT
     )
 echo Language: %LANG% %BASELANG%
+
+IF NOT EXIST "ASSETS\MACOS.warning" (
+    if "%BASELANG%" == "ES" (
+
+        tools\cecho\cecho {06}AVISO: ESTA BAT GENERA UNA DISTRIBUCION PARA MacOS UTILIZANDO EL NUEVO INTERPRETE ADP. {07} 
+        tools\cecho\cecho {06}ADP esta en una etapa inicial de pruebas, y aunque en general ha sido ya probado, podrian aparecer problemas o incompatibilidades inesperadas. {07}
+        tools\cecho\cecho {06}Por favor, antes de reportar un error comprueba que el comportamiento es diferente en otros targets.{07}    
+        echo.
+        PAUSE
+        echo "OK" > ASSETS\MACOS.warning
+    )
+    if "%BASELANG%" == "EN" (
+        tools\cecho\cecho "{06}WARNING: THIS BAT GENERATES A DISTRIBUTION FOR MacOS USING NEW ADP INTERPRETER{07}" 
+        tools\cecho\cecho "{06}ADP is in early stages of development, and although it has been tested quite a lot, unexpected problems or incompatibilities could appear. {07}"
+        echo.
+        tools\cecho\cecho "{06}Before reporting a bug, please check that the behaviour is different in other targets.{07}"
+        PAUSE
+        echo "OK" > ASSETS\MACOS.warning
+    )
+)
 
 
 IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
