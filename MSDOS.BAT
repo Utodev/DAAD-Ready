@@ -56,7 +56,7 @@ IF NOT EXIST "ASSETS\MSDOS.warning" (
 )
 
 
-IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
+IF NOT exist %GAME%.DSF COPY ASSETS\TEMPLATES\BLANK_%LANG%.DSF %GAME%.DSF
 
 REM ---- RESOURCES  ---- 
 tools\cecho\cecho {06}Copying required files...{07}

@@ -57,7 +57,7 @@ IF NOT EXIST "ASSETS\MACOS.warning" (
 )
 
 
-IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
+IF NOT exist %GAME%.DSF COPY ASSETS\TEMPLATES\BLANK_%LANG%.DSF %GAME%.DSF
 
 REM ---- OBTENER RECURSOS ---- 
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}

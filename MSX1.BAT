@@ -37,7 +37,7 @@ IF  NOT DEFINED LANG (
 echo Language: %LANG% %BASELANG%
 
 
-IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
+IF NOT exist %GAME%.DSF COPY ASSETS\TEMPLATES\BLANK_%LANG%.DSF %GAME%.DSF
 
 
 REM ---- GET RESOURCES ---- 
@@ -45,7 +45,8 @@ tools\cecho\cecho {06}Copying required files...{07}
 echo.
 
 COPY TOOLS\MALUVA\*.BIN > nul 2>&1
-COPY ASSETS\MSX\MSX_%BASELANG%.DSK %GAME%.DSK > nul 2>&1
+COPY ASSETS\MSX\MSX1\MSX1.DSK %GAME%.DSK > nul 2>&1
+COPY ASSETS\MSX\MSX1\msxdaad.com > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -84,7 +85,8 @@ ECHO.
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
 REM  ---- PREPARE THE FONT -----
-COPY ASSETS\MSX\DAAD.MDG > nul 2>&1
+COPY ASSETS\MSX\MSX1\DAAD.MDG > nul 2>&1
+
 TOOLS\DD\DD  count=218 bs=1 if=DAAD.MDG of=MDG.HEAD > nul 2>&1
 TOOLS\DD\DD  skip=2266 count=34 bs=1 if=DAAD.MDG of=MDG.TAIL > nul 2>&1
 COPY /B MDG.HEAD + ASSETS\CHARSET\%FONT6% + MDG.TAIL DAAD.TMP > nul 2>&1
@@ -97,15 +99,32 @@ MOVE DAAD.TMP DAAD.MDG > nul 2>&1
 REM  ---- COPY FILES ---- 
 TOOLS\dsktool\dsktool a %GAME%.DSK DAAD.DDB > nul 2>&1
 TOOLS\dsktool\dsktool a %GAME%.DSK DAAD.MDG > nul 2>&1
-CD TOOLS\MALUVA
-..\..\TOOLS\dsktool\dsktool a ..\..\%GAME%.DSK MSXDAAD.COM > nul 2>&1
-cd ..\..
+
+REM BRING THE INTERPRETER
+IF LANG == "EN" (
+    COPY ASSETS\MSX\MSX1\DMSXIEF.BIN DAAD.Z80 > nul 2>&1
+) ELSE (
+    COPY ASSETS\MSX\MSX1\DMSXISF.BIN DAAD.Z80 > nul 2>&1
+)
+
+TOOLS\dsktool\dsktool a %GAME%.DSK DAAD.Z80 > nul 2>&1
+DEL DAAD.Z80 > nul 2>&1
+
+REM The loader
+CD ASSETS\MSX\MSX1
+..\..\..\TOOLS\dsktool\dsktool a ..\..\..\%GAME%.DSK MSXDAAD.COM > nul 2>&1
+cd ..\..\..
+
+REM The Xmessages file
 IF exist 0.XMB TOOLS\dsktool\dsktool a %GAME%.DSK 0.XMB > nul 2>&1
+
+REM The loading screen, if any
 if exist IMAGES\DAAD.SC2  (
     CD IMAGES
     ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK DAAD.SC2 > nul 2>&1
     CD ..
 )
+
 CD IMAGES
 for /L %%i in (0, 1, 9) do IF exist 00%%i.MS2 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK 00%%i.MS2 > nul 2>&1
 for /L %%i in (10, 1, 99) do IF exist 0%%i.MS2 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK 0%%i.MS2 > nul 2>&1
@@ -122,6 +141,7 @@ DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.CHR > nul 2>&1
 DEL *.MDG  > nul 2>&1
+DEL msxdaad.com > nul 2>&1
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
