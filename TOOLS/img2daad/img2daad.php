@@ -219,6 +219,29 @@ foreach ($fileList as $location=>$fileData)
         
         // *** Fill the location data ***
 
+        /*
+        The picture definition is as follows:
+        
+        offset : Long
+        Flags: Word    
+        X: Word                ; For a sound sample holds the sample frequency
+        Y: Word
+        PCS: Byte              ; Palette Start Byte
+        PCE: Byte              ; Palette End Byte
+        PAL[16]: Word
+        CGAPAL: long;
+
+
+        Flag field bits:
+     
+        #define PFLOAT          0x01  ; 1 = is float image, 0=isfixed. If fixed X and Y are considered
+        #define RESID           0x02  ; no idea
+        #define CGAP01          0x04  ; No idea
+        #define HOTSP           0x08  ; No idea
+        #define SAMPLE          0x10  ; Is a sound sample
+
+        */
+
         $locationPrt = 0x0A + 48 * $location;
         $currentOffset  = sizeof($outputFile);
 
