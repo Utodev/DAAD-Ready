@@ -41,9 +41,6 @@ IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
 REM ---- GET RESOURCES ---- 
 tools\cecho\cecho {06}Copying required files...{07}
 echo.
-COPY TOOLS\MALUVA\*.BIN > nul 2>&1
-tools\cecho\cecho {02}[OK]{07}
-ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
@@ -70,9 +67,9 @@ DEL images\*.NXT > nul 2>&1
 del RELEASE\ZXNEXT\*.NXT > nul 2>&1
 ECHO.
 CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX ..\TOOLS\SCRMAKER\SCRMAKER specnext 00%%i.PCX 00%%i.LY2 256 %IMGLINES% 0,0 > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext 0%%i.PCX 0%%i.LY2 256 %IMGLINES% 0,0  > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext %%i.PCX %%i.LY2 256 %IMGLINES% 0,0  > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX ..\TOOLS\SCRMAKER\SCRMAKER specnext 00%%i.PCX 00%%i.LY2 256 %IMGLINES% 0,0  /s > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext 0%%i.PCX 0%%i.LY2 256 %IMGLINES% 0,0  /s > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext %%i.PCX %%i.LY2 256 %IMGLINES% 0,0  /s > nul 2>&1
 CD ..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
