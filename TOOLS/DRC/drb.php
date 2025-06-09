@@ -491,7 +491,6 @@ function generateXMessages($adventure, $target, $subtarget, $outputFileName)
             }
         }
         $GLOBALS['xMessageOffsets'][$i] = $currentOffset + $currentFile * $maxFileSize;
-        echo "XMessage #$i at " . prettyFormat($GLOBALS['xMessageOffsets'][$i]) .  " length is " .prettyFormat($messageLength+1) . 'so it ends at' . prettyFormat($GLOBALS['xMessageOffsets'][$i] + $messageLength+1) . "\n";   
         // Saving length as a truncated value to make it fit in one byte, the printing routine will have to recover the missing bit by filling with 1. That will provide 
         // a length which could be maximum 1 bytes longer than real, what is not really important cause the end of message mark will avoid that extra char being printed
         for ($j=0;$j<$messageLength;$j++)
@@ -1983,8 +1982,8 @@ if ($v3code)
 // File length  at SPARE position in the DDB
 $fileSize = $currentAddress;// - $baseAddress;
 // If target is PLUS3, we put the Xmessage size instead of the DDB size
-if (($xMessageSize) && ($subtarget=='PLUS3')) $fileSize = $xMessageSize;
-writeWord($outputFileHandler, $fileSize, $isLittleEndian);
+if (($xMessageSize) && ($subtarget=='PLUS3'))  writeWord($outputFileHandler, $xMessageSize, $isLittleEndian);
+                                                else writeWord($outputFileHandler, $fileSize, $isLittleEndian);
 for($i=0;$i<13;$i++)
     writeWord($outputFileHandler, $adventure->extvec[$i],$isLittleEndian);
 fclose($outputFileHandler);
