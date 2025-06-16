@@ -67,10 +67,9 @@ DEL images\*.NXT > nul 2>&1
 del RELEASE\ZXNEXT\*.NXT > nul 2>&1
 ECHO.
 CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX ..\TOOLS\SCRMAKER\SCRMAKER specnext 00%%i.PCX 00%%i.LY2 256 %IMGLINES% 0,0  /s > nul 2>&1
-IF exist 001.PCX ..\TOOLS\SCRMAKER\SCRMAKER specnext 001.PCX 001.LY2 256 192 0,0 16-255 /s 
-for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext 0%%i.PCX 0%%i.LY2 256 %IMGLINES% 0,0  /s > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext %%i.PCX %%i.LY2 256 %IMGLINES% 0,0  /s > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX ..\TOOLS\SCRMAKER\SCRMAKER specnext 00%%i.PCX 00%%i.LY2 256 %IMGLINES% 0,0  /s 
+for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext 0%%i.PCX 0%%i.LY2 256 %IMGLINES% 0,0  /s 
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext %%i.PCX %%i.LY2 256 %IMGLINES% 0,0  /s 
 CD ..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.

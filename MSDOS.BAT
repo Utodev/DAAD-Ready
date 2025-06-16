@@ -126,13 +126,13 @@ ECHO.
 CD %IMGPATH%
 echo Wait while preparing images (if any)...
 
-IF exist DAAD.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos DAAD.PCX DAAD.MSD %INTROSIZE% 0,0 0-255
+IF exist DAAD.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos DAAD.PCX DAAD.MSD %INTROSIZE% 0,0 0-255 
 
-PCXFIXER\pcxfixer DAAD.PCX DAAD.VGA > nul 2>&1
+REM PCXFIXER\pcxfixer DAAD.PCX DAAD.VGA > nul 2>&1
 
 for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos 00%%i.PCX 00%%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s
-for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos 0%%i.PCX 0%%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos %%i.PCX %%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s
+for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos 0%%i.PCX 0%%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s 
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos %%i.PCX %%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s 
 CD %IMGPATHBACK%
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -184,6 +184,7 @@ REM ----  CLEANING ----
 DEL %GAME%.DDB > nul 2>&1
 DEL MALUVA   > nul 2>&1
 DEL %GAME%.json > nul 2>&1
+DEL 0.XMB > nul 2>&1
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
@@ -221,6 +222,7 @@ REM ----  CLEANING ----
 DEL %GAME%.DDB > nul 2>&1
 DEL MALUVA   > nul 2>&1
 DEL %GAME%.json > nul 2>&1
+DEL 0.XMB > nul 2>&1
 
 
 REM  --- CUSTOM AREA ---

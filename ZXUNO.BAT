@@ -67,9 +67,9 @@ REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 CD IMAGES\ZXUNO
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\..\TOOLS\SCRMAKER\SCRMAKER zxuno 00%%i.SCR 00%%i.ZXU  256 %IMGLINES% 0,0 16-63 /SCR > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\..\TOOLS\SCRMAKER\SCRMAKER zxuno 0%%i.SCR 0%%i.ZXU 256 %IMGLINES% 0,0 16-63 /SCR  > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\..\TOOLS\SCRMAKER\SCRMAKER zxuno %%i.SCR %%i.ZXU 256 %IMGLINES% 0,0 16-63 /SCR > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\..\TOOLS\SCRMAKER\SCRMAKER zxuno 00%%i.SCR 00%%i.ZXU  256 %IMGLINES% 0,0 16-63 /SCR 
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\..\TOOLS\SCRMAKER\SCRMAKER zxuno 0%%i.SCR 0%%i.ZXU 256 %IMGLINES% 0,0 16-63 /SCR  
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\..\TOOLS\SCRMAKER\SCRMAKER zxuno %%i.SCR %%i.ZXU 256 %IMGLINES% 0,0 16-63 /SCR 
 CD ..
 CD ..
 tools\cecho\cecho {02}[OK]{07}
