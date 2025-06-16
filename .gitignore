@@ -1,16 +1,17 @@
 .DS_Store
 TEST.DSF
 *.EXT
+*.warning
 buildRelease.sh
 TOOLS/WinAPE/CPC_Symbols.fot
 TOOLS/WinUAE/kick13.rom
 TOOLS/WinUAE/winuaebootlog.txt
 TOOLS/WinAPE/WinAPE.ini
-images/00*
-IMAGES/PC/00*
+images/*
+IMAGES/PC/*
 IMAGES/PC/SVGA/*
 IMAGES/CPC/00*
-IMAGES/ZXUNO/00*
+IMAGES/ZXUNO/*
 IMAGES/DAAD.*
 *~$AD Ready*
 TODO.txt
@@ -21,4 +22,4 @@ SOUNDS/*.DRO
 SOUNDS/*.dro
 TOOLS/PCW/Config.ini
 TOOLS/zesarux/zesarux_index_menu.idx
-
+readme.txt
