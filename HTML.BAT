@@ -43,8 +43,6 @@ REM ---- RESOURCES  ----
 tools\cecho\cecho {06}Copying required files...{07}
 echo.
 XCOPY ASSETS\HTML\*.* RELEASE\HTML /s /y > nul 2>&1
-REM ----  CREATE FAKE EXTERN ----
-ECHO "1">MALUVA 
 tools\cecho\cecho {02}[OK]{07}
 
 
@@ -86,7 +84,6 @@ IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
 REM ----  CLEANING ---- 
 DEL %GAME%.DDB > nul 2>&1
 DEL %GAME%.JDDB > nul 2>&1
-DEL MALUVA   > nul 2>&1
 DEL %GAME%.json > nul 2>&1
 DEL 0.XMB > nul 2>&1
 
@@ -119,7 +116,6 @@ REM ----  CLEANING ----
 DEL %GAME%.DDB > nul 2>&1
 DEL %GAME%.JDDB > nul 2>&1
 DEL 0.XMB > nul 2>&1
-DEL MALUVA   > nul 2>&1
 DEL %GAME%.json > nul 2>&1
 
 
