@@ -930,7 +930,7 @@ function generateProcesses($adventure, &$currentAddress, $outputFileHandler, $is
                         $condact->Param3 = $condact->Param2; 
                         $condact->Param2 = 5; // Maluva function 5
                         $condact->Condact = 'EXTERN'; // XBEEP A B  ==> EXTERN A 5 B  (3 parameters)
-                        if ((!CheckMaluva($adventure))  && ($target!='HTML') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')))  Error('XBEEP condact requires Maluva Extension');
+                        if ((!CheckMaluva($adventure))  && ($target!='HTML') && ($target!='MSX') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')))  Error('XBEEP condact requires Maluva Extension');
                     }
                 }
                 else if ($condact->Opcode == BEEP_OPCODE)
@@ -951,14 +951,14 @@ function generateProcesses($adventure, &$currentAddress, $outputFileHandler, $is
                         $condact->Param2 = $tmp;
                     }
                     else
-                    if (($target=='MSX') || ($target=='CPC')) // Convert BEEP to XBEEP
+                    if ($target=='CPC') // Convert BEEP to XBEEP
                     {
                         $condact->Opcode = EXTERN_OPCODE;
                         $condact->NumParams=3;
                         $condact->Param3 = $condact->Param2; 
                         $condact->Param2 = 5; // Maluva function 5
                         $condact->Condact = 'EXTERN'; // XBEEP A B  ==> EXTERN A 5 B  (3 parameters)
-                        if ((!CheckMaluva($adventure)) && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')))  Error('XBEEP condact requires Maluva Extension');
+                        if ((!CheckMaluva($adventure)) && ($target!='MSX') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')))  Error('XBEEP condact requires Maluva Extension');
                     }
                 }
                 else if ($condact->Opcode == XPLAY_OPCODE)
@@ -1546,14 +1546,14 @@ function mmlToBeep($note, &$values, $target, $subtarget)
             $length = intval(substr($note, $end)) / $period;
 
         $condact = new stdClass();
-        if (($target=='MSX') || ($target=='CPC')) $condact->Opcode = XBEEP_OPCODE; else $condact->Opcode = BEEP_OPCODE;
+        if ($target=='CPC') $condact->Opcode = XBEEP_OPCODE; else $condact->Opcode = BEEP_OPCODE;
         $condact->NumParams = 2;
         if ($length==0) Error('Wrong length at note ' . $note);
         $condact->Param1 = intval(round($baseLength * (120 / $values[XPLAY_TEMPO]) / $length));
         $condact->Param2 = 24 + $values[XPLAY_OCTAVE]*24 + $idx*2;
         if (($target == 'C64') || ($target == 'CP4')) $condact->Param2 -= 24; // C64/CP4 interpreter pitch it's too high otherwise
         $condact->Indirection1 = 0;
-        if (($target=='MSX') ||($target=='CPC')) $condact->Condact = 'XBEEP'; else $condact->Condact = 'BEEP';
+        if ($target=='CPC') $condact->Condact = 'XBEEP'; else $condact->Condact = 'BEEP';
     } else
     // ############ Note lenght [1-64] (1=full note, 2=half note, 3=third note, ..., default:4)
     if ($cmd=='L') {
@@ -1590,12 +1590,12 @@ function mmlToBeep($note, &$values, $target, $subtarget)
         $idx = intval(@substr($note, 1));    //Note index
 
         $condact = new stdClass();
-        if (($target=='MSX') || ($target=='CPC')) $condact->Opcode = XBEEP_OPCODE; else $condact->Opcode = BEEP_OPCODE;
+        if ($target=='CPC') $condact->Opcode = XBEEP_OPCODE; else $condact->Opcode = BEEP_OPCODE;
         $condact->NumParams = 2;
         $condact->Param1 = intval(round($baseLength * (120 / $values[XPLAY_TEMPO]) / $length));
         $condact->Param2 = 48 + $idx*2;
         $condact->Indirection1 = 0;
-        if (($target=='MSX') ||($target=='CPC')) $condact->Condact = 'XBEEP'; else $condact->Condact = 'BEEP';
+        if ($target=='CPC') $condact->Condact = 'XBEEP'; else $condact->Condact = 'BEEP';
     } else
     // ############ Octave [1-8] (default:4)
     if ($cmd=='O') {
@@ -1846,7 +1846,7 @@ for ($j=0;$j<sizeof($compressionData->tokens);$j++)
 // Dump XMessagess if avaliable
 if (sizeof($adventure->xmessages))
 {
-    if ((!CheckMaluva($adventure)) && ($target!='HTML') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')) && ($subtarget!='PLUS3') && ($subtarget!='ESXDOS') && ($subtarget!='NEXT') && ($subtarget!='UNO'))  Error('XMESSAGE condact requires Maluva Extension');
+    if ((!CheckMaluva($adventure)) && ($target!='HTML') && ($target!='MSX') && ($target!='MSX2') && !(($target=='PC') && ($subtarget=='VGA256')) && ($subtarget!='PLUS3') && ($subtarget!='ESXDOS') && ($subtarget!='NEXT') && ($subtarget!='UNO'))  Error('XMESSAGE condact requires Maluva Extension');
     generateXmessages($adventure, $target, $subtarget, $outputFileName);
 }
 
