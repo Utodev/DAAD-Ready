@@ -40,7 +40,6 @@ IF NOT exist %GAME%.DSF COPY ASSETS\TEMPLATES\BLANK_%LANG%.DSF %GAME%.DSF
 REM ---- OBTENER RECURSOS ---- 
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
-COPY TOOLS\MALUVA\*.BIN > nul 2>&1
 SET INTERPRETER=ASSETS\AMIGA\EDIP1
 IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\AMIGA\SDIP1
 COPY %INTERPRETER% RELEASE\AMIGA\%GAME%
