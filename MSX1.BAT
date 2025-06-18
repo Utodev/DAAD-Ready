@@ -44,7 +44,6 @@ REM ---- GET RESOURCES ----
 tools\cecho\cecho {06}Copying required files...{07}
 echo.
 
-COPY TOOLS\MALUVA\*.BIN > nul 2>&1
 COPY ASSETS\MSX\MSX1\MSX1.DSK %GAME%.DSK > nul 2>&1
 COPY ASSETS\MSX\MSX1\msxdaad.com > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
@@ -100,7 +99,7 @@ REM  ---- COPY FILES ----
 TOOLS\dsktool\dsktool a %GAME%.DSK DAAD.DDB > nul 2>&1
 TOOLS\dsktool\dsktool a %GAME%.DSK DAAD.MDG > nul 2>&1
 
-REM BRING THE INTERPRETER
+REM GET THE INTERPRETER
 IF LANG == "EN" (
     COPY ASSETS\MSX\MSX1\DMSXIEF.BIN DAAD.Z80 > nul 2>&1
 ) ELSE (
