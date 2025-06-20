@@ -91,13 +91,6 @@ if errorlevel 2 (
     rd MSDOS\GAME> nul 2>&1
     copy readme.txt MSDOS > nul 2>&1
 
-    echo Cleaning legacy IBM PC MS-DOS ...
-    md OLDMSDOS> nul 2>&1
-    del /s /q OLDMSDOS\*.* > nul 2>&1
-    del /s /q OLDMSDOS\GAME\*.* > nul 2>&1
-    rd OLDMSDOS\GAME> nul 2>&1
-    copy readme.txt OLDMSDOS > nul 2>&1
-
     echo Cleaning HTML...
     md HTML > nul 2>&1
     del /q /s HTML\*.* > nul 2>&1
