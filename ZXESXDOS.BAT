@@ -75,6 +75,7 @@ ECHO.
 REM  ---- COPY FILES ---- 
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
+del RELEASE\ZXESXDOS\*.ZX > nul 2>&1
 IF exist 0.XMB copy 0.XMB RELEASE\ZXESXDOS > nul 2>&1
 for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.ZX COPY IMAGES\00%%i.ZX  RELEASE\ZXESXDOS > nul 2>&1
 for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.ZX COPY IMAGES\0%%i.ZX  RELEASE\ZXESXDOS > nul 2>&1

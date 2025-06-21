@@ -78,6 +78,7 @@ ECHO.
 
 REM  ---- COPY FILES ---- 
 tools\cecho\cecho {06}Preparing release files{07}
+del RELEASE\ZXUNO\*.ZXU > nul 2>&1
 ECHO.
 IF exist 0.XMB copy 0.XMB RELEASE\ZXUNO > nul 2>&1
 for /L %%i in (0, 1, 9) do IF exist IMAGES\ZXUNO\00%%i.ZXU MOVE IMAGES\ZXUNO\00%%i.ZXU  RELEASE\ZXUNO > nul 2>&1
