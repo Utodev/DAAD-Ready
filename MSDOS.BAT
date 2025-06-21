@@ -149,6 +149,12 @@ tools\cecho\cecho {02}[OK]{07}
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
 REM  ---- COPY FILES ---- 
+del RELEASE\MSDOS\GAME\*.VGA > nul 2>&1
+del RELEASE\MSDOS\GAME\*.MSD > nul 2>&1
+del RELEASE\MSDOS\GAME\*.SFX > nul 2>&1
+del RELEASE\MSDOS\GAME\*.DRO > nul 2>&1
+del RELEASE\MSDOS\GAME\*.FLI > nul 2>&1
+
 IF exist 0.XMB copy 0.XMB RELEASE\MSDOS\GAME > nul 2>&1
 IF exist %IMGPATH%\DAAD.VGA copy %IMGPATH%\DAAD.VGA RELEASE\MSDOS\GAME > nul 2>&1
 
