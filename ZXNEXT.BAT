@@ -78,6 +78,7 @@ ECHO.
 REM  ---- COPY FILES ---- 
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
+DEL RELEASE\ZXNEXT\*.LY2 > nul 2>&1
 IF exist 0.XMB copy 0.XMB RELEASE\ZXNEXT > nul 2>&1
 for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.LY2 MOVE IMAGES\00%%i.LY2  RELEASE\ZXNEXT > nul 2>&1
 for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.LY2 MOVE IMAGES\0%%i.LY2  RELEASE\ZXNEXT > nul 2>&1
