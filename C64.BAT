@@ -171,6 +171,7 @@ DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.TMP > nul 2>&1
+DEL IMAGES\*64.> nul 2>&1
 
 REM  --- CUSTOM AREA ---
 :CUSTOM

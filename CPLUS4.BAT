@@ -37,7 +37,7 @@ echo Language: %LANG% %BASELANG%
 
 
 
-IF NOT exist %GAME%.DSF COPY ASSETS\TEMPLATES\BLANK_%LANG%.DSF %GAME%.DSF
+IF NOT exist %GAME%.DSF COPY TOOLS\DRC\BLANK_%LANG%.DSF %GAME%.DSF
 
 
 REM ---- OBTENER RECURSOS ---- 
@@ -82,23 +82,23 @@ ECHO.
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
 REM  ---- PREPARE THE FONT -----
-COPY ASSETS\CP4\apart1.prg 
-TOOLS\DD\DD count=37 bs=1 if=apart1.prg of=apart1.HEAD 
-TOOLS\DD\DD skip=2085 count=36 bs=1 if=apart1.prg of=apart1.TAIL 
-COPY /B apart1.HEAD + ASSETS\CHARSET\%FONTB% + apart1.TAIL APART1.TMP
+COPY ASSETS\CP4\apart1.prg > nul 2>&1
+TOOLS\DD\DD count=37 bs=1 if=apart1.prg of=apart1.HEAD  > nul 2>&1
+TOOLS\DD\DD skip=2085 count=36 bs=1 if=apart1.prg of=apart1.TAIL  > nul 2>&1
+COPY /B apart1.HEAD + ASSETS\CHARSET\%FONTB% + apart1.TAIL APART1.TMP > nul 2>&1
 DEL apart1.HEAD > nul 2>&1
 DEL apart1.TAIL > nul 2>&1
 DEL apart1.prg > nul 2>&1
 
 
 REM  ---- COPIAR FICHEROS AL DISCO ---- 
-tools\c1541\c1541.exe -attach %GAME%.D64 -write APART1.TMP apart1
-tools\c1541\c1541.exe -attach %GAME%.D64 -write DAAD.DDB bpart1
-for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i4 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\00%%i4 00%%i4
-for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i4 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\0%%i4 0%%i4
-for /L %%i in (100, 1, 256) do IF exist IMAGES\%%i4  tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\0%%i4 0%%i4
-for /L %%i in (0, 1, 9) do IF exist 0%%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write 0%%i.XMB 0%%i
-for /L %%i in (10, 1, 32) do IF exist %%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write %%i.XMB 0%%i
+tools\c1541\c1541.exe -attach %GAME%.D64 -write APART1.TMP apart1 > nul 2>&1
+tools\c1541\c1541.exe -attach %GAME%.D64 -write DAAD.DDB bpart1 > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i4 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\00%%i4 00%%i4 > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i4 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\0%%i4 0%%i4 > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist IMAGES\%%i4  tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\0%%i4 0%%i4 > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 0%%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write 0%%i.XMB 0%%i > nul 2>&1
+for /L %%i in (10, 1, 32) do IF exist %%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write %%i.XMB 0%%i > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -109,6 +109,7 @@ DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.TMP > nul 2>&1
+DEL IMAGES\*4.> nul 2>&1
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
@@ -153,6 +154,7 @@ PAUSE
 :FIN
 
 REM ----  CLEANING---- 
+DEL IMAGES\*4.> nul 2>&1
 DEL DAAD.DDB > nul 2>&1
 DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
