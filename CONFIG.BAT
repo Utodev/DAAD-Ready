@@ -8,7 +8,7 @@ SET FONTB=C64bold.CHR
 SET FONTPCDAAD=MSDOS.FNT
 REM Name of the game,change it and change TEST.DSF if already exists to build with a new name
 SET GAME=TEST
-REM Change to splitModeOFF if you want to use original graphic modes in CPC and C64 targets
+REM Change to splitModeOff if you want to use original graphic modes in CPC and C64 targets
 SET SPLITSCR=splitModeOn
 REM Height in pixels of the images. Please notice if you change this value you should disable split screen and use original graphic modes in CPC and C64 targets
 SET IMGLINES=96
