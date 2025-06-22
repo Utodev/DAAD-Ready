@@ -2646,31 +2646,41 @@ function _DISPLAY()
 
 
     var image = images[imageBufferID];
+    var fixedX = image[image.length - 4];
+    var fixedY = image[image.length - 3];
     var imageWidth = image[image.length - 2];
     var imageHeight = image[image.length - 1];
 
-
-    var windowX = windows.windows[windows.activeWindow].col * COLUMN_WIDTH;
-    var windowY = windows.windows[windows.activeWindow].line * LINE_HEIGHT;
-    var windowWidth = windows.windows[windows.activeWindow].width * COLUMN_WIDTH;
-    if ((windowWidth==318) || (windowWidth==319)) windowWidth=320;
-    var windowHeight = windows.windows[windows.activeWindow].height* LINE_HEIGHT;
-
-    
+    if (fixedX == -1)  // Float image
+    {
+        var windowX = windows.windows[windows.activeWindow].col * COLUMN_WIDTH;
+        var windowY = windows.windows[windows.activeWindow].line * LINE_HEIGHT;
+        var windowWidth = windows.windows[windows.activeWindow].width * COLUMN_WIDTH;
+        if ((windowWidth==318) || (windowWidth==319)) windowWidth=320;
+        var windowHeight = windows.windows[windows.activeWindow].height* LINE_HEIGHT;
+    }
+    else
+    {
+        var windowX =  fixedX;
+        var windowY = fixedY;
+        var windowWidth = imageWidth;
+        var windowHeight = imageHeight;
+        if (windowX + imageWidth > 320) windowWidth = 320 - windowX; // Clip image to screen
+        if (windowY + imageHeight > 200) windowHeight = 200 - windowY; // Clip image to screen
+    }
     
     for (var y=0;y<imageHeight;y++)
         for(var x=0;x<imageWidth;x++)
          {          
             if ((x<windowWidth) && (y<windowHeight)) // clip image
             {
-                var data = image[imageWidth*y + x];
+                var data = image[imageWidth * y + x];
                 var r = (data >> 16) & 0xFF;
                 var g = (data >> 8) & 0xFF;
                 var b = data & 0xFF;
 
-                pixelRGB(windowX+ x, windowY + y, r, g, b);
+                pixelRGB(windowX + x, windowY + y, r, g, b);
             }
-                        
          }
     
 }
