@@ -1,5 +1,40 @@
 <?php
 
+/* JSON format:
+
+    Posible properties:
+
+    float:0-1   -> 0 = fixed image, 1 = float image 
+    buffer:0-1  -> 0 = no buffer, 1 = buffer 
+
+    X:0-319 -> Fixed image X position, ignored by classic interpreters if float=1
+    Y:0-199 -> Fixed image Y position, ignored by classic interpreters if float=1
+
+    PCS:0-15 -> Palette Start Color, palette for colours below this one are not apllied. Ignored by classic interpreters if float=1.
+    PCE:PCS-15 -> Palette End Color, ignored by classic interpreters if float=1
+
+    clone: 0-1 -> Clones image from another location, if 1, location must be specified
+    location: 0-255 -> if clone=1, this is the location to clone from
+    
+    Example:
+    {"X":24,"Y":180,"PCS":0,"PCE":15}
+    {"float":1,"buffer":1, "width":120, "height":96}
+    {"float":1}
+    {"clone":1,"location":8} // Clones location 0, which must be already loaded
+
+
+    Notes: 
+    
+    - Notice that in order for a JSON to be read, there should be a picture with the same numbe (i.e. 007.PNG  for 007.JPG, so even if 
+    you are going to clone, there should be a picture that won't be loaded into de graphics file anyway, so it may be any dummy picture)
+    - If float, neither X, Y nor PCS, PCE are used, so their values doesn't matter. They will be added to the DAT file though, but original interpreters
+     ignore them (maybe new interpreters will use them, who knows?).
+
+
+
+*/    
+
+
 define('CLIPWIDTH',320); // whole width
 define('CLIPHEIGHT',96); // as a standard for DAAD Ready and Maluva, but change if you please
 define('NUM_PLANES',4);
@@ -17,12 +52,14 @@ function error($errorMsg)
 function syntax()
 {
     echo "IMG2DAAD 1.0 - Creates DAAD Graphic Databases for Atari ST and Amiga\n\n";
-    echo "SYNTAX: IMG2DAAD <folder> [outputfile] [-c]\n\n";
+    echo "SYNTAX: IMG2DAAD <folder> [outputfile] [-c] [-a] [-v]\n\n";
     echo "<folder>     : folder where to look for .PI1 or .PNG images\n";
     echo "[outputfile] : file name for the output database, if absent, PART1.DAT will be used.\n";
     echo "-c           : compress file\n\n";
     echo "-a           : generate Amiga 12 bit palette file. Requires patched interpreter, if you are no using 12 bit palette you can use same DAT file for Amiga, and use original interpreters.";
+    echo "-v           : verbose mode, shows more information about what is being done.\n\n";
     echo "Please notice PNG images can have any format, but must be 320x200, and use a maximum of 16 colours.\n";
+    echo "Specific details can be given to each image using a JSON file with the same name as the image, but with .JSON extension. The details of the JSON file are explained in the php file itself, read the comment on top.\n";
     
     exit(0);
 }
@@ -102,12 +139,13 @@ function normalPalette($aByte)
 
 
 // MAIN
-echo "IMG2DAAD 1.0 - DAAD DAT Maker for Amiga and Atari ST (C) 2022\n";
+
 if ($argc<2) syntax();
 
 // Parse parameters
 $outputFilename = 'PART1.DAT';
 $compressed = false;
+$verbose = false; // Verbose mode
 $amigaDAT = false;
 $dir = $argv[1];
 if (!is_dir($dir)) error ("Invalid folder: $dir");
@@ -119,14 +157,17 @@ for ($i=2;$i<$argc;$i++)
     {
         if (strtoupper($currentParam) == '-C') $compressed = true;
         else if (strtoupper($currentParam) == '-A') $amigaDAT = true;
+        else if (strtoupper($currentParam) == '-V') $verbose = true;
         else Error("Invalid param: $currentParam");
     }
     else if ($i==2) $outputFilename = $currentParam;
 }
 
+if ($verbose) echo "IMG2DAAD 1.1 - DAAD DAT Maker for Amiga and Atari ST (C) 2022\n";
+
 $outputFile = array();
 
-echo "Creating $outputFilename with" . ($compressed ? '':'out') . " compression.\n";
+if ($verbose) echo "Creating $outputFilename with" . ($compressed ? '':'out') . " compression.\n";
 
 if ($compressed) error('Compression not yet supported');
 
@@ -196,13 +237,13 @@ foreach ($fileList as $location=>$fileData)
 
     if ( ((property_exists($fileData, 'hasPI1')) &&  ($fileData->hasPI1)) || ((property_exists($fileData, 'hasPNG')) &&  ($fileData->hasPNG)) ) 
     {
-        echo ">> Processing image $location ";
+        if ($verbose) echo ">> Processing image $location ";
         $imgsLoaded[]=$location;
 
         if ((property_exists($fileData, 'hasPNG')) &&  ($fileData->hasPNG)) // PNG over PI1
         {
             $file = $fileData->PNGfilename;
-            echo " ($file).\n";
+            if ($verbose) echo " ($file).\n";
             $degas = new pngFileReader();
             $result = $degas->loadFile($dir . DIRECTORY_SEPARATOR . $file);
             if ($result!='') error($result);
@@ -210,7 +251,7 @@ foreach ($fileList as $location=>$fileData)
         else
         {
             $file = $fileData->PI1filename;
-            echo " ($file).\n";
+            if ($verbose) echo " ($file).\n";
             $degas = new degasFileReader(); 
             $result = $degas->loadFile($dir . DIRECTORY_SEPARATOR . $file);
             if ($result!='') error($result);
@@ -284,7 +325,7 @@ foreach ($fileList as $location=>$fileData)
             //echo str_pad(dechex($outputFile[$locationPrt+12+$i]),2,'0',STR_PAD_LEFT);           
             //if ($i%2!=0) echo ' ';
         }
-        echo "\n";
+        if ($verbose) echo "\n";
 
 
         /*
@@ -316,6 +357,17 @@ foreach ($fileList as $location=>$fileData)
         $ys = 0;
         $width = CLIPWIDTH;
         $height= CLIPHEIGHT; 
+        
+         // Check for specific width and height
+        if (property_exists($fileData, 'hasJSON') && ($fileData->hasJSON))
+        {
+            $json = json_decode(file_get_contents($dir . DIRECTORY_SEPARATOR . $fileData->JSONfilename));
+            if (!$json) error ('Invalid JSON file: ' .$fileData->JSONfilename);
+            if (property_exists($json, 'width')) $width = intval($json->width);
+            if (property_exists($json, 'height')) $height = intval($json->height);
+        }
+
+        $originalWidth = $width;
 
         // From now on, this is a copy of Tim Gilberts's code, which honestly I haven't even
         // tried to understand,  basically because it worked out of the box :-)
@@ -338,19 +390,21 @@ foreach ($fileList as $location=>$fileData)
                 $cp++;
                 if(($cp & 1)==0) $cp += (NUM_PLANES-1)*2; // Skip plane data 
             }
-            $lo+=BYTES_PER_LINE;
+            $lo += BYTES_PER_LINE;
         }
         // Tim Gilbert's code ends here
 
         // Let's dump the pixels data now
         // Fist the mini header at the pixels area
-        $outputFile[] = CLIPWIDTH  >> 8; //MSB
-        $outputFile[] = CLIPWIDTH & 0x00FF ; //LSB
+        $outputFile[] = $originalWidth  >> 8; //MSB
+        $outputFile[] = $originalWidth & 0x00FF ; //LSB
 
-        $outputFile[] = CLIPHEIGHT  >> 8; //MSB
-        $outputFile[] = CLIPHEIGHT & 0x00FF ; //LSB
+        $outputFile[] = $height  >> 8; //MSB
+        $outputFile[] = $height & 0x00FF ; //LSB
 
         $datasize = sizeof($clipdata);
+        if ($verbose) echo "Data size: $datasize bytes\n";
+
 
         $outputFile[] = $datasize  >> 8; //MSB
         $outputFile[] = $datasize & 0x00FF ; //LSB
@@ -365,7 +419,7 @@ foreach ($fileList as $location=>$fileData)
         // A JSON can only be applied if a image has been loaded in that slot, or if the JSON is to clone a image
         $json = json_decode(file_get_contents($dir . DIRECTORY_SEPARATOR . $fileData->JSONfilename));
         if (!$json) error ('Invalid JSON file: ' .$fileData->JSONfilename);
-        echo "Processing JSON file $fileData->JSONfilename ...\n";
+        if ($verbose) echo "Processing JSON file $fileData->JSONfilename ...\n";
         if ((in_array($location, $imgsLoaded))|| ($json->clone == 1))
         {
             // First check if we have to clone
@@ -375,7 +429,7 @@ foreach ($fileList as $location=>$fileData)
                 if (!is_numeric($json->location))  error($fileData->JSONfilename . " requests to clone a location but location is not valid");
                 if ($json->location>=$location)  error($fileData->JSONfilename . " asks to clone a location not yet loaded (". $json_location . ')');
                 // Clone location header
-                echo "Location $location is now a clone of location $json->location...\n";
+                if ($verbose) echo "Location $location is now a clone of location $json->location...\n";
                 for ($i=0;$i<48;$i++)
                 {
                     $outputFile[0x0a + 48 * $location + $i] = $outputFile[0x0a + 48 * $json->location + $i];
@@ -386,27 +440,33 @@ foreach ($fileList as $location=>$fileData)
             
             $float =  (property_exists($json, 'float') && ($json->float==1));
             $buffer =  (property_exists($json, 'buffer') && ($json->buffer==1));
-            if (!property_exists($json, 'fixedX')) $fixedX = 0; else $fixedX = $json->fixedX;
-            if (!property_exists($json, 'fixedY')) $fixedY = 0; else $fixedY = $json->fixedY;
-            if (!property_exists($json, 'firstPAL')) $firstPAL = 0; else $firstPAL = $json->firstPAL;
-            if (!property_exists($json, 'lastPAL')) $lastPAL = 0x0F; else $lastPAL = $json->lastPAL;
+            if (!property_exists($json, 'X')) $fixedX = 0; else $fixedX = $json->X;
+            if (!property_exists($json, 'Y')) $fixedY = 0; else $fixedY = $json->Y;
+            if (!property_exists($json, 'PCS')) $PCS = 0; else $PCS = $json->PCS;
+            if (!property_exists($json, 'PCE')) $PCE = 0x0F; else $PCE = $json->PCE;
 
-            if (!is_numeric($lastPAL)) error("Invalid lastPAL value in ".  $fileData->JSONfilename);
-            if (!is_numeric($firstPAL)) error("Invalid firstPAL value in ".  $fileData->JSONfilename);
-            if (!is_numeric($fixedX)) error("Invalid fixedX value in ".  $fileData->JSONfilename);
-            if (!is_numeric($fixedY)) error("Invalid fixedY value in ".  $fileData->JSONfilename);
+            if (!is_numeric($PCE)) error("Invalid PCE value in ".  $fileData->JSONfilename);
+            if (!is_numeric($PCS)) error("Invalid PCS value in ".  $fileData->JSONfilename);
+            if (!is_numeric($fixedX)) error("Invalid X value in ".  $fileData->JSONfilename);
+            if (!is_numeric($fixedY)) error("Invalid Y value in ".  $fileData->JSONfilename);
+            if ($PCE<$PCS) error("PCE ($PCE) must be greater than PCS ($PCS) in ".  $fileData->JSONfilename);
+
 
             $flags = 4 + 2 * $buffer + $float;
             $fixedX  =intval($fixedX);
             $fixedY = intval($fixedY);
 
             $outputFile[0x0a + $location * 48 + 5] = $flags;
+
             $outputFile[0x0a + $location * 48 + 6] = ($fixedX & 0xFF00)>>8;
             $outputFile[0x0a + $location * 48 + 7] = $fixedX & 0xFF;
+
             $outputFile[0x0a + $location * 48 + 8] = ($fixedY & 0xFF00)>>8;
             $outputFile[0x0a + $location * 48 + 9] = $fixedY & 0xFF;
-            $outputFile[0x0a + $location * 48 + 0x0A] = $firstPAL;
-            $outputFile[0x0a + $location * 48 + 0x0B] = $lastPAL;
+
+            $outputFile[0x0a + $location * 48 + 0x0A] = $PCS;
+            $outputFile[0x0a + $location * 48 + 0x0B] = $PCE;
+
         }
         else error('There was no picture for location #' . $location);
     }
@@ -423,8 +483,8 @@ $outputFile[9] = ($filesize & 0x000000FF);
 $outputFile[4] = (sizeof($imgsLoaded) & 0xFF00) >> 8;
 $outputFile[5] = sizeof($imgsLoaded) & 0xFF;
 
-echo "Writing file $outputFilename...";
+if ($verbose) echo "Writing file $outputFilename...";
 dumpDatabase($outputFile, $outputFilename);
-echo "OK.\n";
+if ($verbose) echo "OK.\n";
 
 
