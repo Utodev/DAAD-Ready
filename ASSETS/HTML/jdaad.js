@@ -843,6 +843,10 @@ var DDB  = new DDBClass();
 var stack  = new stackClass();
 var windows = new WindowArrayClass();
 var paper; // This will be the 2D context for the canvas
+var doublebuffer; // This will be the 2D context for the double buffer canvas
+var swapbuffer; // This will be the 2D context for the swap buffer canvas
+var graphicsWriteToScreeen = true; // Default graphics writing to screen, not double buffer
+var textWriteToScreeen = true; // Default text writing to screen, not double buffer
 var audioContext; // This will be default "soundcard"
 var previousVerb = NO_WORD;
 var playerOrderQuoted = '';
@@ -1739,9 +1743,14 @@ function delay(seconds)
 }
 
 
-function clearWindow(X, Y, width, height, paperColor)
+function clearWindow(X, Y, width, height, paperColor, isText)
 {
     if (width>=318) width = 320; 
+    var currentContext = paper;
+    // We assume most of time we are clearing we do it on text areas (i.e. prompt, text scroll, etc.
+    // There is CLS though, whichc clears partof the screen, and you never know what is there
+    // Anyway, design decision is to use the double buffer for clearing only if textWriteToScreeen is true, not when graphicsWriteToScreeen is true
+    if (isText && !textWriteToScreeen) currentContext = doublebuffer
     paper.fillStyle = getFillStyle(paperColor);
     paper.fillRect(X, Y, width, height)
 
@@ -1823,20 +1832,23 @@ function getFillStyle(colour)
 }
 
 
-function pixelRGB(x, y, r, g, b)
+function pixelRGB(x, y, r, g, b, isText)
 {
     var rhex = r.toString(16); if (rhex.length < 2) rhex = '0' + rhex;
     var ghex = g.toString(16); if (ghex.length < 2) ghex = '0' + ghex;
     var bhex = b.toString(16); if (bhex.length < 2) bhex = '0' + bhex;
     var colorCode = ('#' + rhex + ghex + bhex).toUpperCase() ;
-    paper.fillStyle = colorCode;
-    paper.fillRect(x,y,1,1);
+    var currentContext = paper;
+    if (isText && !textWriteToScreeen) currentContext = doublebuffer; // If text and text is not to be written to screen, use doublebuffer
+    if (!isText && !graphicsWriteToScreeen) currentContext = doublebuffer; // If graphics and graphics are not to be written to screen, use doublebuffer
+    currentContext.fillStyle = colorCode;
+    currentContext.fillRect(x,y,1,1);
 }
 
 
 function pixel(x,y, colour)
 {
-    pixelRGB(x, y, colours[colour][0],colours[colour][1], colours[colour][2]);
+    pixelRGB(x, y, colours[colour][0],colours[colour][1], colours[colour][2], true);
 }
 
 
@@ -2159,9 +2171,11 @@ function reconfigureWindow()
 function ScrollCurrentWindow()
 {
     var win = windows.windows[windows.activeWindow];
-    var img = paper.getImageData(win.col * COLUMN_WIDTH, (win.line+1) * LINE_HEIGHT, win.width * COLUMN_WIDTH, (win.height-1) * LINE_HEIGHT);
+    var currentContext = paper;
+    if (!textWriteToScreeen) currentContext = doublebuffer; // If text
+    var img = currentContext.getImageData(win.col * COLUMN_WIDTH, (win.line+1) * LINE_HEIGHT, win.width * COLUMN_WIDTH, (win.height-1) * LINE_HEIGHT);
     clearWindow(win.col * COLUMN_WIDTH, (win.line+win.height-1) * LINE_HEIGHT, win.width * COLUMN_WIDTH, LINE_HEIGHT, win.PAPER);
-    paper.putImageData(img, win.col * COLUMN_WIDTH, win.line*LINE_HEIGHT);
+    currentContext.putImageData(img, win.col * COLUMN_WIDTH, win.line*LINE_HEIGHT);
 
     win.currentY -= LINE_HEIGHT;
     win.currentX = win.col * COLUMN_WIDTH;
@@ -2683,7 +2697,7 @@ function _DISPLAY()
                 var g = (data >> 8) & 0xFF;
                 var b = data & 0xFF;
 
-                pixelRGB(windowX + x, windowY + y, r, g, b);
+                pixelRGB(windowX + x, windowY + y, r, g, b, false);
             }
          }
     
@@ -3468,7 +3482,20 @@ done = true;
 /*--------------------------------------------------------------------------------------*/
 function _GFX() 
 {
-// PENDING: GFX condact implementation 
+ switch (Parameter2) 
+ {
+  case 0: DBBuffertoScreen(); break;//Copy the buffer to the screen
+  case 1: DBScreentoBuffer(); break; //Copy the screen to the buffer}
+  case 2: DBSwapBuffers(); break; //Swap the buffers
+  case 3: DBGraphicsWriteToScreen(); break; //Write the graphics buffer to the screen
+  case 4: DBGraphicsWriteToBuffer(); break; //Write the graphics buffer to the buffer
+  case 5: DBClearScreen; break; //Clear the screen
+  case 6: DBClearBuffer; break; //Clear the buffer
+  case 7: DBTextWriteToScreen(); break; //Write the text buffer to the screen
+  case 8: DBTextWriteToBuffer(); break; //Write the text buffer to the buffer
+  case 9: DBSetPalette(Parameter1); //Set the palette
+  case 10:DBgetPalette(Parameter1); //Gets the palette
+ }
 done = true;
 }
 
@@ -4001,6 +4028,69 @@ function _RESET()
  done = true;
 }
 
+/* GFX functions */
+function DBBuffertoScreen() //Copy the buffer to the screen
+{
+    paper.drawImage(doublebuffer.canvas, 0, 0);
+} 
+
+function DBScreentoBuffer() //Copy the screen to the buffer
+{
+    doublebuffer.drawImage(paper.canvas, 0, 0);
+}
+
+function DBSwapBuffers() //Swap the buffers
+{
+    swapbuffer.drawImage(doublebuffer.canvas, 0, 0);
+    doublebuffer.drawImage(paper.canvas, 0, 0);
+    paper.drawImage(swapbuffer.canvas, 0, 0);
+}
+
+function DBGraphicsWriteToScreen() //Write the graphics buffer to the screen
+{
+    graphicsWriteToScreeen = true;
+}
+
+function DBGraphicsWriteToBuffer() //Write the graphics buffer to the buffer
+{
+    graphicsWriteToScreeen = false;
+}
+
+function DBClearBuffer()
+{    
+    doublebuffer.fillStyle = getFillStyle(windows.windows[windows.activeWindow].PAPER);
+    doublebuffer.fillRect(0, 0, 320, 200)
+}
+
+function DBClearScreen()
+{
+    paper.fillStyle = getFillStyle(windows.windows[windows.activeWindow].PAPER);
+    paper.fillRect(0, 0, 320, 200)
+}
+
+function DBTextWriteToScreen() //Write the text buffer to the screen
+{
+    textWriteToScreeen = true;
+}
+
+function DBTextWriteToBuffer() //Write the text buffer to the buffer
+{
+    textWriteToScreeen = false;
+}
+
+function DBSetPalette(Parameter1) //Set the palette
+{
+    colours[flags.getFlag(Parameter1)*3] = flags.getFlag(Parameter1 + 1);
+    colours[flags.getFlag(Parameter1)*3 + 1] = flags.getFlag(Parameter1 + 2);
+    colours[flags.getFlag(Parameter1)*3 + 2] = flags.getFlag(Parameter1 + 3);
+}
+
+function DBgetPalette(Parameter1)
+{
+    flags.setFlag(Parameter1 + 1, colours[flags.getFlag(Parameter1)*3]);
+    flags.setFlag(Parameter1 + 2, colours[flags.getFlag(Parameter1)*3 + 1]);
+    flags.setFlag(Parameter1 + 3, colours[flags.getFlag(Parameter1)*3 + 2]);
+}
 
 function getVirtualKeyboardKey(key)
 {
@@ -4090,6 +4180,8 @@ $(document).ready(function()
 	  
     // Virtual keyboard initialization    
     paper = document.getElementById('paper').getContext('2d', { willReadFrequently: true });
+    doublebuffer = document.getElementById('doublebuffer').getContext('2d', { willReadFrequently: true });
+    swapbuffer = document.getElementById('swapbuffer').getContext('2d', { willReadFrequently: true });
     
     resizeScreen();  
     // Init game  
