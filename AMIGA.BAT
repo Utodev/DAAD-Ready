@@ -72,7 +72,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 
 REM  ---- PREPARE IMAGES ----
-PHP\php TOOLS\img2daad\img2daad.php IMAGES RELEASE\AMIGA\PART1.DAT -a  
+PHP\php TOOLS\img2daad\img2daad.php IMAGES RELEASE\AMIGA\PART1.DAT -a
 IF ERRORLEVEL 1 GOTO ERROR
 
 REM --- PREPARE AMIGA STARTUP-SEQUENCE
@@ -88,9 +88,9 @@ ECHO.
 tools\cecho\cecho {06}Preparing .ADF floppy disk image file{07}
 DEL RELEASE\AMIGA\FLOPPY\%GAME%.ADF > nul 2>&1
 RMDIR RELEASE\AMIGA\FLOPPY\ > nul 2>&1
-TOOLS\exe2adf\exe2adf.exe -d RELEASE\AMIGA\ -l %GAME% -a RELEASE\%GAME%.ADF > nul 2>&1
+TOOLS\exe2adf\exe2adf.exe -d RELEASE\AMIGA\ -l %GAME% -a %GAME%.ADF > nul 2>&1
 MD RELEASE\AMIGA\FLOPPY\ > nul 2>&1
-MOVE RELEASE\%GAME%.ADF RELEASE\AMIGA\FLOPPY\%GAME%.ADF > nul 2>&1
+MOVE %GAME%.ADF RELEASE\AMIGA\FLOPPY\%GAME%.ADF > nul 2>&1
 
 IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
 REM ----  CLEAN ---- 
