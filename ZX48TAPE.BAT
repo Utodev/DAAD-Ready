@@ -44,8 +44,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-REM Please notice subtarget is ESXDOS because DRC requires one, but this is a pure tape target
-TOOLS\DRC\DRF zx esxdos %GAME%.DSF tape48
+TOOLS\DRC\DRF zx 48k %GAME%.DSF tape48
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -53,7 +52,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 echo.
-PHP\PHP TOOLS\DRC\DRB.PHP zx esxdos %LANG% %GAME%.json %GAME%.DDB 
+PHP\PHP TOOLS\DRC\DRB.PHP zx 48k %LANG% %GAME%.json %GAME%.DDB 
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
