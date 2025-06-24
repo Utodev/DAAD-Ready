@@ -69,6 +69,14 @@ echo.
 
 REM  ---- COPY FILES  ---- 
 COPY  %GAME%.JDDB RELEASE\HTML\daad.jddb > nul 2>&1
+DEL RELEASE\HTML\*.mp3 > nul 2>&1
+DEL RELEASE\HTML\*.ogg > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist SOUNDS\00%%i.mp3 COPY SOUNDS\00%%i.mp3 RELEASE\HTML\ > nul 2>&1
+for /L %%i in (10, 1, 99)do IF exist SOUNDS\0%%i.mp3 COPY SOUNDS\0%%i.mp3 RELEASE\HTML\ > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist SOUNDS\%%i.mp3 COPY SOUNDS\%%i.mp3 RELEASE\HTML\ > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist SOUNDS\00%%i.mp4 COPY SOUNDS\00%%i.mp4 RELEASE\HTML\ > nul 2>&1
+for /L %%i in (10, 1, 99)do IF exist SOUNDS\0%%i.mp4 COPY SOUNDS\0%%i.mp4 RELEASE\HTML\ > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist SOUNDS\%%i.mp4 COPY SOUNDS\%%i.mp4 RELEASE\HTML\ > nul 2>&1
 
 REM ---- PREPARE FONT -----
 PHP\PHP tools\jDAADFontMaker\jDAADFontMaker.php ASSETS\CHARSET\%FONT6% RELEASE\HTML\font.js 
@@ -79,6 +87,10 @@ tools\cecho\cecho {06}Preparing images (if any){07}
 for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\00%%i.png RELEASE\HTML\images.js 0,0
 for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\0%%i.png RELEASE\HTML\images.js 0,0
 for /L %%i in (100, 1, 256) do IF exist IMAGES\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\%%i.png RELEASE\HTML\images.js 0,0
+
+REM  ---- PREPARE SOUNDS AND VIDEOS ----
+PHP\PHP TOOLS/jDAADImager/jDAADMultimedia.php RELEASE\HTML\  0,0
+
 
 IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
 REM ----  CLEANING ---- 

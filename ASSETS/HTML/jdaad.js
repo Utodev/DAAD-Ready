@@ -6,7 +6,7 @@ KNOWN BUGS:
 
 // Constants
 
-const versionDate = '13/10/2023';
+const versionDate = '24/06/2025';
 
 // Settings
 const NESTED_DOALL_ENABLED = false;
@@ -300,7 +300,7 @@ const condactTable  = [
     {condactName: 'TIME   ', condactRoutine: _TIME   , numParams: 2}, /*  83 0x53*/
     {condactName: 'PICTURE', condactRoutine: _PICTURE, numParams: 1}, /*  84 0x54*/
     {condactName: 'DOALL  ', condactRoutine: _DOALL  , numParams: 1}, /*  85 0x55*/
-    {condactName: 'MOUSE  ', condactRoutine: _MOUSE  , numParams: 1}, /*  86 0x56*/
+    {condactName: 'MOUSE  ', condactRoutine: _MOUSE  , numParams: 2}, /*  86 0x56*/
     {condactName: 'GFX    ', condactRoutine: _GFX    , numParams: 2}, /*  87 0x57*/
     {condactName: 'ISNOTAT', condactRoutine: _ISNOTAT, numParams: 2}, /*  88 0x58*/
     {condactName: 'WEIGH  ', condactRoutine: _WEIGH  , numParams: 2}, /*  89 0x59*/
@@ -856,6 +856,14 @@ var globalParseOption = 0; // preseves the option given to PARSE calls (PARSE 0 
 var XmessagePart = 0;
 var isMobileDevice = false;
 var virtualKeys;
+var activeMouse = true;
+var mouseX = 0;
+var mouseY = 0;
+var mouseButtons = 0; 
+var audioSFX;
+var audioMusic;
+var videoPlayer;
+var inVideo = false; // If true, the game is in a video, so no input is allowed
 
 var keyBoardStatus = [];
 
@@ -1029,7 +1037,7 @@ function run(skipToRunCondact)
             //These flags should have specific values that code can use to determine the machine running the DDB
             // so they are being set after every condact to make sure even when modified, their value is restored
             flags.setFlag(FSCREENMODE, 14 + 128); //Makes sure flag 62 has proper value: mode 14 (JDAAD Screen) and bit 7 set
-            flags.setFlag(FMOUSE, 128); //Makes sure flag 29 has "graphics" available set, and the rest is empty}
+            flags.setFlag(FMOUSE, 128 + 1); //Makes sure flag 29 has "graphics" available set, and mouse available set,  and the rest is empty}
 
             //Let's run the condact
             var indirection =  ((opcode & 0x80) != 0) 
@@ -1646,34 +1654,46 @@ function isSpecialKey(key)
 
 function keydownHandler(e)
 {
-    if (!isSpecialKey(e.key)) 
+    if (inVideo)
+    {
+      if (e.key.toUpperCase()=='ESCAPE')
+      {
+        $('#paper').show();
+        videoPlayer.pause();
+        inVideo = false;
+      }
+    }
+    else
     {
 
-        playerPressedKey = true;
-
-        //Save keydown status for each key to be used with INKEY    
-        var keyCode = getKeyCodeFromKey(e.key);
-        if ((keyBoardStatus) && (!keyBoardStatus.includes(keyCode))) keyBoardStatus.push(getKeyCodeFromKey(e.key)); 
-
-        if (inANYKEY)
+    
+        if (!isSpecialKey(e.key)) 
         {
-            e.preventDefault();
-            e.stopPropagation();   
-            if (!inMORE) DDB.condactPTR++; // Point to next condact
-            inANYKEY = inMORE = false;
-            for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
-            run(true); // skipToRunCondact = true
-            return;
-        }
 
+            playerPressedKey = true;
 
-        if (inQUIT || inEND || inSAVE || inLOAD || inPARSE)
-        {
-                readTextB(e.key);
+            //Save keydown status for each key to be used with INKEY    
+            var keyCode = getKeyCodeFromKey(e.key);
+            if ((keyBoardStatus) && (!keyBoardStatus.includes(keyCode))) keyBoardStatus.push(getKeyCodeFromKey(e.key)); 
+
+            if (inANYKEY)
+            {
+                e.preventDefault();
+                e.stopPropagation();   
+                if (!inMORE) DDB.condactPTR++; // Point to next condact
+                inANYKEY = inMORE = false;
+                for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
+                run(true); // skipToRunCondact = true
                 return;
-        } 
-                
+            }
 
+
+            if (inQUIT || inEND || inSAVE || inLOAD || inPARSE)
+            {
+                    readTextB(e.key);
+                    return;
+            } 
+        }
     }
 }
 
@@ -2110,7 +2130,7 @@ function readTextB(key)
     else
     if ((keyCode==8) && (readTextStr!=thePrompt))
     {
-        clearWindow((readTextStr.length - 1) * COLUMN_WIDTH , windows.windows[windows.activeWindow].currentY,  COLUMN_WIDTH, LINE_HEIGHT, windows.windows[windows.activeWindow].PAPER);
+        clearWindow((readTextStr.length) * COLUMN_WIDTH , windows.windows[windows.activeWindow].currentY,  COLUMN_WIDTH, LINE_HEIGHT, windows.windows[windows.activeWindow].PAPER);
         readTextStr = readTextStr.slice(0, -1);
         patchedStr = PatchStr(readTextStr);
         windows.windows[windows.activeWindow].currentX = windows.windows[windows.activeWindow].currentX - COLUMN_WIDTH * 2; // Move the cursor back 
@@ -2467,9 +2487,55 @@ function _ADVERB()
 }
 
 /*--------------------------------------------------------------------------------------*/
+
+
+
 function _SFX()
 {
- // PENDING, SFX condact
+ switch (Parameter2) 
+ {
+    /*Note: we skip should avoid using 255 and 2554 as they are used by original
+    SFX implementation in AtariST. SFX x 255 plays sample loaded by PICTURE, while
+    SFX 2 254 disables keyboard click sound*/
+
+    // Plays sample and no repeat
+    case 1: PlaySound(true, Parameter1, false); break;
+
+    // Plays sample  and loop
+    case 2: PlaySound(true, Parameter1, true); break;
+
+    // Stops loop if enabled, parameter2 is irrelevant
+    case 5: StopSound(true);break;
+
+    // Plays music with no repeat
+    case 6: PlaySound(false, Parameter1, false); break;
+
+    // Plays music loop
+    case 7: PlaySound(false, Parameter1, true); break;
+
+    // Stops loop if enabled, parameter2 is irrelevant
+    case 8: StopSound(false);break;
+
+    // PlaysFLI file, no repeat
+    case 9: {
+        var SaveMouse = activeMouse;
+        if (SaveMouse) hideMouse();
+        PlayVideo(Parameter1,false);
+        if (SaveMouse) showMouse();
+        break;
+       }; 
+
+    // PlaysFLI file, loop
+   case 10: {
+        var SaveMouse = activeMouse;
+        if (SaveMouse) hideMouse();
+        PlayVideo(Parameter1,true);
+        if (SaveMouse) showMouse();
+        break;
+       }
+ } 
+    
+  
  done = true;
 }
 
@@ -3475,8 +3541,32 @@ function _DOALL()
 /*--------------------------------------------------------------------------------------*/
 function _MOUSE()
 {
-// PENDING: MOUSE condact implementation
-done = true;
+    switch(Parameter2)
+    {
+    case 0 : break; // was ResetMouse() but it makes no sense in JS
+    case 1 : showMouse(); break; // Show mouse pointer
+    case 2 : hideMouse() ; break; // Hide mouse pointer
+    case 3 : {
+                var mouseData = GetMouse();
+                var columnX = Math.floor(mouseData.x/8) ;
+                if (columnX <0) columnX = 0;
+                if (columnX > 39) columnX = 39;
+                var columnY = Math.floor(mouseData.y/8);
+                if (columnY <0) columnY = 0;
+                if (columnY > 24) columnY = 24;
+                var columnX6 = Math.floor(mouseData.x/6) ;
+                if (columnX6 <0) columnX6 = 0;
+                if (columnX6 > 53) columnX6 = 53;
+                
+
+                flags.setFlag(Parameter1, mouseData.buttons);
+                flags.setFlag(Parameter1 + 1, columnX);
+                flags.setFlag(Parameter1 + 2, columnY);
+                flags.setFlag(Parameter1 + 3, columnX6);
+                break;
+            }
+    };
+    done = true;
 }
 
 /*--------------------------------------------------------------------------------------*/
@@ -4028,6 +4118,91 @@ function _RESET()
  done = true;
 }
 
+
+/*--------------------------------------------------------------------------------------*/
+
+
+/* Mouse functions */
+
+function showMouse() //Show the mouse pointer
+{
+    document.body.style.cursor = 'default';
+    activeMouse = true;
+}
+
+function hideMouse() //Hide the mouse pointer
+{
+    document.body.style.cursor = 'none';
+    activeMouse = false;
+}
+
+function GetMouse() //Get the mouse status
+{
+    var response = {};
+    response.x = mouseX;
+    response.y = mouseY;
+    response.buttons = mouseButtons;
+    return response;
+}
+
+/* SFX functions */
+
+
+function PlayVideo(sfxno, loop)
+{
+    if (jDAADVideos.indexOf(sfxno) >= 0)
+    {
+        var filename = sfxno + '';
+        while (filename.length < 3) filename = '0' + filename; // Make sure we have 3 digits
+        filename += '.mp4';
+        
+        videoPlayer = document.createElement('video');
+        videoPlayer.style.width = '100%';
+        videoPlayer.style.height = '100%';
+        videoPlayer.loop = loop;
+        videoPlayer.src = filename;
+        videoPlayer.addEventListener('ended', () => {
+            $('#paper').css('display','block');
+            inVideo = false;
+        });
+        document.getElementById('videolayer').innerHTML = '';
+        document.getElementById('videolayer').appendChild(videoPlayer);
+        $('#paper').css('display','none');
+        videoPlayer.play();
+        inVideo = true;
+        //return video;
+    }
+}
+
+
+function StopSound(isSFX)
+{
+    if (isSFX) audioSFX.pause();
+    else audioMusic.pause();
+}
+
+function PlaySound(isSFX, sfxno, loop)
+{
+    if (jDAADSounds.indexOf(sfxno) >= 0)
+    {
+        var filename = sfxno + '';
+        while (filename.length < 3) filename = '0' + filename; // Make sure we have 3 digits
+        filename += '.mp3';
+        if (isSFX)
+        {
+            audioSFX = new Audio(filename);
+            audioSFX.loop = loop;
+            audioSFX.play();
+        }
+        else
+        {
+            audioMusic = new Audio(filename);
+            audioMusic.loop = loop;
+            audioMusic.play();
+        }
+    }
+}
+
 /* GFX functions */
 function DBBuffertoScreen() //Copy the buffer to the screen
 {
@@ -4160,6 +4335,49 @@ $(document).ready(function()
     
     // Handlers
 
+
+    $(document).mousemove(function(e) 
+    {
+        if (activeMouse) 
+        {
+            var rect = paper.canvas.getBoundingClientRect();
+
+            mouseX = e.clientX- rect.left;
+            mouseY = e.clientY- rect.top;
+            var scaleX = paper.canvas.width / rect.width;
+            var scaleY = paper.canvas.height / rect.height;
+
+            mouseX = Math.round(mouseX * scaleX);
+            mouseY = Math.round(mouseY * scaleY);
+
+        }
+    });
+
+    $(document).mousedown(function(e) 
+    {
+        //  Javascript: 0 for left, 1 for middle, 2 for right
+        // DAAD:  1 LeftButton ,2 Right, 4 Middle
+        if (activeMouse) 
+        {
+            if (e.button == 0) mouseButtons |= 1; // Left button
+            if (e.button == 1) mouseButtons |= 4; // Middle button
+            if (e.button == 2) mouseButtons |= 2; // Right button
+            
+        }
+    });
+
+    $(document).mouseup(function(e) 
+    {
+        //  Javascript: 0 for left, 1 for middle, 2 for right
+        // DAAD:  1 LeftButton ,2 Right, 4 Middle
+        if (activeMouse) 
+        {
+            if (e.button == 0) mouseButtons &= (255 - 1); // Left button
+            if (e.button == 1) mouseButtons &= (255 - 4); // Middle button
+            if (e.button == 2) mouseButtons &= (255 - 2); // Right button
+            
+        }
+    });
 
     
     $(document).keydown(function(e) {
