@@ -19,6 +19,10 @@ SOUNDS/*.WAV
 SOUNDS/*.wav
 SOUNDS/*.DRO
 SOUNDS/*.dro
+SOUNDS/*.mp3
+SOUNDS/*.MP3
+SOUNDS/*.mp4
+SOUNDS/*.MP4
 TOOLS/PCW/Config.ini
 TOOLS/zesarux/zesarux_index_menu.idx
 readme.txt
