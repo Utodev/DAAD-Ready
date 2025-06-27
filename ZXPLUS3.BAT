@@ -72,9 +72,9 @@ tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 
 CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\SCRMAKER\SCRMAKER zx 00%%i.SCR 00%%i.ZX 256 %IMGLINES% 0,0 
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER zx 0%%i.SCR 0%%i.ZX 256 %IMGLINES% 0,0
-for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER zx %%i.SCR %%i.ZX 256 %IMGLINES% 0,0
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\SCRMAKER\SCRMAKER spectrum 00%%i.SCR 00%%i.ZX 256 %IMGLINES% 0,0 
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum 0%%i.SCR 0%%i.ZX 256 %IMGLINES% 0,0
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR %%i.ZX 256 %IMGLINES% 0,0
 CD ..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
