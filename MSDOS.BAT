@@ -38,9 +38,9 @@ echo Language: %LANG% %BASELANG%
 IF NOT EXIST "ASSETS\MSDOS.warning" (
     if "%BASELANG%" == "ES" (
 
-        tools\cecho\cecho {06}AVISO: ESTA BAT GENERA UNA DISTRIBUCION PARA MSDOS UTILIZANDO EL NUEVO INTERPRETE PCDAAD, que no es un intérprete original de DAAD. {07} 
+        tools\cecho\cecho {06}AVISO: ESTA BAT GENERA UNA DISTRIBUCION PARA MSDOS UTILIZANDO EL NUEVO INTERPRETE PCDAAD, que no es un interprete original de DAAD. {07} 
         tools\cecho\cecho {06}PCDAAD esta en una etapa de pruebas, y aunque en general ha sido ya probado, podrian aparecer problemas o incompatibilidades inesperadas. {07}
-        tools\cecho\cecho {06}Por favor, antes de reportar un error comprueba que el comportamiento es diferente en otras máquinas.{07}    
+        tools\cecho\cecho {06}Por favor, antes de reportar un error comprueba que el comportamiento es diferente en otras maquinas.{07}    
         echo.
         PAUSE
         echo "OK" > ASSETS\MSDOS.warning

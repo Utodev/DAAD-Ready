@@ -72,10 +72,15 @@ tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 
 CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\SCRMAKER\SCRMAKER spectrum 00%%i.SCR 00%%i.ZX 256 %IMGLINES% 0,0 
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum 0%%i.SCR 0%%i.ZX 256 %IMGLINES% 0,0
-for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR %%i.ZX 256 %IMGLINES% 0,0
+DEL SCRMAKER.LOG > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\SCRMAKER\SCRMAKER spectrum 00%%i.SCR L:00%%i.ZX 256 %IMGLINES% 0,0 
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum 0%%i.SCR L:0%%i.ZX 256 %IMGLINES% 0,0
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR L:%%i.ZX 256 %IMGLINES% 0,0
+REM --- Pack pre-buffered images into DAAD.GRA file ---
+IF exist SCRMAKER.LOG ..\PHP\php ..\TOOLS\PLUS3CACHE\PLUS3CACHE.PHP SCRMAKER.LOG
 CD ..
+
+
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -103,6 +108,9 @@ TOOLS\CPCDiskXP\CPCDiskXP -File DAAD.DDB -AddToExistingDsk %GAME%.DSK > nul 2>&1
 
 REM ---- ADD THE XMESSAGES ----
 IF exist 0.XMB TOOLS\CPCDiskXP\CPCDiskXP -File 0.XMB -AddToExistingDsk %GAME%.DSK
+
+REM ---- ADD THE CACHED PICTURES ----
+IF exist DAAD.GRA TOOLS\CPCDiskXP\CPCDiskXP -File DAAD.GRA -AddToExistingDsk %GAME%.DSK
 
 REM ---- ADD THE IMAGES ----
 if exist IMAGES\DAAD.SCR  (
