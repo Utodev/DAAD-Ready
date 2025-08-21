@@ -40,7 +40,7 @@ echo Language: %LANG% %BASELANG%
 IF NOT EXIST "ASSETS\MSX2.warning" (
     if "%BASELANG%" == "ES" (
 
-        tools\cecho\cecho {06}AVISO: ESTA BAT GENERA UNA DISTRIBUCION PARA MSX2 UTILIZANDO EL NUEVO INTERPRETE MSX2DAAD, que no es un intérprete original de DAAD. {07} 
+        tools\cecho\cecho {06}AVISO: ESTA BAT GENERA UNA DISTRIBUCION PARA MSX2 UTILIZANDO EL NUEVO INTERPRETE MSX2DAAD, que no es un interprete original de DAAD. {07} 
         tools\cecho\cecho {06}MSX2DAAD esta en una etapa de pruebas, y aunque en general ha sido ya probado, podrian aparecer problemas o incompatibilidades inesperadas. {07}
         tools\cecho\cecho {06}Por favor, antes de reportar un error comprueba que el comportamiento es diferente en otros targets.{07}    
         echo.
