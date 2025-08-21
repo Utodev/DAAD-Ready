@@ -51,7 +51,7 @@ echo Language: %LANG% %BASELANG%
 IF NOT EXIST "ASSETS\ZXDAAD128PLUS3.warning" (
     if "%BASELANG%" == "ES" (
 
-        tools\cecho\cecho {06}AVISO: ESTA BAT GENERA UNA DISTRIBUCION PARA MSX2 UTILIZANDO EL NUEVO INTERPRETE ZXDAAD128, que no es un interprete original de DAAD. {07} 
+        tools\cecho\cecho {06}AVISO: ESTA BAT GENERA UNA DISTRIBUCION PARA SPECTRUM +3 UTILIZANDO EL NUEVO INTERPRETE ZXDAAD128, que no es un interprete original de DAAD. {07} 
         tools\cecho\cecho {06}ZXDAAD128 esta en una etapa de pruebas, y aunque en general ha sido ya probado, podrian aparecer problemas o incompatibilidades inesperadas. {07}
         tools\cecho\cecho {06}Por favor, antes de reportar un error comprueba que el comportamiento es diferente en otros targets.{07}    
         echo.
@@ -59,7 +59,7 @@ IF NOT EXIST "ASSETS\ZXDAAD128PLUS3.warning" (
         echo "OK" > ASSETS\ZXDAAD128PLUS3.warning
     )
     if "%BASELANG%" == "EN" (
-        tools\cecho\cecho "{06}WARNING: THIS BAT GENERATES A DISTRIBUTION FOR MSX2 USING NEW ZXDAAD128 INTERPRETER, WHICH IS NOT AN ORIGINAL DAAD interpreter{07}" 
+        tools\cecho\cecho "{06}WARNING: THIS BAT GENERATES A DISTRIBUTION FOR SPECTRUM +3 USING NEW ZXDAAD128 INTERPRETER, WHICH IS NOT AN ORIGINAL DAAD interpreter{07}" 
         tools\cecho\cecho "{06}ZXDAAD128 is in early stages of development, and although it has been tested quite a lot, unexpected problems or incompatibilities could appear. {07}"
         echo.
         tools\cecho\cecho "{06}Before reporting a bug, please check that the behaviour is different in other targets.{07}"
