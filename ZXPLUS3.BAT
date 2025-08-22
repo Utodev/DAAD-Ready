@@ -73,11 +73,13 @@ ECHO.
 
 CD IMAGES
 DEL SCRMAKER.LOG > nul 2>&1
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\SCRMAKER\SCRMAKER spectrum 00%%i.SCR L:00%%i.ZX 256 %IMGLINES% 0,0 
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum 0%%i.SCR L:0%%i.ZX 256 %IMGLINES% 0,0
-for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR L:%%i.ZX 256 %IMGLINES% 0,0
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\SCRMAKER\SCRMAKER spectrum 00%%i.SCR 00%%i.ZX 256 %IMGLINES% 0,0 
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum 0%%i.SCR 0%%i.ZX 256 %IMGLINES% 0,0
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR %%i.ZX 256 %IMGLINES% 0,0
 REM --- Pack pre-buffered images into DAAD.GRA file ---
+del DAAD.GRA > nul 2>&1
 IF exist SCRMAKER.LOG ..\PHP\php ..\TOOLS\PLUS3CACHE\PLUS3CACHE.PHP SCRMAKER.LOG
+move DAAD.GRA ..\DAAD.GRA > nul 2>&1
 CD ..
 
 
@@ -135,7 +137,7 @@ DEL *.XMB > nul 2>&1
 DEL *.SDG > nul 2>&1
 DEL *.TMP > nul 2>&1
 DEL *.CHR > nul 2>&1
-DEL *.P3F > nul 2>&1
+rem DEL *.GRA > nul 2>&1
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
@@ -167,7 +169,7 @@ DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.TMP > nul 2>&1
 DEL *.CHR > nul 2>&1
-DEL *.P3F > nul 2>&1
+rem DEL *.GRA > nul 2>&1
 
 REM  --- CUSTOM AREA ---
 :CUSTOM
