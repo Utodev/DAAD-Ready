@@ -16,8 +16,6 @@ When location is 255, it means the end of the table, and does not have offset or
 
 3) Then follows the image data.
 
-
-
 */ 
 
 function syntax()
