@@ -22,79 +22,36 @@
 ;
 ;------------------------------------------------------------------------------
 
-
-; --- Please don't remove the following code, it makes sure the game works fine for all supported targets 
-
-#ifdef "SPLIT"
-#define splitModeON 1
-#endif
+; --- Bitte entferne den folgenden Code nicht, er stellt sicher, dass das Spiel für alle unterstützten Ziele funktioniert
 
 #ifdef "tape48"
 #define tape 1
 #endif
 
-#ifndef "tape"
-#ifndef "st"
-#ifndef "amiga"
-#ifndef "zx128"
-#ifndef "next"
-    #extern "MALUVA"
+#ifdef "c64"
+    #extern "MALUVA"    
 #endif
+#ifdef "cp4"
+    #extern "MALUVA"    
 #endif
-#endif
-#endif
-#endif
-
-#ifdef "oldnext"
-    #extern "MALUVA"
-#endif
-
-#ifdef "zx128"
-#define nativeraster 1
-#endif
-
-#ifdef "html"
-#define nativeraster 1
-#endif
-
 #ifdef "pcw"
-#define nativeraster 1
+    #extern "MALUVA"
 #endif
 
-#ifdef "amiga"
-#define nativeraster 1
+#ifndef "msx"
+#ifndef "tape48"
+#ifndef "c64"
+#ifndef "cpc"
+#ifndef "cp4"
+    #define nativeraster 1
 #endif
-
-#ifdef "pc"
-#define nativeraster 1
 #endif
-
-#ifdef "st"
-#define nativeraster 1
 #endif
-
-#ifdef "uno"
-#int "MLV_UNO_INT.BIN"
-#define canBoostSpeed 1
 #endif
-
-#ifdef "next"
-#define canBoostSpeed 1
-#endif
-
-#ifdef "cpc"
-#int "MLV_CPC_INT.BIN"
-#endif
-
-#ifdef "splitModeON"
-#echo "La máquina destino usará split mode"
-#endif
-
-#ifdef "canBoostSpeed"
-#echo "La máquina destino tiene modo turbo"
 #endif
 
 ; --- Please don't remove the code above, it makes sure the game works fine for all supported targets 
+; --  Bitte entferne den obigen Code nicht, er stellt sicher, dass das Spiel für alle unterstützten Ziele funktioniert
 
 
 ; System flags 0-63
@@ -394,58 +351,55 @@ S 1
 ; Befindet sich der Spieler nicht mehr am Ort 0, ist er für die Darstellung der Grafik und des Textes des Ortes verantwortlich
 ; aktuell, falls zutreffend, und springen Sie zu Prozess 1, wo sich das System befindet, das den Spieler nach Befehlen fragt.
 
-> _       _     AT      0                ; Wenn wir uns in der ersten Lokalität befinden...
-                #ifdef "canBoostSpeed"
-                    XSPEED  1                ; Wenn Sie die CPU-Geschwindigkeit ändern können, stellen Sie sie auf 7 MHz ein
-                #endif
-                #ifdef "splitModeON"    ; Wenn es den geteilten Bildschirm unterstützt, aktivieren Sie es
+> _       _     AT      0                 ; Wenn wir uns in der ersten Lokalität befinden...
+                PROCESS 6                 ; Der Initialisierungsprozess
+
+
+> _       _     WINAT 13 0              ;  Standardmäßig befindet sich das Textfenster unten
+                #ifdef "splitModeOn"    ; wenn der Split-Screen unterstützt wird, aktivieren
                     XSPLITSCR 1
+                    #ifdef "cpc"
+                    WINAT 14 0           ;  wenn es CPC ist, setzen wir es etwas weiter unten, um Probleme im Moduswechselbereich zu vermeiden
+                    #endif
                 #endif
-                PROCESS 6               ; Der Initialisierungsprozess
-
-
-> _       _     WINDOW 1
-                WINAT 14 0              ; Standardmäßig befindet sich das Textfenster unten
+                WINDOW 1
                 WINSIZE 25 127
 
-
-> _       _     WINDOW  0               ; Grafikfenster
-                CLEAR   fDarkF          ; Gehen Sie davon aus, dass es Licht gibt
+> _       _     WINDOW  0               ;  Grafikfenster
+                CLEAR   fDarkF          ; Gehe davon aus, dass es Licht gibt
                 NOTZERO 0
                 ABSENT  0
                 SET     fDarkF          ; Dunkel
+
                 
 
                 
-#ifdef "nativeraster"               ; GRAPH FÜR ZIELE MIT NATÜRLICHER RASTERGRAFIK
+#ifdef "nativeraster"               ; GRAFICO PARA TARGETS CON GRAFICOS RASTER NATIVOS; in german: GRAFIK FÜR ZIELE MIT NATIVEN RASTER-GRAFIKEN
 > _       _     ZERO fDarkF
-                PICTURE @fPlayer        ; Wenn es ein Bild gibt, laden Sie es hoch
+                PICTURE @fPlayer        ; Wenn es ein Bild gibt, laden
                 DISPLAY 0
                 SKIP $pictureOK
 
-#else                               ; GRAPH FÜR ZIELE MIT NICHT-NATIVER RASTERGRAFIKEN, DIE NICHT Spectrum 48K SIND
-    #ifndef "tape48"                 
-    > _       _     ZERO fDarkF
-                    CLEAR 20
-                    XPICTURE @fPlayer        ; Wenn es ein Bild gibt, laden Sie es hoch
-                    ZERO 20                  ; Wenn es geladen wurde...
-                    SKIP $pictureOK
+#else                               ; GRAFIK FÜR ZIELE MIT KEINEN NATIVEN RASTER-GRAFIKEN
+    #ifndef "tape48"                ; UND KEIN SPECTRUM 48K
+     > _       _     ZERO fDarkF
+                     CLEAR 20
+                     XPICTURE @fPlayer        ; Wenn es ein Bild gibt, laden
+                     ZERO 20                  ; Wenn es geladen wurde
+                     SKIP $pictureOK
     #endif
 #endif
 
-#ifndef "splitModeON"                  ; Dieser Eintrag wird nur ausgeführt, wenn kein geteilter Bildschirm vorhanden ist, und wir gelangen nur zu ihm, wenn das Laden des Bildes fehlgeschlagen ist oder es dunkel ist
-> _       _     WINDOW 1
-                WINAT 0 0               ; Wenn kein Bild vorhanden ist, wechseln wir zum Vollbildtext
+
+;Wenn wir hier ankommen, gab es kein Bild für diesen Ort, setzen wir den Text auf Vollbild
+> _       _     #ifdef "splitModeOn"                  
+                    CLS                     ; Wenn es sich um den Split-Modus handelt, müssen wir den Bildschirm löschen
+                    XSPLITSCR 0             ; und den Split-Modus entfernen
+                #endif
+                WINDOW 1
+                WINAT 0 0               ; Wenn es kein Bild gibt, setzen wir den Text auf Vollbild
                 WINSIZE 25 127
                 CLS
-                #ifdef "next"
-                    GT  20 127          ; Wenn das Laden des Bildes fehlschlägt...
-                    XNEXTCLS           ; Deaktivieren und löschen Sie Layer2
-                #endif
-#else
-> _ _           CLS                      ; Wenn das Laden fehlschlägt, wir aber über den Split-Modus verfügen, beschränken wir uns auf die CLS des Grafikfensters
-
-#endif
 
 $pictureOK
 
@@ -513,28 +467,36 @@ $pictureOK
 > _       _     SYSMESS 6               ; Ich habe es nicht verstanden
 
 ;------------------------------------------------------------------------------
-/PRO 3 ; Alter Prozess 1. Beachten Sie, dass sowohl die Antworttabelle als auch die alte PAW
-; Die Prozesstabellen 1 und 2 können nun irgendwo vorhanden sein oder ganz fehlen. Alles
-; ist in der DAAD-Sprache selbst implementiert.
+/PRO 3
 
-;This is better carried out thus
+; In german:
+; Dieser Prozess wird direkt nach der Anzeige der Beschreibung eines Ortes ausgeführt und ist dafür verantwortlich          
+; die Liste der Objekte anzuzeigen, die sich dort befinden, falls vorhanden. Sie können hier Einträge hinzufügen, die Text anzeigen oder Dinge tun, wenn der Spieler einen bestimmten Ort erreicht.
+
 > _       _     NEWLINE
                 ZERO    fDarkF            ; Isn't dark
                 LISTOBJ
 
-;than the old system needed in Version 1, without accesss to DarkF
-;> _       _     NEWLINE
-;                ZERO    0               ;If it is light...
-;                ABSENT  0               ;and the light source is absent...
-;                LISTOBJ                 ;List the objects
+;------------------------------------------------------------------------------
+/PRO 4 
 
-;> _       _     PRESENT 0               ;If the light source is present...
-;                LISTOBJ                 ;List the objects
+; Dieser Prozess wird bei jedem Zug ausgeführt, nachdem die Befehle des Spielers beantwortet wurden. Es ist nützlich, um Dinge zu steuern, die
+; nach einer gewissen Zeit passieren können, oder Ereignisse, die jederzeit eintreten können. Für diejenigen, die von PAW kommen, ist es das Äquivalent zum
+; Prozess 2.
 
 ;------------------------------------------------------------------------------
-/PRO 4 ; Old process 2
-;------------------------------------------------------------------------------
-/PRO 5 ; Command decoder
+/PRO 5 
+
+
+
+
+; In diesem Prozess wird auf die Befehle des Spielers geantwortet, so dass
+; die Eingaben normalerweise Verb und Nomen haben, oder zumindest ein Verb.
+; Die Befehle des Spielers führen jede Eingabe aus, wenn sie mit den in jeder angegebenen
+; Wörtern übereinstimmen. Beachte, dass sie in der Reihenfolge ausgeführt werden, in der sie
+; in der Datei stehen, so dass die allgemeineren Antworten hinter den spezifischeren stehen
+; Für diejenigen, die von PAW kommen, ist es das Äquivalent zur Antworttabelle.
+
 
 > I       _       SYSMESS 9
                   LISTAT  CARRIED
@@ -566,21 +528,11 @@ $pictureOK
 
 > ENDE    _       DONE                    ;Not like QUIT on PAW
 
-> SPEIC    _     #ifndef "tape"
-                XSAVE 0                  ;ditto
-                #endif
-                #ifdef "tape"
-                SAVE 0
-                #endif
+> SPEIC    _    SAVE 0
                 CLS
                 RESTART
 
-> LADE    _     #ifndef "tape"
-                XLOAD  0
-                #endif
-                #ifdef "tape"
-                LOAD   0
-                #endif
+> LADE    _     LOAD   0
                 CLS
                 RESTART
 
@@ -642,6 +594,6 @@ $initLoop
                 LET     fMaxCarr 4
                 SET     fCPronounNoun
                 SET     fCPronounAdject
-                ; LET fObjectsCarried   0 ; Initialisieren Sie diese Flagge mit der Anzahl der Gegenstände, die der Startspieler trägt
+                LET     fObjectsCarried   NUM_CARRIED 
                 GOTO    1                 ; Erster Ort im Spiel
 /END

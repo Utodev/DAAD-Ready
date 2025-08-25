@@ -8,75 +8,46 @@
 ; Por favor, não remova os Enes no quadro acima. Eles estão aí para que seja possível perceber
 ; facilmente se o arquivo for aberto com uma codificação que não é a correta (ISO-8859 ou Win1252) 
 
-; --- Por favor, não remova o código abaixo, pois é importante para controlar o suporte das plataformas 
 
-#ifdef "SPLIT"
-#define splitModeON 1
-#endif
+
+;------------------------------------------------------------------------------
+;
+; 'Everything is possible in this life ( but it all costs time and money! )'
+;                                                              Tim Gilberts
+;
+;                                      'And also WE ALL have to work for it'
+;                                                            Andres Samudio
+;
+;                                                                   [8-6-89]
+;
+;------------------------------------------------------------------------------
+
+; --- Por favor, não remova o código abaixo, pois é importante para controlar o suporte das plataformas 
 
 #ifdef "tape48"
 #define tape 1
 #endif
 
-#ifndef "tape"
-#ifndef "st"
-#ifndef "amiga"
-#ifndef "zx128"
-#ifndef "next"
-    #extern "MALUVA"
+#ifdef "c64"
+    #extern "MALUVA"    
 #endif
+#ifdef "cp4"
+    #extern "MALUVA"    
 #endif
-#endif
-#endif
-#endif
-
-#ifdef "oldnext"
-    #extern "MALUVA"
-#endif
-
-#ifdef "html"
-#define nativeraster 1
-#endif
-
 #ifdef "pcw"
-#define nativeraster 1
+    #extern "MALUVA"
 #endif
 
-#ifdef "amiga"
-#define nativeraster 1
+#ifndef "msx"
+#ifndef "tape48"
+#ifndef "c64"
+#ifndef "cpc"
+#ifndef "cp4"
+    #define nativeraster 1
 #endif
-
-#ifdef "pc"
-#define nativeraster 1
 #endif
-
-#ifdef "st"
-#define nativeraster 1
 #endif
-
-#ifdef "nativeraster"
-#echo  "La máquina de destino soporta gráficos raster de manera nativa"
 #endif
-
-#ifdef "uno"
-#int "MLV_UNO_INT.BIN"
-#define canBoostSpeed 1
-#endif
-
-#ifdef "next"
-#define canBoostSpeed 1
-#endif
-
-#ifdef "cpc"
-#int "MLV_CPC_INT.BIN"
-#endif
-
-#ifdef "splitModeON"
-#echo "La máquina destino usará split mode"
-#endif
-
-#ifdef "canBoostSpeed"
-#echo "La máquina destino tiene modo turbo"
 #endif
 
 ; --- Por favor, não remova o código acima, pois é importante para controlar o suporte das plataformas 
@@ -365,39 +336,48 @@ LOGO    2       conjugation
 ;obj  inicial
 /0      _      1       _ _  _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _    LANTER  _
 ;------------------------------------------------------------------------------
-/PRO 0       ; Laço principal dos locais
+/PRO 0       
+
+; Este processo é o primeiro a ser executado pelo DAAD, e assim contém uma primeira entrada que
+; salta para o processo que inicializa objetos, flags, etc. e depois, cada vez que é chamado, e o
+; jogador já não está na localização 0, encarrega-se de mostrar o gráfico e texto da localização
+; atual, se houver, e salta para o processo 1 onde está o sistema que pede ordens ao jogador.
+
 
 
 > _       _     AT      0                ; Iniciando o jogo
-                #ifdef "canBoostSpeed"
-                    XSPEED  1                ; Se você puder alterar a velocidade da CPU, defina-a para 7Mhz
-                #endif
-                #ifdef "splitModeON"    ; Se suportar tela dividida, ative-o
+                PROCESS 6                ; O processo de inicialização
+
+> _       _     WINAT 13 0              ; Por padrão, a janela de texto está na parte inferior
+                #ifdef "splitModeOn"    ; en portugues: si modo split, activamos o modo split
                     XSPLITSCR 1
+                    #ifdef "cpc"
+                    WINAT 14 0           ;si CPC, a janela de texto está un pouco mais abaixo
+                    #endif
                 #endif
-                PROCESS 6               ; O processo de inicialização
+                WINDOW 1
+                WINSIZE 25 127
+
 
 
 > _       _     WINDOW 1
                 WINAT 14 0              ; Por padrão, a janela de texto está na parte inferior
                 WINSIZE 25 127
 
-
 > _       _     WINDOW  0               ; janela gráfica
                 CLEAR   fDarkF          ; Suponha que haja luz
                 NOTZERO 0
                 ABSENT  0
                 SET     fDarkF          ; Escuro
-                
 
-                
-#ifdef "nativeraster"               ; GRÁFICO PARA MÁQUINAS COM GRÁFICOS RASTER NATIVOS
+
+#ifdef "nativeraster"               ; Gráfico para targets com gráficos raster nativos
 > _       _     ZERO fDarkF
                 PICTURE @fPlayer        ; Se houver uma imagem, carregue-a
                 DISPLAY 0
                 SKIP $pictureOK
 
-#else                               ; GRÁFICO PARA MÁQUINAS  COM GRÁFICOS RASTER NO NATIVOS
+#else                               ; targets que não têm gráficos raster nativos
     #ifndef "tape48"                ; E NÃO SÃO Spectrum 48K
     > _       _     ZERO fDarkF
                     CLEAR 20
@@ -407,20 +387,21 @@ LOGO    2       conjugation
     #endif
 #endif
 
-#ifndef "splitModeON"                  ; Esta entrada só é executada se não houver split screen, e só chegaremos a ela se o carregamento da imagem falhar ou estiver escuro
-> _       _     WINDOW 1
-                WINAT 0 0               ; Se não houver imagem, vamos para texto em tela cheia
+
+; e chegarmos aqui, não havia gráfico para esta localidade, colocamos o texto em tela cheia.
+> _       _     #ifdef "splitModeOn"                  
+                    CLS                     ; Se não houver imagem, vamos para texto em tela cheia
+                    XSPLITSCR 0             ; Desative split mode
+                #endif
+                WINDOW 1
+                WINAT 0 0                ; se não houver imagem, vamos para texto em tela cheia
                 WINSIZE 25 127
                 CLS
-                #ifdef "next"
-                    GT  20 127               ; Se o carregamento da imagem falhou...
-                    XNEXTCLS                 ; Desative e exclua Layer2
-                #endif
-#else
-> _ _           CLS                      ; Se o carregamento falhou mas temos modo split, nos limitamos a fazer o CLS da janela gráfica
-#endif
 
-$pictureOK
+$pictureOK               
+               
+
+
 
 > _       _     WINDOW 1                 ; janela de texto
                 NOTZERO fDarkF           ; Escuro
@@ -524,21 +505,11 @@ $pictureOK
 
 > FIM     _     DONE                    
 
-> GRAVE   _     #ifndef "tape"
-                XSAVE 0                     ; idem
-                #endif
-                #ifdef "tape"
-                SAVE 0
-                #endif
+> GRAVE   _     SAVE 0
                 CLS
                 RESTART
 
-> CARREG  _     #ifndef "tape"
-                XLOAD  0
-                #endif
-                #ifdef "tape"
-                LOAD   0
-                #endif
+> CARREG  _     LOAD   0
                 CLS
                 RESTART
 
@@ -600,6 +571,6 @@ $initLoop
                 LET     fMaxCarr 4
                 SET     fCPronounNoun
                 SET     fCPronounAdject
-                ; LET fObjectsCarried   0 ; Lembre-se de inicializar esta bandeira com o número de objetos que o jogador inicial está carregando
+                LET     fObjectsCarried   NUM_CARRIED 
                 GOTO    1                 ; Primeira localização no jogo
 /END

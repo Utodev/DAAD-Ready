@@ -1,4 +1,4 @@
-; BLANK.SCE base de données vide pour DAAD V2
+; BLANK.DSF base de données vide pour DAAD V2
 ;
 ; Cette base de données aide à adapter des sources PAW & DAAD v1 en DAAD v2. 
 ; Notez que les flags qui étaient automatiquement décrémentés ne le sont plus.
@@ -24,73 +24,30 @@
 
 ; --- Ne pas enlever ce code, qui s'assure que le jeu marche bien pour toutes les plateformes ciblées
 
-#ifdef "SPLIT"
-#define splitModeON 1
-#endif
-
 #ifdef "tape48"
 #define tape 1
 #endif
 
-#ifndef "tape"
-#ifndef "st"
-#ifndef "amiga"
-#ifndef "zx128"
-#ifndef "next"
-    #extern "MALUVA"
+#ifdef "c64"
+    #extern "MALUVA"    
 #endif
+#ifdef "cp4"
+    #extern "MALUVA"    
 #endif
-#endif
-#endif
-#endif
-
-#ifdef "oldnext"
-    #extern "MALUVA"
-#endif
-
-#ifdef "html"
-#define nativeraster 1
-#endif
-
 #ifdef "pcw"
-#define nativeraster 1
+    #extern "MALUVA"
 #endif
 
-#ifdef "amiga"
-#define nativeraster 1
+#ifndef "msx"
+#ifndef "tape48"
+#ifndef "c64"
+#ifndef "cpc"
+#ifndef "cp4"
+    #define nativeraster 1
 #endif
-
-#ifdef "pc"
-#define nativeraster 1
 #endif
-
-#ifdef "st"
-#define nativeraster 1
 #endif
-
-#ifdef "nativeraster"
-#echo  "La máquina de destino soporta gráficos raster de manera nativa"
 #endif
-
-#ifdef "uno"
-#int "MLV_UNO_INT.BIN"
-#define canBoostSpeed 1
-#endif
-
-#ifdef "next"
-#define canBoostSpeed 1
-#endif
-
-#ifdef "cpc"
-#int "MLV_CPC_INT.BIN"
-#endif
-
-#ifdef "splitModeON"
-#echo "La máquina destino usará split mode"
-#endif
-
-#ifdef "canBoostSpeed"
-#echo "La máquina destino tiene modo turbo"
 #endif
 
 ; --- Ne pas enlever le code ci-dessus, qui s'assure que le jeu marche bien pour toutes les plateformes ciblées
@@ -374,62 +331,71 @@ S 1
 ;------------------------------------------------------------------------------
 /PRO 0       ; Boucle principale pour les lieux
 
-> _       _     AT      0                ; Démarrer le jeu
-                #ifdef "canBoostSpeed"
-                    XSPEED  1                ; Si vous pouvez modifier la vitesse du processeur, réglez-la sur 7 MHz
-                #endif
-                #ifdef "splitModeON"    ; S'il prend en charge l'écran partagé, activez-le
+
+; Cette procédure est la première à être exécutée par DAAD, et elle contient une première entrée qui
+; saute à la procédure qui initialise les objets, les flags, etc. et ensuite chaque fois que c'est appelé, et que
+; le joueur n'est plus dans le lieu 0, il s'occupe d'afficher le graphique et le texte du lieu
+; actuel, si nécessaire, et saute à la procédure 1 où se trouve le système qui demande des ordres au joueur.
+
+
+
+> _       _     AT      0               ; initialisation
+                PROCESS 6               ; Le processus 6 initialise le système DAAD
+                
+
+> _       _     WINAT 13 0              ; pour défaut, la fenêtre de texte est en bas 
+                #ifdef "splitModeOn"    ; si le mode split est activé
                     XSPLITSCR 1
+                    #ifdef "cpc"
+                    WINAT 14 0           ;  si c'est un CPC, on met la fenêtre de texte un peu plus haut, pour eviter problèmes 
+                    #endif
                 #endif
-                PROCESS 6               ; Le processus d'initialisation
-
-
-> _       _     WINDOW 1
-                WINAT 14 0              ;Par défaut, la fenêtre de texte est en bas
+                WINDOW 1
                 WINSIZE 25 127
 
 
-> _       _     WINDOW  0               ; fenêtre graphique
-                CLEAR   fDarkF          ; Supposons qu'il y ait de la lumière
+> _       _     WINDOW  0               ; Fenetre de graphique
+                CLEAR   fDarkF          ; asume que il y a lumière
                 NOTZERO 0
                 ABSENT  0
-                SET     fDarkF          ; Sombre
+                SET     fDarkF          ; il n'y a pas lumière
                 
 
                 
-#ifdef "nativeraster"               ; GRAPHIQUE POUR MACHINES AVEC GRAPHIQUES RASTER NATIFS
-> _       _     ZERO fDarkF
-                PICTURE @fPlayer        ; S'il y a une image, téléchargez-la
-                DISPLAY 0
-                SKIP $pictureOK
-
-#else                               ; GRAPHIQUE POUR MACHINES AVEC GRAPHIQUES RASTER NON NATIFS
-    #ifndef "tape48"                ; ET ILS NE SONT PAS Spectrum 48K
+#ifdef "nativeraster"               ; grafique pour les cibles avec des graphiques raster natifs
     > _       _     ZERO fDarkF
+                    PICTURE @fPlayer        ; si il y a une image, la charger
+                    DISPLAY 0
+                    SKIP $pictureOK
+
+#else                               ; graphiques pour les cibles sans graphiques raster natifs
+    #ifndef "tape48"                ; excepté pour le ZX Spectrum 48K
+    > _       _     
+                    ZERO fDarkF
                     CLEAR 20
-                    XPICTURE @fPlayer        ; S'il y a une image, téléchargez-la
-                    ZERO 20                  ; S'il était chargé
+                    XPICTURE @fPlayer        ; Si il y a une image, la charger
+                    ZERO 20                  ; la image est chargée ?
                     SKIP $pictureOK
     #endif
 #endif
 
-#ifndef "splitModeON"                  ; Cette entrée n'est exécutée que s'il n'y a pas d'écran partagé, et nous n'y accédons que si le chargement de l'image a échoué ou s'il fait sombre
-> _       _     WINDOW 1
-                WINAT 0 0               ; S'il n'y a pas d'image, on passe au texte plein écran
+
+; Si nous sommes arrivés ici, il n'y avait pas de graphique pour cette localité, nous mettons le texte en plein écran
+
+> _       _     #ifdef "splitModeOn"                  
+                    CLS                     ; Si nous sommes en mode partagé, on nettoie l'écran
+                    XSPLITSCR 0             ; et désactive le mode partagé
+                #else
+                #endif
+                WINDOW 1
+                WINAT 0 0                   ; Si n'y a pas image, nous réglons l'écran en plein écran
                 WINSIZE 25 127
                 CLS
-                #ifdef "next"
-                    GT  20 127               ; Si le chargement de l'image échoue...
-                    XNEXTCLS                 ; Désactiver et supprimer Layer2
-                #endif
-#else
-> _ _           CLS                      ; Si le chargement échoue mais que nous avons le mode split, nous nous limitons à faire le CLS de la fenêtre graphique
-#endif
 
 $pictureOK
 
-> _       _     WINDOW 1                 ; fenêtre de texte
-                NOTZERO fDarkF           ; Sombre
+> _       _     WINDOW 1                 ; Fenêtre de texte
+                NOTZERO fDarkF           ; Sombre?
                 SYSMESS 0
 
 > _       _     ZERO    fDarkF
@@ -437,8 +403,9 @@ $pictureOK
 
 > _       _     PROCESS 3
 
-; Maintenant on utilise le Process 1 comme boucle de code principale ; si il renvoie
-; quelque chose, c'est la fin du jeu
+
+; Maintenant nous utilisons le processus 13 comme la boucle principale du jeu. Un retour depuis
+; ici signifie la fin du jeu
 
 > _       _     PROCESS 1
 
@@ -446,14 +413,6 @@ $pictureOK
 /PRO 1
 > _       _     PROCESS 4                ; À l'époque de PAW c'était le process 2
 
-;> _       _     MINUS   5       1       ; Mets à jour les flags automatiquement
-;                MINUS   6       1       ; Ceci n'est plus supporté car
-;                MINUS   7       1       ; on utilise le début de la table comme une
-;                MINUS   8       1       ; petite pile
-;                NOTZERO 0               ; Mais si il y en a besoin
-;                MINUS   9       1       ; c'est le code de la V1 de DAAD!
-;                ABSENT  0
-;                MINUS   10      1
 
 > _       _     PARSE   0               ; Obtenir la phrase contenue dans le buffer en cours
                 PROCESS 2               ; Si la phrase n'est pas valide ou si timeout
@@ -544,20 +503,12 @@ $pictureOK
 
 > Q       _     DONE                    ; C'est pas comme le QUIT de PAW
 
-> SAUVE   _     #ifndef "tape"
-                XSAVE 0                  ;pareil
-                #endif
-                #ifdef "tape"
-                SAVE 0
-                #endif
+> SAUVE   _     SAVE 0
+                CLS
                 RESTART
 
-> CHARG   _     #ifndef "tape"
-                XLOAD  0
-                #endif
-                #ifdef "tape"
-                LOAD   0
-                #endif
+> CHARG   _     LOAD   0
+                CLS
                 RESTART
 
 > RAMSA   _     RAMSAVE
@@ -615,6 +566,6 @@ $initLoop
                 LET     fMaxCarr 4
                 SET     fCPronounNoun
                 SET     fCPronounAdject
-                ; LET fObjectsCarried   0 ; Pensez à initialiser ce drapeau avec le nombre d'objets que transporte le premier joueur.
+                LET     fObjectsCarried   NUM_CARRIED 
                 GOTO    1                 ; Premier emplacement du jeu
 /END

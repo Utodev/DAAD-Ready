@@ -1,4 +1,4 @@
-; BLANK.SCE empty database for DAAD V2
+; BLANK.DSF empty database for DAAD V2
 ;
 ; This database provides a way of adapting PAW & DAAD V1 sources to DAAD V2. 
 ; Note that flags which were automatically decremented no longer do so.
@@ -18,76 +18,36 @@
 ;------------------------------------------------------------------------------
 
 
-; --- Please don't remove the following code, it makes sure the game works fine for all supported targets 
 
-#ifdef "SPLIT"
-#define splitModeON 1
-#endif
+
+
+
+; --- Please don't remove the following code, it makes sure the game works fine for all supported targets 
 
 #ifdef "tape48"
 #define tape 1
 #endif
 
-#ifndef "tape"
-#ifndef "st"
-#ifndef "amiga"
-#ifndef "zx128"
-#ifndef "next"
-    #extern "MALUVA"
+#ifdef "c64"
+    #extern "MALUVA"    
 #endif
+#ifdef "cp4"
+    #extern "MALUVA"    
 #endif
-#endif
-#endif
-#endif
-
-#ifdef "oldnext"
-    #extern "MALUVA"
-#endif
-
-#ifdef "zx128"
-#define nativeraster 1
-#endif
-
-#ifdef "html"
-#define nativeraster 1
-#endif
-
 #ifdef "pcw"
-#define nativeraster 1
+    #extern "MALUVA"
 #endif
 
-#ifdef "amiga"
-#define nativeraster 1
+#ifndef "msx"
+#ifndef "tape48"
+#ifndef "c64"
+#ifndef "cpc"
+#ifndef "cp4"
+    #define nativeraster 1
 #endif
-
-#ifdef "pc"
-#define nativeraster 1
 #endif
-
-#ifdef "st"
-#define nativeraster 1
 #endif
-
-
-#ifdef "uno"
-#int "MLV_UNO_INT.BIN"
-#define canBoostSpeed 1
 #endif
-
-#ifdef "next"
-#define canBoostSpeed 1
-#endif
-
-#ifdef "cpc"
-#int "MLV_CPC_INT.BIN"
-#endif
-
-#ifdef "splitModeON"
-#echo "La máquina destino usará split mode"
-#endif
-
-#ifdef "canBoostSpeed"
-#echo "La máquina destino tiene modo turbo"
 #endif
 
 ; --- Please don't remove the code above, it makes sure the game works fine for all supported targets 
@@ -370,87 +330,91 @@ S 1
 ;------------------------------------------------------------------------------
 /PRO 0       ;Main Location Loop
 
-> _       _     AT      0                ; Are we starting the game?
-                #ifdef "canBoostSpeed"
-                    XSPEED  1                ; if CPU can boost speed, activate it
-                #endif
-                #ifdef "splitModeON"    ; if split mode is supported, activate it
+; Este proceso es el primero en ser ejecutado por DAAD, y así contiene una primera entrada que
+; salta al proceso que inicializa objetos, flags, etc. y luego cada vez que es llamado, y el
+; jugador ya no está en la localidad 0, se encarga de mostrar el gráfico y texto de la localidad
+; actual, si procede,  y saltar al proceso 1 donde está el sistema que pide órdenes al jugador.
+
+; This process is the first one executed by DAAD, and so it contains a first entry that
+; jumps to the process that initializes objects, flags, etc. and then every time it is called, and the
+; player is not in location 0, it takes care of showing the graphic and text of the current location,
+; if any, and jumps to process 1 where the system that asks for player commands 
+
+
+
+> _       _     AT      0               ; Starting game?
+                PROCESS 6               ; Initialise
+                
+
+> _       _     WINAT 13 0              ; by default, we have a text window at the bottom of the screen
+                #ifdef "splitModeOn"    ; if split mode is on, we have to apply it
                     XSPLITSCR 1
+                    #ifdef "cpc"
+                    WINAT 14 0           ;  if it's CPC, we have to move the window down a bit to avoid artifacts
+                    #endif
                 #endif
-                PROCESS 6               ; Initialise DAAD system
-
-
-> _       _     WINDOW 1
-                WINAT 14 0              ; by default, text window is at the bottom
+                WINDOW 1
                 WINSIZE 25 127
 
 
-> _       _     WINDOW  0               ; graphics window
-                CLEAR   fDarkF          ; Assumes there's light
+> _       _     WINDOW  0               ; Graphic window
+                CLEAR   fDarkF          ; Assume it is light
                 NOTZERO 0
                 ABSENT  0
-                SET     fDarkF          ; It's dark!
+                SET     fDarkF          ; Dark
                 
 
                 
 #ifdef "nativeraster"               ; Picture for targets with native raster graphics
 > _       _     ZERO fDarkF
-                PICTURE @fPlayer        ; if any image, load it
+                PICTURE @fPlayer        ; if there is a picture, load it
                 DISPLAY 0
                 SKIP $pictureOK
 
 #else                               ; Picture for targets without native raster graphics
-    #ifndef "tape48"                ; and not Spectrum 48K 
+    #ifndef "tape48"                ; except 48K Spectrum
     > _       _     ZERO fDarkF
                     CLEAR 20
-                    XPICTURE @fPlayer        ; if any image, load it
-                    ZERO 20                  ; if it was loaded...
+                    XPICTURE @fPlayer        ; if there is a picture, load it
+                    ZERO 20                  ; if it actually exists
                     SKIP $pictureOK
     #endif
 #endif
 
-#ifndef "splitModeON"                  ; You only get to this entry if there if failed to load image or it's dark (or Spectrum 48k)
-> _       _     WINDOW 1
-                WINAT 0 0               ; If no image, full screen text window
+
+; if we got here, there is no picture, so we have to set the text window full screen
+> _       _     #ifdef "splitModeOn"                  
+                    CLS                     ; If it was split mode, we have to clear the screen
+                    XSPLITSCR 0             ; and disable split mode
+                #endif
+                WINDOW 1
+                WINAT 0 0               ; Full screen text window
                 WINSIZE 25 127
                 CLS
-                #ifdef "next"
-                    GT  20 127               ; If loading image failed, we also have to eras...
-                    XNEXTCLS                 ; Layer2 in Spectrum  Next
-                #endif
-#else
-> _ _           CLS                      ; if load failed but split mode is ON, we only have to clear the graphic window
-
-#endif
 
 $pictureOK
 
 > _       _     WINDOW 1                 ; text window
-                NOTZERO fDarkF           ; Dark
+                NOTZERO fDarkF           ; dark
                 SYSMESS 0
 
 > _       _     ZERO    fDarkF
                 DESC   @fPlayer        
 
+; Now call process 3 for events that can be added to the current location description or happen when entering a location.
+
 > _       _     PROCESS 3
 
-; Now we use Process 1 as the main code loop, a return from it is the end
-; of the game
+
+; and now we can start the main loop of the game, which is process 1.
 
 > _       _     PROCESS 1
+
 
 ;------------------------------------------------------------------------------
 /PRO 1
 > _       _     PROCESS 4               ; Do process 2 stuff here
 
-;> _       _     MINUS   5       1       ; Update auto flags
-;                MINUS   6       1       ; These are not supported anymore
-;                MINUS   7       1       ; as we use the low section as
-;                MINUS   8       1       ; a small stack
-;                NOTZERO 0               ; But should you need them
-;                MINUS   9       1       ; this is the Version 1 DAAD code!
-;                ABSENT  0
-;                MINUS   10      1
 
 > _       _     PARSE   0               ; Get next LS from current buffer
                 PROCESS 2               ; Failed cos of invalid or timeout
@@ -542,21 +506,11 @@ $pictureOK
 
 > Q       _     DONE                    ;Not like QUIT on PAW
 
-> SAVE    _     #ifndef "tape"
-                XSAVE 0                  ;ditto
-                #endif
-                #ifdef "tape"
-                SAVE 0
-                #endif
+> SAVE    _     SAVE 0
                 CLS
                 RESTART
 
-> LOAD    _     #ifndef "tape"
-                XLOAD  0
-                #endif
-                #ifdef "tape"
-                LOAD   0
-                #endif
+> LOAD    _     LOAD   0
                 CLS
                 RESTART
 
@@ -592,13 +546,14 @@ $pictureOK
                     #endif    
                 #endif
 
-#ifndef "splitModeON"                  
->  _     _      WINDOW  1                   ; if we got here, graphic 000 was missing
+>  _     _      WINDOW  1                       ; if we get here, there is no picture, so we have to set the text window full screen
                 WINAT 0 0              
-                WINSIZE 25 128             ; Full screen text mode unless split mode is ON
-#endif
+                WINSIZE 25 128                  
+                #ifdef "splitModeOn"            ; Disable split mode if so
+                    XSPLITSCR 0
+                    PAUSE 10
+                #endif
 $picture0OK
-
 > _       _     WINDOW 1
                 DESC    0               ; Intro text
                 ANYKEY
@@ -618,6 +573,6 @@ $initLoop
                 LET     fMaxCarr 4
                 SET     fCPronounNoun
                 SET     fCPronounAdject
-                ; LET fObjectsCarried   0 ; Remmeber to  set this flag with the number of objects the player is carrying on start
+                LET     fObjectsCarried   NUM_CARRIED 
                 GOTO    1                 ; Go to first location 
 /END

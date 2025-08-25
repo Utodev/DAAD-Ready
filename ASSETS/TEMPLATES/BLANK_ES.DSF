@@ -1,82 +1,53 @@
-    ;------------------------------------------------------------------------------------------
+;------------------------------------------------------------------------------------------
 ;ÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑ
 ;ÑÑÑÑÑ                                                                                  ÑÑÑÑÑ
 ;ÑÑÑÑÑ Este es el fichero de inicio de la librería para DAAD Reborn Compiler en español ÑÑÑÑÑ
 ;ÑÑÑÑÑ                                                                                  ÑÑÑÑÑ
 ;ÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑ
 
+;------------------------------------------------------------------------------
+;
+; 'Everything is possible in this life ( but it all costs time and money! )'
+;                                                              Tim Gilberts
+;
+;                                      'And also WE ALL have to work for it'
+;                                                            Andres Samudio
+;
+;                                                                   [8-6-89]
+;
+;------------------------------------------------------------------------------
+
+
 ; Por favor no quites las eñes en el recuadro justo encima, están ahí para que notes fácil-
 ; mente si abres el fichero con una codificación que no es la correcta (ISO-8859-1 o Win1252)
 
-; --- Por favor no quites este código, es importante para controlar los distintos objetivos
 
-#ifdef "SPLIT"
-#define splitModeON 1
-#endif
+; --- Por favor no quites este código, es importante para controlar los distintos objetivos
 
 #ifdef "tape48"
 #define tape 1
 #endif
 
-#ifndef "tape"
-#ifndef "st"
-#ifndef "amiga"
-#ifndef "zx128"
-#ifndef "next"
-    #extern "MALUVA"
+#ifdef "c64"
+    #extern "MALUVA"    
 #endif
+#ifdef "cp4"
+    #extern "MALUVA"    
 #endif
-#endif
-#endif
-#endif
-
-#ifdef "oldnext"
-    #extern "MALUVA"
-#endif
-
-#ifdef "zx128"
-#define nativeraster 1
-#endif
-
-#ifdef "html"
-#define nativeraster 1
-#endif
-
 #ifdef "pcw"
-#define nativeraster 1
+    #extern "MALUVA"
 #endif
 
-#ifdef "amiga"
-#define nativeraster 1
+#ifndef "msx"
+#ifndef "tape48"
+#ifndef "c64"
+#ifndef "cpc"
+#ifndef "cp4"
+    #define nativeraster 1
 #endif
-
-#ifdef "pc"
-#define nativeraster 1
 #endif
-
-#ifdef "st"
-#define nativeraster 1
 #endif
-
-#ifdef "uno"
-#int "MLV_UNO_INT.BIN"
-#define canBoostSpeed 1
 #endif
-
-#ifdef "next"
-#define canBoostSpeed 1
-#endif
-
-#ifdef "cpc"
-#int "MLV_CPC_INT.BIN"
-#endif
-
-#ifdef "splitModeON"
-#echo "La máquina destino usará split mode"
-#endif
-
-#ifdef "canBoostSpeed"
-#echo "La máquina destino tiene modo turbo"
 #endif
 
 ; --- Por favor no quites este código de arriba, es importante para controlar los distintos objetivos
@@ -344,18 +315,20 @@ LUEGO   2       conjugation
 ; jugador ya no está en la localidad 0, se encarga de mostrar el gráfico y texto de la localidad
 ; actual, si procede,  y saltar al proceso 1 donde está el sistema que pide órdenes al jugador.
 
-> _       _     AT      0                ; Iniciando el juego
-                #ifdef "canBoostSpeed"
-                    XSPEED  1                ; Si se puede cambiar la velocidad de la CPU, ponerla a 7Mhz
-                #endif
-                #ifdef "splitModeON"    ; si soporta split screen, activarla
-                    XSPLITSCR 1
-                #endif
+
+
+> _       _     AT      0               ; Iniciando el juego
                 PROCESS 6               ; El proceso de inicialización
+                
 
-
-> _       _     WINDOW 1
-                WINAT 14 0              ; por defecto, la ventana de texto está en la parte inferior
+> _       _     WINAT 13 0              ; por defecto, la ventana de texto está en la parte inferior
+                #ifdef "splitModeOn"    ; si soporta split screen, activarla
+                    XSPLITSCR 1
+                    #ifdef "cpc"
+                    WINAT 14 0           ;  y si es CPC, la ponemos un poco más abajo para evitar problemas en la zona de cambio de modo
+                    #endif
+                #endif
+                WINDOW 1
                 WINSIZE 25 127
 
 
@@ -383,18 +356,16 @@ LUEGO   2       conjugation
     #endif
 #endif
 
-#ifndef "splitModeON"                  ; Esta entrada solo se ejecuta si no hay split screen, y solo llegamos a ella si falló la carga de la imagen o está oscuro
-> _       _     WINDOW 1
+
+; Si llegamos aquí, no había gráfico para esta localidad, ponemos texto a pantalla completa
+> _       _     #ifdef "splitModeOn"                  
+                    CLS                     ; Si era modo split, tenemos que limpiar la pantalla
+                    XSPLITSCR 0             ; y quitar el modo split 
+                #endif
+                WINDOW 1
                 WINAT 0 0               ; Si no hay imagen, nos ponemos a pantalla completa de texto
                 WINSIZE 25 127
                 CLS
-                #ifdef "next"
-                    GT  20 127               ; Si falló la carga de la imagen...
-                    XNEXTCLS                 ; Deshabilita y borra Layer2
-                #endif
-#else
-> _ _           CLS                      ; Si falló la carga pero tenemos split mode, nos limitamos a hacer el CLS de la ventana gráfica
-#endif
 
 $pictureOK
 
@@ -543,21 +514,11 @@ $pictureOK
 
 > FIN     _     DONE                    
 
-> SAVE    _     #ifndef "tape48"
-                XSAVE 0                  ;ditto
-                #endif
-                #ifdef "tape48"
-                SAVE 0
-                #endif
+> SAVE    _     SAVE 0
                 CLS
                 RESTART
 
-> LOAD    _     #ifndef "tape48"
-                XLOAD  0
-                #endif
-                #ifdef "tape48"
-                LOAD   0
-                #endif
+> LOAD    _     LOAD   0
                 CLS
                 RESTART
 
@@ -619,6 +580,6 @@ $initLoop
                 LET     fMaxCarr 4
                 SET     fCPronounNoun
                 SET     fCPronounAdject
-                ; LET fObjectsCarried   0 ; Inicializar este flag con el número de objetos que lleva el jugador de inicio
+                LET     fObjectsCarried   NUM_CARRIED 
                 GOTO    1                 ; Primera localidad del juego
 /END
