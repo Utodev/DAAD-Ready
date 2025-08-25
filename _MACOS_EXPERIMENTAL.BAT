@@ -94,7 +94,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 
 REM  ---- PREPARE IMAGES ----
-PHP\php TOOLS\img2daad\img2daad.php IMAGES RELEASE\MACOS_EXPERIMENTAL\%GAME%.app\Contents\Resources\PART1.DAT 
+PHP\php TOOLS\img2daad\img2daad.php IMAGES;SOUNDS RELEASE\MACOS_EXPERIMENTAL\%GAME%.app\Contents\Resources\PART1.DAT 
 IF exist IMAGES\DAAD.PNG (
     PHP\PHP TOOLS\IMG2DAAD\PNG2DEGAS.PHP IMAGES\DAAD.PNG IMAGES\DAAD.PI1
     MOVE IMAGES\DAAD.PI1 RELEASE\MACOS_EXPERIMENTAL\%GAME%.app\Contents\Resources\PART1.SCR > nul 2>&1

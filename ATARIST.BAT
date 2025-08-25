@@ -73,7 +73,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 
 REM  ---- PREPARE IMAGES ----
-PHP\php TOOLS\img2daad\img2daad.php IMAGES RELEASE\ATARIST\PART1.DAT
+PHP\php TOOLS\img2daad\img2daad.php IMAGES;SOUNDS RELEASE\ATARIST\PART1.DAT
 IF ERRORLEVEL 1 GOTO ERROR
 IF exist IMAGES\DAAD.PNG (
     PHP\PHP TOOLS\IMG2DAAD\PNG2DEGAS.PHP IMAGES\DAAD.PNG IMAGES\DAAD.PI1
@@ -116,7 +116,7 @@ ECHO in .ST format, as long as it fits in a 720Kb disk.
 )
 IF "%BASELANG%" == "ES" (  
 ECHO EL JUEGO SE HA COMPILADO CORRECTAMENTE, PULSE ENTER PARA INICIAR EL EMULADOR, O CTRL+C PARA PARAR
-ECHO El juego que se ejecutará está en RELEASE\ATARIST, pero podéis encontrarlo también en la carpeta
+ECHO El juego que se ejecutara esta en RELEASE\ATARIST, pero podeis encontrarlo tambien en la carpeta
 ECHO RELEASE\ATARIST\FLOPPY, en formato .ST, siempre que quepa en un disco de 720Kb.
 )
 tools\cecho\cecho {07}

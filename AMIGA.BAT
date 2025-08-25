@@ -72,7 +72,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 
 REM  ---- PREPARE IMAGES ----
-PHP\php TOOLS\img2daad\img2daad.php IMAGES RELEASE\AMIGA\PART1.DAT -a
+PHP\php TOOLS\img2daad\img2daad.php IMAGES;SOUNDS RELEASE\AMIGA\PART1.DAT -a
 IF ERRORLEVEL 1 GOTO ERROR
 
 REM --- PREPARE AMIGA STARTUP-SEQUENCE

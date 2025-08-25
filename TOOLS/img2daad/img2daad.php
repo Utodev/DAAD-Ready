@@ -39,9 +39,11 @@ define('CLIPWIDTH',320); // whole width
 define('CLIPHEIGHT',96); // as a standard for DAAD Ready and Maluva, but change if you please
 define('NUM_PLANES',4);
 define('BYTES_PER_LINE',160);
+define('VERSION','1.2');
 
 include_once('png.php');
 include_once('degas.php');
+include_once('wav.php');
 
 function error($errorMsg)
 {
@@ -51,9 +53,9 @@ function error($errorMsg)
 
 function syntax()
 {
-    echo "IMG2DAAD 1.0 - Creates DAAD Graphic Databases for Atari ST and Amiga\n\n";
-    echo "SYNTAX: IMG2DAAD <folder> [outputfile] [-c] [-a] [-v]\n\n";
-    echo "<folder>     : folder where to look for .PI1 or .PNG images\n";
+    echo "IMG2DAAD ".VERSION." - Creates DAAD Graphic Databases for Atari ST and Amiga\n\n";
+    echo "SYNTAX: IMG2DAAD <folder>{;folder} [outputfile] [-c] [-a] [-v]\n\n";
+    echo "<folder>     : folder where to look for .PI1 or .PNG images. You can add several folders, just concatenate with semicolon as separator \n";
     echo "[outputfile] : file name for the output database, if absent, PART1.DAT will be used.\n";
     echo "-c           : compress file\n\n";
     echo "-a           : generate Amiga 12 bit palette file. Requires patched interpreter, if you are no using 12 bit palette you can use same DAT file for Amiga, and use original interpreters.";
@@ -148,7 +150,9 @@ $compressed = false;
 $verbose = false; // Verbose mode
 $amigaDAT = false;
 $dir = $argv[1];
-if (!is_dir($dir)) error ("Invalid folder: $dir");
+$dirs = explode(';', $dir);
+foreach($dirs as $dir)
+    if (!is_dir($dir)) error ("Invalid folder: $dir");
 
 for ($i=2;$i<$argc;$i++)
 {
@@ -163,7 +167,7 @@ for ($i=2;$i<$argc;$i++)
     else if ($i==2) $outputFilename = $currentParam;
 }
 
-if ($verbose) echo "IMG2DAAD 1.1 - DAAD DAT Maker for Amiga and Atari ST (C) 2022\n";
+if ($verbose) echo "IMG2DAAD ".VERSION." - DAAD DAT Maker for Amiga and Atari ST (C) 2022\n";
 
 $outputFile = array();
 
@@ -193,23 +197,37 @@ for ($i=0;$i<256;$i++)
     for ($j=0;$j<48;$j++)
         $outputFile[] = 0x00;
 
-$files = scandir($dir);
+$files = array();
+foreach ($dirs as $dir)
+{
+    $tempfiles = scandir($dir);
+    foreach($tempfiles as $file)
+    {
+        $files[] = $dir . DIRECTORY_SEPARATOR . $file;
+    }
+}
+
 $fileList = array();
 foreach ($files as $file)
 {
     $extension = strtoupper(explode('.',"$file.")[1]);
-    if (($extension != 'PI1') && ($extension != 'PNG') && ($extension != 'JSON')) continue;
+    if (($extension != 'PI1') && ($extension != 'PNG') && ($extension != 'JSON') && ($extension != 'WAV')) continue;
     $location = explode('.',"$file.")[0];
+    $location = explode(DIRECTORY_SEPARATOR, $location)[sizeof(explode(DIRECTORY_SEPARATOR, $location))-1]; // Get the last part of the path
     if (strtoupper($location)=='DAAD') continue; // Skip loading screen if present
     if (!is_numeric($location)) error("Invalid location number in $file.");
     $location = intval($location);
     if (($location<0) ||($location>255)) error("Invalid location number in $file.");
+    
     
     if (!array_key_exists($location, $fileList))
     {
         $obj = new stdClass();
         $fileList[$location] = $obj;
     }
+    
+
+    
     if ($extension=='JSON') 
     {
         $fileList[$location]->hasJSON=true;
@@ -217,6 +235,12 @@ foreach ($files as $file)
         
     }
     else 
+    if  ($extension=='WAV') 
+    {
+        $fileList[$location]->hasWAV=true;
+        $fileList[$location]->WAVfilename=$file;
+    }
+    else
     if ($extension=='PI1') 
     {
         $fileList[$location]->hasPI1 = true;
@@ -235,25 +259,34 @@ ksort($fileList, SORT_NUMERIC);
 foreach ($fileList as $location=>$fileData)
 {
 
-    if ( ((property_exists($fileData, 'hasPI1')) &&  ($fileData->hasPI1)) || ((property_exists($fileData, 'hasPNG')) &&  ($fileData->hasPNG)) ) 
+    if ( ((property_exists($fileData, 'hasPI1')) &&  ($fileData->hasPI1)) || ((property_exists($fileData, 'hasPNG')) &&  ($fileData->hasPNG))  || ((property_exists($fileData, 'hasWAV')) &&  ($fileData->hasWAV))) 
     {
-        if ($verbose) echo ">> Processing image $location ";
+        if ($verbose) echo ">> Processing image/sample $location ";
         $imgsLoaded[]=$location;
 
         if ((property_exists($fileData, 'hasPNG')) &&  ($fileData->hasPNG)) // PNG over PI1
         {
             $file = $fileData->PNGfilename;
-            if ($verbose) echo " ($file).\n";
+            if ($verbose) echo "($file).\n";
             $degas = new pngFileReader();
-            $result = $degas->loadFile($dir . DIRECTORY_SEPARATOR . $file);
+            $result = $degas->loadFile($file);
+            if ($result!='') error($result);
+        }
+        else
+        if ((property_exists($fileData, 'hasPI1')) &&  ($fileData->hasPI1)) // PNG over PI1
+        {
+            $file = $fileData->PI1filename;
+            if ($verbose) echo "($file).\n";
+            $degas = new degasFileReader(); 
+            $result = $degas->loadFile($file);
             if ($result!='') error($result);
         }
         else
         {
-            $file = $fileData->PI1filename;
-            if ($verbose) echo " ($file).\n";
-            $degas = new degasFileReader(); 
-            $result = $degas->loadFile($dir . DIRECTORY_SEPARATOR . $file);
+            $file = $fileData->WAVfilename;
+            if ($verbose) echo "($file).\n";
+            $degas = new wavFileReader(); 
+            $result = $degas->loadFile($file);
             if ($result!='') error($result);
         }
 
@@ -265,7 +298,7 @@ foreach ($fileList as $location=>$fileData)
         
         offset : Long
         Flags: Word    
-        X: Word                ; For a sound sample holds the sample frequency
+        X: Word                ; For a sound sample holds the sample frequency, whcis is an indexed value, not the real frequency (see wav.php)
         Y: Word
         PCS: Byte              ; Palette Start Byte
         PCE: Byte              ; Palette End Byte
@@ -288,57 +321,44 @@ foreach ($fileList as $location=>$fileData)
 
         // Offset to location pixels data
         $outputFile[$locationPrt] = ($currentOffset & 0xFF000000) >> 24;  
-        $outputFile[$locationPrt+1] = ($currentOffset & 0x00FF0000) >> 16;  
-        $outputFile[$locationPrt+2] = ($currentOffset & 0x0000FF00) >> 8;
-        $outputFile[$locationPrt+3] = $currentOffset & 0x000000FF;
+        $outputFile[$locationPrt + 1] = ($currentOffset & 0x00FF0000) >> 16;  
+        $outputFile[$locationPrt + 2] = ($currentOffset & 0x0000FF00) >> 8;
+        $outputFile[$locationPrt + 3] = $currentOffset & 0x000000FF;
 
 
-        $outputFile[$locationPrt+4] = 0x00;  
-        $outputFile[$locationPrt+5] = 0x04;  // Flags (no buffer, fixed)
+        // Specific data for SFX samples
+        if (property_exists($fileData,'hasWAV')) 
+            {
+                $outputFile[$locationPrt + 5] = 0x12; // Sound sample, so we set the sample bit
+                $outputFile[$locationPrt + 6] = $degas->frequency >> 8; //MSB  
+                $outputFile[$locationPrt + 7] = $degas->frequency & 0x00FF; //LSB
+            }
+            else
+            {
+                $outputFile[$locationPrt + 4] = 0x00;  
+                $outputFile[$locationPrt + 5] = 0x04;  // Flags (no buffer, fixed)
+                $outputFile[$locationPrt+6] = 0x00;  
+                $outputFile[$locationPrt+7] = 0x00;   // X coord
+                $outputFile[$locationPrt+8] = 0x00;  
+                $outputFile[$locationPrt+9] = 0x00;   // Y coord
+                $outputFile[$locationPrt+10] = 0x00;   // First palette color,filler as it's float
+                $outputFile[$locationPrt+11] = 0x0F;   // Last palette color,filler as it's float
 
-        /*
-        This part has been commented as values are already 0x00, so
-        code is just ketp so what we do is understood.
+                // Polette
+                $degas->seekFile(2);  // point to palette
 
-        $outputFile[$locationPrt+6] = 0x00;  
-        $outputFile[$locationPrt+7] = 0x00;   // X coord
+                for($i=0;$i<32;$i++) 
+                {
+                    $val = $degas->readByte(); // read palette
+                    if ($amigaDAT)  $val = normalPalette($val);
+                    $outputFile[$locationPrt+12+$i] = $val;
+                }
+            }
 
-        $outputFile[$locationPrt+8] = 0x00;  
-        $outputFile[$locationPrt+9] = 0x00;   // Y coord
-
-        $outputFile[$locationPrt+10] = 0x00;   // First palette color,filler as it's float
-        */
-
-        $outputFile[$locationPrt+11] = 0x0F;   // Last palette color,filler as it's float
-
-        // Now the palette
-        $degas->seekFile(2);  // point to palette
-
-        for($i=0;$i<32;$i++) 
-        {
-
-            $val = $degas->readByte(); // read palette
-            if ($amigaDAT)  $val = normalPalette($val);
-            $outputFile[$locationPrt+12+$i] = $val;
-
-            //$outputFile[$locationPrt+12+$i] = $degas->readByte(); // read palette
-            //echo str_pad(dechex($outputFile[$locationPrt+12+$i]),2,'0',STR_PAD_LEFT);           
-            //if ($i%2!=0) echo ' ';
-        }
+        
         if ($verbose) echo "\n";
 
-
-        /*
-        Again, this part has been commented as values are already
-        0x00, so code is just ketp so what we do is understood.
-
-        $outputFile[$locationPrt+44] = 0x00;  
-        $outputFile[$locationPrt+45] = 0x00;   
-        $outputFile[$locationPrt+46] = 0x00;  
-        $outputFile[$locationPrt+47] = 0x00;   // CGA palette pointer, filler as there is no CGA palette
-        */
-
-        if ($amigaDAT) 
+        if (($amigaDAT) && (!property_exists($fileData, 'hasWAV'))) // Exception for Amiga, we have add the DAAD signature to signal the file uses 4 bit palette
         {
             $outputFile[$locationPrt+44] = 0xDA;  
             $outputFile[$locationPrt+45] = 0xAD;   
@@ -347,77 +367,100 @@ foreach ($fileList as $location=>$fileData)
         }
 
 
-        $screen = array();
-        for ($i=0;$i<32000;$i++) $screen[] = $degas->readByte(); // read 32.000 bytes of image data
-
-
-        // we will be getting only the window (0,0,320,96)
-
-        $xs = 0;
-        $ys = 0;
-        $width = CLIPWIDTH;
-        $height= CLIPHEIGHT; 
-        
-         // Check for specific width and height
-        if (property_exists($fileData, 'hasJSON') && ($fileData->hasJSON))
+      
+        if (property_exists($fileData,'hasWAV'))
         {
-            $json = json_decode(file_get_contents($dir . DIRECTORY_SEPARATOR . $fileData->JSONfilename));
-            if (!$json) error ('Invalid JSON file: ' .$fileData->JSONfilename);
-            if (property_exists($json, 'width')) $width = intval($json->width);
-            if (property_exists($json, 'height')) $height = intval($json->height);
-        }
+            // The mini header for the sample file
+            echo "Processing sound sample $fileData->WAVfilename ...\n";
 
-        $originalWidth = $width;
+            // All sample files have a header like this in the Aventura Espacial DAT file
+            $outputFile[] = 0;  
+            $outputFile[] = 0;
+            $outputFile[] = 0x80; 
+            $outputFile[] = 0 ; 
+            $datasize = $degas->sampleSize;
+            $outputFile[] = $datasize  >> 8; //MSB
+            $outputFile[] = $datasize & 0x00FF ; //LSB
+            if ($verbose) echo "Data size: $datasize bytes\n";
 
-        // From now on, this is a copy of Tim Gilberts's code, which honestly I haven't even
-        // tried to understand,  basically because it worked out of the box :-)
-
-        $co = 0;
-        $xs = $xs>>3; // Convert to a column number 
-        $width = $width>>3;
-
-        $length = $width * $height * NUM_PLANES; // 4 = number of planes
-        $lo=$ys * BYTES_PER_LINE;
-        $cs = ($xs>>1) * (NUM_PLANES<<1) + ($xs & 1); 
-
-        for($l=0;$l<$height;$l++)
-        {
-            $cp = $cs;
-            for($c=0;$c<$width;$c++)
+            // The sample itself
+            foreach($degas->fileContent as $byte)
             {
-                for($p=0;$p<NUM_PLANES;$p++)
-                $clipdata[$co++] = $screen[$lo + $cp + ($p<<1)];
-                $cp++;
-                if(($cp & 1)==0) $cp += (NUM_PLANES-1)*2; // Skip plane data 
+                $outputFile[] = $byte;
             }
-            $lo += BYTES_PER_LINE;
         }
-        // Tim Gilbert's code ends here
+        else
+        {    
+            
+            $screen = array();
+            for ($i=0;$i<32000;$i++) $screen[] = $degas->readByte(); // read 32.000 bytes of image data
 
-        // Let's dump the pixels data now
-        // Fist the mini header at the pixels area
-        $outputFile[] = $originalWidth  >> 8; //MSB
-        $outputFile[] = $originalWidth & 0x00FF ; //LSB
+            $xs = 0;
+            $ys = 0;
+            $width = CLIPWIDTH;
+            $height= CLIPHEIGHT; 
+            
+            // Check for specific width and height
+            if (property_exists($fileData, 'hasJSON') && ($fileData->hasJSON))
+            {
+                $json = json_decode(file_get_contents($fileData->JSONfilename));
+                if (!$json) error ('Invalid JSON file: ' .$fileData->JSONfilename);
+                if (property_exists($json, 'width')) $width = intval($json->width);
+                if (property_exists($json, 'height')) $height = intval($json->height);
+            }
 
-        $outputFile[] = $height  >> 8; //MSB
-        $outputFile[] = $height & 0x00FF ; //LSB
+            $originalWidth = $width;
 
-        $datasize = sizeof($clipdata);
-        if ($verbose) echo "Data size: $datasize bytes\n";
+            // From now on, this is a copy of Tim Gilberts's code, which honestly I haven't even
+            // tried to understand,  basically because it worked out of the box :-)
+
+            $co = 0;
+            $xs = $xs>>3; // Convert to a column number 
+            $width = $width>>3;
+
+            $length = $width * $height * NUM_PLANES; // 4 = number of planes
+            $lo=$ys * BYTES_PER_LINE;
+            $cs = ($xs>>1) * (NUM_PLANES<<1) + ($xs & 1); 
+
+            for($l=0;$l<$height;$l++)
+            {
+                $cp = $cs;
+                for($c=0;$c<$width;$c++)
+                {
+                    for($p=0;$p<NUM_PLANES;$p++)
+                    $clipdata[$co++] = $screen[$lo + $cp + ($p<<1)];
+                    $cp++;
+                    if(($cp & 1)==0) $cp += (NUM_PLANES-1)*2; // Skip plane data 
+                }
+                $lo += BYTES_PER_LINE;
+            }
+            // Tim Gilbert's code ends here
+
+            // Let's dump the pixels data now
+            // Fist the mini header at the pixels area
+            $outputFile[] = $originalWidth  >> 8; //MSB
+            $outputFile[] = $originalWidth & 0x00FF ; //LSB
+
+            $outputFile[] = $height  >> 8; //MSB
+            $outputFile[] = $height & 0x00FF ; //LSB
+
+            $datasize = sizeof($clipdata);
+            if ($verbose) echo "Data size: $datasize bytes\n";
 
 
-        $outputFile[] = $datasize  >> 8; //MSB
-        $outputFile[] = $datasize & 0x00FF ; //LSB
+            $outputFile[] = $datasize  >> 8; //MSB
+            $outputFile[] = $datasize & 0x00FF ; //LSB
 
-        // And now, data itself
-        for ($i=0;$i<$datasize;$i++) $outputFile[] = $clipdata[$i];
+            // And now, data itself
+            for ($i=0;$i<$datasize;$i++) $outputFile[] = $clipdata[$i];
+        }
     }
 
     // Now check if there is JSON to apply
     if (property_exists($fileData, 'hasJSON') && ($fileData->hasJSON))
     {
         // A JSON can only be applied if a image has been loaded in that slot, or if the JSON is to clone a image
-        $json = json_decode(file_get_contents($dir . DIRECTORY_SEPARATOR . $fileData->JSONfilename));
+        $json = json_decode(file_get_contents( $fileData->JSONfilename));
         if (!$json) error ('Invalid JSON file: ' .$fileData->JSONfilename);
         if ($verbose) echo "Processing JSON file $fileData->JSONfilename ...\n";
         if ((in_array($location, $imgsLoaded))|| ($json->clone == 1))
@@ -488,3 +531,21 @@ dumpDatabase($outputFile, $outputFilename);
 if ($verbose) echo "OK.\n";
 
 
+/*
+
+DEGAS file format:
+
+DEGAS           *.PI1 (low resolution)
+                *.PI2 (medium resolution)
+                *.PI3 (high resolution)
+                (PI4, PI5, PI6)
+
+1 word          resolution (0 = low res, 1 = medium res, 2 = high res)
+                Other bits may be used in the future; use a simple bit
+                test rather than checking for specific word values.
+16 words        palette
+16000 words     picture data (screen memory)
+-----------
+32034 bytes     total
+
+*/

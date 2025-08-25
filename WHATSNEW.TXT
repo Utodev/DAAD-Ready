@@ -1,8 +1,46 @@
-DAAD Ready 0.9.4 ??/??/2024
+
+
+DAAD Ready A ??/??/2025
 ===========================
 
+- Documentation: separated documentation with standard documentation and multimedia documentation. Also multimedia documentation includes basic and advance graphcis information.
 - MSDOS: support for OPL2 music and 8 bit mono sound effects vía SFX condact.
+- MSDOS: interpreter supports now floating images and partial palette updates.
+- MSDOS: support of FLI animations via SFX condact.
+- HTML: interpreter supports now floating images and partial palette updates.
+- HTML: support for MP3 music and MP3 sound effects via SFX condact.
+- OLDMSDOS: old MSDOS target has been removed.
+- Spectrum Next: new interpreter not using Maluva extension. Instead, fully native interpreter based in original DAAD code, with support of PICTURE/DISPLAY 
+                 in the 16 bits interpreters style (with floating images and limited palette updates), plus BEEP support, plus some built Maluva condacts 
+                 as XMESSAGE o XUNDONE. This interpreter does not support drawstrings graphics anymore, and all the new features are available without taking
+                 the almost 2 kilobytes of extra space that the Maluva extension took.
+- Spectrum +3: new interpreter not using Maluva extension. Instead, fully native interpreter based in original DAAD code, with support of PICTURE/DISPLAY 
+                 in the 16 bits interpreters style (with floating images and pre-buffered images), plus BEEP support, plus some built Maluva condacts 
+                 as XMESSAGE o XUNDONE. This interpreter does not support drawstrings graphics anymore, and all the new features are available without taking
+                 the almost 2 kilobytes of extra space that the Maluva extension took. This interpreter replaces the previously used ZXDAAD128 for the +3 target.
+- ZX-Uno: new interpreter not using Maluva extension. Instead, fully native interpreter based in original DAAD code, with support of PICTURE/DISPLAY 
+                 in the 16 bits interpreters style (with floating images plus limited palette updates), plus BEEP support, plus some built Maluva condacts 
+                 as XMESSAGE o XUNDONE. This interpreter does not support drawstrings graphics anymore, and all the new features are available without taking
+                 the almost 2 kilobytes of extra space that the Maluva extension took.               
+- ZX-ESXDOS: new interpreter not using Maluva extension. Instead, fully native interpreter based in original DAAD code, with support of PICTURE/DISPLAY 
+                 in the 16 bits interpreters style (with floating images), plus BEEP support, plus some built Maluva condacts as XMESSAGE o XUNDONE. This 
+                 interpreter does not support drawstrings graphics anymore, and all the new features are available without taking  the almost 2 kilobytes 
+                 of extra space that the Maluva extension took.                   
+- MSX1: new interpreter with  Maluva extensione embedded, instead of using the eextension. The embedded features replace the drawstrings graphics support, so 
+        it saves about 2 kilobytes of space. 
+- CPC: new interpreter with  Maluva extensione embedded, instead of using the eextension. The embedded features replace the drawstrings graphics support, so 
+       it saves about 2 kilobytes of space. 
+- CPC: Fixed a bug with WINAT in the English interpreter.
+- PCW: interpreter patched to be the 1-part interpreter instead of the 2-part interpreter.       
+- Fonts: Some changed made in default fonts so the upper font looks different from the lower one.
+- Several interpreters (but not all): Now all ZX targets, CPC and MSX1 properly update flag 63 when WINDOW is called.
+- DRC: compilar changed to allow many of the new features the new new original interpreters support.
+- DAAD Ready can now play SFX sounds by adding WAV files to SOUNDS folder, in the Amiga, Atari ST and Windos(experimental) targets
 
+
+
+  
+  
 
 DAAD Ready 0.9.3 27/03/2024
 ===========================
