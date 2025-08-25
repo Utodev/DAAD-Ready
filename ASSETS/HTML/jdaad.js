@@ -837,6 +837,7 @@ class stackClass {
 var currentProcess = 0;
 var inputBuffer = '';
 var imageBufferID = false;
+var sampleBufferID = false;
 var flags = new flagClass();
 var objects = new objectClass();
 var DDB  = new DDBClass();
@@ -2533,6 +2534,9 @@ function _SFX()
         if (SaveMouse) showMouse();
         break;
        }
+    // Plays SFX the old style
+    case 255: PlaySound(true, sampleBufferID, false); break;
+
  } 
     
   
@@ -3484,8 +3488,17 @@ function _PICTURE()
     }
     else
     {
-        imageBufferID = false;
-        condactResult = false;
+        var image = jDAADSounds[Parameter1];
+        if (image !== null)
+        {
+            sampleBufferID = Parameter1;
+            condactResult = true;
+        }
+        else
+        {
+            imageBufferID = false;
+            condactResult = false;
+        }
     }
     done = true;
 }
