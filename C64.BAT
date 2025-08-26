@@ -34,6 +34,11 @@ IF  NOT DEFINED LANG (
 echo Language: %LANG% %BASELANG%
 
 
+SET INTERPRETER=dc64is.prg
+IF "%LANG%" == "EN" SET INTERPRETER=dc64ie.prg
+
+SET INTERPRETER_FINAL=sdi
+IF "%LANG%" == "EN" SET INTERPRETER_FINAL=edi
 
 IF NOT exist %GAME%.DSF COPY ASSETS\TEMPLATES\BLANK_%LANG%.DSF %GAME%.DSF
 
@@ -41,6 +46,7 @@ REM ---- OBTENER RECURSOS ----
 tools\cecho\cecho {06}Copying required files...{07}
 COPY TOOLS\MALUVA\*.BIN > nul 2>&1
 COPY ASSETS\C64\C64_%BASELANG%.D64 %GAME%.D64 > nul 2>&1
+COPY ASSETS\C64\%INTERPRETER% %INTERPRETER% > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 
 
@@ -105,6 +111,7 @@ DEL apart1.prg > nul 2>&1
 REM  ---- COPY FILES ---- 
 tools\c1541\c1541.exe -attach %GAME%.D64 -write APART1.TMP apart1 > nul 2>&1
 tools\c1541\c1541.exe -attach %GAME%.D64 -write DAAD.DDB bpart1 > nul 2>&1
+tools\c1541\c1541.exe -attach %GAME%.D64 -write %INTERPRETER% %INTERPRETER_FINAL%  > nul 2>&1
 for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i64 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\00%%i64 00%%i64 > nul 2>&1
 for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i64 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\0%%i64 0%%i64 > nul 2>&1
 for /L %%i in (100, 1, 256) do IF exist IMAGES\%%i64  tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\%%i64 %%i64 > nul 2>&1
@@ -121,6 +128,7 @@ DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.TMP > nul 2>&1
+DEL *.PRG > nul 2>&1
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
@@ -172,6 +180,7 @@ DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.TMP > nul 2>&1
 DEL IMAGES\*64.> nul 2>&1
+DEL *.PRG > nul 2>&1
 
 REM  --- CUSTOM AREA ---
 :CUSTOM
