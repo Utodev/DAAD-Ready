@@ -86,6 +86,7 @@ MOVE %GAME%.DDB RELEASE\AMIGA\PART1.DDB > nul 2>&1
 ECHO.
 
 tools\cecho\cecho {06}Preparing .ADF floppy disk image file{07}
+echo.
 DEL RELEASE\AMIGA\FLOPPY\%GAME%.ADF > nul 2>&1
 RMDIR RELEASE\AMIGA\FLOPPY\ > nul 2>&1
 TOOLS\exe2adf\exe2adf.exe -d RELEASE\AMIGA\ -l %GAME% -a %GAME%.ADF > nul 2>&1
