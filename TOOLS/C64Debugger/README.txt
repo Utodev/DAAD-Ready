@@ -1,4 +1,4 @@
-﻿C64 Debugger and 65XE Debugger by SLAJEREK/SAMAR
+C64 Debugger and 65XE Debugger by SLAJEREK/SAMAR
 ------------------------------------------------
 
 C64 Debugger (C) 2016 Marcin Skoczylas
@@ -14,10 +14,11 @@ C64 Debugger embeds VICE v3.1 C64 emulation engine created by
 the VICE Team and the Atari800 emulator created by the Atari800
 emulator Team.
 
-Atari XL/XE debugging interfaces are in alpha stage.
 
-
-See a promo video here: https://youtu.be/_s6s7qnXBx8 
+See promo videos here: 
+https://youtu.be/Xu6EknKA7GE
+https://youtu.be/Lxd296tDdoo
+https://youtu.be/_s6s7qnXBx8
 
 
 * Installation
@@ -56,7 +57,7 @@ Ctrl+F2
 	Show C64 disassembler, memory map and data dump
 Ctrl+F3
 	Show C64 disassembler with hex codes, memory map, data dump 
-        and VIC state
+    and VIC state
 Ctrl+F4
 	Show C64 and 1541 disk disassembler and memory maps
 Ctrl+F5
@@ -77,6 +78,12 @@ Ctrl+Shift+F5
 	Show VIC Display screen
 Ctrl+Shift+F6
 	Show VIC Editor screen
+Ctrl+Shift+F7
+	Show All Graphics screen
+Ctrl+Shift+F8
+	Show music notes tracker screen
+Ctrl+Shift+F9
+	Show memory debugger screen
 TAB
 	Change focus to next view
 Shift+TAB
@@ -99,6 +106,8 @@ Ctrl+8
 	Insert D64 file
 Ctrl+Shift+8
 	Detach D64 file
+Ctrl+Alt+8
+	Insert next D64 file from folder
 Ctrl+O
 	Load PRG file
 Ctrl+L
@@ -125,15 +134,29 @@ Ctrl+Y
 	Use keyboard arrows as joystick On/Off, Right Alt to fire
 F10
 	Pause code or run to next instruction (step)
+Alt+F10
+	Back-Step one instruction
 Ctrl+F10
 	Step to next line (step over JSR)
 Shift+F10
 	Run one CPU cycle
 F11
 	Run/continue emulation
+Ctrl+Arrow Left
+	Rewind emulation back one frame
+Ctrl+Arrow Right
+	Forward emulation one frame
+Alt+Ctrl+Arrow Left
+	Rewind emulation back one second
+Alt+Ctrl+Arrow Right
+	Forward emulation one second
+Shift+Ctrl+Arrow Left
+	Rewind emulation back 10 seconds
+Shift+Ctrl+Arrow Right
+	Forward emulation 10 seconds
 Ctrl+M
 	Toggle data memory map/dump taken directly from RAM or as-is with
-        I/O and ROMs selected by $0001
+    I/O and ROMs selected by $0001
 Ctrl+E
 	Toggle show current raster beam position
 Ctrl+S
@@ -181,9 +204,8 @@ Enter
 	Scroll code one byte up/down
 Arrow Left/Right
 	If not editing code: follow code jumps and branches using Right-Arrow key, 
-	                     and move back with Left-Arrow key. When argument is 
-                             a memory address then Memory Dump view will be 
-                             scrolled to that address
+	and move back with Left-Arrow key. When argument is a memory address then 
+	Memory Dump view will be scrolled to that address
 	If editing code and hex values visible: change edited hex value	
 CTRL+G <addr>  
         Move cursor to specific address (f.e. CTRL+G EA31)
@@ -192,8 +214,7 @@ CTRL+J
 Mouse wheel
 	Scroll code (faster with Shift pressed)
 
-
-In Data dump view:
+In Memory Dump view:
 
 Mouse Click on hex value
 	Select hex value
@@ -207,6 +228,12 @@ Enter or 0-9 or A-F
 	Start editing value
 Ctrl+Mouse Click
 	Scroll Disassembly to code address that stored that value
+Ctrl+Shift+Mouse Click
+	Scroll Disassembly to code address that last read that value
+Ctrl+Alt+Mouse Click
+	Rewind emulation state to cycle that stored that value
+Ctrl+Shift+Alt+Mouse Click
+	Rewind emulation state to cycle that last read that value
 Alt+Shift
 	Change CBM charset
 Ctrl+K
@@ -217,7 +244,7 @@ Ctrl+V
 	Paste hex codes from clipboard into memory. Simple separators are
 	parsed, also the text can contain addresses as 4 hex digits
 
-In Memory map view:
+In Memory Map view:
 
 Memory map shows current values of memory cells. Ctrl+M switches bank to
 RAM. Each memory cell value is mapped into RGB or Gray or None. In RGB mode 
@@ -232,10 +259,18 @@ Memory access:
 
 You can change colours to ICU-standard (read marked by green) in Settings.
 
-You can Mouse Click inside memory map to scroll data dump view to a clicked 
-memory address. You can double Mouse Click to scroll disassemble view to a 
-memory address under cursor. You can Ctrl+Mouse Click to scroll Disassembly 
-to code address that stored value under cursor.
+Mouse Click on hex value
+        Scroll data dump view to memory address
+Double Mouse Click on hex value
+        Scroll disassemble view to selected address
+Ctrl+Mouse Click
+	Scroll Disassembly to code address that stored that value
+Ctrl+Shift+Mouse Click
+	Scroll Disassembly to code address that last read that value
+Ctrl+Alt+Mouse Click
+	Rewind emulation state to cycle that stored that value
+Ctrl+Shift+Alt+Mouse Click
+	Rewind emulation state to cycle that last read that value
 
 You can zoom-in using mouse wheel and move around by holding right mouse click
 (Windows, Linux, MacOS) or use mulitouch gestures such as pinch zoom and 
@@ -272,6 +307,23 @@ F3
 	Select key
 F4
 	Start key
+
+
+* CPU registers
+
+CPU registers are presented as:
+AR XR YR SP 01 NV-BDIZC CC VC RSTY RSTX EG
+
+They show current values of CPU registers and status:
+AR, XR, YR = CPU registers A,X,Y
+SP = stack pointer
+01 = value of memory mapper, i.e. $0001
+NV-BDIZC = processor flags register
+CC = current CPU cycle
+VC = current VIC cycle
+RSTY = current raster Y position
+RSTX = current raster X position
+EG = status of ExRom and Game register (cartridge related)
 	
 
 * VIC state view
@@ -324,8 +376,8 @@ Button "Scroll" will switch if VIC scroll register should be applied to VIC Disp
 position. When code is opening side borders then applying the scroll register may make
 the display jump a lot, so you can select if you need this behaviour.
 
-Button "Bad Line" shows a bad line condition when text is red, switching it on will 
-display lines that are in bad line condition.  
+Button "Bad Line" shows a fetch line condition when text is red, switching it on will 
+display lines that are in fetch line condition.  
 
 Button "Border" changes if side border should be shown. It has three states: no border,
 viewable area with border, full frame scan.
@@ -350,7 +402,9 @@ view cursor under C64 screen will be moved to address that holds the value at cu
 For Charset mode the memory view cursor will point to a charset and definition of char
 under cursor.  
 
-You can Right-Click on C64 Screen in right top to replace it to a zoomed raster view. 
+You can Right-Click on C64 Screen in right top to replace it to a zoomed raster view,
+Right-Click again to convert it to VIC Display, and Right-Click again to see standard
+real-view Screen. 
 
 Keys that you can use in this view are:
 
@@ -413,7 +467,8 @@ done on C64 bitmap).
 
 Painting depends on selected mode. In all modes you are free to paint, however if you 
 exceed available number of colors the painting will be blocked. To un-block and force
-color replace you can hold Ctrl key  (this can be configured in Settings). 
+color replace you can hold Ctrl key (if blocking should occur at all can be configured 
+in Settings). 
 
 The replacement color will be selected and it will be replaced: 
 - in Hires Bitmap this will be color under cursor in 8x8 char,
@@ -557,8 +612,29 @@ Ctrl+B
 	Toggle top bar with icons
 ESCAPE
 	Back to C64 Debugger
-	
-	
+
+
+* All Graphics screen
+
+This screen allows you to see all images stored in memory at once. You can force
+mode (Hires, Multi) by selecting respective buttons. All colours are updated 
+in realtime and show current values. You can lock the colour by pressing left
+mouse button, or force your own colour by pressing right mouse button on the colour
+box.
+
+
+* Music tracker screen
+
+This screen allows to see notes played in realtime on piano keyboard. Sound chip
+states are stored and displayed in a tracker-like format. You can scroll the 
+tracker using mouse scroll or Arrow UP or Arrow DOWN keys, press SHIFT or PAGE UP/DOWN
+to scroll 16 rows. SPACEBAR resets tracker position and also pauses or unpauses 
+emulation (i.e. the music). You can also play notes when piano keyboard is selected, 
+notes are mapped to q2w3er5t6y7ui keys and [, ] allow to select octave. 
+
+Midi support is in progress.
+
+
 * Monitor screen
 
 You can use these instructions in code monitor:
@@ -573,16 +649,25 @@ C <from address> <to address> <destination address>
     compare memory with memory
 H <from address> <to address> <value> [<value> ...]
     compare memory with values
+HC <from address> <to address> <value> [<value> ...]
+    continue hunt, compare memory with values that addresses overlap with previous 
+    results of hunt command
 T <from address> <to address> <destination address>
     copy memory
 L [PRG] [from address] [file name]
     load memory (with option from PRG file)
 S [PRG] <from address> <to address> [file name]
     save memory (with option as PRG file)
-D [NH] <from address> <to address> [file name]
+D [NH] [from address] [to address] [file name]
     disassemble memory (with option NH without hex codes)
+M [from address] [to address]
+    print memory 
 G <address>
     jmp to address
+
+
+You can just press ENTER key (i.e. empty command) to continue disassemble
+or memory print.
 
 
 * Breakpoints screen
@@ -645,6 +730,8 @@ section 9.5: Writing to User Defined Files.
      load symbols (code labels)
 -watch <file>
      load watches
+-debuginfo <file>
+     load debug symbols (*.dbg)");
 -wait <ms>
      wait before performing tasks
 -prg <file>
@@ -655,6 +742,10 @@ section 9.5: Writing to User Defined Files.
      attach TAP/T64
 -crt <file>
      attach cartridge
+-xex <file>
+     load XEX file into memory
+-atr <file>
+     insert ATR disk
 -jmp <addr>
      jmp to address, for example jmp x1000, jmp $1000 or jmp 4096
 -autojmp
@@ -671,7 +762,8 @@ section 9.5: Writing to User Defined Files.
      set sound out device by name or number
 -playlist <file>
      load and start jukebox playlist from json file
--
+-fullscreen
+     start debugger in full screen mode
 -clearsettings
      clear all config settings
 -pass
@@ -684,7 +776,7 @@ see Vice documentation for additional command line options).
 
 * Code labels (symbols)
 
-You can load a symbols file wit code lables via -symbols <file> command line
+You can load a symbols file with code lables via -symbols <file> command line
 option. Also, if near loaded PRG a file with "labels" file extension is found
 then it is loaded automatically. Two file formats are accepted, a standard
 Vice code labels format and 64Tass compatible file format.
@@ -727,7 +819,7 @@ This was written with great help of Mads Nielsen:
 
 C64Debugger - KickAss format 
 ------------------------------
-Here are the basic format. To make it easier to read I have given a param named 'values' that explains the values of the comma separated lists. 
+Here is the basic format. To make it easier to read I have given a param named 'values' that explains the values of the comma separated lists. 
 
 
 <C64debugger version="1.0">
@@ -998,6 +1090,20 @@ Shutdown
 	Shutdown the C64 Debugger (Quit program)
 
 
+* Integration via named pipe
+
+You can send and receive messages using a named pipe. The implementation works 
+now only for MacOS and Linux, and is rather an exeprimental feature. If you find
+any problems please contact me as this was not properly tested yet.
+
+The intention of this communication is to allow UI/IDE to interact with the
+debugger by, for example, pausing or stepping code, as well as get some 
+information about the emulation state, such as current CPU registers.
+
+More details here:
+https://docs.google.com/document/d/15ELIVFhyBGIlGyaBOey3R0VU6VLAGHVI49vmgY8jdlY/
+
+
 * Other notes
 
 Step over JSR works in a way that a temporary PC breakpoint is created in
@@ -1017,8 +1123,10 @@ un-select the C64 Screen.
 * Note about Atari XL/XE
 
 Atari XL/XE debugger is using Atari800 emulator. This integration is still 
-in experimental version and a lot of features are not ready yet. There definitely 
+in beta version and many features are not ready yet. There definitely 
 are bugs and other issues, however main features should be working.
+The overall behaviour of the debugger is very similar to C64 Debugger and
+most of keyboard shortcuts and ideas work the same.
 
 
 * Known bugs
@@ -1036,9 +1144,6 @@ dump view.
 
 Command line arguments are passed to VICE. VICE complains that arguments
 that have been parsed by C64 Debugger are not OK.
-
-On some window managers flavours in Linux system open/save file dialogs are
-behaving incorrectly.
 
 When you move a Sprite in VIC Editor and Sprite is on top of other Sprite they will 
 'pile up', also there are no means to select Sprite below a Sprite... this is not
@@ -1072,6 +1177,7 @@ Ruben Aparicio
 64 bites
 Stein Pedersen
 Mads Nielsen (Slammer/Camelot)
+Roy C Riggs (furroy)
 
 
 * Beer Donation
@@ -1172,9 +1278,16 @@ the use of which is hereby acknowledged:
 The ROM files embedded in the source code are Copyright C by Commodore
  Business Machines.
 
-* Atari800 emulator license is GPL, credits below:
+* Atari800 emulator license is GPL, full credits at
+https://github.com/atari800/atari800/blob/master/DOC/CREDITS
 
-Atari800 emulator version 3.1.0
+Credits below:
+
+Atari800 emulator version 4.2.0
+
+Current active members of the Atari800 development team:
+--------------------------------------------------------
+
 Petr Stehlik        (maintainer)
 Perry McFarlane     (core developer)
 Piotr Fusik         (core developer)
@@ -1184,6 +1297,7 @@ Kostas Nakos        (Windows CE, Android)
 James Wilkinson     (DOS, BeOS, Win32)
 Christian Groessler (Sega Dreamcast)
 Andrey Dj           (Raspberry Pi)
+Miro Kropacek       (Atari Falcon)
 
 * NestopiaUE emulator engine license is GPL, credits below:
 
@@ -1258,10 +1372,122 @@ Champ 65c02 Profiler
 	A 6502/65C02 emulator / profiler that enables you to really get to know 
 	your APPLE ][ HiRes Graphics Mode Demo.
 	(C) Micha Specht. https://github.com/specht/champ
+Native File Dialog
+	Copyright © 2014-2019 Frogtoss Games, Inc. File LICENSE covers all files in this repo.
+	Native File Dialog by Michael Labbe mike@frogtoss.com
+	Tomasz Konojacki for microutf8
+	Denis Kolodin for mingw support.
+	Tom Mason for Zenity support.
+resampler
+	resampler.cpp, Separable filtering image rescaler v2.2, public domain, Rich Geldreich - richgel99@gmail.com
+circlebuf.h
+	Copyright (c) 2013 Hugh Bailey <obs.jim@gmail.com>
+
+
 
 *
 * Change log
 *
+
+v0.64.58.6 (2021/05/29) maintenance release
+Changed: Data watch view shows more characters of the variable name (requested by multiple people)
+Added: Option to set markers speed to 0 (requested by Jens Björnhager)
+Bug fixed: Adding a breakpoint by clicking on disassemble did not work sometimes (thanks to Markus Dano Burgstaller)
+Bug fixed: Adding a NES cartridge did not clean up timeline snapshots
+Bug fixed: Dumping memory markers to a file crashed the debugger
+Bug fixed: Koala export has now more compatible address $6000 instead of $2000 (thanks to Isildur)
+
+
+v0.64.58.4 (2021/02/22), a celebration of my birthday
+Added: Possibility to rewind emulation to state when memory was last written by Alt+Ctrl+click on value in memory dump/memory map view, or last read by Alt+Ctrl+Shift+click
+Added: You can click a few pixels above bottom Timeline to make it sticky and always visible, click again to hide it
+Bug Fixed C64: -autorundisk command line option was not working properly, thanks to Franck Gotthold
+Added NES: New layouts, emulation rewind, back-stepping code, Nametables view, PPU state, APU and piano view, etc.
+
+
+v0.64.58.2 (2020/12/24) X-mas release!
+Added C64: Key shortcut to insert next disk from current folder (Ctrl+Alt+8)
+Added C64: Bitmaps, screens, charsets and sprites sheet in All Graphics layout at Ctrl+Shift+F7 (thanks to Digger/Elysium for the idea)
+Added C64: SIDs layout with piano keyboard at Ctrl+Shift+F8 (thanks to me and Alex Goldblat for the idea and pushing this forward)
+Added C64: C64/Drive Memory debugger layout at Ctrl+Shift+F9 (thanks to Brush/Elysium for the idea)
+Added C64: Setting to skip drawing of VIC sprites (thanks to Isildur/Samar for the idea)
+Added C64: Show raster breakpoints and VIC IRQs as lines in VIC Display (shown using BADLINES switch)
+Added C64: Drag-drop of *.REU files on debugger window
+Added: New command line option -fullscreen (requested by Gary Metheringham)
+Added: M command (print memory) and tweaks for D command in monitor, Enter key continues memory and disassemble
+Added: Setting to select decimal or hex representation of raster and sprite positions (default is hex now)
+Added: Setting to restart audio engine on emulation reset, needed when selected audio out device changes its properties (thanks to Brush/Elysium for the hint)
+Bug fixed: Backwards stepping (Alt+F10) was not pausing code when it was running
+Bug fixed: Rewinding to not available frame (f.e. negative time) using keyboard caused video refresh to be blocked (thanks to Alex Goldblat)
+Bug fixed: Mouse scroll and multitouch zoom on a raster/zoomed C64 screen (Ctrl+Shift+F1, Ctrl+Shift+F2) was not receiving zoom events
+Bug fixed: When C64 emulation speed was below 100% then C64 Debugger crashed on startup (thanks to Steve West)
+Bug fixed Linux: Open/Save file NFD library was crashing in new GTK3, replaced default method to use Zenity instead (thanks to Compyx for help)
+Changed: Updated *.dbg parser to reflect new KickAss label format (thanks to Yugorin/Samar for checking this)
+Changed: Performance tweaks for images re-binding mechanism
+Added Windows: Remember window position and size
+Added macOS: Automatic update of audio out routing on change device event when 'Default' audio out device is selected
+Added macOS: Big Sur support, thanks to Steve West and Brush/Elysium for extensive testing
+Added NES: NestopiaUE v1.50 integrated, new views added, NES Debugger first alpha release!
+
+
+v0.64.58 (2020/2/22), a celebration of my birthday
+Bug fixed: Some edge cases for timeline and code-backstepping fixed
+Bug fixed: Ctrl+G (go to address) was not working in Disassemble view
+Bug fixed: Memory hunt command in monitor was not finding values when 
+           end address was near end of memory (thanks to Shallan)
+Bug fixed Atari: Joystick up was not properly emulated sometimes 
+                 (thanks to Pajero/MadTeam^Samar)
+Bug fixed Atari: Some keyboard shortcuts were crashing 
+                 (thanks to Pajero/MadTeam^Samar)
+Bug fixed Atari: Changing CPU registers was not reflected when code 
+                 was paused (thanks to Pajero/MadTeam^Samar)
+Bug fixed MacOS: Sometimes C64 65XE Debugger window was not visible 
+                 when started for the first time (thanks to Yosi and Stephen)
+Added: Scroll disassemble to address that read memory value 
+              by Ctrl+Shift+Click (written by Ctrl+Click)
+Added: Version can be checked using --version command line option. 
+       Console output works also on Windows (requested by Marco)
+Added: Scroll monitor console content with mouse scroll
+Added: Hunt-continue, a HC command in monitor that searches of addresses which
+       contain values that were also found in previous hunt command
+Added Atari: Atari800 emulator code base upgraded to version 4.2.0
+Added Atari: Timeline and code back-stepping
+Added Atari: Source code debugging symbols and watches
+Added Atari: PIA and GTIA registers related to joystick
+Added Atari: New layouts available
+Added Atari: Passing command line to running instance and options 
+             to load XEX and ATR
+Added C64: Switch to use VICE monitor in Settings 
+           (requested by Bacchus/Fairlight)
+Added Windows: Possibility to set process priority and boosting (Settings/UI)
+
+And a lot other	fixes and tweaks for the Atari XL/XE debugger!
+
+
+v0.64.56.8 (2019/12/24) X-mas release!
+Bug fixed: Changing layout was also changing VIC Display's layout border mode
+Bug fixed: Crash when adding PC breakpoint in Layout #4
+Bug fixed: Passing empty breakpoints.txt file was hanging the debugger 
+           (thanks to Erol Tahirovic)
+Bug fixed: Use of Keyboard as joystick settings are now properly stored and 
+           restored (thanks to Ollie and Roy C Riggs)
+Added: Drag'n'drop of g64 files (requested by Bacchus/Fairlight)
+Added: Show colour hex code in VIC State view (requested by Bacchus/Fairlight)
+Added: Memory hunt (H) command also accepts 16-bit values, so H 1000 2000 D418 
+       is searching now also for existence of 18 D4 pair 
+       (requested by Alex Goldblat)
+Added: Layout that shows all bitmaps in the memory at once (Ctrl+Shift+F7)
+       (requested by Digger/Elysium)
+Added: Snapshots Recorder! Rewind emulation backwards as well forward. 
+       When timeline is active you can access it by hovering mouse near bottom 
+       of the debugger window and scrubbing by clicking and moving a red box.
+Added Linux: Full screen mode on Linux, activate using Alt+Enter. 
+             (thanks to szczm_/Samar code snippets)
+Added MacOS: Window size and position are properly restored after app restart 
+             (thanks to Mojzesh/Arise for reporting)
+Added MacOS and Linux: Integration via standard fifo named pipe, check specs 
+             how to interact remotely with the C64 Debugger (good for UI/IDEs!)
+
 
 v0.64.56.6 (2019/05/17), released at Moonshine Dragons demo party
 Bug Fixed: Changing SID register was not reflected when CPU emulation 
