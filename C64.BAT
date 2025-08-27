@@ -164,7 +164,7 @@ echo ------------------------------------------------------------------
 )
 tools\cecho\cecho {07}
 PAUSE
-TOOLS\C64DEBUGGER\C64DEBUGGER -d64 RELEASE\C64\%GAME%.D64 -autorundisk
+TOOLS\C64DEBUGGER\C64DEBUGGER -d64 RELEASE\C64\%GAME%.D64 -autorundisk  -layout 1
 GOTO FIN
 
 :ERROR
