@@ -78,19 +78,19 @@ ECHO.
 if NOT "%SPLITSCR%" == "splitModeON" (
 echo Processing ART files
 ECHO.
-for /L %%i in (0, 1, 9) do IF exist 00%%i.ART ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.ART 00%%i64 96
-for /L %%i in (10, 1, 99) do IF exist 0%%i.ART  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.ART 0%%i64 96
-for /L %%i in (100, 1, 255) do IF exist %%i.ART  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.ART %%i64 96 
+for /L %%i in (0, 1, 9) do IF exist 00%%i.ART ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.ART 00%%i64 %IMGLINES%
+for /L %%i in (10, 1, 99) do IF exist 0%%i.ART  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.ART 0%%i64 %IMGLINES%
+for /L %%i in (100, 1, 255) do IF exist %%i.ART  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.ART %%i64 %IMGLINES%
 )
 if "%SPLITSCR%" == "splitModeON" ( 
 echo Processing KOA files
 ECHO.
-for /L %%i in (0, 1, 9) do IF exist 00%%i.KOA ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KOA 00%%i64 96
-for /L %%i in (10, 1, 99) do IF exist 0%%i.KOA  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.KOA 0%%i64 96
-for /L %%i in (100, 1, 255) do IF exist %%i.KOA  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.KOA %%i64 96 
-for /L %%i in (0, 1, 9) do IF exist 00%%i.KLA ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KLA 00%%i64 96
-for /L %%i in (10, 1, 99) do IF exist 0%%i.KLA  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.KLA 0%%i64 96
-for /L %%i in (100, 1, 255) do IF exist %%i.KLA  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.KLA %%i64 96 
+for /L %%i in (0, 1, 9) do IF exist 00%%i.KOA ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KOA 00%%i64 %IMGLINES%
+for /L %%i in (10, 1, 99) do IF exist 0%%i.KOA  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.KOA 0%%i64 %IMGLINES%
+for /L %%i in (100, 1, 255) do IF exist %%i.KOA  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.KOA %%i64 %IMGLINES%
+for /L %%i in (0, 1, 9) do IF exist 00%%i.KLA ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KLA 00%%i64 %IMGLINES%
+for /L %%i in (10, 1, 99) do IF exist 0%%i.KLA  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.KLA 0%%i64 %IMGLINES%
+for /L %%i in (100, 1, 255) do IF exist %%i.KLA  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.KLA %%i64 %IMGLINES% 
 )
 CD ..
 tools\cecho\cecho {02}[OK]{07}
@@ -164,7 +164,7 @@ echo ------------------------------------------------------------------
 )
 tools\cecho\cecho {07}
 PAUSE
-TOOLS\C64DEBUGGER\C64DEBUGGER -d64 RELEASE\C64\%GAME%.D64 -autorundisk -layout 1
+TOOLS\C64DEBUGGER\C64DEBUGGER -d64 RELEASE\C64\%GAME%.D64 -autorundisk -layout 1 -symbols ..\symbols.sym
 GOTO FIN
 
 :ERROR
