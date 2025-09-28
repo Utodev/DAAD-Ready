@@ -85,12 +85,12 @@ for /L %%i in (100, 1, 255) do IF exist %%i.ART  ..\TOOLS\MALUVA\SC2DAAD c64 %%i
 if "%SPLITSCR%" == "splitModeON" ( 
 echo Processing KOA files
 ECHO.
-for /L %%i in (0, 1, 9) do IF exist 00%%i.KOA ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KOA 00%%i64 %IMGLINES%
-for /L %%i in (10, 1, 99) do IF exist 0%%i.KOA  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.KOA 0%%i64 %IMGLINES%
-for /L %%i in (100, 1, 255) do IF exist %%i.KOA  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.KOA %%i64 %IMGLINES%
-for /L %%i in (0, 1, 9) do IF exist 00%%i.KLA ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KLA 00%%i64 %IMGLINES%
-for /L %%i in (10, 1, 99) do IF exist 0%%i.KLA  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.KLA 0%%i64 %IMGLINES%
-for /L %%i in (100, 1, 255) do IF exist %%i.KLA  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.KLA %%i64 %IMGLINES% 
+for /L %%i in (0, 1, 9) do IF exist 00%%i.KOA ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KOA 00%%i64 96
+for /L %%i in (10, 1, 99) do IF exist 0%%i.KOA  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.KOA 0%%i64 96
+for /L %%i in (100, 1, 255) do IF exist %%i.KOA  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.KOA %%i64 96
+for /L %%i in (0, 1, 9) do IF exist 00%%i.KLA ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KLA 00%%i64 96
+for /L %%i in (10, 1, 99) do IF exist 0%%i.KLA  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.KLA 0%%i64 96
+for /L %%i in (100, 1, 255) do IF exist %%i.KLA  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.KLA %%i64 96
 )
 CD ..
 tools\cecho\cecho {02}[OK]{07}
@@ -137,34 +137,37 @@ REM ---- TESTER ----
 ECHO.
 MOVE %GAME%.D64 RELEASE\c64 > nul 2>&1
 tools\cecho\cecho {03}
+
 IF "%BASELANG%" == "EN" (
-ECHO Game ready, press any key to test, or CTRL+C to stop
+echo Game ready, press any key to test, or CTRL+C to stop
 echo ------------------------------------------------------------------
-echo  Type    LOAD "*",8,1   lo load the game                          
-echo  Loading from disk is slow in C64, it will take some time. To     
-echo  speed it up a bit press Ctrl+P [warp], but it still will be slow.
-echo  To see game Full Screen, press Ctrl+F1                           
-echo  Please notice C64DEbugger is beerware, you can send some beer to 
-echo  slajerek@gmail.com, or some money to                             
-echo  http://tinyurl.com/C64Debugger-PayPal                                              
+echo  IMPORTANT WARNING:
+echo  The emulator starts in warp mode /fast speed so the loading from
+echo  disk is much faster. That will also affect the speed of the game
+echo  when loading location graphics. Real speed is much slower, so if
+echo  you wan to check the real speed, enter C64 menu, then choose
+echo  'Miscellaneous' and set warp mode to 'aggressive'. Now close 
+echo  settings, make sure some image is loaded, then enter menu again
+echo  and set warp mode to 'off'.
 echo ------------------------------------------------------------------
 )
 IF "%BASELANG%" == "ES" (
-ECHO Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar.
+echo Juego listo, pulsa una tecla para probar, o CTRL+C para salir
 echo ------------------------------------------------------------------
-echo  Teclea    LOAD "*",8,1    para cargar el juego                   
-echo  En C64Debugger '*' esta en la tecla justo a la izq. de borrar  
-echo  La emulacion de disquetera es lenta, tardara en cargar, se puede 
-echo  acelerar un poco pulsando Ctrl+P [warp] pero aun sera lenta.     
-echo  Para ver el juego en pantalla grande, pulsar Ctrl+F1             
-echo  Por favor ten en cuenta que C64DEbugger es beerware, puedes      
-echo  cerveza a slajerek@gmail.com, o dinero para comprarla a          
-echo  http://tinyurl.com/C64Debugger-PayPal                                              
+echo  AVISO IMPORTANTE:
+echo  El emulador arranca en modo warp / velocidad rapida por lo que la
+echo  carga desde disco es mucho mas rapida. Eso tambien afectara a la
+echo  velocidad del juego al cargar los graficos de las localizaciones.
+echo  La velocidad real es mucho mas lenta, asi que si quieres comprobar
+echo  la velocidad real, entra en el menu C64, luego elige
+echo  'Miscellaneous' y pon el modo warp a 'aggressive'. Ahora cierra
+echo  la configuracion, asegurate de que alguna imagen esta cargada, luego
+echo  entra de nuevo en el menu y pon el modo warp a 'off'.
 echo ------------------------------------------------------------------
 )
 tools\cecho\cecho {07}
 PAUSE
-TOOLS\C64DEBUGGER\C64DEBUGGER -d64 RELEASE\C64\%GAME%.D64 -autorundisk -layout 1 -symbols ..\symbols.sym
+TOOLS\DENISE\DENISE RELEASE\C64\%GAME%.D64 -aggressive-warp
 GOTO FIN
 
 :ERROR
