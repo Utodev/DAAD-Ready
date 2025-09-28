@@ -155,14 +155,14 @@ IF "%BASELANG%" == "ES" (
 echo Juego listo, pulsa una tecla para probar, o CTRL+C para salir
 echo ------------------------------------------------------------------
 echo  AVISO IMPORTANTE:
-echo  El emulador arranca en modo warp / velocidad rapida por lo que la
+echo  El emulador arranca en modo warp -velocidad rapida- por lo que la
 echo  carga desde disco es mucho mas rapida. Eso tambien afectara a la
 echo  velocidad del juego al cargar los graficos de las localizaciones.
 echo  La velocidad real es mucho mas lenta, asi que si quieres comprobar
-echo  la velocidad real, entra en el menu C64, luego elige
-echo  'Miscellaneous' y pon el modo warp a 'aggressive'. Ahora cierra
-echo  la configuracion, asegurate de que alguna imagen esta cargada, luego
-echo  entra de nuevo en el menu y pon el modo warp a 'off'.
+echo  la velocidad real, entra en el menu C64, elige 'Miscellaneous' y 
+echo  pon el modo warp en 'aggressive'. Despues cierra los ajustes,
+echo  sigue usando el juego hasta que se cargue una imagen, y vuelve a 
+echo  entrar en el menu y eligiendo esta vez el modo warp 'off'.
 echo ------------------------------------------------------------------
 )
 tools\cecho\cecho {07}
