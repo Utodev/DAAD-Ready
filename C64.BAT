@@ -75,14 +75,14 @@ REM  ---- PREPARE IMAGES ----
 CD IMAGES
 ..\tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
-if NOT "%SPLITSCR%" == "splitModeON" (
+if NOT "%SPLITSCR%" == "splitModeOn" (
 echo Processing ART files
 ECHO.
 for /L %%i in (0, 1, 9) do IF exist 00%%i.ART ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.ART 00%%i64 %IMGLINES%
 for /L %%i in (10, 1, 99) do IF exist 0%%i.ART  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.ART 0%%i64 %IMGLINES%
 for /L %%i in (100, 1, 255) do IF exist %%i.ART  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.ART %%i64 %IMGLINES%
 )
-if "%SPLITSCR%" == "splitModeON" ( 
+if "%SPLITSCR%" == "splitModeOn" ( 
 echo Processing KOA files
 ECHO.
 for /L %%i in (0, 1, 9) do IF exist 00%%i.KOA ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KOA 00%%i64 96
