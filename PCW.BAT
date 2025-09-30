@@ -40,7 +40,6 @@ IF NOT exist %GAME%.DSF COPY ASSETS\TEMPLATES\BLANK_%LANG%.DSF %GAME%.DSF
 REM ---- OBTENER RECURSOS ---- 
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
-COPY TOOLS\MALUVA\*.BIN > nul 2>&1
 SET INTERPRETER=ASSETS\PCW\DPCWIE.BIN
 IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\PCW\DPCWIS.BIN
 
@@ -108,11 +107,11 @@ MOVE %GAME%.DSK RELEASE\PCW > nul 2>&1
 tools\cecho\cecho {03}
 IF "%BASELANG%" == "EN" (
 ECHO Game ready,press any key to test or  CTRL+C to stop
-echo When emulator starts, just press enter and then choose part 1
+echo When emulator starts, just press enter again
 )
 IF "%BASELANG%" == "ES" (
 ECHO EL JUEGO SE HA COMPILADO CORRECTAMENTE, PULSE ENTER PARA INICIAR EL EMULADOR, O CTRL+C PARA PARAR
-ECHO CUANDO ARRANQUE EL EMULADOR SIMPLEMENTE PULSA ENTER y LUEGO ELIGE LA PARTE 1
+ECHO CUANDO ARRANQUE EL EMULADOR PULSA ENTER DE NUEVO
 )
 tools\cecho\cecho {07}
 PAUSE

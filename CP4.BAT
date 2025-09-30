@@ -49,7 +49,6 @@ IF NOT exist %GAME%.DSF COPY ASSETS\TEMPLATES\BLANK_%LANG%.DSF %GAME%.DSF
 REM ---- OBTENER RECURSOS ---- 
 tools\cecho\cecho {06}Copying required files...{07}
 echo.
-COPY TOOLS\MALUVA\*.BIN > nul 2>&1
 COPY ASSETS\CP4\CP4_%BASELANG%.D64 %GAME%.D64 > nul 2>&1
 COPY ASSETS\CP4\%INTERPRETER% %INTERPRETER% > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
