@@ -833,7 +833,7 @@ function checkMaluva($adventure)
 function MaluvaEmbedded($adventure, $target, $subtarget)
 {
     // All ZX targets, jDAAD, PCDAAD, MSX2DAAD, CPC target and MSX2 target have Maluva embedded
-    if (($target=='C64') || ($target=='HTML') || ($target=='MSX1') || ($target=='MSX') || ($target=='CPC') ||  ($target=='ZX') ||  ($target=='MSX2') || ($subtarget=='VGA256')) return true;
+    if (($target=='PCW')||($target=='CP4') || ($target=='C64') || ($target=='HTML') || ($target=='MSX1') || ($target=='MSX') || ($target=='CPC') ||  ($target=='ZX') ||  ($target=='MSX2') || ($subtarget=='VGA256')) return true;
     return false;
 }
 
