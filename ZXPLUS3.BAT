@@ -137,7 +137,7 @@ DEL *.XMB > nul 2>&1
 DEL *.SDG > nul 2>&1
 DEL *.TMP > nul 2>&1
 DEL *.CHR > nul 2>&1
-rem DEL *.GRA > nul 2>&1
+DEL *.GRA > nul 2>&1
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
@@ -169,7 +169,7 @@ DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.TMP > nul 2>&1
 DEL *.CHR > nul 2>&1
-rem DEL *.GRA > nul 2>&1
+DEL *.GRA > nul 2>&1
 
 REM  --- CUSTOM AREA ---
 :CUSTOM
