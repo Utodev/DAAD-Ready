@@ -126,7 +126,7 @@ SET LOADING_SCREEN=
 if exist IMAGES\DAAD.SCR SET LOADING_SCREEN=-s IMAGES\DAAD.SCR
 PHP\PHP TOOLS\ZXDAAD128\DAADMAKER128.PHP -t %GAME%.TAP -n %GAME% %LOADING_SCREEN% %BANKFILES%
 IF ERRORLEVEL 1 GOTO ERROR
-MOVE %GAME%.TAP RELEASE\ZX128TAPE > nul 2>&1
+MOVE %GAME%.TAP RELEASE\ZX128K_EXPERIMENTAL > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -163,7 +163,7 @@ tools\cecho\cecho {07}
 
 PAUSE
 cd TOOLS\ZESARUX
-zesarux --noconfigfile --quickexit --fastautoload --zoom 2 --machine 128k --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\ZX128TAPE\%GAME%.tap"
+zesarux --noconfigfile --quickexit --fastautoload --zoom 2 --machine 128k --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\ZX128K_EXPERIMENTAL\%GAME%.tap"
 CD ..\..
 GOTO END
 
