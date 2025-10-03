@@ -63,14 +63,14 @@ if errorlevel 2 (
     copy readme.txt ZX128K_EXPERIMENTAL > nul 2>&1
 
     echo Cleaning ZX Spectrum 128K tape...
-    md ZX128> nul 2>&1
+    md ZX128K> nul 2>&1
     del /q /s ZX128K\*.* > nul 2>&1
     copy readme.txt ZX128K   > nul 2>&1
 
     echo Cleaning ZX Spectrum 128K disk...
-    md ZX128PLUS3> nul 2>&1
-    del /q /s ZX128PLUS3\*.* > nul 2>&1
-    copy readme.txt ZX128PLUS3 > nul 2>&1
+    md ZXPLUS3> nul 2>&1
+    del /q /s ZXPLUS3\*.* > nul 2>&1
+    copy readme.txt ZXPLUS3 > nul 2>&1
 
     echo Cleaning ZX Spectrum ESXDOS...
     md ZXESXDOS > nul 2>&1
