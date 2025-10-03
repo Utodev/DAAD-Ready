@@ -426,51 +426,42 @@ foreach ($pageContent as $page => &$files)
     });
 }
 
-// Now let's echo the page content
-if ($verbose) 
-{
-    echo "Page Content:\n";
-    foreach ($pageContent as $page => $files) 
+
+// Dump the files
+ foreach ($pageContent as $page => $files) 
     {
-        echo "Page $page:\n";
+        if ($verbose) echo "Dumping page $page:\n";
+        $outputFile = fopen("PAGE{$page}.BIN", 'wb');
+        $currentOffset = 0;
         foreach ($files as $file) 
         {
-            echo "  File {$file['filename']} at offset {$file['offset']}, size {$file['size']}\n";
-        }
-    }
-}
+            $filename = $file['filename'];
+            
+            
+            $offset = $file['offset'];
+            $size = $file['size'];
 
-// Now dump the pages as files, one file per page, named PAGEn.BIN. Don't fill the gaps, neither trailing nor leading gaps
-foreach ($pageContent as $page => $files) 
-{
-    $outputFile = fopen("PAGE{$page}.BIN", 'wb');
-    if (!$outputFile) {
-        echo "Error creating PAGE{$page}.BIN\n";
-        continue;
-    }
-    
-    $currentOffset = 0;
-    foreach ($files as $file) 
-    {
-        $filename = isset($files_to_process[$file['filename']]) ? $file['filename'] : $file['filename'];
-        $size = isset($files_to_process[$file['filename']]) ? $files_to_process[$file['filename']] : $priority_files_to_process[$file['filename']];
-        
-        // Fill the gap if needed
-        if ($currentOffset < $file['offset']) {
-            fwrite($outputFile, str_repeat("\0", $file['offset'] - $currentOffset));
-            $currentOffset = $file['offset'];
-        }
-        
-        // Write the file content
-        if (file_exists($filename)) {
+            if ($currentOffset < $offset) 
+            {
+                fwrite($outputFile, str_repeat("\0", $offset - $currentOffset));
+                $currentOffset = $offset;
+            }
+
+            if ($verbose) echo "  Wrote $filename at offset " . dechex($offset) . " with size " . dechex($size) . "\n";
+            // If PT extension missing, it is an image file
+            if (!preg_match('/\.PT$/', $filename))
+            {
+                $filename = "IMAGES/$filename.128";
+            }
+
+            // Write the file content
             $content = file_get_contents($filename);
             fwrite($outputFile, $content);
             $currentOffset += strlen($content);
         }
+        fclose($outputFile);
     }
-    
-    fclose($outputFile);
-}
+
 
 // And dump the indexes to a file named PAGEIDX.BIN.
 //  First one byte per page used, starting by the ones that have the XMLB files in order (so first the page where P0.PT goes, then P1.PT if exists, etc.),
@@ -506,9 +497,10 @@ fwrite($outputIndexFile, pack('C', 255));
 // Now write the image index
 foreach ($sortedImageIndex as $imageNumber => $index) {
     fwrite($outputIndexFile, pack('C', (int)$imageNumber)); // Image number as byte
-    fwrite($outputIndexFile, pack('C', $index['page'])); // Page number as byte
-    fwrite($outputIndexFile, pack('v', $index['offset'])); // Offset as word
+    fwrite($outputIndexFile, pack('v', $index['offset'] +0xC000)); // Offset as word, already moved to the C000 area
     fwrite($outputIndexFile, pack('v', $index['size'])); // Size as word
+    fwrite($outputIndexFile, pack('C', $index['page'])); // Page number as byte
+    $realOffset = $index['offset'] + 0xC000; // Adjust offset to C000 area
 }
 
 // Write the end marker again
@@ -526,4 +518,4 @@ if ($indexContent !== false)
         fwrite($indexFile, $reversedContent);
         fclose($indexFile);
     }
-unlink("PAGEIDX.BIN"); // Remove the original PAGEIDX.BIN file    
+//unlink("PAGEIDX.BIN"); // Remove the original PAGEIDX.BIN file    
