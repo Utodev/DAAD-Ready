@@ -1,9 +1,7 @@
 ; BLANK.DSF empty database for DAAD V2
 ;
-; This database provides a way of adapting PAW & DAAD V1 sources to DAAD V2. 
-; Note that flags which were automatically decremented no longer do so.
-;
 ; English language template, recreated by Stefan Vogt, Pond Soft [17-7-18].
+; Several updates made by Carlos Sanchez after converting to DSF format
 
 ;------------------------------------------------------------------------------
 ;
@@ -16,41 +14,6 @@
 ;                                                                   [8-6-89]
 ;
 ;------------------------------------------------------------------------------
-
-
-
-
-
-
-; --- Please don't remove the following code, it makes sure the game works fine for all supported targets 
-
-#ifdef "tape48"
-#define tape 1
-#endif
-
-#ifdef "c64"
-    #extern "MALUVA"    
-#endif
-#ifdef "cp4"
-    #extern "MALUVA"    
-#endif
-#ifdef "pcw"
-    #extern "MALUVA"
-#endif
-
-#ifndef "msx"
-#ifndef "tape48"
-#ifndef "c64"
-#ifndef "cpc"
-#ifndef "cp4"
-    #define nativeraster 1
-#endif
-#endif
-#endif
-#endif
-#endif
-
-; --- Please don't remove the code above, it makes sure the game works fine for all supported targets 
 
 
 
@@ -350,7 +313,7 @@ S 1
                 #ifdef "splitModeOn"    ; if split mode is on, we have to apply it
                     XSPLITSCR 1
                     #ifdef "cpc"
-                    WINAT 14 0           ;  if it's CPC, we have to move the window down a bit to avoid artifacts
+                    WINAT 14 0           ;  if it's CPC, we have to move the window down a bit to avoid screen glitches
                     #endif
                 #endif
                 WINDOW 1
@@ -365,21 +328,10 @@ S 1
                 
 
                 
-#ifdef "nativeraster"               ; Picture for targets with native raster graphics
 > _       _     ZERO fDarkF
                 PICTURE @fPlayer        ; if there is a picture, load it
                 DISPLAY 0
                 SKIP $pictureOK
-
-#else                               ; Picture for targets without native raster graphics
-    #ifndef "tape48"                ; except 48K Spectrum
-    > _       _     ZERO fDarkF
-                    CLEAR 20
-                    XPICTURE @fPlayer        ; if there is a picture, load it
-                    ZERO 20                  ; if it actually exists
-                    SKIP $pictureOK
-    #endif
-#endif
 
 
 ; if we got here, there is no picture, so we have to set the text window full screen
@@ -391,7 +343,6 @@ S 1
                 WINAT 0 0               ; Full screen text window
                 WINSIZE 25 127
                 CLS
-
 $pictureOK
 
 > _       _     WINDOW 1                 ; text window
@@ -527,32 +478,28 @@ $pictureOK
 ;------------------------------------------------------------------------------
 /PRO 6 ; Initialisation
 
-> _       _     CLS
-                WINDOW  1               ; Half screen text window
-                WINAT 14 0
+> _       _     
+                WINDOW  0                  ; Make window 0 be full screen, and clear it
+                WINAT 0 0
                 WINSIZE 25 128
-                WINDOW   0
                 CLS
-                #ifdef "nativeraster"     ; location 0  picture
-                    PICTURE 0 
-                    DISPLAY 0
-                    SKIP $picture0OK
-                #else 
-                    #ifndef "tape48"
-                        CLEAR 20
-                        XPICTURE 0
-                        ZERO 20
-                        SKIP $picture0OK
-                    #endif    
-                #endif
+                WINDOW  1                  ; Define text Window starting at line 14
+                WINAT 14 0
+                WINSIZE 25 128             ; Also maximum with and height
+                WINDOW 0
+                PICTURE 0 
+                DISPLAY 0
+                SKIP $picture0OK
 
->  _     _      WINDOW  1                       ; if we get here, there is no picture, so we have to set the text window full screen
+
+>  _     _      WINDOW  1                       ; if we get here, there is no picture for location 0, so we have to set the text window full screen
                 WINAT 0 0              
                 WINSIZE 25 128                  
                 #ifdef "splitModeOn"            ; Disable split mode if so
                     XSPLITSCR 0
                     PAUSE 10
                 #endif
+
 $picture0OK
 > _       _     WINDOW 1
                 DESC    0               ; Intro text

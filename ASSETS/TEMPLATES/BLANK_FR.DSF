@@ -22,37 +22,6 @@
 ; comme le font les éditeurs modernes peut entraîner des erreurs dans les lettres avec des accents.
 
 
-; --- Ne pas enlever ce code, qui s'assure que le jeu marche bien pour toutes les plateformes ciblées
-
-#ifdef "tape48"
-#define tape 1
-#endif
-
-#ifdef "c64"
-    #extern "MALUVA"    
-#endif
-#ifdef "cp4"
-    #extern "MALUVA"    
-#endif
-#ifdef "pcw"
-    #extern "MALUVA"
-#endif
-
-#ifndef "msx"
-#ifndef "tape48"
-#ifndef "c64"
-#ifndef "cpc"
-#ifndef "cp4"
-    #define nativeraster 1
-#endif
-#endif
-#endif
-#endif
-#endif
-
-; --- Ne pas enlever le code ci-dessus, qui s'assure que le jeu marche bien pour toutes les plateformes ciblées
-
-
 
 ; Flags du système 0-63
 #define fDark               0
@@ -362,23 +331,10 @@ S 1
                 
 
                 
-#ifdef "nativeraster"               ; grafique pour les cibles avec des graphiques raster natifs
     > _       _     ZERO fDarkF
                     PICTURE @fPlayer        ; si il y a une image, la charger
                     DISPLAY 0
                     SKIP $pictureOK
-
-#else                               ; graphiques pour les cibles sans graphiques raster natifs
-    #ifndef "tape48"                ; excepté pour le ZX Spectrum 48K
-    > _       _     
-                    ZERO fDarkF
-                    CLEAR 20
-                    XPICTURE @fPlayer        ; Si il y a une image, la charger
-                    ZERO 20                  ; la image est chargée ?
-                    SKIP $pictureOK
-    #endif
-#endif
-
 
 ; Si nous sommes arrivés ici, il n'y avait pas de graphique pour cette localité, nous mettons le texte en plein écran
 
@@ -521,24 +477,18 @@ $pictureOK
 ;------------------------------------------------------------------------------
 /PRO 6 ; Initialise le système DAAD
 
-> _       _     CLS
-                WINDOW  1               ; Fenêtre demi-texte
+> _       _     
+                WINDOW  0
+                WINAT 0 0
+                WINSIZE 25 128
+                CLS
+                WINDOW  1               ; Halbes Textfenster
                 WINAT 14 0
                 WINSIZE 25 128
                 WINDOW   0
-                CLS
-                #ifdef "nativeraster"     ; Graphique de localité 0
-                    PICTURE 0 
-                    DISPLAY 0
-                    SKIP $picture0OK
-                #else 
-                    #ifndef "tape48"
-                        CLEAR 20
-                        XPICTURE 0
-                        ZERO 20
-                        SKIP $picture0OK
-                    #endif    
-                #endif
+                PICTURE 0 
+                DISPLAY 0
+                SKIP $picture0OK
 
 #ifndef "splitModeON"                  
 >  _     _      WINDOW  1                   ; Si nous sommes arrivés ici, le graphique 000 n'était pas

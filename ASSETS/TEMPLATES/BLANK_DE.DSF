@@ -22,33 +22,6 @@
 ;
 ;------------------------------------------------------------------------------
 
-; --- Bitte entferne den folgenden Code nicht, er stellt sicher, dass das Spiel für alle unterstützten Ziele funktioniert
-
-#ifdef "tape48"
-#define tape 1
-#endif
-
-#ifdef "c64"
-    #extern "MALUVA"    
-#endif
-#ifdef "cp4"
-    #extern "MALUVA"    
-#endif
-#ifdef "pcw"
-    #extern "MALUVA"
-#endif
-
-#ifndef "msx"
-#ifndef "tape48"
-#ifndef "c64"
-#ifndef "cpc"
-#ifndef "cp4"
-    #define nativeraster 1
-#endif
-#endif
-#endif
-#endif
-#endif
 
 ; --- Please don't remove the code above, it makes sure the game works fine for all supported targets 
 ; --  Bitte entferne den obigen Code nicht, er stellt sicher, dass das Spiel für alle unterstützten Ziele funktioniert
@@ -374,21 +347,10 @@ S 1
                 
 
                 
-#ifdef "nativeraster"               ; GRAFICO PARA TARGETS CON GRAFICOS RASTER NATIVOS; in german: GRAFIK FÜR ZIELE MIT NATIVEN RASTER-GRAFIKEN
 > _       _     ZERO fDarkF
                 PICTURE @fPlayer        ; Wenn es ein Bild gibt, laden
                 DISPLAY 0
                 SKIP $pictureOK
-
-#else                               ; GRAFIK FÜR ZIELE MIT KEINEN NATIVEN RASTER-GRAFIKEN
-    #ifndef "tape48"                ; UND KEIN SPECTRUM 48K
-     > _       _     ZERO fDarkF
-                     CLEAR 20
-                     XPICTURE @fPlayer        ; Wenn es ein Bild gibt, laden
-                     ZERO 20                  ; Wenn es geladen wurde
-                     SKIP $pictureOK
-    #endif
-#endif
 
 
 ;Wenn wir hier ankommen, gab es kein Bild für diesen Ort, setzen wir den Text auf Vollbild
@@ -549,24 +511,18 @@ $pictureOK
 ;------------------------------------------------------------------------------
 /PRO 6 ; Initialise the DAAD system
 
-> _       _     CLS
+> _       _     
+                WINDOW  0
+                WINAT 0 0
+                WINSIZE 25 128
+                CLS
                 WINDOW  1               ; Halbes Textfenster
                 WINAT 14 0
                 WINSIZE 25 128
                 WINDOW   0
-                CLS
-                #ifdef "nativeraster"     ; Ortsdiagramm 0
-                    PICTURE 0 
-                    DISPLAY 0
-                    SKIP $picture0OK
-                #else 
-                    #ifndef "tape48"
-                        CLEAR 20
-                        XPICTURE 0
-                        ZERO 20
-                        SKIP $picture0OK
-                    #endif    
-                #endif
+                PICTURE 0 
+                DISPLAY 0
+                SKIP $picture0OK
 
 #ifndef "splitModeON"                  
 >  _     _      WINDOW  1                  ; Als wir hier ankamen, war die 000-Grafik nicht vorhanden

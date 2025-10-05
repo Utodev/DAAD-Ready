@@ -22,37 +22,6 @@
 ;
 ;------------------------------------------------------------------------------
 
-; --- Por favor, não remova o código abaixo, pois é importante para controlar o suporte das plataformas 
-
-#ifdef "tape48"
-#define tape 1
-#endif
-
-#ifdef "c64"
-    #extern "MALUVA"    
-#endif
-#ifdef "cp4"
-    #extern "MALUVA"    
-#endif
-#ifdef "pcw"
-    #extern "MALUVA"
-#endif
-
-#ifndef "msx"
-#ifndef "tape48"
-#ifndef "c64"
-#ifndef "cpc"
-#ifndef "cp4"
-    #define nativeraster 1
-#endif
-#endif
-#endif
-#endif
-#endif
-
-; --- Por favor, não remova o código acima, pois é importante para controlar o suporte das plataformas 
-
-
 ; Flags do sistema 0-63
 #define fDark               0
 #define fObjectsCarried     1
@@ -358,8 +327,6 @@ LOGO    2       conjugation
                 WINDOW 1
                 WINSIZE 25 127
 
-
-
 > _       _     WINDOW 1
                 WINAT 14 0              ; Por padrão, a janela de texto está na parte inferior
                 WINSIZE 25 127
@@ -371,22 +338,10 @@ LOGO    2       conjugation
                 SET     fDarkF          ; Escuro
 
 
-#ifdef "nativeraster"               ; Gráfico para targets com gráficos raster nativos
 > _       _     ZERO fDarkF
                 PICTURE @fPlayer        ; Se houver uma imagem, carregue-a
                 DISPLAY 0
                 SKIP $pictureOK
-
-#else                               ; targets que não têm gráficos raster nativos
-    #ifndef "tape48"                ; E NÃO SÃO Spectrum 48K
-    > _       _     ZERO fDarkF
-                    CLEAR 20
-                    XPICTURE @fPlayer        ; Se houver uma imagem, carregue-a
-                    ZERO 20                  ; Se estivesse carregado...
-                    SKIP $pictureOK
-    #endif
-#endif
-
 
 ; e chegarmos aqui, não havia gráfico para esta localidade, colocamos o texto em tela cheia.
 > _       _     #ifdef "splitModeOn"                  
@@ -526,24 +481,19 @@ $pictureOK
 
 /PRO 6 ; Inicialização
 
-> _       _     CLS
-                WINDOW  1               ; Janela de meio texto
+> _       _     
+                WINDOW  0
+                WINAT 0 0
+                WINSIZE 25 128
+                CLS                     
+                WINDOW  1               ;a janela de texto a meia altura
+
                 WINAT 14 0
                 WINSIZE 25 128
                 WINDOW   0
-                CLS
-                #ifdef "nativeraster"     ; Gráfico de localidade 0
-                    PICTURE 0 
-                    DISPLAY 0
-                    SKIP $picture0OK
-                #else 
-                    #ifndef "tape48"
-                        CLEAR 20
-                        XPICTURE 0
-                        ZERO 20
-                        SKIP $picture0OK
-                    #endif    
-                #endif
+                PICTURE 0 
+                DISPLAY 0
+                SKIP $picture0OK
 
 #ifndef "splitModeON"                  
 >  _     _      WINDOW  1                   ; Se chegássemos aqui, o gráfico 000 não era
