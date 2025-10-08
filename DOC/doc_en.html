@@ -67,23 +67,11 @@
     <li><a href='#thesource'>The Source</a></li>
     <li><a href='#thecompiler'>The Compiler</a></li>
     <li><a href='#theinterpreters'>The Interpreters</a></li>
-    <li><a href='#thegraphics'>The Graphics</a></li>
+    <li><a href='#multimedia'>Multimedia</a></li>
     <li><a href='#help'>Getting help</a></li>
     <li><a href='#supportedlanguages'>Supported Languages</a></li>
   </ul>
  
-  <li><a href='#graphics'>Graphics</a></li>
-  <ul>
-    <li><a href='#graphicsoverview'>Graphics Overview</a></li>
-    <li><a href='#recommendedtools'>Recommended Tools</a></li>
-    <li><a href='#loadingscreens'>Loading Screens</a></li>
-    <li><a href="#colourpalette">Colour palettes</a></li>
-  </ul>
-
-  <li><a href='#sound'>Sound</a></li>
-  <ul>
-    <li><a href='#soundoverview'>Sound Overview</a></li>
-  </ul>
     
   <li><a href='#howtousedaadready'>How to use DAAD Ready</a></li>
   <ul>
@@ -102,6 +90,7 @@
     <li><a href='#conditions'>Conditions</a></li>
     <li><a href='#actions'>Actions</a></li>
     <li><a href='#maluvacondacts'>Maluva Condacts</a></li>
+    <li><a href='#metacondacts'>Meta Condacts</a></li>
     <li><a href='#daadforquillpawdevelopers'>DAAD for The Quill or PAW developers</a></li>
     <li><a href='#errors'>Errors</a></li>
     <li><a href='#theparser'>The Parser</a></li>
@@ -190,9 +179,9 @@
 <p>These are the real heart of DAAD. There is an interpreter for each computer supported on the DAAD system. It runs the game using its collection of routines to carry out the tasks needed by adventure games. It provides the machine independent aspect of DAAD. DAAD Ready also takes care of the interpreters, and creates a .DSK file, .D64 , etc. file for each target machine, which already includes the interpreter, so you don’t really have to care about choosing the right interpreter, DAAD Ready does it for you.</p>
 
 
-<a name="thegraphics"></a>
-<h6>The Graphics</h6>
-<p>Unlike original DAAD, DAAD Ready is not using vector graphics for location images, it is using raster graphics in lieu. To add raster graphics DAAD Ready is using Maluva extension by Uto. We will provide more details about this later in this manual.</p>
+<a name="multimedia"></a>
+<h6>Multimedia</h6>
+<p>Unlike original DAAD, DAAD Ready is not using vector graphics for location images, it is using raster graphics in lieu. There is an <a href='multimedia_en.html'>additional manual</a> dedicated to multimedia.</p>
 
 <a name="help"></a>
 <h6>Getting help</h6>
@@ -220,127 +209,6 @@
   Á É Í Ó Ú Â Ê Î Ô Û À È Ì Ò Ù Ä Ë Ï Ö Ü ý Ý þ Þ å Å ð Ð ø Ø ß 
 </p>
 <p>If your language uses special symbols other than these, still it can be done, provided it still uses roman alphabet in general.</p>
-
-<a name="graphics"></a>
-<h4>Graphics</h4>
-<a name="graphicsoverview"></a>
-<h6>Graphics Overview</h6>
-<p>As stated above, DAAD Ready uses raster graphics for adventures, rather than vector graphics, and it uses Maluva extension for it.</p>
-
-<p>To add graphics, of course you would need different formats for each machine, as they differ a lot.</p>
-
-<p>To add graphics for your adventures, you must place images in the IMAGES subfolder in the DAAD Ready folder, except for CPC games, that you must add the images in the IMAGES/CPC folder, and PC, that you must add the images in the IMAGES/PC folder.</p>
-
-<p>All the images you will have to add will be full screen images, what means 256x192 for Spectrum or MSX1, 160x200 for C64 (HiColor), 320x200 for Plus/4, etc. On the other hand, DAAD Ready will only use first 96 scanlines of every picture, so whatever is below that will be ignored. So, the rule is: you create full screen images for each target you want to have pictures, and DAAD Ready will show first 96-pixel rows per each image. There is an exception for that: PC images must be already 96x200 pixels.</p>
-
-<p>To add graphics, you will have to place images in specific formats in the mentioned folders, those formats are:</p>
-
-<ul>
-  <li>Spectrum 256x192 SCR format for Spectrum +3, Spectrum 128K or ESXDOS</li>
-  <li>256 color indexed PCX 256x192 format for Spectrum Next</li>
-  <li>SCR (extended), MLT or MLT+PAL 256x192 file for ZX-Uno</li>
-  <li>Spectrum 48K TAP version does not support graphics in DAAD Ready</li>
-  <li>Amstrad SCR + PAL format, mode 0, 160x200 for Amstrad CPC (mode 1 320x200 if you don't use split screen).</li>
-  <li>Koala (.KLA) format for C64 HiColor (160x200) or .ART (320x200) for HiRes (without split screen)</li>
-  <li>PRG format for Commodore Plus/4 (320x200)</li>
-  <li>SC2 format for MSX 1 (256x192)</li>
-  <li>SC8 format for MSX 2 (256x192)</li>
-  <li>256 colors indexed PCX file for PC (Maximum 320x200 for VGA or 640x400 for SVA)</li>
-  <li>TrueColor PNG image for HTML/Javascript</li>
-  <li>PNG with 16 colours max, 320x200, for Amiga and Atari ST</li>
-  <li>The Windows version is actually a bundle of the DOS game with DOSBOX, so same graphics are used.</li>
-  <li>The experimental Windows and MacOS targets use the Atari ST/Amiga graphics.</li>
-</ul>
-
-<p>All these formats are very common and easy to create for each platform. </p>
-
-<p>For graphics to work in DAAD Ready they should be named after the location where they should be shown, using three digits. So, if you want a graphic to be the one for location 12, you should put a file named 012.KLA, or 012.PRG, or 012.SCR, etc. depending on the target, in the required folder.</p>
-
-<p>Also, you can add graphics which are not related to locations, using any number of a non-existing location, for instance you can add a graphic file 200.KLA, that won’t be shown automatically because there is not a location #200, but can be loaded on demand by using the XPICTURE condAct (See Maluva CondActs section below).</p>
-
-<p>Please notice DAAD Ready is a simple tool to help you start coding with DAAD and don’t worry about many things, that is why pictures in DAAD Ready games are always placed on top of the screen and are 96 pixels high. It is possible to change that of course, but that is out of DAAD Ready scope.</p>
-
-<a name="recommendedtools"></a>
-<h6>Recommended Tools</h6>
-
-<p>Many of the image formats required for each platform are made easily with emulation tools, this is a list of recommended tools:</p>
-
-<table>
-  <tr><td>Spectrum .SCR 256x192</td><td>This is exported by almost all emulators. ZX Paintbrush can handle them too.</td></tr>
-  <tr><td>Spectrum Next .PCX 256x192</td><td>This is easy to generate with Gimp, just make sure the palette is set to indexed and you picture has no less than 17 colors, cause otherwise Gimp will generate an invalid 16-color PCX.</td></tr>
-  <tr><td>ZX-Uno MLT/PAL 256x192</td><td>MLT files can be created with ZX-Paintbrush or Image2Ulaplus. If the MLT is 12,288 bytes long, the palette information is not in there, please also add a tap file with same name with the palette information (ZX-Paintbrush can export it). DaDither generates better images, but at the moment can't skip the colors needed fro DAAD Ready.</td></tr>
-  <tr><td>CPC .SCR and .PAL 320x200</td><td>ConvImgCPC is a good tool to get images finished. It is important to have in mind color 0 of the image would be used as background for all the screen, and color 1 for text, so either you handle palette so 0 is black and 1 is white, or you find a way to make text readable by ensuring colours 0 and 1 have a decent contrast. Remember that you have to export both the .SCR and the .PAL file for each location, and put them in the folder.</td></tr>
-  <tr><td>C64 .KLA 160x200 and .ART 320x200</td><td>Multipaint is a very good tool for C64 Multicolor images creation.</td></tr>
-  <tr><td>Plus/4 320x200</td><td>The images should be in Boticceli HiRes format and named 001.PRG, 002.PRG, 003.PRG, etc. Botticeli is a Plus/4 application</td></tr>
-  <tr><td>MSX 1 .SC2 256x192</td><td>Nice converter at <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>. AsegúrateMake sure you use standard MSX 1 palette.</td></tr>
-  <tr><td>MSX 2 .SC8 256x212</td><td>Same converter than MSX1 but use SC8 format.</td></tr>
-  <tr><td>PC .PCX 320x200 or 640x400</td><td>This is easy to generate with Gimp, just make sure the palette is set to indexed and you picture has no less than 17 colors, cause otherwise Gimp will generate an invalid 16-color PCX.</td></tr>
-  <tr><td>Atari ST .PNG 320x200</td><td>With a máximum of 16 different colours. Alternatively, you can also use PI1 Degas files. This online tool may be useful: http://atari.anides.de/</td></tr>
-  <tr><td>Amiga .PNG 320x200</td><td>Same as Atari ST</td></tr>
-  <tr><td>HTML .PNG 320x200 Truecolor</td><td>Any modern graphics editor. i.e. Gimp.</td></tr>
-  <tr><td>MSDOS 320x200 or 640x400</td><td>This is easy to generate with Gimp, just make sure the palette is set to indexed and you picture has no less than 17 colors, cause otherwise Gimp will generate an invalid 16-color PCX. will work for both VGA and SVGA modes.</td></tr>
-  <tr><td>Windows</td><td>It’s actually embedding the DOS version into DOSBOX, so no need to add graphics.</td></tr>
-  <tr><td>Windows Experimental</td><td>Uses he AtariST/Amiga graphics</td></tr>
-  <tr><td>MacOS Experimental</td><td>Uses he AtariST/Amiga graphics</td></tr>
-</table>
-
-<p>Please notice original DAAD interpreter used HiRes mode for C64 and Mode 1 for CPC. Those are not the best modes for C64 and CPC when you think about the pictures, although are the best ones that suit both text and pictures. Maluva extension used by DAAD Ready allows you to use what is called a “split mode”, where the upper part of the screen is in one mode and the lower one uses another one. That allows C64 games to user HiColor graphics in top of the screen, while still using HiRes mode at the bottom, so the text is readable. Same goes for CPC, that uses Mode 0 on top and Mode 1 at the bottom.</p>
-
-<p>Sadly, keeping those modes running like this requires complicated interrupt routines that are hard to keep on running while reading from disk. That’s why you would see images or the whole screen is hidden when loading graphics, and you may see some flickering when loading text messages when you use the XMESSAGE o XMES condActs (see Maluva Condacts).</p>
-
-<p>If you do not like that to happen, you can always use traditional modes, and have all the game in HiRes (C64) or mode 1 (CPC). To do that just make sure you edit CONGIF.BAT and change the line showing SET SPLITSCR=SPLIT to SET SPLITSCR=NOSPLIT. Then make sure you use the proper images (Mode 1 images for CPC, and ART files instead of KLA for C64).</p>
-
-<p>If you want to user SVGA graphics in DOS, add “SET SVGA=1” to the CONFIG.BAT file, and the put 640x400, indexed 256 colours PCX files in the IMAGES\PC\SVGA folder instead of IMAGES\PC.</p>
-
-<p>Please notice, if you use SVGA, the game will require a 386 to work.</p>
-
-<a name="loadingscreens"></a>
-<h6>Loading Screens</h6>
-
-<p>It’s possible to add a loading screen for some targets using DAAD-Ready. Please check the following list:</p>
-
-<table>
-<tbody>
-<tr><td>Spectrum</td><td>Enabled for tape targets and PLUS3 target(not for OLDPLUS3). Put a file named DAAD.SCR in the images folder.</td></tr>
-<tr><td>MSX 1</td><td>Put a file named DAAD.SC2 in the images folder.</td></tr>
-<tr><td>MSX 2</td><td>Put a file named DAAD.SC8 in the images folder.</td></tr>
-<tr><td>PC/DOS</td><td>Put a file named DAAD.PCX in the PC images folder (or the SVGA folder)</td></tr>
-<tr><td>Atari ST</td><td>Put a file named DAAD.PNG in the images folder</td></tr>
-<tr><td>Windows Experimental</td><td>Put a file named DAAD.PNG in the images folder</td></tr>
-<tr><td>MacoS Experimental</td><td>Put a file named DAAD.PNG in the images folder</td></tr>
-</tbody>
-</table>
-
-<p>Have in mind for targets that that are not in this list, that doesn’t mean you cannot add a loading screen in most cases, it just means you would have to do it manually as DAAD-Ready doesn’t do it for you. </p>
-
-
-<a name="colourpalette"></a>
-<h6>Colour palette</hjson>
-
-  <p>Some machines supported by DAAD and/or DAAD Ready use what is called "colour palette". Examples are MSDOS, AMIGA, AtariST, Amstrad CPC or Spectrum Next.</p>
-  <p>When making graphics for these machines, you have to take into account that changing the palette will also change the text colours. For example, if in the current image the colour 7 is green, an INK 7 will be green. </p>
-  <p>DAAD Ready makes some efforts to avoid default colours being affected, but it is up to you to make sure that the colour palette of your images does not affect the colour of your texts.</p>
-  <p>The best solution is usually to use a fixed palette for all graphics, or at least fixed in colours 0-15, to avoid these problems.</p>
-
-
-<a name="sound"></a>
-<h4>Sound</h4>
-<a name="soundoverview"></a>
-<h6>Sound Overview</h6>
-
-<p>
-  DAAD is not really good with sound for the current times. Although it has some built in features, like the <a href='#beep'>BEEP</a> condact, that can 
-  be used to play a sound in the target machine, it is not really a good way to play music or sound effects.</p>
-
-  <p>The new DAAD compiler DRC, included in DAAD-Ready, allows you to use the fake condact <a href="#xplay">XPLAY</a>, which allows you to type in a series 
-    of notes, and it will play them in the target machine, but will do it synchronously, so the player has to wait until the music finishes to keep on 
-    playing. Also, the BEEP command uses the basic speaker of the machines, which, in some of them means the AY chip, but in other is just the internal speaker.</p>
-   </p>
-
-   <p>Despite all that, there are some targets that have a specific way of adding samples, which are Atari ST and MSDOS. The old AtariST interpreter did already include
-    a way to play samples, and the new MSDOS interpreter, can do it as well. Please check <a href="#sfx">SFX</a> condact for more information.</p>
-   </p>
-</p>
 
 
 <a name="howtousedaadready"></a>
@@ -421,9 +289,8 @@
 
     <p>Obviously, this can be changed, and there are specific actions to manage windows, but DAAD Ready uses this simple and very common layout in text adventures.</p>
 
-    <p>In 8 bit machines, graphics are shown using the Maluva extension, or directly supported by the new interpreters. These extensions ignore the active window and always draw on top, 
-      so it is an exception to the rule that everything you draw goes to the active window. Anyway, DAAD Ready has already taken that into account, and window 0 has the exact position,
-      width and height of the graphics it draws.</p>
+    <p>In 8 bit machines, graphics are  directly supported by the new interpreters. See the <a href='multimedia_en.html'>Multimedia Manual</a> for more details on how graphics 
+      are affected by windows or not (depends on target).</p>
 
 
 <a name="theflags"></a>
@@ -1918,14 +1785,14 @@ section for the current Verb.
 <condact>MOUSE value value</condact>
 
 
-<p>Only available in MSDOS. Does nothing in other targets.</p>
+<p>Only available in MSDOS and HTML. Does nothing in other targets.</p>
 
 
 <p>The second value indicates an action to perform with the mouse. The first is a parameter for that action.</p>
 
 <table>
   <tr><th>Action</th><th>Parametet 1</th><th>Parameter 2</th></tr>
-  <tr><td>Reset mouse</td><td>Any</td><td>0</td></tr>
+  <tr><td>Reset mouse (DOS only)</td><td>Any</td><td>0</td></tr>
   <tr><td>Show pointer</td><td>Any</td><td>1</td></tr>
   <tr><td>Show pointer</td><td>Any</td><td>2</td></tr>
   <tr><td>Read position: the flag in the first parameter is the first in a list of flags. That flag will contain the state of the buttons, 
@@ -1935,11 +1802,11 @@ section for the current Verb.
   <tr><td>Read position(fine) : Similar to the previous one, but in the flag + 1 the X position divided by 2 will be stored
      if we are in VGA mode, or divided by 4 if it is SVGA, and in the flag + 2 the Y position divided by two in SVGA mode,
       and not divided if it is VGA.</td><td>flagno</td><td>4</td></tr>    
-  <tr><td>Modify pointer: load the file with PTR extension defined by first parameter. If first parameter is 1, it loads 001.PTR</td><td>Pointer number</td><td>5</td></tr>
-  <tr><td>Changes hotspot coord X value: originally the hotspot in the pointer is at x=0, y=0, that is the upper left corner of the opinter. If you change
+  <tr><td>Modify pointer (DOS only): load the file with PTR extension defined by first parameter. If first parameter is 1, it loads 001.PTR</td><td>Pointer number</td><td>5</td></tr>
+  <tr><td>Changes hotspot coord X value (DOS only): originally the hotspot in the pointer is at x=0, y=0, that is the upper left corner of the opinter. If you change
     the pointer maybe you would like to move the hotspot. For instance, if the pointer is a cross, you may want to put it at 5,5, which is the center of the
       9x9 area.</td><td>X</td><td>6</td></tr>
-  <tr><td>Changes hotspot coord Y value: same as before, but for Y value.</td><td>Y</td><td>7</td></tr>
+  <tr><td>Changes hotspot coord Y value (DOS only): same as before, but for Y value.</td><td>Y</td><td>7</td></tr>
 </table>
 
 <ul>
@@ -1980,86 +1847,16 @@ section for the current Verb.
 
 <p>Much as in the previous section, PICTURE and DISPLAY are used mainly for vector graphics, and DAAD Ready is not using them. It may affect you when creating games with graphics for DOS, PCW, Amiga and ST, but once again, we suggest you check DAAD original manual.</p>
 
+
 <a name="sfx"></a>
 <condact>SFX value value</condact>
 
-<p>SFX does nothing in most targets but AtariST and MSDOS have a way to play multimedia files, which is different between them. AtariST can play sound effects,
-     and MSDOS can play effects, music and animations.</p>
+<p>SFX is explained in depth in the <a href='multimedia_en.html'>multimedia manual</a>.</p>
 
+<a name="gfx"></a>
+<condact>GFX value value</condact>
 
-<p>For AtariST, you will have to include your sample files in SPL format in DMG, the original tool to create graphic and sound databases. SPL format is apparently exclusive to Atari ST, and can be created with Soundlab. SoundLab only accepts SPL or AVR as input, so you will have to convert your samples to AVR before using them in DAAD. For now including this automatically in DAAD-Ready is out of reach, so you will have to work with this manually if you want to include samples in Atari ST games.</p>
-<p>Once you have the resource in your DMG database, you can play them using PICTURE n, SFX 0 255, where n is the resource number. Yes, PICTURE, as weird as it sounds.</p>
-
-<p>For MSDOS things are a bit easier:</p>
-
-
-<ul>
-  <li>
-     For sound effects you just have to put your WAV files (they must be mono, PCM 8 bit, and maximum 64K) in the SOUNDS folder of DAAD Ready, named with the resource number with three digits (i.e. 001.wav, 023.wav or 233.wav) and DAAD-Ready will do the job for you. You can easily export to that format using Audacity, for example. Make sure to create a mono file, and export it as WAV PCM 8-bit unsigned. Reducing the file size is up to you, but reducing the sampling frequency helps a lot.
-  </li>
-  <li>
-    For music, you just have to put a DRO 2.0 file in the same SOUNDS folder (001.DRO, 023.DRO, etc.)
-  </li>
-  <li>
-    Finally, to play FLI animations, the files go in the IMAGES folder (001.FLI, 002.FLI, etc.). The game will requiere a 286 or better to play game using FLI animations.
-  </li>
-</ul>. 
-
-<p>
-  DROP format is a capture format used by DOSBOX 0.74. You can use any OPL/Adlib tracker you want as long as it is for DOS, compose in it, and
-   the only thing you have to do is, when you finish the composition, press Ctrl+Alt+F7 in DOSBOX to start the capture, play the music, and
-    when you finish the capture, press Ctrl+Alt+F7 again to stop it. The DRO file will be saved in the "capture" folder, wherever you have DOSBOX installed.
-</p>
-
-
-  <p>SFX does nothing in most targets but AtariST and MSDOS have a way to play multimedia files, which is different between them. AtariST can play sound effects,
-     and MSDOS can play effects, music and animations.</p>
-
- <p>If you captured music in excess, there is a software called <a href="https://jestarjokin.net/apps/drotrimmer/">DRO Trim</a> that can help you.</p>  
-
-<p>Once you have your files in place, you can play them with SFX, this way:</p>
-
-
-<table>
-  <tr><th>Action</th><th>Parameter 1</th><th>Parameter 2</th></tr>
-  <tr><td>Play sample</td><td>Sample number</td><td>1</td></tr>
-  <tr><td>Play sample in endless loop</td><td>Sample number</td><td>2</td></tr>
-  <tr><td>Play sample with specific frequency</td><td>Sample number</td><td>3</td></tr>
-  <tr><td>Play sample in endless loop with specific frequency</td><td>Sample number</td><td>4</td></tr>
-  <tr><td>Stop sample loop</td><td>Music number</td><td>5</td></tr>
-  <tr><td>Play music</td><td>Sample number</td><td>6</td></tr>
-  <tr><td>Play music in endless loop</td><td>Music number</td><td>7</td></tr>
-  <tr><td>Stop music loop</td><td>Music number</td><td>8</td></tr>
-  <tr><td>Play FLI animation</td><td>Animation number</td><td>9</td></tr>
-  <tr><td>Play FlI animation in endless loop</td><td>Animation number</td><td>10</td></tr>
-</table>
-
-<p>Any other value in parameter 2 will be ignored (nothing will happen).</p>
-
-<p>For those actions with a specific frequency, you have to specify the frequency, as a value 0-255 (the higher the value, the higher the frequency), 
-and you have to do it this way:</p>
-
-<code>
-  SFX 2 100<br/>
-  #defb 88 ; 88 is the new frequency<br/>
-</code>
-
-<p>Please notice:</p>
-<ul>
-  <li>First parameter in stop actions is irrelevant, you can put any value between 0 and 255.</li>
-  <li>A sample cannot be played while other is being played. DAAD will fail to play it silently if you try.</li>
-  <li>DAAD will not stop a sample if you try to play another one. That action will fail silently and the first sample will continue playing.</li>
-  <li>DAAD will not stop a music if you try to play another music. That action will fail silently and the first music will continue playing.</li>
-  <li>What you can do is play a music and sample at the same time.</li>
-  <li>DAAD won't stop a sound effect until it finishes. That's what "Stop sample loop" means. On the other hand, stopping a music will have immediate effect.</li>
-  <li>If you try to play a music or sample that doesn't exist, DAAD will fail silently.</li>
-  <li>PCDAAD supports DRO 2.0 format. Old versions of DOSBOX support format 1.0. PCDAAD will not play DRO files if it sees they are v1.0.</li>
-  <li>PCDAAD supports OPL2 and OPL2-dual chips, it does not support OPL3 chip, so capturing OPL3 music may have bad results when played later (PCDAAD will try).</li>
-  <li>There is a flag in the system that includes some control over sound in MSDOS.</li>
-  <li>Only FLI format (Autodesk Animator) is supported, not FLC</li>
-  <li>Only 320x200 FLI is supported, if it is of another size, it will be ignored. If we are in SVGA mode, it will change to VGA to play the FLI, and then it will return to SVGA.</li>
-  <li>FLI animations can be stopped by pressing a key, no matter if it's looped or not.</li>
-  </ul>
+<p>X is explained in depth in the <a href='multimedia_en.html'>multimedia manual</a>.</p>
 
 
 <a name="picture"></a>
@@ -2072,228 +1869,178 @@ and you have to do it this way:</p>
 <condact>DISPLAY value</condact>
 <p>If value is 0, the graphic loaded in RAM is painted on screen (loaded in RAM by PICTURE).</p>
 <p>If the value is not 0 and the graphic is not a subroutine, then the graphic area is cleared.</p>
-<p>DISPLAY is only used in DAAD-Ready for 16 bit machines, Amstrad PCW and HTML target. For the rest of 8 bit machines, XPICTURE is used (see below)</p>
+
 
 
 
 
 
 <a name="maluvacondacts"></a>
-<h6>Maluva CondActs</h6>
+<h6>Maluva Condacts</h6>
 
-<p>Maluva is a DAAD extension which is included de facto in DAAD Ready Maluva handles many things and standardizes some others. For instance, using Maluva you can use new condActs that allow you to load pictures from disk, add additional texts, etc.</p>
-
-<p>Please bear in mind DRC (the new compiler) knows about these condacts, and sometimes may replace them with old condacts automatically, when the original interpreter does not support them, but supports others. For instance it will replace any XPICTURE call with PICTURE calls in all 16 bit targets and PCW, or will replace XBEEP with BEEP in interpreters already supporting BEEP.</p>
-
-<a name="xpicture"></a>
-<condact>XPICTURE locno</condact>
-
-<p>Draws the picture for location locno on top of the screen if the picture file exists.</p>
-
-<a name="xsave"></a>
-<condact>XSAVE opt</condact>
-
-<p>Saves the current game status to disk. The opt parameter is included for backwards compatibility with SAVE condact, but it is ignored. You can use XSAVE 0.</p>
-
-<a name="xload"></a>
-<condact>XLOAD opt</condact>
-
-<p>Loads the current game status from disk. The opt parameter it is also ignored.</p>
+<p>Maluva was a DAAD extension included with DAAD Ready, but it's not an extension anymore. In lieu, the some of the condacts provided by Maluva are now part of the interpreters. These condacts
+  are not available in the Spectrum 48K target, Amiga and ST.</p>
 
 <a name="xmes"></a>
 <condact>XMES "string"</condact>
 
-<p>Displays the string in between quotes. Please notice this condact allows you to add additional messages apart of those in the message tables, so in case you need more text you can expand your game. XMES has the following limitations:</p>
+<p>Writes the string in quotes. Note that this condact allows additional text beyond those in the message tables and the MES, MESSAGE, SYSMESS, and DESC condacts, so your game can display a lot more text. XMES has the following limitations:</p>
 
 <ul>
-  <li>Each message cannot be longer than 511 characters</li>
-  <li>All messages created with XMES or XMESSAGE condacts, once compressed, cannot exceed 64K.</li>
-  <li>Xmessages are read from disk on demand, so for some machines or devices this can be slow. Please use it with care. That also means that some glitches can appear in machine using split modes (C64, CPC and ZX-Uno) when using Xmessage, although for ZX-Uno it is hard to happen as it reads from a very fast SD card.</li>
+  <li>Each message may not exceed 511 characters.</li>
+  <li>All messages used by XMES and XMESSAGE must not exceed 64K once compressed.</li>
+  <li>These xmessages are read from disk on demand, so depending on the reading device, response time may be slow. Use them with care.</li>
+  <li>This also means that if you're using split-mode graphics (see below), visual glitches or screen blackening may occur while reading from disk. If you must use XMES in a long adventure, avoid split-mode if possible.</li>
 </ul>
 
 <a name="xmessage"></a>
-<condact>XMESSAGE "string"</condact>
+<condact>XMESSSAGE "string"</condact>
 
-<p>Same as XMES but executes NEWLINE condact after printing text.</p>
-
-<a name="xpart"></a>
-<condact>XPART value</condact>
-
-<p>If you have a two-part game and want to hold the files in the same disk, you may run into a problem when you must store two different XMB (xmessage) files. As Maluva expect them to be named the same for both parts writing them on same disk would make one overwrite the other. XPART may be run before any XMESSAGE/XMES is executed, so Ma-luva knows it is running some other part.</p>
-<ul>
-  <li>For Spectrum and MSX, the parameter will be added to the '0' at'0.XMB'. So, for instance if value is 1, then Maluva will load 1.XMB instead of 0.XMB, if value is 7 then 7.XMB would be loaded, etc. Do not try to use values above 9, it will not work as you expect.</li>
-  <li>For C64 and CPC, if value is not zero, then 50 will be added to file names. That means instead of loading 00.XMB, 01.XMB, etc. the files 50.XMB, 51.XMB will be loaded. On C64 instead, of file "00" Maluva will read "50", instead of "01", it will take "51", etc.</li>  
-</ul>
+<p>Same as XMES but adds a NEWLINE at the end.</p>
 
 <a name="xsplitscr"></a>
 <condact>XSPLITSCR value</condact>
-<p>For machines supporting split screen (currently Amstrad CPC and Com-modore 64), this condact allows defining which mode will be used. Please notice the value has nothing to do with specific video modes in the target machine, but for a given configuration of modes. This is what mode means for each machine:</p>
+<p>For machines that support split screen (currently Amstrad CPC and Commodore 64), this condact defines how it's done.</p>
+<p>Split screen means having a different graphics mode at the top of the screen (where images appear) and at the bottom (where text is shown).</p>
+<p>This is what "value" means for each machine:</p>
 
 <table>
-<tr><th>target</th><th>upper half video mode</th><th>lower half video mode</th></tr>
-<tr><td>CPC 0</td><td>Mode 1</td><td>Mode 1</td></tr>
-<tr><td>CPC 1</td><td>Mode 0</td><td>Mode 1</td></tr>
-<tr><td>CPC 2</td><td>Mode 2</td><td>Mode 1</td></tr>
-<tr><td>C64 0</td><td>HiRes</td><td>HiRes</td></tr>
-<tr><td>C64 1</td><td>Multicolor</td><td>HiRes</td></tr>
-<tr><td>ZX-Uno 0</td><td>ULA Standard</td><td>ULA Standard</td></tr>
-<tr><td>ZX-Uno 1</td>Timex HiColor with ULAPlus<td></td><td>ULA Standard</td></tr>
+  <tr><th>Machine</th><th>value</th><th>Top mode</th><th>Bottom mode</th></tr>
+  <tr><td>CPC</td><td>0</td><td>CPC Mode 1</td><td>CPC Mode 1</td></tr>
+  <tr><td>CPC</td><td>1</td><td>CPC Mode 0</td><td>CPC Mode 1</td></tr>
+  <tr><td>CPC</td><td>2</td><td>CPC Mode 2</td><td>CPC Mode 1</td></tr>
+  <tr><td>C64</td><td>0</td><td>C64 HiRes</td><td>C64 HiRes</td></tr>
+  <tr><td>C64</td><td>1</td><td>C64 Multicolor</td><td>C64 Hires</td></tr>
 </table>
+
+<p>The screen always split at scanline 96, that is unavoidable.</p>
 
 <a name="xundone"></a>
 <condact>XUNDONE</condact>
 
 <p>
-XUNDONE changes the "done" status to not done. Every time DAAD exe-cutes an action, the internal interpreter status of "done" is set. That means if ISDONE or ISNDONE conditions are executed, they will succeed or not accordingly.
-Please notice unlike NOTDONE, XUNDONE just clears the done status, but does not go to the end of the current process.
-There are cases where even when an action is executed in a process, we do not want to consider the process "done". A clear example is the SYNONYM action. If you write an entry like this, so TURN ON LIGHT it is synonym to SWITCH ON, as soon as SYNONYM is executed, the internal status is already "done".
+  XUNDONE changes the internal “done” status. Every time DAAD executes an action, the interpreter sets the internal “done” flag. That means ISDONE or ISNDONE will succeed or not depending on this status.
+</p>
+<p>
+  Note that unlike NOTDONE, XUNDONE just clears the status without jumping to the end of the current process.
+</p>
+
+<p>
+  Sometimes, even when an action executes in a process, we don’t want it to mark the “done” status. A clear case is using SYNONYM: although it’s technically an action, from the player’s perspective, it does nothing.
 </p>
 
 <code>
-> TURN LIGHT<br/>
-    SYNONYM SWITCH _
+> TURN ON LIGHT<br/>
+SYNONYM PRESS SWITCH
 </code>    
 
-<p>If later you write this entry, it may happen if the user forgot to type "ON", as PREP will fail, the entry will not be successful:</p>
+<p>If you later use this entry and the switch was already pressed, it will fail:</p>
 
 <code>
- > SWITCH _<br/>
- PREP ON<br/>
- MESSAGE "You turn on the lights."<br/>
- DONE
+> PRESS SWITCH<br/>
+ZERO fSwitchPressed<br/>
+MESSAGE "You turn on the light."<br/>
+SET fSwitchPressed<br/>
+DONE<br/>
 </code> 
 
-<p>But as SYNONYM was executed and DAAD considers something has been done, when the response table ends, as status is "done", there won't be a "I don't understand" or "You can't do that message", just noth-ing, so the game will look like this:</p>
+<p>However, since DAAD thinks something was already “done” because of the SYNONYM, instead of a “I don’t understand,” you get:</p>
 
 <code>
-> TURN LIGHT<br/>
-    SYNONYM SWITCH _<br/>
-> (next prompt)
+What now?<br/>
+> PRESS SWITCH<br/>
+What now?<br/>
+><br/>
 </code>
 
-<p>For this case and others were, despite something having been done, you do not want the "done" status to remain set, you can use XUNDONE, which will clear the "done" flag.
-Pleas notice there is no XDONE or like activate he DONE flag, be-cause you can activate it by running any action condact. If you want a condact which does nothing, you can use "GOTO @38".</p>
+<p>In such cases where something was “done” but you don’t want to mark the internal “done” flag, use XUNDONE.</p>
 
-<a name="xspeed"></a>
-<condact>XSPEED value</condact>
+<p>Note that there’s no XDONE condact to set “done,” because you can use any condact that does nothing, like COPYFF 100 100.</p>
 
-<p>This function allows you to set CPU Speed in ZX-Uno to 7Mhz. Please notice if value is not 0 or 1,
-  XSPEED call will be just ignored. Increasing the speed makes the game text be printed faster and helps 
-  a lot with image loading. Sadly, original BEEP implementation in the ZX Spectrum interpreter is also speed
-  up, so please make sure you restore standard speed before a BEEP or XPLAY, or it will sound at a higher
-  frequency (sharper).</p>
 
-<a name="xbeep"></a>
-<condact>XBEEP duration tone</condact>
+<a name="metacondacts"></a>
+<h6>Meta-Condacts</h6>
 
-<ul>
-  <li>Duration is in 1/50 for second, so duration 50 equals one sec-ond.</li>
-  <li>Tone is a value from 48 to 238, which allow playing notes for 8 different octaves. Values above or below will be taken as silence.</li>
-</ul>
-
-<p>Only even values are valid, that is C is 48, C# is 50, D is 52, D# is 64, E is 66, F is 68, etc. If you use an odd value, you will probably just get noise.</p>
-
-<p>For each octave this are the ranges:</p>
-
-<table>
-<tr><th>Octave</th><th>Range</th></tr>
-<tr><td>1</td><td>48-70</td></tr>
-<tr><td>2</td><td>72-96</td></tr>
-<tr><td>3</td><td>98-118</td></tr>
-<tr><td>4</td><td>120-142</td></tr>
-<tr><td>5</td><td>144-166</td></tr>
-<tr><td>6</td><td>168-190</td></tr>
-<tr><td>7</td><td>192-214</td></tr>
-<tr><td>8</td><td>216-238</td></tr>
-</table>
-
-<p>For machines not supporting XBEEP, DRC compiler will replace XBEEP with BEEP.</p>
+<p>A meta-condact isn’t a real condact in the sense that DAAD doesn’t know it exists. It’s actually a compiler trick that allows writing some things in a more convenient and human-readable way.</p>
 
 <a name="xplay"></a>
 <condact>XPLAY “string”</condact>
 
-<p>Although not exactly a Maluva condact, but a fake condact, XPLAY al-lows you to play melodies using BEEP in much convenient way.</p>
+<p>DAAD can make sounds with the BEEP condact, which is handy for a beep, but not ideal for melodies—even short ones.</p>
 
-<p>The string expected it’s a subset of MML format (see below).</p>
+<p>XPLAY lets you specify a melody in a format closer to music notation, which the compiler converts into a series of BEEPs and PAUSEs (for silences), which DAAD understands.</p>
 
-<p>Works in all 8 bit machines except for PCW (because so far it doesn't support BEEP or XBEEP).
+<p>Only one channel is supported.</p>
 
-XPLAY is not reallya condact, but a compiler fake condact. When the compiler finds XPLAY, it will replace with a chain of XBEEP/BEEP  and PAUSE condacts, and each machine will play the notes 
-as it uses to play them (i.e Spectrum will use the speaker, CPC will use the AY chip). 
+<p>The expected string is a subset of the MML format (see below).</p>
 
-<p>Only one channel is supported by DAAD.</p>
-<p>Please make also sure you read the notes about XBEEP and XPLAY in the description of XSPEED condact above, if you are targeting  ZX-Uno.</p>
-
-<p><u>The MML format</u></p>
+<p><u>The MML Format</u></p>
 
 <table>
 <tr><th>Symbol and meaning</th></tr>
-<tr><td>[A-G][#:halftone][num:length][.:period] Period increases length</td></tr>
-<tr><td>L = Length sets note length [1-64] (1=full note, 2=half note, 3=third note, ..., default:4)</td></tr>
-<tr><td>R = Pause [1-64] (1=full pause, 2=half pause, 3=third pause, ...)</td></tr>
-<tr><td>N = Note Pitch [0-96]</td></tr>
-<tr><td>O = Octave [1-8] (default:4)</td></tr>
-<tr><td>T = Tempo [32-255] (indicates the number of quarter notes per minute, default:120)</td></tr>
-<tr><td>V = Volume [0-15] (default:8)</td></tr>
-<tr><td>&lt; = Down one octave</td></tr>
-<tr><td>&gt; = Up one octave</td></tr>
+<tr><td>[A-G][#:sharp][num:duration][.:dot] The dot increases duration</td></tr>
+<tr><td>L = Note duration [1-64] (1=whole note, 2=half note, 3=third note, ..., default is 4)</td></tr>
+<tr><td>R = Rest [1-64]</td></tr>
+<tr><td>N = Note pitch [0-96]</td></tr>
+<tr><td>O = Octave [1-8] (default: 4)</td></tr>
+<tr><td>T = Tempo [32-255] (quarter notes per minute, default is 120)</td></tr>
+<tr><td>V = Volume [0-15] (default: 8)</td></tr>
+<tr><td>&lt; = Lower octave</td></tr>
+<tr><td>&gt; = Raise octave</td></tr>
 </table>
 
-<p>This is a string which plays Bocherinni’s minuetto:</p>
+<p>This string plays Boccherini's minuet:</p>
 
-<p>T110S3M5000O5G16F#16G16A16G8O4G4B4O5D8D8C8C4C16O4B16O5C16D16C8O4D4A4O5C8C8O4B8B4O5G4.E16D8C#8C#8C#8G4.E16D8C#8C#8C#8G4.E16F#8D8O4B8O5G8E4.D32E32D4</p>
+<p>XPLAY "T110S3M5000O5G16F#16G16A16G8O4G4B4O5D8D8C8C4C16O4B16O5C16D16C8O4D4A4O5C8C8O4B8B4O5G4.E16D8C#8C#8C#8G4.E16D8C#8C#8C#8G4.E16F#8D8O4B8O5G8E4.D32E32D4"</p>
 
 <a name="xdata"></a>
 <condact>XDATA</condact>
 
-<p>This is also a fake condact. In a way very similar to XPLAY, that is converted to a series of BEEPs (and PAUSEs), XDATA is converted into a series of LETs.</p>
+<p>The XDATA meta-condact serves to shorten a series of LETs. The first value is a flag number, and the rest are values to assign to that flag and the following ones.</p>
 
-<p>For instance:</p>
+<p>For example:</p>
 <code>
-  XDATA "100 2 8 9"<br/>
+  XDATA "100,2,8"<br/>
 </code>
-<p>becomes</p>
+<p>becomes:</p>
+<code>
+  LET 100 2<br/>
+  LET 101 8<br/>
+</code>
+
+<p>It’s very useful when you want to organize certain data in flags and makes it easier to write lots of LETs. For example, in an RPG you might have CON, INT, and DEX for 8 types of enemies starting at flag 100. You could write:</p>
+
+<code>
+  XDATA "100,   2,8,9,    3,3,7,    6,10,4,     5,1,40,    6,2,3,    104,5,4,    8,5,12"<br/>
+</code>
+
+<p>And this would be compiled to:</p>
+
 <code>
   LET 100 2<br/>
   LET 101 8<br/>
   LET 102 9<br/>
+  LET 103 3<br/>
+  LET 104 3<br/>
+  LET 105 7<br/>
+  LET 106 6<br/>
+  LET 107 10<br/>
+  LET 108 4<br/>
+  LET 109 5<br/>
+  LET 110 1<br/>
+  LET 111 40<br/>
+  LET 112 6<br/>
+  LET 113 2<br/>
+  LET 114 3<br/>
+  LET 115 104<br/>
+  LET 116 5<br/>
+  LET 117 4<br/>
+  LET 118 8<br/>
+  LET 119 5<br/>
+  LET 120 12<br/>
 </code>
 
-<p>It's useful if you want to organize data into the flags, and eases the process of writing too many LETs.</p>
-
-<p><u>Error handling in Maluva condacts</u></p>
-
-<p>Some Maluva functions may fail cause of external reasons. For in-stance, reading a picture from disk by XPICTURE may fail cause the file is not there, cause the user extracted the disk, etc. Maluva does nothing in those cases, at least apparently, so if for instance a picture is not there, no picture will be loaded, and if the XMes-sage file is not there, the message will not be shown but nothing else.</p>
-<p>But Maluva does something: when a call to Maluva fails, the 7th bit of flag 20 is set, when it succeeds, the 7th bit of flag 20 is cleared. In other words, if after a XPICTURE call you do "GT 20 127", that condition will succeeded if the picture failed to load. That way, you can check and display a message (i.e. Warning: image not found, please insert disk):</p>
-
-<code>
->_ _ <br/>
-XPICTURE @38<br/>
-GT 20 127<br/>
-MESSAGE "Warning: image not found, please insert disk"<br/>
-</code>
-
-<p>or even this if you want to wait until the disk is inserted</p>
-
-<code>
-    > _ _ <br/>
-XPICTURE @38<br/>
-GT 20 127<br/>
-MESSAGE "Warning: image not found, please insert disk and press any key"<br/>
-ANYKEY<br/>
-SKIP -1
-</code>
-
-<p>On the other hand, Maluva can also report errors via de "done" flag status. If you set bit 0 of flag 20 (LET 20 1), Maluva, aside of saving result to flag 20, will also update the internal "done" flag accordingly, so if the call succeeds, the done status will be set but if not the done status will remain as it was when the call was executed. That way you can use ISDONE or ISNDONE after Maluva call. For instance, if in the initialization process you have done that LET 20 1, you can later:</p>
-
-<code>
->	_ _ <br/>
-AT 200<br/>
-LET 20 1<br/>
-XPICTURE 120<br/>
-ISNDONE<br/>
-MESSAGE "Error: picture not found, please insert disk"<br/>
-</code>
+<p>As you can see, you separate the values by comma, but you can also leave empty space  to separate data visually.</p>
 
 <a name="daadforquillpawdevelopers"></a>
 <h6>DAAD for Quill/Paw developers</h6>
@@ -2326,7 +2073,7 @@ MESSAGE "Error: picture not found, please insert disk"<br/>
 
 <p>Rather than DAAD, this is an advantage of DRC, the new DAAD compiler. As you have seen in the description of MESSAGE, MES, SYSMESS and DESC, you can now just make MESSAGE have a string as parameter, so you do not have to bother with message numbers.</p>
 
-<p>Also, Maluva provides XMESSAGE condAct, that also expects a string as parameter, and will give you 64K more of messages for longer adventures. Please notice xmessages are limited by memory used (64K) and not by number of messages.</p>
+<p>Also, ther is the XMESSAGE condAct, that also expects a string as parameter, and will give you 64K more of messages for longer adventures. Please notice xmessages are limited by memory used (64K) and not by number of messages.</p>
 
 <p>Also is DRC the one that handles international character printing and takes care about repeated messages, so if you write same message twice, only one is used internally</p>
 
@@ -3090,6 +2837,8 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
   <li>To Cesar Nicolás Gonzalez, author of CPCE</li>
   <li>To Mark Adler, John Bush, Karl Davis, Harald Denker, Jean-Michel Dubois,Jean-loup Gailly, Hunter Goatley, Ed Gordon, Ian Gorman, Chris Herborth, Dirk Haase, Greg Hartwig, Robert Heath, Jonathan Hudson, Paul Kienitz, David Kirschbaum, Johnny Lee, Onno van der Linden, Igor Mandrichenko, Steve P. Miller, Sergio Monesi, Keith Owens, George Petrov, Greg Roelofs, Kai Uwe Rommel, Steve Salisbury, Dave Smith, Steven M. Schweda, Christian Spieler, Cosmin Truta, Antoine Verheijen, Paul von Behren, Rich Wales and Mike White, authors of ZIP utility.</li>
   <li>To Zorg, author of MSA Converter</li>
+  <li>To PiCiJi, author of Denise</li>
+  <li>To Einar Saukas & Urusergi, for ZX0</li>
 </ul>
 
 <a name="appendixf"></a>
@@ -3103,7 +2852,7 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
 <li>WinAPE is (C) Richard Wilson. WinAPE is Freeware.</li>
 <li>OpenMSX is (C) several authors. Find more information at <a href="https://openmsx.org/">OpenMSX website</a>.</li>
 <li>C64DEbugger is (C) Marcin Skoczylas, although is also using some of the Vice64 code. If you like it and use it consider donating beer to
-<a href="mailto:slajerek@gmail.com">slajerek@gmail.com</a> or if you prefer money, at <a href="http://tinyurl.com/C64Debugger-PayPal">http://tinyurl.com/C64Debugger-PayPal</a>.</li>
+<li>Denise is (C) PiCiJi, ant it's under GPL v3 license. </li>
 <li>Yape is (C) Attila Grósz and its freeware. Please find more information at <a href="http://yape.plus4.net">Yape website</a>.</li>
 <li>DOSBOX is (C) Peter "Qbix" Veenstra, Sjoerd "Harekiet" van der Berg, Tommy "fanskapet" Frössman, Ulf "Finster" Wohlers. Find source code and info at <a href="https://www.dosbox.com/">dosbox.com</a>.</li>
 <li>CP/M Box (PCW emulator) is (C) Habisoft. Find more information at <a href="http://www.habisoft.com/pcw/index_uk.asp">Habisoft website</a>.</li>
@@ -3119,8 +2868,9 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
 <li>Hatari is (C)Thomas Hut, Nicolas Pomarède, Eero Tamminen and others, and is subject to GNU GPL license, although it contains a library  (DLL) with a more restrictive license, whose restrictivemess only affects distribution together with paid software, which is not the case with DAAD Ready. Please notice anyway that it’s not legal to distribute your game together with our game if it’s not free (as in free beer).</li>
 <li>ZXDAAD128 and its related tools are GPL and (C) Sergio Chico, DRB128 is (C)UtoDev and Sergio Chico.</li>
 <li>ADG is (C) Jose Luis Cebrián and is released under the MIT license. Please check <a href="https://github.com/jlcebrian/ADP">its repository</a> for details.</li>
-<li>-	ZIP is © Mark Adler, John Bush, Karl Davis, Harald Denker, Jean-Michel Dubois,Jean-loup Gailly, Hunter Goatley, Ed Gordon, Ian Gorman, Chris Herborth, Dirk Haase, Greg Hartwig, Robert Heath, Jonathan Hudson, Paul Kienitz, David Kirschbaum, Johnny Lee, Onno van der Linden, Igor Mandrichenko, Steve P. Miller, Sergio Monesi, Keith Owens, George Petrov, Greg Roelofs, Kai Uwe Rommel, Steve Salisbury, Dave Smith, Steven M. Schweda, Christian Spieler, Cosmin Truta, Antoine Verheijen, Paul von Behren,   Rich Wales and Mike White, and its license is includ-ed in the LICENSE.TXT file at TOOLS/ZIP folder.</li>
-<li>-	MSA Converter is (C) Zorg</li>
+<li>ZIP is © Mark Adler, John Bush, Karl Davis, Harald Denker, Jean-Michel Dubois,Jean-loup Gailly, Hunter Goatley, Ed Gordon, Ian Gorman, Chris Herborth, Dirk Haase, Greg Hartwig, Robert Heath, Jonathan Hudson, Paul Kienitz, David Kirschbaum, Johnny Lee, Onno van der Linden, Igor Mandrichenko, Steve P. Miller, Sergio Monesi, Keith Owens, George Petrov, Greg Roelofs, Kai Uwe Rommel, Steve Salisbury, Dave Smith, Steven M. Schweda, Christian Spieler, Cosmin Truta, Antoine Verheijen, Paul von Behren,   Rich Wales and Mike White, and its license is includ-ed in the LICENSE.TXT file at TOOLS/ZIP folder.</li>
+<li>MSA Converter is (C) Zorg</li>
+<li>ZX0 is (C) Einar Saukas & Urusergi</li>
 
 
 </ul>
