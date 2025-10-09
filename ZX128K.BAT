@@ -116,6 +116,7 @@ DEL *.XMB > nul 2>&1
 DEL *.SDG > nul 2>&1
 DEL DAAD.SCR > nul 2>&1
 DEL *.TMP> nul 2>&1
+DEL *.PT > nul 2>&1
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
@@ -147,6 +148,7 @@ DEL *.SDG > nul 2>&1
 DEL *.PT > nul 2>&1
 DEL DAAD.SCR > nul 2>&1
 DEL *.TMP> nul 2>&1
+DEL *.PT > nul 2>&1
 
 
 
