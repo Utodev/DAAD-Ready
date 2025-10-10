@@ -148,6 +148,8 @@ foreach ($pagecontent as $page => &$files)
 
 if ($summary)
 {
+    echo "128K RAM Summary\n";
+    echo "----------------------------------\n";
     for($i=0;$i<count($pages);$i++)
     {
         if (count($pagecontent[$i]) > 0)
@@ -159,6 +161,7 @@ if ($summary)
             echo "Page {$pages[$i]} will not be used.\n";
         }
     }
+    echo "----------------------------------\n";
 }
 
 
