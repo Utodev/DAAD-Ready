@@ -48,6 +48,10 @@ $pagecontent = array(array(),array(),array(),array()); // files already assigned
 // First, we need to put the content of the 0.XMB file
 // All the parts must be at offset 0, in their pages so we add them first 
 $xmb_file= '0.XMB';
+if (!file_exists($xmb_file)) 
+{
+    file_put_contents($xmb_file, ''); // Create empty file if it does not exist
+}
 if ($xmb_file)
 {
     $xmb_parts = array();
