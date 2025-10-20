@@ -1490,7 +1490,7 @@ function mmlToBeep($note, &$values, $target, $subtarget)
                      'C-'=>-1,        'D-'=>1,         'E-'=>3, 'F-'=>4,         'G-'=>6,         'A-'=>8,          'B-'=>10);
     switch ($target)
     {
-        case 'ZX':  if (($subtarget=='NEXT') || ($subtarget=='PLUS3') || ($subtarget=='UNO') || ($subtarget=='128K') || ($subtarget=='48K')) 
+        case 'ZX':  if (($subtarget=='NEXT') || ($subtarget=='PLUS3') || ($subtarget=='UNO') || ($subtarget=='128K')) 
                         {
                             $baseLength = 100;
                         }
