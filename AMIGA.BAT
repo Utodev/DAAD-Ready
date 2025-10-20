@@ -56,7 +56,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF amiga %GAME%.DSF
+TOOLS\DRC\DRF amiga %GAME%.DSF -force-normal-messages 
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -133,7 +133,7 @@ ECHO in .ADF format, as long as it fits in a disk.
 )
 IF "%BASELANG%" == "ES" (
 ECHO EL JUEGO SE HA COMPILADO CORRECTAMENTE, PULSE ENTER PARA INICIAR EL EMULADOR, O CTRL+C PARA PARAR
-ECHO El juego que se ejecutará está en RELEASE\AMIGA, pero podéis encontrarlo también en la carpeta
+ECHO El juego que se ejecutara esta en RELEASE\AMIGA, pero podeis encontrarlo tambien en la carpeta
 ECHO RELEASE\AMIGA\FLOPPY, en formato .aDF, siempre que quepa en un disco.
 
 )
