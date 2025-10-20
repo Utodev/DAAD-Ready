@@ -1,102 +1,92 @@
 
-DAAD Ready A ??/??/2025
+DAAD Ready A 20/10/2025
 =======================
 
-DAAD Ready comes with major changes, although most of them are internal and not visible for users:
+Documentation
+-------------
+Documentation has been separated into basic and multimedia documentation.  Multimedia documentation
+includes basic and advanced graphics, audio and animations/video information.
 
-- Documentation: documentation has been separated into basic and multimedia documentation.
-                 Multimedia documentation includes basic and advanced graphics, audio and 
-                 animations/video information.
+Multimedia
+----------
+- DAAD Ready can now add SFX sounds by adding 8 bit mono WAV files to SOUNDS folder, using the classic 
+  PICTURE/SFX approach, in the Amiga, PC/DOS and Atari ST targets. The HTML interpreter can do the same
+  with MP3 files.
+- You can also add DRO files to SOUNDS folder to play OPL music in the background in the PC/DOS target. 
+  The PC/DOS target can play music and sound effects at the same time,and has extended ways to play the
+  SFX sounds, aside of the original  PICTURE/SFX approach (i.e. repeat, loop). The HTML interpreter can
+  do the same with MP3 files.
+- The PC/DOS interpreter now supports floating/fixed images and partial palette loading. It also supports
+  FLI 320x200 animations and MOUSE condact.
+- The HTML interpreter now supports floating/fixed images. It also supports MP4 animations and both BEEP
+  and MOUSE condact.
+- Spectrum Next and ZX-Uno interpreters don't use XPICTURE anymore, and now use original PICTURE/DISPLAY
+  approach. They also supports floating/fixed images and partial palette loading.
+- Spectrum +3, Spectrum 128K, Spectrum ESXDOS also use PICTURE/DISPLAY now, and support floating/fixed
+  images. Spectrum +3 also support buffered images (the others don't really need it).
+- Amstrad CPC, C64, Plus/4 and MSX1 interpreters now use PICTURE/DISPLAY also, but only support Maluva 
+  style fixed images (top image) and neither support floating images nor buffered images.
+- CPC interpreter does now support BEEP.
+- Split screen modes in CPC and C64 are not default modes anymore. Users have to activate them if they
+  want to use them. 
+- Some changes have been made in default fonts so the upper font looks different from the lower one. 
+  Also, look of the character "ç" has been improved.
 
-- ATARIST: DAAD Ready can now play SFX sounds by adding WAV files to SOUNDS folder, using the classic PICTURE/SFX approach. 
-           It's explained in the new multimedia manual.
+Other features
+--------------
+- CPC games can now run from drive B.
+- In the new interpreters, based in original source code, some of the remaining "Maluva condacts" have been
+  implemented internally:
+    + XMESSAGE: implemented in all targets that used Maluva before.
+    + XUNDONE: implemented in all targets that used Maluva before.
+    + XSPLITSCR: implemented in all targets that used split screen before (C64 and CPC).
+    + XPART: has been removed because of lack of use.
+    + XSPEED: has been removed, although the targets that used it before (Spectrum Next and ZX-Uno) control 
+      the speed internally, so it's not required anymore.
+- PCW interpreter does also include XMESSAGE and XUNDONE support. It also doesn't shown the "part" selection
+  screen anymore.       
+- Targets not supporting XMESSAGES (Amiga, AtariST and Spectrum 48K) use the -force-normal-messages parameter
+  to DRC, so the game will not use XMESSAGES but the normal messages system. Authors can now work with XMESSAGES
+  if needed while not needing  to add #ifdef for some targets
 
-- AMIGA: DAAD Ready can now play SFX sounds by adding WAV files to SOUNDS folder, using the classic PICTURE/SFX approach.
-         It's explained in the new multimedia manual.
+Bug fixes
+---------
+- Fixed WHATO condAct in the PC/DOS interpreter. It was not working fine when using adjectives.
+- Fixed a bug where flag 63 was not being updated in many interpreters when WINDOW was called.
+- Fixed a bug in the CPC and PCW English interpreters that were not allowing the WINAT condact to work  properly.
+- Fixed a bug where the CPC interpreter was usign a key for the "Ñ" character, which overlapped the "N" key in 
+  AZERTY keyboards. It uses now the one just right of that one, to avoid overlapping.
 
-- MSDOS: support for OPL2 music and 8 bit mono sound samples vía SFX condact straight ahead (without
-         using PICTURE first). It also supports the old PICTURE/SFX combination for samples though.
-         Interpreter supports now floating images and partial palette updates. Also support for FLI 
-         animations -via SFX condact- added. WHATO condAct was failing when using adjectives, fixed.
-         Finally, support for MOUSE condact added.
+Important changes in interpreters
+---------------------------------
+- All Spectrum targets but the 48K one, C64, Plus4, CPC and MSX1 don't support vectorial graphics anymore. This 
+  means the almost 2K of RAM used by the Maluva extension before are now available for the game, as the new 
+  interpreters replace the vectorial graphics with the PICTURE/DISPLAY approach.
+- The old MSDOS target has been definitively removed.
+- ZXDAAD128 has been replaced as main interpreter for the Spectrum 128K and +3 targets. Now, a new interpreter 
+  based in the original source codeis used. ZXDAAD128 remains though in the experimental targets.
 
-- HTML: interpreter supports now floating images and partial palette updates. Also supports MP3 music
-        and MP3 sound samples via SFX condact straight ahead (without using PICTURE first), but also
-        via the old PICTURE/SFX combination for samples. It also supports MP4 animations via SFX 
-        condact. Finally, support for BEEP and MOUSE condacts added.
+Quick notes about Spectrum 128K tape version
+---------------------------------------------
+- The new 128K tape interpreter stores XMESSAGEs and IMAGES in the upper pages of the Spectrum 128K RAM. The rest
+  remains in the same place as the old 48K interpreter. This means that there may be free RAM available, but still 
+  the game not fitting. If you run out of 'lower' RAM, you can replace some MESSAGE/MES with XMESSAGE/MES, so the
+  text of those message will be stored in the upper pages. 
 
-- Spectrum Next: new fully native interpreter based on original DAAD code, with support of PICTURE/DISPLAY
-                 in the 16 bit interpreters style (with floating images and limited palette updates), plus 
-                 BEEP support, plus some built in Maluva condacts as XMESSAGE o XUNDONE. This interpreter
-                 does not support drawstring graphics anymore, and all the new features are available 
-                 without taking the almost 2 Kb of extra space that the Maluva extension took. Also fixes bug
-                 when interpreter was not properly updating flag 63 when WINDOW was called.                 
+- The image compression takes a while, so the ZX128K.BAT file doesn't create all the images every time. If you want
+  to process again some image, you will have to delete the files with extension .zx0 and .128 from the IMAGES. That
+  will force compression of those images again. Also, if you want to delete an image, you will have to delete the .scr
+  file, but also the .zx0 and .128 files.
 
-- ZX Spectrum +3: new fully native interpreter based on original DAAD code, with support of PICTURE/DISPLAY
-                  in the 16 bits interpreters style (with floating images and pre-buffered images), plus
-                  BEEP support, plus some built  in Maluva condacts as XMESSAGE o XUNDONE. This interpreter does
-                  not support drawstring graphics anymore, and all the new features are available without taking
-                  the almost 2 Kb of extra space that the Maluva extension took. Also fixes bug when interpreter
-                  was not properly updating flag 63 when WINDOW was called.
+-  In upper RAM, XMESSAGES fill the pages first, then the images are placed in the remaining space using a "bigger than
+  fits first" algorythm. Images will compress better if they are simpler (the more blank space the better). Also, it will 
+  compress better if there are repeated patterns in the image. If you run out of space try to make them simpler. Also,
+  you can try to use the same image in different locations.
 
-- ZX Spectrum 128K (tape): new  full native interpreter based on original DAAD code, with support of PICTURE/DISPLAY
-                           in the 16 bits interpreters style(with floating images), plus BEEP support, plus some 
-                           built in Maluva condacts as XMESSAGE or XUNDONE. This interpreter does not support 
-                           drawstring graphics anymore, and all the new features are available without taking
-                           the almost 2 Kb of extra space that the Maluva extension took. Also fixes bug when
-                           interpreter was not properly updating flag 63 when WINDOW was called.
-
-
-- ZX-Uno: new full native interpreter based in original DAAD code, with support of PICTURE/DISPLAY in the 16 
-          bits interpreters style (with floating images  plus limited palette updates), plus BEEP support, 
-          plus some built Maluva condacts as XMESSAGE or XUNDONE. This interpreter does not support drawstrings
-          graphics anymore, and all the new features are available without taking the almost 2 kilobytes of 
-          extra space that the Maluva extension took. Also fixes bug when interpreter was not properly updating 
-          flag 63 when WINDOW was called.
-
-- ZX-ESXDOS: new full native interpreter based in original DAAD code, with support of PICTURE/DISPLAY in the
-             16 bits interpreters style (with floating images), plus BEEP support, plus some built Maluva condacts 
-             as XMESSAGE o XUNDONE. This interpreter does not support drawstrings graphics anymore, and all the new
-             features are available without taking the almost 2 kilobytes of extra space that the Maluva extension
-             took. Also fixes bug when interpreter was not properly updating flag 63 when WINDOW was called.
-
-- MSX1: new interpreter with support of PICTURE/DISPLAY, but not full (only fixed top image as with old Maluva 
-        extension is possible). The PICTURE/DISPLAY feature replaces the old drawstrings graphics, so almost 2Kb
-        of RAM are available. Also fixed a bug when interpreter was not properly updating flag 63 when WINDOW 
-        was called. Also, Maluva condacts XMESSAGE and XUNDONE are supported.  
-
-- CPC: new interpreter with support of PICTURE/DISPLAY, but not full (only fixed top image as with old Maluva 
-        extension is possible). The PICTURE/DISPLAY feature replaces the old drawstrings graphics, so almost 2Kb
-        of RAM are available. Also fixed a bug when interpreter was not properly updating flag 63 when WINDOW 
-        was called. Also, Maluva condacts XMESSAGE and XUNDONE are supported. Also fixed a bug with WINAT
-        in the English interpreter. Also, split screen mode is not the default mode anymore. Authors have to activate
-        it if they want to use it.Also, CPC games can now run from drive B". Also, fixed a bug that prevented users
-        with AZERTY keyboard to type the m/M characters. To avoid it, the enia (ñ) character has been moved to the key 
-        with the + symbol instead the of the star key. You still can type the enia character using CTRL+N, that hasn't 
-        changed. Finally, BEEP condact implemented. 
-
--C64: new interpreter with support of PICTURE/DISPLAY, but not full (only fixed top image as with old Maluva 
-      extension is possible). The PICTURE/DISPLAY feature replaces the old drawstrings graphics, so almost 2Kb
-      of RAM are available. Also fixed a bug when interpreter was not properly updating flag 63 when WINDOW 
-      was called. Also, Maluva condacts XMESSAGE and XUNDONE are supported. Finally, split screen mode is not the default 
-      mode anymore. Authors have to activate it if the want to use it.
-
--PLUS/4: new interpreter with support of PICTURE/DISPLAY, but not full (only fixed top image as with old Maluva 
-         extension is possible). The PICTURE/DISPLAY feature replaces the old drawstrings graphics, so almost 2Kb
-         of RAM are available. Also fixed a bug when interpreter was not properly updating flag 63 when WINDOW 
-         was called. Also, Maluva condacts XMESSAGE and XUNDONE are supported.  
-
-- PCW: New interpreter is a 1-part interpreter, so no more asking for which part to play. Also, it includes 
-       embedded support for XMESSAGE and XUNDONE. Also fixed a bug when interpreter was not properly updating 
-       flag 63 when WINDOW was called. Also fixed a bug with WINAT in the English interpreter.
-       
-- FONTS: Some changes made in default fonts so the upper font looks different from the lower one. Also, look of 
-         the character "ç" has been improved.
-
-- OLDMSDOS: old MSDOS target has been definitively removed.
+- The experimental 128K interpreter has differente approaches for the way the RAM is handled, so you may try to use it
+  as well. Have in mind though it's experimental, and bugs may appear. 
 
 
- 
 DAAD Ready 0.9.3 27/03/2024
 ===========================
 

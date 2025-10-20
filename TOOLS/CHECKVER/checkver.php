@@ -3,7 +3,7 @@
 $current_version = "A";
 
 
-$lvStr = $latest_version = file_get_contents("https://www.ngpaws.com/downloads/DAAD/DAADReady/LATEST_VERSION.TXT");
+$lvStr = $latest_version = file_get_contents("https://www.ngpaws.com/downloads/DAAD/DAADReady/LATEST_VERSION_A_SERIES.TXT");
 if ($latest_version===false) $lvStr = 'Unable to connect to server';
 echo "DAAD Ready version (installed): $current_version\n";
 echo "DAAD Ready version (last): $lvStr\n";
