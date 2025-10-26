@@ -72,13 +72,22 @@ ECHO.
 
 CD IMAGES
 del *.128 > nul 2>&1 ; 
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\ZX0\zx0.exe 00%%i.SCR 00%%i.zx0  > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\ZX0\zx0.exe 0%%i.SCR 0%%i.zx0 > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\ZX0\zx0.exe %%i.SCR %%i.zx0 > nul 2>&1
 
-for /L %%i in (0, 1, 9) do IF exist 00%%i.ZX0 ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 00%%i.zx0 00%%i.128 256 %IMGLINES% 0,0  > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 0%%i.zx0 0%%i.128 256 %IMGLINES% 0,0 > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 %%i.zx0 %%i.128 256 %IMGLINES% 0,0 > nul 2>&1
+SET IMGWIDTH=256
+
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\DRC\scrcrop.exe 00%%i.SCR 00%%i.SCT %IMGWIDTH% %IMGLINES%  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR ..\TOOLS\DRC\scrcrop.exe 0%%i.SCR 0%%i.SCT %IMGWIDTH% %IMGLINES%  > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR ..\TOOLS\DRC\scrcrop.exe %%i.SCR %%i.SCT %IMGWIDTH% %IMGLINES%  > nul 2>&1
+
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCT ..\TOOLS\ZX0\zx0.exe 00%%i.SCT 00%%i.zx0  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCT  ..\TOOLS\ZX0\zx0.exe 0%%i.SCT 0%%i.zx0 > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.SCT  ..\TOOLS\ZX0\zx0.exe %%i.SCT %%i.zx0 > nul 2>&1
+
+del *.SCT > nul 2>&1
+
+for /L %%i in (0, 1, 9) do IF exist 00%%i.ZX0 ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 00%%i.zx0 00%%i.128 %IMGWIDTH% %IMGLINES% 0,0  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 0%%i.zx0 0%%i.128 %IMGWIDTH% %IMGLINES% 0,0 > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 %%i.zx0 %%i.128 %IMGWIDTH% %IMGLINES% 0,0 > nul 2>&1
 CD ..
 
 tools\cecho\cecho {02}[OK]{07}
