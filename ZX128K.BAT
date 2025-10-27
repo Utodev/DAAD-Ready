@@ -79,9 +79,19 @@ for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\DRC\scrcrop.exe 00%%i.SCR
 for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR ..\TOOLS\DRC\scrcrop.exe 0%%i.SCR 0%%i.SCT %IMGWIDTH% %IMGLINES%  > nul 2>&1
 for /L %%i in (100, 1, 256) do IF exist %%i.SCR ..\TOOLS\DRC\scrcrop.exe %%i.SCR %%i.SCT %IMGWIDTH% %IMGLINES%  > nul 2>&1
 
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCT ..\TOOLS\ZX0\zx0.exe 00%%i.SCT 00%%i.zx0  > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCT  ..\TOOLS\ZX0\zx0.exe 0%%i.SCT 0%%i.zx0 > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.SCT  ..\TOOLS\ZX0\zx0.exe %%i.SCT %%i.zx0 > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCT   ( 
+                                                    <nul set /p =*
+                                                      ..\TOOLS\ZX0\zx0.exe 00%%i.SCT 00%%i.zx0  > nul 2>&1
+                                                       
+                                                )
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCT  (
+                                                    <nul set /p =*
+                                                    ..\TOOLS\ZX0\zx0.exe 0%%i.SCT 0%%i.zx0 > nul 2>&1   
+                                                )
+for /L %%i in (100, 1, 256) do IF exist %%i.SCT (
+                                                     <nul set /p =*
+                                                     ..\TOOLS\ZX0\zx0.exe %%i.SCT %%i.zx0 > nul 2>&1
+                                                )
 
 del *.SCT > nul 2>&1
 
