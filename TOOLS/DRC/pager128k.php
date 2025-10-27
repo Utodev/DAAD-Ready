@@ -43,6 +43,7 @@ function error($message)
 
 $pages = array(3,4,6,7);  // Pages available
 $offsets= array(0,0,0,0); // Offset where to write the files in each page
+$pagesizes = array(16384, 16384, 16384, 16384); // Size of each page
 $pagecontent = array(array(),array(),array(),array()); // files already assigned to each page
 
 // First, we need to put the content of the 0.XMB file
@@ -77,11 +78,23 @@ if ($xmb_file)
 // and generate the $imagefileNames and $imagefileSizes arrays
 $imageFiles = glob('IMAGES/*.128');
 $imagefileSizes = array();
+$imageHashes = array();
 foreach ($imageFiles as $imageFile) 
 {
     $basename = basename($imageFile);
     $filesize = filesize("IMAGES/" . $basename);
     $imagefileSizes[$basename] = $filesize;
+    $hash = sha1_file("IMAGES/" . $basename); 
+    $repeated = false;
+    foreach ($imageHashes as $filename=>$oldhash)
+    {
+        if ($oldhash == $hash) 
+        {
+            echo "WARNING: Images {$basename} and {$filename} seem to be the same image. You can save space by removing one of them and using DAAD code to do the replacement.\n";
+            $repeated = true;
+        }
+    }
+    if (!$repeated) $imageHashes[$basename] = $hash;
 }
 
 // Now we put page 1 in game. We couldn't put it before because 
@@ -94,6 +107,44 @@ array_unshift($pages, 1);
 array_unshift($offsets, 6912 + 512);
 // Prepend a new empty array to the $pagecontent array
 array_unshift($pagecontent, array());
+// Prepend new page size
+array_unshift($pagesizes, 16384); // Page 1 is also 16384 bytes
+
+
+// Find the file with DDB extension in the folder
+$ddbFile = glob('*.DDB');
+if (count($ddbFile) != 1) 
+{
+    error("There is not a DDB file in the folder, or there are more than one.");
+}
+$ddbsize = filesize($ddbFile[0]);
+$ddbEnd = $ddbsize + 0x8400; // The DDB file ends at 0x8400 bytes, so we need to reserve space for it
+if ($ddbEnd >= 0xC000) $spareOffset = $ddbEnd - 0xC000; else $spareOffset = 0;
+
+/*
+// Prepend a new value 1 to the $pages array
+array_unshift($pages, 0);
+// Prepend a new value 6912+512 to the $offsets array
+array_unshift($offsets, $spareOffset  + 1);
+// Prepend a new empty array to the $pagecontent array
+array_unshift($pagecontent, array());
+// Prepend new page size
+array_unshift($pagesizes, 16384 - 2501); // Page 0 is a bit smaller, beause the SDG and the images/pages table are at the end.The SDG is 2099 bytes long, with 2501 there is room for the pages (7 bytes) and 79 images.
+
+
+// Append a new value 0 to the $pages array
+$pages[] =  0;
+// Prepend a new value 6912+512 to the $offsets array
+$offsets[] = $spareOffset; // The spare offset is the space we have reserved for the DDB file
+// Append a new empty array to the $pagecontent array
+$pagecontent[] = array();
+// Append new page size
+$pagesizes[]= (16384 - 2501); // Page 0 is a bit smaller, beause the SDG and the images/pages table are at the end.The SDG is 2099 bytes long, with 2501 there is room for the pages (7 bytes) and 79 images.
+*/
+
+
+
+
 
 arsort($imagefileSizes);
 
@@ -108,7 +159,7 @@ foreach ($imagefileSizes as $filename=>$filesize)
 {
     for ($i=0;$i<count($pages);$i++)
     {
-        if ($offsets[$i] + $filesize <= 16384) // If the file fits in the page
+        if ($offsets[$i] + $filesize <= $pagesizes[$i]) // If the file fits in the page
         {
             // Assign the file to the page
             $obj = new stdClass();
@@ -156,14 +207,11 @@ if ($summary)
     echo "----------------------------------\n";
     for($i=0;$i<count($pages);$i++)
     {
-        if (count($pagecontent[$i]) > 0)
-        {
-            echo "Page {$pages[$i]}: " . count($pagecontent[$i]) . " files, " . str_pad(16384 - $offsets[$i], 5,' ', STR_PAD_LEFT). " bytes free.\n";
-        } 
-        else 
-        {
-            echo "Page {$pages[$i]} will not be used.\n";
-        }
+        echo "Bank {$pages[$i]}: " . str_pad(count($pagecontent[$i]),2,' ', STR_PAD_LEFT) . " files, " . str_pad($pagesizes[$i] - $offsets[$i], 5,' ', STR_PAD_LEFT). " bytes free.\n";
+    }
+    if ($ddbEnd < 0xC000)
+    {
+        echo "Bank 2:  0 files, " . str_pad(0xC000 - $ddbEnd, 5,' ', STR_PAD_LEFT). " bytes free. (Bank 2 is never used for images.)\n";
     }
     echo "----------------------------------\n";
 }
