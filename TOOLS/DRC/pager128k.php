@@ -119,19 +119,19 @@ if (count($ddbFile) != 1)
 }
 $ddbsize = filesize($ddbFile[0]);
 $ddbEnd = $ddbsize + 0x8400; // The DDB file ends at 0x8400 bytes, so we need to reserve space for it
-if ($ddbEnd >= 0xC000) $spareOffset = $ddbEnd - 0xC000; else $spareOffset = 0;
+if ($ddbEnd >= 0xC000) $spareOffset = $ddbEnd - 0xC000  + 1; else $spareOffset = 0;
 
-/*
 // Prepend a new value 1 to the $pages array
 array_unshift($pages, 0);
 // Prepend a new value 6912+512 to the $offsets array
-array_unshift($offsets, $spareOffset  + 1);
+array_unshift($offsets, $spareOffset);
 // Prepend a new empty array to the $pagecontent array
 array_unshift($pagecontent, array());
 // Prepend new page size
 array_unshift($pagesizes, 16384 - 2501); // Page 0 is a bit smaller, beause the SDG and the images/pages table are at the end.The SDG is 2099 bytes long, with 2501 there is room for the pages (7 bytes) and 79 images.
 
 
+/*
 // Append a new value 0 to the $pages array
 $pages[] =  0;
 // Prepend a new value 6912+512 to the $offsets array
@@ -141,9 +141,6 @@ $pagecontent[] = array();
 // Append new page size
 $pagesizes[]= (16384 - 2501); // Page 0 is a bit smaller, beause the SDG and the images/pages table are at the end.The SDG is 2099 bytes long, with 2501 there is room for the pages (7 bytes) and 79 images.
 */
-
-
-
 
 
 arsort($imagefileSizes);
@@ -205,21 +202,70 @@ if ($summary)
 {
     echo "128K RAM Summary\n";
     echo "----------------------------------\n";
-    for($i=0;$i<count($pages);$i++)
+    for($i=0;$i<8;$i++)
     {
-        echo "Bank {$pages[$i]}: " . str_pad(count($pagecontent[$i]),2,' ', STR_PAD_LEFT) . " files, " . str_pad($pagesizes[$i] - $offsets[$i], 5,' ', STR_PAD_LEFT). " bytes free.\n";
+        //searh i in values of $pages
+        if (in_array($i, $pages)) 
+        {
+            $index = array_search($i, $pages);
+            echo "Bank {$pages[$index]}: " . str_pad(count($pagecontent[$index]),2,' ', STR_PAD_LEFT) . " files, " . str_pad($pagesizes[$index] - $offsets[$index], 5,' ', STR_PAD_LEFT). " bytes free.\n";
+        }
+        else if ($i==5) 
+        {
+            // Bank 5 is not used, so we show it as empty
+            echo "Bank 5:  0 files, " . str_pad(0, 5,' ', STR_PAD_LEFT). " bytes free. (Used by the screen and the interpreter)\n";
+        }
+        else if ($i==2)
+        {
+            if ($ddbEnd < 0xC000)
+            {
+                echo "Bank 2:  0 files, " . str_pad(0xC000 - $ddbEnd, 5,' ', STR_PAD_LEFT). " bytes free. Partially used by the DDB \n";
+            }
+            else
+            {
+                echo "Bank 2:  0 files, " . str_pad(0, 5,' ', STR_PAD_LEFT). " bytes free. Fully used by the DDB.\n";
+            }
+        }
     }
-    if ($ddbEnd < 0xC000)
-    {
-        echo "Bank 2:  0 files, " . str_pad(0xC000 - $ddbEnd, 5,' ', STR_PAD_LEFT). " bytes free. (Bank 2 is never used for images.)\n";
-    }
-    echo "----------------------------------\n";
+echo "----------------------------------\n";
+
 }
 
 
 // build the index file
+
+
 $indexFile= array();
-// first dump the page numbers that are used
+
+
+// First there is the page 0 offset and size, which is set to zeo if  page 0 was not used for images
+
+// Calculate page 0 images size (find images stored at page 0, determine where thee last one ends, and substract $spareOffset)
+$page0Size = 0;
+foreach ($pagecontent[0] as $file)
+{
+    if ($file->page == 0) 
+    {
+        $page0Size = max($page0Size, $file->offset + $file->size);
+    }
+}
+$page0Size = $page0Size - $spareOffset; // Substract the spare offset, as it is not used for images
+
+$indexFile[] = $page0Size & 0xFF; // Add the size LSB for page 0
+$indexFile[] = ($page0Size >> 8) & 0xFF; // Add the size MSB for page 0
+$spareOffset = $spareOffset + 0xC000; // The offset for page 0 really starts at 0xC000
+$indexFile[] = $spareOffset & 0xFF; // Add the offset LSB for page 0
+$indexFile[] = ($spareOffset >> 8) & 0xFF; // Add the offset MSB for page 0
+
+
+if ($verbose) 
+{
+    echo "Page 0 size: " . dexhexplus($page0Size) . "h bytes.\n";
+    echo "Page 0 offset: " . dexhexplus($spareOffset) . "h bytes.\n";
+}
+
+
+// then dump the page numbers that have been used
 foreach ($pages as $index=>$page) 
 {
     if (sizeof($pagecontent[$index]) > 0) 
@@ -227,7 +273,7 @@ foreach ($pages as $index=>$page)
         $indexFile[] = $pages[$index];
     }
 }
-// Now we have to move page 1 to the end of the index file
+// Now we have to move page 1 and to the end of the index file
 // as the index should have the pages with the XMB data first
 if (sizeof($indexFile) > 0 && $indexFile[0] == 1) 
 {
