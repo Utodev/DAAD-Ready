@@ -582,7 +582,7 @@
 
 <p>To add graphics, create .SCR files (6912 bytes) and place them in the IMAGES folder. To make the image appear automatically for a location, name the file with that location number (three digits) and the .SCR extension. You can also create manually displayed ones via PICTURE/DISPLAY.</p>
 
-<p>Compression isn’t used here, but disk space can be a problem. Each image takes about 3.3 KB, so only a limited number will fit on a 3" Spectrum +3 disk. Some authors used both sides of the disk and asked users to flip it when changing areas.</p>
+<p>Compression is used here also, but disk space can still be a problem. it's not likely though that if the images fit for the 128K Spectrum, they don'y fit in a disk, but still can happen if you have many small files, as a +3 disk can only have 64 files per side. Some authors used both sides of the disk and asked users to flip it when changing areas.</p>
 
 <p>For sound, Spectrum +3 supports BEEP and XPLAY via the 128K chip.</p>
 
@@ -894,9 +894,9 @@ DAAD Ready supports this feature automatically for interpreters that support it.
 <p>If we look at ZXPLUS3.BAT or ZX128K.BAT, there are some lines that generate the graphics:</p>
 
 <code>
-  for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\SCRMAKER\SCRMAKER spectrum 00%%i.SCR 00%%i.ZX 256 %IMGLINES% 0,0<br/>
-  for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum 0%%i.SCR 0%%i.ZX 256 %IMGLINES% 0,0<br/>
-  for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR %%i.ZX 256 %IMGLINES% 0,0
+for /L %%i in (0, 1, 9) do IF exist 00%%i.ZX0 ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 00%%i.zx0 00%%i.128 %IMGWIDTH% %IMGLINES% 0,0  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 0%%i.zx0 0%%i.128 %IMGWIDTH% %IMGLINES% 0,0 > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 %%i.zx0 %%i.128 %IMGWIDTH% %IMGLINES% 0,0 > nul 2>&1
 </code>
 
 <p>There’s one line for graphics 0–9, another for 10–99, and the last one for 100–255.</p>
@@ -910,10 +910,9 @@ DAAD Ready supports this feature automatically for interpreters that support it.
 <p>What if I want floating graphics, say for a graphical inventory? Let’s assume we’ll make all graphics above number 100 floating. Simply change the last line like this:</p>
 
 <code>
-    for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR %%i.ZX 256 %IMGLINES%
+    for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 %%i.ZX0 %%i.128 %IMGWIDTH% %IMGLINES% > nul 2>&1
 </code>
 
-<p>Note: that’s the line for Spectrum +3. In ZX128K.BAT it’s identical except it says “spectrum128k” instead of “spectrum”.</p>
 
 <p>This makes the graphics floating, since no coordinates are specified.</p>
 
@@ -922,7 +921,7 @@ DAAD Ready supports this feature automatically for interpreters that support it.
 <p>Then let’s change their width and height:</p>
 
 <code>
-    for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR %%i.ZX 32 32
+for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 %%i.ZX0 %%i.128 32 32 > nul 2>&1
 </code>
 
 <p>This way, graphics 100–255 (if any) will be floating, 32x32 pixels in size.</p>
@@ -932,7 +931,7 @@ DAAD Ready supports this feature automatically for interpreters that support it.
 <p>Let’s add a fourth line at the end, for graphic 200 for example:</p>
 
 <code>
-    for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR %%i.ZX 256 8 0,184
+    for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 %%i.ZX0 %%i.128 256 8 0,184 > nul 2>&1
 </code>
 
 <p>As you can see, it creates a 256x8 graphic at position x=0, y=184.</p>
@@ -945,8 +944,8 @@ DAAD Ready supports this feature automatically for interpreters that support it.
 For example, if we want image 200 preloaded, it would look like this (the first line for just 200, the second for any from 100–255):</p>
 
 <code>
-      IF exist 200.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum 200.SCR L:200.ZX 256 8 0,184<br/>
-      for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR L:%%i.ZX 256 8 0,184
+      IF exist 200.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 200.SCR L:200.128 256 8 0,184<br/>
+      for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.ZX0 L:%%i.128 256 8 0,184
 </code>
 
 <p>You might wonder why we don’t make all images preloaded. There are two reasons:</p>

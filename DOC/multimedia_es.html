@@ -631,9 +631,10 @@
          del fichero, si queremos que la imagen salga automáticamente en una localidad,  tiene que ser el número de localidad, con tres cifras, y la extensión .SCR. También 
          podemos crear gráficos con números que no correspondan a localidades, para poder mostrarlos desde DAAD con PICTURE/DISPLAY.</p>
       
-      <p>En este caso no tendréis tanto problema con la compresión, porque en Spectrum +3 no se comprime. Podríais acabar teniendo un problema con que los gráficos no quepan en el disquete, eso sí. Cada imagen ocupará algo más
-         de 3,3K en el disco, por lo que cabe una cantidad limitada de gráficos en un disquete de 3" de Spectrum +3. Algunos autores han optado por poner gráficos por las dos caras del disquete,  y pedir al usuario que dé la
-         vuelta al disco cuando pasa de cierta zona, o vuelve a la zona inicial.</p>
+      <p>En este caso el problema podría ser que las imagenes no quepan en el disquete si no comprimen demasiado, pero en principio si han cabido en el Spectrum 128K, no debería ser un problema. No obstante,
+        los disquetes de +3 permiten un máximo de 64 ficheros, lo cual si tuvieras muchas imagenes pequeñas podría hacer que no pudieran añadirse aunque el disco no este lleno.</p>
+         
+      <p>Para evitar eso, algunos autores han optado por poner gráficos por las dos caras del disquete,  y pedir al usuario que dé la vuelta al disco cuando pasa de cierta zona, o vuelve a la zona inicial.</p>
 
       <p>En cuanto a sonido, el Spectrum +3 soporta BEEP y XPLAY, por el chip de sonido del 128K.
 
@@ -1094,9 +1095,9 @@ The same rules apply for images and sound:
 <p>Si nos fijamos en ZXPLUS3.BAT o ZX128K.BAT, hay unas lineas que generan los gráficos: </p>
 
 <code>
-  for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\SCRMAKER\SCRMAKER spectrum 00%%i.SCR 00%%i.ZX 256 %IMGLINES% 0,0<br/>
-  for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum 0%%i.SCR 0%%i.ZX 256 %IMGLINES% 0,0<br/>
-  for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR %%i.ZX 256 %IMGLINES% 0,0
+for /L %%i in (0, 1, 9) do IF exist 00%%i.ZX0 ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 00%%i.zx0 00%%i.128 %IMGWIDTH% %IMGLINES% 0,0  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 0%%i.zx0 0%%i.128 %IMGWIDTH% %IMGLINES% 0,0 > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 %%i.zx0 %%i.128 %IMGWIDTH% %IMGLINES% 0,0 > nul 2>&1
 </code>
 
 <p>Hay una linea para los gráficos 0 a 9, otra para los 10 a 99, y la ultima para los 100 a 255</p>
@@ -1112,18 +1113,16 @@ The same rules apply for images and sound:
  <p>¿Que pasa si yo quiero unos gráficos flotantes, para, por ejemplo un inventario gráfico?. Pues bien, pongamos que los gráficos por encima del 100 los vamos a hacer flotantes. Simplemente hay que cambiar la última linea y ponerla así:</p>
 
   <code>
-    for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR %%i.ZX 256 %IMGLINES%
+    for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 %%i.ZX0 %%i.128 %IMGWIDTH% %IMGLINES% > nul 2>&1
   </code>
 
-  <p>Nota: esa linea es la de Spectrum +3, en ZX128K.BAT es igual, pero pone "spectrum128k" en lugar de "spectrum" delante.</p>
-
-  <p> Eso hará que, al no tener unas coordenadas especificadas, se convierta en un gráfico flotante.</p>
+    <p> Eso hará que, al no tener unas coordenadas especificadas, se convierta en un gráfico flotante.</p>
 
   <p>¡Pero yo no quiero gráficos para el inventario de 256x96!</p>
 
   <p>Pues cambiemos los anchos y altos:</p>
   <code>
-    for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR %%i.ZX 32 32
+    for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 %%i.ZX0 %%i.128 32 32 > nul 2>&1
   </code>
 
   <p>Con esto tendríamos unos gráficos 100 a 255 (los que hubiera), flotantes, de 32x32 pixeles.</p>
@@ -1133,7 +1132,7 @@ The same rules apply for images and sound:
   <p>Pues vamos a poner una cuarta linea al final, para el grafico 200, por ejemplo:</p>
 
   <code>
-    for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR %%i.ZX 256 8 0,184
+    for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 %%i.ZX0 %%i.128 256 8 0,184 > nul 2>&1
   </code>
 
   <p>Como podéis ver, se crea un grafico de 256x8, situado en x=0,y=184</p>
@@ -1146,8 +1145,8 @@ The same rules apply for images and sound:
     <p>Para que una imagen sea precargada en +3, solo teneis que poner "L:" en la linea que la genera, justo delante del nombre del fichero ZX. Por ejemplo, si queremos que la imagen 200 sea precargada, esta sería la manera (la primera linea solo la 200, la segunda para cualquiera del 100 al 255):</p>
 
     <code>
-      IF exist 200.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum 200.SCR L:200.ZX 256 8 0,184<br/>
-      for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.SCR L:%%i.ZX 256 8 0,184
+      IF exist 200.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 200.ZX0 L:200.128 256 8 0,184<br/>
+      for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum %%i.ZX0 L:%%i.128 256 8 0,184
     </code>
 
    <p>Os preguntaréis por qué no hacemos que todas las imágenes sean precargadas, y hay dos razones:</p> 

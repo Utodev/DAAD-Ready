@@ -1,0 +1,55 @@
+This document describes the memory layout for the ZX128K.BAT target.
+
+The Spectrum 128K has 8 banks of RAM, each 16K in size. From those, the
+DAAD interpreter uses some banks for its own purposes, while the rest, 
+and in some cases even the not used part of those banks, are used for
+the game and graphics.
+
+The order we list the banks may look a bit strange, but it is the way
+the Sinclair engineers designed the memory layout.
+
+Bank 5: ZX Spectrum stores the screen area in this bank (7.75K). The rest
+is used by the DAAD interpreter.
+Bank 2: This bank is used by the DAAD DDB, the data file that contains 
+messages, locations, connections, vocabulary and processes code.
+Bank 0: if the game is big enough, the DDB will fille bank 2 and extend
+to bank 0. This bank cannot be filled completely, though, as at the end
+the charset is stored.
+Bank 1: At the beginning of this bank, the DAAD keeps 512 bytes to store
+the RAMSAVE data, followed by 6912 bytes the interpreter uses as buffer to 
+print pictures. The remaining bytes are free to be used by images.
+Banks 3, 4, 6 and 7: These banks are used for XMESSAGES and images.
+
+What does DAAD Ready do?
+
+First the DDB is generated, and saved in Bank 2 and if needed, bank 0. The charset
+is stored in the upper part of bank 0. 
+
+Then the XMESSAGES are added to banks 3, 4, 6 and 7 as needed, and the remaining
+space in those for banks, plus the  remaining space in bank 1, plus the remaining
+space in bank 0, are used for images.
+
+What should I do if I run out of space?
+
+First you need to determine where are you having the problem:
+
+If bank 0 is full, then you have too much DDB, you will probably get a warning from the 
+compiler about it. You can reduce the size of the DDB by changing some MES or MESSAGE 
+commands to XMES and XMESSAGE. That will make those texts move to banks 3, 4, 6 or 7, 
+and free space in bank 0.
+
+If you run out of space for the graphics, then you can do the opposite and change XMES/XMESSAGE
+to MES/MESSAGE, but it is not likely that would help a lot unless you have many Xmessages. The
+best thing you can do is checking the size of the image you can't fit in, and the free space 
+in the banks. Look for the biggest gap, and see if you can reduce the complexity of the image so
+once compressed, it fits in the available space. Remember you have to delete de .zx0 file in
+the images folder in order to recompress the image, otherwise it will not change.
+
+If the closest gap is in bank 0, then maybe reducing the the length of some texts, or changing them
+to Xmessages may do the trick (i.e. if you have a 3K image and the gap in bank 0 is 2.9K, then you 
+changin some message to xmessage will move those texts to banks 3, 4, 6 or 7, and make enough space
+in bank
+
+Please notice bank 2 can only be used for the DDB, so no matter if you do a very short adventure with
+a very small DDB but too many images, maybe you find a gap un page 2 enough to hold a image, and you 
+are told there is no room for it. 

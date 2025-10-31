@@ -101,9 +101,6 @@ for /L %%i in (0, 1, 9) do IF exist 00%%i.ZX0 ..\TOOLS\SCRMAKER\SCRMAKER spectru
 for /L %%i in (10, 1, 99) do IF exist 0%%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 0%%i.zx0 0%%i.128 %IMGWIDTH% %IMGLINES% 0,0 > nul 2>&1
 for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spectrum128 %%i.zx0 %%i.128 %IMGWIDTH% %IMGLINES% 0,0 > nul 2>&1
 
-..\TOOLS\SCRMAKER\SCRMAKER spectrum128 001.zx0 L:001.128 %IMGWIDTH% %IMGLINES% 0,0  > nul 2>&1
-..\TOOLS\SCRMAKER\SCRMAKER spectrum128 002.zx0 L:002.128 %IMGWIDTH% %IMGLINES% 0,0  > nul 2>&1
-
 REM --- Pack pre-buffered images into DAAD.GRA file ---
 del DAAD.GRA > nul 2>&1
 IF exist SCRMAKER.LOG ..\PHP\php ..\TOOLS\PLUS3CACHE\PLUS3CACHE.PHP SCRMAKER.LOG
@@ -179,7 +176,7 @@ ECHO When in emulator, select the "LOADER" option at the +3 menu
 tools\cecho\cecho {07}
 PAUSE
 cd TOOLS\ZESARUX
-zesarux --noconfigfile --load-additional-config --quickexit --zoom 2 --machine P341 --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\ZXPLUS3\%GAME%.DSK"
+zesarux --noconfigfile --load-additional-config --quickexit --zoom 2 --machine P341 --realvideo --nosplash --forcevisiblehotkeys --fastautoload --forceconfirmyes  --nowelcomemessage  --cpuspeed 100 "..\..\RELEASE\ZXPLUS3\%GAME%.DSK"
 CD ..\..
 GOTO END
 
