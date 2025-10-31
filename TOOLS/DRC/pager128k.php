@@ -99,16 +99,17 @@ foreach ($imageFiles as $imageFile)
 
 // Now we put page 1 in game. We couldn't put it before because 
 // page 1 is not empty, and we neededed empty pages for the
-// XMB data
+// XMB data.
 
-// Prepend a new value 1 to the $pages array
-array_unshift($pages, 1);
+// Append a new value 1 to the $pages array
+$pages[] =  1;
 // Prepend a new value 6912+512 to the $offsets array
-array_unshift($offsets, 6912 + 512);
-// Prepend a new empty array to the $pagecontent array
-array_unshift($pagecontent, array());
-// Prepend new page size
-array_unshift($pagesizes, 16384); // Page 1 is also 16384 bytes
+$offsets[] = 6912 + 512; // space after the PictureBuffer and the RAMSAVE
+// Append a new empty array to the $pagecontent array
+$pagecontent[] = array();
+// Append new page size
+$pagesizes[]= 16384; // Page size is full size, although default offset is not 0
+
 
 
 // Find the file with DDB extension in the folder
@@ -121,27 +122,14 @@ $ddbsize = filesize($ddbFile[0]);
 $ddbEnd = $ddbsize + 0x8400; // The DDB file ends at 0x8400 bytes, so we need to reserve space for it
 if ($ddbEnd >= 0xC000) $spareOffset = $ddbEnd - 0xC000  + 1; else $spareOffset = 0;
 
-// Prepend a new value 1 to the $pages array
-array_unshift($pages, 0);
-// Prepend a new value 6912+512 to the $offsets array
-array_unshift($offsets, $spareOffset);
-// Prepend a new empty array to the $pagecontent array
-array_unshift($pagecontent, array());
-// Prepend new page size
-array_unshift($pagesizes, 16384 - 2501); // Page 0 is a bit smaller, beause the SDG and the images/pages table are at the end.The SDG is 2099 bytes long, with 2501 there is room for the pages (7 bytes) and 79 images.
-
-
-/*
 // Append a new value 0 to the $pages array
 $pages[] =  0;
-// Prepend a new value 6912+512 to the $offsets array
-$offsets[] = $spareOffset; // The spare offset is the space we have reserved for the DDB file
+// The spare offset is the space we have reserved for the DDB file
+$offsets[] = $spareOffset; 
 // Append a new empty array to the $pagecontent array
 $pagecontent[] = array();
 // Append new page size
 $pagesizes[]= (16384 - 2501); // Page 0 is a bit smaller, beause the SDG and the images/pages table are at the end.The SDG is 2099 bytes long, with 2501 there is room for the pages (7 bytes) and 79 images.
-*/
-
 
 arsort($imagefileSizes);
 
@@ -272,14 +260,6 @@ foreach ($pages as $index=>$page)
     {
         $indexFile[] = $pages[$index];
     }
-}
-// Now we have to move page 1 and to the end of the index file
-// as the index should have the pages with the XMB data first
-if (sizeof($indexFile) > 0 && $indexFile[0] == 1) 
-{
-    // Move the first element to the end of the array
-    $firstPage = array_shift($indexFile);
-    $indexFile[] = $firstPage;
 }
 
 $indexFile[] = 255; // End of index marker
