@@ -1,9 +1,10 @@
 <?php
 
-// The parameters could be -v to set $verbose true, -s to show page summary
+// The parameters could be -v to set $verbose true, -s to show page summary, -v dumps a copy of the pages / images index as  INDEX.BCK
 
 $verbose = false;
 $summary = false;
+$dumpIndexBackup = false;
 foreach ($argv as $arg) 
 {
     if ($arg == '-v') {
@@ -11,9 +12,12 @@ foreach ($argv as $arg)
     } elseif ($arg == '-s') {
         $summary = true;
     }
+     elseif ($arg == '-b') {
+        $dumpIndexBackup = true;
+    }
 }
 
-function dexhexplus($value) 
+function dechexplus($value) 
 {
     $hex = dechex($value);
     if (strlen($hex) < 4) $hex = '0' . $hex; // Pad with zero if needed
@@ -77,6 +81,7 @@ if ($xmb_file)
 // Now, we finnd all files with the 128 extension in IMAGES folder
 // and generate the $imagefileNames and $imagefileSizes arrays
 $imageFiles = glob('IMAGES/*.128');
+$numImages = count($imageFiles);
 $imagefileSizes = array();
 $imageHashes = array();
 foreach ($imageFiles as $imageFile) 
@@ -129,7 +134,13 @@ $offsets[] = $spareOffset;
 // Append a new empty array to the $pagecontent array
 $pagecontent[] = array();
 // Append new page size
-$pagesizes[]= (16384 - 2501); // Page 0 is a bit smaller, beause the SDG and the images/pages table are at the end.The SDG is 2099 bytes long, with 2501 there is room for the pages (7 bytes) and 79 images.
+
+$page0UsedSpace = 2099; // The SDG is 2099 bytes long, 
+$page0UsedSpace += $numImages * 6 + 1; // the table of image/page/offset of each image, plus the end marker
+$page0UsedSpace += 4; // Add 4 bytes for the page 0 size and offset
+$page0UsedSpace += sizeof($pages) + 2; // Add the size of the pages array and the end marker (worst case, all pages used)
+$pagesizes[]= (16384 - $page0UsedSpace); 
+
 
 arsort($imagefileSizes);
 
@@ -181,7 +192,7 @@ foreach ($pagecontent as $page => &$files)
         }
         $fileData = file_get_contents($file->filename);
         fwrite($outputFile, $fileData);
-        if ($verbose) echo "{$file->filename} size " . dexhexplus(strlen($fileData)) . "h bytes at offset " .dexhexplus($file->offset +0xC000) ."h\n";
+        if ($verbose) echo "{$file->filename} size " . dechexplus(strlen($fileData)) . "h bytes at offset " .dechexplus($file->offset +0xC000) ."h\n";
     }    
     fclose($outputFile);
 }
@@ -230,26 +241,31 @@ $indexFile= array();
 
 // Calculate page 0 images size (find images stored at page 0, determine where thee last one ends, and substract $spareOffset)
 $page0Size = 0;
-foreach ($pagecontent[0] as $file)
+foreach ($pagecontent[array_search(0,$pages)] as $file)
 {
     if ($file->page == 0) 
     {
-        $page0Size = max($page0Size, $file->offset + $file->size);
+        if ($page0Size < $file->offset + $file->size) 
+        {
+            $page0Size = $file->offset + $file->size;
+        }
     }
 }
+
 $page0Size = $page0Size - $spareOffset; // Substract the spare offset, as it is not used for images
 
-$indexFile[] = $page0Size & 0xFF; // Add the size LSB for page 0
+// These two are dumped little endian, so when written upside down in the list they are in the right order
 $indexFile[] = ($page0Size >> 8) & 0xFF; // Add the size MSB for page 0
+$indexFile[] = $page0Size & 0xFF; // Add the size LSB for page 0
 $spareOffset = $spareOffset + 0xC000; // The offset for page 0 really starts at 0xC000
-$indexFile[] = $spareOffset & 0xFF; // Add the offset LSB for page 0
 $indexFile[] = ($spareOffset >> 8) & 0xFF; // Add the offset MSB for page 0
+$indexFile[] = $spareOffset & 0xFF; // Add the offset LSB for page 0
 
 
 if ($verbose) 
 {
-    echo "Page 0 size: " . dexhexplus($page0Size) . "h bytes.\n";
-    echo "Page 0 offset: " . dexhexplus($spareOffset) . "h bytes.\n";
+    echo "Page 0 offset: " . dechexplus($spareOffset) . "h bytes.\n";
+    echo "Page 0 size: " . dechexplus($page0Size) . "h bytes.\n";
 }
 
 
@@ -282,10 +298,11 @@ for($i=0;$i<255;$i++)
                 $indexFile[] = $i; // Add the image number
                 $offset = $file->offset;
                 $offset += 0xC000; 
+                $size = $file->size;
                 $indexFile[] = $offset  & 0xFF; // Add the offset LSB                       
                 $indexFile[] = ($offset >> 8) & 0xFF; // Add the offset MSB
-                $indexFile[] = $file->size & 0xFF; // Add the size LSB
-                $indexFile[] = ($file->size >> 8) & 0xFF; // Add the size MSB
+                $indexFile[] = $size & 0xFF; // Add the size LSB
+                $indexFile[] = ($size >> 8) & 0xFF; //
                 $indexFile[] = $file->page; // Add the page number
             }
     }
@@ -303,6 +320,17 @@ foreach ($indexFile as $value)
 }
 fclose($outputFile);
 
+if ($dumpIndexBackup)
+{
+    $indexFile = array_reverse($indexFile);
+    $indexFileName = 'INDEX.BCK';
+    $outputFile = fopen($indexFileName, 'wb');
+    foreach ($indexFile as $value) 
+    {
+        fwrite($outputFile, pack('C', $value));
+    }
+    fclose($outputFile);
+}
 
 
 
