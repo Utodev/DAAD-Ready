@@ -5,8 +5,10 @@
 $verbose = false;
 $summary = false;
 $dumpIndexBackup = false;
-foreach ($argv as $arg) 
-{
+$imagesDir = 'IMAGES';
+for ($i = 0; $i < count($argv); $i++) {
+    $arg = $argv[$i];
+
     if ($arg == '-v') {
         $verbose = true;
     } elseif ($arg == '-s') {
@@ -14,7 +16,19 @@ foreach ($argv as $arg)
     }
      elseif ($arg == '-b') {
         $dumpIndexBackup = true;
+    } elseif ($arg == '-i') {
+        if (isset($argv[$i + 1])) {
+            $imagesDir = $argv[$i + 1];
+            $i++;
+        } else {
+            echo "Error: the -i option requires an argument (path to the images directory)\n";
+            exit(1);
+        }
     }
+}
+// Validate images directory exists
+if (!is_dir($imagesDir)) {
+    error("Images directory not found: $imagesDir");
 }
 
 function dechexplus($value) 
@@ -80,16 +94,16 @@ if ($xmb_file)
 
 // Now, we finnd all files with the 128 extension in IMAGES folder
 // and generate the $imagefileNames and $imagefileSizes arrays
-$imageFiles = glob('IMAGES/*.128');
+$imageFiles = glob($imagesDir . '/*.128');
 $numImages = count($imageFiles);
 $imagefileSizes = array();
 $imageHashes = array();
 foreach ($imageFiles as $imageFile) 
 {
     $basename = basename($imageFile);
-    $filesize = filesize("IMAGES/" . $basename);
+    $filesize = filesize($imagesDir . '/' . $basename);
     $imagefileSizes[$basename] = $filesize;
-    $hash = sha1_file("IMAGES/" . $basename); 
+    $hash = sha1_file($imagesDir . '/' . $basename);
     $repeated = false;
     foreach ($imageHashes as $filename=>$oldhash)
     {
@@ -188,7 +202,7 @@ foreach ($pagecontent as $page => &$files)
     {
         // if file has 128 extension, then prepend the filename with IMAGES/
         if (substr($file->filename, -4) == '.128') {
-            $file->filename = 'IMAGES/' . $file->filename;
+            $file->filename = $imagesDir . '/' . $file->filename;
         }
         $fileData = file_get_contents($file->filename);
         fwrite($outputFile, $fileData);
@@ -289,7 +303,7 @@ foreach ($pagecontent as $page => &$files)
 
 for($i=0;$i<255;$i++)
 {
-    $filename = 'IMAGES/' . sprintf('%03d.128', $i);
+    $filename = $imagesDir . '/' . sprintf('%03d.128', $i);
     foreach ($linearContent as $file) 
     {
             if ($file->filename == $filename) 
