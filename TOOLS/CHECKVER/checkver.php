@@ -1,6 +1,6 @@
 <?php
 
-$current_version = "A";
+$current_version = "A1";
 
 
 $lvStr = $latest_version = file_get_contents("https://www.ngpaws.com/downloads/DAAD/DAADReady/LATEST_VERSION_A_SERIES.TXT");
