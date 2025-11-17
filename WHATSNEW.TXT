@@ -1,3 +1,16 @@
+DAAD Ready A1 17/11/2025
+========================
+
+- Fixed a bug with CPC not properly usign CR/LF after a PICTURE call fails to find the picture.
+- Improved ZX128K image compression by erasing the part of the SCR file that is not used
+- Fixed a bug where ZX128K wasn't working if loading screen file DAAD.SCR was missing
+- ZX128K can now use bank 0 for images if there's room for them.
+- ZX128K warns now users if there are two images that are the same.
+- ZXPLUS3 can now use compressed images as the ZX128K target, making possible to fit much
+  more images in the disk. 
+- Fixed a bug with SAVE/LOAD in ESXDOS that was reseting the game, and also fixed a bug where all 
+  Spectrum targets but 128K were disabling wordwrap after save/load.
+
 
 DAAD Ready A 20/10/2025
 =======================
