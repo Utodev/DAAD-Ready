@@ -1018,6 +1018,7 @@ function run(skipToRunCondact)
                     writeText('');
                     if (inMORE) return; // If still more text to write, get out from run() as we are in More...
                 }
+                DDB.condactPTR++;
                 // If the text pending to write was part of the PARSE, SAVE, LOAD etc. text output, get out of run() as we are still waiting for player orders
                 if (inQUIT || inEND || inSAVE || inLOAD || inPARSE) return;
                 done =false;
@@ -2131,7 +2132,7 @@ function readTextB(key)
     else
     if ((keyCode==8) && (readTextStr!=thePrompt))
     {
-        clearWindow((readTextStr.length) * COLUMN_WIDTH , windows.windows[windows.activeWindow].currentY,  COLUMN_WIDTH, LINE_HEIGHT, windows.windows[windows.activeWindow].PAPER);
+        clearWindow(windows.windows[windows.activeWindow].currentX - COLUMN_WIDTH, windows.windows[windows.activeWindow].currentY,  COLUMN_WIDTH, LINE_HEIGHT, windows.windows[windows.activeWindow].PAPER);
         readTextStr = readTextStr.slice(0, -1);
         patchedStr = PatchStr(readTextStr);
         windows.windows[windows.activeWindow].currentX = windows.windows[windows.activeWindow].currentX - COLUMN_WIDTH * 2; // Move the cursor back 
@@ -2146,7 +2147,7 @@ function readTextB(key)
         if (inputBuffer.length)
         {
             // Remove the cursor
-            clearWindow((readTextStr.length) * COLUMN_WIDTH ,  windows.windows[windows.activeWindow].currentY, COLUMN_WIDTH, LINE_HEIGHT , windows.windows[windows.activeWindow].PAPER); 
+            clearWindow(windows.windows[windows.activeWindow].currentX - COLUMN_WIDTH, windows.windows[windows.activeWindow].currentY,  COLUMN_WIDTH, LINE_HEIGHT, windows.windows[windows.activeWindow].PAPER);
             carriageReturn();
             // Ok, now we have the content of the text readed. Now, depending on the condact that asked for a text to be read (PARSE, QUIT or END), we 
             // need to return to the main loop in a different way
@@ -2302,6 +2303,7 @@ function resizeScreen()
 
 function listObjects(locno, isLISTAT)
 {
+    var result = '';
     var count =objects.getObjectCountAt(locno);
     var continuousListing = (flags.getFlag(FOBJECT_PRINT_FLAGS) & 64) != 0;
     var listed = 0;
@@ -2312,33 +2314,33 @@ function listObjects(locno, isLISTAT)
        
        if (!isLISTAT) 
        {
-        Sysmess(SM1); //I can also see: (Only for LISTOBJ)
-        if (!continuousListing)  _NEWLINE();
+        result = getMessage(DDB.header.sysmessPos, SM1);  //I can also see: (Only for LISTOBJ)
+        if (!continuousListing) result += CR;
        }
    
        for(var i=0; i < DDB.header.numObj; i++)
        {
            if (objects.getObjectLocation(i) == locno) 
            {
-               writeText(getMessageOTX(i, false, false, continuousListing));
+               result += getMessageOTX(i, false, false, continuousListing);
                listed++;
                if (continuousListing)
                { 
-                   if (listed == count) Sysmess(SM48);  // .
-                   else if (listed == count - 1)  Sysmess(SM47); // "and"
-                   else Sysmess(SM46); // , 
+                   if (listed ==  count) result += getMessage(DDB.header.sysmessPos, SM48);  // .
+                   else if (listed == count - 1)   result += getMessage(DDB.header.sysmessPos, SM47); // "and"
+                   else  result += getMessage(DDB.header.sysmessPos, SM46); // , 
                }
-               else _NEWLINE();
+               else result += CR;
            } 
         }  
     }
     else
     { //if no objects at the location
         flags.setFlag(FOBJECT_PRINT_FLAGS, flags.getFlag(FOBJECT_PRINT_FLAGS) & 0x7F); //Clear bit 7
-        if  (isLISTAT) Sysmess(SM53); //"Nothing"
+
+        if  (isLISTAT) result += getMessage(DDB.header.sysmessPos, SM53); //"Nothing"
     }
-    
-   
+   return result;
 }
 
 
@@ -2547,8 +2549,8 @@ function _SFX()
 function _DESC()
 {
   if (Parameter1 = LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
-  writeText(getMessage(DDB.header.locationPos, Parameter1)); 
   done = true;
+  writeText(getMessage(DDB.header.locationPos, Parameter1)); 
 }
 
 /*--------------------------------------------------------------------------------------*/
@@ -3260,8 +3262,8 @@ function _HASNAT()
 /*--------------------------------------------------------------------------------------*/
 function _LISTOBJ()
 {
-    listObjects(flags.getFlag(FPLAYER), false);
     done = true;
+    writeText(listObjects(flags.getFlag(FPLAYER), false));  // false = not LISTAT
 }
 
 /*--------------------------------------------------------------------------------------*/
@@ -3384,8 +3386,8 @@ function _PARSE()
 function _LISTAT()
 {
     if (Parameter1 == LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
-    listObjects(Parameter1, true); 
     done = true;
+    writeText(listObjects(Parameter1, true));  // true = LISTAT
 }
 
 /*--------------------------------------------------------------------------------------*/
