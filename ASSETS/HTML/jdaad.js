@@ -3158,7 +3158,7 @@ function _SWAP()
 /*--------------------------------------------------------------------------------------*/
 function _PLACE()
 {
- if (Parameter2 = LOC_HERE) Parameter2 = flags.getFlag(FPLAYER);
+ if (Parameter2 == LOC_HERE) Parameter2 = flags.getFlag(FPLAYER);
  if (objects.getObjectLocation(Parameter1) == LOC_CARRIED) flags.setFlag(FCARRIED, flags.getFlag(FCARRIED) - 1);
  objects.setObjectLocation(Parameter1, Parameter2);
  if (objects.getObjectLocation(Parameter1) == LOC_CARRIED) flags.setFlag(FCARRIED, flags.getFlag(FCARRIED) +1);
