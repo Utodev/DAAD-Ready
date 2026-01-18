@@ -766,6 +766,8 @@ function generateObjectWeightAndAttr($adventure, &$currentAddress, $outputFileHa
             $b = $b | 0x40;
             $locno = $object->Value;
             $text = $adventure->objects[$locno]->Text;
+            if (count($adventure->locations) <= $locno) echo "Warning: object #$locno ($text) is a container. You are supposed to reserve location #$locno to hold the objects in the container, but location #$locno does not exist.\n";
+            else
             if ($adventure->locations[$locno]->Text != '') echo "Warning: object #$locno ($text) is a container. You are supposed to reserve location #$locno to hold the objects in the container, but location #$locno has a description.\n";         
         }
         if ($object->Wearable) $b = $b | 0x80;
