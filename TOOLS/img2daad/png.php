@@ -23,6 +23,7 @@ class pngFileReader
     var $fileSize;
     var $position;
     var $verbose;
+    var $linearScreen;
 
     function loadFile($filename, $verbose  = 0 )
     {
@@ -36,7 +37,7 @@ class pngFileReader
          // If the image is indexed, convert to truecolor because we will only process truecolor images later
          if (!imageistruecolor($this->image))
            if (!imagepalettetotruecolor($this->image)) 
-             return "Image is not Truecolor and canno be converted to Truecolor";
+             return "Image is not Truecolor and cannot be converted to Truecolor";
 
         // Check number of different colours in the image
         $differentColours = array();
@@ -48,7 +49,15 @@ class pngFileReader
           if (sizeof($differentColours)>16) return "Too many colours, only up to 16 colours allowed.";   
          }
          if ($this->verbose) echo "Found " .sizeof($differentColours) . " colours in this picture.\n";
-   
+
+         // Fill with white if less than 16 colours found
+         if (sizeof($differentColours)<16) 
+         {
+            while (sizeof($differentColours)<16)
+            {
+                $differentColours[] = TRUECOLOR_WHITE;
+            }
+         }
 
         $this->PNG2degas($differentColours);
         return "";
@@ -114,37 +123,18 @@ class pngFileReader
             // Convert to AtariSTe palette record
             $palette[$i] = $b + ($g << 4) + ($r << 8);
             // If one of them is already recognized as black or white, we note it down
-            if ($palette[$i]==BLACK) 
+            if (($palette[$i]==BLACK) && ($colourBlack == -1))
             {
                 $colourBlack = $i;
                 if ($this->verbose) echo "Pure black found at colour $colourBlack.\n";
             }
-            if ($palette[$i]==WHITE) 
+            if (($palette[$i]==WHITE) && ($colourWhite == -1))
             {
                 $colourWhite = $i;
                 if ($this->verbose) echo "Pure white found at colour $colourWhite.\n";
             }
         }
 
-
-        // If less than 16 colours used, we fill the palette up to 16
-        // colours alternatively adding white and black colours
-        
-        while (sizeof($palette) < 16)
-        {
-            if (sizeof($palette) %  2)
-            {
-                $differentColours[] = TRUECOLOR_WHITE;
-                $palette[] = WHITE;
-                $colourWhite = sizeof($palette) -1 ;
-            }
-            else
-            {
-                $differentColours[] = TRUECOLOR_BLACK;
-                $palette[] = BLACK;
-                $colourBlack = sizeof($palette) -1;
-            }
-        }
 
         
         // If still not found (no pure ones and palette already full or filled without adding white)
@@ -155,7 +145,7 @@ class pngFileReader
         // Same for the white, except that we make sure the previously selected colourBlack is chosen
         // even in the very rare case the same colour is at the same time the clostest to B and W
         if ($colourWhite == -1)
-            $colourWhite = $this->searchColour($palette, (BLACK & 0x0F00) >> 8, (BLACK & 0x00F0) >> 4, BLACK & 0x0F, $colourBlack); 
+            $colourWhite = $this->searchColour($palette, (WHITE & 0x0F00) >> 8, (WHITE & 0x00F0) >> 4, WHITE & 0x0F, $colourBlack); 
 
 
         // Now we will be creating an alternative bitmap, where every x,y has the value of the palette
@@ -208,11 +198,11 @@ class pngFileReader
         // each x.y contains the palette entry
 
 
-        $fakeImage =  array();
+        $this->linearScreen =  array();
 
         for ($y=0;$y<200;$y++)
             for ($x=0;$x<320;$x++)
-                 $fakeImage[$x + 320 * $y] = $match[array_search(imagecolorat($this->image, $x, $y), $differentColours)];
+                 $this->linearScreen[$x + 320 * $y] = $match[array_search(imagecolorat($this->image, $x, $y), $differentColours)];
 
 
         // Now that we have the whole info, let's prepare a fake Degas file in RAM
@@ -228,26 +218,26 @@ class pngFileReader
             $this->fileContent[] =  $this->degasPalette( $palette[$i] &  0xFF  );
         }
 
+
         //The pixels
-        $fakePtr = 0;
+        $n = 0;
         $planes = array();
-        while ($fakePtr<64000)
+        while ($n < 64000)
         {
             
             $planes[0] = $planes[1] = $planes[2] = $planes[3] = 0;
             for ($i=0;$i<16;$i++) 
             {
-                $pixeltoCheck = $fakePtr + $i ;
-                $value = $fakeImage[$pixeltoCheck];
+                $value = $this->linearScreen[$n + $i ];
                 for ($p=0;$p<4;$p++)
-                 $planes[$p]  = ($planes[$p] << 1) + (   ($value & (1 << $p) ) >> $p);
+                    $planes[$p]  = ($planes[$p] << 1) + (   ($value & (1 << $p) ) >> $p);
             }
             for ($p=0;$p<4;$p++)
             {
                 $this->fileContent[] =  ($planes[$p] & 0xFF00)>>8;
                 $this->fileContent[] =  $planes[$p] & 0xFF;
             }
-            $fakePtr += 16;
+            $n += 16;
         }
 
         //Filler (at the moment it's unclear why it should be 32066 when it's 2 signature + 32 palette + 32000 = 32034)
@@ -258,7 +248,7 @@ class pngFileReader
 
     // Please notice this is no the most accurate way of searching for a close colour,
     // but the fastest one. If you notice a color not expected is chosen when there
-    // is no white in the picture, you may try to modifí the weights of each 
+    // is no white in the picture, you may try to modifíythe weights of each 
     // RGB color below (check those 0.4, 0.4, 0.2). Please notice human eye detects
     // blue tones worse.
 

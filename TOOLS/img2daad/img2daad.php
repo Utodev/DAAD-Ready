@@ -1,20 +1,27 @@
-<?php
+    <?php
 
-/* JSON format:
+    // This DAT generator is meant to be used with Amiga and Atari ST targets only (or any compatible as ADP)
+
+    /* 
+    
+    JSON file format
+    ================
+
+    img2daad allows parameters for specific images to be provided using a JSON file with the same name as the image, but with .JSON extension.
 
     Posible properties:
 
-    float:0-1   -> 0 = fixed image, 1 = float image 
-    buffer:0-1  -> 0 = no buffer, 1 = buffer 
+    float:0-1   -> 0 = fixed image, 1 = float image , defaults to float: 0
+    buffer:0-1  -> 0 = no buffer, 1 = buffer , defaults to buffer: 0
 
     X:0-319 -> Fixed image X position, ignored by classic interpreters if float=1
     Y:0-199 -> Fixed image Y position, ignored by classic interpreters if float=1
 
-    PCS:0-15 -> Palette Start Color, palette for colours below this one are not apllied. Ignored by classic interpreters if float=1.
-    PCE:PCS-15 -> Palette End Color, ignored by classic interpreters if float=1
+    PCS:0-15 -> Palette Start Color, palette for colours below this one are not apllied. Ignored by classic interpreters if float=1. Defaults to 0
+    PCE:PCS-15 -> Palette End Color, ignored by classic interpreters if float=1. Defaults to 15
 
-    clone: 0-1 -> Clones image from another location, if 1, location must be specified
-    location: 0-255 -> if clone=1, this is the location to clone from
+    clone: 0-1 -> Clones image from another location, if 1, location must be specified, defaults to 0
+    location: 0-255 -> mandatory if clone=1, this is the location to clone from
     
     Example:
     {"X":24,"Y":180,"PCS":0,"PCE":15}
@@ -25,21 +32,58 @@
 
     Notes: 
     
-    - Notice that in order for a JSON to be read, there should be a picture with the same numbe (i.e. 007.PNG  for 007.JPG, so even if 
-    you are going to clone, there should be a picture that won't be loaded into de graphics file anyway, so it may be any dummy picture)
+    - Notice that in order for a JSON to be read, there should be a picture with the same number (i.e. 007.PNG  for 007.JPG, so even if 
+      you are going to clone, there should be a picture that won't be loaded into de graphics file anyway, so it may be any dummy picture)
     - If float, neither X, Y nor PCS, PCE are used, so their values doesn't matter. They will be added to the DAT file though, but original interpreters
-     ignore them (maybe new interpreters will use them, who knows?).
+      ignore them (maybe new interpreters will use them, who knows?).
+    - There are obnvious incompatibilities using some parameters with others (i.e. use clone and float together makes no sense), but no checks are done, 
+      so be careful when using them.
 
+   
 
+   DAT/DMG file format
+   ===================
 
-*/    
+    First there is a global header:
 
+    2 bytes     Signature (0x0300 for the Amiga and ST versions)
+    2 bytes     Screen mode (0=low res 320x200, 1=medium res 640x200, 2=high res 640x400)
+    2 bytes     Number of pictures
+    4 bytes     File size
+
+    Then, there is a locations table, with 256 entries of 48 bytes each (12288 bytes). This stores general about the picture, plus the offset to the pixel data.
+    The locations table has entries for 256 elements, no matter how many pictures are in the file, unused entries are just zeroed.
+
+    4 bytes     Offset to pixels data
+    2 bytes     Flags (defined somewhere below in this same file)
+    2 bytes     X position (or sample frequency for SFX)
+    2 bytes     Y position
+    1 byte      Palette start color
+    1 byte      Palette end color
+    32 bytes    Palette (16 words)
+    4 bytes     CGA palette signature (0xDAADDAAD) for Amiga 12 bit palette files
+
+    Finally at the location pixels data:
+
+    2 bytes     Width (bit 15 = compressed flag)
+    2 bytes     Height (bit 15 = audio mode flag)
+    2 bytes     Data size
+    n bytes     Pixel data
+
+    If compressed flag is set, data is compressed with a RLE algorithm, first 16 bits of the Pixel data are the mask (a bitwise map of which colours 0-15 are compressed or not).
+    Then the compressed data follows. Please notice if a color is compressed, then all pixels of that color are compressed, not just those where compression is effective. DMG
+    was precalculating if compression would be globally effective or not for each color before applying it.
+
+    If not compressed, the pixel data is just the planar representation of the image.
+*/ 
 
 define('CLIPWIDTH',320); // whole width
 define('CLIPHEIGHT',96); // as a standard for DAAD Ready and Maluva, but change if you please
 define('NUM_PLANES',4);
 define('BYTES_PER_LINE',160);
 define('VERSION','1.2');
+
+$verbose = false;
 
 include_once('png.php');
 include_once('degas.php');
@@ -57,7 +101,7 @@ function syntax()
     echo "SYNTAX: IMG2DAAD <folder>{;folder} [outputfile] [-c] [-a] [-v]\n\n";
     echo "<folder>     : folder where to look for .PI1 or .PNG images. You can add several folders, just concatenate with semicolon as separator \n";
     echo "[outputfile] : file name for the output database, if absent, PART1.DAT will be used.\n";
-    echo "-c           : compress file\n\n";
+    echo "-c           : compress images\n\n";
     echo "-a           : generate Amiga 12 bit palette file. Requires patched interpreter, if you are no using 12 bit palette you can use same DAT file for Amiga, and use original interpreters.";
     echo "-v           : verbose mode, shows more information about what is being done.\n\n";
     echo "Please notice PNG images can have any format, but must be 320x200, and use a maximum of 16 colours.\n";
@@ -79,16 +123,16 @@ function dumpDatabase($outputFile, $outputFilename)
 
 /* Notes about the 12 bit and 9 bit palettes:
 
-The DAAD interpreters for Amiga and ST were made to use the standard Atari ST mode, 16 colors from a palette of 512 (e bits
+The DAAD interpreters for Amiga and ST were made to use the standard Atari ST mode, 16 colors from a palette of 512 (3 bits
 per component). When img2daad was created, someone noticed in a game (Los Elfos de Maroland), the ST version graphics were 
 better than the Amiga. That was because of some reasons:
 
 1) He was actually testing in an Atari STe, which uses still 16 colors, but from a palette of 4096 (4 bits per component)
 2) The Degas .PI1 files used to create the DAT file were also for STe (4 bits)
-3) img2DAAD just passes the palette to the DAT file as it was coming (it was, 4 bits, 4 bits remained in the DAT file)
+3) img2DAAD just passes the palette to the DAT file as it was coming (that is, 4 bits, so 4 bits remained in the DAT file)
 3) The Atari interpreter takes the 4 bits in the palette and sends them to the graphic chip, without deleting the 4th
 
-Sadly, the Amiga interpreter was croppint the 4th bit before sending it to the graphic chip, so despite the DAT file had
+Sadly, the Amiga interpreter was cropping the 4th bit before sending it to the graphic chip, so despite the DAT file had
 4 bits, only 3 went to the screen, and as a result, the Amiga graphics looked poorer.
 
 To fix that, the Amiga interpreter had to be patched. After some debugging, the code that removed the 4th bit was found:
@@ -119,14 +163,15 @@ but you find this:
 
 x x x x R0 R3 R2 R1 - G0 G3 G2 G1 - B0 B3 B2 B1
 
-This is to avoid software made for ST to work fine in STe, but it's affecting us when trying to work with the Amiga.
+This is to allow software made for ST to work fine in STe, but it's affecting us when trying to work with the Amiga.
 
 The solution for that is adding a new parameter "-a" (a for Amiga) to img2DAAD, that ensures that when Degas file, with its "twisted" palette data
-is read, img2daad rearranges data so it's as Amiga would expect it.
+is read, img2daad rearranges data so it's as Amiga would expect it. That means if you use 4 bit colours, then the Amiga and Atari ST DAT files
+cannot be the same. Not that much of a problem, as now with img2daad that is automated.
 */
 
 
-// Converts Degas twisted bits palette in normal one, byte per byte
+// Converts Degas twisted bits palette in normal one, byte per byte (as expeceted by the Amiga)
 function normalPalette($aByte)
 {
     //echo "(" . decbinn($aByte) . " => ";
@@ -137,6 +182,130 @@ function normalPalette($aByte)
     $aByte = $aByteLowNibble + ($aByteHighNibble << 4);
     //echo decbinn($aByte) . ") ";
     return $aByte;
+}
+
+
+
+// Takes an uncompressed screeen data array (Degas style) and returns a compressed version array (or the same 
+// if compression is not effective). Variable $clipdata isthe in uncompressed data, provided only so it can be
+//  returned if compression is not effective
+function getCompressedData($clipdata, $screen, $width, $height, $verbose)
+{
+    // Largely based on ADP's code for dmg_tool by José Luis Cebrián
+
+    // First just take the pixels we need (according to width and height provided), and considering the original is 320x200
+    $pixels = [];
+    for ($y=0;$y<$height;$y++)
+        for ($x=0;$x<$width;$x++)
+            $pixels[] = $screen[$y*320 + $x];
+
+    // let's calculate which colors are to be compressed or not
+    $uncompressedColorSize = array_fill(0, 16, 0); // To store how much each color would take if compressed
+    $compressedColorSize = array_fill(0, 16, 0); // To store how much each color would take if compressed
+
+    $totalCompressedSize = 0;
+    $totalUncompressedSize = (count($pixels) + 1)/2;
+    
+
+	// measure the size of the compressed stream
+    $pixelCount = count($pixels);
+    $n = 0;
+    while ($n < $pixelCount)
+    {
+        $color = $pixels[$n];
+        $repeat = 1;
+        $n++;
+        while (($repeat < 16) && ($n < $pixelCount) && ($pixels[$n] == $color))
+        {
+            $repeat++;
+            $n++;
+        }
+        $compressedColorSize[$color] += 2;
+        $uncompressedColorSize[$color] += $repeat;
+    }
+
+    // The compression mask, will have each bit set if that color is compressed (i.e. if color 4 is compressed, bit 4 will be 1, and if colour 7 is not compressed, bit 7 will be 0)
+    $mask = 0; 
+    for  ($n = 0; $n < 16; $n++)
+    {
+        if ($compressedColorSize[$n] < $uncompressedColorSize[$n])
+        {
+            $mask |= 1 << $n;
+            $totalCompressedSize += $compressedColorSize[$n];
+        }
+        else
+        {
+            $totalCompressedSize += $uncompressedColorSize[$n];
+        }
+    }
+
+	// Adjust sizes from nibble counts to final buffer sizes
+    $totalCompressedSize = floor(($totalCompressedSize + 1)/2);
+    $totalCompressedSize = 2 + (($totalCompressedSize + 3) & ~3);
+    $totalUncompressedSize = sizeof($clipdata);
+
+	// Return an uncompressed image if it's not worth to compress
+    if ($totalCompressedSize >= $totalUncompressedSize) 
+    {
+        echo "Compression not effective, this image won't be compressed.\n";
+        return $clipdata;
+    }
+    echo "Compression saved " . ($totalUncompressedSize - $totalCompressedSize) . " bytes.\n";
+
+	// Return a compressed image, with the nibble stream
+	// packed in 32-bit words (big endian) right to left 
+    $buffer = []; // output buffer
+
+    // write the mask
+    $buffer[] = ($mask & 0xFF00) >> 8;
+    $buffer[] = $mask & 0xFF; 
+        
+    //write the compressed data
+	$nibblecount = 0;
+	$value32 = 0;
+	for ($pixelPtr = 0; $pixelPtr < $pixelCount; ) // for loop does not increment pixelPtr, it's done inside in different places
+	{
+		$color = $pixels[$pixelPtr++];
+
+		$value32 |= $color << ($nibblecount * 4);
+		if (++$nibblecount == 8) // if we already have 8 nibbles, dump the dword before proceeding
+		{
+            $buffer[] = ($value32 & 0xFF000000) >> 24;
+            $buffer[] = ($value32 & 0x00FF0000) >> 16;
+            $buffer[] = ($value32 & 0x0000FF00) >> 8;
+            $buffer[] = $value32 & 0x000000FF;
+			$nibblecount = $value32 = 0;
+		}
+		if ($mask & (1 << $color)) // If this color is compressed, we add the repeat count nibble just after the color nibble
+		{
+			$repeats = 0;
+			while (($pixelPtr < $pixelCount) && ($pixels[$pixelPtr] == $color) && ($repeats < 15))
+            {
+                    $pixelPtr++;
+                    $repeats++;
+            }
+			
+			$value32 |= $repeats << ($nibblecount * 4);
+			if (++$nibblecount == 8)
+			{
+                $buffer[] = ($value32 & 0xFF000000) >> 24;
+                $buffer[] = ($value32 & 0x00FF0000) >> 16;
+                $buffer[] = ($value32 & 0x0000FF00) >> 8;
+                $buffer[] = $value32 & 0x000000FF;
+				$nibblecount = $value32 = 0;
+			}
+		}
+	}
+	if ($nibblecount != 0)
+	{
+        $buffer[]= ($value32 & 0xFF000000) >> 24;
+        $buffer[]= ($value32 & 0x00FF0000) >> 16;
+        $buffer[]= ($value32 & 0x0000FF00) >> 8;
+        $buffer[]= $value32 & 0x000000FF;
+	}
+
+    return $buffer;
+
 }
 
 
@@ -173,7 +342,6 @@ $outputFile = array();
 
 if ($verbose) echo "Creating $outputFilename with" . ($compressed ? '':'out') . " compression.\n";
 
-if ($compressed) error('Compression not yet supported');
 
 // The DAT file header
 
@@ -256,12 +424,45 @@ foreach ($files as $file)
 $imgsLoaded = array();
 ksort($fileList, SORT_NUMERIC);
 
+// Apparently, the mark of buffered images was only so DG knew which images to put first 
+// in the DAT file, because the interpreter ignores it, and just loads ~96K of the DAT
+// file in RAM, so only images placed first in the file are buffered.  Then, we have to
+// find which images are buffered, and sort the fileList so they go first in the DAT file
+// In fact, if no images are marked as buffered, still the first images in the file will 
+// be buffered, something that is difficult to spot if the game runs from hard disk, but
+// is obvious when running from floppy, as aside of the first buffered images, the rest
+// will be loaded from disk each time they are needed.
+
+// 1 - find buffered images
+$bufferedImages = array();
+foreach ($fileList as $location=>$fileData)
+{
+    if (property_exists($fileData, 'hasJSON') && ($fileData->hasJSON))
+    {
+        echo "Checking JSON for location $location ...\n";
+        $json = json_decode(file_get_contents($fileData->JSONfilename));
+        if (property_exists($json, 'buffer') && ($json->buffer==1))
+        {
+            $bufferedImages[] = $location;
+        }
+    }
+}
+
+// 2 - Now sort the $fileList so buffered images go first
+$sortedFileList = array();
+foreach ($bufferedImages as $location)
+{
+    $sortedFileList[$location] = $fileList[$location];
+    unset($fileList[$location]);
+}
+$fileList = $sortedFileList + $fileList;
 foreach ($fileList as $location=>$fileData)
 {
 
+
     if ( ((property_exists($fileData, 'hasPI1')) &&  ($fileData->hasPI1)) || ((property_exists($fileData, 'hasPNG')) &&  ($fileData->hasPNG))  || ((property_exists($fileData, 'hasWAV')) &&  ($fileData->hasWAV))) 
     {
-        if ($verbose) echo ">> Processing image/sample $location ";
+        echo ">> Processing image/sample $location \n";
         $imgsLoaded[]=$location;
 
         if ((property_exists($fileData, 'hasPNG')) &&  ($fileData->hasPNG)) // PNG over PI1
@@ -269,7 +470,7 @@ foreach ($fileList as $location=>$fileData)
             $file = $fileData->PNGfilename;
             if ($verbose) echo "($file).\n";
             $degas = new pngFileReader();
-            $result = $degas->loadFile($file);
+            $result = $degas->loadFile($file, $verbose);
             if ($result!='') error($result);
         }
         else
@@ -309,7 +510,7 @@ foreach ($fileList as $location=>$fileData)
         Flag field bits:
      
         #define PFLOAT          0x01  ; 1 = is float image, 0=isfixed. If fixed X and Y are considered
-        #define RESID           0x02  ; no idea
+        #define RESID           0x02  ; 1 = buffered image, 0= no buffer (defined as resident by the ST/Amiga source code)
         #define CGAP01          0x04  ; No idea
         #define HOTSP           0x08  ; No idea
         #define SAMPLE          0x10  ; Is a sound sample
@@ -392,8 +593,24 @@ foreach ($fileList as $location=>$fileData)
         else
         {    
             
+            $compressThisFile = $compressed;
+            if (property_exists($fileData, 'hasJSON') && ($fileData->hasJSON))
+            {
+                // A JSON can only be applied if a image has been loaded in that slot, or if the JSON is to clone a image
+                $json = json_decode(file_get_contents( $fileData->JSONfilename));
+                if (!$json) error ('Invalid JSON file: ' .$fileData->JSONfilename);
+                if (property_exists($json, 'compress'))
+                {
+                    $compressThisFile = ($json->compress==1);
+                    if ($verbose) echo "Overriding compression from JSON file: " . ($compressThisFile ? 'compressing':'not compressing') . "\n";
+                }
+            }
+
+
             $screen = array();
             for ($i=0;$i<32000;$i++) $screen[] = $degas->readByte(); // read 32.000 bytes of image data
+
+            $linearScreen = $degas->linearScreen;
 
             $xs = 0;
             $ys = 0;
@@ -410,7 +627,7 @@ foreach ($fileList as $location=>$fileData)
             }
 
             $originalWidth = $width;
-
+            // Prepare the uncompressed pixel data array, planar, etc.
             // From now on, this is a copy of Tim Gilberts's code, which honestly I haven't even
             // tried to understand,  basically because it worked out of the box :-)
 
@@ -437,17 +654,34 @@ foreach ($fileList as $location=>$fileData)
             // Tim Gilbert's code ends here
 
             // Let's dump the pixels data now
-            // Fist the mini header at the pixels area
-            $outputFile[] = $originalWidth  >> 8; //MSB
-            $outputFile[] = $originalWidth & 0x00FF ; //LSB
 
+            $thisImageCompressed = $compressThisFile;
+            $datasize = sizeof($clipdata);
+            if ($verbose) echo "Data size: $datasize bytes\n";
+            if ($thisImageCompressed) 
+            {
+                $clipdata = getCompressedData($clipdata, $linearScreen,  $originalWidth, $height, $verbose);
+                if ($verbose) echo "Compressed data size: " . sizeof($clipdata) . " bytes\n";
+                if ($datasize == sizeof($clipdata))  // If we detect the returned array is the same clipdata, then compression was not effective
+                    {
+                        if ($verbose) echo "Compression not effective, storing uncompressed image.\n";
+                        $thisImageCompressed = false;
+                    }
+            }
+            
+            // Let's dump the mini header now
+            
+            // Width  and compressed flag
+            if ($thisImageCompressed) $finalWidth = $originalWidth | 0x8000; else $finalWidth = $originalWidth; // Mark as compressed is setting the highmost bit in the width field
+            $outputFile[] = $finalWidth  >> 8; //MSB
+            $outputFile[] = $finalWidth & 0x00FF ; //LSB
+
+            // Height
             $outputFile[] = $height  >> 8; //MSB
             $outputFile[] = $height & 0x00FF ; //LSB
 
+            // Datasize
             $datasize = sizeof($clipdata);
-            if ($verbose) echo "Data size: $datasize bytes\n";
-
-
             $outputFile[] = $datasize  >> 8; //MSB
             $outputFile[] = $datasize & 0x00FF ; //LSB
 
@@ -531,21 +765,3 @@ dumpDatabase($outputFile, $outputFilename);
 if ($verbose) echo "OK.\n";
 
 
-/*
-
-DEGAS file format:
-
-DEGAS           *.PI1 (low resolution)
-                *.PI2 (medium resolution)
-                *.PI3 (high resolution)
-                (PI4, PI5, PI6)
-
-1 word          resolution (0 = low res, 1 = medium res, 2 = high res)
-                Other bits may be used in the future; use a simple bit
-                test rather than checking for specific word values.
-16 words        palette
-16000 words     picture data (screen memory)
------------
-32034 bytes     total
-
-*/
