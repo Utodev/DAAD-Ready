@@ -73,7 +73,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 
 REM  ---- PREPARE IMAGES ----
-PHP\php TOOLS\img2daad\img2daad.php IMAGES;SOUNDS RELEASE\ATARIST\PART1.DAT
+PHP\php TOOLS\img2daad\img2daad.php IMAGES;SOUNDS RELEASE\ATARIST\PART1.DAT -c
 IF ERRORLEVEL 1 GOTO ERROR
 IF exist IMAGES\DAAD.PNG (
     PHP\PHP TOOLS\IMG2DAAD\PNG2DEGAS.PHP IMAGES\DAAD.PNG IMAGES\DAAD.PI1
