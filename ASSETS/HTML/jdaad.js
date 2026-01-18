@@ -2548,7 +2548,7 @@ function _SFX()
 /*--------------------------------------------------------------------------------------*/
 function _DESC()
 {
-  if (Parameter1 = LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
+  if (Parameter1 == LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
   done = true;
   writeText(getMessage(DDB.header.locationPos, Parameter1)); 
 }
@@ -3228,7 +3228,7 @@ function _SYSMESS()
 /*--------------------------------------------------------------------------------------*/
 function _ISAT()
 {
-    if (Parameter2 = LOC_HERE) Parameter2 = flags.getFlag(FPLAYER);
+    if (Parameter2 == LOC_HERE) Parameter2 = flags.getFlag(FPLAYER);
     condactResult = objects.getObjectLocation(Parameter1) == Parameter2;
 }
 
@@ -3517,7 +3517,7 @@ function _DOALL()
     _EXIT;
     }
  
-    if (Parameter1 = LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
+    if (Parameter1 == LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
     var i = -1;
     do 
     {
@@ -3607,7 +3607,7 @@ done = true;
 /*--------------------------------------------------------------------------------------*/
 function _ISNOTAT()
 {
-    if (Parameter2 = LOC_HERE) Parameter2 = flags.getFlag(FPLAYER);
+    if (Parameter2 == LOC_HERE) Parameter2 = flags.getFlag(FPLAYER);
     condactResult = objects.getObjectLocation(Parameter1) != Parameter2;
 }
 
@@ -3621,7 +3621,7 @@ function _WEIGH()
 /*--------------------------------------------------------------------------------------*/
 function _PUTIN() 
 {
-    if (Parameter1 = LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
+    if (Parameter1 == LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
     objects.setReferencedObject(Parameter1);
     var ObjectLocation =objects.getObjectLocation(Parameter1);
     if (ObjectLocation == LOC_WORN) 
@@ -3668,7 +3668,7 @@ function _NEWTEXT()
 /*--------------------------------------------------------------------------------------*/
 function _TAKEOUT() 
 {
-    if (Parameter1 = LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
+    if (Parameter1 == LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
     objects.setReferencedObject(Parameter1);
     var ObjectLocation =objects.getObjectLocation(Parameter1);
     if ((ObjectLocation == LOC_WORN) || (ObjectLocation==LOC_CARRIED)) 
@@ -3856,7 +3856,7 @@ function _NOTDONE()
 /*--------------------------------------------------------------------------------------*/
 function _AUTOP() 
 {
-    if (Parameter1 = LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
+    if (Parameter1 == LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
     Parameter2 = Parameter1; //To use it with PUTIN
     var Noun = flags.getFlag(FNOUN);
     var Adject = flags.getFlag(FADJECT);
@@ -3892,7 +3892,7 @@ function _AUTOP()
 /*--------------------------------------------------------------------------------------*/
 function _AUTOT() 
 {
-    if (Parameter1 = LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
+    if (Parameter1 == LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
     Parameter2 = Parameter1; //To use it with TAKEOUT
     var Noun = flags.getFlag(FNOUN);
     var Adject = flags.getFlag(FADJECT);
