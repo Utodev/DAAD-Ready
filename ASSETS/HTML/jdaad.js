@@ -1,3 +1,5 @@
+
+var jarl = false;
 /*
 KNOWN BUGS:
 - Beep can't sound until player has either clicked or pressed a key. It's a limitation of javascript
@@ -1005,6 +1007,9 @@ function run(skipToRunCondact)
 
     RunCondact: while (true)
     {
+        if (jarl){
+            console.log("STEP Window X:" + windows.windows[windows.activeWindow].currentX + " Y:" + windows.windows[windows.activeWindow].currentY);
+        }
         skipToRunCondact = false;
 
         if (!inINKEY)
@@ -1074,6 +1079,9 @@ function run(skipToRunCondact)
             condactResult = true;
             playerPressedKey = false;
             condactTable[opcode].condactRoutine(); //Execute the condact
+            if (jarl){
+                console.log("STEP After Condact Window X:" + windows.windows[windows.activeWindow].currentX + " Y:" + windows.windows[windows.activeWindow].currentY);
+            }
             if (inPARSE || inANYKEY || inQUIT ||inEND || inSAVE || inLOAD || inINKEY)  return; // get out of main loop as we are now just waiting for keypress (or waiting for a key event in the case of inINKEY)
         } else inINKEY=false;
         //If condact execution failed, go to next entry
@@ -1782,8 +1790,11 @@ function Printat(line, col)
 {
     if ((line < windows.windows[windows.activeWindow].height) && (col < windows.windows[windows.activeWindow].width))
     {
-        windows.windows[windows.activeWindow].CurrentY = line * LINE_HEIGHT;
-        windows.windows[windows.activeWindow].CurrentX = col * COLUMN_WIDTH;
+        windows.windows[windows.activeWindow].currentY = line * LINE_HEIGHT;
+        windows.windows[windows.activeWindow].currentX = col * COLUMN_WIDTH;
+        jarl  =true;
+        console.log('Printat L:' + line + ' C:' + col + ' X:' + windows.windows[windows.activeWindow].currentX + ' Y:' + windows.windows[windows.activeWindow].currentY);
+        console.log('Active window:' + windows.activeWindow);
     }
    
 }
@@ -1796,8 +1807,8 @@ function Tab(col)
 
 function SaveAt()
 {
-    windows.windows[windows.activeWindow].BackupCurrentY = windows.windows[windows.activeWindow].currentY;
-    windows.windows[windows.activeWindow].BackupCurrentX = windows.windows[windows.activeWindow].CurrentX;
+    windows.windows[windows.activeWindow].backupCurrentY = windows.windows[windows.activeWindow].currentY;
+    windows.windows[windows.activeWindow].backupCurrentX = windows.windows[windows.activeWindow].currentX;
 }
 
 function BackAt()
@@ -1891,6 +1902,11 @@ function writeChar(c)
             }
             else
             {
+                if (jarl) 
+                {
+                    console.log('X:' + windows.windows[windows.activeWindow].currentX + ' Y:' + windows.windows[windows.activeWindow].currentY + ' Char:' + String.fromCharCode(c));                                      
+                    console.log('Active window:' + windows.activeWindow);
+                }
                 for (var i=0;i<8;i++)
                 {
                     var scan = font[(c + windows.charsetShift) % 256 * 8 + i];  //Get definition for this scanline
@@ -3352,7 +3368,7 @@ function _ADJECT2()
 /*--------------------------------------------------------------------------------------*/
 function _ADD()
 {
- if (flags.getFlag(Parameter1) -  flags.getFlag(Parameter2) > MAX_FLAG_VALUE) flags.setFlag(Parameter2, MAX_FLAG_VALUE);
+ if (flags.getFlag(Parameter1) +  flags.getFlag(Parameter2) > MAX_FLAG_VALUE) flags.setFlag(Parameter2, MAX_FLAG_VALUE);
                 else flags.setFlag(Parameter2, flags.getFlag(Parameter1) + flags.getFlag(Parameter2));
  done = true;
 }
@@ -3757,7 +3773,7 @@ function _WEIGHT()
 /*--------------------------------------------------------------------------------------*/
 function _RANDOM()
 {
- flags.setFlag(Parameter1, Math.floor(Math.random()*101));
+ flags.setFlag(Parameter1, Math.floor(Math.random()*100) +1);
  done = true;
 }
 
@@ -3803,7 +3819,7 @@ function _PRINTAT()
 function _WHATO() 
 {
     var currentNoun = flags.getFlag(FNOUN);
-    var currentAdjective = flags.getFlag(FVERB);
+    var currentAdjective = flags.getFlag(FADJECT);
 
     var objno = objects.getObjectByVocabularyAtLocation(currentNoun, currentAdjective, LOC_CARRIED);
     if (objno != NO_OBJECT) objects.setReferencedObject(objno);
