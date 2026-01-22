@@ -2535,7 +2535,7 @@ function _SFX()
     // Stops loop if enabled, parameter2 is irrelevant
     case 8: StopSound(false);break;
 
-    // PlaysFLI file, no repeat
+    // PlayMP4 file, no repeat
     case 9: {
         var SaveMouse = activeMouse;
         if (SaveMouse) hideMouse();
@@ -2544,7 +2544,7 @@ function _SFX()
         break;
        }; 
 
-    // PlaysFLI file, loop
+    // PlayMP4 file, loop
    case 10: {
         var SaveMouse = activeMouse;
         if (SaveMouse) hideMouse();
