@@ -2506,62 +2506,6 @@ function _ADVERB()
 }
 
 /*--------------------------------------------------------------------------------------*/
-
-
-
-function _SFX()
-{
- switch (Parameter2) 
- {
-    /*Note: we skip should avoid using 255 and 2554 as they are used by original
-    SFX implementation in AtariST. SFX x 255 plays sample loaded by PICTURE, while
-    SFX 2 254 disables keyboard click sound*/
-
-    // Plays sample and no repeat
-    case 1: PlaySound(true, Parameter1, false); break;
-
-    // Plays sample  and loop
-    case 2: PlaySound(true, Parameter1, true); break;
-
-    // Stops loop if enabled, parameter2 is irrelevant
-    case 5: StopSound(true);break;
-
-    // Plays music with no repeat
-    case 6: PlaySound(false, Parameter1, false); break;
-
-    // Plays music loop
-    case 7: PlaySound(false, Parameter1, true); break;
-
-    // Stops loop if enabled, parameter2 is irrelevant
-    case 8: StopSound(false);break;
-
-    // PlayMP4 file, no repeat
-    case 9: {
-        var SaveMouse = activeMouse;
-        if (SaveMouse) hideMouse();
-        PlayVideo(Parameter1,false);
-        if (SaveMouse) showMouse();
-        break;
-       }; 
-
-    // PlayMP4 file, loop
-   case 10: {
-        var SaveMouse = activeMouse;
-        if (SaveMouse) hideMouse();
-        PlayVideo(Parameter1,true);
-        if (SaveMouse) showMouse();
-        break;
-       }
-    // Plays SFX the old style
-    case 255: PlaySound(true, sampleBufferID, false); break;
-
- } 
-    
-  
- done = true;
-}
-
-/*--------------------------------------------------------------------------------------*/
 function _DESC()
 {
   if (Parameter1 == LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
@@ -3600,6 +3544,64 @@ function _MOUSE()
     done = true;
 }
 
+
+/*--------------------------------------------------------------------------------------*/
+
+
+
+function _SFX()
+{
+ switch (Parameter2) 
+ {
+    /*Note: we skip should avoid using 255 and 2554 as they are used by original
+    SFX implementation in AtariST. SFX x 255 plays sample loaded by PICTURE, while
+    SFX 2 254 disables keyboard click sound*/
+
+    // Plays sample and no repeat
+    case 1: PlaySound(true, Parameter1, false); break;
+
+    // Plays sample  and loop
+    case 2: PlaySound(true, Parameter1, true); break;
+
+    // Stops loop if enabled, parameter2 is irrelevant
+    case 5: StopSound(true);break;
+
+    // Plays music with no repeat
+    case 6: PlaySound(false, Parameter1, false); break;
+
+    // Plays music loop
+    case 7: PlaySound(false, Parameter1, true); break;
+
+    // Stops loop if enabled, parameter2 is irrelevant
+    case 8: StopSound(false);break;
+
+    // PlayMP4 file, no repeat
+    case 9: {
+        var SaveMouse = activeMouse;
+        if (SaveMouse) hideMouse();
+        PlayVideo(Parameter1,false);
+        if (SaveMouse) showMouse();
+        break;
+       }; 
+
+    // PlayMP4 file, loop
+   case 10: {
+        var SaveMouse = activeMouse;
+        if (SaveMouse) hideMouse();
+        PlayVideo(Parameter1,true);
+        if (SaveMouse) showMouse();
+        break;
+       }
+    // Plays SFX the old style
+    case 255: PlaySound(true, sampleBufferID, false); break;
+
+ } 
+    
+  
+ done = true;
+}
+
+
 /*--------------------------------------------------------------------------------------*/
 function _GFX() 
 {
@@ -3616,6 +3618,16 @@ function _GFX()
   case 8: DBTextWriteToBuffer(); break; //Write the text buffer to the buffer
   case 9: DBSetPalette(Parameter1); //Set the palette
   case 10:DBgetPalette(Parameter1); //Gets the palette
+  /* For some reason I added MP4 playing to SFX condact instead of GFX condact . Since I regret that,
+  but I don't want to break backward compatibility, I will redirect MP4 playing requests from GFX 
+  to SFX condact, and document them in GFX instead of SFX from now on. */
+  case 13: 
+       Parameter2 = 9;
+       _SFX;  /* Play FLI from SFX condact */
+       break;
+  case 14:  Parameter2 = 10;
+       _SFX;  /* Play FLI looped from SFX condact */
+       break;
  }
 done = true;
 }
