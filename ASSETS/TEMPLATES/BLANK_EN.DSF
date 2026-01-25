@@ -9,7 +9,7 @@
 ;                                                              Tim Gilberts
 ;
 ;                                      'And also WE ALL have to work for it'
-;                                                            Andrés Samudio
+;                                                            Andrï¿½s Samudio
 ;
 ;                                                                   [8-6-89]
 ;
@@ -293,10 +293,6 @@ S 1
 ;------------------------------------------------------------------------------
 /PRO 0       ;Main Location Loop
 
-; Este proceso es el primero en ser ejecutado por DAAD, y así contiene una primera entrada que
-; salta al proceso que inicializa objetos, flags, etc. y luego cada vez que es llamado, y el
-; jugador ya no está en la localidad 0, se encarga de mostrar el gráfico y texto de la localidad
-; actual, si procede,  y saltar al proceso 1 donde está el sistema que pide órdenes al jugador.
 
 ; This process is the first one executed by DAAD, and so it contains a first entry that
 ; jumps to the process that initializes objects, flags, etc. and then every time it is called, and the
