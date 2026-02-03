@@ -1392,8 +1392,8 @@ function parseEnd()
 
     playerOrder = playerOrder.trim();
     debug(playerOrder.padEnd(50,' ') , 'parse')
-    //remove double spaces
-    while (playerOrder.indexOf('  ') != -1) playerOrder.replace('  ',' ');
+    //remove double, triple or more spaces --> convert to single spaces
+    playerOrder = playerOrder.replace(/\s+/g, ' ');
     //split order into words}
     var orderWords = playerOrder.split(' ');
 
