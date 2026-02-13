@@ -117,7 +117,7 @@ for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i64 tools\c1541\c1541.exe -attach
 for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i64 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\0%%i64 0%%i64 > nul 2>&1
 for /L %%i in (100, 1, 256) do IF exist IMAGES\%%i64  tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\%%i64 %%i64 > nul 2>&1
 for /L %%i in (0, 1, 32) do IF exist 0%%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write 0%%i.XMB 0%%i > nul 2>&1
-for /L %%i in (10, 1, 32) do IF exist %%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write %%i.XMB 0%%i > nul 2>&1
+for /L %%i in (10, 1, 32) do IF exist %%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write %%i.XMB %%i > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
