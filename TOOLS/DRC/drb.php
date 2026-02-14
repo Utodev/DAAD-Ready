@@ -2020,7 +2020,9 @@ fclose($outputFileHandler);
 if ($adventure->dumpToXMB) fclose($XMBFileHandler);
 if ($adventure->verbose) summary($adventure);
 if ($adventure->verbose) echo "$outputFileName for $target created.\n";
-if ($currentAddress>0xFFFF) echo "Warning: DDB file goes " . ($currentAddress - 0xFFFF) . " bytes over the 65535 memory address boundary.\n";
+
+if ($currentAddress>0xFFFF) Error("DDB file goes " . ($currentAddress - 0xFFFF) . " bytes over the 65535 memory address boundary.\n");
+
 echo "DDB size is " . ($fileSize - $baseAddress) . " bytes.\nDatabase ends at address $currentAddress (". prettyFormat($currentAddress). ")\n";
 if ($xMessageSize)
 {
