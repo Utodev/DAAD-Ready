@@ -78,10 +78,9 @@
 */ 
 
 define('CLIPWIDTH',320); // whole width
-define('CLIPHEIGHT',96); // as a standard for DAAD Ready and Maluva, but change if you please
 define('NUM_PLANES',4);
 define('BYTES_PER_LINE',160);
-define('VERSION','1.2');
+define('VERSION','2.0');
 
 $verbose = false;
 
@@ -98,12 +97,13 @@ function error($errorMsg)
 function syntax()
 {
     echo "IMG2DAAD ".VERSION." - Creates DAAD Graphic Databases for Atari ST and Amiga\n\n";
-    echo "SYNTAX: IMG2DAAD <folder>{;folder} [outputfile] [-c] [-a] [-v]\n\n";
+    echo "SYNTAX: IMG2DAAD <folder>{;folder} [outputfile] [-c] [-a] [-v] [-<lines>]\n\n";
     echo "<folder>     : folder where to look for .PI1 or .PNG images. You can add several folders, just concatenate with semicolon as separator \n";
     echo "[outputfile] : file name for the output database, if absent, PART1.DAT will be used.\n";
     echo "-c           : compress images\n\n";
     echo "-a           : generate Amiga 12 bit palette file. Requires patched interpreter, if you are no using 12 bit palette you can use same DAT file for Amiga, and use original interpreters.";
     echo "-v           : verbose mode, shows more information about what is being done.\n\n";
+    echo "-<lines>     : img2daad defaults to create pictures 96 pixel height, but you can change that with this parameter, just write -100 to create 100 pixel height pictures, for example.\n\n";
     echo "Please notice PNG images can have any format, but must be 320x200, and use a maximum of 16 colours.\n";
     echo "Specific details can be given to each image using a JSON file with the same name as the image, but with .JSON extension. The details of the JSON file are explained in the php file itself, read the comment on top.\n";
     
@@ -331,12 +331,19 @@ for ($i=2;$i<$argc;$i++)
         if (strtoupper($currentParam) == '-C') $compressed = true;
         else if (strtoupper($currentParam) == '-A') $amigaDAT = true;
         else if (strtoupper($currentParam) == '-V') $verbose = true;
+        else if (is_numeric(substr($currentParam, 1))) 
+        {
+            define('CLIPHEIGHT',intval(substr($currentParam, 1)));
+            if ($verbose) echo "Setting clip height to " . CLIPHEIGHT . " pixels.\n";
+        }
         else Error("Invalid param: $currentParam");
     }
     else if ($i==2) $outputFilename = $currentParam;
 }
 
-if ($verbose) echo "IMG2DAAD ".VERSION." - DAAD DAT Maker for Amiga and Atari ST (C) 2022\n";
+if (!defined('CLIPHEIGHT')) define('CLIPHEIGHT',96); // default clip height
+
+if ($verbose) echo "IMG2DAAD ".VERSION." - DAAD DAT Maker for Amiga and Atari ST (C) 2026\n";
 
 $outputFile = array();
 
