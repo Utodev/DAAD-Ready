@@ -1,4 +1,4 @@
-    <?php
+<?php
 
     // This DAT generator is meant to be used with Amiga and Atari ST targets only (or any compatible as ADP)
 
@@ -400,6 +400,10 @@ foreach ($files as $file)
         $obj = new stdClass();
         $fileList[$location] = $obj;
     }
+    else
+    {
+        error("Two resources found for the same resource number $location.");
+    }
     
 
     
@@ -455,7 +459,7 @@ foreach ($fileList as $location=>$fileData)
     }
 }
 
-// 2 - Now sort the $fileList so buffered images go first
+// 2 - Now sort the $fileList so buffered images/samples go first
 $sortedFileList = array();
 foreach ($bufferedImages as $location)
 {
