@@ -965,7 +965,7 @@ function generateProcesses($adventure, &$currentAddress, $outputFileHandler, $is
                     {
                         $element = $dataArray[$i];
                         $var = filter_var($element, FILTER_VALIDATE_INT, array());
-                        if (!$var) Error("Non integer value in XDATA condact element #$i '$element'");
+                        if ($var===false) Error("Non integer value in XDATA condact element #$i '$element'");
                         if (($element < 0) || ($element > 255)) Error("XDATA values must be in the 0-255 range, element #$i is not ($element)");
                     }
 
