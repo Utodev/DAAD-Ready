@@ -3504,8 +3504,6 @@ function _DOALL()
         }
         else 
         {
-            debug('Bad doall', 'error');
-            Sysmess(SM8);
             newtext();
             _DONE();
             break;
