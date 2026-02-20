@@ -151,7 +151,7 @@ echo "--------------------------------------------------------------------"
 )
 tools\cecho\cecho {07}
 PAUSE
-TOOLS\Plus4Yape\YAPE RELEASE\CPLUS4\%GAME%.D64 
+TOOLS\Plus4Yape\YapeWin32 RELEASE\CPLUS4\%GAME%.D64 
 GOTO FIN
 
 :ERROR

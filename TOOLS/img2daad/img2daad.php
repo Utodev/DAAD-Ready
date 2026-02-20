@@ -399,12 +399,7 @@ foreach ($files as $file)
     {
         $obj = new stdClass();
         $fileList[$location] = $obj;
-    }
-    else
-    {
-        error("Two resources found for the same resource number $location.");
-    }
-    
+    }    
 
     
     if ($extension=='JSON') 
