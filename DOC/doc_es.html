@@ -1365,11 +1365,6 @@ ejecutaremos los ejecutaremos los condActos de la entrada uno a uno y de arriba 
 
 <p>><u>Acciones para grabar o cargar el estado actual del juego</u></p>
 
-<ul>
-  <li>0 - Acción normal</li>
-  <li>1 - Grabar a cinta (no preguntar “disco o cinta”)</li>
-  <li>2 - Grabar a disco (no preguntar “disco o cinta”)</li>
-</ul>
 
 <a name="save"></a>
 <condact>SAVE opt</condact>
@@ -1377,11 +1372,26 @@ SAVE opt
 
 <p>Esta acción graba el estado actual del juego en disco o cinta. El mensaje del sistema 60 (“Escribe el nombre del fichero:”) se imprime, y la rutina de input es llamada para que el jugador escriba el nombre. Si el nombre facilita no es válido se muestra el mensaje del sistema 59 “Error en nombre de fichero”. En las máquinas de 8 bits este dato no es comprobado, simplemente hace que el fichero sea aceptable.</p>
 
+<ul>
+  <li>0 - Acción normal</li>
+  <li>1 - Grabar a cinta (no preguntar “disco o cinta”)</li>
+  <li>2 - Grabar a disco (no preguntar “disco o cinta”)</li>
+</ul>
+
+<p>Nota: el parámetro opt es una sugerencia, el intérprete puede ignorarla si solo dispone de un método de grabación.</p>
 
 <a name="load"></a>
 <condact>LOAD opt</condact>
 
 <p>Esta acción carga una partida grabada de disco o de cinta. Se pide un nombre de fichero igual que con SAVE. Una variedad de errores puede ocurrir en cada máquina si el fichero no se encuentra (generalmente ‘Error de E/S’). Si la carga tiene éxito la siguiente acción es ejecutada, en caso contrario una limpieza del sistema, GOTO 0, RESTART es ejecutado (dando como resultado en general el reinicio del juego).</p>
+
+<ul>
+  <li>0 - Acción normal</li>
+  <li>1 - Grabar a cinta (no preguntar “disco o cinta”)</li>
+  <li>2 - Grabar a disco (no preguntar “disco o cinta”)</li>
+</ul>
+
+<p>Nota: el parámetro opt es una petición, el intérprete puede ignorarla si solo dispone de un método de carga.</p>
 
 
 <a name="ramsave"></a>
@@ -1524,7 +1534,7 @@ SAVE opt
 <p>Otra acción muy poderosa que permite la mejora de cualquier comando de tipo "ALL" (como COGER TODO). </p>
 
 <ul>
- <li>1 - Se intenta encontrar un objeto en la localidad a la que se refiere locno. Si no se encuentra (no es satisfactorio) el DOALL se cancela, el mensaje del sistema 8 “No puedes hacer eso es mostrado”,  y una acción DONE se ejecuta. </li>
+ <li>1 - Se intenta encontrar un objeto en la localidad a la que se refiere locno. Si no se encuentra (no es satisfactorio) el DOALL se cancela, y una acción DONE se ejecuta. </li>
  <li>2 - TSi se encuentra un objeto, el número del objeto se convierte en el Nombre1 de la SL (y el Adjetivo1 si está presente) por medio de una referencia a la tabla de Objetos Palabras. Si Nombre (Adjetivo) 1 es similar o hace juego con Nombre (Adjetivo) 2 entonces se hace una vuelta al paso 1. Esto es para facilitar el "Verbo TODO EXCEPTO objeto" (coge todo excepto...). </li>
  <li>3 - El siguiente condActo y/o entrada en la tabla se considera entonces. Esto convierte efectivamente una frase del tipo "Verbo todo" en una del tipo "Verbo objeto" la cual será entonces procesada por la tabla como si el jugador lo hubiese tecleado de la última forma. </li>
  <li>4 - WCuando se hace un intento de salida de la tabla actual, si el DOALL todavía está activo (por ejemplo, no ha sido cancelado por una acción), entonces la atención del PAW vuelve de nuevo al bucle DOALL desde el paso 1. La búsqueda continuará desde el siguiente objeto (el que tenga un número más alto). </li>
@@ -1541,6 +1551,7 @@ SAVE opt
    often as it’s not supported by other interpreters, but it’s worth knowing.</p>
 
 <a name="skip"></a>
+<a name="jump"></a>
 <condact>SKIP distance | label</condact>
 
 <p>Donde distancia es de -128 a 128, o una etiqueta.</p>
@@ -1707,14 +1718,17 @@ $ Adelante<br/>
 <a name="picture"></a>
 <condact>PICTURE picno</condact>
 
-<p>Carga en memoria el gráfico cuyo número es picno, por ejemplo, PICTURE 7 carga el gráfico 007. Si la carga se realiza sin problemas, se ejecuta el siguiente conducto, si no, pasamos a la siguiente entrada. PICTURE no pinta ningún gráfico en pantalla, solo lo carga en memoria.</p>
-<p>PICTURE solamente es usado en DAAD-Ready para las máquinas de 16 bit, el Amstrad PCW y el target HTML. Para el resto de máquinas de 8 bit se usa XPICTURE (ver más adelante)</p>
+<p>Checks whether the graphic whose number is picno, exists. If so, the next condact is executed, if not, it goes to the next entry. Also, in targets where there is RAM enough to keep a copy of graphics (in general, machines with more than 64K),
+  it loads the graphic in RAM, but doesn't paint it on the screen.
+
+<p>Comprueba si el gráfico cuyo número es picno existe. Si existe, se ejecuta el siguiente condActo, si no, se pasa a la siguiente entrada. Además, en los targets donde hay RAM suficiente para mantener una copia
+   de los gráficos (en general, máquinas con más de 64K), carga el gráfico en RAM, pero no lo pinta en pantalla.</p>
 
 <a name="display"></a>
 <condact>DISPLAY value</condact>
-<p>Si value vale 0, se pinta en pantalla el gráfico que hubiera cargado en memoria (por PICTURE).</p>
-<p>Si el valor no es 0 y la imagen no es una subrutina, entonces la zona de imágenes es borrada. </p>
 
+<p>Si value es 0, el gráfico previamente seleccionado por PICTURE es pintado en pantalla. Si PICTURE pudo cargarlo a RAM previamente, se pintará desde RAM, de lo contrario, se cargará desde disco en ese momento.</p>
+<p>Si el valor no es 0 y el gráfico no es una subrutina, entonces se borra el área gráfica.</p>
 
 <a name="maluvacondacts"></a>
 <h6>Condactos Maluva</h6>

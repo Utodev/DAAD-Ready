@@ -1414,11 +1414,6 @@ is:" etc.</p>
 
 <p>><u>Actions to load or save the current state of the game</u></p>
 
-<ul>
-  <li>0 - Normal action</li>
-  <li>1 - Save to TAPE (i.e. does not ask "Disc or Tape?")</li>
-  <li>2 - Save to DISC (ditto)</li>
-</ul>
 
 <a name="save"></a>
 <condact>SAVE opt</condact>
@@ -1431,11 +1426,19 @@ filename is not acceptable SM59 ("File name error.") is printed -
 this is not checked on 8-bit machines, the file name is MADE
 acceptable!</p>
 
+<p>Option parameter ask DAAD to do one of the following, but some targets may ignore it and
+  have just tape or just disc support.
+</p>
+
 <ul>
-  <li>0 - Normal action</li>
+  <li>0 - Ask user tape or disc</li>
   <li>1 - Save to TAPE (i.e. does not ask "Disc or Tape?")</li>
   <li>2 - Save to DISC (ditto)</li>
 </ul>
+
+<p>Please notice the option is just a suggestion, some targets may ignore it and have just tape or just disc support.</p>
+
+
 
 <a name="load"></a>
 <condact>LOAD opt</condact>
@@ -1452,6 +1455,11 @@ RESTART is carried out.</p>
   <li>1 - Save to TAPE (i.e. does not ask "Disc or Tape?")</li>
   <li>2 - Save to DISC (ditto)</li>
 </ul>
+
+<p>Option parameter ask DAAD to do one of the following, but some targets may ignore it and
+  have just tape or just disc support.
+</p>
+
 
 <a name="ramsave"></a>
 <condact>RAMSAVE</condact>
@@ -1647,8 +1655,7 @@ entries. Allowing only one to deal with the actual actions.</p>
 
 <ul>
  <li>1 - An attempt is made to find an object at Location locno.
- If this is unsuccessful the DOALL is cancelled, system message 8 
- “You can’t do that” is shown, and action DONE is performed.</li>
+ If this is unsuccessful the DOALL is cancelled and action DONE is performed.</li>
 
  <li>2 - The object number is converted into the LS Noun1 (and
  Adjective1 if present) by reference to the object 
@@ -1686,6 +1693,7 @@ made into objects if they were to be included in a DOALL.</p>
    often as it’s not supported by other interpreters, but it’s worth knowing.</p>
 
 <a name="skip"></a>
+<a name="jump"></a>
 <condact>SKIP distance | label</condact>
 
 <p>where distance is -128 to 128, or to the specified label.</p>
@@ -1862,14 +1870,13 @@ section for the current Verb.
 <a name="picture"></a>
 <condact>PICTURE picno</condact>
 
-<p>Loads in RAM the graphic whose number is picno, for example, PICTURE 7 loads graphic 007. If the load is successful, the next condact is executed, if not, it goes to the next entry. PICTURE does not paint any graphic on screen, it just loads it in RAM.</p>
-<p>PICTURE is only used in DAAD-Ready for 16 bit machines, Amstrad PCW and HTML target. For the rest of 8 bit machines, XPICTURE is used (see below)</p>
+<p>Checks whether the graphic whose number is picno, exists. If so, the next condact is executed, if not, it goes to the next entry. Also, in targets where there is RAM enough to keep a copy of graphics (in general, machines with more than 64K),
+  it loads the graphic in RAM, but doesn't paint it on the screen.
 
 <a name="display"></a>
 <condact>DISPLAY value</condact>
-<p>If value is 0, the graphic loaded in RAM is painted on screen (loaded in RAM by PICTURE).</p>
+<p>If value is 0, the graphic previously selected by PICTURE is  painted on screen. If PICTURE could load it to RAM previously, it will be painted from RAM, otherwise, it will be loaded from disk at that time.</p>
 <p>If the value is not 0 and the graphic is not a subroutine, then the graphic area is cleared.</p>
-
 
 
 
