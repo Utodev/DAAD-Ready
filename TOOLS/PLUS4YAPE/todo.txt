@@ -27,7 +27,6 @@ SOUND
 -----
 
 - simplify sound rendering engine
-- use SID engine for TED sound optionally
 - "emulate" wave- and frequency converters natively for SID
 
 KNOWN BUGS

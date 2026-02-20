@@ -1,7 +1,52 @@
        YAPE  -  Yet Another Plus/4 Emulator
-                version 1.2.3
-  Copyright © 2000-2023 by Attila Grósz (gyros @ freemail . hu)
+                version 1.2.7
+  Copyright © 2000-2025 by Attila Grósz (gyros @ freemail . hu)
              http://yape.homeserver.hu
+
+CHANGES IN 1.2.7 FROM 1.2.6
+----------------------------
+released on Nov 26, 2025
+
+- [NEW] new 64-bit 'Developer' build with trace window instead of the old 32-bit one
+- [NEW] more informative trace window
+- [NEW] new asynchronous keyboard input mode (positional mapping)
+- [NEW] added option to turn off legacy (old MMSYSTEM based) joystick support
+- [NEW] improved TV vertical retrace emulation
+- [NEW] proper CRC checksum for 1581 disk headers (drive ROM no more patched)
+- [FIX] aspect ratio with multiline menu bars
+- [FIX] SID card detection via paddle port
+- [FIX] saving to video without sound
+- [FIX] IEC folder directory
+- [FIX] tape play & stop button sense regressions
+- [FIX] odd tape load error caused by long pulses
+
+CHANGES IN 1.2.6 FROM 1.2.5
+----------------------------
+released on Apr 16, 2025
+
+- [NEW] D82 image support in IEC mode
+- [FIX] automatic line feed bug fixed in MPS801/803 mode
+- [FIX] re-enabled attach disk image in 1551 mode
+- [FIX] sound device selection
+- [FIX] TED sound frequency regression
+- [FIX] monitor opcode cache clear on memory overwrite
+
+CHANGES IN 1.2.5 FROM 1.2.4
+----------------------------
+released on Dec 28, 2024
+
+- [NEW] settings for the path of external OpenGL shader for CRT emulation
+- [NEW] separate led for the drive motor in the quickdebugger
+- [NEW] new option for random numbers as powerup pattern
+- [NEW] proper support for both parallel 1541 drive mods (PIO 6529 and i8255)
+- [NEW] support for more exotic Hannes RAM expansion sizes (512 kB, 1MB, 2MB)
+- [NEW] separate led for the drive motor in the quickdebugger
+- [NEW] new drive startup error message in IEC mode for easier detection ("YAPE IEC")
+- [FIX] slight parallel-1541 and PIO improvement
+- [FIX] MPS-802 ROM regression bug
+- [FIX] noise channel tone regression bug
+- [FIX] 1551 drive TIA port read regression bug
+- [FIX] IEC EOI improvement
 
 CHANGES IN 1.2.4 FROM 1.2.3
 ----------------------------
