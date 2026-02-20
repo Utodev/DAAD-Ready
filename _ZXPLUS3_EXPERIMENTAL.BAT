@@ -103,7 +103,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 echo.
-PHP\PHP TOOLS\ZXDAAD128\DRB128.PHP -o %GAME% PLUS3 %LANG% %BASELANG% %CHARSLINE% %GAME%.json ASSETS\CHARSET\%FONT6%
+PHP\PHP TOOLS\ZXDAAD128\DRB128.PHP -o %GAME% PLUS3 %LANG% %BASELANG% %CHARSLINE% %GAME%.json ASSETS\CHARSET\%FONT6% 128k
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
