@@ -1,3 +1,31 @@
+DAAD Ready A2 21/02/2026
+========================
+
+- Manuals: The multimedia manual has been rebuilt and (hopefuly) simplified.
+- MSDOS: Added support for color cycling via the GFX condact. Also, FLI playback has been moved from SFX
+         to GFX. Fixed a bug where system message 8 was shown by the condact itself when DOALL didn't
+         find any object.
+- HTML : several fixes, including issues in "More.." behaviour, PLACE condact and other condacts related to 
+         PLACE. COLS symbol fixed to 53 columns. Also, FLI playback has been moved from SFX to GFX. Fixed a bug
+         where system message 8 was shown by the condact itself when DOALL didn't  find any object.
+- ATARI: the image packer compresses the images now. 
+- AMIGA: the image packer compresses the images now. 
+- Spectrum 128K: Fixed bug with data corruption in the images under some circumstances. Fixed ink colour 
+                 changing when LOAD was called.
+- Spectrum Next: fixed crashes in real machine that were not happening in the emulator. Fixed a bug where
+                 the interpreter was not detecting no succesful PICTURE was called before DISPLAY. Fixed
+                 EXIT and END: now properly clear ULA layer on exit, not only Layer 2.
+- ZX-Uno: Fixed a bug where the interpreter was not detecting no succesful PICTURE was called before 
+          DISPLAY.
+- Commodore 64: it's now a full disk interpreter, saving to tape has been removed. Also, fixed a bug that 
+                was preventing xmessages to work fine when too many of them.                 
+- Commodore Plus/4: it's now a full disk interpreter, saving to tape has been removed. Also, fixed a bug 
+                    that was preventing xmessages to work fine when too many of them.
+- CPC: SFX condact can write directly to PSG registers (that was already there, but not documented) and 
+       also can modify the palette via SFX command 14.
+       
+
+
 DAAD Ready A1 17/11/2025
 ========================
 
