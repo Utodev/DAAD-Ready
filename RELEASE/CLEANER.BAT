@@ -42,10 +42,10 @@ if errorlevel 2 (
     del /q /s MSX2\*.* > nul 2>&1
     copy readme.txt MSX2 > nul 2>&1
 
-    echo Cleaning ZX Spectrum tape...
-    md ZXTAPE> nul 2>&1
-    del /q /s ZXTAPE\*.* > nul 2>&1
-    copy readme.txt ZXTAPE > nul 2>&1
+    echo Cleaning ZX Spectrum 48K...
+    md ZX48K> nul 2>&1
+    del /q /s ZX48K\*.* > nul 2>&1
+    copy readme.txt ZX48K > nul 2>&1
 
     echo Cleaning ZX Spectrum +3...
     md ZXPLUS3> nul 2>&1
