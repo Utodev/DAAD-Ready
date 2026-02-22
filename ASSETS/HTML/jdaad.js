@@ -3505,7 +3505,7 @@ function _DOALL()
         else 
         {
             newtext();
-            _DONE();
+            _NOTDONE();
             break;
         } 
     } while (true);
