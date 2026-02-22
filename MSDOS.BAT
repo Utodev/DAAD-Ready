@@ -93,7 +93,7 @@ IF "%SVGA%"=="0" (
         SET IMGWIDTH=320
         SET IMGHEIGHT=96
         SET INTROSIZE=320 200
-        SET PARAMETER=-vlog
+        SET PARAMETER=
         ECHO Creating VGA GAME
     ) ELSE (
         SET IMGPATH=IMAGES\PC\SVGA
