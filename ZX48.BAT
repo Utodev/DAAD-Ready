@@ -71,7 +71,7 @@ IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\ZXSPECTRUM\DS48IS.BIN
 IF exist images\DAAD.SCR SET %LOADING=images\DAAD.SCR
 TOOLS\DRC\daadmaker.exe %GAME%.TAP %INTERPRETER% %GAME%.DDB ASSETS\CHARSET\%FONT6%  %LOADING%
 IF ERRORLEVEL 1 GOTO ERROR
-MOVE %GAME%.TAP RELEASE\ZXTAPE > nul 2>&1
+MOVE %GAME%.TAP RELEASE\ZX48K > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -93,7 +93,7 @@ tools\cecho\cecho {07}
 
 PAUSE
 cd TOOLS\ZESARUX
-zesarux --noconfigfile --load-additional-config --quickexit --fastautoload --zoom 2 --machine 48k --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100  "..\..\RELEASE\ZXTAPE\%GAME%.tap" 
+zesarux --noconfigfile --load-additional-config --quickexit --fastautoload --zoom 2 --machine 48k --realvideo --nosplash --forcevisiblehotkeys --forceconfirmyes  --nowelcomemessage  --cpuspeed 100  "..\..\RELEASE\ZX48K\%GAME%.tap" 
 CD ..\..
 GOTO END
 
