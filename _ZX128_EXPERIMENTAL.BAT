@@ -95,7 +95,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF zx esxdos %GAME%.DSF tape,zx128
+TOOLS\DRC\DRF zx esxdos %GAME%.DSF tape,zx128,mode_128k,128k
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -105,7 +105,7 @@ tools\cecho\cecho {06}Compiling [Backend]{07}
 echo.
 SET IMAGEOPTION=
 IF exist .\IMAGES\*.DCP SET IMAGEOPTION=-i .\IMAGES 
-PHP\PHP TOOLS\ZXDAAD128\DRB128.PHP %IMAGEOPTION% -o %GAME% TAPE %LANG% %BASELANG% %CHARSLINE% %GAME%.json ASSETS\CHARSET\%FONT6% 128k
+PHP\PHP TOOLS\ZXDAAD128\DRB128.PHP %IMAGEOPTION% -o %GAME% TAPE %LANG% %BASELANG% %CHARSLINE% %GAME%.json ASSETS\CHARSET\%FONT6% 
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.

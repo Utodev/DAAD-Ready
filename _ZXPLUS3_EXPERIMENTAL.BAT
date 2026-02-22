@@ -95,7 +95,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF zx esxdos %GAME%.DSF zx128
+TOOLS\DRC\DRF zx esxdos %GAME%.DSF zx128,mode_128k,128k
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
