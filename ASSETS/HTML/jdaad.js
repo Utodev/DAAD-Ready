@@ -1766,6 +1766,16 @@ function Extern(a, b)
 
 function delay(seconds)
 {
+    // Why a 1 ms timeout? Because if we do the busy wait directly, it will block the UI and the screen won't be updated until the delay is finished, 
+    // so you won't see the effect of the delay. By doing a 1 ms timeout, we allow the UI to update (and show any change that should happen before the 
+    // delay) before starting the busy wait for the delay.
+    setTimeout(() => {
+        basedelay(seconds);
+    }, 1);
+}
+
+function basedelay(seconds)
+{
     var milliseconds = seconds * 1000;
     var start = Date.now();
     var now = start;
@@ -2238,7 +2248,7 @@ function Sound(frequency, duration)
   oscillator.connect(audioContext.destination);
   oscillator.start();
   
-  delay(duration);
+  basedelay(duration);
   oscillator.stop();
 }
 
