@@ -59,7 +59,7 @@ tools\cecho\cecho {02}[OK]{07}
 ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
-PHP\PHP TOOLS\DRC\DRB.PHP zx 128k %LANG% %GAME%.json %GAME%.DDB
+PHP\PHP TOOLS\DRC\DRB.PHP zx 128k %LANG% %GAME%.json %GAME%.DDB -s
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.

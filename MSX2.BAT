@@ -81,7 +81,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 ECHO.
-PHP\PHP TOOLS\DRC\DRB.PHP msx2 8_6 %LANG% %GAME%.json %GAME%.DDB 
+PHP\PHP TOOLS\DRC\DRB.PHP msx2 8_6 %LANG% %GAME%.json %GAME%.DDB -s
 IF ERRORLEVEL 1 GOTO ERROR
 MOVE %GAME%.DDB DAAD.DDB > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}

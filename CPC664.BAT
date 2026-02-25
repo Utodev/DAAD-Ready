@@ -56,7 +56,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 ECHO.
-PHP\PHP TOOLS\DRC\DRB.PHP cpc %LANG% %GAME%.json %GAME%.DDB 
+PHP\PHP TOOLS\DRC\DRB.PHP cpc %LANG% %GAME%.json %GAME%.DDB -s
 IF ERRORLEVEL 1 GOTO ERROR
 MOVE %GAME%.DDB DAAD.DDB > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
@@ -104,7 +104,7 @@ IF ERRORLEVEL  1 GOTO CUSTOM
 REM ---- TESTER ---- 
 ECHO.
 tools\cecho\cecho {03}
-MOVE %GAME%.DSK RELEASE\CPC > nul 2>&1
+MOVE %GAME%.DSK RELEASE\CPC664 > nul 2>&1
 IF "%BASELANG%" == "EN" (
 ECHO Game ready,press any key to test or  CTRL+C to stop
 )
@@ -114,7 +114,7 @@ ECHO Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar.
 tools\cecho\cecho {07}
 PAUSE
 cd TOOLS\CPCE
-CPCE95 -v+ ..\..\RELEASE\CPC\%GAME%.DSK
+CPCE95 -v+ ..\..\RELEASE\CPC664\%GAME%.DSK
 CD ..\..
 GOTO FIN
 

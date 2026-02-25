@@ -62,7 +62,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 ECHO.
-PHP\PHP TOOLS\DRC\DRB.PHP c64 %LANG% %GAME%.json %GAME%.DDB -ch
+PHP\PHP TOOLS\DRC\DRB.PHP c64 %LANG% %GAME%.json %GAME%.DDB -ch -s
 IF ERRORLEVEL 1 GOTO ERROR
 MOVE %GAME%.DDB DAAD.DDB > nul 2>&1
 MOVE %GAME%.DDB DAAD.DDB > nul 2>&1

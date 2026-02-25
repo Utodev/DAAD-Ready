@@ -29,6 +29,7 @@ IF  NOT DEFINED LANG (
         IF ERRORLEVEL 2 (
             SET LANG=ES
             SET BASELANG=ES
+            SET PARAMS=-S
         )
         IF ERRORLEVEL 3 (
             SET LANG=DE
