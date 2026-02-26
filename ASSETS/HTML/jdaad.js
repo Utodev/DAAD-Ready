@@ -1,5 +1,3 @@
-
-var jarl = false;
 /*
 KNOWN BUGS:
 - Beep can't sound until player has either clicked or pressed a key. It's a limitation of javascript
@@ -48,6 +46,7 @@ const STANDARD_SEPARATORS =  ['.',',',';',':'];
 const SPANISH_TERMINATIONS =  ['LO','LA','LOS','LAS'];
 const MAX_CONJUNCTIONS = 256;
 const NUM_HISTORY_ORDERS = 10;
+const LAST_PRONOMINAL_VERB=239; //Verbs that can apply pronouns terminations in Spanish
 
 const VOC_VERB=0;
 const VOC_ADVERB=1;
@@ -551,6 +550,10 @@ class DDBClass {
         return (this.header.targetMachineLanguage & 1) != 0;
     }
 
+    limitEnclicitPronouns()
+    {
+        return (this.header.targetMachineLanguage & 8) != 0;
+    }
 
 }
 
@@ -1007,9 +1010,6 @@ function run(skipToRunCondact)
 
     RunCondact: while (true)
     {
-        if (jarl){
-            console.log("STEP Window X:" + windows.windows[windows.activeWindow].currentX + " Y:" + windows.windows[windows.activeWindow].currentY);
-        }
         skipToRunCondact = false;
 
         if (!inINKEY)
@@ -1079,9 +1079,6 @@ function run(skipToRunCondact)
             condactResult = true;
             playerPressedKey = false;
             condactTable[opcode].condactRoutine(); //Execute the condact
-            if (jarl){
-                console.log("STEP After Condact Window X:" + windows.windows[windows.activeWindow].currentX + " Y:" + windows.windows[windows.activeWindow].currentY);
-            }
             if (inPARSE || inANYKEY || inQUIT ||inEND || inSAVE || inLOAD || inINKEY)  return; // get out of main loop as we are now just waiting for keypress (or waiting for a key event in the case of inINKEY)
         } else inINKEY=false;
         //If condact execution failed, go to next entry
@@ -1438,6 +1435,7 @@ function parseEnd()
             if (DDB.isSpanish()) 
             {
                 if ((aWordRecord.aType == VOC_VERB) && (!pronounInSentence))
+                if ((! DDB.limitEnclicitPronouns()) || (aWordRecord.aCode<=LAST_PRONOMINAL_VERB))
                 {
                     var j = 0;
                     while ((j<4) && (!pronounInSentence)) 
@@ -1802,7 +1800,6 @@ function Printat(line, col)
     {
         windows.windows[windows.activeWindow].currentY = line * LINE_HEIGHT;
         windows.windows[windows.activeWindow].currentX = col * COLUMN_WIDTH;
-        jarl  =true;
         console.log('Printat L:' + line + ' C:' + col + ' X:' + windows.windows[windows.activeWindow].currentX + ' Y:' + windows.windows[windows.activeWindow].currentY);
         console.log('Active window:' + windows.activeWindow);
     }
@@ -1912,11 +1909,6 @@ function writeChar(c)
             }
             else
             {
-                if (jarl) 
-                {
-                    console.log('X:' + windows.windows[windows.activeWindow].currentX + ' Y:' + windows.windows[windows.activeWindow].currentY + ' Char:' + String.fromCharCode(c));                                      
-                    console.log('Active window:' + windows.activeWindow);
-                }
                 for (var i=0;i<8;i++)
                 {
                     var scan = font[(c + windows.charsetShift) % 256 * 8 + i];  //Get definition for this scanline
