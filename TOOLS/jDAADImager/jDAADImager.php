@@ -3,9 +3,9 @@
 function syntax()
 {
     echo "jDAADImager 1.0 - Creates images for jDAAD from PNG files\n\n";
-    echo "SYNTAX: jDAADImager [inputfile] [outputfile] [x,y]\n\n";
+    echo "SYNTAX: jDAADImager [inputfile] [outputfile] [x,y] [width,height]\n\n";
     echo "Examples: jDAADImager image.png images.js -> Generates floating image from image.png\n";
-    echo "          jDAADImager image.png images.js 8,8 -> Generates fixed image at 8x8 from image.png\n";
+    echo "          jDAADImager image.png images.js 8,8 320,96-> Generates fixed image at 8x8, 320 wide, 96 high from image.png\n";
 
     
     exit(0);
@@ -37,6 +37,20 @@ else
     $basey = -1;
 }
 
+if (isset($argv[4]))
+{
+    $parts = explode(',', $argv[4]);
+    if (sizeof($parts) != 2) error("Invalid width,height dimensions [".$argv[4]."]");
+    $width = intval($parts[0]);
+    $height = intval($parts[1]);
+    if (($width < 0) || ($height < 0)) error("Invalid width,height dimensions [".$argv[4]."]");
+}
+else
+{
+    $width = 320; // default
+    $height = 200;
+}
+
 
 if (!file_exists($inputFilename)) error('Input file not found');
 $im = @imagecreatefrompng($inputFilename);
@@ -51,8 +65,12 @@ if (ctype_digit($imageNumber)) $imageNumber = intval($imageNumber);
 $output = "images[$imageNumber]= [";
 
 
-$width = imagesx($im);
-$height = imagesy($im);
+$imagewidth = imagesx($im);
+$imageheight = imagesy($im);
+
+if ($imagewidth<$width) error("Image width ($imagewidth) is smaller than specified width ($width)");
+if ($imageheight<$height) error("Image height ($imageheight) is smaller than specified height ($height)");
+
 
 $count = 0;
 for ($y=0; $y<$height; $y++)

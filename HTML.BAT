@@ -103,10 +103,12 @@ PHP\PHP tools\jDAADFontMaker\jDAADFontMaker.php ASSETS\CHARSET\%FONT6% RELEASE\H
 
 
 REM  ---- PREPARE IMAGES ----
+SET IMGWIDTH=320
+
 tools\cecho\cecho {06}Preparing images (if any){07}
-for /L %%i in (0, 1, 9) do IF exist IMAGES\HTML\00%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\00%%i.png RELEASE\HTML\images.js 0,0
-for /L %%i in (10, 1, 99) do IF exist IMAGES\HTML\0%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\0%%i.png RELEASE\HTML\images.js 0,0
-for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js 0,0
+for /L %%i in (0, 1, 9) do IF exist IMAGES\HTML\00%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\00%%i.png RELEASE\HTML\images.js 0,0 %IMGWIDTH%,%IMGLINES%
+for /L %%i in (10, 1, 99) do IF exist IMAGES\HTML\0%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\0%%i.png RELEASE\HTML\images.js 0,0 %IMGWIDTH%,%IMGLINES%
+for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js 0,0 %IMGWIDTH%,%IMGLINES%
 
 REM  ---- PREPARE SOUNDS AND VIDEOS ----
 PHP\PHP TOOLS/jDAADImager/jDAADMultimedia.php RELEASE\HTML\  0,0
