@@ -153,10 +153,13 @@ RAMSA   28      verb
 RAMLO   29      verb
 EX      30      verb
 EXAMI   30      verb
-DECIR   31      verb
-PREGUNT 31      verb
-HABLAR  31      verb
-JUGAR   32      verb
+JUGAR   31      verb
+
+; Verbos por encima de 240 no aplican terminaciones pronominales. Evita que
+; HABLA sea entendido como HABLA-LA
+DECIR   240      verb
+PREGUNT 240      verb
+HABLA   240     verb
 
 ;                            Adjetivos
 PEQUE   2       adjective
