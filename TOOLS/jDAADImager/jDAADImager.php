@@ -3,9 +3,9 @@
 function syntax()
 {
     echo "jDAADImager 1.0 - Creates images for jDAAD from PNG files\n\n";
-    echo "SYNTAX: jDAADImager [inputfile] [outputfile] [x,y] [width,height]\n\n";
-    echo "Examples: jDAADImager image.png images.js -> Generates floating image from image.png\n";
-    echo "          jDAADImager image.png images.js 8,8 320,96-> Generates fixed image at 8x8, 320 wide, 96 high from image.png\n";
+    echo "SYNTAX: jDAADImager <inputfile> <outputfile> <width> <height> [x,y]\n\n";
+    echo "Examples: jDAADImager image.png images.js 320 96-> Generates floating image from image.png\n";
+    echo "          jDAADImager image.png images.js 320 96 8,8-> Generates fixed image at 8x8, 320 wide, 96 high from image.png\n";
 
     
     exit(0);
@@ -22,14 +22,20 @@ if ($argc<2) syntax();
 
 $inputFilename = $argv[1];
 $outpuFilename = $argv[2];
+$width = $argv[3];
+$height = $argv[4];
 
-if (isset($argv[3]))
+if (isset($argv[5]))
 {
-    $parts = explode(',', $argv[3]);
-    if (sizeof($parts) != 2) error("Invalid x,y coordinates [".$argv[3]."]");
+    $parts = explode(',', $argv[5]);
+    if (sizeof($parts) != 2) error("Invalid x,y coordinates [".$argv[5]."]");
     $basex = intval($parts[0]);
     $basey = intval($parts[1]);
     if (($basex < 0) || ($basey < 0)) error("Invalid x,y coordinates [$basex,$basey].");
+    if (!is_numeric($basex)) error("X coordinate is not a number [$basex]");
+    if (!is_numeric($basey)) error("Y coordinate is not a number [$basey]");
+    if (floor($basex) != $basex) error("X coordinate is not an integer [$basex]");
+    if (floor($basey) != $basey) error("Y coordinate is not an integer [$basey]");
 }
 else
 {
@@ -37,19 +43,14 @@ else
     $basey = -1;
 }
 
-if (isset($argv[4]))
-{
-    $parts = explode(',', $argv[4]);
-    if (sizeof($parts) != 2) error("Invalid width,height dimensions [".$argv[4]."]");
-    $width = intval($parts[0]);
-    $height = intval($parts[1]);
-    if (($width < 0) || ($height < 0)) error("Invalid width,height dimensions [".$argv[4]."]");
-}
-else
-{
-    $width = 320; // default
-    $height = 200;
-}
+if (!is_numeric($width)) error("Width is not a number [".$argv[3]."]");
+if (!is_numeric($height)) error("Height is not a number [".$argv[4]."]");
+if (floor($width) != $width) error("Width is not an integer [".$argv[3]."]");
+if (floor($height) != $height) error("Height is not an integer [".$argv[4]."]");
+if (($width < 0) || ($height < 0)) error("Invalid width,height dimensions [".$argv[4]."]");
+if ($width>320) error("Width cannot be larger than 320");
+if ($height>200) error("Height cannot be larger than 320");
+
 
 
 if (!file_exists($inputFilename)) error('Input file not found');
