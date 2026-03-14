@@ -186,7 +186,7 @@ foreach ($imagefileSizes as $filename=>$filesize)
     {
         // If we have not assigned the file to any page, it means there is no room for it
         // so we stop the process and show an error message
-        error("There is no room for the image {$imagefileNames[$filename]} with size $filesize in any page.");
+        error("There is no room for the image {$filename} with size $filesize in any page.");
     }
 }
 
