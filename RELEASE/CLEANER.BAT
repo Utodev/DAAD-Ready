@@ -22,10 +22,16 @@ if errorlevel 2 (
     del /q /s CPLUS4\*.* > nul 2>&1
     copy readme.txt CPLUS4 > nul 2>&1
 
-    echo Cleaning Amstrad CPC...
-    md CPC > nul 2>&1
-    del /q /s CPC\*.* > nul 2>&1
-    copy readme.txt CPC > nul 2>&1
+    echo Cleaning Amstrad CPC 664...
+    md CPC664 > nul 2>&1
+    del /q /s CPC664\*.* > nul 2>&1
+    copy readme.txt CPC664 > nul 2>&1
+
+
+    echo Cleaning Amstrad CPC 6128...
+    md CPC6128 > nul 2>&1
+    del /q /s CPC6128\*.* > nul 2>&1
+    copy readme.txt CPC6128 > nul 2>&1
 
     echo Cleaning Amstrad PCW...
     md PCW> nul 2>&1
@@ -95,11 +101,11 @@ if errorlevel 2 (
     copy readme.txt ATARIST > nul 2>&1
 
     echo Cleaning IBM PC MS-DOS...
-    md MSDOS> nul 2>&1
-    del /s /q MSDOS\*.* > nul 2>&1
-    del /s /q MSDOS\GAME\*.* > nul 2>&1
-    rd MSDOS\GAME> nul 2>&1
-    copy readme.txt MSDOS > nul 2>&1
+    md PC> nul 2>&1
+    del /s /q PC\*.* > nul 2>&1
+    del /s /q PC\GAME\*.* > nul 2>&1
+    rd PC\GAME> nul 2>&1
+    copy readme.txt PC > nul 2>&1
 
     echo Cleaning HTML...
     md HTML > nul 2>&1
