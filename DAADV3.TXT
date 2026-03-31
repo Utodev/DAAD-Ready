@@ -1,0 +1,44 @@
+DAAD v3
+=======
+
+What is DAAD V3?
+----------------
+
+DAAD V3 is the third version of the DAAD system, and the first one to be build after the 90s. It includes
+new features that were not included in the original DAAD, which was DAAD V2 when it was last used by 
+Aventuras AD.
+
+New features
+------------
+
+- You can now use indirection in second parameter.
+- New SETAT condact. Syntax is 
+
+  SETAT value operation
+
+  value: points to a bit in the same range as HASAT does
+  operation: says what to do with that bit: if operation is 0, the bit is cleared, if operation is 1,
+             the bit is set, if operation is 2, the big is toggled.
+
+- GETKEY is a new metacondact allowed by the compiler, it waits for a keypress and saves its value in flag
+  fInkeyKey1/fInkeyKey2 (60/61). It's a metacondact because it's not a real condact, but an easier way to 
+  write "PAUSE 0". In DAAD V3, when parameter for PAUSE is 0, it behaves as said above. Any other value
+  behaves as usual.
+
+- Flag 53 (fObjFlags) has new features in some of its bits. Not all of them are related to objects, but the
+  template still refers to it as fObjFlags to avoid backward compatibility issues.
+
+  + Bit 5: Despues de obtener una SL, si el parser encontró una palabra que no pudo  reconocer después de encontrar el verbo, se pone a 1. 
+  + Bit 4: Despues de obtener una SL, si el parser encontró una preposición antes del primer nombre, se pone a 1.
+  + Bit 3: Si su valor es 1, HASAT, HASNAT y SETAT funcionarán sobre un set alternativo de flags 60-91 en lugar de 28-59
+  + Bit 2: si está a 1, no se aplicarán terminaciones pronominales a verbos>=240
+  + Bit 1: si está a 1, LOAD se comporta como una condición, y que falla si la carga falla en luagr de producir un reinicio del juego.
+  + Bit 0: Tras un DOALL, tendrá valor 1 si no se itera sobre ningún objeto.
+
+
+Which interpreters are compatible with DAAD V3
+----------------------------------------------
+
+- All the classic interpreters incluided in DAAD Ready have been updated to DAAD V3, that includes all ZX Spectrum targets, MSX1, CPC, C64, Plus/4, PCW, Amiga and Atari ST.
+- Also, PC/DOS target using new interpreter PCDAAD supports DAAD V3.
+- Also, HTML target using new interpreter PCDAAD supports DAAD V3.
