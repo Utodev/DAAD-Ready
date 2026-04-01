@@ -53,7 +53,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 ECHO.
-TOOLS\DRC\DRF msx %GAME%.DSF
+TOOLS\DRC\DRF msx %GAME%.DSF -v3
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -61,7 +61,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 ECHO.
-PHP\PHP TOOLS\DRC\DRB.PHP msx %LANG% %GAME%.json %GAME%.DDB -s
+PHP\PHP TOOLS\DRC\DRB.PHP msx %LANG% %GAME%.json %GAME%.DDB
 IF ERRORLEVEL 1 GOTO ERROR
 MOVE %GAME%.DDB DAAD.DDB > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
@@ -101,9 +101,9 @@ TOOLS\dsktool\dsktool a %GAME%.DSK DAAD.MDG > nul 2>&1
 
 REM GET THE INTERPRETER
 IF LANG == "EN" (
-    COPY ASSETS\MSX\MSX1\DMSXIEF.BIN DAAD.Z80 > nul 2>&1
+    COPY ASSETS\MSX\MSX1\DMSXIEF3.BIN DAAD.Z80 > nul 2>&1
 ) ELSE (
-    COPY ASSETS\MSX\MSX1\DMSXISF.BIN DAAD.Z80 > nul 2>&1
+    COPY ASSETS\MSX\MSX1\DMSXISF3.BIN DAAD.Z80 > nul 2>&1
 )
 
 TOOLS\dsktool\dsktool a %GAME%.DSK DAAD.Z80 > nul 2>&1
