@@ -536,5 +536,6 @@ $initLoop
                 SET     fCPronounNoun
                 SET     fCPronounAdject
                 LET     fObjectsCarried   NUM_CARRIED 
+                LET     fObjFlags 4       ; Activar sin terminaciones pronominales para verbos >=240
                 GOTO    1                 ; Primera localidad del juego
 /END
