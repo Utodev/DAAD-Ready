@@ -41,13 +41,14 @@ define('EXTERN_OPCODE', 61);
 define('BEEP_OPCODE',   64);
 define('AT_OPCODE', 0);
 define('PROCESS_OPCODE',75);
+define('INDIR_OPCODE',  122);
+
 
 define('XPLAY_OCTAVE', 0);
 define('XPLAY_VOLUME', 1);
 define('XPLAY_LENGTH', 2);
 define('XPLAY_TEMPO',  3);
 
-define('INDIR',  122);
 
 
 
