@@ -11,8 +11,24 @@ Aventuras AD.
 New features
 ------------
 
-- You can now use indirection in second parameter.
-- New SETAT condact. Syntax is 
+- Flag 53 (fObjFlags) has new features in some of its bits. Not all of them are related to objects, but the
+  template still refers to it as fObjFlags to avoid backward compatibility issues.
+
+    + Bit 5: Is set if after obtaining a SL, the parser found a word that it couldn't recognize after finding the verb.
+    + Bit 4: Is set if after obtaining a SL, the parser found a preposition before the first noun.
+    + Bit 2: If is set, no enclicit pronouns will be applied to verbs>=240.
+    + Bit 1: If is set, HASAT/HASNAT/SETAT (see below) will work on an alternative set of flags 60-91
+    + Bit 0: Is set if a DOALL didn't find any objects to interate over.
+
+Please notice is easy to change HASAT/SETAT/GETAT to work on alternative set, just by executing 
+SETAT 49 1. It isn't that easy to rever to the original set tough, as you cannot access
+flag 53 anymore with SETAT. So it's recommended to save the value of flag 53
+somewhere else if you want to revert at anytime (i.e. COPYFF 53 200 to be able
+to revert to original set with COPYFF 200 53).
+
+- You can now use indirection in second parameter. i.e. PLACE 100 @200
+
+- New SETAT condact. Syntax is:
 
   SETAT value operation
 
@@ -23,17 +39,7 @@ New features
 - GETKEY is a new metacondact allowed by the compiler, it waits for a keypress and saves its value in flag
   fInkeyKey1/fInkeyKey2 (60/61). It's a metacondact because it's not a real condact, but an easier way to 
   write "PAUSE 0". In DAAD V3, when parameter for PAUSE is 0, it behaves as said above. Any other value
-  behaves as usual.
-
-- Flag 53 (fObjFlags) has new features in some of its bits. Not all of them are related to objects, but the
-  template still refers to it as fObjFlags to avoid backward compatibility issues.
-
-  + Bit 5: Despues de obtener una SL, si el parser encontró una palabra que no pudo  reconocer después de encontrar el verbo, se pone a 1. 
-  + Bit 4: Despues de obtener una SL, si el parser encontró una preposición antes del primer nombre, se pone a 1.
-  + Bit 3: Si su valor es 1, HASAT, HASNAT y SETAT funcionarán sobre un set alternativo de flags 60-91 en lugar de 28-59
-  + Bit 2: si está a 1, no se aplicarán terminaciones pronominales a verbos>=240
-  + Bit 1: si está a 1, LOAD se comporta como una condición, y que falla si la carga falla en luagr de producir un reinicio del juego.
-  + Bit 0: Tras un DOALL, tendrá valor 1 si no se itera sobre ningún objeto.
+  behaves as usual. 
 
 
 Which interpreters are compatible with DAAD V3

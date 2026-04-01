@@ -156,7 +156,7 @@
   <li><b>Commodore 64 o 128</b> (floppy disk, con gráficos)</li>
   <li><b>Atari ST</b> </li>
   <li><b>Commodore Amiga</b></li>
-  <li><b>MSDOS</b>Con gráficos VGA o SVGA a 256 colores</li>
+  <li><b>PC/DOS</b>Con gráficos VGA o SVGA a 256 colores</li>
   <li><b>MSX 1</b> con al menos 64K de RAM (floppy disk, con gráficos)</li>
   <li><b>MSX 2</b> (floppy disk, con gráficos)</li>
   <li><b>Amstrad PCW</b> 8000/9000 Series (floppy disk, sin gráficos)</li>
@@ -169,11 +169,13 @@
   <li><b>ZX-Uno</b> (Tarjeta SD, con gráficos)</li>
   <li><b>Windows</b> (Fichero de instalación)- creado usando DOSBOX</li>
   <li><b>HTML/Javascript</b> (para ejecutar en un navegador)</li>
-  <li><b>Windows Experimental</b>: usando el intérprete ADP, aun en version beta, pero creando juegos Windows nativos. A diferencia del target Windows normal, aun no se crea un fichero de Setup. Por otro lado, no puede hacer gráficos SVGA (la version de Windows normal, que usa la de MSDOS, puede).</li>
+  <li><b>Windows Experimental</b>: usando el intérprete ADP, aun en version beta, pero creando juegos Windows nativos. A diferencia del target Windows normal, aun no se crea un fichero de Setup. Por otro lado, no puede hacer gráficos SVGA (la version de Windows normal, que usa la de PC (DOS), puede).</li>
   <li><b>MacOS Experimental</b>: lo mismo que el anterior pero para MacOS. Notese que MacOS no puede ejecutar juegos sin firmar a no ser que se permita en los ajustes del SO.</li>
 </ul>
 
 <p>Algunas de estas máquinas ya estaban soportadas por el DAAD original. Otras se deben a extensiones o a nuevo software creado una vez se recuperó el DAAD a mediados de la década de los 2010s.</p>
+
+<p>Notese que el target PC se refiere al PC clásico de los 80/90, con DOS como sistema operativo, no PCs modernos.</p>
 
 <p>DAAD usa un lenguaje de programación creado especialmente para escribir aventuras. Esta basado en el de The Quill y PAW de
     Gilsoft, así que si conoces dichos sistemas te será útil.</p>
@@ -223,7 +225,7 @@
   <tr><td>C64.BAT</td><td>Commodore 64</td></tr>
   <tr><td>CPC.BAT</td><td>Amstrad CPC</td></tr>
   <tr><td>CPLUS4.BAT</td><td>Commodore Plus/4</td></tr>
-  <tr><td>MSDOS.BAT</td><td>MSDOS</td></tr>
+  <tr><td>PC.BAT</td><td>Classic PC with DOS</td></tr>
   <tr><td>MSX1.BAT</td><td>MSX 1</td></tr>
   <tr><td>MSX2.BAT</td><td>MSX 2</td></tr>
   <tr><td>ZX48TAPE.BAT</td><td>ZX Spectrum 48k (sin gráficos)</td></tr>
@@ -236,7 +238,6 @@
   <tr><td>WINDOWS.BAT</td><td>Windows</td></tr>
   <tr><td>WINDOWS_EXPERIMENTAL.BAT</td><td>Windows Experimental</td></tr>
   <tr><td>MACOS_EXPERIMENTAL.BAT</td><td>MacOS Experimental</td></tr>
-  <tr><td>OLDMSDOS.BAT</td><td>MSDOS (version antigua, sin gráficos)</td></tr>
   <tr><td>OLDPLUS3.BAT</td><td>ZX Spectrum Plus 3 (version antigua que usa el DAAD original)</td></tr>
 </table>
 
@@ -702,7 +703,7 @@ ejecutaremos los ejecutaremos los condActos de la entrada uno a uno y de arriba 
   <li><b>procno.</b> es un número de proceso válido</li>
   <li><b>word.</b> es una palabra del vocabulario</li>
   <li><b>value.</b> es un valor, generalmente entre 0 y 255, aunque a veces puede estar más limitado (segun el condacto)</li>
-<ul>
+</ul>
 
 <a name="conditions"></a>
 <h6>Condiciones</h6>
@@ -1534,7 +1535,7 @@ SAVE opt
 <p>Otra acción muy poderosa que permite la mejora de cualquier comando de tipo "ALL" (como COGER TODO). </p>
 
 <ul>
- <li>1 - Se intenta encontrar un objeto en la localidad a la que se refiere locno. Si no se encuentra (no es satisfactorio) el DOALL se cancela, y una acción DONE se ejecuta. </li>
+ <li>1 - Se intenta encontrar un objeto en la localidad a la que se refiere locno. Si no se encuentra (no es satisfactorio) el DOALL se cancela, y una acción NOTDONE se ejecuta. </li>
  <li>2 - TSi se encuentra un objeto, el número del objeto se convierte en el Nombre1 de la SL (y el Adjetivo1 si está presente) por medio de una referencia a la tabla de Objetos Palabras. Si Nombre (Adjetivo) 1 es similar o hace juego con Nombre (Adjetivo) 2 entonces se hace una vuelta al paso 1. Esto es para facilitar el "Verbo TODO EXCEPTO objeto" (coge todo excepto...). </li>
  <li>3 - El siguiente condActo y/o entrada en la tabla se considera entonces. Esto convierte efectivamente una frase del tipo "Verbo todo" en una del tipo "Verbo objeto" la cual será entonces procesada por la tabla como si el jugador lo hubiese tecleado de la última forma. </li>
  <li>4 - WCuando se hace un intento de salida de la tabla actual, si el DOALL todavía está activo (por ejemplo, no ha sido cancelado por una acción), entonces la atención del PAW vuelve de nuevo al bucle DOALL desde el paso 1. La búsqueda continuará desde el siguiente objeto (el que tenga un número más alto). </li>
@@ -1625,13 +1626,13 @@ $ Adelante<br/>
 <a name="mouse"></a>
 <condact>MOUSE value value</condact>
 
-<p>Solo disponible en MSDOS y HTML. No hace nada en otros target.</p>
+<p>Solo disponible en PC/DOS y HTML. No hace nada en otros target.</p>
 
 <p>El segúndo valor indica una acción que realizar con el ratón. El primero es un parámetro para esa accion.</p>
 
 <table>
   <tr><th>Acción</th><th>Parámetro 1</th><th>Parámetro 2</th></tr>
-  <tr><td>Inicializar ratón (solo MSDOS)</td><td>Indiferente</td><td>0</td></tr>
+  <tr><td>Inicializar ratón (solo PC/DOS)</td><td>Indiferente</td><td>0</td></tr>
   <tr><td>Mostrar puntero</td><td>Indiferente</td><td>1</td></tr>
   <tr><td>Esconder puntero</td><td>Indiferente</td><td>2</td></tr>
   <tr><td>Leer posición: El flag que se facilita como primer párametro es el primero de una lista. En ese flag se grabará el estado de los botones,
@@ -1640,11 +1641,11 @@ $ Adelante<br/>
   <tr><td>Leer posición fina: Similar pero en el flag + 1 se graba la posición X dividida por 2 si estamos en modo VGA, o dividida por 4 si es SVGA,
     y en el flag + 2  la posición Y dividida por dos en modo SVGA, y sin dividir si es VGA.
   </td><td>flagno</td><td>4</td></tr>
-  <tr><td>Modificar puntero(solo MSDOS): carga el fichero con extensión PTR indicado, modificando el puntero del ratón. Sí el número es 1, cargar el 001.PTR</td><td>Número de puntero</td><td>5</td></tr>
-  <tr><td>Cambia el hotspot de la coordenada X(solo MSDOS): originalmente el hotspot en el puntero está en x=0, y=0, es decir, la esquina superior izquierda del puntero. Si cambias
+  <tr><td>Modificar puntero(solo PC/DOS): carga el fichero con extensión PTR indicado, modificando el puntero del ratón. Sí el número es 1, cargar el 001.PTR</td><td>Número de puntero</td><td>5</td></tr>
+  <tr><td>Cambia el hotspot de la coordenada X(solo PC/DOS): originalmente el hotspot en el puntero está en x=0, y=0, es decir, la esquina superior izquierda del puntero. Si cambias
     el puntero quizás quieras mover el hotspot. Por ejemplo, si el puntero es una cruz, quizás quieras ponerlo en 5,5, que es el centro del área 9x9. 
   </td><td>X</td><td>6</td></tr>
-  <tr><td>Cambia el hotspot de la coordenada Y(solo MSDOS): igual que antes, pero para el valor Y.  </td><td>Y</td><td>7</td></tr>
+  <tr><td>Cambia el hotspot de la coordenada Y(solo PC/DOS): igual que antes, pero para el valor Y.  </td><td>Y</td><td>7</td></tr>
 
 </table>
 
@@ -2018,18 +2019,25 @@ MIRA CUBO (por la terminación -LO)<br/>
 <p><u>Español</u></p>
 
 <p>Si el verbo es de menos de 6 letras tendrás que incluir sinónimos en el vocabulario que incluyan hasta 5. Si ya tiene 4 tienes que añadir una solo (TOMA -> TOMAL), si tiene 3 hay que añadir dos 'lo' and 'la' (PON -> PONLO, PONLA), y si tiene solo dos, hay que añadir todas las terminaciones (DA -> DALE, DALOS, DALA, DALAS, DALES)</p>
-<p>El parser español maneja los nombres, pronombres y adjetivos de manera diferente al inglés. Específicamente, asume que el adjetivo va detrás del nombre.</p>
+
+<p>Existe un problema con verbos que acaban en -LA u otra de las terminaciones, como HABLA, TALA o APILA. En este caso, el parser se pensará que es una terminación pronominal, y si teniamos ya un nombre de una orden anterior, lo usara como nombre para ese verbo.</p>
+
+<p>Ejemplo:</p>
+
+<code>
+  > COGE LINTERNA (Entiende COGER como verbo, y LINTERNA como nombre) <br/>
+  Coges la linterna<br/>
+  > HABLA CON PACO (Entiende HABLAR como verbo, LINTERNA como nombre, y PACO como segundo nombre.<br/> 
+  No puedes hace eso<br/>
+</code> 
+
+<p>Para evitar esto, DAAD permite que algunos verbos no apliquen las terminaciones pronominales. Esto se hace poniendoles un número mayor o igual que 240 en el vocabulario. Por ejemplo, HABLA está ya en la plantilla de DAAD con el número 240.</p>
+
 
 <p><u>Otros idiomas</u></p>
 
 <p>A pesar de que DAAD solo soporta inglés y español, DAAD Ready tiene un soporte limitado de portugués y alemán. Eso significa que los caracteres de otros idiomas como “õ” o “ß” pueden mostrarse, pero no cambia el parser, así que por debajo de un juego en alemán está el parser de inglés, y de un juego portugués el de español. Tenedlo en cuenta para juegos en esos idiomas.</p>
 <p>Ahora mismo no hay soporte para otros idiomas, pero debería ser posible con cierta facilidad dar soporte a cualquier idioma que use el juego de caracteres LATIN-1 (la mayoría de los idiomas europeos lo usan).</p>
-
-
-************
-VOY POR Aqui
-************
-
 
 
 
@@ -2047,9 +2055,9 @@ VOY POR Aqui
   <tr><th>Flag #</th><th>Uso/significado</th></tr>  
   <tr><td>0</td><td>Si lo cambiamos a un valor que no sea cero indicamos que n hay luz. La plantilla de TEST.DSF tiene esto en cuenta y muestra el mensaje "Está muy oscuro" en lugar de la descripción de localides. El objeto 0, para esta plantilla, da luz, por lo que si está presente eso no pasa.</td></tr>
   <tr><td>1</td><td>Guarda la cantidad que el jugador lleva, pero no lleva puestos como prenda. Este valor se mantiene cuando se cogen y dejan objetos, pero queda inicializado a cero por defecto, así que si de salida llevamos algún objeto, conviene inicializar el flag 1 con el valor del número de objetos llevados, si después vamos a usarlo (al final del proceso 6 se hace eso).</td></tr>
-  <tr><td>2 to 28</td><td>Estos flags no son usados por los intérpretes DAAD, por lo que en principio estarían libres para tus juegos. Sin embargo, el fichero TEST.DSF está usando el flag 28 para funcionalidades internas de la plantilla, mientras que Maluva usa el flag 20 y el intérprete de MSDOS usa el flag 21 (ver más abajo). Por tanto, no puedes usar los flags 20 y 28, pero además recomendamos no usar ninguno de este bloque porque podrían
+  <tr><td>2 to 28</td><td>Estos flags no son usados por los intérpretes DAAD, por lo que en principio estarían libres para tus juegos. Sin embargo, el fichero TEST.DSF está usando el flag 28 para funcionalidades internas de la plantilla, mientras que Maluva usa el flag 20 y el intérprete de PC/DOS usa el flag 21 (ver más abajo). Por tanto, no puedes usar los flags 20 y 28, pero además recomendamos no usar ninguno de este bloque porque podrían
      ser usados para futuras extensiones. Nuestra recomendación es que empieces por usar el flag 254 para tus cosas, luego el 253, 252, etc. Así quedarás lejos de peligro.</td></tr>
-     <tr><td>21</td><td>MSDOS exclusivo, usado para control de sonido: <br/><br/>
+     <tr><td>21</td><td>PC/DOS exclusivo, usado para control de sonido: <br/><br/>
       <table>
         <tr><th>Bit</th><th>Significado</th></tr>
         <tr><td>0</td><td>1 = SFX engine activa</td></tr>
@@ -2334,14 +2342,14 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
 <p>Si quieres cambiarlo, tienes que modificar los ficheros que hay en la carpeta ASSETS/CHARSET. Estos serían:</p>
 
 <ul>
-  <li>AD8x6.CHR es para Spectrum, MSX, Amstrad PCW, Amiga, AtariST y OLDMSDOS.</li>
+  <li>AD8x6.CHR es para Spectrum, MSX, Amstrad PCW, Amiga y AtariST.</li>
   <li>AD8x8.CHR es para Amstrad CPC</li>
   <li>C64bold.CHR es para C64 y Plus/4.</li>
-  <li>MSDOS.FNT es para MSDOS.</li>
+  <li>PC.FNT es para PC/DOS.</li>
 </ul>
 
 
-<p>Para modificar el Fuente, puedes usar la aplicación GCS que está en TOOLS\GCS. ZX-Paintbursh también puede abrirlos. Si grabas la fuente con GCS, grábalo para 8 bit, incluso si vas a usarlo para un sistema de 16 bit, excepto el MSDOS.FNT, que debes grabarlo como fuente SINTAC.</p>
+<p>Para modificar el Fuente, puedes usar la aplicación GCS que está en TOOLS\GCS. ZX-Paintbursh también puede abrirlos. Si grabas la fuente con GCS, grábalo para 8 bit, incluso si vas a usarlo para un sistema de 16 bit, excepto el PC.FNT, que debes grabarlo como fuente SINTAC.</p>
 
 <p>Por favor ten esto en cuenta:</p>
 
@@ -2349,8 +2357,8 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
   <li>AD8x6.CHR se muestra como un Fuente de 6 pixeles de ancho, así que debes evitar usar las tres columnas de pixeles de la derecha. Las dos más de la derecha ni siquiera se mostrarán, la tercera, si la usas, las letras quedarían pegadas unas con otras.</li>
   <li>AD8x8.CHR es una fuente de 8 pixeles de ancho. A pesar de ello está definido como una fuente de 6 pixeles, que es por lo que en CPC el espacio entre letras es mayor. Puedes redefinir esta fuente para usar anchos reales, y así utilizar 7 columnas (dejando la octava para que haya espacio entre letras).</li>
   <li>C64bold.CHR es una Fuente en negrita, porque en TVs CRT conectadas al C64 vía antena, las letras finas son poco legibles.</li>
-  <li>MSDOS.FNT es proporcional, hay caracteres más anchos que otros. GCS permite definir el ancho de cada carácter.</li>
-  <li>Si borras el fichero MSDOS.FNT, el intérprete DOS usará el AD8x6.CHR pero no sérá proporcional.</li>
+  <li>PC.FNT es proporcional, hay caracteres más anchos que otros. GCS permite definir el ancho de cada carácter.</li>
+  <li>Si borras el fichero PC.FNT, el intérprete PC/DOS usará el AD8x6.CHR pero no sérá proporcional.</li>
 </ul>
 
 <p>Por favor ten en cuenta que si redefines los caracteres usados para los idiomas internacionales no podrás usarlo para esos caracteres. Si vas a hacerlo porque necesitas poner cualquier otro carácter o gráfico ahí, siempre puedes hacerlo empezando por los que pertenecen a un idioma que no estés usando. Por ejemplo
@@ -2399,98 +2407,92 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
 <p>Si tu idioma usa otros símbolos especiales, probablemente aun es viable, siempre y cuando usen el alfabeto romano.</p>
 
 <a name="appendixd"></a>
+
 <h6>Apéndice D - Símbolos</h6>
+<p>DAAD Ready proporciona una serie de valores que puedes usar en tu código, para no tener que calcularlos, e incluso en algunos casos, te proporcionará un valor diferente dependiendo
+   de la máquina que uses, para que no tengas que usar #ifdef para cambiar valores según cual sea.</p>
+   
+   <p>Por ejemplo, hay un símbolo llamado "COLS" cuyo valor es diferente para cada máquina, pero puedes hacer LET 100 COLS y siempre tendrás el número de columnas de la máquina para laa que estás compilando 
+    en el flag 100 cuando se ejecute ese LET.</p>
+    
+    <p>Los símbolos no son variables, son constantes que representan valores específicos en tu código. Se usan solo en tiempo de compilación, cualquier valor que tengan, se reemplaza en ese momento
+      y el juego nunca verá ningún otro valor. </p>
+      
+      <p>Esta es la lista de símbolos que DAAD Ready te proporciona por defecto. Puedes crear otros usando #define:</p>
 
-<p>DAAD Ready facilita para tu código una serie de valores que puedes utilizar en tu código, de modo que te evita tener que calcularlos, e 
-  incluso en ocasiones, te va a facilitar un valor diferente dependiendo del .BAT que utilices, de modo que no tendrás que poner algo 
-  distinto según para que máquina trabajes. Por ejemplo, hay un símbolo llamado "NOT_CREATED" que vale 252. Puedes acordarte de poner 252
-  en tu código, o poner en su lugar NOT_CREATED, que te resultará más fácil de recordar (ISAT oLlave NOT_CREATED en lugar de ISAT 7 252)
-</p>
+<u><b>Símbolos de máquina (rarget)</b></u>
 
-<p>Esta es la lista de símbolos que te da DAAD Ready de serie, aparte de los que puedas crear tú con #define:</p>
-
-<ul>
-  <li>COLS : Tiene por valor el número de columnas de caracteres de la máquina de destino.</li>
-  <li>ROWS : Tiene por valor el número de filas de caracteres de la máquina de destino.</li>
-  <li>NOT_CREATED : Tiene por valor 252. Es el valor que se usa para indicar que un objeto no ha sido creado.</li>
-  <li>WORN : Tiene por valor 253. Es el valor que se usa para indicar que un objeto lo llevamos puesto.</li>
-  <li>CARRIED : Tiene por valor 254. Es el valor que se usa para indicar que un objeto lo llevamos.</li>
-  <li>HERE : Tiene por valor 255. Algunos condactos permiten usar ese valor para comparar con la localidad actual, en lugar de con 255.</li>
-  <li>DSTRINGS: aunque de poco uso en DAAD Ready, si está definido este símbolo indica que la máquina originalmente soportaba gráficos vectoriales.</li>
-  
-  <li>LAST_OBJECT: el número del último objeto de la lista de objetos.</li>
-  <li>LAST_LOCATION: el número de la última localidad de la lista de localidades.</li>
-  <li>NUM_OBJECTS: el número de objetos en el juego.</li>
-  <li>NUM_LOCATIONS: el número de localidades en el juego.</li>
-  <li>NUM_CARRIED: el número de objetos que el jugador lleva al iniciar el juego.</li>
-  <li>NUM_WORN: el número de objetos que el jugador lleva puestos al iniciar el juego.</li>
-  <li>BIT8: Este símbolo es definido si la máquina de destino es de 8 bit.</li>
-  <li>BIT16: Este símbolo es definido si la máquina de destino es de 16 bit. Ten en cuenta que "Window Experimental" y "MacOS Experimental" se compilan como si fueran juegos Atari ST, así que tendrá activo el símbolo BIT16. El HTML sin embargo no lo tiene (ni el de 8 bit).</li>
-  <li>YEARHIGH: los dós digitos del año actual.</li>
-  <li>YEARLOW: los dós digitos inferiores del año actual.</li>
-  <li>MONTH: el mes actual.</li>
-  <li>DAY: el día actual. Estos cuatro juntos permite guardar en tu código la fecha en que se generó:
-
-    <code>
-      > AYUDA _
-      LET 100 YEARHIGH<br/>
-      LET 101 YEARLOW<br/>
-      LET 102 MONTH<br/>
-      LET 103 DAY<br/>
-      MES "Juego creado el "<br/>
-      PRINT 103<br/>
-      MES "/"<br/>
-      PRINT 102<br/>
-      MES "/"<br/>
-      PRINT 100<br/>
-      PRINT 101<br/>
-      NEWLINE<br/>
-      DONE<br/>
-    </code>
-  </li>
-  <li>Asímismo, un símbolo se define con la máquina de destino: ZX, CPC, C64, CP4, MSX, MSX2, PCW, AMIGA, ST, PC o HTML.</li>
-  <li>También, el subtarget de algunas máquinas es añadido como símbolo, precedido del texto "MODE_". Por ejemplo para ZX, además del símbolo "ZX" se generará "MODE_PLUS3", "MODE_ESXDOS", "MODE_NEXT", o "MODE_UNO" según el caso.</li>
-  <li>
-        Hay tambien unos pocos símbolos hechos para ser usados con el condacto SFX en el target MSDOS, para hacer más fácil recordar cómo reproducir multimedia. Estos son los símbolos:
-      <table><tr><th>Symbol</th><th>Value</th></tr>
-        <tr><td>PLAYSFX</td><td>1</td></tr>
-        <tr><td>PLAYSFXL</td><td>2</td></tr>
-        <tr><td>PLAYSFXF</td><td>3</td></tr>
-        <tr><td>PLAYSFXFL</td><td>4</td></tr>
-        <tr><td>STOPSFX</td><td>5</td></tr>
-        <tr><td>PLAYDRO</td><td>6</td></tr>
-        <tr><td>PLAYDROL</td><td>7</td></tr>
-        <tr><td>STOPDRO</td><td>8</td></tr>
-        <tr><td>PLAYFLI</td><td>9</td></tr>
-        <tr><td>FPLAYFLIL</td><td>10</td></tr>
-       </table>
-  
-      <p>Por ejemplo, puedes poner "SFX 100 PLAYDRO" en lugar de "SFX 100 6".</p>
-  
-  </li>
-  <li>
-    De igual manera, las acciones del segundo parámetro del condacto MOUSE, pueden ser usadas con símbolos:
-  <table><tr><th>Symbol</th><th>Value</th></tr>
-    <tr><td>RESETMS</td><td>0</td></tr>
-    <tr><td>SHOWMS</td><td>1</td></tr>
-    <tr><td>HIDEMS</td><td>2</td></tr>
-    <tr><td>GETMS</td><td>3</td></tr>
-    <tr><td>GETFINEMS</td><td>4</td></tr>
-    <tr><td>POINTERMS</td><td>5</td></tr>
-    <tr><td>DELTAXMS</td><td>6</td></tr>
-    <tr><td>DELTAYMS</td><td>7</td></tr>
-   </table>
-
-  <p>Por ejemplo, puedes poner "MOUSE 100 GETMS" en lugar de "MOUSE 100 3".</p>
-
-</li>
-<li>Finalmente, todas las palabras del vocabulario se añaden como símbolos, añadidas con el prefijo "_VOC_". Así, si el verbo DEJAR es el número 80, el símbolo _VOC_DEJAR valdrá 80.</li>
+<ul> 
+  <li>Se define un símbolo con la máquina: zx, cpc, c64, cp4, msx, msx2, pcw, amiga, st, pc o html.</li>
+  <li>Cuando un objetivo tiene un subtarget,  también se añade como símbolo, tanto tal cual como con "mode_" antepuesto. Por ejemplo, para ZX, además del símbolo "zx", se generarán mode_128k,
+     mode_48k, mode_plus3, mode_esxdos, mode_next o mode_uno según el caso. También los mismos símbolos sin el prefijo "mode_".</li>
 </ul>
 
-<p>Obviamente, usar estos símbolos puede no ser necesario en muchas aventuras, pero algunos pueden ser muy convenientes. Por ejemplo, si tenemos un código que mira todos los obejtos a ver si los llevamos podemos hacer
-  que se mire desde el objeto 0 al 15, porque cuando hacemos el código el último objeto es el 15, pero si luego añadimos más objetos, el código no funcionará. En lugar de eso, podemos usar el símbolo LAST_OBJECT, que
-  siempre tendrá el valor del último objeto, y así el código funcionará siempre.</p>
-</p>
+<u><b>Símbolos de bits de la máquina</b></u>
+
+<ul>
+   <li>BIT8: Este símbolo está definido si la máquina es de 8 bits.</li>
+   <li>BIT16: Este símbolo está definido si la máquina es de 16 bits. Ten en cuenta que "Window Experimental" y "MacOS Experimental" se compilan como si fueran juegos de Atari ST, por lo que tendrán el símbolo BIT16. El HTML, sin embargo, no genera el símbolo bit16, ni el bit8.</li>
+</ul>
+
+<u><b>Símbolos de dimensiones de pantalla</b></u>
+
+<ul>
+   <li>COLS : Número de columnas de texto en la máquina.</li>
+   <li>ROWS : Número de filas de texto en la máquina.</li>
+</ul>
+
+<u><b>Símbolos de ubicaciones especiales</b></u>
+
+<ul> 
+  <li>NOT_CREATED : 252. Es el valor usado para indicar que un objeto no ha sido creado.</li>
+  <li>WORN : 253. Es el valor usado para indicar que un objeto está puesto (vestido/llevado puesto).</li>
+  <li>CARRIED : 254. Es el valor usado para indicar que un objeto es llevado (en la inventario).</li>
+  <li>HERE : 255. Algunos condactos permiten usar este valor para comparar con la localización actual, en lugar de 255.</li> 
+</ul>
+
+<u><b>Símbolos de objetos y localizaciones de usuario</b></u>
+
+<ul>
+  <li>LAST_OBJECT: el número del último objeto en la lista de objetos.</li>
+  <li>LAST_LOCATION: el número de la última localización en la lista de localizaciones.</li>
+  <li>NUM_OBJECTS: el número de objetos en el juego. Es como LAST_OBJECT + 1.</li>
+  <li>NUM_LOCATIONS: el número de localizaciones en el juego. Es como LAST_LOCATION + 1.</li>
+  <li>NUM_CARRIED: el número de objetos que el jugador lleva al inicio del juego. Objetos en la localización 254.</li>
+  <li>NUM_WORN: el número de objetos que el jugador lleva puestos al inicio del juego. Objetos en la localización 253.</li> 
+</ul>
+
+<u><b>Símbolos gráficos</b></u>
+
+<ul>
+   <li>DSTRINGS: aunque de poca utilidad en DAAD Ready, si este símbolo está definido, indica que la máquina soporta gráficos vectoriales y no mapa de bits.</li>
+</ul>
+
+<u><b>Símbolos de fecha</b></u>
+
+<ul> 
+  <li>YEARHIGH: los dos dígitos altos (primera parte) del año actual.</li>
+  <li>YEARLOW: los dos dígitos bajos (última parte) del año actual.</li>
+  <li>MONTH: el mes actual.</li>
+  <li>DAY: el día actual. Estos cuatro juntos te permiten guardar en tu código la fecha en que se generó el juego.</li>
+</ul>
+
+<code> > HELP _<br/> LET 100 YEARHIGH<br/> LET 101 YEARLOW<br/> LET 102 MONTH<br/> LET 103 DAY<br/> MES "Juego escrito el "<br/> PRINT 103<br/> MES "/"<br/> PRINT 102<br/> MES "/"<br/> PRINT 100<br/> PRINT 101<br/> NEWLINE<br/> DONE<br/> </code>
+
+<p>También hay algunos símbolos creados para ser usados CON el condacto SFX en el target PC/DOS, para facilitar recordar cómo reproducir multimedia. Estos son los Símbolos:</p>
+
+<table><tr><th>Símbolo</th><th>Valor</th></tr> <tr><td>PLAYSFX</td><td>1</td></tr> <tr><td>PLAYSFXL</td><td>2</td></tr> <tr><td>PLAYSFXF</td><td>3</td></tr> <tr><td>PLAYSFXFL</td><td>4</td></tr> <tr><td>STOPSFX</td><td>5</td></tr> <tr><td>PLAYDRO</td><td>6</td></tr> <tr><td>PLAYDROL</td><td>7</td></tr> <tr><td>STOPDRO</td><td>8</td></tr> <tr><td>PLAYFLI</td><td>9</td></tr> <tr><td>FPLAYFLIL</td><td>10</td></tr> </table>
+
+<p>Por ejemplo, puedes introducir "SFX 100 PLAYDRO" en lugar de "SFX 100 6".</p>
+
+<p>De manera similar, las acciones del segundo parámetro del condacto MOUSE se pueden usar con símbolos:</p>
+
+table><tr><th>Símbolo</th><th>Valor</th></tr> <tr><td>RESETMS</td><td>0</td></tr> <tr><td>SHOWMS</td><td>1</td></tr> <tr><td>HIDEMS</td><td>2</td></tr> <tr><td>GETMS</td><td>3</td></tr> <tr><td>GETFINEMS</td><td>4</td></tr> <tr><td>POINTERMS</td><td>5</td></tr> <tr><td>DELTAXMS</td><td>6</td></tr> <tr><td>DELTAYMS</td><td>7</td></tr> </table>
+
+<p>Por ejemplo, puedes introducir "MOUSE 100 GETMS" en lugar de "MOUSE 100 3".</p>
+
+<p>Finalmente, todas las palabras del vocabulario se añaden como símbolos, añadidas con el prefijo "_VOC_". Así, si el verbo LEAVE es el número 80, el símbolo _VOC_LEAVE será 80.</p> 
+<p>Obviamente, usar estos símbolos puede no ser necesario en muchas aventuras, pero algunos pueden ser muy convenientes. Por ejemplo, si tenemos un código que revisa todos los objetos para ver si los llevamos, podemos hacer que revise desde el objeto 0 al 15, porque cuando escribimos el código el último objeto es el 15, pero si añadimos más objetos, el código no funcionará. En su lugar, podemos usar el símbolo LAST_OBJECT, que siempre tendrá el valor del último objeto, y así el código funcionará siempre.</p>
 
 <a name="appendixe"></a>
 <h6>Apéndice E - Agradecimientos</h6>

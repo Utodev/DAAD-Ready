@@ -85,7 +85,7 @@
     <li><a href='#cplus4'>Commodore Plus/4</a></li>
     <li><a href='#cpc'>Amstrad CPC</a></li>
     <li><a href='#amiga'>Commodore Amiga y Atari ST</a></li>
-    <li><a href='#pcdos'>MSDOS</a></li>
+    <li><a href='#pcdos'>PC/DOS</a></li>
     <li><a href='#html'>HTML</a></li>
     <li><a href='#windows'>Windows</a></li>
     <li><a href='#macOS'>MacOS</a></li>   
@@ -116,11 +116,11 @@
 <ul>
   <li><b>Imágenes fijas vs. flotantes: </b>Puedes indicarle a DAAD que tus imágenes son fijas, es decir, que siempre aparecen en una ubicación X,Y dada en la pantalla. Las imágenes fijas ignorarán las ventanas que se puedan definir con WINDOW/WINSIZE/WINAT desde el código DAAD. También hay
     imágenes flotantes, que aparecerán dentro de la ventana seleccionada actualmente (si existe) y no tienen una ubicación fija. Las imágenes se recortarán para ajustarse a la ventana si son demasiado grandes.</li>
-  <li><b>Aplicación limitada de paleta: </b>En aquellas máquinas que admiten paletas indexadas (Amiga, Atari ST, MSDOS, Spectrum Next y ZX-Uno), DAAD permite especificar qué colores de la imagen se aplican,
+  <li><b>Aplicación limitada de paleta: </b>En aquellas máquinas que admiten paletas indexadas (Amiga, Atari ST, PC/DOS, Spectrum Next y ZX-Uno), DAAD permite especificar qué colores de la imagen se aplican,
      de modo que algunos colores pueden reservarse para texto u otros propósitos. En algunas máquinas, tanto las imágenes flotantes como las fijas pueden limitar los colores de la paleta a cargar. En otros, solo las imágenes fijas
      pueden hacerlo, y las imágenes flotantes nunca aplican la paleta (simplemente usan la paleta aplicada previamente por alguna imagen fija).</li>
-  <li><b>Ancho y alto: </b>Las imágenes pueden tener un tamaño menor que la resolución completa. En la mayoría de las máquinas, debes proporcionar una imagen de resolución completa (por ejemplo, 320x200 para MSDOS o 256x192 para ZX Spectrum) como imagen fuente, pero puedes especificar que solo quieres
-    que una parte de ella vaya al juego. Por ejemplo, puedes proporcionar una imagen de 320x200 para MSDOS, pero decirle a DAAD Ready que solo quieres usar 320x96 píxeles de ella. En algunas máquinas, también puedes especificar el ancho, por lo que puedes tener imágenes
+  <li><b>Ancho y alto: </b>Las imágenes pueden tener un tamaño menor que la resolución completa. En la mayoría de las máquinas, debes proporcionar una imagen de resolución completa (por ejemplo, 320x200 para PC/DOS o 256x192 para ZX Spectrum) como imagen fuente, pero puedes especificar que solo quieres
+    que una parte de ella vaya al juego. Por ejemplo, puedes proporcionar una imagen de 320x200 para PC/DOS, pero decirle a DAAD Ready que solo quieres usar 320x96 píxeles de ella. En algunas máquinas, también puedes especificar el ancho, por lo que puedes tener imágenes
      más pequeñas que el ancho completo. Cuando DAAD Ready procesa la imagen, solo el área especificada se incluirá en el juego, así que no te preocupes por que las imágenes a pantalla completa ocupen demasiado espacio si solo usas una pequeña parte de ellas.</li>
   </li>
   <li>
@@ -180,7 +180,7 @@ el juego reproduce las notas C, D, E (Do-Re-Mi)</p>
    mostrar el gráfico para la ubicación 1, usamos PICTURE 1 seguido de DISPLAY 0. Los parámetros de DISPLAY suelen ser 0, pero el parámetro de PICTURE dice qué recurso usar.</p>
 
 <p>Para cada plataforma, debes colocar los recursos en la carpeta IMAGES o SOUNDS y nombrarlos con tres dígitos y la extensión apropiada. Por ejemplo, para Spectrum +3, coloca el archivo 001.SCR en la carpeta IMAGES para mostrar el gráfico
-   para la ubicación 1. Para MSDOS, coloca el archivo 020.DRO en la carpeta SOUNDS, que luego puede reproducirse como recurso de música 20. Como ves, todos los recursos deben numerarse con tres dígitos, por lo que debes agregar ceros a la izquierda si es necesario.</p>   
+   para la ubicación 1. Para PC/DOS, coloca el archivo 020.DRO en la carpeta SOUNDS, que luego puede reproducirse como recurso de música 20. Como ves, todos los recursos deben numerarse con tres dígitos, por lo que debes agregar ceros a la izquierda si es necesario.</p>   
 
 <p>En el caso de los gráficos, la plantilla de juego predeterminada de DAAD Ready muestra automáticamente la imagen correspondiente para cada ubicación; por ejemplo, 001.SCR aparece automáticamente al entrar en la ubicación 1.</p>   
 
@@ -837,18 +837,18 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
 
 <a name='pcdos'></a>
-<h4>MSDOS</h4>
+<h4>PC/DOS</h4>
 
 <p>Para entender lo que se explica aquí, primero debes haber leído la sección "Información Importante" de este manual. Si no lo has hecho, por favor hazlo antes de continuar.</p>
 
-<p>El intérprete MSDOS admite gráficos VGA de 256 colores 320x200 y también SVGA256 (VESA) 640x400. Por defecto DAAD Ready crea imágenes de ubicación con una resolución de 320x96, fijas, en 0,0.
+<p>El intérprete PC/DOS admite gráficos VGA de 256 colores 320x200 y también SVGA256 (VESA) 640x400. Por defecto DAAD Ready crea imágenes de ubicación con una resolución de 320x96, fijas, en 0,0.
   Sin embargo, puedes cambiar la altura modificando la variable IMGLINES en el archivo CONFIG.BAT (afecta a todas las máquinas).</p>
 
 <p>Para crear las imágenes, simplemente necesitas colocar un archivo .PCX en la carpeta IMAGES/PC con números de tres dígitos que coincidan con los IDs de ubicación, o en la carpeta IMAGES/PC/SVGA si estás usando modo SVGA.
   Deben ser archivos PCX indexados de 256 colores (no RGB) (por ejemplo, 001.PCX, 002.PCX, etc.). Si tu imagen tiene pocos colores (16 o menos), algunos editores de imágenes como Gimp crearán un archivo indexado de 16 colores en lugar de 256 colores,
   lo cual no es válido. Evita eso agregando otros colores en la zona inferior de la imagen, que se recortará de todos modos.</p>
 
-<p>Para usar el modo SVGA, necesitas editar el archivo CONFIG.BAT y cambiar la variable SVGA de 0 a 1. Por defecto, DAAD Ready usa el modo VGA para MSDOS. Ten en cuenta que el área de texto en el modo SVGA se ve como en el modo VGA,
+<p>Para usar el modo SVGA, necesitas editar el archivo CONFIG.BAT y cambiar la variable SVGA de 0 a 1. Por defecto, DAAD Ready usa el modo VGA para PC/DOS. Ten en cuenta que el área de texto en el modo SVGA se ve como en el modo VGA,
   no verás texto más pequeño. Solo las imágenes tienen el doble de resolución.</p>
 
 <p>A pesar de que se admiten 256 colores, se recomienda crear archivos con un máximo de 240 colores (0 a 239). Si haces eso, DAAD Ready moverá los colores al rango superior de la paleta (16-255), dejando
@@ -902,17 +902,17 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
 <p> También puedes reproducir un archivo DRO en bucle infinito usando SFX 20 7 y detener el actual que se esté reproduciendo usando SFX 20 8, aunque en este último caso el primer parámetro es irrelevante, SFX detendría el archivo DRO que se esté reproduciendo, sin importar si es 020.DRO o no.</p>      
 
-<p>Adicionalmente, MSDOS admite BEEP y XPLAY para efectos de sonido simples o melodías.</p>
+<p>Adicionalmente, PC/DOS admite BEEP y XPLAY para efectos de sonido simples o melodías.</p>
 
 <a name='advpcdos'></a>
-<h4>Multimedia avanzada para MSDOS</h4>
+<h4>Multimedia avanzada para PC/DOS</h4>
 
-<p>En  MSDOS, la generación de imágenes se realiza mediante estas líneas en MSDOS.BAT:</p>
+<p>En  PC/DOS, la generación de imágenes se realiza mediante estas líneas en PC.BAT:</p>
 
 <code> 
-for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos 00%%i.PCX 00%%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s<br/>
-for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos 0%%i.PCX 0%%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s <br/>
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos %%i.PCX %%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s <br/>
+for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe pc 00%%i.PCX 00%%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s<br/>
+for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe pc 0%%i.PCX 0%%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s <br/>
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe pc %%i.PCX %%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s <br/>
 </code>
 
 <p>La primera línea es para gráficos 000 a 009, la segunda para 010 a 099, y la tercera para 100 a 255.</p>
@@ -925,9 +925,9 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
 <p>Estos son algunos ejemplos de posibles cambios en las líneas de procesamiento de imágenes:</p>
 
 <code>
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos %%i.PCX %%i.MSD 320 96 128-255<br/>
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos %%i.PCX %%i.MSD 32 32 1-0<br/>
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos %%i.PCX %%i.MSD 320 8 0,192 0-255
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe pc %%i.PCX %%i.MSD 320 96 128-255<br/>
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe pc %%i.PCX %%i.MSD 32 32 1-0<br/>
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe pc %%i.PCX %%i.MSD 320 8 0,192 0-255
 </code>
 
 <ul>
@@ -939,7 +939,7 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
 <p>Aplicar parcialmente la paleta es útil si quieres tener varios gráficos en pantalla o reservar algunos colores para el texto. Y no quieres que todas las imágenes tengan exactamente los mismos colores. Puedes
   reservar algunos colores para gráficos de ubicación y otros para imágenes de inventario, por ejemplo.</p>
 
-<p>Además, MSDOS admite las siguientes opciones para el condact GFX:</p>
+<p>Además, PC/DOS admite las siguientes opciones para el condact GFX:</p>
 
 <small>
 <table>
@@ -1020,7 +1020,7 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
 
 <p>La nueva forma es:</p>
 <ul>
-      <li>Coloca el archivo MP3 en la carpeta SOUNDS/PC con el formato habitual nnn.MP3 (por ejemplo 004.mp3)</li>
+      <li>Coloca el archivo MP3 en la carpeta SOUNDS con el formato habitual nnn.MP3 (por ejemplo 004.mp3)</li>
       <li>Y para reproducirlo, en el código hacemos esto:
       <code>
         SFX 14 1
@@ -1043,15 +1043,20 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
 
 <p>Ten en cuenta que, como tanto la música como los efectos de sonido usan formato MP3, no puedes tener una música y un efecto de sonido con el mismo número / nombre de archivo, pero como se reproducen con diferentes comandos SFX, puedes reproducir música y efectos simultáneamente.</p>
 
+<p>IMPORTANTE: los navegadores impiden que una página web (y el juego es una página web) reproduzca sonido si previamente el usuario (el jugador) no ha interactuado con la página. Esto es así
+  para evitar que las páginas web reproduzcan sonidos no deseados, principalmente por anuncios. Por lo tanto, el jugador debe hacer clic en la página o presionar una tecla antes de que el juego
+  pueda reproducir cualquier sonido. Ten esto en cuenta al probar tu juego, ya que si intentas reproducir un sonido antes de que el jugador haya interactuado con la página, no se reproducirá.
+</p>
+
 <a name='advhtml'></a>
 <h4>Multimedia avanzada para HTML</h4>
 
 <p>En el archivo BAT de HTML, podemos ver las líneas que generan imágenes:</p>
 
 <code>
-for /L %%i in (0, 1, 9) do IF exist IMAGES\HTML\00%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\00%%i.png RELEASE\HTML\images.js 0,0<br/>
-for /L %%i in (10, 1, 99) do IF exist IMAGES\HTML\0%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\0%%i.png RELEASE\HTML\images.js 0,0<br/>
-for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js 0,0
+for /L %%i in (0, 1, 9) do IF exist IMAGES\HTML\00%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\00%%i.png RELEASE\HTML\images.js %IMGWIDTH% %IMGLINES% 0,0<br/>
+for /L %%i in (10, 1, 99) do IF exist IMAGES\HTML\0%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\0%%i.png RELEASE\HTML\images.js %IMGWIDTH% %IMGLINES% 0,0<br/>
+for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js %IMGWIDTH% %IMGLINES% 0,0
 </code>
 
 <p>La primera línea es para gráficos 000 a 009, la segunda para 010 a 099, y la tercera para 100 a 255.</p>
@@ -1065,6 +1070,13 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js 50,50<br/>
 for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js
 </code>
+
+<p>También puedes cambiar el ancho y la altura de las imágenes modificando las variables IMGWIDTH e IMGLINES en el archivo HTML.BAT, o simplemente reemplazándolas por un valor fijo:</p>
+
+<code>
+for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js 260 96 30,0<br/>
+</code>
+
 
 <p>Por otro lado, HTML admite las siguientes opciones de GFX:</p>
 
@@ -1108,7 +1120,7 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 <a name='windows'></a>
 <h4>Windows</h4>
 
-<p>Para Windows, DAAD Ready usa la versión MSDOS bajo DOSBox por defecto, por lo que se aplican las mismas reglas que para MSDOS. Sin embargo, también hay un intérprete experimental llamado ADP
+<p>Para Windows, DAAD Ready usa la versión PC/DOS bajo DOSBox por defecto, por lo que se aplican las mismas reglas que para PC/DOS. Sin embargo, también hay un intérprete experimental llamado ADP
   que se ejecuta de forma nativa en Windows y puede mostrar los mismos gráficos de 16 colores utilizados por Amiga o ST. De hecho, ADP se asemeja a esos intérpretes en el manejo multimedia, así que
   consulta la sección de Amiga/AtariST si lo usas.</p>
 
@@ -1135,8 +1147,9 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 <tr><td>Spectrum</td><td>Habilitado para versiones de cinta (48K y 128K) y Spectrum +3. Simplemente coloca un archivo llamado DAAD.SCR en la carpeta IMAGES.</td></tr>
 <tr><td>MSX 1</td><td>Pon un archivo llamado DAAD.SC2 en la carpeta IMAGES.</td></tr>
 <tr><td>MSX 2</td><td>Pon un archivo llamado DAAD.SC8 en la carpeta IMAGES.</td></tr>
-<tr><td>MSDOS/Windows</td><td>Pon un archivo llamado DAAD.PCX en IMAGES/PC, o IMAGES/PC/SVGA. Ten en cuenta que incluso en modo SVGA necesitas una pantalla de carga de 320x200.</td></tr>
-<tr><td>Atari ST</td><td>Pon un archivo llamado DAAD.PNG en la carpeta IMAGES.</td></tr>
+<tr><td>PC(DOS)/Windows</td><td>Pon un archivo llamado DAAD.PCX en IMAGES/PC, o IMAGES/PC/SVGA. Ten en cuenta que incluso en modo SVGA necesitas una pantalla de carga de 320x200.</td></tr>
+<tr><td>Atari ST</td><td>Pon un archivo llamado DAAD.PNG en la carpeta IMAGES. 320x200, maximo 16 colores.</td></tr>
+<tr><td>Amiga</td><td>Pon un archivo llamado DAAD.PNG en la carpeta IMAGES. 320x200, maximo 16 colores.</td></tr>
 <tr><td>Windows Experimental</td><td>Igual que con Atari ST</td></tr>
 <tr><td>MacoS Experimental</td><td>Igual que con Atari ST</td></tr>
   </tbody>

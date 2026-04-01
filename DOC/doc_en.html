@@ -124,7 +124,7 @@
 
 <p>With DAAD Ready you will just have to concentrate in creating your game, cause building a .DSK, .D64 or whatever other format required for your target platform, is as easy as double clicking the .BAT file for your target (i.e. C64.BAT to generate the .D64 file for Commodore 64).</p>
 
-<p>Due to all this, in this manual you may find references to DAAD itself, the original tool, and DAAD Ready, the package you have in your hands, which includes DRC (the new compiler, by Uto), original DAAD interpreters (by Infinite Imaginations),  Maluva Extension (to use disk based graphics instead of vector ones, by Uto), the new MSX2 interpreter (by NatyPC), the new Plus/4 interpreter (by Imre Szell, based on the C64 one), the new MSDOS interpreter (by Uto) and several tools for testing and packaging (emulators and other tools). The use of all these is transparent to the writer/programmer, that, as said above, just must click a BAT file to get the game running in the included emulator for each target.</p>
+<p>Due to all this, in this manual you may find references to DAAD itself, the original tool, and DAAD Ready, the package you have in your hands, which includes DRC (the new compiler, by Uto), original DAAD interpreters (by Infinite Imaginations),  Maluva Extension (to use disk based graphics instead of vector ones, by Uto), the new MSX2 interpreter (by NatyPC), the new Plus/4 interpreter (by Imre Szell, based on the C64 one), the new PC/DOS interpreter (by Uto) and several tools for testing and packaging (emulators and other tools). The use of all these is transparent to the writer/programmer, that, as said above, just must click a BAT file to get the game running in the included emulator for each target.</p>
 
 <p>The basic principle behind DAAD is to provide a system where a game needs to be written only once and will then work on all machines. This of course is not truly possible without sacrificing facilities. So, a compromise has been arrived at where an amount of extra work may need to be done to allow each machine to be used to best advantage. The core of the game design remains independent reducing development and debugging time considerably.</p>
 
@@ -137,7 +137,7 @@
   <li><b>Commodore 64 or 128</b> (floppy disk, with graphics)</li>
   <li><b>Atari ST</b> </li>
   <li><b>Commodore Amiga</b></li>
-  <li><b>MS-DOS</b> (VGA 256 colours)</li>
+  <li><b>PC/DOS</b> (VGA 256 colours)</li>
   <li><b>MSX</b> 1 with at least 64K of RAM (floppy disk, with graphics)</li>
   <li><b>MSX 2</b> computers (floppy disk, with graphics)</li>
   <li><b>Amstrad PCW</b> 8000/9000 Series (floppy disk, no graphics)</li>
@@ -155,9 +155,11 @@
 </ul>
 
 
-<p>Also, there are two OLD MSDOS and PLUS3 targets, which are deprecated, and remain for historical reasons.</p>
+<p>Also, there is an OLD PLUS3 target, which is deprecated, and remains for historical reasons.</p>
 
 <p>Please notice DAAD Ready is no table to generate games with graphics for Amstrad PCW, so the only way to add them is using the original DOS software included with DAAD. Please check the original DAAD manual.</p>
+
+<p>Also notice that PC target refers to the classic PC from the 80s/90s, with DOS as operating system, not modern PCs.</p>
 
 <p>DAAD uses a programming language designed especially for writing Adventure Games. It is loosely based on the QUILL and PAW systems (by Gilsoft), and a familiarity with their operation is useful. There is a section further on this manual where you can find some help if you are/were a Quill or PAW author.</p>
 
@@ -238,7 +240,7 @@
   <tr><td>C64.BAT</td><td>Commodore 64</td></tr>
   <tr><td>CPC.BAT</td><td>Amstrad CPC</td></tr>
   <tr><td>CPLUS4.BAT</td><td>Commodore Plus/4</td></tr>
-  <tr><td>MSDOS.BAT</td><td>MSDOS</td></tr>
+  <tr><td>PCDOS.BAT</td><td>PC/DOS</td></tr>
   <tr><td>MSX1.BAT</td><td>MSX 1</td></tr>
   <tr><td>MSX2.BAT</td><td>MSX 2</td></tr>
   <tr><td>ZX48TAPE.BAT</td><td>ZX Spectrum 48k (no graphics but loading screen)</td></tr>
@@ -251,7 +253,6 @@
   <tr><td>WINDOWS.BAT</td><td>Windows</td></tr>
   <tr><td>WINDOWS_EXPERIMENTAL.BAT</td><td>Windows Experimental</td></tr>
   <tr><td>MACOS_EXPERIMENTAL.BAT</td><td>MacOS Experimental</td></tr>
-  <tr><td>OLDMSDOS.BAT</td><td>MSDOS (old version, no graphics)</td></tr>
   <tr><td>OLDPLUS3.BAT</td><td>ZX Spectrum Plus 3 (uses original interpreter)</td></tr>
 </table>
 
@@ -1655,7 +1656,7 @@ entries. Allowing only one to deal with the actual actions.</p>
 
 <ul>
  <li>1 - An attempt is made to find an object at Location locno.
- If this is unsuccessful the DOALL is cancelled and action DONE is performed.</li>
+ If this is unsuccessful the DOALL is cancelled and action NOTDONE is performed.</li>
 
  <li>2 - The object number is converted into the LS Noun1 (and
  Adjective1 if present) by reference to the object 
@@ -1793,7 +1794,7 @@ section for the current Verb.
 <condact>MOUSE value value</condact>
 
 
-<p>Only available in MSDOS and HTML. Does nothing in other targets.</p>
+<p>Only available in PC/DOS and HTML. Does nothing in other targets.</p>
 
 
 <p>The second value indicates an action to perform with the mouse. The first is a parameter for that action.</p>
@@ -2232,8 +2233,8 @@ printing characters from other languages, basically most of the characters
   <tr><th>Flag #</th><th>Usage/meaning</th></tr>  
   <tr><td>0</td><td>When nonzero indicates game is dark (see also object 0)</td></tr>
   <tr><td>1</td><td>Holds quantity of objects player is carrying (but not wearing)</td></tr>
-  <tr><td>2 to 28</td><td>These are not actually used by the DAAD interpreters anywhere. Thus, they would be free for use in your own games, but on the other hand the TEST.DSF file included within DAAD Ready it is using flag 28 for internal functionalities, and Maluva extension is using flag 20. Also MSDOS target uses flag 21 (see below). Thus, you should not use those flags, and in fact our recommendation is, to avoid conflicts with future expansions, that you start using flag 254 for your own tasks, then 254, then 253, etc. That way you will be far from any conflict and your game may be recompiled in 20 years without problems.</td></tr>
-  <tr><td>21</td><td>MSDOS exclusive, used for sound control: <br/><br/>
+  <tr><td>2 to 28</td><td>These are not actually used by the DAAD interpreters anywhere. Thus, they would be free for use in your own games, but on the other hand the TEST.DSF file included within DAAD Ready it is using flag 28 for internal functionalities, and Maluva extension is using flag 20. Also PC/DOS target uses flag 21 (see below). Thus, you should not use those flags, and in fact our recommendation is, to avoid conflicts with future expansions, that you start using flag 254 for your own tasks, then 254, then 253, etc. That way you will be far from any conflict and your game may be recompiled in 20 years without problems.</td></tr>
+  <tr><td>21</td><td>PC/DOS exclusive, used for sound control: <br/><br/>
     <table>
       <tr><th>Bit</th><th>Meaning</th></tr>
       <tr><td>0</td><td>1 = SFX engine enabled</td></tr>
@@ -2675,14 +2676,14 @@ characters is used. </p>
 <p>If you want to change your game font, you just must change the files at the ASSETS/CHARSET folder. These are the files:</p>
 
 <ul>
-  <li>AD8x6.CHR is for Spectrum, MSX, Amstrad PCW, Amiga, AtariST and OLDMSDOS.</li>
+  <li>AD8x6.CHR is for Spectrum, MSX, Amstrad PCW, Amiga and AtariST.</li>
   <li>AD8x8.CHR is used by Amstrad CPC</li>
   <li>C64bold.CHR is used by C64 and Plus/4.</li>
-  <li>MSDOS.FNT is used for MSDOS.</li>
+  <li>PC.FNT is used for PC/DOS.</li>
 </ul>
 
 
-<p>To modify the font, you can use GCS application at TOOLS\GCS.ZX-Paintbursh can also open them. If you save the font from GCS, save it for 8 bit, even if you want to use it for 16 bit targets, with the only exception of MSDOS.FNT, tha you must save in SINTAC format.</p>
+<p>To modify the font, you can use GCS application at TOOLS\GCS.ZX-Paintbursh can also open them. If you save the font from GCS, save it for 8 bit, even if you want to use it for 16 bit targets, with the only exception of PC.FNT, tha you must save in SINTAC format.</p>
 
 <p>Please consider this:</p>
 
@@ -2731,55 +2732,90 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
 <a name="appendixd"></a>
 <h6>Appendix D - Symbols</h6>
 
-<p>DAAD Ready provides a series of values that you can use in your code, so you don't have to calculate them, and even in some cases, it will provide you with a different value depending on the .BAT you use,
-   so you won't have to put something different depending on the machine you work with. For example, there is a symbol called "NOT_CREATED" that 
-   is worth 252. You can remember to put 252 in your code, or put NOT_CREATED instead, which will be easier to
-   remember (ISAT oKey NOT_CREATED instead of ISAT 7 252)</p>
+<p>DAAD Ready provides a series of values that you can use in your code, so you don't have to calculate them, and even in some cases, it will provide you with a different value 
+  depending on the target you use,  so you won't have to use #ifdef to changes values depending on target.</p>
+  
+<p>For example, there is a symbol called "COLS" whose value is different per each target, but you can do LET 100 COLS and you will always have the number of columns of the target 
+  you are compiling for in flag 100 when that LET is executed.</p>
 
-<p>This is the list of symbols that DAAD Ready gives you by default, apart from those you can create with #define:</p>
+<p>Symbols are not variables, they are constants that represent specific values in your code. They are used only at compile time, whatever value they have, it's replaced at that moment and
+  the game won't ever see any other value.
+</p>
 
+<p>This is the list of symbols that DAAD Ready provides you by default. You can create others using #define:</p>
 
+<u><b>Target symbols</b></u>
+<ul>
+  <li>A symbol is defined with the target machine: zx, cpc, c64, cp4, msx, msx2, pcw, amiga, st, pc or html.</li>
+  <li>When a target has a subtarget, that subtarget it is also added as a symbol, both as is and with "mode_" prepended. For example, for ZX,
+    in addition to the "zx" symbol, mode_128k, mode_48k, mode_plus3, mode_esxdos, mode_next or mode_uno will be generated according to the case. Also
+    the same symbols without the "mode_" prefix.</li>
+</ul>
+
+<u><b>Machine bits symbols</b></u>
+<ul>
+  <li>BIT8: This symbol is defined if the target machine is 8 bit.</li>
+  <li>BIT16: This symbol is defined if the target machine is 16 bit. Note that "Window Experimental" and "MacOS Experimental" are compiled as if they were Atari ST games, so it will have the BIT16 symbol. The HTML, however, neither generates bit16 symbol, nor bit8 one.</li>
+</ul>
+
+<u><b>Screen dimensions symbols</b></u>
 <ul>
   <li>COLS : Number of text columns in the target machine.</li>
   <li>ROWS : Number of text rows in the target machine.</li>
+</ul>
+
+<u><b>Special locations symbols</b></u>
+<ul>
   <li>NOT_CREATED : 252. It is the value used to indicate that an object has not been created.</li>
   <li>WORN : 253. It is the value used to indicate that an object is worn.</li>
   <li>CARRIED : 254. It is the value used to indicate that an object is carried.</li>
   <li>HERE : 255. Some condacts allow using this value to compare with the current location, instead of 255.</li>
-  <li>DSTRINGS: although of little use in DAAD Ready, if this symbol is defined, it indicates that the machine originally supported vector graphics.</li>
-  
+</ul>
+
+<u><b>User objects and locations symbols</b></u>
+<ul>
   <li>LAST_OBJECT: the number of the last object in the object list.</li>
   <li>LAST_LOCATION: the number of the last location in the location list.</li>
-  <li>NUM_OBJECTS: the number of objects in the game.</li>
-  <li>NUM_LOCATIONS: the number of locations in the game.</li>
-  <li>NUM_CARRIED: the number of objects the player carries at the start of the game.</li>
-  <li>NUM_WORN: the number of objects the player wears at the start of the game.</li>
-  <li>BIT8: This symbol is defined if the target machine is 8 bit.</li>
-  <li>BIT16: This symbol is defined if the target machine is 16 bit. Note that "Window Experimental" and "MacOS Experimental" are compiled as if they were Atari ST games, so it will have the BIT16 symbol. The HTML, however, does not have it (nor the 8 bit one).</li>
+  <li>NUM_OBJECTS: the number of objects in the game. Like LAST_OBJECT + 1.</li>
+  <li>NUM_LOCATIONS: the number of locations in the game. Like LAST_LOCATION + 1.</li>
+  <li>NUM_CARRIED: the number of objects the player carries at the start of the game. Objects at location 254.</li>
+  <li>NUM_WORN: the number of objects the player wears at the start of the game. Objects at location 253.</li>
+</ul>
+
+<u><b>Graphics symbols</b></u>
+<ul>
+<li>DSTRINGS: although of little use in DAAD Ready, if this symbol is defined, it indicates that the machine supports vector graphics
+  and not bitmap.</li>
+  </ul>
+  
+ <u><b>Date symbols</b></u> 
+ <ul>
   <li>YEARHIGH: the two digits of the current year.</li>
   <li>YEARLOW: the lower two digits of the current year.</li>
   <li>MONTH: the current month.</li>
-  <li>DAY: the current day. These four together allow you to save in your code the date it was generated:
-    <code>
-      > HELP _<br/>
-      LET 100 YEARHIGH<br/>
-      LET 101 YEARLOW<br/>
-      LET 102 MONTH<br/>
-      LET 103 DAY<br/>
-      MES "Game written on "<br/>
-      PRINT 103<br/>
-      MES "/"<br/>
-      PRINT 102<br/>
-      MES "/"<br/>
-      PRINT 100<br/>
-      PRINT 101<br/>
-      NEWLINE<br/>
-      DONE<br/>
-    </code>
-  </li>
-  <li>Also, a symbol is defined with the target machine: ZX, CPC, C64, CP4, MSX, MSX2, PCW, AMIGA, ST, PC or HTML.</li>
-  <li>Also, the subtarget of some machines is added as a symbol, preceded by the text "MODE_". For example, for ZX, in addition to the "ZX" symbol, "MODE_PLUS3", "MODE_ESXDOS", "MODE_NEXT", or "MODE_UNO" will be generated according to the case.</li>
-  <li>There are also a few symbols made to be used wiTH SFX condact in MSDOS target, to make easier to remember how to play multimedia. These are the Symbols:
+  <li>DAY: the current day. These four together allow you to save in your code the date the game was generated. </li>
+  </ul>
+
+  <code>
+    > HELP _<br/>
+    LET 100 YEARHIGH<br/>
+    LET 101 YEARLOW<br/>
+    LET 102 MONTH<br/>
+    LET 103 DAY<br/>
+    MES "Game written on "<br/>
+    PRINT 103<br/>
+    MES "/"<br/>
+    PRINT 102<br/>
+    MES "/"<br/>
+    PRINT 100<br/>
+    PRINT 101<br/>
+    NEWLINE<br/>
+    DONE<br/>
+  </code>
+
+
+
+  <p>There are also a few symbols made to be used wiTH SFX condact in PC/DOS target, to make easier to remember how to play multimedia. These are the Symbols:</p>
     <table><tr><th>Symbol</th><th>Value</th></tr>
       <tr><td>PLAYSFX</td><td>1</td></tr>
       <tr><td>PLAYSFXL</td><td>2</td></tr>
@@ -2793,11 +2829,9 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
       <tr><td>FPLAYFLIL</td><td>10</td></tr>
      </table>
 
-    <p>For instance, you can enter "SFX 100 PLAYDRO" instead of "SFX 100 6".</p>
+  <p>For instance, you can enter "SFX 100 PLAYDRO" instead of "SFX 100 6".</p>
 
-  </li>
-  <li>
-    Similarly, the actions of the second parameter of the MOUSE condact can be used with symbols:
+  <p>Similarly, the actions of the second parameter of the MOUSE condact can be used with symbols:</p>
   <table><tr><th>Symbol</th><th>Value</th></tr>
     <tr><td>RESETMS</td><td>0</td></tr>
     <tr><td>SHOWMS</td><td>1</td></tr>
@@ -2811,12 +2845,11 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
 
   <p>For instance, you can enter "MOUSE 100 GETMS" instead of "MOUSE 100 3".</p>
 
-</li>
 
-  <li>Finally, all the words in the vocabulary are added as symbols, added with the prefix "_VOC_". So, if the verb LEAVE is number 80, the symbol _VOC_LEAVE will be 80.</li>
-</ul>
+  <p>Finally, all the words in the vocabulary are added as symbols, added with the prefix "_VOC_". So, if the verb LEAVE is number 80, the symbol _VOC_LEAVE will be 80.</p>
 
-<p>Obviously, using these symbols may not be necessary in many adventures, but some can be very convenient. For example, if we have a code that looks at all the objects to see if we carry them, we can make it look from object 0 to 15, because when we write the code the last object is 15, but if we add more objects, the code will not work. Instead, we can use the LAST_OBJECT symbol, which will always have the value of the last object, and so the code will always work.</p>
+
+  <p>Obviously, using these symbols may not be necessary in many adventures, but some can be very convenient. For example, if we have a code that looks at all the objects to see if we carry them, we can make it look from object 0 to 15, because when we write the code the last object is 15, but if we add more objects, the code will not work. Instead, we can use the LAST_OBJECT symbol, which will always have the value of the last object, and so the code will always work.</p>
 
 <a name="appendixe"></a>
 <h6>Appendix E - Greetings</h6>

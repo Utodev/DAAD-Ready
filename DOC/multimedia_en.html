@@ -85,7 +85,7 @@
     <li><a href='#cplus4'>Commodore Plus/4</a></li>
     <li><a href='#cpc'>Amstrad CPC</a></li>
     <li><a href='#amiga'>Commodore Amiga and Atari ST</a></li>
-    <li><a href='#pcdos'>MSDOS</a></li>
+    <li><a href='#pcdos'>PC/DOS</a></li>
     <li><a href='#html'>HTML</a></li>
     <li><a href='#windows'>Windows</a></li>
     <li><a href='#macOS'>MacOS</a></li>   
@@ -116,12 +116,12 @@
 <ul>
   <li>Fixed vs floating images: You can tell DAAD your images are fixed, that is, always appear in a given X,Y location in the screen. Fixed images will ignore windows that can be defined with WINDOW/WINSIZE/WINAT from DAAD code. There's also
     floating images, that will appear inside the currently selected window (if any) and don't have a fixed location. The images will be cropped to fit the window if too big.</li>
-  <li>On those machines that supports indexed palettes (Amiga, Atari ST, MSDOS, Spectrum Next and ZX-Uno), DAAD allows specifying a range of colors from the palette to be applied,
+  <li>On those machines that supports indexed palettes (Amiga, Atari ST, PC/DOS, Spectrum Next and ZX-Uno), DAAD allows specifying a range of colors from the palette to be applied,
      so other colors can be reserved for text or other purposes. In some targets both float and fixed images can limit the palette colors to apply. In some others, only fixed images 
      can do it, and float images never apply the palette at all (just use the palette previously applied by some fixed image).</li>
 
-  <li>Images can have a size smaller than full resolution. Although for most machines you have to provide a full resolution image (i.e. 320x200 for MSDOS or 256x192 for ZX Spectrum) as source image, you can specify you only want
-     a part of it to go to the game. For example, you can provide a 320x200 image for MSDOS, but tell DAAD Ready you only want to use 320x96 pixels from it. In some targets, you can also specify the width, so you can have images
+  <li>Images can have a size smaller than full resolution. Although for most machines you have to provide a full resolution image (i.e. 320x200 for PC/DOS or 256x192 for ZX Spectrum) as source image, you can specify you only want
+     a part of it to go to the game. For example, you can provide a 320x200 image for PC/DOS, but tell DAAD Ready you only want to use 320x96 pixels from it. In some targets, you can also specify the width, so you can have images
      less wide than the full screen width. When DAAD Ready processes the images, only the specified area will be included in the game, so don't worry about using full screen images as source, they won't go as is to the final game.</li>
   </li>
   <li>
@@ -183,7 +183,7 @@ the game plays C, D, E (Do-Re-Mi)</p>
    to show the graphic for location 1, we use PICTURE 1 followed by DISPLAY 0. DISPLAY parameters uses to be 0, but PICTURE parameter says which resource to use.</p>
 
 <p>For each platform, you must place resources in the IMAGES or SOUNDS folder and name them with three digits and the appropriate extension. For example, for Spectrum +3, place file 001.SCR in the IMAGES folder to show the graphic
-   for location 1. For MSDOS, place file 020.DRO in the SOUNDS folder, which can then be played as music resource 20. As you see all resources should be numbered with three digits, so you have to add trailing zeros if necessary.</p>   
+   for location 1. For PC/DOS, place file 020.DRO in the SOUNDS folder, which can then be played as music resource 20. As you see all resources should be numbered with three digits, so you have to add trailing zeros if necessary.</p>   
 
 <p>In the case of graphics, the DAAD Ready default game template automatically displays the corresponding image for each location—e.g., 001.SCR appears automatically when entering location 1. But you can also create
    graphics not tied to locations, such as 200.SCR, which you can display manually from DAAD (using PICTURE 200 / DISPLAY 0).</p>
@@ -857,18 +857,18 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
 
 <a name='pcdos'></a>
-<h4>MSDOS</h4>
+<h4>PC/DOS</h4>
 
 <p>To understand what's explained here, you should have read first the "Important Stuff" section of this manual. If you didn't, please do so before continuing.</p>
 
-<p>MSDOS interpreter supports VGA 256-color 320x200 graphics and also SVGA256 (VESA) 640x400. By default DAAD Ready creates location images with a resolution of 320x96, fixed, at 0,0.  
+<p>PC/DOS interpreter supports VGA 256-color 320x200 graphics and also SVGA256 (VESA) 640x400. By default DAAD Ready creates location images with a resolution of 320x96, fixed, at 0,0.  
   However, you can change the height by modifying the IMGLINES variable in the CONFIG.BAT file (it affects all targets).</p>
 
 <p>To create the images you simply need to place a .PCX file in the IMAGES/PC folder with three-digit numbers matching the location IDs, or in the IMAGES/PC/SVGA folder if you are using SVGA mode. 
   They must be 256 color indexed (not RGB) PCX files (i.e. 001.PCX, 002.PCX, etc.). If your image has few colors (16 or less), some image editors like Gimp will create a 16 color indexed file instead of 256 colors,
   which is not valid. Avoid that by adding some other colors to the zone at the bottom of the image, that will be cropped anyway.</p>
 
-<p>To use SVGA mode, you need to edit the CONFIG.BAT file and change the variable SVGA from 0 to 1. By default, DAAD Ready uses VGA mode for MSDOS. Please notice the text area in the SVGA mode looks like the VGA mode, 
+<p>To use SVGA mode, you need to edit the CONFIG.BAT file and change the variable SVGA from 0 to 1. By default, DAAD Ready uses VGA mode for PC/DOS. Please notice the text area in the SVGA mode looks like the VGA mode, 
   you won't see smaller text. Just the images double the resolution.</p>
 
 <p>Despite 256 colours are supported, it's recommended to create files with a maximum of 240 colors though (0 to 239). If you do that, DAAD Ready will move the colors to the upper palette range (16-255), leaving
@@ -922,17 +922,17 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
 <p> You can also play a DRO file in endless loop using SFX 20 7 and stop the current one being playe using SFX 20 8, although in this last case the first parameter is irrelevant, SFX would stop the DRO file being player, no matter if its 020.DRO or not.</p>      
 
-<p>Additionally, MSDOS supports BEEP and XPLAY for simple sound effects or melodies.</p>
+<p>Additionally, PC/DOS supports BEEP and XPLAY for simple sound effects or melodies.</p>
 
 <a name='advpcdos'></a>
-<h4>Advanced multimedia for MSDOS</h4>
+<h4>Advanced multimedia for PC/DOS</h4>
 
-<p>In MSDOS target, the image generation is done by these lines in MSDOS.BAT:</p>
+<p>In PC/DOS target, the image generation is done by these lines in PC.BAT:</p>
 
 <code> 
-for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos 00%%i.PCX 00%%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s<br/>
-for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos 0%%i.PCX 0%%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s <br/>
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos %%i.PCX %%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s <br/>
+for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe pc 00%%i.PCX 00%%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s<br/>
+for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe pc 0%%i.PCX 0%%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s <br/>
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe pc %%i.PCX %%i.MSD %IMGWIDTH% %IMGHEIGHT% 0,0 0-255 /s <br/>
 </code>
 
 <p>First line is for graphics 000 to 009, second for 010 to 099, and third for 100 to 255.</p>
@@ -945,9 +945,9 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
 <p>These are some examples of possible changes to the image processing lines:</p>
 
 <code>
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos %%i.PCX %%i.MSD 320 96 128-255<br/>
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos %%i.PCX %%i.MSD 32 32 1-0<br/>
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe msdos %%i.PCX %%i.MSD 320 8 0,192 0-255
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe pc %%i.PCX %%i.MSD 320 96 128-255<br/>
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe pc %%i.PCX %%i.MSD 32 32 1-0<br/>
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCRMAKER.exe pc %%i.PCX %%i.MSD 320 8 0,192 0-255
 </code>
 
 <ul>
@@ -959,7 +959,7 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
 <p>Partially applying the palette is useful if you want to have several graphics on screen, or reserve some colors for text. And you don't want all the images to have exactly the same colors. You can 
   reserve some color for location graphics, and some others for inventory images, for example.</p>
 
-<p>Furthermore, MSDOS supports the following options for the GFX condact:</p>
+<p>Furthermore, PC/DOS supports the following options for the GFX condact:</p>
 
 <small>
 <table>
@@ -1039,7 +1039,7 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
 
 <p>The new way is:</p>
 <ul>
-      <li>Place the MP3 file in the SOUNDS/PC folder with the usual format nnn.MP3 (for example 004.mp3)</li>
+      <li>Place the MP3 file in the SOUNDS folder with the usual format nnn.MP3 (for example 004.mp3)</li>
       <li>And to play it, in the code we do this:
       <code>
         SFX 14 1
@@ -1060,7 +1060,12 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
 
 <p> You can also play a MP3 file in endless loop using SFX 20 7 and stop the current one being playe using SFX 20 8, although in this last case the first parameter is irrelevant, SFX would stop the MP3 file being player, no matter if its 020.MP3 or not.</p>      
 
+
 <p>Please notice as both music and sfx use MP3 format, you cannot have a music and an sfx with the same number / file name, but as they are played with different SFX commands, you can play both music and effects simultaneously.</p>
+
+<p>IMPORTANT: browsers prevent a web page (and the game is a web page) from playing sound if the user (the player) has not previously interacted with the page. This is to prevent web pages from
+   playing unwanted sounds, mainly from ads. Therefore, the player must click on the page or press a key before the game can play any sound. Keep this in mind when testing your game, as if you
+    try to play a sound before the player has interacted with the page, it won't play.</p>
 
 <a name='advhtml'></a>
 <h4>Advanced multimedia for HTML</h4>
@@ -1068,9 +1073,9 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
 <p>In the HTML BAT file, we can see the lines that generate images:</p>
 
 <code>
-for /L %%i in (0, 1, 9) do IF exist IMAGES\HTML\00%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\00%%i.png RELEASE\HTML\images.js 0,0<br/>
-for /L %%i in (10, 1, 99) do IF exist IMAGES\HTML\0%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\0%%i.png RELEASE\HTML\images.js 0,0<br/>
-for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js 0,0
+for /L %%i in (0, 1, 9) do IF exist IMAGES\HTML\00%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\00%%i.png RELEASE\HTML\images.js %IMGWIDTH% %IMGLINES% 0,0<br/>
+for /L %%i in (10, 1, 99) do IF exist IMAGES\HTML\0%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\0%%i.png RELEASE\HTML\images.js %IMGWIDTH% %IMGLINES% 0,0<br/>
+for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js %IMGWIDTH% %IMGLINES% 0,0
 </code>
 
 <p>The first line is for graphics 000 to 009, second for 010 to 099, and third for 100 to 255.</p>
@@ -1081,9 +1086,16 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
    the image is floating:</p>
 
 <code>
-for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js 50,50<br/>
-for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js
+for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js %IMGWIDTH% %IMGLINES% 50,50<br/>
+for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js %IMGWIDTH% %IMGLINES%
 </code>
+
+<p>You can also change the width and height of the images by modifying the IMGWIDTH and IMGLINES variables in the HTML.BAT file, or just replacing them with a fixed value:</p>
+
+<code>
+for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADImager/jDAADImager.php IMAGES\HTML\%%i.png RELEASE\HTML\images.js 260 96 30,0<br/>
+</code>
+
 
 <p>On the other hand, HTML supports the following GFX options:</p>
 
@@ -1127,7 +1139,7 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 <a name='windows'></a>
 <h4>Windows</h4>
 
-<p>For Windows, DAAD Ready uses the MSDOS version under DOSBox by default, so the same rules as MSDOS apply. However, there’s also an experimental interpreter called ADP 
+<p>For Windows, DAAD Ready uses the PC/DOS version under DOSBox by default, so the same rules as PC/DOS apply. However, there’s also an experimental interpreter called ADP 
   that runs natively on Windows and can display the same 16-color graphics used by Amiga or ST. In fact, ADP ressembles those interpreters in multimedia handling, so 
   refer to the Amiga/AtariST section if you use it.</p>
 
@@ -1154,8 +1166,9 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 <tr><td>Spectrum</td><td>Enabled for tape versions (48K and 128K) and Spectrum +3. Just place a file named DAAD.SCR in the IMAGES folder.</td></tr>
 <tr><td>MSX 1</td><td>Put a file named DAAD.SC2 in the IMAGES folder.</td></tr>
 <tr><td>MSX 2</td><td>Put a file named DAAD.SC8 in the IMAGES folder.</td></tr>
-<tr><td>MSDOS/Windows</td><td>Put a file named DAAD.PCX in the IMAGES/PC, o IMAGES/PC/SVGA. Note that even in SVGA mode you need a 320x200 loading screen.</td></tr>
-<tr><td>Atari ST</td><td>Put a file named DAAD.PNG in the IMAGES folder.</td></tr>
+<tr><td>PC(DOS)/Windows</td><td>Put a file named DAAD.PCX in the IMAGES/PC, o IMAGES/PC/SVGA. Note that even in SVGA mode you need a 320x200 loading screen.</td></tr>
+<tr><td>Atari ST</td><td>Put a file named DAAD.PNG in the IMAGES folder. 320x200, maximum 16 colors.</td></tr>
+<tr><td>Amiga</td><td>Put a file named DAAD.PNG in the IMAGES folder. 320x200, maximum 16 colors.</td></tr> 
 <tr><td>Windows Experimental</td><td>Just like with Atari ST</td></tr>
 <tr><td>MacoS Experimental</td><td>Just like with Atari ST</td></tr>
   </tbody>

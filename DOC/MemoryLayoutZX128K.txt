@@ -26,9 +26,9 @@ reserve the whole bank for the DDB, so it is not available images or Xmessages.
 
 Bank 0: if the game is big enough, the DDB will fill bank 2 and extend
 to bank 0. This bank cannot be filled completely, though, as the charset is
-stored, so the DDB has a bit less than 14K available in this bank. In case
+stored there, so the DDB has a bit less than 14K available in this bank. In case
 the DDB does not fill the whole available space, the remaining bytes
-are used for images, up to the position of the charset.
+are used for images, up to the position of the charset, which is at the end of that bank.
 
 Bank 1: At the beginning of this bank, the DAAD keeps 512 bytes to store
 the RAMSAVE data, followed by 6912 bytes the interpreter uses as buffer to 
@@ -76,5 +76,5 @@ changin some message to xmessage will move those texts to banks 3, 4, 6 or 7, an
 in bank, but that would only help if banks 3, 4, 6 or 7 have space to move the Xmessages to).
 
 Please notice bank 2 can only be used for the DDB, so no matter if you do a very short adventure with
-a very small DDB but that doesn't fill bank 2, that gap won't be used for images. Anyway, it's not
-likely to have a such a small DDB, and so many images at the same time.
+a very small DDB but that doesn't fill bank 2, that gap won't be used for images. It's not
+likely to have a such a small DDB, and so many images at the same time though.
