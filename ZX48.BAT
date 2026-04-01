@@ -44,7 +44,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF zx 48k %GAME%.DSF -force-normal-messages tape48
+TOOLS\DRC\DRF zx 48k %GAME%.DSF -force-normal-messages -v3  tape48
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -52,7 +52,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 echo.
-PHP\PHP TOOLS\DRC\DRB.PHP zx 48k %LANG% %GAME%.json %GAME%.DDB -s
+PHP\PHP TOOLS\DRC\DRB.PHP zx 48k %LANG% %GAME%.json %GAME%.DDB -v
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
@@ -66,8 +66,8 @@ IF exist 0.XMB (
 REM --- PREPARE TAP FILE ----
 tools\cecho\cecho {06}Preparing tap file{07}
 ECHO.
-SET INTERPRETER=ASSETS\ZX\ZXSPECTRUM\DS48IE.BIN
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\ZXSPECTRUM\DS48IS.BIN
+SET INTERPRETER=ASSETS\ZX\ZXSPECTRUM\DS48IE3.BIN
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\ZXSPECTRUM\DS48IS3.BIN
 IF exist images\DAAD.SCR SET %LOADING=images\DAAD.SCR
 TOOLS\DRC\daadmaker.exe %GAME%.TAP %INTERPRETER% %GAME%.DDB ASSETS\CHARSET\%FONT6%  %LOADING%
 IF ERRORLEVEL 1 GOTO ERROR

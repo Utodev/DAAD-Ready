@@ -45,7 +45,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF zx next %GAME%.DSF 
+TOOLS\DRC\DRF zx next %GAME%.DSF -v3
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -53,7 +53,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 echo.
-PHP\PHP TOOLS\DRC\DRB.PHP zx next %LANG% %GAME%.json %GAME%.DDB -s
+PHP\PHP TOOLS\DRC\DRB.PHP zx next %LANG% %GAME%.json %GAME%.DDB
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -89,8 +89,8 @@ ECHO.
 tools\cecho\cecho {06}Preparing tap file{07}
 ECHO.
 REM --- PREPARE TAP FILE ----
-SET INTERPRETER=ASSETS\ZX\ZXNEXT\DSNEXTE.BIN
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\ZXNEXT\DSNEXTS.BIN
+SET INTERPRETER=ASSETS\ZX\ZXNEXT\DSNEXTE3.BIN
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\ZXNEXT\DSNEXTS3.BIN
 TOOLS\DRC\daadmaker.exe %GAME%.TAP %INTERPRETER% %GAME%.DDB ASSETS\CHARSET\%FONT6%
 IF ERRORLEVEL 1 GOTO ERROR
 MOVE %GAME%.TAP RELEASE\ZXNEXT > nul 2>&1

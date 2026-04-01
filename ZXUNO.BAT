@@ -47,7 +47,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 ECHO.
-TOOLS\DRC\DRF zx uno %GAME%.DSF
+TOOLS\DRC\DRF zx uno %GAME%.DSF -v3
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -55,7 +55,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 ECHO.
-PHP\PHP TOOLS\DRC\DRB.PHP zx uno %LANG% %GAME%.json %GAME%.DDB -s
+PHP\PHP TOOLS\DRC\DRB.PHP zx uno %LANG% %GAME%.json %GAME%.DDB
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -89,8 +89,8 @@ for /L %%i in (100, 1, 255) do IF exist IMAGES\ZXUNO\%%i.ZXU MOVE IMAGES\ZXUNO\%
 REM --- PREPARE TAP FILE ----
 tools\cecho\cecho {06}Preparing tap file{07}
 ECHO.
-SET INTERPRETER=ASSETS\ZX\ZXUNO\DSZXUNOE.BIN
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\ZXUNO\DSZXUNOS.BIN
+SET INTERPRETER=ASSETS\ZX\ZXUNO\DSZXUNOE3.BIN
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\ZXUNO\DSZXUNOS3.BIN
 
 TOOLS\DRC\daadmaker.exe %GAME%.TAP %INTERPRETER% %GAME%.DDB  ASSETS\CHARSET\%FONT6%
 IF ERRORLEVEL 1 GOTO ERROR

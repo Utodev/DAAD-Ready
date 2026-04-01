@@ -42,8 +42,8 @@ REM ---- GET RESOURCES  ----
 tools\cecho\cecho {06}Copying required files...{07}
 echo.
 
-SET INTERPRETER=ASSETS\ZX\PLUS3\DSP3E.BIN
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\PLUS3\DSP3S.BIN
+SET INTERPRETER=ASSETS\ZX\PLUS3\DSP3E3.BIN
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\PLUS3\DSP3S3.BIN
 COPY %INTERPRETER% DSP3TEMP.BIN > nul 2>&1
 COPY ASSETS\ZX\PLUS3\PLUS3.DSK %GAME%.DSK > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
@@ -53,13 +53,13 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF zx plus3 %GAME%.DSF
+TOOLS\DRC\DRF zx plus3 %GAME%.DSF -v3
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
-PHP\PHP TOOLS\DRC\DRB.PHP zx plus3 %LANG% %GAME%.json %GAME%.DDB -3h -s
+PHP\PHP TOOLS\DRC\DRB.PHP zx plus3 %LANG% %GAME%.json %GAME%.DDB -3h
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.

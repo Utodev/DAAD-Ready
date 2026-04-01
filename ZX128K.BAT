@@ -42,8 +42,8 @@ REM ---- GET RESOURCES  ----
 tools\cecho\cecho {06}Copying required files...{07}
 echo.
 
-SET INTERPRETER=ASSETS\ZX\128K\DS128KE.BIN
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\128K\DS128KS.BIN
+SET INTERPRETER=ASSETS\ZX\128K\DS128KE3.BIN
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ZX\128K\DS128KS3.BIN
 COPY %INTERPRETER% DS128K.BIN > nul 2>&1
 COPY ASSETS\ZX\DAAD.SDG > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
@@ -53,13 +53,13 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF zx 128k %GAME%.DSF 
+TOOLS\DRC\DRF zx 128k %GAME%.DSF -v3
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
-PHP\PHP TOOLS\DRC\DRB.PHP zx 128k %LANG% %GAME%.json %GAME%.DDB -s
+PHP\PHP TOOLS\DRC\DRB.PHP zx 128k %LANG% %GAME%.json %GAME%.DDB
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -160,12 +160,12 @@ PAUSE
 
 REM ----  CLEANING ---- 
 DEL %GAME%.json > nul 2>&1
-DEL DAAD.DDB > nul 2>&1
+DEL *.DDB > nul 2>&1
 DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL *.SDG > nul 2>&1
 DEL *.PT > nul 2>&1
-DEL DAAD.SCR > nul 2>&1
+DEL *.SCR > nul 2>&1
 DEL *.TMP> nul 2>&1
 DEL *.PT > nul 2>&1
 
