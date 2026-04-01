@@ -34,8 +34,8 @@ IF  NOT DEFINED LANG (
 echo Language: %LANG% %BASELANG%
 
 
-SET INTERPRETER=dc64isf.prg
-IF "%LANG%" == "EN" SET INTERPRETER=dc64ief.prg
+SET INTERPRETER=dc64isf3.prg
+IF "%LANG%" == "EN" SET INTERPRETER=dc64ief3.prg
 
 REM --- EL NOMBRE DEL INTERPRETE EN EL DISCO ---
 SET INTERPRETER_FINAL=sdi
@@ -54,7 +54,7 @@ tools\cecho\cecho {02}[OK]{07}
 ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
-TOOLS\DRC\DRF c64 %GAME%.DSF %SPLITSCR%
+TOOLS\DRC\DRF c64 %GAME%.DSF %SPLITSCR% -v3
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -62,7 +62,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 ECHO.
-PHP\PHP TOOLS\DRC\DRB.PHP c64 %LANG% %GAME%.json %GAME%.DDB -ch -s
+PHP\PHP TOOLS\DRC\DRB.PHP c64 %LANG% %GAME%.json %GAME%.DDB -ch
 IF ERRORLEVEL 1 GOTO ERROR
 MOVE %GAME%.DDB DAAD.DDB > nul 2>&1
 MOVE %GAME%.DDB DAAD.DDB > nul 2>&1
