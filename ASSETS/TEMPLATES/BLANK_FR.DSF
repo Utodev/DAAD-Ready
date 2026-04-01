@@ -68,6 +68,11 @@
 #define LISTED    55            ;Objets - listables par LISTOBJ etc
 #define OA_CLIST  54            ; - liste continue
 #define OO_CLIST  64
+#define DOALL_FAIL  48          ; if doall failed to find objects
+#define HASAT_ALT 49            ; to use alternative set of flags for HASAT/HASNAT/SETAT
+#define ES_PRONOUN_240 50       ; set to avoud enclicit pronouns over 240
+#define PREP_B4_NOUN 52         ; is set if last SL had a preposition before noun  
+#define UNKNOWN_WORD 53         ; is set if last SL had an unknown word after verb
 #define TIMEOUT   87            ;Si la dernière fois ça a fait Timeout
 #define IA_RBUF   85            ;Input - garde buffer
 #define IO_RBUF   32

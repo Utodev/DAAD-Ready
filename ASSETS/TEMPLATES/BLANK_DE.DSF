@@ -1,13 +1,13 @@
 ;-----------------------------------------------------------------------------------------
-;ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
-;ßßßßß                                                                               ßßßßß
-;ßßßßß    German language template, created by Stefan Vogt, Puddle Soft [1-7-2020]   ßßßßß
-;ßßßßß                                                                               ßßßßß
-;ßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßßß
+;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+;ï¿½ï¿½ï¿½ï¿½ï¿½                                                                               ï¿½ï¿½ï¿½ï¿½ï¿½
+;ï¿½ï¿½ï¿½ï¿½ï¿½    German language template, created by Stefan Vogt, Puddle Soft [1-7-2020]   ï¿½ï¿½ï¿½ï¿½ï¿½
+;ï¿½ï¿½ï¿½ï¿½ï¿½                                                                               ï¿½ï¿½ï¿½ï¿½ï¿½
+;ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-; Bitte die ß in der obigen Box nicht entfernen, denn sie machen es einfach nachzuvollziehen, 
-; ob du die Datei im falschen Encoding geöffnet hast.  Das wäre entweder ISO-8859-1 oder Win1252.
-; Wenn du oben keine ß sehen kannst, stelle sicher dass dein Editor diese Encodings unterstützt 
+; Bitte die ï¿½ in der obigen Box nicht entfernen, denn sie machen es einfach nachzuvollziehen, 
+; ob du die Datei im falschen Encoding geï¿½ffnet hast.  Das wï¿½re entweder ISO-8859-1 oder Win1252.
+; Wenn du oben keine ï¿½ sehen kannst, stelle sicher dass dein Editor diese Encodings unterstï¿½tzt 
 ; und anwendet.
 
 ;------------------------------------------------------------------------------
@@ -24,7 +24,7 @@
 
 
 ; --- Please don't remove the code above, it makes sure the game works fine for all supported targets 
-; --  Bitte entferne den obigen Code nicht, er stellt sicher, dass das Spiel für alle unterstützten Ziele funktioniert
+; --  Bitte entferne den obigen Code nicht, er stellt sicher, dass das Spiel fï¿½r alle unterstï¿½tzten Ziele funktioniert
 
 
 ; System flags 0-63
@@ -72,6 +72,12 @@
 #define LISTED    55            ;Objects - listed by LISTOBJ etc
 #define OA_CLIST  54            ; - continous list
 #define OO_CLIST  64
+#define DOALL_FAIL  48          ; if doall failed to find objects
+#define HASAT_ALT 49            ; to use alternative set of flags for HASAT/HASNAT/SETAT
+#define ES_PRONOUN_240 50       ; set to avoud enclicit pronouns over 240
+#define PREP_B4_NOUN 52         ; is set if last SL had a preposition before noun  
+#define UNKNOWN_WORD 53         ; is set if last SL had an unknown word after verb
+
 #define TIMEOUT   87            ;If Timeout last frame
 #define IA_RBUF   85            ;Input - recall buffer
 #define IO_RBUF   32
@@ -221,22 +227,22 @@ DANN    2       conjugation
 ;------------------------------------------------------------------------------
 /STX    ;System Message Texts
 /0 "Es ist zu dunkel um etwas zu sehen."
-/1 "Außerdem erkenne ich: "
+/1 "Auï¿½erdem erkenne ich: "
 /2 "#nWas nun?"
-/3 "#nWas als nächstes?"
+/3 "#nWas als nï¿½chstes?"
 /4 "#nWas soll ich jetzt tun?"
-/5 "#nWas ist der nächste Schritt?"
-/6 "#nDas habe ich nicht verstanden. Bitte versuch dich anders auszudrücken."
+/5 "#nWas ist der nï¿½chste Schritt?"
+/6 "#nDas habe ich nicht verstanden. Bitte versuch dich anders auszudrï¿½cken."
 /7 "#nIn diese Richtung kann ich nicht gehen."
 /8 "Das kann ich nicht machen.#n"
 /9 "Ich habe bei mir:#n"
 /10 "Ich habe angezogen:#n"
 /11 "";*Spare
 /12 "Bist Du sicher? "
-/13 "Möchtest Du es noch einmal versuchen? "
+/13 "Mï¿½chtest Du es noch einmal versuchen? "
 /14 "";*Spare
 /15 "OK.#n"
-/16 "Drücke eine Taste um fortzufahren.#n"
+/16 "Drï¿½cke eine Taste um fortzufahren.#n"
 /17 "";*You have taken
 /18 "";*\sturn
 /19 "";*s
@@ -262,7 +268,7 @@ DANN    2       conjugation
 /39 "Wurde auf den Boden gelegt.#n"
 /40 "Das kann ich nicht anziehen.#n"
 /41 "Das kann ich nicht ausziehen.#n"
-/42 "Das kann ich nicht ausziehen, meine Hände sind voll.#n"
+/42 "Das kann ich nicht ausziehen, meine Hï¿½nde sind voll.#n"
 /43 "Das wiegt mir zuviel.#n"
 /44 "#nDas befindet sich in "
 /45 "Das ist leider nicht in "
@@ -276,10 +282,10 @@ DANN    2       conjugation
 /53 "Nichts.#n"
 /54 "T" ;Letter for Tape
 /55 "D" ;Disc
-/56 "Laufwerk nicht bereit, Taste drücken.#n"
+/56 "Laufwerk nicht bereit, Taste drï¿½cken.#n"
 /57 "I/O Fehler.#n"
 /58 "Diskette oder Verzeichnis voll."
-/59 "Ungültiger Dateiname."
+/59 "Ungï¿½ltiger Dateiname."
 /60 "Bitte Dateinamen eingeben:"
 /61 "Tape starten.#n"
 /62 "Tape or Diskette?"
@@ -296,8 +302,8 @@ DANN    2       conjugation
 ;------------------------------------------------------------------------------
 /LTX    ;Location Texts
 /0 "LEERE DATENBANK - DAAD V2."
-/1 "Ich befinde mich auf einer Lichtung. Eine Straße führt nach Norden."
-/2 "Ich befinde mich an einem Flusslauf. Ein Trampelpfad führt nach Süden."
+/1 "Ich befinde mich auf einer Lichtung. Eine Straï¿½e fï¿½hrt nach Norden."
+/2 "Ich befinde mich an einem Flusslauf. Ein Trampelpfad fï¿½hrt nach Sï¿½den."
 
 
 ;------------------------------------------------------------------------------
@@ -319,17 +325,17 @@ S 1
 ;------------------------------------------------------------------------------
 /PRO 0       ;Main Location Loop
 
-; Dieser Vorgang ist der erste, der vom DAAD durchgeführt wird, und enthält somit einen ersten Eintrag, der
+; Dieser Vorgang ist der erste, der vom DAAD durchgefï¿½hrt wird, und enthï¿½lt somit einen ersten Eintrag, der
 ; Springt zu dem Prozess, der Objekte, Flags usw. initialisiert. und dann jedes Mal, wenn er gerufen wird, und das
-; Befindet sich der Spieler nicht mehr am Ort 0, ist er für die Darstellung der Grafik und des Textes des Ortes verantwortlich
+; Befindet sich der Spieler nicht mehr am Ort 0, ist er fï¿½r die Darstellung der Grafik und des Textes des Ortes verantwortlich
 ; aktuell, falls zutreffend, und springen Sie zu Prozess 1, wo sich das System befindet, das den Spieler nach Befehlen fragt.
 
-> _       _     AT      0                 ; Wenn wir uns in der ersten Lokalität befinden...
+> _       _     AT      0                 ; Wenn wir uns in der ersten Lokalitï¿½t befinden...
                 PROCESS 6                 ; Der Initialisierungsprozess
 
 
-> _       _     WINAT 13 0              ;  Standardmäßig befindet sich das Textfenster unten
-                #ifdef "splitModeOn"    ; wenn der Split-Screen unterstützt wird, aktivieren
+> _       _     WINAT 13 0              ;  Standardmï¿½ï¿½ig befindet sich das Textfenster unten
+                #ifdef "splitModeOn"    ; wenn der Split-Screen unterstï¿½tzt wird, aktivieren
                     XSPLITSCR 1
                     #ifdef "cpc"
                     WINAT 14 0           ;  wenn es CPC ist, setzen wir es etwas weiter unten, um Probleme im Moduswechselbereich zu vermeiden
@@ -353,9 +359,9 @@ S 1
                 SKIP $pictureOK
 
 
-;Wenn wir hier ankommen, gab es kein Bild für diesen Ort, setzen wir den Text auf Vollbild
+;Wenn wir hier ankommen, gab es kein Bild fï¿½r diesen Ort, setzen wir den Text auf Vollbild
 > _       _     #ifdef "splitModeOn"                  
-                    CLS                     ; Wenn es sich um den Split-Modus handelt, müssen wir den Bildschirm löschen
+                    CLS                     ; Wenn es sich um den Split-Modus handelt, mï¿½ssen wir den Bildschirm lï¿½schen
                     XSPLITSCR 0             ; und den Split-Modus entfernen
                 #endif
                 WINDOW 1
@@ -374,7 +380,7 @@ $pictureOK
 
 > _       _     PROCESS 3
 
-; Jetzt verwenden wir Prozess 1 als Hauptspielschleife. Eine Rückkehr von
+; Jetzt verwenden wir Prozess 1 als Hauptspielschleife. Eine Rï¿½ckkehr von
 ; hier bedeutet es das Ende des Spiels
 
 > _       _     PROCESS 1
@@ -432,8 +438,8 @@ $pictureOK
 /PRO 3
 
 ; In german:
-; Dieser Prozess wird direkt nach der Anzeige der Beschreibung eines Ortes ausgeführt und ist dafür verantwortlich          
-; die Liste der Objekte anzuzeigen, die sich dort befinden, falls vorhanden. Sie können hier Einträge hinzufügen, die Text anzeigen oder Dinge tun, wenn der Spieler einen bestimmten Ort erreicht.
+; Dieser Prozess wird direkt nach der Anzeige der Beschreibung eines Ortes ausgefï¿½hrt und ist dafï¿½r verantwortlich          
+; die Liste der Objekte anzuzeigen, die sich dort befinden, falls vorhanden. Sie kï¿½nnen hier Eintrï¿½ge hinzufï¿½gen, die Text anzeigen oder Dinge tun, wenn der Spieler einen bestimmten Ort erreicht.
 
 > _       _     NEWLINE
                 ZERO    fDarkF            ; Isn't dark
@@ -442,8 +448,8 @@ $pictureOK
 ;------------------------------------------------------------------------------
 /PRO 4 
 
-; Dieser Prozess wird bei jedem Zug ausgeführt, nachdem die Befehle des Spielers beantwortet wurden. Es ist nützlich, um Dinge zu steuern, die
-; nach einer gewissen Zeit passieren können, oder Ereignisse, die jederzeit eintreten können. Für diejenigen, die von PAW kommen, ist es das Äquivalent zum
+; Dieser Prozess wird bei jedem Zug ausgefï¿½hrt, nachdem die Befehle des Spielers beantwortet wurden. Es ist nï¿½tzlich, um Dinge zu steuern, die
+; nach einer gewissen Zeit passieren kï¿½nnen, oder Ereignisse, die jederzeit eintreten kï¿½nnen. Fï¿½r diejenigen, die von PAW kommen, ist es das ï¿½quivalent zum
 ; Prozess 2.
 
 ;------------------------------------------------------------------------------
@@ -454,10 +460,10 @@ $pictureOK
 
 ; In diesem Prozess wird auf die Befehle des Spielers geantwortet, so dass
 ; die Eingaben normalerweise Verb und Nomen haben, oder zumindest ein Verb.
-; Die Befehle des Spielers führen jede Eingabe aus, wenn sie mit den in jeder angegebenen
-; Wörtern übereinstimmen. Beachte, dass sie in der Reihenfolge ausgeführt werden, in der sie
+; Die Befehle des Spielers fï¿½hren jede Eingabe aus, wenn sie mit den in jeder angegebenen
+; Wï¿½rtern ï¿½bereinstimmen. Beachte, dass sie in der Reihenfolge ausgefï¿½hrt werden, in der sie
 ; in der Datei stehen, so dass die allgemeineren Antworten hinter den spezifischeren stehen
-; Für diejenigen, die von PAW kommen, ist es das Äquivalent zur Antworttabelle.
+; Fï¿½r diejenigen, die von PAW kommen, ist es das ï¿½quivalent zur Antworttabelle.
 
 
 > I       _       SYSMESS 9
@@ -532,20 +538,20 @@ $pictureOK
 $picture0OK
 
 > _       _     WINDOW 1
-                DESC    0               ; Texteinführung
+                DESC    0               ; Texteinfï¿½hrung
                 ANYKEY
                 CLS
                 SET   255             
 
 $initLoop                
-> _       _     MINUS   255 1          ; Setzt alle Flags zurück
-                NOTEQ   255  fGFlags  ; außer GFlags!!!
+> _       _     MINUS   255 1          ; Setzt alle Flags zurï¿½ck
+                NOTEQ   255  fGFlags  ; auï¿½er GFlags!!!
                 CLEAR   @255
 
 > _       _     NOTZERO 255             
                 SKIP    $initLoop
 
-> _       _     RESET                     ; Objekte an ihrem ursprünglichen Standort / Flag 1
+> _       _     RESET                     ; Objekte an ihrem ursprï¿½nglichen Standort / Flag 1
                 LET     fStrength 10
                 LET     fMaxCarr 4
                 SET     fCPronounNoun
