@@ -1565,6 +1565,8 @@ function mmlToBeep($note, &$values, $target, $subtarget)
         $condact->getDurationAdjustment = true; // This pause has duration already adjusted
         $condact->NumParams = 1;
         $condact->Param1 = intval(round($baseLength * (120 / $values[XPLAY_TEMPO]) / $length));
+        // Make sure it's not PAUSE 0, to avoid generating a "GETKEY" in V3 or a very long pause v2
+        if ($condact->Param1 == 0)  $condact->Param1 = 1;
         $condact->Indirection1 = 0;
         $condact->Condact = 'PAUSE';
     } else
