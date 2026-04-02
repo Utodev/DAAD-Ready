@@ -40,8 +40,8 @@ IF NOT exist %GAME%.DSF COPY ASSETS\TEMPLATES\BLANK_%LANG%.DSF %GAME%.DSF
 REM ---- OBTENER RECURSOS ---- 
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
-SET INTERPRETER=ASSETS\ATARIST\DSTEI.PRG
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ATARIST\DSTSI.PRG
+SET INTERPRETER=ASSETS\ATARIST\DSTEI3.PRG
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\ATARIST\DSTSI3.PRG
 COPY %INTERPRETER% RELEASE\ATARIST\%GAME%.PRG 
 COPY ASSETS\CHARSET\%FONT6% RELEASE\ATARIST\PART1.TMP > nul 2>&1
 TOOlS\SPECFORM\SPECFORM -a 16384 RELEASE\ATARIST\PART1.TMP > nul 2>&1
@@ -57,7 +57,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF st %GAME%.DSF -force-normal-messages 
+TOOLS\DRC\DRF st %GAME%.DSF -v3
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -65,7 +65,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 echo.
-PHP\PHP TOOLS\DRC\DRB.PHP st %LANG% %GAME%.json %GAME%.DDB -s
+PHP\PHP TOOLS\DRC\DRB.PHP st %LANG% %GAME%.json %GAME%.DDB
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.

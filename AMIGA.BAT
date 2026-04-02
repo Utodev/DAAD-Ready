@@ -40,8 +40,8 @@ IF NOT exist %GAME%.DSF COPY ASSETS\TEMPLATES\BLANK_%LANG%.DSF %GAME%.DSF
 REM ---- OBTENER RECURSOS ---- 
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
-SET INTERPRETER=ASSETS\AMIGA\DAAMIGAEI
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\AMIGA\DAAMIGASI
+SET INTERPRETER=ASSETS\AMIGA\DAAMIGAEI3
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\AMIGA\DAAMIGASI3
 COPY %INTERPRETER% RELEASE\AMIGA\%GAME%
 COPY ASSETS\CHARSET\%FONT6% RELEASE\AMIGA\PART1.TMP > nul 2>&1
 TOOlS\SPECFORM\SPECFORM -a 16384 RELEASE\AMIGA\PART1.TMP > nul 2>&1
@@ -56,7 +56,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 echo.
-TOOLS\DRC\DRF amiga %GAME%.DSF -force-normal-messages 
+TOOLS\DRC\DRF amiga %GAME%.DSF -v3
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -64,7 +64,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 echo.
-PHP\PHP TOOLS\DRC\DRB.PHP amiga %LANG% %GAME%.json %GAME%.DDB -s
+PHP\PHP TOOLS\DRC\DRB.PHP amiga %LANG% %GAME%.json %GAME%.DDB
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
