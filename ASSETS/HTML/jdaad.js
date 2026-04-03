@@ -337,9 +337,9 @@ const condactTable  = [
     {condactName: 'COPYOF ', condactRoutine: _COPYOF , numParams: 2}, /* 119 0x77*/
     {condactName: 'dumb   ', condactRoutine: _dumb   , numParams: 0}, /* 120 0x78*/
     {condactName: 'COPYOO ', condactRoutine: _COPYOO , numParams: 2}, /* 121 0x79*/
-    {condactName: 'dumb   ', condactRoutine: _dumb   , numParams: 0}, /* 122 0x7A*/
+    {condactName: 'INDIR  ', condactRoutine: _INDIR  , numParams: 1}, /* 122 0x7A*/
     {condactName: 'COPYFO ', condactRoutine: _COPYFO , numParams: 2}, /* 123 0x7B*/
-    {condactName: 'dumb   ', condactRoutine: _dumb   , numParams: 0}, /* 124 0x7C*/
+    {condactName: 'SETAT  ', condactRoutine: _SETAT  , numParams: 2}, /* 124 0x7C*/
     {condactName: 'COPYFF ', condactRoutine: _COPYFF , numParams: 2}, /* 125 0x7D*/
     {condactName: 'COPYBF ', condactRoutine: _COPYBF , numParams: 2}, /* 126 0x7E*/
     {condactName: 'RESET  ', condactRoutine: _RESET  , numParams: 0}  /* 127 0x7F*/
@@ -550,10 +550,11 @@ class DDBClass {
         return (this.header.targetMachineLanguage & 1) != 0;
     }
 
-    limitEnclicitPronouns()
+    V3CODE()
     {
-        return (this.header.targetMachineLanguage & 8) != 0;
+        return (this.header.version == 3);
     }
+
 
 }
 
@@ -596,6 +597,21 @@ class flagClass {
         return (this.getFlag(flagno) & (1 << bitno)) != 0;    
     }
 
+    setFlagBit(flagno,bitno)
+    {
+        this.setFlag(flagno, this.getFlag(flagno) | (1 << bitno));
+    }
+
+    clearFlagBit(flagno,bitno)
+    {
+        this.setFlag(flagno, this.getFlag(flagno) & ~(1 << bitno));
+    }
+
+    toggleFlagBit(flagno,bitno)
+    {
+        this.setFlag(flagno, this.getFlag(flagno) ^ (1 << bitno));
+    }
+
 
 
     RAMSAVEFlags()
@@ -609,6 +625,12 @@ class flagClass {
         for(var i=0;i<flagno;i++) 
          this.#theflags[i] = this.#theflagsRAMSAVE[i]
     }
+
+    limitEnclicitPronouns()
+    {
+        return (this.#theflags[FOBJECT_PRINT_FLAGS] & 0x40) != 0;
+    }
+
 }
 
 class objectClass {
@@ -894,6 +916,7 @@ var Parameter1 = 0;
 var Parameter2 = 0;
 var inPARSE = false;
 var inANYKEY = false;
+var inGETKEY = false;
 var inEND = false;
 var inQUIT = false;
 var inINKEY = false;
@@ -1394,6 +1417,16 @@ function parseEnd()
     //split order into words}
     var orderWords = playerOrder.split(' ');
 
+    
+    if (DDB.V3CODE) 
+    {
+    //Clear bit 4 of FOBJECT_PRINT_FLAGS that indicates there was a preposition before the noun1
+    flags.clearFlagBit(FOBJECT_PRINT_FLAGS, 4); 
+    //Clear bit 5 of FOBJECT_PRINT_FLAGS that indicates there was an unknown word after the verb}
+    flags.clearFlagBit(FOBJECT_PRINT_FLAGS, 5); 
+    }
+
+
     //parse the order}
     flags.setFlag(FVERB, NO_WORD);
     flags.setFlag(FNOUN, NO_WORD);
@@ -1418,7 +1451,13 @@ function parseEnd()
             if ((aWordRecord.aType == VOC_NOUN) && (flags.getFlag(FNOUN2) == NO_WORD)) flags.setFlag(FNOUN2,aWordRecord.aCode); else
             if ((aWordRecord.aType == VOC_ADJECT) && (flags.getFlag(FADJECT) == NO_WORD)) flags.setFlag(FADJECT,aWordRecord.aCode); else
             if ((aWordRecord.aType == VOC_ADJECT) && (flags.getFlag(FADJECT2) == NO_WORD)) flags.setFlag(FADJECT2,aWordRecord.aCode); else
-            if ((aWordRecord.aType == VOC_PREPOSITION) && (flags.getFlag(FPREP) == NO_WORD)) flags.setFlag(FPREP,aWordRecord.aCode); else
+            if ((aWordRecord.aType == VOC_PREPOSITION) && (flags.getFlag(FPREP) == NO_WORD)) 
+                {
+                    flags.setFlag(FPREP,aWordRecord.aCode);
+                    //Set bit 4 of FOBJECT_PRINT_FLAGS to indicate there was a preposition before the noun1
+                    if (DDB.V3CODE)  if (flags.getFlag(FNOUN)==NO_WORD) flags.setFlagBit(FOBJECT_PRINT_FLAGS, 4); 
+                }
+            else
             if ((aWordRecord.aType == VOC_ADVERB) && (flags.getFlag(FADVERB) == NO_WORD)) flags.setFlag(FADVERB,aWordRecord.aCode)
             //If English, pronouns work independently, if Spanish, pronouns are applied a pronominal suffixes}
             else if ((! DDB.isSpanish()) && (aWordRecord.aType == VOC_PRONOUN) && (! pronounInSentence))
@@ -1435,7 +1474,7 @@ function parseEnd()
             if (DDB.isSpanish()) 
             {
                 if ((aWordRecord.aType == VOC_VERB) && (!pronounInSentence))
-                if ((! DDB.limitEnclicitPronouns()) || (aWordRecord.aCode<=LAST_PRONOMINAL_VERB))
+                if ((! flags.limitEnclicitPronouns()) || (aWordRecord.aCode<=LAST_PRONOMINAL_VERB))
                 {
                     var j = 0;
                     while ((j<4) && (!pronounInSentence)) 
@@ -1467,7 +1506,13 @@ function parseEnd()
                     };  /* loop over the terminations */
                 }; /* if a Verb and no pronoun */
             }; //If IsSpanish
-        }; //if aWordRecord.aCode != -1
+        } //if aWordRecord.aCode != -1
+        else
+        {
+          //Set bit 5 of FOBJECT_PRINT_FLAGS to indicate there was an unknown word after the verb}
+        if (DDB.V3CODE) if (flags.getFlag(FVERB)!= NO_WORD) flags.setFlagBit(FOBJECT_PRINT_FLAGS, 5); 
+
+        }
         i++;
     }; //while
 
@@ -1635,7 +1680,7 @@ function debug(string, style='normal')
 
 function clickHandler(e)
 {
-    if (inANYKEY)
+    if (inANYKEY & !inGETKEY) // if we are in ANYKEY but not in GETKEY, any click should not work as a keypress
     {
         e.preventDefault();
         e.stopPropagation();
@@ -1689,7 +1734,15 @@ function keydownHandler(e)
                 e.preventDefault();
                 e.stopPropagation();   
                 if (!inMORE) DDB.condactPTR++; // Point to next condact
+                if (inGETKEY)
+                {
+                    flags.setFlag(FKEY1, keyBoardStatus[keyBoardStatus.length-1]);
+                    flags.setFlag(FKEY2,0);
+                    inGETKEY = false;
+                }
+
                 inANYKEY = inMORE = false;
+                
                 for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
                 run(true); // skipToRunCondact = true
                 return;
@@ -2898,7 +2951,12 @@ function _AUTOR()
 /*--------------------------------------------------------------------------------------*/
 function _PAUSE() 
 {
- if (Parameter1 == 0) delay(5.12); else delay(Parameter1/50); 
+ if (Parameter1 == 0) 
+ {
+    if (DDB.V3CODE) _GETKEY(); 
+    else delay(256/50);
+ }
+ else delay(Parameter1/50); 
  done = true; 
 }
 
@@ -3481,6 +3539,12 @@ function _DOALL()
  
     if (Parameter1 == LOC_HERE) Parameter1 = flags.getFlag(FPLAYER);
     var i = -1;
+    flags.setFlag(FDOALL, Parameter1);
+
+    // Sets the flag that indicates there was no object found in DOALL, it will be cleared 
+    // if an object is found, but will remain set otherwise
+    if (DDB.V3CODE) flags.setFlagBit(FOBJECT_PRINT_FLAGS,0); 
+
     do 
     {
         var objno = objects.getNextObjectAt(i, Parameter1);
@@ -3488,6 +3552,9 @@ function _DOALL()
     
         if (objno!=MAX_OBJECT)
         {
+            //Clears the flag that indicates there was no object found in DOALL, as we have found an object}
+            if (DDB.V3CODE) flags.clearFlagBit(FOBJECT_PRINT_FLAGS,0); 
+
             objects.setReferencedObject(objno);
             flags.setFlag(FDOALL,objno);
             if ((flags.getFlag(FNOUN) == flags.getFlag(FNOUN2)) && ((flags.getFlag(FADJECT) == flags.getFlag(FADJECT2)) || (flags.getFlag(FADJECT) == NO_WORD) || (flags.getFlag(FADJECT2) == NO_WORD))) 
@@ -4056,6 +4123,15 @@ function _INKEY2()
 
 }
 
+function _GETKEY()
+{
+    if ((keyBoardStatus.length == 1) && (keyBoardStatus[0] == 13)) keyBoardStatus = []; // Remove pending CR
+    inANYKEY = true;
+    inGETKEY = true; // GETKEY is just an ANYKEY that breaks only with keyboard (no mouse) and saves key pressed in flags
+}
+
+
+
 /*--------------------------------------------------------------------------------------*/
 function _BIGGER()
 {
@@ -4160,6 +4236,36 @@ function _RESET()
  objects.resetObjects();
  done = true;
 }
+
+/*--------------------------------------------------------------------------------------*/
+function _INDIR()
+{
+     if (DDB.V3CODE) 
+     {
+        DDB.setByte(DDB.condactPTR+3, flags.getFlag(Parameter1));
+     }
+    done = true;
+}
+
+/*--------------------------------------------------------------------------------------*/
+function _SETAT()
+{
+    var baseFlag;
+    if (DDB.V3CODE) {
+        if(flags.getFlagBit(FOBJECT_PRINT_FLAGS, 1)) baseFlag = 91; else baseFlag = 59;
+        var finalFlag = baseFlag - (Parameter1 >> 3);
+        bit = Parameter1 & 7;
+        switch (Parameter2) {
+            case 0: flags.clearFlagBit(finalFlag, bit); break;
+            case 1: flags.setFlagBit(finalFlag, bit); break;
+            case 2: flags.toggleFlagBit(finalFlag, bit); break;
+        }
+    }
+    done = true;
+}
+
+
+
 
 
 /*--------------------------------------------------------------------------------------*/

@@ -71,7 +71,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Frontend]{07}
 ECHO.
-TOOLS\DRC\DRF html %GAME%.DSF
+TOOLS\DRC\DRF html %GAME%.DSF -v3
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -79,7 +79,7 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 tools\cecho\cecho {06}Compiling [Backend]{07}
 ECHO.
-PHP\PHP TOOLS\DRC\DRB.PHP html  %LANG% %GAME%.json %GAME%.DDB -s
+PHP\PHP TOOLS\DRC\DRB.PHP html  %LANG% %GAME%.json %GAME%.DDB 
 IF ERRORLEVEL 1 GOTO ERROR
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
