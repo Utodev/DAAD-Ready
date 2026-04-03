@@ -4255,6 +4255,8 @@ function _SETAT()
         if(flags.getFlagBit(FOBJECT_PRINT_FLAGS, 1)) baseFlag = 91; else baseFlag = 59;
         var finalFlag = baseFlag - (Parameter1 >> 3);
         bit = Parameter1 & 7;
+        Parameter2 = Parameter2 & 3;
+        if (Parameter2 == 3) Parameter2--;
         switch (Parameter2) {
             case 0: flags.clearFlagBit(finalFlag, bit); break;
             case 1: flags.setFlagBit(finalFlag, bit); break;
