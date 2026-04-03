@@ -94,6 +94,7 @@ echo %GAME% > RELEASE\AMIGA\s\startup-sequence
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
 MOVE %GAME%.DDB RELEASE\AMIGA\PART1.DDB > nul 2>&1
+IF exist 0.XMB MOVE 0.XMB RELEASE\AMIGA\PART1.XMB > nul 2>&1
 ECHO.
 
 tools\cecho\cecho {06}Preparing .ADF floppy disk image file{07}
