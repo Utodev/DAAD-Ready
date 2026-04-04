@@ -22,16 +22,12 @@ if errorlevel 2 (
     del /q /s CPLUS4\*.* > nul 2>&1
     copy readme.txt CPLUS4 > nul 2>&1
 
-    echo Cleaning Amstrad CPC 664...
-    md CPC664 > nul 2>&1
-    del /q /s CPC664\*.* > nul 2>&1
-    copy readme.txt CPC664 > nul 2>&1
+    echo Cleaning Amstrad CPC ...
+    md CPC > nul 2>&1
+    del /q /s CPC\*.* > nul 2>&1
+    copy readme.txt CPC > nul 2>&1
 
 
-    echo Cleaning Amstrad CPC 6128...
-    md CPC6128 > nul 2>&1
-    del /q /s CPC6128\*.* > nul 2>&1
-    copy readme.txt CPC6128 > nul 2>&1
 
     echo Cleaning Amstrad PCW...
     md PCW> nul 2>&1

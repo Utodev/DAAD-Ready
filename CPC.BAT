@@ -104,7 +104,7 @@ IF ERRORLEVEL  1 GOTO CUSTOM
 REM ---- TESTER ---- 
 ECHO.
 tools\cecho\cecho {03}
-MOVE %GAME%.DSK RELEASE\CPC664 > nul 2>&1
+MOVE %GAME%.DSK RELEASE\CPC > nul 2>&1
 IF "%BASELANG%" == "EN" (
 ECHO Game ready,press any key to test or  CTRL+C to stop
 )
@@ -114,7 +114,7 @@ ECHO Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar.
 tools\cecho\cecho {07}
 PAUSE
 cd TOOLS\CPCE
-CPCE95 -v+ ..\..\RELEASE\CPC664\%GAME%.DSK
+CPCE95 -v+ ..\..\RELEASE\CPC\%GAME%.DSK
 CD ..\..
 GOTO FIN
 
