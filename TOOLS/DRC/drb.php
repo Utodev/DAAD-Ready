@@ -42,12 +42,16 @@ define('BEEP_OPCODE',   64);
 define('AT_OPCODE', 0);
 define('PROCESS_OPCODE',75);
 define('INDIR_OPCODE',  122);
+define('XMES_FINAL_OPCODE', 120);
+define('GFX_OPCODE', 87);
+
 
 
 define('XPLAY_OCTAVE', 0);
 define('XPLAY_VOLUME', 1);
 define('XPLAY_LENGTH', 2);
 define('XPLAY_TEMPO',  3);
+
 
 
 
@@ -835,15 +839,15 @@ function generateProcesses($adventure, &$currentAddress, $outputFileHandler, $is
                 }
                 else if  ($condact->Opcode == XMES_OPCODE)  // Convert XMESS in a Maluva CALL, XMESSAGE does not actually get to drb, as drf already converts all XMESSAGE into XMESS with a \n added to the string
                 {
-                    $condact->Opcode = EXTERN_OPCODE;
+                    $condact->Opcode = XMES_FINAL_OPCODE;
                     $messno = $condact->Param1;
                     $offset = $GLOBALS['xMessageOffsets'][$messno];
                     if ($offset>0xFFFF) Error('Size of xMessages exceeds the 64K limit');
-                    $condact->NumParams = 3;
-                    $condact->Param2 = 3; // Maluva's function 3
+                    $condact->NumParams = 2;
+                    #echo "Debug: Converting XMES condact with message #$messno to XMES_FINAL with offset " . prettyFormat($offset) . " for target $target $subtarget\n";
                     $condact->Param1 = $offset & 0xFF; // Offset LSB
-                    $condact->Param3 = ($offset & 0xFF00) >> 8; // Offset MSB
-                    $condact->Condact = 'EXTERN';
+                    $condact->Param2 = ($offset & 0xFF00) >> 8; // Offset MSB
+                    $condact->Condact = 'XMES';
                     if ((!CheckMaluva($adventure)) && !MaluvaEmbedded($adventure, $target, $subtarget)) Error("XMES condact requires Maluva Extension [$target $subtarget]");
                 }
                 else if ($condact->Opcode == PAUSE_OPCODE)
@@ -970,10 +974,10 @@ function generateProcesses($adventure, &$currentAddress, $outputFileHandler, $is
                 }
                 else if ($condact->Opcode == XSPLITSCR_OPCODE)
                 {
-                    $condact->Opcode = EXTERN_OPCODE;
+                    $condact->Opcode = GFX_OPCODE;
                     $condact->NumParams=2;
-                    $condact->Param2 = 6; // Maluva function 6.
-                    $condact->Condact = 'EXTERN'; // XSPLITSCR X  ==> EXTERN X 6 
+                    $condact->Param2 = 15; // Maluva function 6.
+                    $condact->Condact = 'GFX'; // XSPLITSCR X  ==> GFX X 15
                     $targetSubtarget ="${target}${subtarget}";                    
                     if (($target!='CPC')  && ($target!='C64')) Error('XSPLITSCR is not supported by target [ '.$target.' ]');
                 }

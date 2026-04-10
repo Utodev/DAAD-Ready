@@ -335,7 +335,7 @@ const condactTable  = [
     {condactName: 'RESTART', condactRoutine: _RESTART, numParams: 0}, /* 117 0x75*/
     {condactName: 'TAB    ', condactRoutine: _TAB    , numParams: 1}, /* 118 0x76*/
     {condactName: 'COPYOF ', condactRoutine: _COPYOF , numParams: 2}, /* 119 0x77*/
-    {condactName: 'dumb   ', condactRoutine: _dumb   , numParams: 0}, /* 120 0x78*/
+    {condactName: 'XMES   ', condactRoutine: _XMES   , numParams: 2}, /* 120 0x78*/
     {condactName: 'COPYOO ', condactRoutine: _COPYOO , numParams: 2}, /* 121 0x79*/
     {condactName: 'INDIR  ', condactRoutine: _INDIR  , numParams: 1}, /* 122 0x7A*/
     {condactName: 'COPYFO ', condactRoutine: _COPYFO , numParams: 2}, /* 123 0x7B*/
@@ -2436,8 +2436,12 @@ function Xmes(offset)
 function _XMES()
 {
     var XMessageOffset = Parameter1;
-    DDB.condactPTR++;
-    XMessageOffset = XMessageOffset + DDB.getByte(DDB.condactPTR) * 256;
+    if (DDB.V3CODE) XMessageOffset = XMessageOffset + Parameter2 * 256;
+    else
+    {
+        DDB.condactPTR++;
+        XMessageOffset = XMessageOffset + DDB.getByte(DDB.condactPTR) * 256;
+    }
     Xmes(XMessageOffset); 
     done = true;
 }
@@ -3289,17 +3293,17 @@ function _LISTOBJ()
 /*--------------------------------------------------------------------------------------*/
 function _EXTERN() 
 {
+    /*Please notice even with Maluva Enabled additional EXTERN code can be run*/
+    Extern(Parameter1, Parameter2); 
     if (!MALUVA_DISABLED)   /* Maluva Emulation */
     {
+        if (!DDB.V3CODE) 
         switch(Parameter2)
         {
             case 3: _XMES(); return;
             case 4: _XPART(); return;
         }
     }
-    /*Please notice even with Maluva Enabled additional EXTERN code can be run, it just happens Maluva functions 
-    can intervene and don't let execution come to this point, but if not, then standard EXTERN code may run */
-    Extern(Parameter1, Parameter2); 
     done = true;
 }
 
