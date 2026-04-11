@@ -2969,7 +2969,6 @@ function _SYNONYM()
 {
  if (Parameter1!=NO_WORD) flags.setFlag(FVERB, Parameter1);
  if (Parameter2!=NO_WORD) flags.setFlag(FNOUN, Parameter2);
- done = true;
 }
 
 /*--------------------------------------------------------------------------------------*/
