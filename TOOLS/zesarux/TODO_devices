@@ -1,0 +1,286 @@
+
+-datagear dma: timing (puesto tiempos arbitrarios), demos que hacen out no se ven bien, modo turbo next afecta a timing?
+Y montones de flags y parámetros de dma que de momento no gestiono
+
+
+--- Sprite Chip ZGX ---
+
+-Scroll circular sin relleno de nada?
+-Sprites que empiezan en coordenadas x -7 o más deben aparecer en pantalla. Ver vídeo 5
+-Limitar tabla de sprites a máximo 65536/40=1638 sprites
+-Limite de sprites por scanline? Tener en cuenta que sean sprites activos
+-Desactivar chip sprites si reset y máquina no spectrum. Pero en set_machine si se hace ahi, fuerza a desactivar aunque en el .config se haya habilitado
+-Sprites de 16x16?
+
+------------------
+
+
+--- PD765 ---
+
+-Emulación floppy:￼
+Quiza un modo mas facil (y menos real) en que cuando pida la cpu leer un byte, se le pase el siguiente del disco. Y otro mas real en que el disco esté "girando" como en real, y el byte que se le pase sea el que corresponda en ese momento (requerira funcion nested core). Algún setting para escoger entre los dos modos?
+
+lectura sectores de floppy debe usar los ids y no offset directo (llamando a traps_plus3dos_getoff_track_sector igual que traps)
+Y los ST0, ST1, etc de resultado, deben retornar los que hay en DSK? respuesta del comando es el siguiente sector, etc? o el actual?
+
+-sonido simulado de datos de floppy: de manera similar al microdrive, generamos sonido segun los bytes leidos. Pero para eso se necesita
+que lea/escriba a velocidad real (o sea mas lento que como hace ahora). Ahora las transferencias de sectores se hacen de golpe cada sector
+
+-mejorar dsk_extended_get_start_track. se tiene que parecer mas al basico
+
+-releer tabla read data y valores chrn cuando el procesador termina un comando. cuando sucede? como puede terminar un comando??
+
+-ver otros casos al llamar a dsk_get_sector_size_track_from_offset se debe hacer usando lectura extendida dsk_get_real_sector_size_extended
+
+
+
+
+-Read track
+* A determinar flags que se activan según petición inicial chrn
+* A determinar que pasa si hay menos sectores que eot: creo que esto ya se gestiona cuando le pide el sector
+
+-PD765: write sector. control de EOT? se puede escribir mas de un sector seguido?
+-implementar write deleted data? quiza tan facil como escribir igual pero con bits de (st1?st2?) diciendo que está borrado
+
+-Sonido de lectura y escritura de floppy +3, según codificación. Manchester? Mfm?
+-----------------------
+
+
+--- Plus3handler
+
+-plus3doshandler: se necesita muchas revisiones para que funcione correctamente, algunas llamadas al leer sector que se va a leer puertos,
+ejemplo badlands.dsk y rutina en la 2114h que esta en los traps
+
+-----------------------
+
+
+--- Betadisk ---
+
+-betadisk: nmi no parece guardar el snapshot, aunque lo intenta
+
+-para siguiente version: revisar betadisk. quiza demos de generalsound en scl/trd fallan por eso:
+* revisar puertos de estado: FF, 1F, etc...
+* rutinas de salto a la rom de betadisk desde Chase HQ, quiza un trap para esa rutina?
+
+-------------
+
+
+------------------
+
+--- MMC y DIVMMC ---
+
+-Mmap para acceso a mmc/ide. Pero solo cuando se activa "persistent writes".
+mmap tiene flags para decir que es solo lectura pero supongo que fallaria con segfault si escribimos en una zona de solo lectura
+Sin persistent writes deberia hacerlo como siempre: escribiendo en memoria, sin mmap
+Con mmap, se deja de hacer flush, ya que lo hará automáticamente (??) el sistema operativo, al activar mmap
+
+-implementar CMD8 en mmc. en caso de tarjeta SDHC. Revisar especificación, en teoria algo como :
+According to the SD spec (SD Specifications, Part 1, Physical Layer, Simplified Specification, Version 2.00, July 27, 2006) figure 7-2: SPI Mode Initialization Flow, there are 5 possible outcomes:
+1) CMD8 fails and CMD58 fails: must be MMC, thus initialize using CMD1
+2) CMD8 fails and CMD58 passes: must be Ver1.x Standard Capacity SD Memory Card
+3) CMD8 passes and CMD58 passes (CCS = 0): must be Ver2.00 or later Standard Capacity SD Memory Card
+4) CMD8 passes and CMD58 passes (CCS = 1): must be Ver2.00 or later High Capacity SD Memory Card
+5) CMD8 passes and CMD58 passes but indicates non compatible voltage range: unusable card
+
+Por tanto si no es sdhc, hacer como ahora, no gestionar ese comando. y si lo es, retornar CCS=1?? Y creo que tambien cmd58
+
+-Revisar protección de escritura en páginas divmmc
+
+-quizá accesos a mmc se deberían hacer directamente a disco, combinando fseek, en vez de memoria. hacer flush de por ejemplo imagen de 512MB en mac tarda unos 4 segundos. Fseek en Windows que limitaciones hay?
+
+-Divmmc en teoría esto está mal:
+It's also mapped instantly (100ns after /MREQ of that fetch is falling down) after executing opcode from area 3d00..3dffh.
+->Debería paginar después de ejecutar opcode y en cambio lo está haciendo antes
+->Pero realmente si lo cambio no funciona
+
+
+-MMC (y tambien para IDE)
+Mejorar mmc flush etc. Al escribir a disco, debería dejar las operaciones de escritura en espera, esto
+cuando se lanza desde otro thread desde timer Es critico.
+Si no hay threads, no hay problema, hay un solo hilo y los dos eventos no se dan nunca a la misma vez
+Ejemplo:
+Inicia escritura de byte en memoria mmc. Mete variable flush a 1. Pero aún no ha escrito
+Inicia flush. Mete variable flush a 0. Aún no graba a disco
+Sigue escritura de byte en memoria mmc.
+Sigue el thread de grabado a disco pero puede ser que el byte modificado no entre esta vez
+
+Aunque entrará en el siguiente flush, si lo hay.
+
+En este caso esto puede quedar corregido simplemente si al expulsar mmc file siempre hacemos flush.
+Pero esto NO es recomendable pues entonces haríamos siempre flush de toda imagen, se haya escrito o no.
+Quizá activar flag cuando se escribe al menos una vez y al salir sabemos si hay que grabarlo o no
+
+-Idea: en vez de tener la imagen Mmc, que tenga los archivos que contiene y cree el Mmc copiándolos
+
+-Creacion imagen mmc desde seleccion de imagen mmc, la crea byte a byte y con tamaños grandes puede ser muy lento
+
+-Soportar extensiones .sd y .sdhc? Las últimas deberían activar parámetro de direccionamiento sdhc
+
+-Accesos mmc más allá del límite no deben desactivar la tarjeta. Solo log del aviso. En general para todos los dispositivos
+
+------------------
+
+
+
+--- ZXMMC+ y residos ---
+
+
+*snapshots en sd usando la nmi de las roms parcheadas de zxmmcplus (teclas w en nmi por ejemplo) no restauran bien
+*RTC: info probablemente https://web.archive.org/web/20110811052347/http://www.zxbada.bbk.org/documentazione/zx-badaloc_technical_info_4.2-ENG.htm
+* residos tiene tendencia a corromperse
+
+
+------------------
+
+
+
+--- IDE y DIVIDE ---
+
+-No funciona IDE 8 bit
+
+-residos necesita "battery backed RAM on the DivIDE Plus"
+O sea, es la misma ram pero usa puerto 17h
+https://www.rwapsoftware.co.uk/spectrum/spectrum_divide_notes.html
+
+Implementation of greater ROM/RAM space on DiviDE Plus
+
+DivIDE Plus provides a total of 512K ROM and 512K RAM on the DivIDE Plus in order to enable much improved firmware to be written (this compares to the 8K ROM and 32K RAM available on the original DivIDE Hard Disk Interface).
+
+We decided on 512K as this would allow ramdisk storage and the following additional firmware to be used (as well as the original divIDE firmware):
+
+ResiDOS
+CPM22QED MBD (CP/M compatible)
+ZXVGS MBD
+
+The DivIDE Plus interface is equipped with 512K SRAM (628512 SMD soldered) and 512K ROM (29F040 PLCC in a socket) with address and data lines corrected, so no dedicated .RAW files are needed to program firmware on another system. The RAM is battery backed.
+
+The scheme chosen mixes MB-02 paging using the Port &17 with DivIDE paging using the &E3 Port. It is compatible with the original 8K firmware without amendment.  You will however, need to obtain the ROM reprogramming software from ourselves, rather than use that provided for the original DivIDE, due to different procedures for programming the 29F040 chip than on the 28C64 used by the original DivIDE.
+
+The &E3 Port is untouched. The &17 Port is 8bit, outputs are called Q0..Q7, as follows:
+
+- Q6 and Q7 select the mode (DivIDE, RAM, ROM, reset).
+- Q5 bit must be set (1) to enable writing in RAM and ROM modes.  If this is set to 0, it disables the ability to write to RAM or ROM.
+- Q0..Q4 select the memory banks.
+
+------------------
+
+
+--- Interface 1/Microdrive ---
+
+-Microdrive standard MDR
+*poder activar un sector no usado como usado:
+ asignar nombre, recnum (0) , marcar como usado (stream quizá) y corregir checksums
+ quiza desde ventana de microdrive map
+
+
+-quiza en wait solo deberia hacer:
+if (z80_wait_signal.v) {
+    t_estados++;
+}
+
+*convertir rmd a mdr y vuelta a rmd
+Con archivos p256, etc. creados con microdrive-test.tap
+mdr no encuentra todo archivo p4096 (parece que falla dos ultimos bloques), aunque chkdsk bien y extract archivo bien
+rmd final funciona bien, encuentra todos archivos
+Con Fuse tampoco encuentra ese archivo
+La particularidad es que ese archivo tiene bloques a final de microdrive y al principio
+-esa conversion de rmd a mdr, sin archivos (solo con el formateo) pasa de 126 a 125 sectores...
+
+-------------------
+
+
+--- SPECTRA ---
+
+-no hace correctamente modos rainbow, ya que lee los atributos de pantalla tal cual de la memoria, y no como un modo normal
+rainbow en que se coje del buffer buffer_atributos que se va escribiendo desde el core. Esto quiza es casi imposible de hacer,
+aparte que no creo que en spectra se contemple esto, pues ademas el timing de la pantalla es diferente
+Por tanto, solo tener en cuenta que con spectra activado, demos como la overscan no se ven bien
+
+-no funciona scroll de sprite chip. Dado que spectra actualiza la pantalla segun su memoria interna, que se replica en cada operacion de poke_byte.
+Pero el scroll del sprite chip no se realiza con poke_byte, sino con escritura directa a puntero de memoria
+
+------------------
+
+--- ZXPAND ---
+
+-en CMDR, al mover archivos, mete el current dir apuntando al directorio de la derecha. Por tanto esto falla. Se puede corregir yendo a la izquierda y volviendo a seleccionar el directorio actual (si es el directorio raiz, seleccionar ".."). Pero esto parece un fallo de CMDR y no del emulador
+-ordenacion de archivos en listado CAT
+
+-operaciones de archivos son case insensitive (da igual si esta en mayusculas o minusculas). Pero subcarpetas dentro del zxpand filesystem debe
+ser siempre en mayusculas. Carpetas siempre se muestran pero no se podran acceder las que no sean todo mayusculas
+
+
+-zxpand en zx80 se ven caracteres de config por ejemplo mal. pero la rom tambien muestra caracteres mal, dado que usa una overlay rom de zx81, no de zx80
+
+-lecturas que se producen al cargar CMDR pero despues de hacer fclose y sin hacer fopen. revisar:
+debido a funcion setjoy. los valores de joystick deben volver incorrectos y hacen que puerto BC (registro B) se corrompa
+(ver docs/zxpand_cmdr.txt)
+
+-sound tracker de andy rea se cuelga. porque? stcplay , gasman y sound_demo usan el mismo player
+requiere ramtop en 24999 y CONFIG "M=H"
+carpeta aux_zesarux/zx81/sound_demo  tambien
+
+-Zxpand+ nuevo firmware?
+https://github.com/charlierobson/ZXpand-Vitamins/wiki/ZXpand---Online-Manual
+
+
+
+------------------
+
+--- Texas Instruments SN76489AN ---
+
+-emulacion ruido chip SN mejorar
+
+
+------------------
+
+--- vdp 9918 ---
+
+-corregir info de bits que puede estar al reves: en el datasheet original numeran los bits al reves: el bit 7 es el 1, el 6 el 2, etc
+
+------------------
+
+--- HiLow Data Drive ---
+
+-hilow datadrive:
+*hacer pruebas de escrituras (save, format, delete etc) con proteccion de escritura, tanto en ddh como raw,
+por ver los diferentes mensajes de error
+
+-Ddh con extended info al final, que contenga marcas de sector y labels ?
+
+
+-lee_hilow_audio: ultimo sector en cara B dice:
+Total bytes leidos: 0
+Sector -407021264
+
+-convert a ddh:
+*linea de comandos: si se dice repetir, repite solo desde el inicio de los datos de sector, pero deberia hacerlo desde el id de sector y el label
+
+-Comentarios en la ROM de hilow de Jane recopilar
+
+-poder convertir ddh a raw
+
+------------------
+
+
+-emulación impresion seikosha gp-100a
+
+
+-Dandanator nueva versión
+
+-soporte para más de 1 joystick
+
+-puerto kempston y puerto 223. Juego El cid
+
+https://foro.speccy.org/viewtopic.php?t=1502
+
+
+
+-opcion disable real joystick desde menu
+
+-Otros dispositivos de copia
+(https://microhobby.speccy.cz/mhf/195/MH195_21.jpg)
+*disciple
+*plus d (sucesor de disciple)
+Ambos requieren emular floppy...
+*https://speccy4ever.speccy.org (ver seccion de fabricantes romanticrobot, hard micro, etc)

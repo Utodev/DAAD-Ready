@@ -1,0 +1,6 @@
+Todos estos dibujos se pueden cargar con drawscreenv1_30, drawscreenv3_3_betabasic, drawscreen v7 y v8
+
+No todos cargan bien en todas las versiones. Supuestamente se generaron con la versión 3_1 y 3_2
+
+Se carga, desde la pantalla de eje de coordenadas principal, pulsando tecla f y seleccionando datos
+
