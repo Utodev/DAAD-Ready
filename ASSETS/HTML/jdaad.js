@@ -1286,7 +1286,7 @@ function getPlayerOrdersB()
         parseB();
         var result = parseEnd();
         condactResult = ! result;
-        done = false;
+        if (!condactResult)  done = true; // as seen in original code, if parse fails as condition, marks done
         inPARSE = false; // Mark we are finishing the interactive part
         for(var i=0;i<NUM_WINDOWS;i++) windows.windows[i].lastPauseLine = 0;
         if (!condactResult) 
@@ -3401,7 +3401,7 @@ function _PARSE()
  if (!inPARSE)
  {
     condactResult = ! result;
-    done = false;
+    if (!condactResult) done = true; // as seen in original code, if parse fails as condition, marks done
  }
 }
 
