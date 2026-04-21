@@ -429,6 +429,7 @@ function getXMessageFileSizeByTarget($target, $subtarget, $adventure)
         case 'ZX'  : switch($subtarget)
                         {
                             case 'PLUS3': return 16;
+                            case '128K': return 16;
                             default:  return 64;     
                         }
         case 'MSX' : return 64; 
@@ -480,7 +481,7 @@ function generateXMessages($adventure, $target, $subtarget, $outputFileName)
             // maxFileSize of the xmes files means when one file is "full" you have to close it and create the next one.
             // But with some targets, there is only one file, which needs padding to $maxFileSize though, to be 
             // able to load those parts in the RAM
-            if (($target!="MSX2") && ($subtarget!='PLUS3')) 
+            if (($target!="MSX2") && ($subtarget!='PLUS3') && ($subtarget!='128K')) 
             {
                 fclose($fileHandler);
                 $currentFile++;
