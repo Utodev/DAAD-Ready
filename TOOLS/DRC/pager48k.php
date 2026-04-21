@@ -1,6 +1,6 @@
 <?php
 
-$verbose = true;
+$verbose = false;
 $dumpIndexBackup= true;
 // Ah, yes, this is not actually a "pager" as you cannot change pages in Spectrum 48k
 // it's named like this as it does more or less the same pager128K does, but at a minor level
@@ -66,7 +66,7 @@ for ($imagenumber=0; $imagenumber <= 255; $imagenumber++)
             $offsets[$imagenumber]->offset = $currentAddress;
             $offsets[$imagenumber]->size = strlen($imageData);
             $pagefile .= $imageData;
-            if ($verbose) echo "Added image $imagenumber to page 0 data, size: " . strlen($imageData) . " bytes\n";
+            //if ($verbose) echo "Added image $imagenumber to page 0 data, size: " . strlen($imageData) . " bytes\n";
             $currentAddress += strlen($imageData);
             $page0MaxSize -= (strlen($imageData) + 3); // 3 bytes per image in the table
         }
@@ -84,7 +84,7 @@ $indexFile = [];
 $page0Size = strlen($pagefile);
 $spareOffset = $starAddress; // The load address for page 0
 
-if ($verbose) echo "Page0 load address : " . strtoupper(dechex($spareOffset)) . "\n";
+if ($verbose) echo "Page0 load address : " . strtoupper(dechex($spareOffset)) . " bytes\n";
 if ($verbose) echo "Page0 data size    : " . strtoupper(dechex($page0Size)) . " bytes\n";
 
 //We stack these two word values with bytes reversed as they will be dumped backwars to the file
@@ -107,7 +107,7 @@ for ($imagenumber=0; $imagenumber <= 255; $imagenumber++)
             if (!array_key_exists($imagenumber, $offsets)) continue; // There was no room for this image in page 0
 
             $indexFile[] = $imagenumber;
-            echo "Indexing image $imagenumber at offset " . strtoupper(dechex($offsets[$imagenumber]->offset)) . "\n";
+            if ($verbose) echo "Indexing image $imagenumber at offset " . strtoupper(dechex($offsets[$imagenumber]->offset)) . "\n";
             // Again, we dump the offset with bytes reversed as they will be dumped backwars to the file
             $indexFile[] = ($offsets[$imagenumber]->offset >> 8) & 0xFF; // Add the offset MSB
             $indexFile[] = $offsets[$imagenumber]->offset  & 0xFF; // Add the offset LSB                       
