@@ -96,13 +96,15 @@ DEL *.XMB > nul 2>&1
 DEL *.CHR > nul 2>&1
 
 tools\cecho\cecho {06}Preparing .ST floppy disk image file{07}
+echo.
 REM ----  COMPRESS AND PREPARE .ST IMAGE----
 MD RELEASE\ATARIST\FLOPPY\ > nul 2>&1
 DEL RELEASE\ATARIST\%GAME%.ZIP > nul 2>&1
 DEL RELEASE\ATARIST\FLOPPY\%GAME%.ST > nul 2>&1
-TOOLS\ZIP\ZIP -j -9 RELEASE\ATARIST\FLOPPY\%GAME%.ZIP RELEASE\ATARIST\PART1.* RELEASE\ATARIST\%GAME%.* > nul 2>&1 
-TOOLS\MSA\msa.exe convert RELEASE\ATARIST\FLOPPY\%GAME%.ZIP ST 1 exit > nul 2>&1
-DEL RELEASE\ATARIST\FLOPPY\%GAME%.ZIP > nul 2>&1
+CD RELEASE\ATARIST\
+..\..\TOOLS\flopgen\flopgen.exe -s 720 -o %GAME% *.DAT *.SCR *.XMB *.PRG *.CH0 *.DDB
+move %GAME%1.img FLOPPY\%GAME%.ST > nul 2>&1
+CD ..\..\
 
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
