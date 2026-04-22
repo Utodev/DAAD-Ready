@@ -65,7 +65,7 @@ REM ---- OBTENER RECURSOS ----
 tools\cecho\cecho {06}Copying required files...{07}
 echo.
 COPY ASSETS\MSX\MSX2\MSX2.DSK %GAME%.DSK > nul 2>&1
-COPY ASSETS\MSX\MSX2\msx2daad_1.5.1_%BASELANG%_SC8.com msx2daad.com > nul 2>&1
+COPY ASSETS\MSX\MSX2\msx2daad_1.6.0_%BASELANG%_SC8.com msx2daad.com > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 
 ECHO.
