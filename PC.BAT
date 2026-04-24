@@ -86,7 +86,7 @@ ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
 
-IF "%SVGA%"=="0" (
+IF "%HIRES%"=="0" (
         SET IMGPATH=IMAGES\PC
         SET IMGPATHBACK=..\..
         SET IMGWIDTH=320
