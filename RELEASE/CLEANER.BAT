@@ -53,17 +53,7 @@ if errorlevel 2 (
     md ZXPLUS3> nul 2>&1
     del /q /s ZXPLUS3\*.* > nul 2>&1
     copy readme.txt ZXPLUS3 > nul 2>&1
-
-    echo Cleaning ZX Spectrum +3 EXPERIMENTAL...
-    md ZXPLUS3_EXPERIMENTAL> nul 2>&1
-    del /q /s ZXPLUS3_EXPERIMENTAL\*.* > nul 2>&1
-    copy readme.txt ZXPLUS3_EXPERIMENTAL > nul 2>&1
-
-    echo Cleaning ZX Spectrum 128K tape experimental...
-    md ZX128K_EXPERIMENTAL> nul 2>&1
-    del /q /s ZX128K_EXPERIMENTAL\*.* > nul 2>&1
-    copy readme.txt ZX128K_EXPERIMENTAL > nul 2>&1
-
+   
     echo Cleaning ZX Spectrum 128K tape...
     md ZX128K> nul 2>&1
     del /q /s ZX128K\*.* > nul 2>&1
@@ -108,12 +98,6 @@ if errorlevel 2 (
     del /q /s HTML\*.* > nul 2>&1
     copy readme.txt  HTML > nul 2>&1
 
-    echo Cleaning WINDOWS...
-    md WINDOWS > nul 2>&1
-    del /q /s WINDOWS\*.* > nul 2>&1
-    copy readme.txt  WINDOWS > nul 2>&1
-
-
     echo Cleaning WINDOWS_EXPERIMENTAL...
     md WINDOWS_EXPERIMENTAL > nul 2>&1
     del /q /s WINDOWS_EXPERIMENTAL\*.* > nul 2>&1
@@ -124,6 +108,15 @@ if errorlevel 2 (
     del /q /s MACOS_EXPERIMENTAL\*.* > nul 2>&1
     copy readme.txt  MACOS_EXPERIMENTAL > nul 2>&1
 
+    echo Cleaning LINUX_EXPERIMENTAL...
+    md LINUX_EXPERIMENTAL > nul 2>&1
+    del /q /s LINUX_EXPERIMENTAL\*.* > nul 2>&1
+    copy readme.txt  LINUX_EXPERIMENTAL > nul 2>&1
+
+    echo Cleaning AMIGA_EXPERIMENTAL...
+    md AMIGA_EXPERIMENTAL > nul 2>&1
+    del /q /s AMIGA_EXPERIMENTAL\*.* > nul 2>&1
+    copy readme.txt  AMIGA_EXPERIMENTAL > nul 2>&1
 
     del readme.txt > nul 2>&1
     pause   
