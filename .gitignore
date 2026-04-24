@@ -5,6 +5,7 @@ TEST.DSF
 buildRelease.sh
 TOOLS/WinAPE/CPC_Symbols.fot
 TOOLS/WinUAE/kick13.rom
+TOOLS/WinUAE/kick31.rom
 TOOLS/WinUAE/winuaebootlog.txt
 TOOLS/WinAPE/WinAPE.ini
 images/*
