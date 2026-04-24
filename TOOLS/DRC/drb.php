@@ -462,8 +462,9 @@ function generateXMessages($adventure, $target, $subtarget, $outputFileName)
     //Start the Spectrum +3 file with a gap of 512 bytes. In the latest implementation the +3 interpreter loads
     // first 16K of the file in the RAM (page 1 in the 128K memory layout), but it will have to load other messages
     // from disk (those beyond offset 16384 in the file. That's why this gap is added, so first real xmessage is
-    // at offset 512, and the first 512 bytes of that page can be used as buffer
-    if ($subtarget=='PLUS3') 
+    // at offset 512, and the first 512 bytes of that page can be used as buffer. Amiga also as on real machine
+    // sometimes first xmessage gets corrupted
+    if (($subtarget=='PLUS3')  ||($target=='AMIGA'))
     {
         $gapSize = 512;
         writeBlock($fileHandler, $gapSize); 
