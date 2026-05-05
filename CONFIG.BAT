@@ -13,5 +13,5 @@ SET SPLITSCR=splitModeOff
 REM Height in pixels of the images. Please notice if you change this value you should disable split screen and use original graphic modes in CPC and C64 targets
 SET IMGLINES=96
 REM Change to 1 if you want to use SVGA graphic modes in MSDOS/PC target
-SET SVGA=0
+SET HIRES=0
 REM Language settings
