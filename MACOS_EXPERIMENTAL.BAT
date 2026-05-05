@@ -100,12 +100,12 @@ echo.
 REM ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images{07}
 echo.
-IF /I "%SVGA%"=="1" (
+IF /I "%HIRES%"=="1" (
         SET IMGPATH=IMAGES\EXPERIMENTAL\HIRES
         SET IMGWIDTH=640
         SET IMGHEIGHT=192
         SET PARAMETER=-screen=640x400 -2x=1
-        ECHO Creating SVGA GAME
+        ECHO Creating dHIRES GAME
     ) ELSE (
         SET IMGPATH=IMAGES\EXPERIMENTAL\256
         SET IMGWIDTH=320
@@ -123,7 +123,7 @@ IF not exist RELEASE\MACOS_EXPERIMENTAL\%GAME%.app\Contents\Resources\%GAME%.PCX
     COPY /Y %IMGPATH%\DAAD.PCX RELEASE\MACOS_EXPERIMENTAL\%GAME%.app\Contents\Resources\%GAME%.PCX > nul 2>&1
 )
 
-TOOLS\ADP\DMG create RELEASE\MACOS_EXPERIMENTAL\%GAME%.app\Contents\Resources\%GAME%.DAT %IMGPATH%;SOUNDS -format=dat5 -mode=planar8 -width=%IMGWIDTH% -height=%IMGHEIGHT% -remap=16-255 %PARAMETER%
+TOOLS\ADP\DMG create RELEASE\MACOS_EXPERIMENTAL\%GAME%.app\Contents\Resources\%GAME%.DAT %IMGPATH%;SOUNDS\EXPERIMENTAL -format=dat5 -mode=planar8 -width=%IMGWIDTH% -height=%IMGHEIGHT% -remap=16-255 %PARAMETER%
 IF ERRORLEVEL 1 GOTO ERROR
 
 tools\cecho\cecho {06}Preparing release files{07}
@@ -150,8 +150,8 @@ IF "%BASELANG%" == "EN" (
 tools\cecho\cecho {04}IMPORTANT NOTICE:{07} this target is in early stages of development, and may contain bugs and glitches.{\n}
 tools\cecho\cecho Please report any errors to the author.{\n}{\n}
 tools\cecho\cecho To change the mode in the future, edit CONFIG.BAT:{\n}
-tools\cecho\cecho  - SET SVGA=1 to build the 640x400 2X mode from IMAGES\EXPERIMENTAL\HIRES{\n}
-tools\cecho\cecho  - SET SVGA=0 to build the 320x200 mode from IMAGES\EXPERIMENTAL\256{\n}{\n}
+tools\cecho\cecho  - SET dHIRES=1 to build the 640x400 2X mode from IMAGES\EXPERIMENTAL\HIRES{\n}
+tools\cecho\cecho  - SET dHIRES=0 to build the 320x200 mode from IMAGES\EXPERIMENTAL\256{\n}{\n}
 tools\cecho\cecho The game has been generated in RELEASE\MACOS_EXPERIMENTAL.{\n}
 tools\cecho\cecho A macOS-friendly archive has been generated as %GAME%-macos.tar.gz.{\n}
 tools\cecho\cecho Extract that archive on the Mac and run: bash OPEN_ON_MAC.command{\n}
@@ -161,8 +161,8 @@ IF "%BASELANG%" == "ES" (
 tools\cecho\cecho {04}AVISO IMPORTANTE:{07} este target est{\u00E1} en fase de desarrollo, puede contener errores y fallos.{\n}
 tools\cecho\cecho Por favor, reporte cualquier error al autor.{\n}{\n}
 tools\cecho\cecho Para cambiar de modo en el futuro, cambia CONFIG.BAT:{\n}
-tools\cecho\cecho  - SET SVGA=1 para generar el modo 640x400 2X usando IMAGES\EXPERIMENTAL\HIRES{\n}
-tools\cecho\cecho  - SET SVGA=0 para generar el modo 320x200 usando IMAGES\EXPERIMENTAL\256{\n}{\n}
+tools\cecho\cecho  - SET dHIRES=1 para generar el modo 640x400 2X usando IMAGES\EXPERIMENTAL\HIRES{\n}
+tools\cecho\cecho  - SET dHIRES=0 para generar el modo 320x200 usando IMAGES\EXPERIMENTAL\256{\n}{\n}
 tools\cecho\cecho El juego se ha generado en RELEASE\MACOS_EXPERIMENTAL.{\n}
 tools\cecho\cecho Tambi{\u00E9}n se ha generado el archivo %GAME%-macos.tar.gz para MacOS.{\n}
 tools\cecho\cecho Extrae ese archivo en el Mac y ejecuta: bash OPEN_ON_MAC.command{\n}

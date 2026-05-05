@@ -71,7 +71,7 @@ IF  NOT DEFINED AMIGAMODE (
             tools\cecho\cecho {06}AGA{#}      256-color graphics, but require an Amiga with AGA{\n}
             tools\cecho\cecho {\t} and one megabyte of Chip RAM ^(Amiga 1200+^).{\n}
             ECHO.
-            CHOICE /C EOHA /N /M "--- Please select ^(E^)CS/OCS, ^(H^)AM6 or ^(A^)GA mode ---"
+            CHOICE /C EOHA /N /M "--- Please select (E)CS/OCS, (H)AM6 or (A)GA mode ---"
             SET AMIGACHOICE=!ERRORLEVEL!
             ECHO.
             tools\cecho\cecho Edit {06}CONFIG.BAT{#} to change the mode in the future{\n}
@@ -111,7 +111,7 @@ if /I "%AMIGAMODE%" == "OCS" (
     SET DATMODE=planar5
     SET INTROCMD=TOOLS\ADP\png2amiga.exe --mode lores --depth 5 --chipset ocs
     SET IMAGEPATH=IMAGES\EXPERIMENTAL\32
-    SET EXTRAS=
+    SET EXTRAS=-remap=std
 )
 if /I "%AMIGAMODE%" == "HAM" (
     SET DATMODE=ham6
@@ -190,8 +190,8 @@ if "%AMIGAMODE%" == "HAM" (
 
 tools\cecho\cecho {06}Creating graphics file{07}
 ECHO.
-echo TOOLS\ADP\DMG create RELEASE\AMIGA_EXPERIMENTAL\PART1.DAT %IMAGEPATH%;SOUNDS -format=dat5 -mode=%DATMODE% -height=%IMGLINES% %EXTRAS%
-TOOLS\ADP\DMG create RELEASE\AMIGA_EXPERIMENTAL\PART1.DAT %IMAGEPATH%;SOUNDS -format=dat5 -mode=%DATMODE% -height=%IMGLINES% %EXTRAS%
+echo TOOLS\ADP\DMG create RELEASE\AMIGA_EXPERIMENTAL\PART1.DAT %IMAGEPATH%;SOUNDS\EXPERIMENTAL -format=dat5 -mode=%DATMODE% -height=%IMGLINES% -audio-8bit %EXTRAS%
+TOOLS\ADP\DMG create RELEASE\AMIGA_EXPERIMENTAL\PART1.DAT %IMAGEPATH%;SOUNDS\EXPERIMENTAL -format=dat5 -mode=%DATMODE% -height=%IMGLINES% -audio-8bit %EXTRAS%
 IF exist %IMAGEPATH%\DAAD.PNG (
     echo "Amiga special: converting DAAD.PNG to ILBM PART1.SCR"
     %INTROCMD% %IMAGEPATH%\DAAD.PNG -o RELEASE\AMIGA_EXPERIMENTAL\PART1.SCR.iff
