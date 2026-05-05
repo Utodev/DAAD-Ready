@@ -89,7 +89,6 @@
     <li><a href='#indirection'>Indirection</a></li>
     <li><a href='#conditions'>Conditions</a></li>
     <li><a href='#actions'>Actions</a></li>
-    <li><a href='#maluvacondacts'>Maluva Condacts</a></li>
     <li><a href='#metacondacts'>Meta Condacts</a></li>
     <li><a href='#daadforquillpawdevelopers'>DAAD for The Quill or PAW developers</a></li>
     <li><a href='#errors'>Errors</a></li>
@@ -137,29 +136,29 @@
   <li><b>Commodore 64 or 128</b> (floppy disk, with graphics)</li>
   <li><b>Atari ST</b> </li>
   <li><b>Commodore Amiga</b></li>
-  <li><b>PC/DOS</b> (VGA 256 colours)</li>
+  <li><b>PC/DOS</b> (VGA or SVGA 256 colours)</li>
   <li><b>MSX</b> 1 with at least 64K of RAM (floppy disk, with graphics)</li>
   <li><b>MSX 2</b> computers (floppy disk, with graphics)</li>
   <li><b>Amstrad PCW</b> 8000/9000 Series (floppy disk, no graphics)</li>
   <li><b>Commodore Plus/4</b> (floppy disk, with graphics)</li>
-  <li><b>Sinclair ZX Spectrum 48k</b> (tape, no graphics)</li>
+  <li><b>Sinclair ZX Spectrum 48k</b> (tape)</li>
   <li><b>Sinclair ZX Spectrum 48K with DivMMC/IDE</b> (SD Card, with graphics)</li>
   <li><b>Sinclair ZX Spectrum +3</b> (floppy disk, with graphics).</li>
   <li><b>Sinclair ZX Spectrum 128K</b> (tape, with graphics)</li>
   <li><b>Sinclair ZX Spectrum Next</b> (SD Card, with graphics)</li>
   <li><b>ZX-Uno</b> (SD card, with graphics)</li>
-  <li><b>Windows</b> (Setup file)- bundles DOS version with DOSBOX</li>
   <li><b>HTML/Javascript</b> (to play in the browser)</li>
-  <li><b>Windows Experimental</b>: using ADP interpreter, still in beta version, but creating a native Windows game. Unlike old Windows target, does not yet create a Setup file. Also, can’t do SVGA graphics or 256 colours graphics like DOS+DOSBOX bundle does.</li>
-  <li><b>MacOS Experimental</b>: same than above, but for MacOS. Please notice MacOS can’t run this unsigned game unless you allow it in the settings.</li>
+  <li><b>Windows (experimental)</b></li>
+  <li><b>macOS (experimental)</b></li>
+  <li><b>Linux (experimental)</b></li>
+  <li><b>Commodore Amiga OCS/HAM/AGA (experimental)</b></li>
+  <li><b>Atari ST/STE/Falcon (experimental)</b></li>
+
 </ul>
 
+<p>The experimental targets use alternative interpreters not yet tested in depth, so issues may arise.</p>
 
-<p>Also, there is an OLD PLUS3 target, which is deprecated, and remains for historical reasons.</p>
-
-<p>Please notice DAAD Ready is no table to generate games with graphics for Amstrad PCW, so the only way to add them is using the original DOS software included with DAAD. Please check the original DAAD manual.</p>
-
-<p>Also notice that PC target refers to the classic PC from the 80s/90s, with DOS as operating system, not modern PCs.</p>
+<p>Notice that PC target refers to the classic PC from the 80s/90s, with DOS as operating system, not modern PCs.</p>
 
 <p>DAAD uses a programming language designed especially for writing Adventure Games. It is loosely based on the QUILL and PAW systems (by Gilsoft), and a familiarity with their operation is useful. There is a section further on this manual where you can find some help if you are/were a Quill or PAW author.</p>
 
@@ -243,7 +242,7 @@
   <tr><td>PCDOS.BAT</td><td>PC/DOS</td></tr>
   <tr><td>MSX1.BAT</td><td>MSX 1</td></tr>
   <tr><td>MSX2.BAT</td><td>MSX 2</td></tr>
-  <tr><td>ZX48TAPE.BAT</td><td>ZX Spectrum 48k (no graphics but loading screen)</td></tr>
+  <tr><td>ZX48TAPE.BAT</td><td>ZX Spectrum 48k</td></tr>
   <tr><td>ZX128TAPE.BAT</td><td>ZX Spectrum 128k (tape)</td></tr>
   <tr><td>ZX128PLUS3.BAT</td><td>ZX Spectrum Plus 3 (disk)</td></tr>
   <tr><td>ZXESXDOS.BAT</td><td>For Spectrum 48K or above with DivMMC/DivIDE interface.</td></tr>
@@ -252,8 +251,11 @@
   <tr><td>HTML.BAT</td><td>HTML/Javascript</td></tr>
   <tr><td>WINDOWS.BAT</td><td>Windows</td></tr>
   <tr><td>WINDOWS_EXPERIMENTAL.BAT</td><td>Windows Experimental</td></tr>
-  <tr><td>MACOS_EXPERIMENTAL.BAT</td><td>MacOS Experimental</td></tr>
-  <tr><td>OLDPLUS3.BAT</td><td>ZX Spectrum Plus 3 (uses original interpreter)</td></tr>
+  <tr><td>MACOS_EXPERIMENTAL.BAT</td><td>macOS Experimental</td></tr>
+  <tr><td>LINUX_EXPERIMENTAL.BAT</td><td>Linux Experimental</td></tr>
+  <tr><td>AMIGA_EXPERIMENTAL.BAT</td><td>Amiga OCS/HAM/AGA Experimental</td></tr>
+  <tr><td>ATARIST_EXPERIMENTAL.BAT</td><td>Atari ST/STE/Falcon Experimental</td></tr>
+
 </table>
 
 
@@ -493,9 +495,30 @@
 
 <a name="indirection"></a>
 <h6>Indirection</h6>
-<p>The first parameter on most condActs can use indirection. This is indicated by placing at sign (@) before the first parameter of a CondAct. This will cause not the number itself to be used, but the contents of the flag corresponding to that number. Only the first parameter may be indirected but this provides a powerful facility. Although not all commands can indirect, most that have a flag, object, or number as the first parameter can be indirected.</p>
 
-<p>E.g. 'MESSAGE @100' will print the message number that is given by the value in Flag 100 - as opposed to 'MESSAGE 100' which would print message 100!</p>
+Indirection is applied by placing an @ sign before a parameter, which will cause the value of the indicated flag to be used instead of the parameter itself.</p>
+
+<p>For instance, if we have a condAct like this, it assigns the value 50 to flag 100:</p>
+
+<code>
+LET 100 50<br/>
+</code>
+
+<p>But if we have this, it does not assign 50 to flag 100, but the value in flag 50:</p>
+<code>
+LET 100 @50<br/>
+</code>
+
+<p>For example, if flag 50 has a value 237, flag 100 will end up with the value 237, as if the command had been LET 100 237.</p>
+
+<p>In this case, the value in flag 50 will be assigned to the flag whose number is in flag 100.</p>
+
+<code>
+LET @100 @50<br/>
+</code>
+
+<p>For example, if flag 100 has a value 200, and flag 50 has a value 75, then flag 200 will end up with the value 75, as if the command had been LET 200 75.</p>
+
 
 <a name="conditions"></a>
 <h6>Conditions</h6>
@@ -614,23 +637,23 @@
 
 <a name="adject1"></a>
 <condact>ADJECT1 word</condact>
-<p>Succeeds if the first noun's adjective in the current LS is word.</p>
+<p>Succeeds if the first noun's adjective in the current player order is word.</p>
 
 <a name="adverb"></a>
 <condact>ADVERB word</condact>
-<p>Succeeds if the adverb in the current LS is word.</p>
+<p>Succeeds if the adverb in the current player order is word.</p>
 
 <a name="prep"></a>
 <condact>PREP word</condact>
-<p>Succeeds if the preposition in the current LS is word.</p>
+<p>Succeeds if the preposition in the current player order is word.</p>
 
 <a name="noun2"></a>
 <condact>NOUN2 word</condact>
-<p>Succeeds if the second noun in the current LS is word.</p>
+<p>Succeeds if the second noun in the current player order is word.</p>
 
 <a name="adject2"></a>
 <condact>ADJECT2 word</condact>
-<p>Succeeds if the second noun's adjective in the current LS is word.</p>
+<p>Succeeds if the second noun's adjective in the current player order is word.</p>
 
 <p><u>Conditions for random occurrences</u></p>
 
@@ -1111,10 +1134,24 @@ the flag is set to 0.</p>
 <a name="copybf"></a>
 <condact>COPYBF flagno1. flagno2.</condact>
 
-<p>Same as COPYFF but the source and destination are reversed, so
-that indirection can be used. This will hopefully be replaced by
-a comprehensive system of dual parameter redirection for COPY
-actions in the future.</p>
+<p>Same as COPYFF but the source and destination are reversed.</p>
+
+
+<a name="setat"></a>
+<condact>SETAT attrno. operation</condact>
+
+<p>This condacts set,clears or toggle bits of flags in the range 28-59.  Just like in HASAT/HASNAT, the bit is calculated by counting downwards from flag 59, 8 bits per flag, so if attrno is 0-7, the bits of flag 59 are affected, if it is 8-15, the bits of flag 58 are affected, and so on.</p>
+
+<p>Operation can be:</p>
+
+<ul>
+<li>0 - Clear the bit.</li>
+<li>1 - Set the bit.</li>
+<li>2 - Toggle the bit.</li>
+</ul>
+
+<p><b>IMPORTANT:</b>Please notice SETAT modifies the flags, but doesn't change anything the flags represent regarding the object's attributes.</p>
+
 
 <a name="random"></a>
 <condact>RANDOM flagno.</condact>
@@ -1127,7 +1164,7 @@ be made in a more flexible way than with the CHANCE condition.</p>
 <condact>MOVE flagno.</condact>
 
 <p>This is a very powerful action designed to manipulate PSI's. It
-allows the current LS Verb to be used to scan the connections
+allows the current player order verb to be used to scan the connections
 section for the location given in Flag flagno. If the Verb is
 found then Flag flagno. is changed to be the location number
 associated with it, and the next condact is considered. If the
@@ -1135,7 +1172,7 @@ verb is not found, or the original location number was invalid,
 then DAAD considers the next entry in the table - if present.</p>
 
 <p>This feature could be used to provide characters with random
-movement in valid directions; by setting the LS Verb to a random
+movement in valid directions; by setting the player order verb to a random
 movement word and allowing MOVE to decide if the character can go
 that way. Note that any special movements which are dealt with in
 Response for the player, must be dealt with separately for a PSI
@@ -1332,6 +1369,23 @@ If not, then print position becomes top left of window.</p>
 
 <p>Please notice you can either user double or single quotes for the string but use the same for starting and ending.</p>
 
+<a name="xmes"></a>
+<condact>XMES "string"</condact>
+
+<p>Writes the string in quotes. This is an alternate text mode that you can use if you run out of messages, but XMES has the following limitations:</p>
+
+<ul>
+  <li>Each message may not exceed 511 characters.</li>
+  <li>All messages used by XMES and XMESSAGE must not exceed 64K once compressed.</li>
+  <li>These xmessages are read from disk on demand, so depending on the reading device, response time may be slow. Use them with care. Only on Spectrum 128K are xmes stored in RAM.</li>
+  <li>This also means that if you're using split-mode graphics (see below), visual glitches or screen blackening may occur while reading from disk. If you must use XMES in a long adventure, avoid split-mode if possible.</li>
+</ul>
+
+<a name="xmessage"></a>
+<condact>XMESSSAGE "string"</condact>
+
+<p>Same as XMES but adds a NEWLINE at the end.</p>
+
 <a name="sysmess"></a>
 <condact>SYSMESS sysno.</condact>
 
@@ -1514,9 +1568,9 @@ elapsed if enabled.</p>
 <a name="pause"></a>
 <condact>PAUSE value</condact>
  
-<p>Pauses for value/50 secs. However, if value is zero then the
-pause is for 256/50 secs.</p>
-
+<p>Pauses for value/50 secs. However, if value is zero then game stops until a key is pressed. Then flags 60 & 61 will be set top the code
+  of the key pressed. Please notice most 8 bit machines only update flag 60.</p>
+ 
 <p><u>Actions to deal with control of the parser</u></p>
 
 <a name="parse"></a>
@@ -1528,29 +1582,29 @@ so only the values 0 and 1 are valid.
 
  <ul>
   <li>0 - Parse the main input line for the next LS.</li>
- <li>1 - Parse any string (phrase enclosed in quotes [""]) that was contained in the last LS extracted.</li>
+ <li>1 - Parse any string (phrase enclosed in quotes [""]) that was contained in the last player order extracted.</li>
 </ul>
 
 <p>Mode 0 is the primary method for converting the current input line
 of the player to a logical sentence (LS). The detailed
 description of the parser provides further details. The command
-will extract the next LS from the current input line.</p>
+will extract the next player order from the current input line.</p>
 
 <p>Mode 1 was designed to deal with speech to PSIs. Any string (i.e.
 a further phrase enclosed in quotes [""]) that was present in the
-players current phrase is converted into a LS - overwriting the
-existing LS formed originally for that phrase.</p>
+players current phrase is converted into a player order- overwriting the
+existing player order formed originally for that phrase.</p>
 
 <p>If no phrase is present at level 0 then the input line is called
 preceded with a random prompt - this gets a new input line from
 the player automatically when required, removing the problem of
 handling multiple phrases by the programmer. At level 1 and above
 the next CondAct is carried out. This occurs at all levels if the
-LS is invalid. Note that DAAD will look at the next condact in
+player order is invalid. Note that DAAD will look at the next condact in
 what can be considered a fail situation - this is different to
 what you might expect. Otherwise the next entry is considered 
-with the new LS of the speech made to the PSI. Because it
-overwrites the current LS it must be used carefully - this is
+with the new player order of the speech made to the PSI. Because it
+overwrites the current player order it must be used carefully - this is
 also, the reason for doing the next CondAct in a fail situation,
 think about it!</p>
 
@@ -1580,7 +1634,7 @@ least one PARSE 0 CondAct in the main loop somewhere.</p>
   > SAY name <br/>
   SAME pos 38 ;Are they here?<br/>
   PROCESS y ;Decode speech…<br/>
-  DONE ;LS destroyed so always DONE.<br/>
+  DONE ;player orderdestroyed so always DONE.<br/>
   <br/>
 > SAY name <br/>
   MESSAGE z ;"They are not here!"<br/>
@@ -1633,8 +1687,10 @@ sentence such as:</p>
   ; Actions...<br/>
 </code>  
 
-<p>will switch the LS into a standard format for several different
+<p>will switch the player orderinto a standard format for several different
 entries. Allowing only one to deal with the actual actions.</p>
+
+<p>Please notice unlike other actions, SYNONYM does not mark the internal done flag. That means that, for instance, a ISDONE condition would fail after SYNONYM unless another action was executed before.</p>
 
 <p><u>Actions which deal with jumping, looping and subroutine control</u></p>
 
@@ -1656,9 +1712,9 @@ entries. Allowing only one to deal with the actual actions.</p>
 
 <ul>
  <li>1 - An attempt is made to find an object at Location locno.
- If this is unsuccessful the DOALL is cancelled and action NOTDONE is performed.</li>
+ If this is unsuccessful the DOALL is cancelled and actions NOTDONE and NEWTEXT are performed.</li>
 
- <li>2 - The object number is converted into the LS Noun1 (and
+ <li>2 - The object number is converted into the player order noun1 (and
  Adjective1 if present) by reference to the object 
  definition section. If Noun (Adjective)1 matches
  Noun (Adjective)2 then a return is made to step 1. This
@@ -1883,32 +1939,19 @@ section for the current Verb.
 
 
 
-<a name="maluvacondacts"></a>
-<h6>Maluva Condacts</h6>
+<a name="metacondacts"></a>
+<h6>Meta-Condacts</h6>
 
-<p>Maluva was a DAAD extension included with DAAD Ready, but it's not an extension anymore. In lieu, the some of the condacts provided by Maluva are now part of the interpreters. These condacts
-  are not available in the Spectrum 48K target, Amiga and ST.</p>
+<p>A meta-condact isn’t a real condact in the sense that DAAD doesn’t know it exists. It’s actually a compiler trick that allows writing some things in a more convenient and human-readable way.</p>
 
-<a name="xmes"></a>
-<condact>XMES "string"</condact>
+<a name="getkey"></a>
+<condact>GETKEY</condact>
 
-<p>Writes the string in quotes. Note that this condact allows additional text beyond those in the message tables and the MES, MESSAGE, SYSMESS, and DESC condacts, so your game can display a lot more text. XMES has the following limitations:</p>
-
-<ul>
-  <li>Each message may not exceed 511 characters.</li>
-  <li>All messages used by XMES and XMESSAGE must not exceed 64K once compressed.</li>
-  <li>These xmessages are read from disk on demand, so depending on the reading device, response time may be slow. Use them with care.</li>
-  <li>This also means that if you're using split-mode graphics (see below), visual glitches or screen blackening may occur while reading from disk. If you must use XMES in a long adventure, avoid split-mode if possible.</li>
-</ul>
-
-<a name="xmessage"></a>
-<condact>XMESSSAGE "string"</condact>
-
-<p>Same as XMES but adds a NEWLINE at the end.</p>
+<p>GETKEY is short for PAUSE 0. In DAAD, PAUSE 0 actually pauses until a key is pressed, and then saves the code of the key in a flag. See the <a href="#pause">PAUSE</a> condact for more details.</p>
 
 <a name="xsplitscr"></a>
 <condact>XSPLITSCR value</condact>
-<p>For machines that support split screen (currently Amstrad CPC and Commodore 64), this condact defines how it's done.</p>
+<p>For machines that support split screen (currently Amstrad CPC and Commodore 64), this condact replaces GFX value 15. </p>
 <p>Split screen means having a different graphics mode at the top of the screen (where images appear) and at the bottom (where text is shown).</p>
 <p>This is what "value" means for each machine:</p>
 
@@ -1923,53 +1966,6 @@ section for the current Verb.
 
 <p>The screen always split at scanline 96, that is unavoidable.</p>
 
-<a name="xundone"></a>
-<condact>XUNDONE</condact>
-
-<p>
-  XUNDONE changes the internal “done” status. Every time DAAD executes an action, the interpreter sets the internal “done” flag. That means ISDONE or ISNDONE will succeed or not depending on this status.
-</p>
-<p>
-  Note that unlike NOTDONE, XUNDONE just clears the status without jumping to the end of the current process.
-</p>
-
-<p>
-  Sometimes, even when an action executes in a process, we don’t want it to mark the “done” status. A clear case is using SYNONYM: although it’s technically an action, from the player’s perspective, it does nothing.
-</p>
-
-<code>
-> TURN ON LIGHT<br/>
-SYNONYM PRESS SWITCH
-</code>    
-
-<p>If you later use this entry and the switch was already pressed, it will fail:</p>
-
-<code>
-> PRESS SWITCH<br/>
-ZERO fSwitchPressed<br/>
-MESSAGE "You turn on the light."<br/>
-SET fSwitchPressed<br/>
-DONE<br/>
-</code> 
-
-<p>However, since DAAD thinks something was already “done” because of the SYNONYM, instead of a “I don’t understand,” you get:</p>
-
-<code>
-What now?<br/>
-> PRESS SWITCH<br/>
-What now?<br/>
-><br/>
-</code>
-
-<p>In such cases where something was “done” but you don’t want to mark the internal “done” flag, use XUNDONE.</p>
-
-<p>Note that there’s no XDONE condact to set “done,” because you can use any condact that does nothing, like COPYFF 100 100.</p>
-
-
-<a name="metacondacts"></a>
-<h6>Meta-Condacts</h6>
-
-<p>A meta-condact isn’t a real condact in the sense that DAAD doesn’t know it exists. It’s actually a compiler trick that allows writing some things in a more convenient and human-readable way.</p>
 
 <a name="xplay"></a>
 <condact>XPLAY “string”</condact>
@@ -2075,13 +2071,15 @@ What now?<br/>
     then you can make puzzle that can be solved with any object having the “sharp” attribute.</p>
 
 <p><u>Indirection</u></p>    
-<p>It has been explained above, and it was not supported by PAW nor Quill.</p>
+
+<p>Indirection has been explained above. You can use indirection in both parameters in DAAD.
+ 
 
 <p><u>Message printing</u></p>
 
 <p>Rather than DAAD, this is an advantage of DRC, the new DAAD compiler. As you have seen in the description of MESSAGE, MES, SYSMESS and DESC, you can now just make MESSAGE have a string as parameter, so you do not have to bother with message numbers.</p>
 
-<p>Also, ther is the XMESSAGE condAct, that also expects a string as parameter, and will give you 64K more of messages for longer adventures. Please notice xmessages are limited by memory used (64K) and not by number of messages.</p>
+<p>Also, there is the XMES/XMESSAGE condAct, that also expects a string as parameter, and will give you 64K more of messages for longer adventures. Please notice xmessages are limited by memory used (64K) and not by number of messages.</p>
 
 <p>Also is DRC the one that handles international character printing and takes care about repeated messages, so if you write same message twice, only one is used internally</p>
 
@@ -2128,7 +2126,7 @@ new text input will also be requested if an action fails in some way (e.g. an ob
 if the writer forces it with a NEWTEXT action. The results might otherwise be catastrophic for the player. 
 e.g. GET AXE AND ATTACK TROLL, if you do not have the axe you wouldn't really want to tackle the Troll!</p>
 
-<p>If the LS is successfully executed, then another phrase is extracted, or new text requested if there is no more text in the
+<p>If the player order is successfully executed, then another phrase is extracted, or new text requested if there is no more text in the
 buffer.</p>
 
 <p>Phrases are separated by conjugations ("AND" & "THEN" usually) and by any punctuation.</p>
@@ -2136,8 +2134,8 @@ buffer.</p>
 <p>In English, a Pronoun ("IT" usually) can be used to refer to the
 Noun/Adjective used in the previous Phrase - even if this was a
 separate input. Nouns with word values less than 50 are Proper
-Nouns and will not affect the Pronoun. Spanish implementes same
-feature with pronominal suffixes like -lo, -la , -los, -las.</p>
+Nouns and will not affect the Pronoun. Spanish implements same
+feature with enclicit pronouns like -lo, -la , -los, -las.</p>
 
 <p>The Logical Sentence format is as follows: -</p>
 
@@ -2150,7 +2148,7 @@ feature with pronominal suffixes like -lo, -la , -los, -las.</p>
 <p>where bracketed types are optional. i.e. the minimum phrase is a
 Verb (or a Conversion Noun - a Noun with a word value &lt;20 - which
 if no Verb is found in a phrase will be converted into a Verb
-e.g. NORTH). If the Verb is omitted, then the LS will assume the
+e.g. NORTH). If the Verb is omitted, then the player order will assume the
 previously used Verb is required. i.e. GET SWORD AND SHIELD will
 work correctly! The current 'IT' (pronoun) will become the first
 Noun in a list like this. I.e. 'IT' would be replaced with SWORD in
@@ -2233,7 +2231,7 @@ printing characters from other languages, basically most of the characters
   <tr><th>Flag #</th><th>Usage/meaning</th></tr>  
   <tr><td>0</td><td>When nonzero indicates game is dark (see also object 0)</td></tr>
   <tr><td>1</td><td>Holds quantity of objects player is carrying (but not wearing)</td></tr>
-  <tr><td>2 to 28</td><td>These are not actually used by the DAAD interpreters anywhere. Thus, they would be free for use in your own games, but on the other hand the TEST.DSF file included within DAAD Ready it is using flag 28 for internal functionalities, and Maluva extension is using flag 20. Also PC/DOS target uses flag 21 (see below). Thus, you should not use those flags, and in fact our recommendation is, to avoid conflicts with future expansions, that you start using flag 254 for your own tasks, then 254, then 253, etc. That way you will be far from any conflict and your game may be recompiled in 20 years without problems.</td></tr>
+  <tr><td>2 to 28</td><td>These are not actually used by the DAAD interpreters anywhere. Thus, they would be free for use in your own games, but on the other hand the TEST.DSF file included within DAAD Ready it is using flag 28 for internal functionalities. Also PC/DOS target uses flag 21 (see below). Thus, you should not use those flags, and in fact our recommendation is, to avoid conflicts with future expansions, that you start using flag 254 for your own tasks, then 254, then 253, etc. That way you will be far from any conflict and your game may be recompiled in 20 years without problems.</td></tr>
   <tr><td>21</td><td>PC/DOS exclusive, used for sound control: <br/><br/>
     <table>
       <tr><th>Bit</th><th>Meaning</th></tr>
@@ -2277,12 +2275,17 @@ printing characters from other languages, basically most of the characters
   <tr><td>50</td><td>holds object number for DOALL loop. i.e. value following DOALL</td></tr>
   <tr><td>51</td><td>holds last object referenced by GET/DROP/WEAR/WHATO etc.</td></tr>
   <tr><td>52</td><td>holds players strength (maximum weight of objects carried and worn - initially 10). Set with ABILITY action.</td></tr>
-  <tr><td>53</td><td>holds object print flags, Set bitwise:
+  <tr><td>53</td><td>holds object print flags, doall and parser flags. Set bitwise:
        <table>
         <tr><th>Bit</th><th>Meaning</th></tr>
         <tr><td>7</td><td>Set if any object printed as part of LISTOBJ or LISTAT</td></tr>
         <tr><td>6</td><td>Set this to cause continuous object listing. i.e. LET 53 64 will make DAAD list objects on the same line forming a valid sentence.</td></tr>
-      </table>
+        <tr><td>5</td><td>Is set if after obtaining a SL, the parser found a word that it couldn't recognize after finding the verb.</td></tr>
+        <tr><td>4</td><td>Is set if after obtaining a SL, the parser found a preposition before the first noun.</td></tr>
+        <tr><td>2</td><td>If is set, no enclicit pronouns will be applied to verbs>=240.</td></tr>
+        <tr><td>1</td><td>If is set, HASAT/HASNAT/SETAT  will work on an alternative set of flags 60-91</td></tr>
+        <tr><td>0</td><td>Is set if the parser found a word that it couldn't recognize after finding the verb.</td></tr>
+     </table>
     </td></tr>
   <tr><td>54</td><td>holds the present location of the currently referenced object</td></tr>
   <tr><td>55</td><td>holds the weight of the currently referenced object</td></tr>
@@ -2372,7 +2375,7 @@ NORTH 5
 to location 6, EAST or its synonyms to location 7 and NORTH or
 its synonyms to location 5.</p>
 
-<p>Note 1. When the adventure is being played it is only the LS Verb
+<p>Note 1. When the adventure is being played it is only the player order verb
  which will cause movement.</p>
 
 <p>Note 2. If a movement is performed by an entry in the Response
@@ -2399,17 +2402,17 @@ its synonyms to location 5.</p>
 
 <p>This section forms the heart of the source file providing the
 main game control. Each table consists of several entries. Each entry 
-contains the Verb and Noun for the LS the entry is to deal
+contains the Verb and Noun for the player order the entry is to deal
  with followed by any number of condActs. When the adventure is played if there is an entry
-  in the table which matches the Verb and Noun1 of the LS entered then the condActs are performed.
+  in the table which matches the Verb and Noun1 of the player order entered then the condActs are performed.
  The condActs that may be present and the effect that they have is fully specified in
- the description of the Interpreter. The LS can of course, be set using a method other than the PARSE
+ the description of the Interpreter. The player order can of course, be set using a method other than the PARSE
  action. This would allow the creation of a menu system, multiple-choice entry etc.</p>
 
 <p><u>Process table 0</u></p>
 
 <p>This contains the main control of a DAAD program. It is entered
-after initialization with the current LS empty. It will normally
+after initialization with the current player order empty. It will normally
 consist of '> _ _' word entries and some form of looping.</p>
 
 <p><u>Process 1 (and upwards)</u></p>
@@ -2755,7 +2758,7 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
 <u><b>Machine bits symbols</b></u>
 <ul>
   <li>BIT8: This symbol is defined if the target machine is 8 bit.</li>
-  <li>BIT16: This symbol is defined if the target machine is 16 bit. Note that "Window Experimental" and "MacOS Experimental" are compiled as if they were Atari ST games, so it will have the BIT16 symbol. The HTML, however, neither generates bit16 symbol, nor bit8 one.</li>
+  <li>BIT16: This symbol is defined if the target machine is 16 bit. Note that "Windows Experimental", "macOS Experimental" and "Linux Experimental" are compiled as if they were PC games, so it will have the BIT16 symbol. The HTML, however, neither generates bit16 symbol, nor bit8 one.</li>
 </ul>
 
 <u><b>Screen dimensions symbols</b></u>
@@ -2873,13 +2876,17 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
   <li>To Juan José Torres, for the DAAD logo.</li>
   <li>To Chris Ainsley, for his ideas, and for Visual Studio Code addon.</li>
   <li>To Sergio Chico (Chronomantic), author of the fantastic Spectrum 128K interpreter and utilities.</li>
-  <li>To José Luis Cebrián, author of the new Windows and MacOS interpreters (among others)</li>
+  <li>To José Luis Cebrián, author of the new Windows, macOS, Linux and other interpreters</li>
   <li>To Cesar Nicolás Gonzalez, author of CPCE</li>
   <li>To Mark Adler, John Bush, Karl Davis, Harald Denker, Jean-Michel Dubois,Jean-loup Gailly, Hunter Goatley, Ed Gordon, Ian Gorman, Chris Herborth, Dirk Haase, Greg Hartwig, Robert Heath, Jonathan Hudson, Paul Kienitz, David Kirschbaum, Johnny Lee, Onno van der Linden, Igor Mandrichenko, Steve P. Miller, Sergio Monesi, Keith Owens, George Petrov, Greg Roelofs, Kai Uwe Rommel, Steve Salisbury, Dave Smith, Steven M. Schweda, Christian Spieler, Cosmin Truta, Antoine Verheijen, Paul von Behren, Rich Wales and Mike White, authors of ZIP utility.</li>
   <li>To Zorg, author of MSA Converter</li>
   <li>To PiCiJi, author of Denise</li>
   <li>To Einar Saukas & Urusergi, for ZX0</li>
   <li>To Nicholas Campbell, for the AZERTY and drive B patches for CPC</li>
+  <li>To Maksymilian (Maks) Graczyk, for Flopgen, FAT12 image generator.</li></li>
+  <li>To people of the channel #Amigacoders of Telegram, for their help to compile the code of Amiga of DAAD.</li>
+  <li>To people of the channel AtariCoders of Telegram, for their help to compile the code of Atari ST of DAAD.</li>
+  <li>To Richard Hewison, whose thorough analysis of the different DAAD targets uncovered multiple bugs that have since been fixed.</li>
 </ul>
 
 <a name="appendixf"></a>
@@ -2912,6 +2919,7 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
 <li>ZIP is © Mark Adler, John Bush, Karl Davis, Harald Denker, Jean-Michel Dubois,Jean-loup Gailly, Hunter Goatley, Ed Gordon, Ian Gorman, Chris Herborth, Dirk Haase, Greg Hartwig, Robert Heath, Jonathan Hudson, Paul Kienitz, David Kirschbaum, Johnny Lee, Onno van der Linden, Igor Mandrichenko, Steve P. Miller, Sergio Monesi, Keith Owens, George Petrov, Greg Roelofs, Kai Uwe Rommel, Steve Salisbury, Dave Smith, Steven M. Schweda, Christian Spieler, Cosmin Truta, Antoine Verheijen, Paul von Behren,   Rich Wales and Mike White, and its license is includ-ed in the LICENSE.TXT file at TOOLS/ZIP folder.</li>
 <li>MSA Converter is (C) Zorg</li>
 <li>ZX0 is (C) Einar Saukas & Urusergi</li>
+<li>Flopgen is (C) Maksymilian (Maks) Graczyk. For more information and source code, please visit <a href="https://github.com/maksgraczyk/Flopgen">its repository</a>.</li>
 
 
 </ul>

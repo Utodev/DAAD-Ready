@@ -196,17 +196,6 @@ the game plays C, D, E (Do-Re-Mi)</p>
 <h3>Multimedia by platform</h3>
 
 
-<a name="zx48k"></a>
-<h4>ZX Spectrum 48K</h4>
-
-
-
-<p>This target does not support graphics neither animations in DAAD Ready.</p>
-
-<p>As for sound, it supports BEEP, so sound can be done with BEEP or XPLAY.</p>
-
-<p>This machine doesn’t support animations or other sound types.</p>
-
 
 
 <a name='zx128k'></a>
@@ -299,6 +288,35 @@ for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spec
 
 <p>You have 8,960 bytes available for preeloaded images.</p>
 
+
+<a name="zx48k"></a>
+<h4>ZX Spectrum 48K</h4>
+
+
+  <p>To understand what's explained here, you should have read first the "Important Stuff" section of this manual. If you didn't, please do so before continuing.</p>
+
+<p>On the Spectrum 48K machine, graphics can be loaded, although space is very limited, especially if the adventure is large. Graphics 
+  can only be fixed, and the full width of the screen (256 pixels), although you can use fewer lines of the 192 available. By default,
+  DAAD Ready takes the first 96 lines of the image.</p>
+
+<p>The same SCR files used for Spectrum 128K are used for graphics. If a graphic doesn't fit in RAM, a warning will be received when running ZX48K.BAT, and it won't be added to the game.</p>  
+
+<p>As for sound, it supports BEEP, so sound can be made with BEEP or XPLAY.</p>
+
+<p>This machine does not support animations or other types of sound.</p>
+
+<p>There is no advanced graphics section for Spectrum 48K because for now it can only make fixed graphics at the top of the screen. Floating images, buffered images, or different sizes are not supported.
+    You can reduce or increase the height by modifying the IMGLINES variable in the CONFIG.BAT file (affects all machines).
+</p>
+
+<p>Recommendations for fitting more graphics in RAM:</p>
+<ul>
+  <li>Use graphics with fewer lines (for example, 64 lines instead of 96).</li>
+  <li>Preferably use graphics that occupy 1, 2, or 3 thirds of the screen, but not intermediate values. Sometimes using an intermediate value can be worse. Again, 64 (one third) is a good number.</li>
+  <li>If the images are monochrome, the algorithm's compression can improve in the attribute part.</li>
+  <li>Patterns that repeat in the images help with compression and fitting more graphics.</li>
+  <li>Reducing unnecessary dithering helps with compression.</li>
+</ul>
 
 <a name='zxnext'></a>
 <h4>ZX Spectrum Next</h4>
@@ -522,7 +540,7 @@ That color won't be shown and will make the underlying ULA text visible.</p>
   <p>To understand what's explained here, you should have read first the "Important Stuff" section of this manual. If you didn't, please do so before continuing.</p>
 
   <p>MSX2 uses images in the standard MSX SC8 format (screen 8), which allows an advanced 256-color palette and can be used at 256x212 resolution.</p>
-  <p>We can also use the converter at <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>, but selecting Screen 8 instead of Screen 2 as in MSX1.</p>
+  <p>We can use the converter at <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>, selecting Screen 8.</p>
   <p><a href="https://www.dadither.com/#Download">DaDither</a> also allows creating images for MSX2 (Screen 8 256x212x8).</p>
 
   <p>In Screen 8 mode, the MSX2 interpreter prevents the text from being affected by the graphic colors, so we don’t have to worry about that.</p>
@@ -536,42 +554,37 @@ That color won't be shown and will make the underlying ULA text visible.</p>
 
 <p>MSX2 uses the new MSX2DAAD interpreter, which has some specific behaviors regarding graphics:</p>
 <ul>
-  <li>Regarding usual DAAD graphics, it only supports one hybrid between floating and fixed:</li>
-  <ul>
-    <li>Like fixed graphics, they apply the palette and ignores window size.</li>
-    <li>Like floating ones, they appear positioned in the current window.</li>
-  </ul>
+  <li>Regarding the usual DAAD graphics, it supports fixed and floating graphics, but floating graphics are not clipped by the window size. Therefore, make sure to make them the correct size.</li>
   <li>It supports transparency, allowing parts of the image to remain invisible (useful for overlays).</li>
-  <li>It doesn’t support partial palette application.</li>
+  <li>It doesn’t support partial palette application, because MSX2 Screen 8 mode is not a palette mode.</li>
 </ul>
 
-<p>Because of this, working with advanced graphics on MSX2 differs slightly from other targets. This is the code in the MSX2.BAT file:</p>
+<p>Because of this, working with advanced graphics on MSX2 differs slightly from other machines. Here is the code in the MSX2.BAT file:</p>
 
 <code>
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SC8 IF NOT exist 00%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c 00%%i.SC8  %IMGLINES% RLE<br/>
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SC8 IF NOT exist 0%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c 0%%i.SC8 %IMGLINES% RLE<br/> 
-for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c %%i.SC8 %IMGLINES% RLE 
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SC8 IF NOT exist 00%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx 00%%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0  <br/>
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SC8 IF NOT exist 0%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx 0%%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0 <br/>
+for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx %%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0 
 </code>
 
-<p>First line is for graphics 000 to 009, second for 010 to 099, and third for 100 to 255.</p>
+<p>The first line is for graphics 000 to 009, the second for 010 to 099, and the third for 100 to 255.</p>
 
-<p>We can add a transparency color—an index from 0 to 255. For example, to make color 28 transparent:</p>
+<p>We can add a transparency color: an index from 0 to 255. For example, to make color 28 transparent:</p>
 
 <code>
-for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c %%i.SC8 %IMGLINES% RLE 28
+for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c %%i.SC8 %IMGLINES% RLE --transparent-color=28
 </code>
 
-<p>We can also select a rectangular region—for example, one at position 0,0 with width and height 64: (Note how we changed the “c” after imgwizard.php to an “s”.)</p>
+<p>To make the graphic fixed but in a different position than the default (0,0), we can use the --fixed parameter with the desired X,Y coordinates:</p>
+
 <code>
-for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php s %%i.SC8 0 0 64 64 
+for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx %%i.SC8 0 0 256 %IMGLINES% RLE --fixed=10,20
 </code>
 
-<p>We can also select a rectangle at x=20, y=30 with width 128 and height 32, with transparency color 6:</p>
+<p>To make the graphic floating, simply do not use the --fixed parameter  :</p>
 <code>
-for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php s %%i.SC8 20 30 128 32 6
+for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx %%i.SC8 0 0 256 %IMGLINES% RLE
 </code>
-
-<p>MSX2 doesn’t support palette limiting. Although text is unaffected by the image palette, multiple graphics must share the same palette to appear at the same time.</p>
 
 <p>About the GFX condact, MSX interpreter supports it, with the following options:</p>
 
@@ -580,15 +593,17 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   <tr>
     <th>Parameter 2</th><th>Parameter 1</th><th>Description</th>
   </tr>
-  <tr><td>0</td><td>Any</td><td>Copies the buffer to the screen</td></tr>
+  <tr><td>0</td><td>Any</td><td>Copies the whole buffer to the screen</td></tr>
   <tr><td>1</td><td>Any</td><td>Copies the whole screen to the buffer</td></tr>
-  <tr><td>2</td><td>Any</td><td>Swaps the contents of the buffer and the screen</td></tr>
-  <tr><td>3</td><td>Any</td><td>Sets drawing to occur directly on the screen</td></tr>
-  <tr><td>4</td><td>Any</td><td>Sets drawing to occur on the buffer</td></tr>
+  <tr><td>2</td><td>Any</td><td>Swaps the contents of buffer and screen</td></tr>
+  <tr><td>3</td><td>Any</td><td>Sets graphics drawing to the screen</td></tr>
+  <tr><td>4</td><td>Any</td><td>Sets graphics drawing to the buffer</td></tr>
   <tr><td>5</td><td>Any</td><td>Clears the screen</td></tr>
   <tr><td>6</td><td>Any</td><td>Clears the buffer</td></tr>
-  <tr><td>9</td><td>flagno</td><td>Changes the palette color defined in flag <coe>flagno using RGB values stored in flags flagno+1, flagno+2, and flagno+3.</td></tr>
-  <tr><td>10</td><td>flagno</td><td>Reads the palette color defined in flag flagno and stores its RGB values in flags flagno+1, flagno+2, and flagno+3.</td></tr>
+  <tr><td>7</td><td>Any</td><td>Sets text drawing to the screen.</td></tr>
+  <tr><td>8</td><td>Any</td><td>Sets text drawing to the buffer.</td></tr>
+  <tr><td>9</td><td>flagno</td><td>Changes the palette color defined in flag flagno to the R,G,B values contained in flags flagno+1, flagno+2, and flagno+3. Not supported by the Amiga.</td></tr>
+  <tr><td>10</td><td>flagno</td><td>Reads the palette color defined in flag flagno and stores its R,G,B values into flags flagno+1, flagno+2, and flagno+3.</td></tr>
   <tr><td>128</td><td>Any</td><td>Copies the current window from the buffer to the screen</td></tr>
   <tr><td>129</td><td>Any</td><td>Copies the current window from the screen to the buffer</td></tr>
 </table>
@@ -617,7 +632,8 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   <u>Split-screen mode</u>
 
   <p>DAAD originally works in the C64’s HiRes mode (320x200). Now it’s possible to use the Multicolor mode (160x200, but with more colors) at the top of the screen by enabling what is called “split screen.” This is 
-     done by editing the CONFIG.BAT file and changing where it says splitModeOff to splitModeOn. That will affect bot Commodore 64 and Amstrad CPC.</p>
+     done by editing the CONFIG.BAT file and changing where it says splitModeOff to splitModeOn. That will affect bot Commodore 64 and Amstrad CPC. The split screen 
+    feature is activated via the metacondact XSPLITSCR, or via GFX condact. XSPLITSCR n and GFX n 15 are the same.</p>
 
   <p>Unfortunately, maintaining that split mode running requires complex interrupt routines that are difficult to handle while reading from disk, so you’ll notice the entire screen is hidden while loading a new image,
     and you might even see some flickering or strange effects occasionally during disk reads or writes -for example, when saving or loading a game- unless you hide the images first.</p>
@@ -683,7 +699,9 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
   <p>Amstrad CPC can enable split-screen mode, in which the upper part of the screen will be in mode 0 (160x96, 16 colors).</p>
 
-  <p>To activate split-screen mode, you must edit CONFIG.BAT and change splitModeOff to splitModeOn. Doing that would also affect the Commodores 64, which also supports splitted screen.</p>
+  <p>To activate split-screen mode, you must edit CONFIG.BAT and change splitModeOff to splitModeOn. Doing that would also affect the Commodores 64, which also supports splitted screen. The split screen 
+    feature is made via the metacondact XSPLITSCR, or via GFX condact. XSPLITSCR n and GFX n 15 are the same.
+  </p>
 
   <p>You can experience flickering and screen darkenging when loading from disk, because keeping this splitted mode alive when reading from disk is very complicated, so the
      interpreter will try to hide rare effects.</p>
@@ -717,6 +735,8 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
 
 
+
+
 <a name='amiga'></a>
 <h4>Commodore Amiga and Atari ST</h4>
 
@@ -724,7 +744,7 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
 <p>The Commodore Amiga and Atari ST interpreters share the same multimedia capabilities, so they are explained together. There are minor changes though that will be explained here.</p>
 
-<p>To add images to the Amiga/ST interpreters, we’ll use the .PNG format. We should create PNG files with maximum 16 colors and a resolution of 320x200. It can be either truecolor or indexed, it doesn't matter, 
+<p>To add images to the Amiga/ST interpreters, we’ll use the .PNG format (also, PI1 Degas format can be used). We should create PNG files with maximum 16 colors and a resolution of 320x200. It can be either truecolor or indexed, it doesn't matter, 
   but if you use indexed file there's no guarantte the colors will remain in the palette in the same order.</p>
 
 <p>Amiga and ST palettes affects also text, so to avoid text becoming unreadable because of using two very similar colors for paper and ink, DAAD Ready will sort the palette so the darkest color of the image will be
@@ -823,7 +843,10 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
     {"clone":1, "location":4}
 </code>
 
-<p>Please notice you still need a 123.PNG file in the folder, although it won't be included.</p>
+<p>Please notice you still need a 123.PNG file in the folder, although it won't be included. Also notice if you plan to put more than one image on screen at the same 
+  time, they would have to share palette. Using a PNG file makes the palette be automatically built so if you want to ensure the palette order is kept, you better
+  use PI1 files.
+</p>
 
 <p>Regarding the GFX condact Atari ST and Amiga support it, with the following options:</p>
 
@@ -839,8 +862,8 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   <tr><td>4</td><td>Any</td><td>Sets graphics drawing to the buffer</td></tr>
   <tr><td>5</td><td>Any</td><td>Clears the screen</td></tr>
   <tr><td>6</td><td>Any</td><td>Clears the buffer</td></tr>
-  <tr><td>7</td><td>Any</td><td>Sets text drawing to the screen. Atari ST only.</td></tr>
-  <tr><td>8</td><td>Any</td><td>Sets text drawing to the buffer. Atari ST only.</td></tr>
+  <tr><td>7</td><td>Any</td><td>Sets text drawing to the screen. Atari ST only, not Amiga.</td></tr>
+  <tr><td>8</td><td>Any</td><td>Sets text drawing to the buffer. Atari ST only, not Amiga.</td></tr>
   <tr><td>9</td><td>flagno</td><td>Changes the palette color defined in flag flagno to the R,G,B values contained in flags flagno+1, flagno+2, and flagno+3. Not supported by the Amiga.</td></tr>
   <tr><td>10</td><td>flagno</td><td>Reads the palette color defined in flag flagno and stores its R,G,B values into flags flagno+1, flagno+2, and flagno+3.</td></tr>
 </table>
@@ -868,7 +891,7 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   They must be 256 color indexed (not RGB) PCX files (i.e. 001.PCX, 002.PCX, etc.). If your image has few colors (16 or less), some image editors like Gimp will create a 16 color indexed file instead of 256 colors,
   which is not valid. Avoid that by adding some other colors to the zone at the bottom of the image, that will be cropped anyway.</p>
 
-<p>To use SVGA mode, you need to edit the CONFIG.BAT file and change the variable SVGA from 0 to 1. By default, DAAD Ready uses VGA mode for PC/DOS. Please notice the text area in the SVGA mode looks like the VGA mode, 
+<p>To use SVGA mode, you need to edit the CONFIG.BAT file and change the variable HIRES from 0 to 1. By default, DAAD Ready uses VGA mode for PC/DOS. Please notice the text area in the SVGA mode looks like the VGA mode, 
   you won't see smaller text. Just the images double the resolution.</p>
 
 <p>Despite 256 colours are supported, it's recommended to create files with a maximum of 240 colors though (0 to 239). If you do that, DAAD Ready will move the colors to the upper palette range (16-255), leaving

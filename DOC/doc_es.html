@@ -95,11 +95,10 @@
     <li><a href='#mainloop'>La lógica de los procesos</a></li>
     <li><a href="#firststeps">Primeros pasos</a></li>
     <li><a href='#condacts'>CondActos</a></li>
+    <li><a href='#indirection'>Indirección</a> </li>
     <li><a href='#conditions'>Condiciones</a></li>
     <li><a href='#actions'>Acciones</a></li>
-    <li><a href='#maluvacondacts'>Condactos Maluva</a></li>
     <li><a href='#metacondacts'>Metacondactos</a></li>
-    <li><a href='#indirection'>Indirección</a></li>
     <li><a href='#daadforquillpawdevelopers'>DAAD para el programador The Quill o PAW</a></li>
     <li><a href='#errors'>Errores</a></li>
     <li><a href='#theparser'>El analizador sintáctico (parser)</a></li>
@@ -161,19 +160,21 @@
   <li><b>MSX 2</b> (floppy disk, con gráficos)</li>
   <li><b>Amstrad PCW</b> 8000/9000 Series (floppy disk, sin gráficos)</li>
   <li><b>Commodore Plus/4</b> (floppy disk, con gráficos)</li>
-  <li><b>Sinclair ZX Spectrum 48k</b> (cinta, sin gráficos)</li>
+  <li><b>Sinclair ZX Spectrum 48k</b> (cinta)</li>
   <li><b>Sinclair ZX Spectrum 48K with DivMMC/IDE</b> (Tarjeta SD, con gráficos)</li>
   <li><b>Sinclair ZX Spectrum +3</b> (floppy disk, con gráficos).</li>
   <li><b>Sinclair ZX Spectrum 128K</b> (cinta, con gráficos)</li>
   <li><b>Sinclair ZX Spectrum Next</b> (Tarjeta SD, con gráficos)</li>
   <li><b>ZX-Uno</b> (Tarjeta SD, con gráficos)</li>
-  <li><b>Windows</b> (Fichero de instalación)- creado usando DOSBOX</li>
   <li><b>HTML/Javascript</b> (para ejecutar en un navegador)</li>
-  <li><b>Windows Experimental</b>: usando el intérprete ADP, aun en version beta, pero creando juegos Windows nativos. A diferencia del target Windows normal, aun no se crea un fichero de Setup. Por otro lado, no puede hacer gráficos SVGA (la version de Windows normal, que usa la de PC (DOS), puede).</li>
-  <li><b>MacOS Experimental</b>: lo mismo que el anterior pero para MacOS. Notese que MacOS no puede ejecutar juegos sin firmar a no ser que se permita en los ajustes del SO.</li>
+  <li><b>Windows (experimental)</b></li>
+  <li><b>macOS (experimental)</b></li>
+  <li><b>Linux (experimental)</b></li>
+  <li><b>Commodore Amiga OCS/HAM/AGA (experimental)</b></li>
+  <li><b>Atari ST/STE/Falcon (experimental)</b></li>
 </ul>
 
-<p>Algunas de estas máquinas ya estaban soportadas por el DAAD original. Otras se deben a extensiones o a nuevo software creado una vez se recuperó el DAAD a mediados de la década de los 2010s.</p>
+<p>Los targets experimentales usan intérpretes alternativos que aún no han sido probados en profundidad, por lo que pueden surgir problemas.</p>
 
 <p>Notese que el target PC se refiere al PC clásico de los 80/90, con DOS como sistema operativo, no PCs modernos.</p>
 
@@ -228,7 +229,7 @@
   <tr><td>PC.BAT</td><td>Classic PC with DOS</td></tr>
   <tr><td>MSX1.BAT</td><td>MSX 1</td></tr>
   <tr><td>MSX2.BAT</td><td>MSX 2</td></tr>
-  <tr><td>ZX48TAPE.BAT</td><td>ZX Spectrum 48k (sin gráficos)</td></tr>
+  <tr><td>ZX48TAPE.BAT</td><td>ZX Spectrum 48k</td></tr>
   <tr><td>ZX128TAPE.BAT</td><td>ZX Spectrum 128k (cinta)</td></tr>
   <tr><td>ZX128PLUS3.BAT</td><td>ZX Spectrum Plus 3 (dico)</td></tr>
   <tr><td>ZXESXDOS.BAT</td><td>Spectrum 48K o superior con interfaz DivMMC/DivIDE.</td></tr>
@@ -237,8 +238,10 @@
   <tr><td>HTML.BAT</td><td>HTML/Javascript (navegador)</td></tr>
   <tr><td>WINDOWS.BAT</td><td>Windows</td></tr>
   <tr><td>WINDOWS_EXPERIMENTAL.BAT</td><td>Windows Experimental</td></tr>
-  <tr><td>MACOS_EXPERIMENTAL.BAT</td><td>MacOS Experimental</td></tr>
-  <tr><td>OLDPLUS3.BAT</td><td>ZX Spectrum Plus 3 (version antigua que usa el DAAD original)</td></tr>
+  <tr><td>MACOS_EXPERIMENTAL.BAT</td><td>macOS Experimental</td></tr>
+  <tr><td>LINUX_EXPERIMENTAL.BAT</td><td>Linux Experimental</td></tr>
+  <tr><td>AMIGA_EXPERIMENTAL.BAT</td><td>Amiga OCS/HAM/AGA Experimental</td></tr>
+  <tr><td>ATARIST_EXPERIMENTAL.BAT</td><td>Atari ST/STE/Falcon Experimental</td></tr>
 </table>
 
 
@@ -705,6 +708,34 @@ ejecutaremos los ejecutaremos los condActos de la entrada uno a uno y de arriba 
   <li><b>value.</b> es un valor, generalmente entre 0 y 255, aunque a veces puede estar más limitado (segun el condacto)</li>
 </ul>
 
+<a name="indirection"></a>
+<h6>Indirección</h6>
+
+<p>La indirección se aplica poniendo un signo @ antes de un parámetro, lo que hará que en lugar de usarse
+  el parámetro como tal, se use en su lugar el valor del flag indicado. </p>
+
+  <p>Por ejemplo, si tenemos un condActo como este se asigna el valor 50 al flag 100:</p>
+  <code>
+  LET 100 50<br/>
+  </code>
+
+  <p>Pero si tenemos esto, se asigna el valor que esté en el flag 50 al flag 100:</p>
+
+  <code>
+  LET 100 @50<br/>
+  </code>
+
+  <p>Por ejemplo, si en el flag 50 hay un valor 237, el flag 100 acabará valiendo 237, como si la orden hubiera sido LET 100 237.</p>
+
+  <p>En este caso, el valor que haya en el flag 50 se asignará al flag cuyo número esté en el flag 100</p>
+
+  <code>
+  LET @100 @50<br/>
+  </code>
+
+  <p>Por ejemplo, si en el flag 100 hay un valor 200, y en el flag 50 un 75, entonces el flag 200 acabará valiendo 75, como si la orden hubiera sido LET 200 75.</p>
+
+
 <a name="conditions"></a>
 <h6>Condiciones</h6>
 
@@ -1130,6 +1161,21 @@ ejecutaremos los ejecutaremos los condActos de la entrada uno a uno y de arriba 
 
 <p>El valor del flag flagno1 pasa a ser el mismo que el del flag flagno2. Es decir, es como COPYFF pero en sentido inverso.</p>
 
+<a name="setat"></a>
+<condact>SETAT attrno. operation</condact>
+
+<p>Este condacto activa, borra, o cambia el estado de los bits de los flags en el rango 28-59. Al igual que en HASAT/HASNAT, el bit se calcula contando hacia abajo desde el flag 59, 8 bits por flag, así que si attrno es 0-7, los bits del flag 59 son afectados, si es 8-15, los bits del flag 58 son afectados, y así sucesivamente.</p>
+
+<p>La operación puede ser:</p>
+
+<ul>
+<li>0 - Borrar el bit.</li>
+<li>1 - Activar el bit.</li>
+<li>2 - Alternar el bit.</li>
+</ul>
+<p><b>IMPORTANTE:</b> Tenga en cuenta que SETAT modifica los flags, pero no cambia nada de lo que los flags representan con respecto a los atributos del objeto.</p>
+
+
 <a name="random"></a>
 <condact>RANDOM flagno.</condact>
 
@@ -1303,6 +1349,27 @@ ejecutaremos los ejecutaremos los condActos de la entrada uno a uno y de arriba 
 <p>Igual que MES "string", pero al terminar añade un retorno de carro (salta a la línea siguiente).</p>
 
 
+<a name="xmes"></a>
+<condact>XMES "string"</condact>
+
+<p>Escribe la cadena entre comillas. Nótese que este condActo permite textos adicionales a los de los de las tablas de mensajes y los condActos MES, MESSAGE, SYSMESS y DESC, con lo que tu
+   juego tiene una capacidad de escribir muchos más textos. XMES tiene las siguientes limitaciones:</p>
+
+<ul>
+  <li>Cada mensaje no puede tener más de 511 caracteres.</li>
+  <li>Todos los mensajes usados por XMES y XMESSAGE no pueden superar, una vez comprimidos, los 64K.</li>
+  <li>Estos xmessages son leídos desde disco a demanda, por lo que dependiendo del dispositivo de lectura, su tiempo de respuesta puede ser lento.  Úsalos con cuidado. Solo en Spectrum 128K los xmes están en RAM.</li>
+  <li>En máquinas que usan split-mode en los gráficos (ver más adelante), se pueden producir efectos extraños en pantalla, o bien la pantalla se apagará cuando cargue los 
+    mensajes desde el disco. La solución a esto, si se necesita usar XMES porque es una aventura muy larga, es no usar split-mode, usando los modos de video originales de DAAD .</li>    
+</ul>
+
+
+<a name="xmessage"></a>
+<condact>XMESSSAGE "string"</condact>
+
+<p>Igual que XMES pero ejecuta un NEWLINE al final.</p>
+
+
 <a name="sysmess"></a>
 <condact>SYSMESS sysno.</condact>
 
@@ -1430,7 +1497,9 @@ SAVE opt
 <a name="pause"></a>
 <condact>PAUSE value</condact>
  
-<p>Pausa por un valor/50 segundos (Pause 50 = 1 segundo). Sin embargo, si el valor es cero entonces la Pausa es por 256/50 segundos. Hay que destacar que el teclado se desconecta durante la duración de una pausa.</p>
+<p>Pausa por un valor/50 segundos (Pause 50 = 1 segundo). Sin embargo, si el valor es cero el juego se detiene indefinidamente, hasta que el jugador pulse una tecla.  Entonces los flags
+  60 & 61 se establecerán al código de la tecla pulsada. Ten en cuenta que la mayoría de las máquinas de 8 bits solo actualizan el flag 60.</p>
+
 
 <p><u>Acciones para el control del analizador sintáctico (parser)</u></p>
 
@@ -1446,11 +1515,11 @@ SAVE opt
 
 <p>El modo 0 es el método primario para convertir las órdenes del jugador en sentencias lógicas.</p>
 
-<p>El modo 1 se ha diseñado para manejar PSIs (PNJs). Cualquier cadena metida en comillas que es encontrada en el input es convertida en la SL, reemplazando la frase principal.</p>
+<p>El modo 1 se ha diseñado para manejar PSIs (PNJs). Cualquier cadena metida en comillas que es encontrada en el input es convertida en la orden del jugador, reemplazando la frase principal.</p>
 
 <p>Si no hay frase presente a nivel 0 entonces se llama a la rutina de input para pedir nueva frase, siempre que no hubiera un buffer de ordenes previo del que sacar más senrencias logícas.</p>
 
-<p>En nivel 1 y superior el siguiente condActo es ejecutado. Esto ocurre en todos los niveles si la SL es inválida. Nótese que DAAD mirará el siguiente condActo en lo que puede ser considerado una situación de “fallo”, lo cual es diferente a lo habitual. En otro caso, se pasa a la siguiente entrada.</p>
+<p>En nivel 1 y superior el siguiente condActo es ejecutado. Esto ocurre en todos los niveles si la orden del jugador  es inválida. Nótese que DAAD mirará el siguiente condActo en lo que puede ser considerado una situación de “fallo”, lo cual es diferente a lo habitual. En otro caso, se pasa a la siguiente entrada.</p>
 
 <p>Imaginemos que no tenemos el template que se genera en TEST.DSF, y tuvieramos que partir de cero, lo mínimo necesario sería tener esto en el proceso 0:</p>
 
@@ -1503,7 +1572,7 @@ SAVE opt
 <a name="synonym"></a>
 <condact>SYNONYM verb noun</condact>
 
-<p>Sustituye el verbo y/o nombre de la SL actual por los dados. Si uno de los dos es un guion bajo “_” ese no se sustituye</p>
+<p>Sustituye el verbo y/o nombre de la orden del jugador actual por los dados. Si uno de los dos es un guion bajo “_” ese no se sustituye</p>
 
  <p>Ejemplo:</p>
 
@@ -1515,14 +1584,14 @@ SAVE opt
   ; Acciones y condiciones...<br/>
 </code>
 
-<p>Nota importante: SYNONYM es una acción, por lo que el estado de “hecho” del proceso en curso queda activado por su ejecución. Será necesario que haya por tanto un match posterior en el proceso, o podría resultar el proceso “hecho” sin aparentemente haber hecho nada.</p>
+<p>Ten en cuenta que a diferencia de otras acciones, SYNONYM no marca el flag interno de hecho. Eso significa que, por ejemplo, una condición ISDONE fallaría después de un SYNONYM a menos que se ejecutara otra acción antes.</p>
 
 <p><u>Acciones de saltos, bucles y subrutinas</u></p>
 
 <a name="process"></a>
 <condact>PROCESS procno.</condact>
 
-<p>Esta poderosa acción transfiere la atención de DAAD hacia el número de tabla de Proceso especificado por procno. Este subproceso exhibirá las mismas características que la tabla que lo llamó. Por ejemplo, si ha sido llamado desde la tabla de Respuestas, DAAD seguirá buscando la correlación del Verbo y el primer Nombre de la SL y las palabras que hayan sido entradas en la tabla principal. Hay que darse cuenta de que es una verdadera llamada a una subrutina y de que cualquier salida desde la tabla nueva (por ejemplo, causada por un DONE, OK, etc.) llevará de nuevo el control al siguiente condActo que esté en lista después de la acción PROCESS. Un subproceso puede ser llamado (anidar) a otros procesos hasta una profundidad de 10 en cuyo punto se creará un error de "Límite Alcanzado".</p>
+<p>Esta poderosa acción transfiere la atención de DAAD hacia el número de tabla de Proceso especificado por procno. Este subproceso exhibirá las mismas características que la tabla que lo llamó. Por ejemplo, si ha sido llamado desde la tabla de Respuestas, DAAD seguirá buscando la correlación del Verbo y el primer Nombre de la orden del jugador y las palabras que hayan sido entradas en la tabla principal. Hay que darse cuenta de que es una verdadera llamada a una subrutina y de que cualquier salida desde la tabla nueva (por ejemplo, causada por un DONE, OK, etc.) llevará de nuevo el control al siguiente condActo que esté en lista después de la acción PROCESS. Un subproceso puede ser llamado (anidar) a otros procesos hasta una profundidad de 10 en cuyo punto se creará un error de "Límite Alcanzado".</p>
 
 <a name="redo"></a>
 <condact>REDO</condact>
@@ -1535,10 +1604,10 @@ SAVE opt
 <p>Otra acción muy poderosa que permite la mejora de cualquier comando de tipo "ALL" (como COGER TODO). </p>
 
 <ul>
- <li>1 - Se intenta encontrar un objeto en la localidad a la que se refiere locno. Si no se encuentra (no es satisfactorio) el DOALL se cancela, y una acción NOTDONE se ejecuta. </li>
- <li>2 - TSi se encuentra un objeto, el número del objeto se convierte en el Nombre1 de la SL (y el Adjetivo1 si está presente) por medio de una referencia a la tabla de Objetos Palabras. Si Nombre (Adjetivo) 1 es similar o hace juego con Nombre (Adjetivo) 2 entonces se hace una vuelta al paso 1. Esto es para facilitar el "Verbo TODO EXCEPTO objeto" (coge todo excepto...). </li>
+ <li>1 - Se intenta encontrar un objeto en la localidad a la que se refiere locno. Si no se encuentra (no es satisfactorio) el DOALL se cancela, y  NOTDONE y NEWTEXT se ejecutan. </li>
+ <li>2 - Si se encuentra un objeto, el número del objeto se convierte en el Nombre1 de la orden del jugador  (y el Adjetivo1 si está presente) por medio de una referencia a la tabla de Objetos Palabras. Si Nombre (Adjetivo) 1 es similar o hace juego con Nombre (Adjetivo) 2 entonces se hace una vuelta al paso 1. Esto es para facilitar el "Verbo TODO EXCEPTO objeto" (coge todo excepto...). </li>
  <li>3 - El siguiente condActo y/o entrada en la tabla se considera entonces. Esto convierte efectivamente una frase del tipo "Verbo todo" en una del tipo "Verbo objeto" la cual será entonces procesada por la tabla como si el jugador lo hubiese tecleado de la última forma. </li>
- <li>4 - WCuando se hace un intento de salida de la tabla actual, si el DOALL todavía está activo (por ejemplo, no ha sido cancelado por una acción), entonces la atención del PAW vuelve de nuevo al bucle DOALL desde el paso 1. La búsqueda continuará desde el siguiente objeto (el que tenga un número más alto). </li>
+ <li>4 - Cuando se hace un intento de salida de la tabla actual, si el DOALL todavía está activo (por ejemplo, no ha sido cancelado por una acción), entonces la atención del PAW vuelve de nuevo al bucle DOALL desde el paso 1. La búsqueda continuará desde el siguiente objeto (el que tenga un número más alto). </li>
 </ul>
 
 <p>La consecuencia de este método de búsqueda a través de la tabla de Objetos Palabras es que los objetos que tengan el mismo Nombre y Adjetivo en su descripción, (y en donde el juego sólo sabe a cuál objeto se refiere por su presencia en esa localidad) son buscados en un orden ascendente de número de objeto, si no algunos de ellos se perderían.</p>
@@ -1731,35 +1800,25 @@ $ Adelante<br/>
 <p>Si value es 0, el gráfico previamente seleccionado por PICTURE es pintado en pantalla. Si PICTURE pudo cargarlo a RAM previamente, se pintará desde RAM, de lo contrario, se cargará desde disco en ese momento.</p>
 <p>Si el valor no es 0 y el gráfico no es una subrutina, entonces se borra el área gráfica.</p>
 
-<a name="maluvacondacts"></a>
-<h6>Condactos Maluva</h6>
 
-<p>Maluva era una extensión de DAAD que ahora resulta innecesria, porque lo que contenía va ahora incluido en los intérpretes de DAAD Ready, excepto en Spectrum 48k, Amiga y Atari ST.
 
-  <p>Añade algunos condactos:</p>
 
-<a name="xmes"></a>
-<condact>XMES "string"</condact>
+<a name="metacondacts"></a>
+<h6>Meta-condActos</h6>
 
-<p>Escribe la cadena entre comillas. Nótese que este condActo permite textos adicionales a los de los de las tablas de mensajes y los condActos MES, MESSAGE, SYSMESS y DESC, con lo que tu juego tiene una capacidad de escribir muchos más textos. XMES tiene las siguientes limitaciones:</p>
+<p>Un metacondacto no es un condacto real, en el sentido de que los intérpretes de DAAD no saben ni que existe. En realidad, se trata de un truco del compilador para poder poner
+  algunas cosas de una manera más cómoda, más humana. El propio compilador convertirá estos metacondActos en condActos reales, que son los que realmente entiende DAAD.</p>
+</p>
 
-<ul>
-  <li>Cada mensaje no puede tener más de 511 caracteres.</li>
-  <li>Todos los mensajes usados por XMES y XMESSAGE no pueden superar, una vez comprimidos, los 64K.</li>
-  <li>Estos xmessages son leídos desde disco a demanda, por lo que dependiendo del dispositivo de lectura, su tiempo de respuesta puede ser lento.  Úsalos con cuidado. </li>
-  <li>En máquinas que usan split-mode en los gráficos (ver más adelante), se pueden producir efectos extraños en pantalla, o bien la pantalla se apagará cuando cargue los 
-    mensajes desde el disco. La solución a esto, si se necesita usar XMES porque es una aventura muy larga, es no usar split-mode, usando los modos de video originales de DAAD .</li>  
-  
-</ul>
+<a name="getkey"></a>
+<condact>GETKEY</condact>
 
-<a name="xmessage"></a>
-<condact>XMESSSAGE "string"</condact>
+<p>GETKEY es una abreviatura de PAUSE 0. En DAAD, PAUSE 0 realmente pausa hasta que se pulse una tecla, y luego guarda el código de la tecla en un flag. Ver el condacto <a href="#pause">PAUSE</a> para más detalles.</p>
 
-<p>Igual que XMES pero ejecuta un NEWLINE al final.</p>
 
 <a name="xsplitscr"></a>
 <condact>XSPLITSCR value</condact>
-<p>Para las máquinas que soportan split screen (actualmente Amstrad CPC y Commodore 64) este condActo define el modo en el que lo hace.</p>
+<p>Para las máquinas que soportan split screen (actualmente Amstrad CPC y Commodore 64) este condActo reemplaza a GFX value 15.</p>
 <p>Split screen significa que tenemos un modo gráfico distinto en la parte superior de la pantalla (donde salen los gráficos) y la inferior (donde sale el texto).</p>
 <p>Esto es lo que "value" significa para cada máquina:</p>
 
@@ -1774,55 +1833,6 @@ $ Adelante<br/>
 
 <p>Ten en cuenta que el modo split siempre se produce en la fila 96, no se peude partir por otro sitio.</p>
 
-<a name="xundone"></a>
-<condact>XUNDONE</condact>
-
-<p>
-  XUNDONE cambia el estado de “hecho” interno. Cada vez que DAAD eje-cuta una acción, el intérprete actica el estado “hecho” interno. Eso significa que, si ISDONE o ISNDONE son ejecutadas, tendrán éxito o no dependiendo de ese estado.
-</p>
-<p>
-  Nótese que a diferencia de NOTDONE, XUNDONE solo borra ese estado, pero no va al final del proceso actual.
-</p>
-
-<p>
-  Hay casos en los que incluso cuando una acción se ejecuta en un proceso, no queremos que se marque el estado de hecho. Esto es muy claro en el caso de usar SYNONYM, porque por regla general, aunque SYNONYM se trata de una acción, 
-  en la práctica, y a ojos del jugador, realmente no hace nada.
-</p>
-
-<code>
-> ENCENDER LUZ<br/>
-SYNONYM PULSAR INTERRUPTOR
-</code>    
-
-<p>Si más tarde pones esta entrada, y resulta que ya estaba pulsado, la entrada fallará:</p>
-
-<code>
-  > PULSAR INTERRUPTOR<br/>
-  ZERO fInterruptorPulsado<br/>
-  MESSAGE "Enciendes la luz."<br/>
-  SET fInterruptorPulsado<br/>
-  DONE<br/>
-</code> 
-
-<p>Sin embargo, como DAAD considera que ya se ha hecho algo, por ese SYNONYM, en lugar de llegar a un “No entiendo” nos pasaría esto:</p>
-
-<code>
-  ¿Qué vas a hacer ahora?<br/>
-  > PULSAR INTERRUPTOR<br/>
-  ¿Qué vas a hacer ahora?<br/>
-  ><br/>
-</code>
-
-<p>Para estos casos y otros, en los que pese haber algo “hecho” no nos interesa que se marque el valor interno de “hecho”, está XUNDONE.</p>
-
-<p>Nótese que no hay un condActo XDONE para marcar como “hecho”, porque puedes hacerlo con cualquier condActo que no haga nada, como por ejemplo COPYFF 100 100”.</p>
-
-<a name="metacondacts"></a>
-<h6>Meta-condActos</h6>
-
-<p>Un metacondacto no es un condacto real, en el sentido de que los intérpretes de DAAD no saben ni que existe. En realidad, se trata de un truco del compilador para poder poner
-  algunas cosas de una manera más cómoda, más humana. El propio compilador convertirá estos metacondActos en condActos reales, que son los que realmente entiende DAAD.</p>
-</p>
 
 <a name="xplay"></a>
 <condact>XPLAY “string”</condact>
@@ -1905,13 +1915,8 @@ SYNONYM PULSAR INTERRUPTOR
 
 <a name="indirection"></a>
 <h6>Indirección</h6>
-<p>El primer parámetro de casi todos los condActos puede usar indireccón. Esto, cuando indicado poniendo un signo @ antes de dicho parámetrom hará que en lugar de usarse
-  el parámetro como tal, se use en su lugar el valor del flag indicado. </p>
 
-<p>Solo el primer parámetro soporta esto, y no todos los condactos los permiten, pero aquellos que tienen un flag, objeto o número como primer parámetro lo hacen.</p>   
-
-<p>Por ejemplo 'MESSAGE @100' escribirá no el mensaje 100, sino el mensaje cuyo número está en el flag 100. Si por ejemplo el flag 100 tiene el valor 20, escribirá el mensaje 20, haciendo que ese MESSAGE @100 sea como un MESSAGE 20.</p>
-
+DAAD permite indirección en ambos parámetros. Ver el apartado de indirección.
 
 <a name="daadforquillpawdevelopers"></a>
 <h6>DAAD para autores PAW o Quill</h6>
@@ -1935,8 +1940,6 @@ SYNONYM PULSAR INTERRUPTOR
 
 <p>DAAD permite atributos, lo cual significa que cada objeto tiene una serie de 16 valores que pueden estar activos (1) o inactivos (0). Los puedes ver en la sección /OBJ, y se puede comprobar su valor con los condActos HASAT y HASNAT. Con esto, por ejemplo, puedes definir un determinado puzle que permita cortar algo con objetos afilados, y determinar que el atributo 7 es “afilado” y ponérselo a 1 a una espada y a un cuchillo. Después, para resolver el puzle, puedes comprobar si el objeto que usa es afilado (con HASAT) en lugar de comprobar si lleva la espada o el cuchillo. También podrían hacerse objetos “voluminosos”, que de llevarlos no puedas pasar por una grieta estrecha en una cueva, etc.</p>
 
-<p><u>Indirección</u></p>    
-<p>Se ha explicado arriba, y no la soportaba PAW ni Quill.</p>
 
 <p><u>Escribiendo mensajes</u></p>
 
@@ -1978,7 +1981,7 @@ SYNONYM PULSAR INTERRUPTOR
 <a name="theparser"></a>
 <h6>El analizador sintáctico (parser)</h6>
 
-<p>El parser trabaja escaneando cada entrada de texto del jugador para encontrar palabras que estén en el vocabulario, y extrae frases que puede convertir en sentencias lógicas (SL).</p>
+<p>El parser trabaja escaneando cada entrada de texto del jugador para encontrar palabras que estén en el vocabulario, y extrae frases que puede convertir en sentencias lógicas (SL, orden del jugador ).</p>
 
 <p>Cuando se extrae una frase, la tabla de respuestas y conexiones son analizada para ver si son reconocidas. Si no se muestra el mensaje del sistema 8 (“No puedes hacer eso.”) o el 7 (“No puedes ir en esa dirección”) dependiendo del valor del verbo (si el verbo es menor que el verbo 14, se usa el 7, porque es un verbo de dirección). </p>
 
@@ -2000,7 +2003,7 @@ SYNONYM PULSAR INTERRUPTOR
 <p>Una sentencia lógica se configura así:</p>
 <code>(Adverbio)Verbo(Adjetivo1(Nombre1))(preposicion)(Adjetivo2(Nombre2))</code>
 <p>Donde las cosas entre paréntesis son opcionales, por lo que la mínima frase es un verbo, o un nombre convertible a verbo (los nombre con valor menor de 20 que si no hay verbo en la frase se convertirán en verbo, por ejemplo, NORTE).</p>
-<p>Si el verbo se omite, el analizador asumirá que la SL usa el verbo de la orden anterior, para que “COGER ESPADA Y ESCUDO” se convierta de hecho en “COGER ESPADA” + “COGER ESCUDO”.</p>
+<p>Si el verbo se omite, el analizador asumirá que la orden del jugador usa el verbo de la orden anterior, para que “COGER ESPADA Y ESCUDO” se convierta de hecho en “COGER ESPADA” + “COGER ESCUDO”.</p>
 <p>Nótese que la frase puede escribirse de mala manera y el parser aun entenderla, por ejemplo “LLAVE COGER” o “COGER LENTAMENTE  LLAVE”.</p>
 <p>Una orden real podría ser:</p>
 <code>COGE TODO. ABRE LA PUERTA Y VE AL SUR ENTONCES COGE EL CUBO Y MIRALO”</code>
@@ -2055,7 +2058,7 @@ MIRA CUBO (por la terminación -LO)<br/>
   <tr><th>Flag #</th><th>Uso/significado</th></tr>  
   <tr><td>0</td><td>Si lo cambiamos a un valor que no sea cero indicamos que n hay luz. La plantilla de TEST.DSF tiene esto en cuenta y muestra el mensaje "Está muy oscuro" en lugar de la descripción de localides. El objeto 0, para esta plantilla, da luz, por lo que si está presente eso no pasa.</td></tr>
   <tr><td>1</td><td>Guarda la cantidad que el jugador lleva, pero no lleva puestos como prenda. Este valor se mantiene cuando se cogen y dejan objetos, pero queda inicializado a cero por defecto, así que si de salida llevamos algún objeto, conviene inicializar el flag 1 con el valor del número de objetos llevados, si después vamos a usarlo (al final del proceso 6 se hace eso).</td></tr>
-  <tr><td>2 to 28</td><td>Estos flags no son usados por los intérpretes DAAD, por lo que en principio estarían libres para tus juegos. Sin embargo, el fichero TEST.DSF está usando el flag 28 para funcionalidades internas de la plantilla, mientras que Maluva usa el flag 20 y el intérprete de PC/DOS usa el flag 21 (ver más abajo). Por tanto, no puedes usar los flags 20 y 28, pero además recomendamos no usar ninguno de este bloque porque podrían
+  <tr><td>2 to 28</td><td>Estos flags no son usados por los intérpretes DAAD, por lo que en principio estarían libres para tus juegos. Sin embargo, el fichero TEST.DSF está usando el flag 28 para funcionalidades internas de la plantilla y el intérprete de PC/DOS usa el flag 21 (ver más abajo). Por tanto, no puedes usar los flags 20 y 28, pero además recomendamos no usar ninguno de este bloque porque podrían
      ser usados para futuras extensiones. Nuestra recomendación es que empieces por usar el flag 254 para tus cosas, luego el 253, 252, etc. Así quedarás lejos de peligro.</td></tr>
      <tr><td>21</td><td>PC/DOS exclusivo, usado para control de sonido: <br/><br/>
       <table>
@@ -2100,11 +2103,17 @@ MIRA CUBO (por la terminación -LO)<br/>
   <tr><td>50</td><td>Guarda el valor del objeto para el bucle DOALL, es decir, el valor que sigue al DOALL. Modificar este valor podría hacer DOALL entrar en un bucle infinito, pero también se puede modificar para, por ejemplo, saltar objetos concretos.</td></tr>
   <tr><td>51</td><td>Guarda el número del último objeto referenciado por GET/DROP/WEAR/WHATO etc. Es el número del objeto actualmente referenciado tal y como se muestra en muchos mensajes con el guion bajo.</td></tr>
   <tr><td>52</td><td>Guarda la fuerza del jugador (máximo peso que puede llevar, inicialmente 10). Se establece con ABILITY.</td></tr>
-  <tr><td>53</td><td>Guarda los flags de listar objetos:
+  <tr><td>53</td><td>Guarda los flags de listar objetos, del parser, y DOALL:
        <table>
         <tr><th>Bit</th><th>Significado</th></tr>
         <tr><td>7</td><td>Se pone a 1 si al menos un fue listado en el último LISTAT/LISTOBJ</td></tr>
         <tr><td>6</td><td>Ponerlo a 1 generará listados de objetos continuos, en lugar de uno encima de otro. LET 53 64 hará que DAAD liste los objetos en una línea generando una frase válida.</td></tr>
+        <tr><td>5</td><td>Se pone a 1 si después de obtener un orden del jugador , el parser encontró una palabra que no pudo reconocer después de encontrar el verbo.</td></tr>
+        <tr><td>4</td><td>Se pone a 1 si después de obtener un orden del jugador , el parser encontró una preposición antes del primer sustantivo.</td></tr>
+        <tr><td>2</td><td>Si se pone a 1, no se aplicarán terminaciones pronominales en los verbos>=240.</td></tr>
+        <tr><td>1</td><td>Si se pone a 1, HASAT/HASNAT/SETAT funcionarán en un conjunto alternativo de flags 60-91.</td></tr>
+        <tr><td>0</td><td>Se pone a 1 si el parser encontró una palabra que no pudo reconocer después de encontrar el verbo.</td></tr>
+
       </table>
     </td></tr>
   <tr><td>54</td><td>Guarda la localidad del último objeto referenciado.</td></tr>
@@ -2432,7 +2441,7 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
 
 <ul>
    <li>BIT8: Este símbolo está definido si la máquina es de 8 bits.</li>
-   <li>BIT16: Este símbolo está definido si la máquina es de 16 bits. Ten en cuenta que "Window Experimental" y "MacOS Experimental" se compilan como si fueran juegos de Atari ST, por lo que tendrán el símbolo BIT16. El HTML, sin embargo, no genera el símbolo bit16, ni el bit8.</li>
+   <li>BIT16: Este símbolo está definido si la máquina es de 16 bits. Ten en cuenta que "Windows Experimental", "macOS Experimental" y "Linux Experimental" se compilan como si fueran juegos de PC, por lo que tendrán el símbolo BIT16. El HTML, sin embargo, no genera el símbolo bit16, ni el bit8.</li>
 </ul>
 
 <u><b>Símbolos de dimensiones de pantalla</b></u>
@@ -2524,6 +2533,9 @@ table><tr><th>Símbolo</th><th>Valor</th></tr> <tr><td>RESETMS</td><td>0</td></t
   <li>PiCiJi, autor de Denise</li>
   <li>Einar Saukas & Urusergi, autores de ZX0</li>
   <li>Nicholas Campbell for the AZERTY and drive B patches for CPC.</li>
+  <li>A Maksymilian (Maks) Graczyk, por la utilidad Flopgen para gestionar imágenes FAT12.</li>
+  <li>A la gente del canal #Amigacoders de Telegram, por su ayuda para compilar el código de Amiga de DAAD.</li>
+  <li>A la gente del canal AtariCoders de Telegram, por su ayuda para compilar el código de Atari ST de DAAD.</li>
   </ul>
 
 
@@ -2544,7 +2556,6 @@ table><tr><th>Símbolo</th><th>Valor</th></tr> <tr><td>RESETMS</td><td>0</td></t
 <li>DRC and Maluva are (C) Uto and are both subject to their respective licenses. See more information and source code <a href="https://github.com/daad-adventure-writer/DRC/wiki#LICENSE">here</a>.</li>
 <li>ZEsarUX eis (C) César Hernández and it is subject to its own license, please see license file at TOOLS/ZEsarUX folder. Also find more information and source code at <a href="https://github.com/chernandezba/ZEsarUX/">Github repository</a>.</li>
 <li>OpenMSX es (C) several authors. Find more information at <a href="https://openmsx.org/">OpenMSX website</a>.</li>
-<li>C64DEbugger es (C) Marcin Skoczylas, although is also using some of the Vice64 code. If you like it and use it consider donating beer to
 <li>Denise es (C) PiCiJi, y está sujeto a licencia GPL v3</li>
 <li>Yape is (C) Attila Grósz and its freeware. Please find more information at <a href="http://yape.plus4.net">Yape website</a>.</li>
 <li>DOSBOX is (C) Peter "Qbix" Veenstra, Sjoerd "Harekiet" van der Berg, Tommy "fanskapet" Frössman, Ulf "Finster" Wohlers. Find source code and info at <a href="https://www.dosbox.com/">dosbox.com</a>.</li>
@@ -2562,9 +2573,9 @@ table><tr><th>Símbolo</th><th>Valor</th></tr> <tr><td>RESETMS</td><td>0</td></t
 <li>ZXDAAD128 and its related tools are GPL and (C) Sergio Chico, DRB128 is (C)UtoDev and Sergio Chico.</li>
 <li>ADG is (C) Jose Luis Cebrián and is released under the MIT license. Please check <a href="https://github.com/jlcebrian/ADP">its repository</a> for details.</li>
 <li>ZIP is © Mark Adler, John Bush, Karl Davis, Harald Denker, Jean-Michel Dubois,Jean-loup Gailly, Hunter Goatley, Ed Gordon, Ian Gorman, Chris Herborth, Dirk Haase, Greg Hartwig, Robert Heath, Jonathan Hudson, Paul Kienitz, David Kirschbaum, Johnny Lee, Onno van der Linden, Igor Mandrichenko, Steve P. Miller, Sergio Monesi, Keith Owens, George Petrov, Greg Roelofs, Kai Uwe Rommel, Steve Salisbury, Dave Smith, Steven M. Schweda, Christian Spieler, Cosmin Truta, Antoine Verheijen, Paul von Behren,   Rich Wales and Mike White, and its license is includ-ed in the LICENSE.TXT file at TOOLS/ZIP folder.</li>
-<li>MSA Converter is (C) Zorg</li>
 <li>CPCE es (C) César Nicolás González</li>
 <li>ZX0 is (C) Einar Saukas & Urusergi</li>
+<li>Flopgen es (C) Maksymilian (Maks) Graczyk. Más información en su <a href="https://github.com/maksgraczyk/Flopgen">repositorio</a></li>
 </ul>
 
 <!-- End Document

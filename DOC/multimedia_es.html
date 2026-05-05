@@ -87,8 +87,11 @@
     <li><a href='#amiga'>Commodore Amiga y Atari ST</a></li>
     <li><a href='#pcdos'>PC/DOS</a></li>
     <li><a href='#html'>HTML</a></li>
-    <li><a href='#windows'>Windows</a></li>
-    <li><a href='#macOS'>MacOS</a></li>   
+    <li><a href='#windowsexp'>Windows (experimental)</a></li>
+    <li><a href='#macOSexp'>macOS (experimental)</a></li>   
+    <li><a href='#linuxexp'>Linux (experimental)</a></li>   
+    <li><a href='#amigaexp'>Commodore Amiga (experimental)</a></li>    
+    <li><a href='#ataristexp'>Atari ST/STE/Falcon (experimental)</a></li>
   </ul>
   <li><a href='#appendix'>Apéndices</a></li>
   <ul>
@@ -192,14 +195,6 @@ el juego reproduce las notas C, D, E (Do-Re-Mi)</p>
 <h3>Multimedia por plataforma</h3>
 
 
-<a name="zx48k"></a>
-<h4>ZX Spectrum 48K</h4>
-
-<p>Esta máquina no admite gráficos ni animaciones en DAAD Ready.</p>
-
-<p>En cuanto al sonido, admite BEEP, por lo que el sonido se puede hacer con BEEP o XPLAY.</p>
-
-<p>Esta máquina no admite animaciones u otros tipos de sonido.</p>
 
 
 
@@ -291,6 +286,34 @@ for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spec
 </code>
 
 <p>Tienes 8.960 bytes disponibles para imágenes precargadas.</p>
+
+<a name="zx48k"></a>
+<h4>ZX Spectrum 48K</h4>
+
+  <p>Para entender lo que se explica aquí, primero debes haber leído la sección "Información Importante" de este manual. Si no lo has hecho, por favor hazlo antes de continuar.</p>
+
+<p>En la máquina Spectrum 48K se pueden cargar gráficos, aunque el espacio es muy limitado, especialmente si la aventura es grande. Los gráficos 
+  solo pueden ser fijos, y del ancho total de la pantalla (256 píxeles), aunque puedes usar menos líneas de las 192 disponibles. Por defecto,
+  DAAD Ready toma las primeras 96 líneas de la imagen.</p>
+
+<p>Se utilizan para los gráficos los mismos ficheros SCR usados para Spectrum 128K. Si un gráfico no cabe en la RAM recibiremos un aviso al ejecutar ZX48K.BAT y no se añadirá al juego.</p>  
+
+<p>En cuanto al sonido, admite BEEP, por lo que el sonido se puede hacer con BEEP o XPLAY.</p>
+
+<p>Esta máquina no admite animaciones u otros tipos de sonido.</p>
+
+<p>No hay una sección de gráficos avanzados para Spectrum 48K porque por el momento solo puede hacer gráficos fijos en la parte superior de la pantalla. Las imágenes flotantes, en búfer o de diferente tamaño no están admitidas.
+    Puedes reducir o aumentar la altura modificando la variable IMGLINES en el archivo CONFIG.BAT (afecta a todas las máquinas).
+</p>
+
+<p>Recomendaciones para que quepan más gráficos en la RAM:</p>
+<ul>
+  <li>Usa gráficos con menos líneas (por ejemplo, 64 líneas en lugar de 96).</li>
+  <li>Preferiblemente usa graficos que ocupen 1, 2 o 3 tercios de la pantalla, pero no valores intermedios. A veces usar un valor intermedio puede resultar peor. De nuevo 64 (un tercio) es un buen número.</li>
+  <li>Si las imágenes son monocromas, la compresión del algoritmo puede mejorar en la parte de los atributos.</li>
+  <li>Patrones que se repiten en las imágenes ayudan a la compresión de las mismas y a que quepan más.</li>
+  <li>Reducir dithering innecesario ayuda a la compresión.</li>
+</ul>
 
 
 <a name='zxnext'></a>
@@ -511,11 +534,12 @@ Ese color no se mostrará y hará visible el texto ULA subyacente.</p>
 
   <p>Para entender lo que se explica aquí, primero debes haber leído la sección "Información Importante" de este manual. Si no lo has hecho, por favor hazlo antes de continuar.</p>
 
-  <p>MSX2 usa imágenes en el formato estándar SC8 de MSX (pantalla 8), que permite una paleta avanzada de 256 colores y puede usarse a una resolución de 256x212.</p>
-  <p>También podemos usar el convertidor en <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>, pero seleccionando Pantalla 8 en lugar de Pantalla 2 como en MSX1.</p>
-  <p><a href="https://www.dadither.com/#Download">DaDither</a> también permite crear imágenes para MSX2 (Pantalla 8 256x212x8).</p>
+  <p>MSX2 usa como fuente imágenes en el formato estándar SC8 de MSX (pantalla 8), que permite una paleta avanzada de 256 colores y puede usarse a una resolución de 256x212.</p>
+  
+  <p>Para obtenerlas podemos usar el convertidor en <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>, seleccionando Screen 8.</p>
+  <p><a href="https://www.dadither.com/#Download">DaDither</a> también permite crear imágenes para MSX2 (Screen 8 256x212x8).</p>
 
-  <p>En el modo Pantalla 8, el intérprete de MSX2 evita que el texto se vea afectado por los colores del gráfico, así que no tenemos que preocuparnos por eso.</p>
+  <p>En el modo Screen 8, el intérprete de MSX2 evita que el texto se vea afectado por los colores del gráfico, así que no tenemos que preocuparnos por eso.</p>
 
   <p>En cuanto al sonido, DAAD admite BEEP en MSX2, por lo que el sonido se puede hacer con BEEP o XPLAY. El sonido saldrá del chip de sonido del MSX.</p>
 
@@ -526,21 +550,17 @@ Ese color no se mostrará y hará visible el texto ULA subyacente.</p>
 
 <p>MSX2 usa el nuevo intérprete MSX2DAAD, que tiene algunos comportamientos específicos con respecto a los gráficos:</p>
 <ul>
-  <li>En cuanto a los gráficos habituales de DAAD, solo admite un híbrido entre flotante y fijo:</li>
-  <ul>
-    <li>Como los gráficos fijos, aplican la paleta e ignoran el tamaño de la ventana.</li>
-    <li>Como los flotantes, aparecen posicionados en la ventana actual.</li>
-  </ul>
+  <li>En cuanto a los gráficos habituales de DAAD, admite gráficos fijos y flotantes, pero los flotantes no son recortados por el tamaño de la ventana. Asegúrate por tanto de hacerlos del tamaño correcto.</li>
   <li>Admite transparencia, permitiendo que partes de la imagen permanezcan invisibles (útil para superposiciones).</li>
-  <li>No admite la aplicación parcial de la paleta.</li>
+  <li>No admite la aplicación parcial de la paleta, porque el modo Screen 8 de MSX2 no es un modo de paleta.</li>
 </ul>
 
 <p>Debido a esto, trabajar con gráficos avanzados en MSX2 difiere ligeramente de otras máquinas. Este es el código en el archivo MSX2.BAT:</p>
 
 <code>
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SC8 IF NOT exist 00%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c 00%%i.SC8  %IMGLINES% RLE<br/>
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SC8 IF NOT exist 0%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c 0%%i.SC8 %IMGLINES% RLE<br/> 
-for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c %%i.SC8 %IMGLINES% RLE 
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SC8 IF NOT exist 00%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx 00%%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0  <br/>
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SC8 IF NOT exist 0%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx 0%%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0 <br/>
+for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx %%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0 
 </code>
 
 <p>La primera línea es para gráficos 000 a 009, la segunda para 010 a 099, y la tercera para 100 a 255.</p>
@@ -548,39 +568,40 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 <p>Podemos agregar un color de transparencia: un índice de 0 a 255. Por ejemplo, para hacer transparente el color 28:</p>
 
 <code>
-for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c %%i.SC8 %IMGLINES% RLE 28
+for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c %%i.SC8 %IMGLINES% RLE --transparent-color=28
 </code>
 
-<p>También podemos seleccionar una región rectangular, por ejemplo, una en la posición 0,0 con ancho y alto 64: (Observa cómo cambiamos la "c" después de imgwizard.php por una "s").</p>
+<p>Para hacer que el gráfico sea fijo pero en otra posición que la por defecto (0,0), podemos usar el parámetro --fixed con las coordenadas X,Y deseadas:</p>
+
 <code>
-for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php s %%i.SC8 0 0 64 64 
+for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx %%i.SC8 0 0 256 %IMGLINES% RLE --fixed=10,20
 </code>
 
-<p>También podemos seleccionar un rectángulo en x=20, y=30 con ancho 128 y alto 32, con color de transparencia 6:</p>
+<p>Para hacer el gráfico flotante, simplemente no usamos el parámetro --fixed:</p>
 <code>
-for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php s %%i.SC8 20 30 128 32 6
+for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx %%i.SC8 0 0 256 %IMGLINES% RLE
 </code>
 
-<p>MSX2 no admite limitación de paleta. Aunque el texto no se ve afectado por la paleta de la imagen, múltiples gráficos deben compartir la misma paleta para aparecer al mismo tiempo.</p>
-
-<p>Acerca del condact GFX, el intérprete de MSX lo admite, con las siguientes opciones:</p>
+<p>Acerca del condacto GFX, el intérprete de MSX soporta las siguientes opciones:</p>
 
 <small>
 <table>
   <tr>
     <th>Parámetro 2</th><th>Parámetro 1</th><th>Descripción</th>
   </tr>
-  <tr><td>0</td><td>Cualquiera</td><td>Copia el búfer a la pantalla</td></tr>
-  <tr><td>1</td><td>Cualquiera</td><td>Copia la pantalla completa al búfer</td></tr>
-  <tr><td>2</td><td>Cualquiera</td><td>Intercambia el contenido del búfer y la pantalla</td></tr>
-  <tr><td>3</td><td>Cualquiera</td><td>Establece que el dibujo ocurra directamente en la pantalla</td></tr>
-  <tr><td>4</td><td>Cualquiera</td><td>Establece que el dibujo ocurra en el búfer</td></tr>
-  <tr><td>5</td><td>Cualquiera</td><td>Borra la pantalla</td></tr>
-  <tr><td>6</td><td>Cualquiera</td><td>Borra el búfer</td></tr>
-  <tr><td>9</td><td>flagno</td><td>Cambia el color de la paleta definido en la bandera flagno usando los valores RGB almacenados en las banderas flagno+1, flagno+2 y flagno+3.</td></tr>
-  <tr><td>10</td><td>flagno</td><td>Lee el color de la paleta definido en la bandera flagno y almacena sus valores RGB en las banderas flagno+1, flagno+2 y flagno+3.</td></tr>
-  <tr><td>128</td><td>Cualquiera</td><td>Copia la ventana actual desde el búfer a la pantalla</td></tr>
-  <tr><td>129</td><td>Cualquiera</td><td>Copia la ventana actual desde la pantalla al búfer</td></tr>
+    <tr><td>0</td><td>Cualquiera</td><td>Copia el búfer a la pantalla</td></tr>
+    <tr><td>1</td><td>Cualquiera</td><td>Copia la pantalla completa al búfer</td></tr>
+    <tr><td>2</td><td>Cualquiera</td><td>Intercambia el contenido del búfer y la pantalla</td></tr>
+    <tr><td>3</td><td>Cualquiera</td><td>Establece el dibujo gráfico en la pantalla</td></tr>
+    <tr><td>4</td><td>Cualquiera</td><td>Establece el dibujo gráfico en el búfer</td></tr>
+    <tr><td>5</td><td>Cualquiera</td><td>Borra la pantalla</td></tr>
+    <tr><td>6</td><td>Cualquiera</td><td>Borra el búfer</td></tr>
+    <tr><td>7</td><td>Cualquiera</td><td>Establece el dibujo de texto en la pantalla. </td></tr>
+    <tr><td>8</td><td>Cualquiera</td><td>Establece el dibujo de texto en el búfer. </td></tr>
+    <tr><td>9</td><td>flagno</td><td>Cambia el color de la paleta definido en la bandera flagno a los valores R,G,B contenidos en las banderas flagno+1, flagno+2 y flagno+3. No admitido por Amiga.</td></tr>
+    <tr><td>10</td><td>flagno</td><td>Lee el color de la paleta definido en la bandera flagno y almacena sus valores R,G,B en las banderas flagno+1, flagno+2 y flagno+3.</td></tr>
+    <tr><td>128</td><td>Cualquiera</td><td>Copia la ventana actual desde el búfer a la pantalla</td></tr>
+    <tr><td>129</td><td>Cualquiera</td><td>Copia la ventana actual desde la pantalla al búfer</td></tr>
 </table>
 </small>  
 
@@ -607,7 +628,8 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   <u>Modo pantalla dividida</u>
 
   <p>DAAD originalmente funciona en el modo HiRes del C64 (320x200). Ahora es posible usar el modo Multicolor (160x200, pero con más colores) en la parte superior de la pantalla habilitando lo que se llama "pantalla dividida". Esto se
-     hace editando el archivo CONFIG.BAT y cambiando donde dice splitModeOff por splitModeOn. Eso afectará tanto a Commodore 64 como a Amstrad CPC.</p>
+     hace editando el archivo CONFIG.BAT y cambiando donde dice splitModeOff por splitModeOn. Eso afectará tanto a Commodore 64 como a Amstrad CPC. La pantalla dividida
+    se activa mediante el metacondacto XSPLITSCR, o mediante el condacto GFX. XSPLITSCR n y GFX n 15 son lo mismo.</p>
 
   <p>Desafortunadamente, mantener ese modo dividido en ejecución requiere rutinas de interrupción complejas que son difíciles de manejar mientras se lee desde el disco, por lo que notarás que toda la pantalla se oculta mientras se carga una nueva imagen,
     e incluso podrías ver algún parpadeo o efectos extraños ocasionalmente durante las lecturas o escrituras del disco, por ejemplo, al guardar o cargar un juego, a menos que ocultes las imágenes primero.</p>
@@ -670,7 +692,8 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
   <p>Amstrad CPC puede habilitar el modo pantalla dividida, en el que la parte superior de la pantalla estará en modo 0 (160x96, 16 colores).</p>
 
-  <p>Para activar el modo pantalla dividida, debes editar CONFIG.BAT y cambiar splitModeOff por splitModeOn. Hacer eso también afectaría a los Commodore 64, que también admiten pantalla dividida.</p>
+  <p>Para activar el modo pantalla dividida, debes editar CONFIG.BAT y cambiar splitModeOff por splitModeOn. Hacer eso también afectaría a los Commodore 64, que también admiten pantalla dividida. La pantalla dividida
+    se activa mediante el metacondacto XSPLITSCR, o mediante el condacto GFX. XSPLITSCR n y GFX n 15 son lo mismo.</p>
 
   <p>Puedes experimentar parpadeo y oscurecimiento de la pantalla al cargar desde el disco, porque mantener este modo dividido activo al leer del disco es muy complicado, por lo que el
      intérprete intentará ocultar efectos extraños.</p>
@@ -710,7 +733,7 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
 <p>Los intérpretes de Commodore Amiga y Atari ST comparten las mismas capacidades multimedia, por lo que se explican juntos. Sin embargo, hay cambios menores que se explicarán más adelante.</p>
 
-<p>Para agregar imágenes a los intérpretes de Amiga/ST, usaremos el formato .PNG. Deberíamos crear archivos PNG con un máximo de 16 colores y una resolución de 320x200. Puede ser a color verdadero o indexado, no importa,
+<p>Para agregar imágenes a los intérpretes de Amiga/ST, usaremos el formato .PNG (también se puede usar el formato PI1 de Degas). Deberíamos crear archivos PNG con un máximo de 16 colores y una resolución de 320x200. Puede ser a color verdadero o indexado, no importa,
   pero si usas un archivo indexado, no hay garantía de que los colores permanezcan en el mismo orden en la paleta.</p>
 
 <p>Las paletas de Amiga y ST también afectan al texto, así que para evitar que el texto se vuelva ilegible debido al uso de dos colores muy similares para papel y tinta, DAAD Ready ordenará la paleta para que el color más oscuro de la imagen sea
@@ -811,7 +834,9 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
     {"clone":1, "location":4}
 </code>
 
-<p>Ten en cuenta que aún necesitas un archivo 123.PNG en la carpeta, aunque no se incluirá.</p>
+<p>Ten en cuenta que aún necesitas un archivo 123.PNG en la carpeta, aunque no se incluirá. También ten en cuenta que si planeas poner más de una imagen en pantalla al mismo tiempo,
+   tendrían que compartir la paleta. Usar un archivo PNG hace que la paleta se construya automáticamente, por lo que si quieres asegurarte de que el orden de la paleta
+   se mantenga, es mejor usar archivos PI1.</p>
 
 <p>Con respecto al condact GFX, Atari ST y Amiga lo admiten, con las siguientes opciones:</p>
 
@@ -827,8 +852,8 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   <tr><td>4</td><td>Cualquiera</td><td>Establece el dibujo gráfico en el búfer</td></tr>
   <tr><td>5</td><td>Cualquiera</td><td>Borra la pantalla</td></tr>
   <tr><td>6</td><td>Cualquiera</td><td>Borra el búfer</td></tr>
-  <tr><td>7</td><td>Cualquiera</td><td>Establece el dibujo de texto en la pantalla. Solo Atari ST.</td></tr>
-  <tr><td>8</td><td>Cualquiera</td><td>Establece el dibujo de texto en el búfer. Solo Atari ST.</td></tr>
+  <tr><td>7</td><td>Cualquiera</td><td>Establece el dibujo de texto en la pantalla. Solo Atari ST, no Amiga.</td></tr>
+  <tr><td>8</td><td>Cualquiera</td><td>Establece el dibujo de texto en el búfer. Solo Atari ST, no Amiga.</td></tr>
     <tr><td>9</td><td>flagno</td><td>Cambia el color de la paleta definido en la bandera flagno a los valores R,G,B contenidos en las banderas flagno+1, flagno+2 y flagno+3. No admitido por Amiga.</td></tr>
   <tr><td>10</td><td>flagno</td><td>Lee el color de la paleta definido en la bandera flagno y almacena sus valores R,G,B en las banderas flagno+1, flagno+2 y flagno+3.</td></tr>
 </table>
@@ -848,7 +873,7 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   Deben ser archivos PCX indexados de 256 colores (no RGB) (por ejemplo, 001.PCX, 002.PCX, etc.). Si tu imagen tiene pocos colores (16 o menos), algunos editores de imágenes como Gimp crearán un archivo indexado de 16 colores en lugar de 256 colores,
   lo cual no es válido. Evita eso agregando otros colores en la zona inferior de la imagen, que se recortará de todos modos.</p>
 
-<p>Para usar el modo SVGA, necesitas editar el archivo CONFIG.BAT y cambiar la variable SVGA de 0 a 1. Por defecto, DAAD Ready usa el modo VGA para PC/DOS. Ten en cuenta que el área de texto en el modo SVGA se ve como en el modo VGA,
+<p>Para usar el modo SVGA, necesitas editar el archivo CONFIG.BAT y cambiar la variable HIRES de 0 a 1. Por defecto, DAAD Ready usa el modo VGA para PC/DOS. Ten en cuenta que el área de texto en el modo SVGA se ve como en el modo VGA,
   no verás texto más pequeño. Solo las imágenes tienen el doble de resolución.</p>
 
 <p>A pesar de que se admiten 256 colores, se recomienda crear archivos con un máximo de 240 colores (0 a 239). Si haces eso, DAAD Ready moverá los colores al rango superior de la paleta (16-255), dejando
@@ -1117,19 +1142,27 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 
 
 
-<a name='windows'></a>
+<a name='windowsexp'></a>
 <h4>Windows</h4>
 
 <p>Para Windows, DAAD Ready usa la versión PC/DOS bajo DOSBox por defecto, por lo que se aplican las mismas reglas que para PC/DOS. Sin embargo, también hay un intérprete experimental llamado ADP
   que se ejecuta de forma nativa en Windows y puede mostrar los mismos gráficos de 16 colores utilizados por Amiga o ST. De hecho, ADP se asemeja a esos intérpretes en el manejo multimedia, así que
   consulta la sección de Amiga/AtariST si lo usas.</p>
 
-<a name='macOS'></a>
+<a name='macOSexp'></a>
 <h4>MacOS</h4>
 
 <p>Para MacOS, DAAD Ready usa ADP, que se asemeja a los intérpretes de Amiga/AtariST en el manejo multimedia, así que
   consulta la sección de Amiga/AtariST si lo usas.
 </p>
+
+<a name='linuxexp'></a>
+<h4>Linux</h4>
+
+<p>Para Linux, DAAD Ready usa ADP, que se asemeja a los intérpretes de Amiga/AtariST en el manejo multimedia, así que
+  consulta la sección de Amiga/AtariST si lo usas.
+</p>
+
 
 <h4>Apéndices</h4>
 
@@ -1151,7 +1184,11 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 <tr><td>Atari ST</td><td>Pon un archivo llamado DAAD.PNG en la carpeta IMAGES. 320x200, maximo 16 colores.</td></tr>
 <tr><td>Amiga</td><td>Pon un archivo llamado DAAD.PNG en la carpeta IMAGES. 320x200, maximo 16 colores.</td></tr>
 <tr><td>Windows Experimental</td><td>Igual que con Atari ST</td></tr>
-<tr><td>MacoS Experimental</td><td>Igual que con Atari ST</td></tr>
+<tr><td>MacOS Experimental</td><td>Igual que con Atari ST</td></tr>
+<tr><td>Linux Experimental</td><td>Igual que con Atari ST</td></tr>
+<tr><td>Amiga OCS/HAM/AGA Experimental</td><td>Igual que con Atari ST</td></tr>
+<tr><td>Atari ST/STE/Falcon Experimental</td><td>Igual que con Atari ST</td></tr>
+
   </tbody>
 </table>
 
