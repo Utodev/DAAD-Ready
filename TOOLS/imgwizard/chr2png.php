@@ -14,7 +14,7 @@ function replace_extension($filename, $new_extension)
 	$in = file_get_contents($file);
 	$out = substr($in,16);
 
-	$maxy = filesize($file)/32+1;
+	$maxy = filesize($file)/32+8;
 
 	$img = imagecreatetruecolor(256,$maxy);
 	$c0 = imagecolorallocate($img, 0, 0, 0);
@@ -64,13 +64,12 @@ function replace_extension($filename, $new_extension)
 		}
 		$y0 += 8;
 	}
-	
 
 	$font0 = imagecreatetruecolor(256,212);
 	$font1 = imagecreatetruecolor(256,212);
 
 	imagecopy($font0, $img, 0, 0, 0, 0, 256, $maxy/2 );
-	imagecopy($font1, $img, 0, 0, 0, $maxy/2, 256, $maxy/2 );
+	imagecopy($font1, $img, 0, 0, 0, $maxy/2-4, 256, $maxy/2 + 12 );
 
 	imagepng($font0, "font0.png");
 	imagepng($font1, "font1.png");

@@ -8,20 +8,22 @@
 
 	========================================================
 
+	## VERSION 1
+
 	Output file format:
 		Offset Size  Description
 		0x0000  3    Image magic string: "IMG"
 		0x0003  1    Source screen type ('5', '6', '7', '8', 'A', 'C')
 		0x0004 ...   Chunks containing the image (chunk max length: 5+2043 bytes each)
 
-	Chunk Redirect format:
+	0: Chunk Redirect format:
 		Offset Size  Description
 		--header--
 		0x0000  1    Chunk type: (0:redirect)
 		0x0001  2    New image location to read
 		0x0003  2    Empty chunk header (filled with 0x00)
 
-	Chunk Palette format:
+	1: Chunk Palette format:
 		Offset Size  Description
 		--header--
 		0x0000  1    Chunk type  (1:palette)
@@ -30,35 +32,35 @@
 		---data---
 		0x0005  32   12 bits palette data in 2 bytes format (0xRB 0x0G)
 
-	Chunk Reset VRAM pointer format:
+	16: [**DEPRECATED**] Chunk Reset VRAM pointer format:
 		Offset Size  Description
 		--header--
 		0x0000  1    Chunk type: (16:ResetPointer)
 		0x0001  2    Chunk data length (0x0000)
 		0x0003  2    Empty chunk header (0x0000)
 
-	Chunk ClearWindow format:
+	17: Chunk ClearWindow format:
 		Offset Size  Description
 		--header--
 		0x0000  1    Chunk type: (17:ClearWindow)
 		0x0001  2    Chunk data length (0x0000)
 		0x0003  2    Empty chunk header (0x0000)
 
-	Chunk SkipBytes format:
+	18: [**DEPRECATED**] Chunk SkipBytes format:
 		Offset Size  Description
 		--header--
 		0x0000  1    Chunk type: (18:SkipBytes)
 		0x0001  2    Chunk data length (0x0000)
 		0x0003  2    VRAM Bytes to skip
 
-	Chunk Pause format:
+	19: Chunk Pause format:
 		Offset Size  Description
 		--header--
 		0x0000  1    Chunk type: (19:Pause)
 		0x0001  2    Chunk data length (0x0000)
 		0x0003  2    Time to wait in 1/50 sec units
 
-	Chunk bitmap format:
+	2,3,4: [**DEPRECATED**] Chunk bitmap format:
 		Offset Size  Description
 		--header--
 		0x0000  1    Chunk type  (2:data_raw 3:data_rle 4:data_pletter)
@@ -66,36 +68,111 @@
 		0x0003  2    Uncompressed data length in bytes
 		---data---
 		0x0005 ...   Image data (1-2043 bytes length)
+
+	## VERSION 2
+
+	128: Chunk Info format:
+		Offset Size  Description
+		--header--
+		0x0000  1    Chunk type: (128)
+		0x0001  2    Extra header length (10)
+		0x0003  2    Data length (0)
+		--extra header--
+		0x0005  1    Info version (1)
+		0x0006  2    Chunk count
+		0x0008  2    Original width (in pixels)
+		0x000a  2    Original height (in pixels)
+		0x000c  1    Pixel type (0: unespecified, 1: BP2 (4cols paletted), 2: BP4 (16cols paletted), 4: BD8 (256 fixed cols), etc)
+		0x000d  1    Palette type (0: unespecified, 1: GRB332, 2: GRB333)
+		0x000e  1    Chipset type (0: unespecified, 1: TMS9918, 2: V9938, 3: V9958, 4: V9990)
+
+	20: Chunk V9938Cmd:
+		Offset Size  Description
+		--header--
+		0x0000  1    Chunk type  (20:V9938Cmd)
+		0x0001  2    Extra header length (1)
+		0x0003  2    Data length (15)
+		--extra header--
+		0x0005  1    Number of commands to read (max: 136)
+		--data--
+		0x0006  15   All paremeters packed and ready to send (15 bytes each)
+
+	21: Chunk V9938CmdData:
+		Offset Size  Description
+		--header--
+		0x0000  1    Chunk type  (21:V9938CmdData)
+		0x0001  2    Extra header length (3)
+		0x0003  2    Data length (1-2040)
+		--extra header--
+		0x0005  1    Compressor ID
+		0x0006  2    Uncompressed data length (max: 16Kb)
+		---data---
+		0x0008 ...   Compressed data (1-2040 bytes length)
+
+	129: Chunk Fixed Image offsets:
+		Offset Size  Description
+		--header--
+		0x0000  1    Chunk type  (129:FixedImage)
+		0x0001  2    Extra header length (4)
+		0x0003  2    Data length (0)
+		--extra header--
+		0x0005  2    Global Offset X in pixels (max: offsetX + imageWidth <= ScreenWidth)
+		0x0007  2    Global Offset Y in pixels (max: offsetY + imageHeight <= ScreenHeight)
+		---data---
+
 */
 
-	define('CHUNK_HEAD', 5);
-	define('CHUNK_SIZE', 2043);
+	define('CHUNK_HEAD',        5);
+	define('CHUNK_SIZE',        2043);
+	define('CHUNK_CMDDATA_MAX', 2040);     // CHUNK_SIZE - 3 (extra header de CmdData)
+	define('CHUNK_PLETTER_MAX_UNCOMP', 11264);   // VRAM scratch zone size (PRP023)
 
-	define('CHUNK_REDIRECT', 0);
-	define('CHUNK_PALETTE',  1);
-	define('CHUNK_RAW',      2);
-	define('CHUNK_RLE',      3);
-	define('CHUNK_PLETTER',  4);
-	define('CHUNK_RESET',   16);
-	define('CHUNK_CLS',     17);
-	define('CHUNK_SKIP',    18);
-	define('CHUNK_PAUSE',   19);
+	define('CHUNK_REDIRECT',    0);
+	define('CHUNK_PALETTE',     1);
+	define('CHUNK_RAW',         2);
+	define('CHUNK_RLE',         3);
+	define('CHUNK_PLETTER',     4);
+	define('CHUNK_RESET',      16);
+	define('CHUNK_CLS',        17);
+	define('CHUNK_SKIP',       18);
+	define('CHUNK_PAUSE',      19);
+	define('CHUNK_V9938CMD',   20);
+	define('CHUNK_V9938DATA',  21);
+	define('CHUNK_INFO',      128);
+	define('CHUNK_FIXEDIMG',  129);     // [PRP027] Fixed-position image (sets gfxWinOffsetX/Y)
 
+	define('INFO_VERSION',      1);
+	define('CMP_RAW',           0);
+	define('CMP_RLE',           1);
+	define('CMP_PLETTER',       2);
+	define('CMP_ZX0',           3);     // [PRP025] V9938CmdData compressorID for ZX0
+
+	define('VDP_HMMC',       0xF0);     // CX[L] sin transparencia → HMMC (sin op lógica)
+	define('VDP_LMMC',       0xB0);     // CX[L] con transparencia → LMMC (admite op lógica)
+	define('LOG_AND',        0x01);
+	define('LOG_OR',         0x02);
+
+	// COMP_ID = legacy v1 chunk type (used by 'c'/'cl'/'s'). ZX0 has NO v1 chunk
+	// type — it's exclusively a v2 V9938CmdData compressor. The -1 sentinel makes
+	// the legacy code path (compressChunks) reject ZX0 explicitly. The buildV9938CmdSequence
+	// helper maps COMP_ID → CMP_* via fallthrough, so ZX0 still maps to CMP_ZX0=3.
 	$compressors = array(
-		array("raw", "raw", CHUNK_RAW, "RAW"),
-		array("rle", "rle", CHUNK_RLE, "RLE"),
+		array("raw",     "raw",   CHUNK_RAW,     "RAW"),
+		array("rle",     "rle",   CHUNK_RLE,     "RLE"),
 		array("pletter", "plet5", CHUNK_PLETTER, "PLETTER"),
+		array("zx0",     "zx0",   -1,            "ZX0"),       // [PRP025] cx[l] only
 	);
 	define('RAW', 0);
 	define('RLE', 1);
 	define('PLETTER', 2);
+	define('ZX0', 3);
 	define('COMP_APP',  0);
 	define('COMP_EXT',  1);
 	define('COMP_ID',   2);
 	define('COMP_NAME', 3);
 
 	if (!extension_loaded('gd')) {
-		die("\nERROR: The PHP \"gd\" extension must be installed...\n\n");
+		die("\nERROR: The PHP \"gd/gd2\" extension must be installed...\n\n");
 	}
 
 	$appname = basename($argv[0]);
@@ -104,6 +181,7 @@
 
 	if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 		$compressors[PLETTER][COMP_APP] = "pletter.exe";
+		$compressors[ZX0][COMP_APP]     = "zx0.exe";
 	}
 
 	if ($argc<3) {
@@ -161,6 +239,10 @@
 			}
 		}
 		echo "### Compressor: RLE (forced)\n";
+		echo "\n".
+		     "WARNING: 's' command is DEPRECATED.\n".
+		     "         Use 'cx' for new images (V9938 streaming, with optional --transparent-color=N).\n".
+		     "         Continuing in legacy mode...\n\n";
 		compressRectangle($fileIn, $x, $y, $w, $h, $transparent);
 		exit;
 	}
@@ -202,14 +284,82 @@
 			echo "ERROR: Unknown compression method or not decimal number for transparent index color...\n";
 			exit;
 		}
+		// ZX0 is v2-only — reject in legacy 'c'/'cl' path
+		if ($comp[COMP_ID] < 0) {
+			echo "ERROR: ZX0 compression is only supported via 'cx'/'cxl' commands, not 'c'/'cl'.\n";
+			exit;
+		}
 		if ($transparent>=0) {
 			echo "### Transparent color: $transparent\n";
 			$comp = $compressors[1];
 			$compress = $comp[COMP_NAME]." (forced)";
 		}
 		echo "### Compressor: $compress\n";
+		echo "\n".
+		     "WARNING: 'c'/'cl' command is DEPRECATED.\n".
+		     "         Use 'cx'/'cxl' for new images (V9938 streaming, with optional --transparent-color=N).\n".
+		     "         Continuing in legacy mode...\n\n";
 		//Compress chunks
 		compressChunks($fileIn, $lines, $comp, $transparent, NULL, NULL);
+		exit;
+	}
+
+	// Create rectangle image as V9938 commands (CXL = palette at last chunk)
+	if ($cmd == 'cxl') {
+		$lastPalette = true;
+		$cmd = 'cx';
+	}
+	if ($cmd == 'cx' && $argc>=7) {
+		$fileIn = $argv[2];
+		echo "### Loading $fileIn\n";
+		if (!is_numeric($argv[3]) || !is_numeric($argv[4]) ||
+		    !is_numeric($argv[5]) || !is_numeric($argv[6])) {
+			echo "ERROR: x, y, w, and h must be numeric and >= 0...\n";
+			exit;
+		}
+		$x = intval($argv[3]); $y = intval($argv[4]);
+		$w = intval($argv[5]); $h = intval($argv[6]);
+		// Optional positional [compressor] + flags --transparent-color=N --fixed=X,Y
+		$compress    = "RLE";   // default
+		$transparent = -1;
+		$fixedX      = -1;      // -1 = no FIXEDIMG chunk (PRP027)
+		$fixedY      = -1;
+		for ($i = 7; $i < $argc; $i++) {
+			$arg = $argv[$i];
+			if (strpos($arg, "--transparent-color=") === 0) {
+				$val = substr($arg, strlen("--transparent-color="));
+				if (!is_numeric($val) || intval($val) < 0) {
+					echo "ERROR: --transparent-color requires a non-negative numeric value...\n";
+					exit;
+				}
+				$transparent = intval($val);
+			} else if (strpos($arg, "--fixed=") === 0) {
+				$val = substr($arg, strlen("--fixed="));
+				$parts = explode(",", $val);
+				if (count($parts) !== 2 || !is_numeric($parts[0]) || !is_numeric($parts[1])
+					|| intval($parts[0]) < 0 || intval($parts[1]) < 0) {
+					die("\nERROR: --fixed=X,Y requires two non-negative integers (e.g. --fixed=64,32).\n\n");
+				}
+				$fixedX = intval($parts[0]);
+				$fixedY = intval($parts[1]);
+			} else {
+				$compress = strtoupper($arg);
+			}
+		}
+		$comp = NULL;
+		foreach ($compressors as $c) {
+			if ($c[COMP_NAME]==$compress) { $comp = $c; break; }
+		}
+		if ($comp===NULL) {
+			echo "ERROR: Unknown compression method ($compress). Use RAW/RLE/PLETTER...\n";
+			exit;
+		}
+		if ($transparent >= 0) {
+			echo "### Compressor: $compress (CX command, transparency color $transparent)\n";
+		} else {
+			echo "### Compressor: $compress (CX command — no transparency)\n";
+		}
+		compressV9938Rectangle($fileIn, $x, $y, $w, $h, $comp, $transparent, $fixedX, $fixedY);
 		exit;
 	}
 
@@ -301,15 +451,17 @@
 		global $appname;
 		
 		echo "\n".
-			 "IMGWIZARD v1.3.01 for MSX2DAAD\n".
+			 "IMGWIZARD v1.4.1 for MSX2DAAD\n".
 			 "===================================================================\n".
 			 "A tool to create and manage MSX image files in several screen modes\n".
 			 "to be used by MSX2DAAD engine.\n\n".
 			 "L) List image chunks:\n".
 			 "    $appname l <fileIn.IM?>\n\n".
-			 "C) Create an image IMx (CL - Create the palette at last chunk):\n".
+			 "CX) Create a rectangle image as V9938 commands (CXL = palette last):\n".
+			 "    $appname cx[l] <fileIn.SC?> <x> <y> <w> <h> [compressor] [--fixed=X,Y] [--transparent-color=N]\n\n".
+			 "C) [DEPRECATED] Create an image IMx (CL - Create the palette at last chunk):\n".
 			 "    $appname c[l] <fileIn.SC?> <lines> [compressor | transparent_color]\n\n".
-			 "S) Create an image from a rectangle:\n".
+			 "S) [DEPRECATED] Create an image from a rectangle:\n".
 			 "    $appname s <fileIn.SC?> <x> <y> <w> <h> [transparent_color]\n\n".
 			 "R) Create a location redirection:\n".
 			 "    $appname r <fileOut.IM?> <target_loc>\n\n".
@@ -324,18 +476,85 @@
 			 " <fileIn>      Input file in format SCx (SC5/SC6/SC7/SC8/SCA/SCC)\n".
 			 "               Palette can be inside SCx file or PL5 PL6 PL7 files.\n".
 			 " <lines>       Image lines to get from input file.\n".
-			 " [compressor]  Compression type: RAW, RLE or PLETTER.\n".
+			 " [compressor]  Compression type: RAW, RLE, PLETTER or ZX0.\n".
 			 "                 RAW: no compression but fastest load.\n".
 			 "                 RLE: light compression but fast load (default).\n".
 			 "                 PLETTER: high compression but slow.\n".
+			 "                 ZX0: highest compression but slowest.\n".
 			 " [transparent] Optional: the color index that will become transparent (decimal).\n".
-			 "               Compression is forced to RLE.\n".
+			 "               Compression is forced to RLE for legacy 's'/'c' commands.\n".
+			 " --transparent-color=N\n".
+			 "               Optional flag for 'cx[l]': color index N treated as transparent.\n".
+			 "               Generates 2-pass LMMC AND+OR streaming instead of 1-pass HMMC.\n".
+			 "               Supported in: SC5 (0..15), SC6 (0..3), SC7 (0..15), SC8 (0..255),\n".
+			 "                             SC10 (0..15 paletted; YJK pixels auto-preserved).\n".
+			 "               NOT supported in SC12 (pure YJK, no per-pixel A flag).\n".
+			 " --fixed=X,Y\n".
+			 "               Optional flag for 'cx[l]': emit a FIXEDIMG chunk with global pixel\n".
+			 "               offset (X,Y) so the image renders at a fixed screen position\n".
+			 "               regardless of the active DAAD window. Engine sets gfxWinOffsetX/Y.\n".
+			 "               Bounds: X+W <= 256 (SC5/SC8/SC10/SC12) or 512 (SC6/SC7); Y+H <= 212.\n".
 			 " <target_loc>  Target location number to redirect to.\n".
 			 "                 ex: a 12 redirects to image 012.IMx\n".
 			 "\n".
-			 "Example: $appname c image.sc8 96 rle\n".
+			 "Example: $appname cx image.sc8 0 0 256 96 rle\n".
 			 "\n";
 		exit(1);
+	}
+
+	//=================================================================================
+	function buildInfoChunk($scr, $chunkCount, $width, $height)
+	{
+		static $pixel   = ['5'=>2,'6'=>1,'7'=>2,'8'=>4,'A'=>7,'C'=>6];
+		static $palette = ['5'=>2,'6'=>2,'7'=>2,'8'=>1,'A'=>1,'C'=>0];
+		static $chipset = ['5'=>2,'6'=>2,'7'=>2,'8'=>2,'A'=>3,'C'=>2];
+
+		$scr = strtoupper($scr);
+		return chr(CHUNK_INFO)
+		     . pack("vv", 10, 0)                             // extraHeaderSize=10, dataSize=0
+		     . chr(INFO_VERSION)                             // infoVersion=1
+		     . pack("vvv", $chunkCount, $width, $height)     // chunkCount, originalWidth, originalHeight
+		     . chr($pixel[$scr]   ?? 0)
+		     . chr($palette[$scr] ?? 0)
+		     . chr($chipset[$scr] ?? 0);
+	}
+
+	//=================================================================================
+	// Count chunks in a binary IMx body (without magic+screenMode header).
+	// Walks the type/extraHeaderSize/dataSize tuple and advances to the next chunk.
+	// Returns the number of chunks found.
+	function countChunks($body)
+	{
+		$count = 0;
+		$pos   = 0;
+		$len   = strlen($body);
+		while ($pos + 5 <= $len) {
+			$sin  = unpack("v", substr($body, $pos+1, 2))[1];   // SizeOut/extraHeaderSize for v2 — bytes after 5-hdr
+			$sout = unpack("v", substr($body, $pos+3, 2))[1];   // SizeIn/dataSize
+			$type = ord($body[$pos]);
+			// v1 chunks (PALETTE/RAW/RLE/PLETTER): the data length is sin
+			// v2 chunks (INFO/CMD/CMDDATA/FIXEDIMG): bytes after 5-hdr = extraHeaderSize + dataSize
+			if ($type==CHUNK_INFO || $type==CHUNK_V9938CMD || $type==CHUNK_V9938DATA || $type==CHUNK_FIXEDIMG) {
+				$pos += 5 + $sin + $sout;
+			} else {
+				$pos += 5 + $sin;
+			}
+			$count++;
+		}
+		return $count;
+	}
+
+	//=================================================================================
+	// Extract a rectangle from a SCx body (raw bytes, no header) into a contiguous buffer.
+	function sliceRect($in, $x, $y, $w, $h, $pixelsByte, $bytesLine)
+	{
+		$xb = intval($x / $pixelsByte);
+		$wb = intval(round($w / $pixelsByte));
+		$out = "";
+		for ($i = 0; $i < $h; $i++) {
+			$out .= substr($in, $xb + ($y+$i)*$bytesLine, $wb);
+		}
+		return $out;
 	}
 
 	//=================================================================================
@@ -381,7 +600,7 @@
 		$totalComp = 0;
 		$id = 1;
 		while ($pos < strlen($in)) {
-			list($type,$sin,$sout) = array_values(unpack('cType/vSizeOut/vSizeIn', substr($in, $pos, 5)));
+			list($type,$sin,$sout) = array_values(unpack('CType/vSizeOut/vSizeIn', substr($in, $pos, 5)));
 			$size = 5;
 			switch ($type) {
 				case CHUNK_REDIRECT:
@@ -419,12 +638,72 @@
 					echo "    CHUNK $id: CMD:Pause ($sout/50 seconds)\n";
 					$size += $sin;
 					break;
+				case CHUNK_INFO:
+					// $sin = extraHeaderSize (10), $sout = dataSize (0)
+					$pixelTypeNames = [0=>'Unspecified', 1=>'BP2 (4 cols paletted)', 2=>'BP4 (16 cols paletted)', 4=>'BD8 (256 fixed cols)'];
+					$paletteTypeNames = [0=>'Unspecified', 1=>'GRB332', 2=>'GRB333'];
+					$chipsetTypeNames = [0=>'Unspecified', 1=>'TMS9918', 2=>'V9938', 3=>'V9958', 4=>'V9990'];
+					$extra = substr($in, $pos+5, $sin);
+					$ver   = ord($extra[0]);
+					$cnt   = unpack("v", substr($extra, 1, 2))[1];
+					$wInf  = unpack("v", substr($extra, 3, 2))[1];
+					$hInf  = unpack("v", substr($extra, 5, 2))[1];
+					$px    = $pixelTypeNames[ord($extra[7])];
+					$pl = $paletteTypeNames[ord($extra[8])];
+					$cs = $chipsetTypeNames[ord($extra[9])];
+					echo "    CHUNK $id: INFO v$ver\n".
+					     "        Chunks count:    $cnt\n".
+						 "        Original size:   $wInf x $hInf pixels\n".
+						 "        Pixel Type:      $px\n".
+						 "        Palette Type:    $pl\n".
+						 "        Chipset Type:    $cs\n";
+					$size += $sin + $sout;
+					break;
+				case CHUNK_V9938CMD:
+					$n = ord(substr($in, $pos+5, 1));
+					echo "    CHUNK $id: V9938Cmd ($n commands, ".$sout." bytes)\n";
+					$cmdNames = [
+						0x00 => 'STOP',  0x40 => 'POINT', 0x50 => 'PSET',
+						0x60 => 'SRCH',  0x70 => 'LINE',  0x80 => 'LMMV',
+						0x90 => 'LMMM',  0xA0 => 'LMCM',  0xB0 => 'LMMC',
+						0xC0 => 'HMMV',  0xD0 => 'HMMM',  0xE0 => 'YMMM', 0xF0 => 'HMMC',
+					];
+					for ($k = 0; $k < $n; $k++) {
+						$off = $pos + 6 + $k*15;
+						$rs  = unpack("vsx/vsy/vdx/vdy/vnx/vny/Cclr/Carg/Ccmd", substr($in, $off, 15));
+						$opName = $cmdNames[$rs['cmd'] & 0xF0] ?? sprintf('?(0x%02X)', $rs['cmd']);
+						$logic  = $rs['cmd'] & 0x0F;
+						printf("        cmd %2d: %s%s SX=%d SY=%d DX=%d DY=%d NX=%d NY=%d CLR=0x%02X ARG=0x%02X\n",
+							$k+1, $opName, $logic ? sprintf('|0x%X', $logic) : '',
+							$rs['sx'], $rs['sy'], $rs['dx'], $rs['dy'], $rs['nx'], $rs['ny'], $rs['clr'], $rs['arg']);
+					}
+					$size += $sin + $sout;
+					break;
+				case CHUNK_V9938DATA:
+					$extra = substr($in, $pos+5, 3);
+					$compID = ord($extra[0]);
+					$uncomp = unpack("v", substr($extra, 1, 2))[1];
+					$compName = ['RAW','RLE','PLETTER','ZX0'][$compID] ?? '?';
+					echo "    CHUNK $id: V9938CmdData [$compName] $uncomp bytes ($sout comp)\n";
+					$size += $sin + $sout;
+					break;
+				case CHUNK_FIXEDIMG:
+					$offX = unpack("v", substr($in, $pos+5, 2))[1];
+					$offY = unpack("v", substr($in, $pos+7, 2))[1];
+					echo "    CHUNK $id: FixedImage offsetX=$offX offsetY=$offY\n";
+					$size += $sin + $sout;
+					break;
 				default:
 					echo "    CHUNK $id: UNKNOWN CHUNK TYPE!!!! [**Aborted**]\n\n";
 					exit;
 			}
-			if ($type != CHUNK_REDIRECT) {
-				$totalRaw += $sout;
+			if ($type==CHUNK_V9938DATA) {
+				$totalRaw  += $uncomp;       // uncompressedSize del extra header
+				$totalComp += $sout;         // dataSize = payload comprimido
+			} else if ($type==CHUNK_INFO || $type==CHUNK_V9938CMD || $type==CHUNK_FIXEDIMG) {
+				// INFO, V9938Cmd, FIXEDIMG no son datos de imagen — no contribuyen al ratio
+			} else if ($type != CHUNK_REDIRECT) {
+				$totalRaw  += $sout;
 				$totalComp += $sin;
 			}
 			if ($id===$removeId) {
@@ -624,7 +903,7 @@
 	function compressRectangle($file, $x, $y, $w, $h, $transparent=-1, $in=NULL, $pal=NULL)
 	{
 		global $magic;
-		$id = 1;
+		$id = 1;                                    // INFO ya cuenta como chunk 1
 
 		// Check screen mode
 		$out = $magic;
@@ -635,6 +914,10 @@
 		}
 		$out .= $scr;
 		echo "### Rectangle Start:($x, $y) Width:($w, $h)\n";
+
+		// Reservar 15 bytes para el INFO (rellenado al final con chunkCount real)
+		$infoPos = strlen($out);
+		$out .= str_repeat("\0", 15);
 
 		// Transparent color-byte
 		$transparent = getTransparentColorByte($transparent, $scr);
@@ -697,6 +980,11 @@
 			}
 		}
 
+		// Rellenar el INFO con el chunkCount real (originalWidth=$w, originalHeight=$h)
+		$chunkCount = countChunks(substr($out, $infoPos+15)) + 1;   // +1 para el propio INFO
+		$infoBin    = buildInfoChunk($scr, $chunkCount, $w, $h);
+		$out        = substr_replace($out, $infoBin, $infoPos, 15);
+
 		// Show result
 		echo "    In: ".$fullSize." bytes\n    Out: ".(strlen($out)+7)." bytes [".number_format(strlen($out)/$fullSize*100,1,'.','')."%]\n";
 		$file = basename($file);
@@ -713,18 +1001,22 @@
 	{
 		global $magic;
 		global $lastPalette;
-		$id = 1;
+		$id = 1;                                     // INFO ya cuenta como chunk 1
 		$tmp = tempnam(sys_get_temp_dir(), 'imgwiz');
 
 		// Bytes each Row in screen modes
 		$width = array(0,0,0,0,0,128,128,256,256,'A'=>256,'C'=>256);
-		
+
 		// Check screen mode
 		$out = $magic;
 		$scr = checkScreemMode($file);
 		echo "### Mode SCREEN ".hexdec($scr)."\n";
 		$out .= $scr;
 		echo "### Lines $lines\n";
+
+		// Reservar 15 bytes para el INFO (rellenado al final con chunkCount real)
+		$infoPos = strlen($out);
+		$out .= str_repeat("\0", 15);
 
 		// Transparent color-byte
 		$transparent = getTransparentColorByte($transparent, $scr);
@@ -802,6 +1094,11 @@
 			}
 		}
 
+		// Rellenar el INFO con el chunkCount real (originalWidth=ancho del modo, originalHeight=lines)
+		$chunkCount = countChunks(substr($out, $infoPos+15)) + 1;   // +1 para el propio INFO
+		$infoBin    = buildInfoChunk($scr, $chunkCount, $width[$scr], $lines);
+		$out        = substr_replace($out, $infoBin, $infoPos, 15);
+
 		// Show result
 		echo "    In: ".$fullSize." bytes\n    Out: ".(strlen($out)+7)." bytes [".number_format(strlen($out)/$fullSize*100,1,'.','')."%]\n";
 		$file = basename($file);
@@ -814,6 +1111,331 @@
 		// Delete temp files
 		@unlink($tmp);
 		@unlink($tmp.'.'.$comp[COMP_EXT]);
+		echo "### Done\n\n";
+	}
+
+	//=================================================================================
+	// Process a packed-pixel rectangle to produce mask + image buffers (1 byte/pixel).
+	//
+	// $rectData     : packed rectangle bytes (output of sliceRect).
+	// $w, $h        : rectangle size in pixels.
+	// $sup          : uppercase screen mode char ('5','6','7','8').
+	// $transparent  : color index marking the transparent pixel.
+	//
+	// Returns [$maskBuffer, $imageBuffer], both w*h bytes long, 1 byte per pixel.
+	//   - mask byte  = full_bits (0xFF / 0x0F / 0x03) for transparent pixels (preserve dest)
+	//   - mask byte  = 0x00 for visible pixels (clear dest before OR pass)
+	//   - image byte = pixel color for visible pixels, 0 for transparent
+	//
+	// MSX byte→pixel mapping: high bits = leftmost pixel, low bits = rightmost.
+	function processTransparency($rectData, $w, $h, $sup, $transparent)
+	{
+		// SCA (SC10, YJK+YAE) requires a different algorithm — see PRP026.
+		if ($sup === 'A') {
+			return processTransparencySCA($rectData, $transparent);
+		}
+
+		$bppMode = ['5'=>4,'6'=>2,'7'=>4,'8'=>8];
+		$bpp = $bppMode[$sup];
+		$ppb = intval(8 / $bpp);
+		$fullBits = (1 << $bpp) - 1;        // 0x0F SC5/7, 0x03 SC6, 0xFF SC8
+
+		$bytesPerLine = intval($w / $ppb);
+		$mask  = '';
+		$image = '';
+		$transCount = 0;
+
+		for ($row = 0; $row < $h; $row++) {
+			$rowBase = $row * $bytesPerLine;
+			for ($col = 0; $col < $bytesPerLine; $col++) {
+				$byte = ord($rectData[$rowBase + $col]);
+				// Iterate pixels left-to-right within byte (high bits first).
+				for ($p = 0; $p < $ppb; $p++) {
+					$shift = ($ppb - 1 - $p) * $bpp;
+					$pixel = ($byte >> $shift) & $fullBits;
+					if ($pixel === $transparent) {
+						$mask  .= chr($fullBits);
+						$image .= chr(0);
+						$transCount++;
+					} else {
+						$mask  .= chr(0);
+						$image .= chr($pixel);
+					}
+				}
+			}
+		}
+		if ($transCount === 0) {
+			echo "WARNING: no pixels with color $transparent found in rectangle. Mask is empty.\n";
+		}
+		return [$mask, $image];
+	}
+
+	//=================================================================================
+	// PRP026 — SCREEN 10 (SCA, YJK+YAE) transparency.
+	//
+	// SCA byte layout: bits 7-4 = Y or palette index, bit 3 = A flag (0:YJK, 1:paletted),
+	// bits 2-0 = K/J chroma contribution shared across the 4-byte aligned group.
+	//
+	// Transparency rules:
+	//   A=0 (YJK source pixel)         → preserve dest fully (mask=0xFF, image=0x00)
+	//   A=1, idx == transparent_color  → preserve dest fully (mask=0xFF, image=0x00)
+	//   A=1, idx != transparent_color  → overwrite Y/idx+A bits (7-3), preserve dest's
+	//                                     bits 2-0 to keep YJK group chroma intact:
+	//                                       mask  = 0x07
+	//                                       image = byte & 0xF8
+	function processTransparencySCA($rectData, $transparent)
+	{
+		$mask  = '';
+		$image = '';
+		$yjkCount = 0;
+		$transCount = 0;
+		$visibleCount = 0;
+		$totalBytes = strlen($rectData);
+
+		for ($i = 0; $i < $totalBytes; $i++) {
+			$byte = ord($rectData[$i]);
+			if (($byte & 0x08) === 0) {
+				$mask  .= chr(0xFF);
+				$image .= chr(0x00);
+				$yjkCount++;
+			} else {
+				$paletteIdx = ($byte >> 4) & 0x0F;
+				if ($paletteIdx === $transparent) {
+					$mask  .= chr(0xFF);
+					$image .= chr(0x00);
+					$transCount++;
+				} else {
+					$mask  .= chr(0x07);
+					$image .= chr($byte & 0xF8);
+					$visibleCount++;
+				}
+			}
+		}
+		echo "    [SCA stats: $visibleCount visible, $transCount paletted-transparent, $yjkCount YJK auto-preserved]\n";
+		if ($visibleCount === 0) {
+			echo "WARNING: no visible paletted pixels in rectangle.\n";
+		}
+		return [$mask, $image];
+	}
+
+	//=================================================================================
+	// Compress $buffer into V9938CmdData chunks and emit one V9938Cmd that covers the
+	// rectangle (DX,DY,NX,NY) with the given $opcode. Returns ['cmd' => bin, 'data' => bin].
+	//
+	// Units of (DX, NX) depend on the opcode:
+	//   - HMMC (byte mode):   pass byte coords (DX_bytes = X/ppb, NX_bytes = W/ppb).
+	//   - LMMC (dot mode):    pass pixel coords directly (DX = X, NX = W).
+	function buildV9938CmdSequence($buffer, $dx, $dy, $nx, $ny, $comp, $opcode)
+	{
+		$origLen = strlen($buffer);
+		if ($origLen === 0) {
+			die("\nERROR: buildV9938CmdSequence called with empty buffer.\n\n");
+		}
+
+		// V9938 HMMC/LMMC consume R#44 (CLR) as the FIRST pixel byte at command
+		// dispatch (per Grauw / V9938 spec). To process exactly NX*NY pixels:
+		//   - Preload R#44 with data[0] via the V9938Cmd's CLR field.
+		//   - Stream only data[1..N-1] via #9B → pixels 1..N-1.
+		// This must use the UNCOMPRESSED first byte (real pixel value), not the
+		// first byte of a compressed payload (which for RLE/Pletter is a control
+		// byte, not pixel data).
+		$firstPixelByte = ord($buffer[0]);
+		$streamBuffer   = substr($buffer, 1);
+		$totalUncomp    = strlen($streamBuffer);
+
+		$dataChunks = [];
+		// Edge case: 1-pixel rectangle → no streaming, just R#44 dispatch.
+		if ($totalUncomp > 0) {
+			// Cap de crecimiento de tamaño uncompressed por chunk:
+			//   PLETTER: límite por zona scratch VRAM del engine (PRP023).
+			//   RAW/RLE: sin cap, el límite efectivo lo impone CHUNK_CMDDATA_MAX.
+			$capGrow = ($comp[COMP_ID]==CHUNK_PLETTER) ? CHUNK_PLETTER_MAX_UNCOMP : ($totalUncomp);
+			$tmp = tempnam(sys_get_temp_dir(), 'imgwiz');
+			$pos = 0;
+			while ($pos < $totalUncomp) {
+				$sizeIn    = min($totalUncomp - $pos, CHUNK_SIZE);
+				$sizeDelta = intval(CHUNK_SIZE / 2);
+				$end = false;
+				do {
+					$sizeOut = compress($tmp, $streamBuffer, $pos, $sizeIn, $comp, -1);
+					if ($pos + $sizeIn >= $totalUncomp && $sizeOut <= CHUNK_CMDDATA_MAX) {
+						$end = true;
+					} else if ($sizeOut < CHUNK_CMDDATA_MAX - 1) {
+						if ($sizeDelta > 0 && $pos + $sizeIn < $totalUncomp && $sizeIn < $capGrow) {
+							$sizeIn = min($sizeIn + $sizeDelta, $totalUncomp - $pos, $capGrow);
+						} else {
+							$end = true;
+						}
+					} else if ($sizeOut > CHUNK_CMDDATA_MAX) {
+						$sizeIn -= $sizeDelta;
+						$sizeDelta = intval($sizeDelta * 0.95);
+					} else {
+						$end = true;
+					}
+				} while (!$end);
+
+				$payload = file_get_contents($tmp.'.'.$comp[COMP_EXT]);
+				$compID  = $comp[COMP_ID]==CHUNK_RAW     ? CMP_RAW
+				        : ($comp[COMP_ID]==CHUNK_RLE     ? CMP_RLE
+				        : ($comp[COMP_ID]==CHUNK_PLETTER ? CMP_PLETTER
+				        :                                  CMP_ZX0));
+				$dataChunks[] = [$compID, $sizeIn, $payload];
+				echo "    #CHUNK (".strpad($pos,5)."): sizeIn: $sizeIn bytes (out: ".strlen($payload)." bytes)\n";
+				$pos += $sizeIn;
+			}
+			@unlink($tmp); @unlink($tmp.'.'.$comp[COMP_EXT]);
+		}
+
+		// V9938Cmd: cmdCount=1 cubriendo todo el rectángulo.
+		// CLR (R#44) = primer byte real de pixel (data[0]).
+		$cmdEntry  = pack("vvvvvvCCC",
+			0, 0,                       // SX, SY (R32-R35)
+			$dx, $dy,                   // DX, DY (R36-R39)
+			$nx, $ny,                   // NX, NY (R40-R43)
+			$firstPixelByte,            // CLR    (R44) — preloaded first pixel
+			0,                          // ARG    (R45)
+			$opcode                     // CMD    (R46)
+		);
+		$cmdBin = chr(CHUNK_V9938CMD).pack("vv", 1, 15).chr(1).$cmdEntry;
+
+		// V9938CmdData chunks (suma de uncomp = N-1, complementa R#44 inicial)
+		$dataBin = "";
+		foreach ($dataChunks as $dc) {
+			list($compID, $uncomp, $payload) = $dc;
+			$dataBin .= chr(CHUNK_V9938DATA).pack("vv", 3, strlen($payload))
+			          . chr($compID).pack("v", $uncomp).$payload;
+		}
+
+		return ['cmd' => $cmdBin, 'data' => $dataBin];
+	}
+
+	//=================================================================================
+	function compressV9938Rectangle($file, $x, $y, $w, $h, $comp, $transparent=-1, $fixedX=-1, $fixedY=-1)
+	{
+		global $magic, $lastPalette;
+
+		$scr = checkScreemMode($file);
+		$sup = strtoupper($scr);
+		echo "### Mode SCREEN ".hexdec($scr)."\n";
+
+		// Tablas modo→unidades
+		$pixelsByte  = ['5'=>2,'6'=>4,'7'=>2,'8'=>1,'A'=>1,'C'=>1];
+		$bytesLine   = ['5'=>128,'6'=>128,'7'=>256,'8'=>256,'A'=>256,'C'=>256];
+		$bppMode     = ['5'=>4,'6'=>2,'7'=>4,'8'=>8];
+
+		// Validate FIXEDIMG bounds (PRP027)
+		if ($fixedX >= 0 && $fixedY >= 0) {
+			$screenWidth  = ['5'=>256, '6'=>512, '7'=>512, '8'=>256, 'A'=>256, 'C'=>256];
+			$screenHeight = 212;
+			$sw = $screenWidth[$sup];
+			if ($fixedX + $w > $sw) {
+				die("\nERROR: --fixed X+W out of bounds for SC".hexdec($sup).":\n".
+				    "       fixedX=$fixedX + width=$w = ".($fixedX+$w)." > ScreenWidth=$sw\n\n");
+			}
+			if ($fixedY + $h > $screenHeight) {
+				die("\nERROR: --fixed Y+H out of bounds for SC".hexdec($sup).":\n".
+				    "       fixedY=$fixedY + height=$h = ".($fixedY+$h)." > ScreenHeight=$screenHeight\n\n");
+			}
+			echo "### Fixed image position: ($fixedX, $fixedY) — chunk FIXEDIMG will be emitted\n";
+		}
+
+		// Validate transparency mode (PRP024 + PRP026)
+		if ($transparent >= 0) {
+			if ($sup == 'C') {
+				die("\nERROR: --transparent-color is not supported in SC12 (pure YJK, no per-pixel A flag).\n".
+				    "       Use SCREEN 10 (.SCA) instead, which supports paletted+YJK mixed mode.\n\n");
+			}
+			if ($sup == 'A') {
+				// PRP026 — SCA transparency: paletted-visible pixels use mask=0x07 to
+				// preserve dest's bits 2-0 (chroma contribution to YJK group), YJK
+				// source pixels are auto-preserved (mask=0xFF, image=0x00).
+				if ($transparent > 15) {
+					die("\nERROR: transparent color $transparent out of range for SC10 paletted (0..15)...\n\n");
+				}
+				echo "### Transparent color: $transparent (SCA paletted; YJK regions auto-preserved)\n";
+			} else {
+				$maxColor = (1 << $bppMode[$sup]) - 1;
+				if ($transparent > $maxColor) {
+					die("\nERROR: transparent color $transparent out of range for SC".hexdec($sup)." (0..$maxColor)...\n\n");
+				}
+				echo "### Transparent color: $transparent (LMMC AND+OR streaming)\n";
+			}
+		}
+
+		// Validar que x y w son múltiplos de pixelsByte (HMMC y la extracción packed lo requieren)
+		if ($x % $pixelsByte[$sup] || $w % $pixelsByte[$sup]) {
+			die("\nERROR: SCREEN ".hexdec($sup)." needs x and w multiple of ".$pixelsByte[$sup]."...\n\n");
+		}
+		echo "### Rectangle Start:($x, $y) Width:($w, $h)\n";
+
+		// Lectura SCx (descartar header de 7 bytes)
+		$in = @file_get_contents($file);
+		if ($in===FALSE) { die("File not found...\n"); }
+		$in = substr($in, 7);
+
+		// Extraer el rectángulo completo (packed nativo del modo)
+		$fullRect    = sliceRect($in, $x, $y, $w, $h, $pixelsByte[$sup], $bytesLine[$sup]);
+		$totalUncomp = strlen($fullRect);
+
+		if ($transparent >= 0) {
+			// ---------- TRANSPARENCY PATH (LMMC AND + LMMC OR) ----------
+			// LMMC trabaja por píxeles — DX/NX se pasan en píxeles directamente.
+			list($maskBuf, $imageBuf) = processTransparency($fullRect, $w, $h, $sup, $transparent);
+			echo "    [PASS 1: mask buffer ".strlen($maskBuf)." bytes (LMMC|AND)]\n";
+			$seqMask  = buildV9938CmdSequence($maskBuf,  $x, $y, $w, $h, $comp, VDP_LMMC | LOG_AND);
+			echo "    [PASS 2: image buffer ".strlen($imageBuf)." bytes (LMMC|OR)]\n";
+			$seqImage = buildV9938CmdSequence($imageBuf, $x, $y, $w, $h, $comp, VDP_LMMC | LOG_OR);
+			$cmdChunksBin  = $seqMask['cmd']  . $seqMask['data'];
+			$cmdChunksBin .= $seqImage['cmd'] . $seqImage['data'];
+			$totalReport   = strlen($maskBuf) + strlen($imageBuf);
+		} else {
+			// ---------- HMMC PATH (sin transparencia) ----------
+			// V9938 spec §6.4: "NX and NY represent the length of each side in dots."
+			// §6.5.1 footnote: en G4/G6 se ignora bit 0 de NX/DX y en G5 los bits 0-1,
+			// pero el VALOR escrito se sigue expresando en dots. La etiqueta "Unit: Byte"
+			// de HMMC en la tabla de comandos se refiere al transfer (cada OUT a #9B es
+			// 1 byte que contiene varios pixels en G4/G5/G6), NO a la unidad de NX/DX.
+			// Pasar $x, $w directamente en dots (sin dividir por pixelsByte).
+			$seqHmmc = buildV9938CmdSequence($fullRect, $x, $y, $w, $h, $comp, VDP_HMMC);
+			$cmdChunksBin = $seqHmmc['cmd'] . $seqHmmc['data'];
+			$totalReport  = $totalUncomp;
+		}
+
+		// Paleta (si paletizado)
+		$palBin = "";
+		if (hexdec($scr) < 8) {
+			list($in2, $paper, $ink) = checkPalettedColors($in, $scr);
+			$palBin = addPalette($file, $in2, $scr, NULL);
+		}
+
+		// FIXEDIMG chunk (PRP027): emitted right after INFO, before palette/cmds
+		$fixedImgBin = "";
+		if ($fixedX >= 0 && $fixedY >= 0) {
+			$fixedImgBin = chr(CHUNK_FIXEDIMG)
+			             . pack("vv", 4, 0)                  // extraHeaderSize=4, dataSize=0
+			             . pack("vv", $fixedX, $fixedY);     // offsetX, offsetY
+		}
+
+		// Ensamblar fichero final con INFO al inicio
+		$out  = $magic.$scr;
+		$infoPos = strlen($out);
+		$out .= str_repeat("\0", 15);                  // INFO placeholder
+		$out .= $fixedImgBin;                          // FIXEDIMG (si aplica)
+
+		if ($palBin && !$lastPalette) $out .= $palBin;
+		$out .= $cmdChunksBin;
+		if ($palBin && $lastPalette)  $out .= $palBin;
+
+		// Contar chunks reales y rellenar el INFO
+		$chunkCount = countChunks(substr($out, $infoPos+15)) + 1;   // +1 para el propio INFO
+		$infoBin    = buildInfoChunk($scr, $chunkCount, $w, $h);
+		$out        = substr_replace($out, $infoBin, $infoPos, 15);
+
+		// Escribir
+		echo "    In: $totalReport bytes\n    Out: ".strlen($out)." bytes [".number_format(strlen($out)/$totalReport*100,1,'.','')."%]\n";
+		$fileOut = substr(basename($file), 0, -3)."IM".$scr;
+		echo "### Writing $fileOut\n";
+		file_put_contents($fileOut, $out);
 		echo "### Done\n\n";
 	}
 
