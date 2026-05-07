@@ -65,7 +65,7 @@ REM ---- OBTENER RECURSOS ----
 tools\cecho\cecho {06}Copying required files...{07}
 echo.
 COPY ASSETS\MSX\MSX2\MSX2.DSK %GAME%.DSK > nul 2>&1
-COPY ASSETS\MSX\MSX2\msx2daad_1.6.0_%BASELANG%_SC8.com msx2daad.com > nul 2>&1
+COPY ASSETS\MSX\MSX2\msx2daad_3.0.1_%BASELANG%_SC8.com msx2daad.com > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 
 ECHO.
@@ -93,9 +93,9 @@ REM  ---- PREPARAR LAS IMáGENES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SC8 IF NOT exist 00%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c 00%%i.SC8  %IMGLINES% RLE  > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SC8 IF NOT exist 0%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c 0%%i.SC8 %IMGLINES% RLE > nul 2>&1
-for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c %%i.SC8 %IMGLINES% RLE > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SC8 IF NOT exist 00%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx 00%%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SC8 IF NOT exist 0%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx 0%%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0 > nul 2>&1
+for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx %%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0 > nul 2>&1
 
 IF exist DAAD.SC8 IF NOT exist LOADING.IM8 (
     ..\php\php ..\tools\imgwizard\imgwizard.php c DAAD.SC8 212 RLE
@@ -114,9 +114,9 @@ REM convert to sc8
 php\php TOOLS\msx-screen-converter\scrconv.php font0.png TOOLS\msx-screen-converter\sc8.php  > nul 2>&1
 php\php TOOLS\msx-screen-converter\scrconv.php font1.png TOOLS\msx-screen-converter\sc8.php  > nul 2>&1
 REM convert to im8
-php\php TOOLS\imgwizard\imgwizard.php c font0.SC8 32 RLE > nul 2>&1
+php\php TOOLS\imgwizard\imgwizard.php cx font0.SC8 0 0 256 32 RLE > nul 2>&1
 php\php TOOLS\imgwizard\imgwizard.php d font0.IM8 1 > nul 2>&1
-php\php TOOLS\imgwizard\imgwizard.php c font1.SC8 40 RLE > nul 2>&1
+php\php TOOLS\imgwizard\imgwizard.php cx font1.SC8 0 0 256 40 RLE > nul 2>&1
 php\php TOOLS\imgwizard\imgwizard.php d font1.IM8 1 > nul 2>&1
 php\php TOOLS\imgwizard\imgwizard.php j FONT.IM8 font0.IM8 ASSETS\MSX\MSX2\GLUE.IM8 font1.IM8 > nul 2>&1
 
@@ -152,11 +152,11 @@ ECHO.
 
 IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
 REM ----  CLEAN ---- 
-;DEL DAAD.DDB > nul 2>&1
-;DEL %GAME%.json > nul 2>&1
+DEL DAAD.DDB > nul 2>&1
+DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
-;DEL MSX2DAAD.COM > nul 2>&1
+DEL MSX2DAAD.COM > nul 2>&1
 ;DEL FONT.IM8 > nul 2>&1
 
 IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
@@ -196,7 +196,7 @@ DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
 DEL MSX2DAAD.COM > nul 2>&1
-DEL FONT.IM8 > nul 2>&1
+;DEL FONT.IM8 > nul 2>&1
 
 REM  --- CUSTOM AREA ---
 :CUSTOM
