@@ -15,7 +15,7 @@
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>DAAD Ready</title>
+  <title>DAAD Ready B</title>
   <meta name="description" content="DAAD Ready Documentation">
   <meta name="author" content="@Uto_dev">
 
@@ -2280,8 +2280,8 @@ printing characters from other languages, basically most of the characters
         <tr><th>Bit</th><th>Meaning</th></tr>
         <tr><td>7</td><td>Set if any object printed as part of LISTOBJ or LISTAT</td></tr>
         <tr><td>6</td><td>Set this to cause continuous object listing. i.e. LET 53 64 will make DAAD list objects on the same line forming a valid sentence.</td></tr>
-        <tr><td>5</td><td>Is set if after obtaining a SL, the parser found a word that it couldn't recognize after finding the verb.</td></tr>
-        <tr><td>4</td><td>Is set if after obtaining a SL, the parser found a preposition before the first noun.</td></tr>
+        <tr><td>5</td><td>Is set if after obtaining a SL, the parser found a word that it couldn't recognize in any position after finding the verb.</td></tr>
+        <tr><td>4</td><td>Is set if after obtaining a SL, the parser found a preposition before finding any recognizable noun in the sentence, and even if it ultimately doesn't find any noun.</td></tr>
         <tr><td>2</td><td>If is set, no enclicit pronouns will be applied to verbs>=240.</td></tr>
         <tr><td>1</td><td>If is set, HASAT/HASNAT/SETAT  will work on an alternative set of flags 60-91</td></tr>
         <tr><td>0</td><td>Is set if the parser found a word that it couldn't recognize after finding the verb.</td></tr>

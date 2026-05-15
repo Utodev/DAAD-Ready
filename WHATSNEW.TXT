@@ -1,3 +1,84 @@
+DAAD Ready B 15/05/2026
+========================
+
+DAAD Ready B marks another important evolution of DAAD Ready, mainly because it introduces support for 
+DAAD V3, the first new version of DAAD since the 1990s.
+
+It includes several new features described below, but first, here are some improvements not directly 
+related to DAAD V3, along with various bug fixes:
+
+- PC: Fixed an issue where the loading screen was not included in the release folder. Also corrected a 
+  bug causing the wrong flag to be used in DOALL iterations, and another where the parser did not mark
+  completion when a valid LS was found.
+
+
+- HTML: Fixed a bug where images were incorrectly added as 320x200 instead of 320x96.
+
+- Amiga: Loading screens can now be included in the Amiga interpreter.
+
+- Spectrum Next: Fixed an issue preventing the rightmost 4 pixels of full-width images from being displayed.
+
+- Spectrum 48K: Now supports raster images and most V3 features except XMES. Due to memory constraints, only
+  Maluva-style graphics are supported, fixed, top-positioned and full width.
+
+- Amstrad CPC: Fixed issues related to carriage returns and word wrapping in XMESSAGES and following text.
+
+- Atari ST floppy images: Flopgen by Maksymilian Maks Graczyk replaces the MSA tool, eliminating flickering
+  windows previously seen during disk image creation.
+
+- Windows: The Windows target has been removed from DAAD Ready. The experimental Windows target is now the only
+  option for building native DAAD games on Windows.
+
+- Linux: New experimental Linux target added.
+
+- Amiga experimental: New targets added for Amiga OCS, HAM and AGA. Unlike the original target, Amiga OCS supports
+  up to 32 colours.
+
+- Atari experimental: New targets added for Atari ST, STE and Falcon030.
+
+- DOALL behavior: Fixed across ADP, PCDAAD, jDAAD and MSXDAAD. Previously, the internal done flag was incorrectly 
+  set even when no objects were found. Now NOTDONE is triggered in that case, matching original interpreter 
+  behavior despite incorrect 1991 documentation.
+
+New DAAD V3 features
+====================
+
+- Flag 53 fObjFlags has been expanded with additional functionality. Although not all bits are object-related 
+  anymore, the name is preserved for backward compatibility.
+   
+    Bit 5: Set when, after obtaining an SL, the parser encounters an unknown word after the verb.
+    Bit 4: Set when a preposition appears before the first noun.
+    Bit 2: Disables enclitic pronouns for verbs greater than or equal to 240.
+    Bit 1: Enables HASAT, HASNAT and SETAT to operate on an alternative flag range 60 to 91.
+    Bit 0: Set when DOALL finds no objects.
+
+- Indirection is now supported in the second parameter, for example PLACE 100 @200.
+
+- New condact SETAT
+  Syntax: SETAT value operation
+  value points to a specific bit in a flag, same addressing as HASAT/HASNAT
+  operation clears the bit if 0, sets the bit if 1, and toggles the bit if 2
+
+- PAUSE condact change: when the parameter is 0, it now waits for a keypress instead of a timed delay, storing the 
+  key in flags 60 and 61 fInkeyKey1 and fInkeyKey2.
+
+- New metacondact GETKEY, shorthand for PAUSE 0 and replaced at compile time.
+
+- XUNDONE has been deprecated due to lack of use.
+
+- SYNONYM no longer sets the internal done flag, consistent with Amiga and Atari ST interpreters.
+
+- Spanish template update: the verb HABLA is now 240 and bit 2 of flag 53 is enabled by default. This prevents 
+  the HABLA bug, though enclitic forms like HABLALO are no longer supported. 
+  
+- XMES is now a standard condact for displaying extra text. It is supported across all DAAD Ready targets,
+  including Amiga and Atari ST.
+
+Finally, the Spectrum 128K interpreter based on ZXDAAD128 EXPERIMENTAL_ZX128K has been removed from DAAD
+Ready. The author is currently focused on the CYD engine and cannot continue development. Thanks to Chronomantic
+for his work on this interpreter, which for years was the best option for developing DAAD games on the Spectrum 128K.
+
+
 DAAD Ready A2 21/02/2026
 ========================
 

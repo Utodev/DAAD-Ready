@@ -1141,27 +1141,54 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 <p>La reproducción de MP4 es a pantalla completa.</p>
 
 
-
 <a name='windowsexp'></a>
-<h4>Windows</h4>
+<h4>Windows (experimental)</h4>
 
-<p>Para Windows, DAAD Ready usa la versión PC/DOS bajo DOSBox por defecto, por lo que se aplican las mismas reglas que para PC/DOS. Sin embargo, también hay un intérprete experimental llamado ADP
-  que se ejecuta de forma nativa en Windows y puede mostrar los mismos gráficos de 16 colores utilizados por Amiga o ST. De hecho, ADP se asemeja a esos intérpretes en el manejo multimedia, así que
-  consulta la sección de Amiga/AtariST si lo usas.</p>
+<p>Para Windows, DAAD Ready usa el intérprete ADP, que utiliza como fuente imágenes que estén en la carpeta IMAGES/EXPERIMENTAL. Los sonidos los saca de SOUNDS/EXPERIMENTAL</p>
+
+<p>El formato de los ficheros siempre va a ser PNG, con resolución 320x200 o 640x400, dependiendo del valor de la variable HIRES del fichero CONFIG.BAT. Si la variable vale 1 es,
+  alta resolución y usamos 640x400. En ambos casos, el máximo número de colores es 256.</p>
+
+<p>Si es modo HIRES=1, ponemos las imagenes en IMAGES/EXPERIMENTAL/HIRES, y si HIRES=0, en IMAGES/EXPERIMENTAL/256.</p>
+
+<p>Por lo demás, este target permite todas las funcionalidad posibles de gráficos, utilizando el mismo sistema de ficheros JSON que usan los  intérpretes de Amiga y de ST originales</p>
 
 <a name='macOSexp'></a>
 <h4>MacOS</h4>
 
-<p>Para MacOS, DAAD Ready usa ADP, que se asemeja a los intérpretes de Amiga/AtariST en el manejo multimedia, así que
-  consulta la sección de Amiga/AtariST si lo usas.
-</p>
+<p>A todos los efectos, igual que el de Windows.</p>
 
 <a name='linuxexp'></a>
 <h4>Linux</h4>
 
-<p>Para Linux, DAAD Ready usa ADP, que se asemeja a los intérpretes de Amiga/AtariST en el manejo multimedia, así que
-  consulta la sección de Amiga/AtariST si lo usas.
+<p>A todos los efectos, igual que el de Windows.</p>
 </p>
+
+<a name='amigaexp'></a>
+<h4>Amiga OCS/HAM/AGA (experimental)</h4>
+
+<p>El nuevo intérprete ADP permite ejecutar juegos de Amiga en formatos de imágenes más avanzados, aprovechando las capacidades gráficas de estas máquinas. El original usaba OCS, pero limitado a 16 colores, pero
+  ADP puede usar OCS con 32 colores, HAM con 4096 colores o AGA con 256 colores.</p>
+
+<p>La resolución es siempre para 320x200, pero si usas el modo HAM debes poner las imagenes en IMAGES\EXPERIMENTAL\TRUECOLOR,  si usas AGA, en IMAGES\EXPERIMENTAL\256, y para OCS con 32 colores, en IMAGES\EXPERIMENTAL\32. Ten en 
+  cuenta que al seleccionar un determinado modo, puedes estar dejando fuera a los modelos más básicos de Commodore Amiga.</p>
+
+<p>Los sonidos deben ir en SOUNDS\EXPERIMENTAL.</p>
+
+<p>Por lo demás, este target permite las mismas funcionalidades avanzadas para los gráficos que el de Amiga original (ver el apartado de Amiga en este manual)</p>
+
+
+<a name='ataristexp'></a>
+<h4>Atari ST/STE/Falcon (experimental)</h4>
+
+<p>El nuevo intérprete ADP permite ejecutar juegos de Atari ST en formatos de imágenes más avanzados, aprovechando las capacidades gráficas de estas máquinas. El original usaba gráficos de 16 colores sobre una
+  paleta de 4096 colores, pero ADP puede usar gráficos de de 256 colores para Atari Falcon.</p>
+
+<p>La resolución es siempre para 320x200, pero si usas el modo de 256 colores debes poner las imagenes en IMAGES\EXPERIMENTAL\256 y si usas el modo tradicional para ST y STe, en IMAGES\EXPERIMENTAL\16.</p>
+
+<p>Los sonidos deben ir en SOUNDS\EXPERIMENTAL</p>
+
+<p>Por lo demás, este target permite las mismas funcionalidades avanzadas para los gráficos que el de ST original (ver el apartado de Atari ST en este manual)</p>
 
 
 <h4>Apéndices</h4>
@@ -1170,7 +1197,6 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 <h4>Apéndice A - Pantallas de carga</h4>
 
 <p>Algunos intérpretes permiten mostrar una pantalla de carga mientras el juego se está inicializando (antes de que se muestre la primera ubicación). DAAD Ready admite esta característica automáticamente para los intérpretes que la admiten.</p>
-
 
 
 <p>Para agregar una pantalla de carga, sigue las instrucciones para cada máquina:</p>
@@ -1183,11 +1209,11 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 <tr><td>PC(DOS)/Windows</td><td>Pon un archivo llamado DAAD.PCX en IMAGES/PC, o IMAGES/PC/SVGA. Ten en cuenta que incluso en modo SVGA necesitas una pantalla de carga de 320x200.</td></tr>
 <tr><td>Atari ST</td><td>Pon un archivo llamado DAAD.PNG en la carpeta IMAGES. 320x200, maximo 16 colores.</td></tr>
 <tr><td>Amiga</td><td>Pon un archivo llamado DAAD.PNG en la carpeta IMAGES. 320x200, maximo 16 colores.</td></tr>
-<tr><td>Windows Experimental</td><td>Igual que con Atari ST</td></tr>
-<tr><td>MacOS Experimental</td><td>Igual que con Atari ST</td></tr>
-<tr><td>Linux Experimental</td><td>Igual que con Atari ST</td></tr>
-<tr><td>Amiga OCS/HAM/AGA Experimental</td><td>Igual que con Atari ST</td></tr>
-<tr><td>Atari ST/STE/Falcon Experimental</td><td>Igual que con Atari ST</td></tr>
+<tr><td>Windows Experimental</td><td>Pon un archivo llamado DAAD.PNG en la carpeta de imágenes correspondiente al modo seleccionado</td></tr>
+<tr><td>MacOS Experimental</td><td>Pon un archivo llamado DAAD.PNG en la carpeta de imágenes correspondiente al modo seleccionado</td></tr>
+<tr><td>Linux Experimental</td><td>Pon un archivo llamado DAAD.PNG en la carpeta de imágenes correspondiente al modo seleccionado</td></tr>
+<tr><td>Amiga OCS/HAM/AGA Experimental</td><td>Pon un archivo llamado DAAD.PNG en la carpeta de imágenes correspondiente al modo seleccionado</td></tr>
+<tr><td>Atari ST/STE/Falcon Experimental</td><td>Pon un archivo llamado DAAD.PNG en la carpeta de imágenes correspondiente al modo seleccionado</td></tr>
 
   </tbody>
 </table>

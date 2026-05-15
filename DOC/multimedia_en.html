@@ -1158,20 +1158,54 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 <p>MP4 playback is full screen.</p>
 
 
-
-<a name='windows'></a>
+  
+<a name='windowsexp'></a>
 <h4>Windows</h4>
 
-<p>For Windows, DAAD Ready uses the PC/DOS version under DOSBox by default, so the same rules as PC/DOS apply. However, there’s also an experimental interpreter called ADP 
-  that runs natively on Windows and can display the same 16-color graphics used by Amiga or ST. In fact, ADP ressembles those interpreters in multimedia handling, so 
-  refer to the Amiga/AtariST section if you use it.</p>
 
-<a name='macOS'></a>
-<h4>MacOS</h4>
+<p>For Windows, DAAD Ready uses the ADP interpreter, which uses as source images that are in the IMAGES/EXPERIMENTAL folder. Sounds are taken from SOUNDS/EXPERIMENTAL</p>
+<p>The file format will always be PNG, with resolution 320x200 or 640x400, depending on the value of the HIRES variable in the CONFIG.BAT file. If 
+  the variable is 1, it's high resolution and we use 640x400. In both cases, the maximum number of colors is 256.</p>
 
-<p>For MacOS DAAD Ready uses ADP, which ressembles Amiga/AtariST interpreters in multimedia handling, so 
-  refer to the Amiga/AtariST section if you use it.
-</p>
+<p>If it's HIRES=1 mode, we put the images in IMAGES/EXPERIMENTAL/HIRES, and if HIRES=0, in IMAGES/EXPERIMENTAL/256.</p>
+<p>Other than that, this target allows all possible graphics features, using the same JSON file system as the original Amiga and ST interpreters.</p>
+
+<a name='macOSexp'></a>
+<h4>MacOS Experimental</h4>
+
+<p>Just the same as Windows target.</p>
+
+<a name='linuxexp'></a>
+<h4>Linux Experimental</h4>
+
+<p>Just the same as Windows target.</p>
+
+<a name='amigaexp'></a>
+<h4>Amiga OCS/HAM/AGA (experimental)</h4>
+
+
+<p>The new ADP interpreter allows running Amiga games with more advanced image formats, taking advantage of the graphical capabilities of these machines. The original used OCS, but limited to 16 colors, but
+  ADP can use OCS with 32 colors, HAM with 4096 colors or AGA with 256 colors.</p>
+
+<p>The resolution is always for 320x200, but if you use HAM mode you must put the images in IMAGES\EXPERIMENTAL\TRUECOLOR, if you use AGA, in IMAGES\EXPERIMENTAL\256, and for OCS with 32 colors, in IMAGES\EXPERIMENTAL\32. Keep in mind that by selecting a particular mode, you may be leaving out the most basic models of Commodore Amiga.</p>
+<p>Sounds must go in SOUNDS\EXPERIMENTAL.</p>
+<p>Other than that, this target allows all possible graphics features, using the same JSON file system as the original Amiga interpreter (see the Amiga section in this manual)</p>
+
+
+<a name='ataristexp'></a>
+<h4>Atari ST/STE/Falcon (experimental)</h4>
+
+
+<p>The new ADP interpreter allows running Atari ST games with more advanced image formats, taking advantage of the graphical capabilities of these machines. The original used 16 colors over a palette of 4096 colors, but
+  ADP can use 256 color graphics for Atari Falcon.</p>
+
+<p>The resolution is always for 320x200, but if you use the 256 color mode you must put the images in IMAGES\EXPERIMENTAL\256 and if you use the traditional mode for ST and STe, in IMAGES\EXPERIMENTAL\16.</p>
+
+<p>Sounds must go in SOUNDS\EXPERIMENTAL.</p>
+
+<p>Other than that, this target allows all possible graphics features, using the same JSON file system as the original Atari ST interpreter (see the Atari ST section in this manual)</p>
+
+
 
 <h4>Appendixes</h4>
 

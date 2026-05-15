@@ -15,7 +15,7 @@
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <meta charset="utf-8">
-  <title>DAAD Ready</title>
+  <title>DAAD Ready B</title>
   <meta name="description" content="Documentación DAAD Ready">
   <meta name="author" content="@Uto_dev">
 
@@ -2108,8 +2108,8 @@ MIRA CUBO (por la terminación -LO)<br/>
         <tr><th>Bit</th><th>Significado</th></tr>
         <tr><td>7</td><td>Se pone a 1 si al menos un fue listado en el último LISTAT/LISTOBJ</td></tr>
         <tr><td>6</td><td>Ponerlo a 1 generará listados de objetos continuos, en lugar de uno encima de otro. LET 53 64 hará que DAAD liste los objetos en una línea generando una frase válida.</td></tr>
-        <tr><td>5</td><td>Se pone a 1 si después de obtener un orden del jugador , el parser encontró una palabra que no pudo reconocer después de encontrar el verbo.</td></tr>
-        <tr><td>4</td><td>Se pone a 1 si después de obtener un orden del jugador , el parser encontró una preposición antes del primer sustantivo.</td></tr>
+        <tr><td>5</td><td>Se pone a 1 si después de obtener un orden del jugador, el parser encontró una palabra que no pudo reconocer en cualquier posición después de encontrar el verbo.</td></tr>
+        <tr><td>4</td><td>Se pone a 1 si después de obtener un orden del jugador, el parser encontró una preposición, y no ha encontrado aun ningún nombre reconocible en la frase. El bit queda a 1 incluso si finalmente no encuentra ningún nombre.</td></tr>
         <tr><td>2</td><td>Si se pone a 1, no se aplicarán terminaciones pronominales en los verbos>=240.</td></tr>
         <tr><td>1</td><td>Si se pone a 1, HASAT/HASNAT/SETAT funcionarán en un conjunto alternativo de flags 60-91.</td></tr>
         <tr><td>0</td><td>Se pone a 1 si el parser encontró una palabra que no pudo reconocer después de encontrar el verbo.</td></tr>
