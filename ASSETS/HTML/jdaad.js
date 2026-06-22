@@ -1851,17 +1851,19 @@ function Printat(line, col)
 {
     if ((line < windows.windows[windows.activeWindow].height) && (col < windows.windows[windows.activeWindow].width))
     {
-        windows.windows[windows.activeWindow].currentY = line * LINE_HEIGHT;
-        windows.windows[windows.activeWindow].currentX = col * COLUMN_WIDTH;
-        console.log('Printat L:' + line + ' C:' + col + ' X:' + windows.windows[windows.activeWindow].currentX + ' Y:' + windows.windows[windows.activeWindow].currentY);
-        console.log('Active window:' + windows.activeWindow);
+        windows.windows[windows.activeWindow].currentX = (windows.windows[windows.activeWindow].col + col) * COLUMN_WIDTH;
+        windows.windows[windows.activeWindow].currentY = (windows.windows[windows.activeWindow].row + line) * LINE_HEIGHT;
+    }
+    else
+    {
+        Printat (0,0); // Upper left corner of the window if range exceeded
     }
    
 }
 
 function Tab(col)
 {
-   if (col < windows.windows[windows.activeWindow].width)  windows.windows[windows.activeWindow].CurrentX = (windows.windows[windows.activeWindow].col + col) * COLUMN_WIDTH;
+   if (col < windows.windows[windows.activeWindow].width)  windows.windows[windows.activeWindow].currentX = (windows.windows[windows.activeWindow].col + col) * COLUMN_WIDTH;
         else Tab(0);   //Tested in ZX Spectrum interpreter: when the column provided exceeds the window,  then it's like TAB 0,  beginning of line
    }
 
