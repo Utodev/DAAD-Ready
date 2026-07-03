@@ -622,7 +622,7 @@ class flagClass {
 
     RAMLOADFlags(flagno)
     {
-        for(var i=0;i<flagno;i++) 
+        for(var i=0;i<=flagno;i++)
          this.#theflags[i] = this.#theflagsRAMSAVE[i]
     }
 
@@ -2758,8 +2758,10 @@ function _ANYKEY()
 /*--------------------------------------------------------------------------------------*/
 function _DPRINT()
 {
-    var Value = flags.getFlag(Parameter1) + 256 * flags.getFlag(Parameter1 + 1);
-    var valstr = Value + '';
+    var Value = 0;
+    // This weird line if using location of object 0 is just to ressemble what happens in old interpreters
+    if (Parameter1==255) Value =  flags.getFlag(Parameter1) + 256 * objects.getObjectLocation(0);
+    else   Value = flags.getFlag(Parameter1) + 256 * flags.getFlag(Parameter1 + 1);    var valstr = Value + '';
     writeText(valstr);
     done = true;
 }
@@ -3031,7 +3033,7 @@ function _REMOVE()
   return;
  }
 
- if (flags.getFlag(FPLAYER) >= flags.getFlag(FOBJECTS_CONVEYABLE)) 
+ if (flags.getFlag(FCARRIED) >= flags.getFlag(FOBJECTS_CONVEYABLE)) 
  {
   Sysmess(SM42); //I can't remove the _. My hands are full.
   newtext();
@@ -3434,7 +3436,7 @@ function _LISTAT()
 /*--------------------------------------------------------------------------------------*/
 function _PROCESS()
 {
-    if (Parameter1 >= DDB.header.numPro) Error(3, 'Process ' + Parameter1 + 'does not exist'); 
+    if (Parameter1 >= DDB.header.numPro) Error(3, 'Process ' + Parameter1 + ' does not exist'); 
     stack.stackPush();
     currentProcess = Parameter1;
     if (NESTED_DOALL_ENABLED) 
