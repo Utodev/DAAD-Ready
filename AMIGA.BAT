@@ -43,6 +43,14 @@ echo.
 SET INTERPRETER=ASSETS\AMIGA\DAAMIGAEI3
 IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\AMIGA\DAAMIGASI3
 COPY %INTERPRETER% RELEASE\AMIGA\%GAME%
+REM --- COPY keymaps for Spanish
+IF "%BASELANG%" == "ES" (
+    MD RELEASE\AMIGA\system > nul 2>&1
+    MD RELEASE\AMIGA\devs > nul 2>&1
+    MD RELEASE\AMIGA\devs\keymaps > nul 2>&1
+    COPY ASSETS\AMIGA\SYSTEM\*.* RELEASE\AMIGA\system > nul 2>&1
+    COPY ASSETS\AMIGA\DEVS\KEYMAPS\*.* RELEASE\AMIGA\devs\keymaps > nul 2>&1
+)
 COPY ASSETS\CHARSET\%FONT6% RELEASE\AMIGA\PART1.TMP > nul 2>&1
 TOOlS\SPECFORM\SPECFORM -a 16384 RELEASE\AMIGA\PART1.TMP > nul 2>&1
 MOVE RELEASE\AMIGA\PART1.TMP.zxb RELEASE\AMIGA\PART1.CHR > nul 2>&1
@@ -85,7 +93,9 @@ IF ERRORLEVEL 1 GOTO ERROR
 
 REM --- PREPARE AMIGA STARTUP-SEQUENCE
 mkdir RELEASE\AMIGA\s > nul 2>&1
-echo %GAME% > RELEASE\AMIGA\s\startup-sequence
+DEL RELEASE\AMIGA\s\startup-sequence > nul 2>&1
+IF "%BASELANG%" == "ES" echo /system/setmap e > RELEASE\AMIGA\s\startup-sequence
+echo %GAME% >> RELEASE\AMIGA\s\startup-sequence
 
 
 tools\cecho\cecho {06}Preparing release files{07}
