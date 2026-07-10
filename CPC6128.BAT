@@ -37,14 +37,7 @@ IF  NOT DEFINED LANG (
 echo Language: %LANG% %BASELANG%
 
 IF NOT exist %GAME%.DSF COPY ASSETS\TEMPLATES\BLANK_%LANG%.DSF %GAME%.DSF
-
-REM ---- OBTENER RECURSOS ---- 
-tools\cecho\cecho {06}Copying required files...{07}
 echo.
-COPY ASSETS\CPC\BLANK.DSK %GAME%.DSK > nul 2>&1
-tools\cecho\cecho {02}[OK]{07}
-echo.
-
 
 if %SPLITSCR%==splitModeOn (
     tools\cecho\cecho {06}Split screen mode enabled{07}
@@ -57,6 +50,14 @@ if %SPLITSCR%==splitModeOn (
     SET SPLITFOLDERBACK=
     echo.
 )
+
+
+REM ---- OBTENER RECURSOS ---- 
+tools\cecho\cecho {06}Copying required files...{07}
+echo.
+COPY ASSETS\CPC\BLANK.DSK %GAME%.DSK > nul 2>&1
+tools\cecho\cecho {02}[OK]{07}
+
 
 ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
@@ -77,17 +78,43 @@ ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
 
-SET INTERPRETER=ASSETS\CPC\DCPCIEF3.BIN
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\CPC\DCPCISF3.BIN
+SET INTERPRETER=ASSETS\CPC\DCPCI128EF3.BIN
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\CPC\DCPCI128SF3.BIN
 TOOLS\DRC\MCRF.EXE DAAD.BIN %INTERPRETER% DAAD.DDB ASSETS\CPC\BLANK.GRA  ASSETS\CHARSET\%FONT8%
 
 REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 CD IMAGES\CPC\%SPLITFOLDER%
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR %SPLITFOLDERBACK%..\..\TOOLS\MALUVA\SC2DAAD cpc 00%%i.SCR 00%%i.CPC %IMGLINES%
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  %SPLITFOLDERBACK%..\..\TOOLS\MALUVA\SC2DAAD cpc 0%%i.SCR 0%%i.CPC %IMGLINES%
-for /L %%i in (100, 1, 256) do IF exist %%i.SCR  %SPLITFOLDERBACK%..\..\TOOLS\MALUVA\SC2DAAD cpc %%i.SCR %%i.CPC %IMGLINES% 
+DEL *.612 > nul 2>&1
+DEL ..\*.612 > nul 2>&1
+REM -- Split
+echo Splitting images...
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR %SPLITFOLDERBACK%..\..\php\php.exe %SPLITFOLDERBACK%..\..\TOOLS\DRC\CPCsplitter.php 00%%i.SCR %IMGLINES%  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR %SPLITFOLDERBACK%..\..\php\php.exe %SPLITFOLDERBACK%..\..\TOOLS\DRC\CPCsplitter.php 0%%i.SCR %IMGLINES%  > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR %SPLITFOLDERBACK%..\..\php\php.exe %SPLITFOLDERBACK%..\..\TOOLS\DRC\CPCsplitter.php %%i.SCR %IMGLINES%  > nul 2>&1
+REM -- Compress
+echo Compressing chunks...
+for %%f in (*.PRT) do (
+                     <nul set /p =*
+                     %SPLITFOLDERBACK%..\..\TOOLS\ZX0\zx0.exe %%f > nul 2>&1
+
+)
+REM -- Pack them
+echo.
+echo Packing images...
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR %SPLITFOLDERBACK%..\..\TOOLS\SCRMAKER\SCRMAKER cpc 00%%i.SCR 00%%i.TMP 320 %IMGLINES% > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR %SPLITFOLDERBACK%..\..\TOOLS\SCRMAKER\SCRMAKER cpc 0%%i.SCR 0%%i.TMP 320 %IMGLINES%  > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR %SPLITFOLDERBACK%..\..\TOOLS\SCRMAKER\SCRMAKER cpc 0%%i.SCR 0%%i.TMP 320  %IMGLINES%  > nul 2>&1
+
+REM -- ADD AMSDOS header
+echo Adding AMSDOS header...
+for /L %%i in (0, 1, 9) do IF exist 00%%i.TMP %SPLITFOLDERBACK%..\..\php\php.exe  %SPLITFOLDERBACK%..\..\TOOlS\DRC\amsdosheader.php  00%%i.TMP 16384 > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.TMP %SPLITFOLDERBACK%..\..\php\php.exe %SPLITFOLDERBACK%..\..\TOOlS\DRC\amsdosheader.php  0%%i.TMP 16384 > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.TMP %SPLITFOLDERBACK%..\..\php\php.exe %SPLITFOLDERBACK%..\..\TOOlS\DRC\amsdosheader.php %%i.TMP 16384 > nul 2>&1
+
+del *.prt > nul 2>&1 ; 
+del *.TMP > nul 2>&1 ; 
 CD %SPLITFOLDERBACK%..\..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -96,12 +123,13 @@ REM  ---- COPY FILES ----
 tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
 TOOLS\CPCDiskXP\CPCDiskXP -File DAAD.BIN -AddToExistingDsk %GAME%.DSK
-for /L %%i in (0, 1, 9) do IF exist IMAGES\CPC%SPLITFOLDER%\00%%i.CPC TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\CPC%SPLITFOLDER%\00%%i.CPC -AddToExistingDsk %GAME%.DSK
-for /L %%i in (10, 1, 99) do IF exist IMAGES\CPC%SPLITFOLDER%\0%%i.CPC TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\CPC%SPLITFOLDER%\0%%i.CPC -AddToExistingDsk %GAME%.DSK
-for /L %%i in (100, 1, 255) do IF exist IMAGES\CPC%SPLITFOLDER%\%%i.CPC TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\CPC%SPLITFOLDER\%%%i.CPC -AddToExistingDsk %GAME%.DSK
+for /L %%i in (0, 1, 9) do IF exist IMAGES\CPC%SPLITFOLDER%\00%%i.612 TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\CPC%SPLITFOLDER%\00%%i.612 -AddToExistingDsk %GAME%.DSK
+for /L %%i in (10, 1, 99) do IF exist IMAGES\CPC%SPLITFOLDER%\0%%i.612 TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\CPC%SPLITFOLDER%\0%%i.612 -AddToExistingDsk %GAME%.DSK
+for /L %%i in (100, 1, 255) do IF exist IMAGES\CPC%SPLITFOLDER%\%%i.612 TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\CPC%SPLITFOLDER%\%%i.612 -AddToExistingDsk %GAME%.DSK
 for /L %%i in (0, 1, 9) do IF exist 0%%i.XMB TOOLS\CPCDiskXP\CPCDiskXP -File 0%%i.XMB -AddToExistingDsk %GAME%.DSK
 for /L %%i in (10, 1, 32) do IF exist %%i.XMB TOOLS\CPCDiskXP\CPCDiskXP -File %%i.XMB -AddToExistingDsk %GAME%.DSK
 tools\cecho\cecho {02}[OK]{07}
+
 ECHO.
 
 
@@ -117,7 +145,7 @@ IF ERRORLEVEL  1 GOTO CUSTOM
 REM ---- TESTER ---- 
 ECHO.
 tools\cecho\cecho {03}
-MOVE %GAME%.DSK RELEASE\CPC664 > nul 2>&1
+MOVE %GAME%.DSK RELEASE\CPC6128 > nul 2>&1
 IF "%BASELANG%" == "EN" (
 ECHO Game ready,press any key to test or  CTRL+C to stop
 )
@@ -127,7 +155,7 @@ ECHO Juego preparado, pulsa una tecla para probar, o Ctrl+C para parar.
 tools\cecho\cecho {07}
 PAUSE
 cd TOOLS\CPCE
-CPCE95 -v+ ..\..\RELEASE\CPC664\%GAME%.DSK
+CPCE95 -v+ ..\..\RELEASE\CPC6128\%GAME%.DSK
 CD ..\..
 GOTO FIN
 
