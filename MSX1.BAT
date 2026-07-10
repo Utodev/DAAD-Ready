@@ -73,11 +73,12 @@ echo.
 REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
-CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SC2 ..\TOOLS\MALUVA\SC2DAAD msx 00%%i.SC2 00%%i.MS2 %IMGLINES%
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SC2  ..\TOOLS\MALUVA\SC2DAAD msx 0%%i.SC2 0%%i.MS2 %IMGLINES%
-for /L %%i in (100, 1, 255) do IF exist %%i.SC2  ..\TOOLS\MALUVA\SC2DAAD msx %%i.SC2 %%i.MS2 %IMGLINES% 
-CD ..
+CD IMAGES/MSX1
+del *.MS2 > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SC2 ..\..\TOOLS\MALUVA\SC2DAAD msx 00%%i.SC2 00%%i.MS2 %IMGLINES%
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SC2  ..\..\TOOLS\MALUVA\SC2DAAD msx 0%%i.SC2 0%%i.MS2 %IMGLINES%
+for /L %%i in (100, 1, 255) do IF exist %%i.SC2  ..\..\TOOLS\MALUVA\SC2DAAD msx %%i.SC2 %%i.MS2 %IMGLINES% 
+CD ..\..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -118,17 +119,17 @@ REM The Xmessages file
 IF exist 0.XMB TOOLS\dsktool\dsktool a %GAME%.DSK 0.XMB > nul 2>&1
 
 REM The loading screen, if any
-if exist IMAGES\DAAD.SC2  (
-    CD IMAGES
+if exist IMAGES\MSX1\DAAD.SC2  (
+    CD IMAGES\MSX1
     ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK DAAD.SC2 > nul 2>&1
-    CD ..
+    CD ..\..
 )
 
-CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.MS2 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK 00%%i.MS2 > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.MS2 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK 0%%i.MS2 > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.MS2 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK %%i.MS2 > nul 2>&1
-CD ..
+CD IMAGES\MSX1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.MS2 ..\..\TOOLS\dsktool\dsktool a ..\..\%GAME%.DSK 00%%i.MS2 > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.MS2 ..\..\TOOLS\dsktool\dsktool a ..\..\%GAME%.DSK 0%%i.MS2 > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.MS2 ..\..\TOOLS\dsktool\dsktool a ..\..\%GAME%.DSK %%i.MS2 > nul 2>&1
+CD ..\..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 

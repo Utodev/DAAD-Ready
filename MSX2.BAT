@@ -92,16 +92,17 @@ echo.
 REM  ---- PREPARAR LAS IMáGENES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
-CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SC8 IF NOT exist 00%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx 00%%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0  > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SC8 IF NOT exist 0%%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx 0%%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0 > nul 2>&1
-for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php cx %%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0 > nul 2>&1
+CD IMAGES\MSX2
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SC8 IF NOT exist 00%%i.IM8 ..\..\php\php ..\..\tools\imgwizard\imgwizard.php cx 00%%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SC8 IF NOT exist 0%%i.IM8 ..\..\php\php ..\..\tools\imgwizard\imgwizard.php cx 0%%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0 > nul 2>&1
+for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\..\php\php ..\..\tools\imgwizard\imgwizard.php cx %%i.SC8 0 0 256 %IMGLINES% RLE --fixed=0,0 > nul 2>&1
 
 IF exist DAAD.SC8 IF NOT exist LOADING.IM8 (
-    ..\php\php ..\tools\imgwizard\imgwizard.php c DAAD.SC8 212 RLE
+    tools\cecho\cecho {06}Preparing loading screen{07}
+    ..\..\php\php ..\..\tools\imgwizard\imgwizard.php c DAAD.SC8 212 RLE
     MOVE DAAD.IM8 LOADING.IM8  > nul 2>&1
 ) 
-CD ..
+CD ..\..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -130,6 +131,8 @@ DEL font1.im8 > nul 2>&1
 DEL font0.im8 > nul 2>&1
 
 REM  ---- COPIAR FICHEROS AL DISCO ---- 
+tools\cecho\cecho {06}Copying to DSK file{07}
+echo.
 TOOLS\dsktool\dsktool a %GAME%.DSK DAAD.DDB  > nul 2>&1
 TOOLS\dsktool\dsktool a %GAME%.DSK MSX2DAAD.COM  > nul 2>&1
 TOOLS\dsktool\dsktool a %GAME%.DSK FONT.IM8  > nul 2>&1
@@ -139,14 +142,13 @@ IF exist 0.XMB (
     del TEXTS.XDB > nul 2>&1
 ) 
 
-CD IMAGES
-if exist LOADING.IM8 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK LOADING.IM8
+CD IMAGES\MSX2
+if exist LOADING.IM8 ..\..\TOOLS\dsktool\dsktool a ..\..\%GAME%.DSK LOADING.IM8
 
-for /L %%i in (0, 1, 9) do IF exist 00%%i.IM8 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK 00%%i.IM8  > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.IM8 ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK 0%%i.IM8  > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.IM8 ..\TOOLS\dsktool
-\dsktool a ..\%GAME%.DSK %%i.IM8  > nul 2>&1
-CD ..
+for /L %%i in (0, 1, 9) do IF exist 00%%i.IM8 ..\..\TOOLS\dsktool\dsktool a ..\..\%GAME%.DSK 00%%i.IM8  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.IM8 ..\..\TOOLS\dsktool\dsktool a ..\..\%GAME%.DSK 0%%i.IM8  > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.IM8 ..\..\TOOLS\dsktool\dsktool a ..\..\%GAME%.DSK %%i.IM8  > nul 2>&1
+CD ..\..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
