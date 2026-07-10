@@ -63,11 +63,12 @@ echo.
 REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
-CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\TOOLS\SCRMAKER\SCRMAKER SPECTRUM 00%%i.SCR 00%%i.ZX 256 %IMGLINES% 0,0 
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER SPECTRUM 0%%i.SCR 0%%i.ZX 256 %IMGLINES% 0,0 
-for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\TOOLS\SCRMAKER\SCRMAKER SPECTRUM %%i.SCR %%i.ZX 256 %IMGLINES% 0,0 
-CD ..
+CD IMAGES\ZX
+del *.ZX > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\..\TOOLS\SCRMAKER\SCRMAKER SPECTRUM 00%%i.SCR 00%%i.ZX 256 %IMGLINES% 0,0 
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\..\TOOLS\SCRMAKER\SCRMAKER SPECTRUM 0%%i.SCR 0%%i.ZX 256 %IMGLINES% 0,0 
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\..\TOOLS\SCRMAKER\SCRMAKER SPECTRUM %%i.SCR %%i.ZX 256 %IMGLINES% 0,0 
+CD ../..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -77,9 +78,9 @@ tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
 del RELEASE\ZXESXDOS\*.ZX > nul 2>&1
 IF exist 0.XMB copy 0.XMB RELEASE\ZXESXDOS > nul 2>&1
-for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.ZX COPY IMAGES\00%%i.ZX  RELEASE\ZXESXDOS > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.ZX COPY IMAGES\0%%i.ZX  RELEASE\ZXESXDOS > nul 2>&1
-for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.ZX COPY IMAGES\%%i.ZX  RELEASE\ZXESXDOS > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist IMAGES\ZX\00%%i.ZX COPY IMAGES\ZX\00%%i.ZX  RELEASE\ZXESXDOS > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist IMAGES\ZX\0%%i.ZX COPY IMAGES\ZX\0%%i.ZX  RELEASE\ZXESXDOS > nul 2>&1
+for /L %%i in (100, 1, 255) do IF exist IMAGES\ZX\%%i.ZX COPY IMAGES\ZX\%%i.ZX  RELEASE\ZXESXDOS > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 

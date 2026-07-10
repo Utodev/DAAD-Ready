@@ -62,15 +62,17 @@ echo.
 
 REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
-REM Clean old format images to avoid confusion
-DEL images\*.NXT > nul 2>&1
-del RELEASE\ZXNEXT\*.NXT > nul 2>&1
 ECHO.
-CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX ..\TOOLS\SCRMAKER\SCRMAKER specnext 00%%i.PCX 00%%i.LY2 256 %IMGLINES% 0,0  /s 
-for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext 0%%i.PCX 0%%i.LY2 256 %IMGLINES% 0,0  /s 
-for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext %%i.PCX %%i.LY2 256 %IMGLINES% 0,0  /s 
-CD ..
+CD IMAGES\ZX\ZXNEXT
+DEL *.LY2 > nul 2>&1
+del ..\..\RELEASE\ZXNEXT\*.LY2 > nul 2>&1
+REM Clean also old format images to avoid confusion
+DEL *.NXT > nul 2>&1
+del ..\..\RELEASE\ZXNEXT\*.NXT > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.PCX ..\..\..\TOOLS\SCRMAKER\SCRMAKER specnext 00%%i.PCX 00%%i.LY2 256 %IMGLINES% 0,0  /s 
+for /L %%i in (10, 1, 99) do IF exist 0%%i.PCX  ..\..\..\TOOLS\SCRMAKER\SCRMAKER specnext 0%%i.PCX 0%%i.LY2 256 %IMGLINES% 0,0  /s 
+for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\..\..\TOOLS\SCRMAKER\SCRMAKER specnext %%i.PCX %%i.LY2 256 %IMGLINES% 0,0  /s 
+CD ..\..\..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -80,9 +82,7 @@ tools\cecho\cecho {06}Preparing release files{07}
 ECHO.
 DEL RELEASE\ZXNEXT\*.LY2 > nul 2>&1
 IF exist 0.XMB copy 0.XMB RELEASE\ZXNEXT > nul 2>&1
-for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.LY2 MOVE IMAGES\00%%i.LY2  RELEASE\ZXNEXT > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.LY2 MOVE IMAGES\0%%i.LY2  RELEASE\ZXNEXT > nul 2>&1
-for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.LY2 MOVE IMAGES\%%i.LY2  RELEASE\ZXNEXT > nul 2>&1
+MOVE IMAGES\ZX\ZXNEXT\*.LY2 RELEASE\ZXNEXT > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 

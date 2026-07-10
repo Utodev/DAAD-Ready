@@ -5,7 +5,7 @@
 $verbose = false;
 $summary = false;
 $dumpIndexBackup = false;
-$imagesDir = 'IMAGES';
+$imagesDir = 'IMAGES\ZX';
 for ($i = 0; $i < count($argv); $i++) {
     $arg = $argv[$i];
 

@@ -64,28 +64,28 @@ REM  ---- PREPARE THE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 
-CD IMAGES
+CD IMAGES\ZX
 del *.s48 > nul 2>&1 ; 
 del *.prt > nul 2>&1 ; 
 
 SET IMGWIDTH=256
 
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\php\php.exe ..\TOOLS\DRC\ZXsplitter.php 00%%i.SCR %IMGLINES%  > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR ..\php\php.exe ..\TOOLS\DRC\ZXsplitter.php 0%%i.SCR %IMGLINES%  > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.SCR ..\php\php.exe ..\TOOLS\DRC\ZXsplitter.php %%i.SCR %IMGLINES%  > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\..\php\php.exe ..\..\TOOLS\DRC\ZXsplitter.php 00%%i.SCR %IMGLINES%  > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR ..\..\php\php.exe ..\..\TOOLS\DRC\ZXsplitter.php 0%%i.SCR %IMGLINES%  > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR ..\..\php\php.exe ..\..\TOOLS\DRC\ZXsplitter.php %%i.SCR %IMGLINES%  > nul 2>&1
 
 for %%f in (*.prt) do (
                      <nul set /p =*
-                     ..\TOOLS\ZX0\zx0.exe %%f > nul 2>&1
+                     ..\..\TOOLS\ZX0\zx0.exe %%f > nul 2>&1
 
 )
 ECHO.
 
-..\php\php.exe ..\TOOLS\DRC\pager48k.php  ..\%GAME%.DDB
+..\..\php\php.exe ..\..\TOOLS\DRC\pager48k.php  ..\..\%GAME%.DDB
 ECHO.
 
 del *.prt > nul 2>&1 ; 
-CD ..
+CD ..\..
 
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
@@ -108,8 +108,8 @@ IF exist images\DAAD.SCR SET %LOADING=images\DAAD.SCR
 del INDEX.BIN > nul 2>&1
 del PAGE0.TMP > nul 2>&1
 
-MOVE IMAGES\INDEX.BIN . > nul 2>&1
-MOVE IMAGES\PAGE0.TMP . > nul 2>&1
+MOVE IMAGES\ZX\INDEX.BIN . > nul 2>&1
+MOVE IMAGES\ZX\PAGE0.TMP . > nul 2>&1
 if exist DAAD.SCR TOOLS\DRC\daadmaker.exe %GAME%.TAP %INTERPRETER% %GAME%.DDB DAAD.SCR ASSETS\CHARSET\%FONT6% INDEX.BIN DAAD.SDG /48
 rem > nul 2>&1
 if NOT exist DAAD.SCR TOOLS\DRC\daadmaker.exe %GAME%.TAP %INTERPRETER% %GAME%.DDB ASSETS\CHARSET\%FONT6% INDEX.BIN DAAD.SDG /48
