@@ -3530,14 +3530,16 @@ function _PICTURE()
     {
         imageBufferID = Parameter1;
         condactResult = true;
+        done = true;
     }
     else
     {
-        var image = jDAADSounds[Parameter1];
-        if (image !== null)
+        var image = jDAADSounds.indexOf(Parameter1);
+        if (image !== -1)
         {
             sampleBufferID = Parameter1;
             condactResult = true;
+            done = true;
         }
         else
         {
@@ -3545,7 +3547,7 @@ function _PICTURE()
             condactResult = false;
         }
     }
-    done = true;
+    
 }
 
 
