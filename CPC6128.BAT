@@ -103,9 +103,12 @@ for %%f in (*.PRT) do (
 REM -- Pack them
 echo.
 echo Packing images...
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR %SPLITFOLDERBACK%..\..\TOOLS\SCRMAKER\SCRMAKER cpc 00%%i.SCR 00%%i.TMP 320 %IMGLINES% > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR %SPLITFOLDERBACK%..\..\TOOLS\SCRMAKER\SCRMAKER cpc 0%%i.SCR 0%%i.TMP 320 %IMGLINES%  > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist %%i.SCR %SPLITFOLDERBACK%..\..\TOOLS\SCRMAKER\SCRMAKER cpc 0%%i.SCR 0%%i.TMP 320  %IMGLINES%  > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR %SPLITFOLDERBACK%..\..\TOOLS\SCRMAKER\SCRMAKER cpc 00%%i.SCR 00%%i.TMP 320 %IMGLINES% 
+rem > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR %SPLITFOLDERBACK%..\..\TOOLS\SCRMAKER\SCRMAKER cpc 0%%i.SCR 0%%i.TMP 320 %IMGLINES%  
+rem > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR %SPLITFOLDERBACK%..\..\TOOLS\SCRMAKER\SCRMAKER cpc %%i.SCR %%i.TMP 320  %IMGLINES%  
+rem > nul 2>&1
 
 REM -- ADD AMSDOS header
 echo Adding AMSDOS header...
