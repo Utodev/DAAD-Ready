@@ -72,27 +72,27 @@ tools\cecho\cecho {0B}----------------------------------------------------------
 echo.
 
 REM  ---- PREPARE IMAGES ----
-CD IMAGES
+CD IMAGES\C64
 ..\tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
 if NOT "%SPLITSCR%" == "splitModeOn" (
 echo Processing ART files
 ECHO.
-for /L %%i in (0, 1, 9) do IF exist 00%%i.ART ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.ART 00%%i64 %IMGLINES%
-for /L %%i in (10, 1, 99) do IF exist 0%%i.ART  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.ART 0%%i64 %IMGLINES%
-for /L %%i in (100, 1, 255) do IF exist %%i.ART  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.ART %%i64 %IMGLINES%
+for /L %%i in (0, 1, 9) do IF exist 00%%i.ART ..\..\TOOLS\MALUVA\SC2DAAD c64 00%%i.ART 00%%i64 %IMGLINES%
+for /L %%i in (10, 1, 99) do IF exist 0%%i.ART  ..\..\TOOLS\MALUVA\SC2DAAD c64 0%%i.ART 0%%i64 %IMGLINES%
+for /L %%i in (100, 1, 255) do IF exist %%i.ART  ..\..\TOOLS\MALUVA\SC2DAAD c64 %%i.ART %%i64 %IMGLINES%
 )
 if "%SPLITSCR%" == "splitModeOn" ( 
 echo Processing KOA files
 ECHO.
-for /L %%i in (0, 1, 9) do IF exist 00%%i.KOA ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KOA 00%%i64 96
-for /L %%i in (10, 1, 99) do IF exist 0%%i.KOA  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.KOA 0%%i64 96
-for /L %%i in (100, 1, 255) do IF exist %%i.KOA  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.KOA %%i64 96
-for /L %%i in (0, 1, 9) do IF exist 00%%i.KLA ..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KLA 00%%i64 96
-for /L %%i in (10, 1, 99) do IF exist 0%%i.KLA  ..\TOOLS\MALUVA\SC2DAAD c64 0%%i.KLA 0%%i64 96
-for /L %%i in (100, 1, 255) do IF exist %%i.KLA  ..\TOOLS\MALUVA\SC2DAAD c64 %%i.KLA %%i64 96
+for /L %%i in (0, 1, 9) do IF exist 00%%i.KOA ..\..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KOA 00%%i64 96
+for /L %%i in (10, 1, 99) do IF exist 0%%i.KOA  ..\..\TOOLS\MALUVA\SC2DAAD c64 0%%i.KOA 0%%i64 96
+for /L %%i in (100, 1, 255) do IF exist %%i.KOA  ..\..\TOOLS\MALUVA\SC2DAAD c64 %%i.KOA %%i64 96
+for /L %%i in (0, 1, 9) do IF exist 00%%i.KLA ..\..\TOOLS\MALUVA\SC2DAAD c64 00%%i.KLA 00%%i64 96
+for /L %%i in (10, 1, 99) do IF exist 0%%i.KLA  ..\..\TOOLS\MALUVA\SC2DAAD c64 0%%i.KLA 0%%i64 96
+for /L %%i in (100, 1, 255) do IF exist %%i.KLA  ..\..\TOOLS\MALUVA\SC2DAAD c64 %%i.KLA %%i64 96
 )
-CD ..
+CD ..\..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -113,9 +113,9 @@ REM  ---- COPY FILES ----
 tools\c1541\c1541.exe -attach %GAME%.D64 -write APART1.TMP apart1 > nul 2>&1
 tools\c1541\c1541.exe -attach %GAME%.D64 -write DAAD.DDB bpart1 > nul 2>&1
 tools\c1541\c1541.exe -attach %GAME%.D64 -write %INTERPRETER% %INTERPRETER_FINAL%  > nul 2>&1
-for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i64 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\00%%i64 00%%i64 > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i64 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\0%%i64 0%%i64 > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist IMAGES\%%i64  tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\%%i64 %%i64 > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist IMAGES\C64\00%%i64 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\C64\00%%i64 00%%i64 > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist IMAGES\C64\0%%i64 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\C64\0%%i64 0%%i64 > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist IMAGES\C64\%%i64  tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\C64\%%i64 %%i64 > nul 2>&1
 for /L %%i in (0, 1, 32) do IF exist 0%%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write 0%%i.XMB 0%%i > nul 2>&1
 for /L %%i in (10, 1, 32) do IF exist %%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write %%i.XMB %%i > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
@@ -123,7 +123,7 @@ ECHO.
 
 IF exist CUSTOM1.BAT CALL CUSTOM1.BAT
 REM ----  CLEANING ---- 
-DEL IMAGES\*64.> nul 2>&1
+DEL IMAGES\C64\*64.> nul 2>&1
 DEL DAAD.DDB > nul 2>&1
 DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
