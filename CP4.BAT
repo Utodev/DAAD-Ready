@@ -76,11 +76,14 @@ echo.
 REM  ---- PREPARAR LAS IM GENES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
-CD IMAGES
-for /L %%i in (0, 1, 9) do IF exist 00%%i.PRG ..\TOOLS\MALUVA\SC2DAAD cp4 00%%i.PRG 00%%i4 %IMGLINES%
-for /L %%i in (10, 1, 99) do IF exist 0%%i.PRG  ..\TOOLS\MALUVA\SC2DAAD cp4 0%%i.PRG 0%%i4 %IMGLINES%
-for /L %%i in (100, 1, 255) do IF exist %%i.PRG  ..\TOOLS\MALUVA\SC2DAAD cp4 %%i.PRG %%i4 %IMGLINES% 
-CD ..
+CD IMAGES\CPLUS4
+for /L %%i in (0, 1, 9) do IF exist 00%%i.PRG ..\..\TOOLS\MALUVA\SC2DAAD cp4 00%%i.PRG 00%%i4 %IMGLINES%
+for /L %%i in (10, 1, 99) do IF exist 0%%i.PRG  ..\..\TOOLS\MALUVA\SC2DAAD cp4 0%%i.PRG 0%%i4 %IMGLINES%
+for /L %%i in (100, 1, 255) do IF exist %%i.PRG  ..\..\TOOLS\MALUVA\SC2DAAD cp4 %%i.PRG %%i4 %IMGLINES% 
+for /L %%i in (0, 1, 9) do IF exist 00%%i.P4I ..\..\TOOLS\MALUVA\SC2DAAD cp4 00%%i.P4I 00%%i4 %IMGLINES%
+for /L %%i in (10, 1, 99) do IF exist 0%%i.P4I  ..\..\TOOLS\MALUVA\SC2DAAD cp4 0%%i.P4I 0%%i4 %IMGLINES%
+for /L %%i in (100, 1, 255) do IF exist %%i.P4I  ..\..\TOOLS\MALUVA\SC2DAAD cp4 %%i.P4I %%i4 %IMGLINES% 
+CD ..\..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -101,9 +104,9 @@ REM  ---- COPIAR FICHEROS AL DISCO ----
 tools\c1541\c1541.exe -attach %GAME%.D64 -write APART1.TMP apart1 > nul 2>&1
 tools\c1541\c1541.exe -attach %GAME%.D64 -write DAAD.DDB bpart1 > nul 2>&1
 tools\c1541\c1541.exe -attach %GAME%.D64 -write %INTERPRETER% %INTERPRETER_FINAL%  > nul 2>&1
-for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i4 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\00%%i4 00%%i4 > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i4 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\0%%i4 0%%i4 > nul 2>&1
-for /L %%i in (100, 1, 256) do IF exist IMAGES\%%i4  tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\%%i4 %%i4 > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist IMAGES\CPLUS4\00%%i4 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\CPLUS4\00%%i4 00%%i4 > nul 2>&1
+for /L %%i in (10, 1, 99) do IF exist IMAGES\CPLUS4\0%%i4 tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\CPLUS4\0%%i4 0%%i4 > nul 2>&1
+for /L %%i in (100, 1, 256) do IF exist IMAGES\CPLUS4\%%i4  tools\c1541\c1541.exe -attach %GAME%.D64 -write IMAGES\CPLUS4\%%i4 %%i4 > nul 2>&1
 for /L %%i in (0, 1, 9) do IF exist 0%%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write 0%%i.XMB 0%%i > nul 2>&1
 for /L %%i in (10, 1, 32) do IF exist %%i.XMB tools\c1541\c1541.exe -attach %GAME%.D64 -write %%i.XMB %%i > nul 2>&1
 tools\cecho\cecho {02}[OK]{07}
