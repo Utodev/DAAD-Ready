@@ -224,7 +224,8 @@
   <tr><td>AMIGA.BAT</td><td>Commodore Amiga</td></tr>
   <tr><td>ATARIST.BAT</td><td>Atari ST</td></tr>
   <tr><td>C64.BAT</td><td>Commodore 64</td></tr>
-  <tr><td>CPC.BAT</td><td>Amstrad CPC</td></tr>
+  <tr><td>CPC664.BAT</td><td>Amstrad CPC</td></tr>
+  <tr><td>CPC6128.BAT</td><td>Amstrad CPC</td></tr>
   <tr><td>CPLUS4.BAT</td><td>Commodore Plus/4</td></tr>
   <tr><td>PC.BAT</td><td>Classic PC with DOS</td></tr>
   <tr><td>MSX1.BAT</td><td>MSX 1</td></tr>
@@ -243,6 +244,11 @@
   <tr><td>AMIGA_EXPERIMENTAL.BAT</td><td>Amiga OCS/HAM/AGA Experimental</td></tr>
   <tr><td>ATARIST_EXPERIMENTAL.BAT</td><td>Atari ST/STE/Falcon Experimental</td></tr>
 </table>
+
+<p>¿Por qué dos targets CPC? A día de hoy, la version para CPC hace uso de images comprimidas, que ayudan a que quepan más imágenes en un disquete. Lamentablemente, 
+  para descomprimirlas se necesita más espacio en RAM, por lo que hace falta un CPC6128 con 128K de RAM. El target CPC664, funciona igual, pero no comprime las 
+  imágenes, así que puede funcionar en una máquina de 64K como el CPC 664.
+  </p>
 
 
 <a name="otherdetails"></a>
@@ -2140,12 +2146,12 @@ MIRA CUBO (por la terminación -LO)<br/>
   <tr><th>Escape code</th><th>Descripción</th></tr>
   <tr><td>_ (guion bajo)</td><td>Es reemplazado por el objeto actualmente referenciado. En inglés, la primera palabra del texto de objeto que aparece en el apartado OTX se quita, en español, si se encuentra un artículo indefinido, lo reemplaza por el definido(por ejemplo, reemplaza “un” con ”el”).</td></tr>
   <tr><td>@</td><td>Igual pero el artículo reemplazado pasa a tener su primer letra en mayúsculas (“un”-“El”). Solo funciona si el juego está español.</td></tr>
-  <tr><td>#b or #s</td><td>Escribe un caracter blanco. Es una herencia del antiguo DAAD que no tiene mucho sentido en DAAD Ready.</td></tr>
+  <tr><td>#s</td><td>Escribe un caracter blanco. Es una herencia del antiguo DAAD que no tiene mucho sentido en DAAD Ready.</td></tr>
+  <tr><td>#b</td><td>Limpia la ventana actual.</td></tr>
   <tr><td>#k</td><td>Cuanto este carácter es imprimido, el juego hace una pausa y espera que pulsen una tecla. </td></tr>
   <tr><td>#n or \n</td><td>Genera un salto de línea.</td></tr>
   <tr><td>#g</td><td>No imprime nada, pero a partir de ese momento los textos se pintarán con el juego de caracteres alternativo (ver apéndices). Así, “#gt” pintará el carácter “t” del set alternativo. (ver el apartado sobre el juego de caracteres más adelante).</td></tr>
   <tr><td>#t</td><td>Opuesto a #g, vuelve a usar el juego de caracteres por defecto.</td></tr>
-  <tr><td>#e</td><td>Escribe el signo del euro (€).</td></tr>
 </table>
 
 <a name="preprocessorcommands"></a>

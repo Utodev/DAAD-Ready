@@ -97,6 +97,7 @@
   <ul>
     <li><a href='#loadingscreens'>Apéndice A - Pantallas de carga</a></li>  
     <li><a href='#tools'>Apéndice B - Utilidades</a></li>
+    <li><a href='#globalgfxsfx'>Apéndice C - Tabla global de GFX y SFX</a></li>
   </ul> 
 </ul>
 <a name="overview"></a>
@@ -203,7 +204,7 @@ el juego reproduce las notas C, D, E (Do-Re-Mi)</p>
 
 <p>Para entender lo que se explica aquí, primero debes haber leído la sección "Información Importante" de este manual. Si no lo has hecho, por favor hazlo antes de continuar.</p>
 
-<p>Para agregar gráficos, simplemente crea archivos .SCR (en el formato habitual .SCR de 6912 bytes de los emuladores) y colócalos en la carpeta IMAGES. Por ejemplo, solo agrega 001.SCR
+<p>Para agregar gráficos, simplemente crea archivos .SCR (en el formato habitual .SCR de 6912 bytes de los emuladores) y colócalos en la carpeta IMAGES/ZX. Por ejemplo, solo agrega 001.SCR
   para la ubicación 1, 002.SCR para la ubicación 2, y así sucesivamente. También puedes crear imágenes para mostrar manualmente mediante PICTURE/DISPLAY (es decir, crea 100.SCR y luego
   usa PICTURE 100, DISPLAY 0 para mostrarlo).</p>
 </p>
@@ -323,7 +324,7 @@ for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spec
 
 <p>El Spectrum Next usa su modo Layer2, 256x192 píxeles, con 256 colores de una paleta de 512 colores.</p>
 
-<p>Para agregar gráficos, necesitas colocar imágenes PCX indexadas de 256 colores y 256x192 en la carpeta IMAGES (por ejemplo, 001.PCX para la ubicación 1). De hecho, es mejor crear imágenes con solo 240 colores, veremos por qué más abajo.</p>
+<p>Para agregar gráficos, necesitas colocar imágenes PCX indexadas de 256 colores y 256x192 en la carpeta IMAGES/ZX/ZXNEXT (por ejemplo, 001.PCX para la ubicación 1). De hecho, es mejor crear imágenes con solo 240 colores, veremos por qué más abajo.</p>
 
 <p>Sin embargo, hay un pequeño problema: la paleta del Spectrum Next ofrece solo 256 colores de 512, mientras que PCX permite 256 colores de 262.144. Esto significa que podrías usar colores PCX no reproducibles en Next.</p>
 
@@ -451,7 +452,7 @@ Ese color no se mostrará y hará visible el texto ULA subyacente.</p>
 
   <p>Sin llegar al modo Layer2 del Spectrum Next, la combinación del modo HiRes y ULAPlus permite gráficos de muy alta calidad.</p>
 
-  <p>DAAD Ready espera imágenes en formato SCR que se coloquen en la carpeta IMAGES/ZXUNO. Ten en cuenta que el formato SCR para ZXUNO es diferente del formato SCR estándar del Spectrum, y
+  <p>DAAD Ready espera imágenes en formato SCR que se coloquen en la carpeta IMAGES/ZX/ZXUNO. Ten en cuenta que el formato SCR para ZXUNO es diferente del formato SCR estándar del Spectrum, y
     es por eso que no puedes usar los originales, ni la misma carpeta.</p>
         
   <p>Para crear gráficos para ZX-Uno, puedes hacerlo de dos maneras:
@@ -502,7 +503,7 @@ Ese color no se mostrará y hará visible el texto ULA subyacente.</p>
 
   <p>Para entender lo que se explica aquí, primero debes haber leído la sección "Información Importante" de este manual. Si no lo has hecho, por favor hazlo antes de continuar.</p>
 
-  <p>Para agregar imágenes al intérprete MSX 1, necesitamos colocar archivos con extensión .SC2 (256x192) en la carpeta de imágenes.</p>
+  <p>Para agregar imágenes al intérprete MSX 1, necesitamos colocar archivos con extensión .SC2 (256x192) en la carpeta IMAGES/MSX1.</p>
         
   <p>SC2 es un formato muy común en MSX, correspondiente a un modo de video con una resolución de 256x192 y atributos de 8x1.</p>
 
@@ -534,7 +535,10 @@ Ese color no se mostrará y hará visible el texto ULA subyacente.</p>
 
   <p>Para entender lo que se explica aquí, primero debes haber leído la sección "Información Importante" de este manual. Si no lo has hecho, por favor hazlo antes de continuar.</p>
 
-  <p>MSX2 usa como fuente imágenes en el formato estándar SC8 de MSX (pantalla 8), que permite una paleta avanzada de 256 colores y puede usarse a una resolución de 256x212.</p>
+  <p>MSX2 usa como fuente imágenes en el formato estándar SC8 de MSX (pantalla 8), que permite una paleta avanzada de 256 colores y puede usarse a una resolución de 256x212. Tienes
+    que poner imágenes SC8 en la carpeta IMAGES/MSX2, por ejemplo 001.SC8 para la ubicación 1. Las imágenes de MSX2 llevan compresión, por lo que solo se generan una vez. Si cambias
+    una imagen SC8, asegúrate de eliminar el archivo IM8 correspondiente para que se regenere.
+  </p>
   
   <p>Para obtenerlas podemos usar el convertidor en <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>, seleccionando Screen 8.</p>
   <p><a href="https://www.dadither.com/#Download">DaDither</a> también permite crear imágenes para MSX2 (Screen 8 256x212x8).</p>
@@ -596,8 +600,8 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
     <tr><td>4</td><td>Cualquiera</td><td>Establece el dibujo gráfico en el búfer</td></tr>
     <tr><td>5</td><td>Cualquiera</td><td>Borra la pantalla</td></tr>
     <tr><td>6</td><td>Cualquiera</td><td>Borra el búfer</td></tr>
-    <tr><td>7</td><td>Cualquiera</td><td>Establece el dibujo de texto en la pantalla. </td></tr>
-    <tr><td>8</td><td>Cualquiera</td><td>Establece el dibujo de texto en el búfer. </td></tr>
+    <tr><td>7</td><td>Cualquiera</td><td>Establece escritura de texto en la pantalla. </td></tr>
+    <tr><td>8</td><td>Cualquiera</td><td>Establece escritura de texto en el búfer. </td></tr>
     <tr><td>9</td><td>flagno</td><td>Cambia el color de la paleta definido en la bandera flagno a los valores R,G,B contenidos en las banderas flagno+1, flagno+2 y flagno+3. No admitido por Amiga.</td></tr>
     <tr><td>10</td><td>flagno</td><td>Lee el color de la paleta definido en la bandera flagno y almacena sus valores R,G,B en las banderas flagno+1, flagno+2 y flagno+3.</td></tr>
     <tr><td>128</td><td>Cualquiera</td><td>Copia la ventana actual desde el búfer a la pantalla</td></tr>
@@ -667,7 +671,10 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
   <p>DAAD Ready creará por defecto imágenes de 320x96 para Commodore Plus/4, fijas en 0,0. Esta máquina no admite imágenes flotantes, limitación de paleta ni nada más.</p>
 
-  <p>Para agregar gráficos, debes crear imágenes en formato PRG de Plus/4, que se pueden hacer usando la aplicación <a href="http://multipaint.kameli.net/">Multipaint</a>.</p>
+  <p>Para agregar gráficos, debes crear imágenes en formato PRG o P4I de Plus/4 , que se pueden hacer usando Botticceli en el propio Plus/4 o  la aplicación <a href="http://multipaint.kameli.net/">Multipaint</a>
+    que genera ficheros P4I exportando a Bott. No exportes a PRG con Multipaint, no funciona.</p>
+
+    <P>Pon los ficheros PRG o P4I en la carpeta IMAGES\CPLUS4</P>
 
   <p>DaDither no admite Plus/4, pero puedes usar <a href='http://www.kameli.net/marq/?page_id=4557'>Pixel Polizei</a> para una funcionalidad similar.</p>
 
@@ -683,24 +690,34 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
   <p>DAAD Ready creará por defecto imágenes de 320x96 para Amstrad CPC, fijas en 0,0. Esta máquina no admite imágenes flotantes, limitación de paleta ni nada más.</p>
 
-  <p>Para agregar imágenes al intérprete de Amstrad CPC, necesitas colocar archivos con extensión .SCR (320x200) en la carpeta images/CPC, junto con un archivo .PAL del mismo nombre (por ejemplo 001.SCR y 001.PAL).
+  <p>Para agregar imágenes al intérprete de Amstrad CPC, necesitas colocar archivos con extensión .SCR (320x200) en la carpeta IMAGES/CPC, junto con un archivo .PAL del mismo nombre (por ejemplo 001.SCR y 001.PAL).
   No los coloques directamente en la carpeta de imágenes, ya que eso sobrescribiría los archivos SCR de Spectrum, que tienen un formato diferente.</p>
 
   <p>Las imágenes SCR deben estar en modo 1, 320x200 y 4 colores.</p>
+
+
+
+    <p>Known bug: if the image appears misplaced, it may be due to a known bug. The good news is you can avoid it: you may probably used a full screen window and filled it with text, so it scrolls. You can do that, 
+     but first make sure to create that window with maximum height and width. Just don't use it without initializing it.
+  </p>
+
+  <p>Bug conocido: si la imagen aparece descolocada, puede deberse a un bug conocido. La buena noticia es que puedes evitarlo: probablemente hayas usado una ventana de pantalla completa y la hayas llenado 
+    con texto, de modo que haga scroll. Puedes hacer eso, pero primero asegúrate de crear esa ventana con la altura y el ancho máximos. Simplemente no la uses sin inicializarla antes.</p>
+
 
   <u>Pantalla dividida</u>
 
   <p>Amstrad CPC puede habilitar el modo pantalla dividida, en el que la parte superior de la pantalla estará en modo 0 (160x96, 16 colores).</p>
 
-  <p>Para activar el modo pantalla dividida, debes editar CONFIG.BAT y cambiar splitModeOff por splitModeOn. Hacer eso también afectaría a los Commodore 64, que también admiten pantalla dividida. La pantalla dividida
-    se activa mediante el metacondacto XSPLITSCR, o mediante el condacto GFX. XSPLITSCR n y GFX n 15 son lo mismo.</p>
+  <p>Para activar el modo pantalla dividida, debes editar CONFIG.BAT y cambiar splitModeOff por splitModeOn. Hacer eso también afectaría a los Commodore 64, que también admiten
+    pantalla dividida. La pantalla dividida se activa mediante el metacondacto XSPLITSCR, o mediante el condacto GFX. XSPLITSCR n y GFX n 15 son lo mismo.</p>
 
   <p>Puedes experimentar parpadeo y oscurecimiento de la pantalla al cargar desde el disco, porque mantener este modo dividido activo al leer del disco es muy complicado, por lo que el
      intérprete intentará ocultar efectos extraños.</p>
     
   <p>El formato SCR/PAL es el mismo independientemente de si usas modo 0 o 1. Simplemente genera un SCR para el modo que usarás. Puedes usar <a href="http://multipaint.kameli.net/">Multipaint</a> o <a href="https://www.dadither.com/#Download">DaDither</a>.</p>
 
-  <p>Las imágenes deben ser modo 1 por defecto (320x200), pero si cambias a pantalla dividida, deben ser archivos SCR de 160x200 en modo 0.</p>
+  <p>Las imágenes deben ser modo 1 por defecto (320x200), pero si cambias a pantalla dividida, deben ser archivos SCR de 160x200 en modo 0 y las debes poner en la carpeta IMAGES/CPC/SPLITMODE.</p>
 
   <p>Otra herramienta útil para CPC es <a href="https://www.cpcwiki.eu/index.php/ConvImgCPC">ConvImgCPC</a>, no solo porque permite crear gráficos como DaDither,
     sino también porque permite editar la paleta de colores. En Amstrad CPC, la paleta seleccionada para el gráfico afecta al texto, por lo que es importante que nuestro gráfico
@@ -716,14 +733,35 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
   <p>Sin embargo, el CPC tiene un soporte limitado de SFX, con comandos diferentes a los de otras máquinas:</p>
 
-  <small>
+   <small>
   <table>
+    <tr><td colspan=3>SFX</td></tr>
   <tr>
-    <th>Parámetro 2</th><th>Parámetro 1</th><th>Descripción</th>
+    <th>Parametro 2</th><th>Parametro 1</th><th>Descripción</th>
   </tr>
-  <tr><td>0-13</td><td>Cualquiera</td><td>Escribe el valor del parámetro en el primer parámetro, en el registro del PSG (chip de audio) indicado en el primer parámetro.</td></tr>
-  <tr><td>14</td><td>flagno</td><td>Modifica el indice de la paleta (0-15) definido en la bandera flagno, al color de la paleta (0-26) indicado en el flag flagno + 1.</td></tr>
+  <tr><td>0-13</td><td>0-255</td><td>
+    Escribe el valor del parámetro en el segundo parámetro, en el registro del chip de audio indicado en el primer parámetro.</td></tr>
   </table>
+</small>
+
+<small>
+  <table>
+    <tr><td colspan=3>GFX</td></tr>
+  <tr>
+    <th>Parametro 2</th><th>Parametro 1</th><th>Descripción</th>
+  </tr>
+  <tr><td>9</td><td>flagno</td><td>Modifica el índice de paleta (0-15) definido en la bandera flagno, al color de paleta (0-26) indicado en la bandera flagno + 1. Puedes ver la paleta del CPC más abajo.</td></tr>    
+  <tr><td>15</td><td>0-2</td><td>0: Sin pantalla dividida, 1: Pantalla dividida con la parte superior en modo 0 y la inferior en modo 1, 2: Pantalla dividida con la parte superior en modo 2 y la inferior en modo 1</td></tr>
+  <tr><td>16</td><td>0-1</td><td>Indica si el CPC borrará la paleta al cargar una imagen (la pondrá en negro), o si simplemente dibujará directamente.</td></tr>
+  </table>
+</small>
+<br/>
+<img src="res/cpcpalette.png" alt="Paleta del CPC" title='Paleta del CPC' />
+
+<br/>
+<br/>
+
+
 
 
 <a name='amiga'></a>
@@ -736,6 +774,8 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 <p>Para agregar imágenes a los intérpretes de Amiga/ST, usaremos el formato .PNG (también se puede usar el formato PI1 de Degas). Deberíamos crear archivos PNG con un máximo de 16 colores y una resolución de 320x200. Puede ser a color verdadero o indexado, no importa,
   pero si usas un archivo indexado, no hay garantía de que los colores permanezcan en el mismo orden en la paleta.</p>
 
+
+  <p>Pon las imágenes en la carpeta IMAGES\AMIGA_ST\.</p>
 <p>Las paletas de Amiga y ST también afectan al texto, así que para evitar que el texto se vuelva ilegible debido al uso de dos colores muy similares para papel y tinta, DAAD Ready ordenará la paleta para que el color más oscuro de la imagen sea
    el color usado para el color 0, y el más brillante, el usado para el color 1. Como DAAD usa por defecto PAPER 0, INK 1 en Amiga/ST, eso funcionará bien por defecto.</p>
 
@@ -852,8 +892,8 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   <tr><td>4</td><td>Cualquiera</td><td>Establece el dibujo gráfico en el búfer</td></tr>
   <tr><td>5</td><td>Cualquiera</td><td>Borra la pantalla</td></tr>
   <tr><td>6</td><td>Cualquiera</td><td>Borra el búfer</td></tr>
-  <tr><td>7</td><td>Cualquiera</td><td>Establece el dibujo de texto en la pantalla. Solo Atari ST, no Amiga.</td></tr>
-  <tr><td>8</td><td>Cualquiera</td><td>Establece el dibujo de texto en el búfer. Solo Atari ST, no Amiga.</td></tr>
+  <tr><td>7</td><td>Cualquiera</td><td>Establece escritura de texto en la pantalla. Solo Atari ST, no Amiga.</td></tr>
+  <tr><td>8</td><td>Cualquiera</td><td>Establece escritura de texto en el búfer. Solo Atari ST, no Amiga.</td></tr>
     <tr><td>9</td><td>flagno</td><td>Cambia el color de la paleta definido en la bandera flagno a los valores R,G,B contenidos en las banderas flagno+1, flagno+2 y flagno+3. No admitido por Amiga.</td></tr>
   <tr><td>10</td><td>flagno</td><td>Lee el color de la paleta definido en la bandera flagno y almacena sus valores R,G,B en las banderas flagno+1, flagno+2 y flagno+3.</td></tr>
 </table>
@@ -1023,7 +1063,7 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
   una pantalla de 320x200 con gráficos a color verdadero, por lo que es una simulación muy capaz.</p>
 </p>
 
-<p>Todas las imágenes deben estar en formato .PNG, y deben ser RGB (no indexadas). Colócalas en la carpeta IMAGES usando nombres de archivo de tres dígitos (por ejemplo, 001.PNG, 090.PNG). A diferencia de otras máquinas, las imágenes
+<p>Todas las imágenes deben estar en formato .PNG, y deben ser RGB (no indexadas). Colócalas en la carpeta IMAGES/HTML usando nombres de archivo de tres dígitos (por ejemplo, 001.PNG, 090.PNG). A diferencia de otras máquinas, las imágenes
   no necesitan ser a pantalla completa (320x200 en este caso). Puedes hacerlas del tamaño que quieras, pero no más grandes que 320x200.</p>
 
 
@@ -1117,8 +1157,8 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
   <tr><td>4</td><td>Cualquiera</td><td>Establece el dibujo gráfico en el búfer</td></tr>
   <tr><td>5</td><td>Cualquiera</td><td>Borra la pantalla</td></tr>
   <tr><td>6</td><td>Cualquiera</td><td>Borra el búfer</td></tr>
-  <tr><td>7</td><td>Cualquiera</td><td>Establece el dibujo de texto en la pantalla</td></tr>
-  <tr><td>8</td><td>Cualquiera</td><td>Establece el dibujo de texto en el búfer</td></tr>
+  <tr><td>7</td><td>Cualquiera</td><td>Establece escritura de texto en la pantalla</td></tr>
+  <tr><td>8</td><td>Cualquiera</td><td>Establece escritura de texto en el búfer</td></tr>
   <tr><td>9</td><td>flagno</td><td>Cambia el color de la paleta definido en la bandera flagno a los valores R,G,B contenidos en las banderas flagno+1, flagno+2 y flagno+3.</td></tr>
   <tr><td>10</td><td>flagno</td><td>Lee el color de la paleta definido en la bandera flagno y almacena sus valores R,G,B en las banderas flagno+1, flagno+2 y flagno+3.</td></tr>
   <tr><td>13</td><td>número de recurso</td><td>Reproduce un archivo de animación de video MP4 ubicado en la carpeta IMAGES. El archivo debe llamarse
@@ -1241,6 +1281,57 @@ Le sigue otra lista de software adicional que quizás no necesites estrictamente
  <li><a href="http://adlibtracker.net/">Adlib Tracker II</a> — una herramienta para crear música OPL para DOS.</li>
   <li><a href="https://jestarjokin.net/apps/drotrimmer/">DRO Trim</a> — una herramienta para recortar capturas de música DRO de DOSBox.</li>
   </ul>
+
+
+<a name='globalgfxsfx'></a>
+<h4>Apéndice C - Tabla global de GFX y SFX</h4>
+
+<p>Estas tablas muestran las funciones de GFX y SFX de manera genérica. Sirven fundamentalmente para saber qué funciones están ocupadas y para qué
+  funcionalidad. No todas las funciones están soportadas por todos los targets. Para saber para cada intérprete en concreto, revisar el apartado correspondiente.</p>
+
+<small>
+<table>
+  <tr><td colspan="2"><b>SFX</b></td></tr>
+  <tr><th>FUNCIÓN</th><th>Descripción</th></tr>
+  <tr><td>0-13 (solo en algunos targets de 8 bit)</td><td>Acceso a los registros de audio del chip correspondiente.</td></tr>
+  <tr><td>1</td><td>Reproduce un sonido SFX.</td>  </tr>
+  <tr><td>2</td><td>Reproduce un sonido SFX en bucle.</td>  </tr>
+  <tr><td>3</td><td>Reproduce un sonido SFX a una frecuencia determinada.</td>  </tr>
+  <tr><td>4</td><td>Reproduce un sonido SFX a una frecuencia determinada en bucle.</td>  </tr>
+  <tr><td>5</td><td>Detiene un sonido SFX sonando</td>  </tr>
+  <tr><td>6</td><td>Reproduce música de fondo.</td></tr>
+  <tr><td>7</td><td>Reproduce música de fondo en bucle.</td></tr>
+  <tr><td>8</td><td>Detiene música de fondo sonando</td>  </tr>
+</table>
+</small>
+
+<small>
+<table>
+  <tr><td colspan="2"><b>GFX</b></td></tr>
+  <tr><th>FUNCIÓN</th><th>Descripción</th></tr>
+  <tr><td>0</td><td>Copia el búfer a la pantalla</td></tr>
+  <tr><td>1</td><td>Copia la pantalla completa al búfer</td></tr>
+  <tr><td>2</td><td>Intercambia el contenido del búfer y la pantalla</td></tr>
+  <tr><td>3</td><td>Establece el dibujo gráfico en la pantalla</td></tr>
+  <tr><td>4</td><td>Establece el dibujo gráfico en el búfer</td></tr>
+  <tr><td>5</td><td>Borra la pantalla</td></tr>
+  <tr><td>6</td><td>Borra el búfer</td></tr>
+  <tr><td>7</td><td>Establece escritura de texto en la pantalla. </td></tr>
+  <tr><td>8</td><td>Establece escritura de texto en el búfer. </td></tr>
+  <tr><td>9</td><td>Modificación de paleta</td></tr>
+  <tr><td>10</td><td>Lectura de paleta.</td></tr>
+  <tr><td>11</td><td>Inicio de ciclo de color.</td></tr>
+  <tr><td>12</td><td>Parada de ciclo de color.</td></tr>
+  <tr><td>13</td><td>Reproducción de video/animación.</td></tr>
+  <tr><td>14</td><td>Reproducción de video/animación en bucle.</td></tr>
+  <tr><td>15</td><td>Gestión de pantalla partida.</td></tr>
+  <tr><td>16</td><td>Gestión de paleta en negro.</td></tr>
+  <tr><td>128</td><td>Copia la ventana actual desde el búfer a la pantalla</td></tr>
+  <tr><td>129</td><td>Copia la ventana actual desde la pantalla al búfer</td></tr>
+</table>
+</small>  
+
+
 
 </div>
 

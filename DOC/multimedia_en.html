@@ -203,7 +203,7 @@ the game plays C, D, E (Do-Re-Mi)</p>
 
 <p>To understand what's explained here, you should have read first the "Important Stuff" section of this manual. If you didn't, please do so before continuing.</p>
 
-<p>To add graphics, simply create .SCR files (in the usual emulator 6912-byte .SCR format) and put them in the IMAGES folder. For instance, just add 001.SCR
+<p>To add graphics, simply create .SCR files (in the usual emulator 6912-byte .SCR format) and put them in the IMAGES\ZX folder. For instance, just add 001.SCR
   for location 1, 002.SCR for location 2, and so on. You can also create images to be manually displayed via PICTURE/DISPLAY (i.e. create 100.SCR and then 
   use PICTURE 100, DISPLAY 0 to show it).</p>
 </p>
@@ -299,7 +299,7 @@ for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spec
   can only be fixed, and the full width of the screen (256 pixels), although you can use fewer lines of the 192 available. By default,
   DAAD Ready takes the first 96 lines of the image.</p>
 
-<p>The same SCR files used for Spectrum 128K are used for graphics. If a graphic doesn't fit in RAM, a warning will be received when running ZX48K.BAT, and it won't be added to the game.</p>  
+<p>The same SCR files used for Spectrum 128K are used for graphics (placed at IMAGES/ZX folder). If a graphic doesn't fit in RAM, a warning will be received when running ZX48K.BAT, and it won't be added to the game.</p>  
 
 <p>As for sound, it supports BEEP, so sound can be made with BEEP or XPLAY.</p>
 
@@ -325,7 +325,7 @@ for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spec
 
 <p>The Spectrum Next uses its Layer2 mode, 256x192 pixels, with 256 colors from a 512-color palette.</p>
 
-<p>To add graphics, you need to put indexed 256 colous 256x192 PCX images in the IMAGES folder (e.g., 001.PCX for location 1). In fact, it's better to create images with just 240 colors, we will see why below.</p>
+<p>To add graphics, you need to put indexed 256 colous 256x192 PCX images in the IMAGES/ZX/ZXNEXT folder (e.g., 001.PCX for location 1). In fact, it's better to create images with just 240 colors, we will see why below.</p>
 
 <p>However, there’s a small problem: the Spectrum Next palette offers only 256 colors from 512, while PCX allows 256 colors from 262,144. This means you could use PCX colors not reproducible on Next.</p>
 
@@ -446,15 +446,15 @@ That color won't be shown and will make the underlying ULA text visible.</p>
   <p>To understand what's explained here, you should have read first the "Important Stuff" section of this manual. If you didn't, please do so before continuing.</p>
 
   <p>The ZX-Uno is a Spanish Spectrum clone launched a couple of years before the Spectrum Next. As the Spectrum Next, it is based on an FPGA implementation of the Spectrum hardware,
-    although it incluedes some enhancements other older clones had already implemented.</p>
+    although it includes some enhancements other older clones had already implemented.</p>
     
-    <p>For intance, it supports a video mode called Timex HiColor, in which instead of having 8x8 pixel attributes as the orignal Spectrum,  where only one ink color and one paper color can
-       exist, it uses 8x1 pixel attributes, allowing much more colorful graphics. In addition, it also supports ULAPlus, whcih allows changing the default Spectrum colors and,
+    <p>For instance, it supports a video mode called Timex HiColor, in which instead of having 8x8 pixel attributes as the original Spectrum,  where only one ink color and one paper color can
+       exist, it uses 8x1 pixel attributes, allowing much more colorful graphics. In addition, it also supports ULAPlus, which allows changing the default Spectrum colors and,
         in practice, use up to 64 colors on screen.</p>
 
   <p>Without reaching the Spectrum Next’s Layer2 mode, the combination of HiRes mode and ULAPlus allows for very high-quality graphics.</p>
 
-  <p>DAAD Ready expects images in SCR format to be placed at IMAGES/ZXUNO folder. Please notice the SCR format for ZXUNO is different from the standard Spectrum SCR format, and 
+  <p>DAAD Ready expects images in SCR format to be placed at IMAGES/ZX/ZXUNO folder. Please notice the SCR format for ZXUNO is different from the standard Spectrum SCR format, and 
     that's why you can't use the original ones, neither the same folder.</p>
         
   <p>To create graphics for ZX-Uno, you can do it in two ways:
@@ -480,9 +480,9 @@ That color won't be shown and will make the underlying ULA text visible.</p>
 <p>This is the images code in ZXUNO.BAT:</p>
 
 <code>
-  for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\..\TOOLS\SCRMAKER\SCRMAKER zxuno 00%%i.SCR 00%%i.ZXU  256 %IMGLINES% 0,0 16-63 /SCR <br/>
-  for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\..\TOOLS\SCRMAKER\SCRMAKER zxuno 0%%i.SCR 0%%i.ZXU 256 %IMGLINES% 0,0 16-63 /SCR  <br/>
-  for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\..\TOOLS\SCRMAKER\SCRMAKER zxuno %%i.SCR %%i.ZXU 256 %IMGLINES% 0,0 16-63 /SCR <br/>
+  for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\..\..\TOOLS\SCRMAKER\SCRMAKER zxuno 00%%i.SCR 00%%i.ZXU  256 %IMGLINES% 0,0 16-63 /SCR <br/>
+  for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\..\..\TOOLS\SCRMAKER\SCRMAKER zxuno 0%%i.SCR 0%%i.ZXU 256 %IMGLINES% 0,0 16-63 /SCR  <br/>
+  for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\..\..\TOOLS\SCRMAKER\SCRMAKER zxuno %%i.SCR %%i.ZXU 256 %IMGLINES% 0,0 16-63 /SCR <br/>
 </code>
 
 <p>First line is for graphics 000 to 009, second for 010 to 099, and third for 100 to 255.</p>
@@ -505,7 +505,7 @@ That color won't be shown and will make the underlying ULA text visible.</p>
 
   <p>To understand what's explained here, you should have read first the "Important Stuff" section of this manual. If you didn't, please do so before continuing.</p>
 
-  <p>To add images to the MSX1 interpreter, we need to place files with extension .SC2 (256x192) in the images folder.</p>
+  <p>To add images to the MSX1 interpreter, we need to place files with extension .SC2 (256x192) in the IMAGES/MSX1 folder.</p>
         
   <p>SC2 is a very common format on MSX, corresponding to a video mode with a resolution of 256x192, and attributes of 8x1.</p>
 
@@ -539,7 +539,10 @@ That color won't be shown and will make the underlying ULA text visible.</p>
 
   <p>To understand what's explained here, you should have read first the "Important Stuff" section of this manual. If you didn't, please do so before continuing.</p>
 
-  <p>MSX2 uses images in the standard MSX SC8 format (screen 8), which allows an advanced 256-color palette and can be used at 256x212 resolution.</p>
+  <p>MSX2 uses images in the standard MSX SC8 format (screen 8), which allows an advanced 256-color palette and can be used at 256x212 resolution. You have to put 
+    them at the IMAGES/MSX2 folder. Images in MSX2 are compressed, and to avoid long waiting times they are compressed just once. If you modify a SC8 image, you must 
+    delete the corresponding IM8 file so it can be recompressed.</p>
+  </p>
   <p>We can use the converter at <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>, selecting Screen 8.</p>
   <p><a href="https://www.dadither.com/#Download">DaDither</a> also allows creating images for MSX2 (Screen 8 256x212x8).</p>
 
@@ -674,7 +677,10 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
   <p>DAAD Ready will default to create 320x96 images for Commodore Plus/4, fixed at 0,0. This machine does not support float images, palette limiting, nor anything else. </p>
 
-  <p>To add graphics, you must create Plus/4 PRG format images, which can be made using the <a href="http://multipaint.kameli.net/">Multipaint</a> application.</p>
+  <p>To add graphics, you must create Plus/4 PRG or P4I format images, which can be made using Botticceli in the Plus/4 itself (for the PRG) or <a href="http://multipaint.kameli.net/">Multipaint</a> application,
+    which can create P4I files exporting to "bott". Please don't use Multipaint export to PRG because is not valid.</p>
+
+  <P>Put the PRG or P4I files in the IMAGES\CPLUS4 folder.</P>
 
   <p>DaDither doesn’t support Plus/4, but you can use <a href='http://www.kameli.net/marq/?page_id=4557'>Pixel Polizei</a> instead for similar functionality.</p>
 
@@ -695,6 +701,10 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
   <p>The SCR images must be in mode 1, 320x200, and 4 colors.</p>
 
+  <p>Known bug: if the image appears misplaced, it may be due to a known bug. The good news is you can avoid it: you may probably used a full screen window and filled it with text, so it scrolls. You can do that, 
+     but first make sure to create that window with maximum height and width. Just don't use it without initializing it.
+  </p>
+
   <u>Split screen</u>
 
   <p>Amstrad CPC can enable split-screen mode, in which the upper part of the screen will be in mode 0 (160x96, 16 colors).</p>
@@ -708,7 +718,7 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
     
   <p>The SCR/PAL format is the same regardless of whether you use mode 0 or 1. Simply generate an SCR for the mode you’ll use. You can use <a href="http://multipaint.kameli.net/">Multipaint</a> or <a href="https://www.dadither.com/#Download">DaDither</a>.</p>
 
-  <p>Images should be mode 1 by default (320x200), but if you switch to split-screen, they must be 160x200 SCR files in mode 0.</p>
+  <p>Images should be mode 1 by default (320x200), but if you switch to split-screen, they must be 160x200 SCR files in mode 0 and you should put them in the IMAGES/CPC/SPLITMODE folder instead.</p>
 
   <p>Another useful tool for CPC is <a href="https://www.cpcwiki.eu/index.php/ConvImgCPC">ConvImgCPC</a>, not only because it allows creating graphics like DaDither, 
     but also because it allows editing the color palette.  On Amstrad CPC, the palette selected for the graphic affects the text, so it’s important that our graphic 
@@ -722,20 +732,34 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
     <p>The Amstrad CPC because at the moment can only do fixed graphics on top of the screen. Float, buffered or different size images are not supported. You can reduce
     or increase height though by modifying the IMGLINES variable in the CONFIG.BAT file (it affects all targets)</p>
 
-    <p>However, the CPC has limited SFX support, with commands different from other machines:</p>
+    <p>However, the CPC has limited SFX and GFX support, with commands different from other machines:</p>
 
   <small>
   <table>
+    <tr><td colspan=3>SFX</td></tr>
   <tr>
     <th>Parameter 2</th><th>Parameter 1</th><th>Description</th>
   </tr>
-  <tr><td>0-13</td><td>Any</td><td>Writes the value of the parameter in the first parameter, in the PSG register (audio chip) indicated in the first parameter.</td></tr>
-  <tr><td>14</td><td>flagno</td><td>Modifies the palette index (0-15) defined in the flag flagno, to the palette color (0-26) indicated in the flag flagno + 1.</td></tr>
+  <tr><td>0-13</td><td>Any</td><td>Writes the value of the parameter in the second parameter, in the PSG register (audio chip) indicated in the first parameter.</td></tr>
   </table>
+</small>
 
+<small>
+  <table>
+    <tr><td colspan=3>GFX</td></tr>
+  <tr>
+    <th>Parameter 2</th><th>Parameter 1</th><th>Description</th>
+  </tr>
+  <tr><td>9</td><td>flagno</td><td>Modifies the palette index (0-15) defined in the flag flagno, to the palette color (0-26) indicated in the flag flagno + 1 (you can see the CPC palette below).</td></tr>
+  <tr><td>15</td><td>0-2</td><td>0: No split screen, 1: Split screen with upper mode 0 and lower mode 1, 2: Split screen with upper mode 2 and lower mode 1</td></tr>
+  <tr><td>16</td><td>0-1</td><td>Says whether CPC will blank the palette when loading an image (fade to black), or just draw directly.</td></tr>
+  </table>
+</small>
 
-
-
+<br/>
+<img src="res/cpcpalette.png" alt="CPC palette" title='CPC palette' />
+<br/>
+<br/>
 
 <a name='amiga'></a>
 <h4>Commodore Amiga and Atari ST</h4>
@@ -746,6 +770,8 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
 <p>To add images to the Amiga/ST interpreters, we’ll use the .PNG format (also, PI1 Degas format can be used). We should create PNG files with maximum 16 colors and a resolution of 320x200. It can be either truecolor or indexed, it doesn't matter, 
   but if you use indexed file there's no guarantte the colors will remain in the palette in the same order.</p>
+
+  <p>Place the files at the IMAGES\AMIGA_ST\ folder.</p>
 
 <p>Amiga and ST palettes affects also text, so to avoid text becoming unreadable because of using two very similar colors for paper and ink, DAAD Ready will sort the palette so the darkest color of the image will be
    the color used for color 0, and the most brightest one the one used for color 1. As DAAD defaults to PAPER 0, INK 1 in the Amiga/ST targets, that would work fine by default.</p>
@@ -1040,7 +1066,7 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
   a 320x200 screen with truecolor graphics, so it’s a very capable target.</p>
 </p>
 
-<p>All images must be in .PNG format, and they must be RGB (not indexed). Place them in the IMAGES folder using three-digit filenames (i.e. 001.PNG, 090.PNG). Unlike with other targets, the images
+<p>All images must be in .PNG format, and they must be RGB (not indexed). Place them in the IMAGES\HTML folder using three-digit filenames (i.e. 001.PNG, 090.PNG). Unlike with other targets, the images
   don't need to be full screen (320x200 in this case). You can make them be the size you want, but not larger than 320x200.</p>
 
 
@@ -1254,6 +1280,58 @@ It is followed by another list of additional software that you may not strictly 
  <li><a href="http://adlibtracker.net/">Adlib Tracker II</a> — a tool to create OPL music for DOS.</li>
   <li><a href="https://jestarjokin.net/apps/drotrimmer/">DRO Trim</a> — a tool to trim DRO music captures from DOSBox.</li>
   </ul>
+
+
+<a name='globalgfxsfx'></a>
+<h4>Appendix C - Global table of GFX and SFX</h4>
+
+<p>These tables show the functions of GFX and SFX in a generic way. They are mainly used to know which functions are occupied and for what
+  functionality. Not all functions are supported by all targets. To know for each interpreter in particular, check the corresponding section.</p>
+
+<small>
+<table>
+  <tr><td colspan="2"><b>SFX</b></td></tr>
+  <tr><th>FUNCTION</th><th>Description</th></tr>
+  <tr><td>0-13 (only in some 8 bit targets)</td><td>Access to the audio registers of the corresponding chip.</td></tr>
+  <tr><td>1</td><td>Plays an SFX sound.</td>  </tr>
+  <tr><td>2</td><td>Plays an SFX sound in a loop.</td>  </tr>
+  <tr><td>3</td><td>Plays an SFX sound at a given frequency.</td>  </tr>
+  <tr><td>4</td><td>Plays an SFX sound at a given frequency in a loop.</td>  </tr>
+  <tr><td>5</td><td>Stops a playing SFX sound</td>  </tr>
+  <tr><td>6</td><td>Plays background music.</td></tr>
+  <tr><td>7</td><td>Plays background music in a loop.</td></tr>
+  <tr><td>8</td><td>Stops playing background music</td>  </tr>
+</table>
+</small>
+
+<small>
+<table>
+  <tr><td colspan="2"><b>GFX</b></td></tr>
+  <tr><th>FUNCTION</th><th>Description</th></tr>
+  <tr><td>0</td><td>Copies the buffer to the screen</td></tr>
+  <tr><td>1</td><td>Copies the entire screen to the buffer</td></tr>
+  <tr><td>2</td><td>Swaps the contents of the buffer and the screen</td></tr>
+  <tr><td>3</td><td>Sets graphics drawing on the screen</td></tr>
+  <tr><td>4</td><td>Sets graphics drawing on the buffer</td></tr>
+  <tr><td>5</td><td>Clears the screen</td></tr>
+  <tr><td>6</td><td>Clears the buffer</td></tr>
+  <tr><td>7</td><td>Sets text writing on the screen. </td></tr>
+  <tr><td>8</td><td>Sets text writing on the buffer. </td></tr>
+  <tr><td>9</td><td>Palette modification</td></tr>
+  <tr><td>10</td><td>Palette reading.</td></tr>
+  <tr><td>11</td><td>Start of color cycle.</td></tr>
+  <tr><td>12</td><td>Stop of color cycle.</td></tr>
+  <tr><td>13</td><td>Video/animation playback.</td></tr>
+  <tr><td>14</td><td>Video/animation playback in a loop.</td></tr>
+  <tr><td>15</td><td>Split-screen management.</td></tr>
+  <tr><td>16</td><td>Black palette management.</td></tr>
+  <tr><td>128</td><td>Copies the current window from the buffer to the screen</td></tr>
+  <tr><td>129</td><td>Copies the current window from the screen to the buffer</td></tr>
+</table>
+</small>  
+
+
+
 
 </div>
 

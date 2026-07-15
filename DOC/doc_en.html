@@ -237,7 +237,8 @@
   <tr><td>AMIGA.BAT</td><td>Commodore Amiga</td></tr>
   <tr><td>ATARIST.BAT</td><td>Atari ST</td></tr>
   <tr><td>C64.BAT</td><td>Commodore 64</td></tr>
-  <tr><td>CPC.BAT</td><td>Amstrad CPC</td></tr>
+  <tr><td>CPC664.BAT</td><td>Amstrad CPC 664 and 6128</td></tr>
+  <tr><td>CPC6128.BAT</td><td>Amstrad CPC 6128</td></tr>
   <tr><td>CPLUS4.BAT</td><td>Commodore Plus/4</td></tr>
   <tr><td>PCDOS.BAT</td><td>PC/DOS</td></tr>
   <tr><td>MSX1.BAT</td><td>MSX 1</td></tr>
@@ -257,6 +258,11 @@
   <tr><td>ATARIST_EXPERIMENTAL.BAT</td><td>Atari ST/STE/Falcon Experimental</td></tr>
 
 </table>
+
+<p>Why two CPC targets? As of today, the CPC6128 version makes use of compressed images, which helps fitting more images in the same disk. Sadly, to decompress
+  those images it requires some extra RAM, so it requires a CPC6128 computer with 128K. The CPC664 target, works the same, but does not compress the images,
+  so it can run in a CPC 664 machine.
+</p>
 
 
 <a name="otherdetails"></a>
@@ -2435,12 +2441,12 @@ referenced using the PROCESS action.</p>
   <tr><th>Escape code</th><th>Description</th></tr>
   <tr><td>_</td><td>It is replaced by the current referenced object description, if an indefinite article is found, it’s removed. That allows system messages be like “You take the _.”, so object “a lamp” gets “You take the lamp.” as associated message.</td></tr>
   <tr><td>@</td><td>Same as the underscore, but the article has its first letter uppercased. Only works for Spanish interpreter.</td></tr>
-  <tr><td>#b or #s</td><td>Prints a blank space</td></tr>
+  <tr><td>#s</td><td>Prints a blank space</td></tr>
+  <tr><td>#b</td><td>Clears current window</td></tr>
   <tr><td>#k</td><td>When this character is printed, the game is paused and waits for a key to be pressed.</td></tr>
   <tr><td>#n or \n</td><td>Prints a carriage return</td></tr>
   <tr><td>#g</td><td>Prints nothing, but from this moment on, every text printed will be using the alternative font. So, for instance #gt will print the character “t” of the alternative font</td></tr>
   <tr><td>#t</td><td>Opposite to #g, starts using again the default character set.</td></tr>
-  <tr><td>#e</td><td>Prints the euro sign (€).</td></tr>
 </table>
 
 <a name="preprocessorcommands"></a>
