@@ -50,11 +50,13 @@ if %SPLITSCR%==splitModeOn (
     tools\cecho\cecho {06}Split screen mode enabled{07}
     SET SPLITFOLDER=\SPLITMODE
     SET SPLITFOLDERBACK=..\
+    SET INT_SUFFIX=_SPLIT
     echo.
 ) else (
     tools\cecho\cecho {06}Split screen mode disabled{07}
     SET SPLITFOLDER=
     SET SPLITFOLDERBACK=
+    SET INT_SUFFIX=
     echo.
 )
 
@@ -77,8 +79,9 @@ ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
 
-SET INTERPRETER=ASSETS\CPC\DCPCIEF3.BIN
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\CPC\DCPCISF3.BIN
+SET INTERPRETER=ASSETS\CPC\DCPCIEF3%INT_SUFFIX%.BIN
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\CPC\DCPCISF3%INT_SUFFIX%.BIN
+echo Interpreter used: %INTERPRETER%
 TOOLS\DRC\MCRF.EXE DAAD.BIN %INTERPRETER% DAAD.DDB ASSETS\CPC\BLANK.GRA  ASSETS\CHARSET\%FONT8%
 
 REM  ---- PREPARE IMAGES ----
@@ -98,7 +101,7 @@ ECHO.
 TOOLS\CPCDiskXP\CPCDiskXP -File DAAD.BIN -AddToExistingDsk %GAME%.DSK
 for /L %%i in (0, 1, 9) do IF exist IMAGES\CPC%SPLITFOLDER%\00%%i.CPC TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\CPC%SPLITFOLDER%\00%%i.CPC -AddToExistingDsk %GAME%.DSK
 for /L %%i in (10, 1, 99) do IF exist IMAGES\CPC%SPLITFOLDER%\0%%i.CPC TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\CPC%SPLITFOLDER%\0%%i.CPC -AddToExistingDsk %GAME%.DSK
-for /L %%i in (100, 1, 255) do IF exist IMAGES\CPC%SPLITFOLDER%\%%i.CPC TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\CPC%SPLITFOLDER\%%%i.CPC -AddToExistingDsk %GAME%.DSK
+for /L %%i in (100, 1, 255) do IF exist IMAGES\CPC%SPLITFOLDER%\%%i.CPC TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\CPC%SPLITFOLDER%\%%i.CPC -AddToExistingDsk %GAME%.DSK
 for /L %%i in (0, 1, 9) do IF exist 0%%i.XMB TOOLS\CPCDiskXP\CPCDiskXP -File 0%%i.XMB -AddToExistingDsk %GAME%.DSK
 for /L %%i in (10, 1, 32) do IF exist %%i.XMB TOOLS\CPCDiskXP\CPCDiskXP -File %%i.XMB -AddToExistingDsk %GAME%.DSK
 tools\cecho\cecho {02}[OK]{07}

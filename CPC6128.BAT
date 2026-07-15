@@ -43,11 +43,13 @@ if %SPLITSCR%==splitModeOn (
     tools\cecho\cecho {06}Split screen mode enabled{07}
     SET SPLITFOLDER=\SPLITMODE
     SET SPLITFOLDERBACK=..\
+    SET INT_SUFFIX=_SPLIT
     echo.
 ) else (
     tools\cecho\cecho {06}Split screen mode disabled{07}
     SET SPLITFOLDER=
     SET SPLITFOLDERBACK=
+    SET INT_SUFFIX=
     echo.
 )
 
@@ -78,8 +80,9 @@ ECHO.
 tools\cecho\cecho {0B}----------------------------------------------------------------------{07}
 echo.
 
-SET INTERPRETER=ASSETS\CPC\DCPCI128EF3.BIN
-IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\CPC\DCPCI128SF3.BIN
+SET INTERPRETER=ASSETS\CPC\DCPCI128EF3%INT_SUFFIX%.BIN
+IF "%BASELANG%" == "ES" SET INTERPRETER=ASSETS\CPC\DCPCI128SF3%INT_SUFFIX%.BIN
+echo Interpreter used: %INTERPRETER%
 TOOLS\DRC\MCRF.EXE DAAD.BIN %INTERPRETER% DAAD.DDB ASSETS\CPC\BLANK.GRA  ASSETS\CHARSET\%FONT8%
 
 REM  ---- PREPARE IMAGES ----
