@@ -66,12 +66,11 @@ echo.
 REM  ---- PREPARE IMAGES ----
 tools\cecho\cecho {06}Preparing images (if any){07}
 ECHO.
-CD IMAGES\ZXUNO
-for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\..\TOOLS\SCRMAKER\SCRMAKER zxuno 00%%i.SCR 00%%i.ZXU  256 %IMGLINES% 0,0 16-63 /SCR 
-for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\..\TOOLS\SCRMAKER\SCRMAKER zxuno 0%%i.SCR 0%%i.ZXU 256 %IMGLINES% 0,0 16-63 /SCR  
-for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\..\TOOLS\SCRMAKER\SCRMAKER zxuno %%i.SCR %%i.ZXU 256 %IMGLINES% 0,0 16-63 /SCR 
-CD ..
-CD ..
+CD IMAGES\ZX\ZXUNO
+for /L %%i in (0, 1, 9) do IF exist 00%%i.SCR ..\..\..\TOOLS\SCRMAKER\SCRMAKER zxuno 00%%i.SCR 00%%i.ZXU  256 %IMGLINES% 0,0 16-63 /SCR 
+for /L %%i in (10, 1, 99) do IF exist 0%%i.SCR  ..\..\..\TOOLS\SCRMAKER\SCRMAKER zxuno 0%%i.SCR 0%%i.ZXU 256 %IMGLINES% 0,0 16-63 /SCR  
+for /L %%i in (100, 1, 256) do IF exist %%i.SCR  ..\..\..\TOOLS\SCRMAKER\SCRMAKER zxuno %%i.SCR %%i.ZXU 256 %IMGLINES% 0,0 16-63 /SCR 
+CD ..\..\..
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
@@ -81,9 +80,7 @@ tools\cecho\cecho {06}Preparing release files{07}
 del RELEASE\ZXUNO\*.ZXU > nul 2>&1
 ECHO.
 IF exist 0.XMB copy 0.XMB RELEASE\ZXUNO > nul 2>&1
-for /L %%i in (0, 1, 9) do IF exist IMAGES\ZXUNO\00%%i.ZXU MOVE IMAGES\ZXUNO\00%%i.ZXU  RELEASE\ZXUNO > nul 2>&1
-for /L %%i in (10, 1, 99) do IF exist IMAGES\ZXUNO\0%%i.ZXU MOVE IMAGES\ZXUNO\0%%i.ZXU  RELEASE\ZXUNO > nul 2>&1
-for /L %%i in (100, 1, 255) do IF exist IMAGES\ZXUNO\%%i.ZXU MOVE IMAGES\ZXUNO\%%i.ZXU  RELEASE\ZXUNO > nul 2>&1
+MOVE IMAGES\ZX\ZXUNO\*.ZXU RELEASE\ZXUNO > nul 2>&1
 
 
 REM --- PREPARE TAP FILE ----
