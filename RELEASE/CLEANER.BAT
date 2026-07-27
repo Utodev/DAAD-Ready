@@ -77,7 +77,13 @@ if errorlevel 2 (
     md ZXNEXT> nul 2>&1
     del /q /s ZXNEXT\*.* > nul 2>&1
     copy readme.txt ZXNEXT > nul 2>&1
-   
+
+    echo Cleaning CP/M...
+    md CPM> nul 2>&1
+    del /q /s CPM\*.* > nul 2>&1
+    copy readme.txt CPM > nul 2>&1
+
+
     echo Cleaning ZX-Uno...
     md ZXUNO> nul 2>&1
     del /q /s ZXUNO\*.* > nul 2>&1
