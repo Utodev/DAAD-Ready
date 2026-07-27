@@ -116,8 +116,8 @@
 <ul>
   <li>Fixed vs floating images: You can tell DAAD your images are fixed, that is, always appear in a given X,Y location in the screen. Fixed images will ignore windows that can be defined with WINDOW/WINSIZE/WINAT from DAAD code. There's also
     floating images, that will appear inside the currently selected window (if any) and don't have a fixed location. The images will be cropped to fit the window if too big.</li>
-  <li>On those machines that supports indexed palettes (Amiga, Atari ST, PC/DOS, Spectrum Next and ZX-Uno), DAAD allows specifying a range of colors from the palette to be applied,
-     so other colors can be reserved for text or other purposes. In some targets both float and fixed images can limit the palette colors to apply. In some others, only fixed images 
+  <li>On those machines that supports indexed palettes (Amiga, Atari ST, PC/DOS, Spectrum Next and ZX-Uno), DAAD allows specifying a range of colours from the palette to be applied,
+     so other colours can be reserved for text or other purposes. In some targets both float and fixed images can limit the palette colours to apply. In some others, only fixed images 
      can do it, and float images never apply the palette at all (just use the palette previously applied by some fixed image).</li>
 
   <li>Images can have a size smaller than full resolution. Although for most machines you have to provide a full resolution image (i.e. 320x200 for PC/DOS or 256x192 for ZX Spectrum) as source image, you can specify you only want
@@ -289,6 +289,18 @@ for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spec
 <p>You have 8,960 bytes available for preeloaded images.</p>
 
 
+<p>The Spectrum 128K has limited access to the AY chip via the SFX condact:</p>
+<small>
+  <table>
+    <tr><td colspan=3>SFX</td></tr>
+  <tr>
+    <th>Parameter 2</th><th>Parameter 1</th><th>Description</th>
+  </tr>
+  <tr><td>0-13</td><td>Any</td><td>Writes the value of the parameter in the second parameter, in the AY  register (audio chip) indicated in the first parameter.</td></tr>
+  </table>
+</small>
+
+
 <a name="zx48k"></a>
 <h4>ZX Spectrum 48K</h4>
 
@@ -323,24 +335,24 @@ for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spec
 
 <p>To understand what's explained here, you should have read first the "Important Stuff" section of this manual. If you didn't, please do so before continuing.</p>
 
-<p>The Spectrum Next uses its Layer2 mode, 256x192 pixels, with 256 colors from a 512-color palette.</p>
+<p>The Spectrum Next uses its Layer2 mode, 256x192 pixels, with 256 colours from a 512-colour palette.</p>
 
-<p>To add graphics, you need to put indexed 256 colous 256x192 PCX images in the IMAGES/ZX/ZXNEXT folder (e.g., 001.PCX for location 1). In fact, it's better to create images with just 240 colors, we will see why below.</p>
+<p>To add graphics, you need to put indexed 256 colours 256x192 PCX images in the IMAGES/ZX/ZXNEXT folder (e.g., 001.PCX for location 1). In fact, it's better to create images with just 240 colours, we will see why below.</p>
 
-<p>However, there’s a small problem: the Spectrum Next palette offers only 256 colors from 512, while PCX allows 256 colors from 262,144. This means you could use PCX colors not reproducible on Next.</p>
+<p>However, there’s a small problem: the Spectrum Next palette offers only 256 colours from 512, while PCX allows 256 colours from 262,144. This means you could use PCX colours not reproducible on Next.</p>
 
 <p>To avoid this, either:</p>
 <ul>
   <li>if you hand-draw the images, use this palette: <br/><img src="res/nextpalette512.png"/></li>
-  <li>If you can't control the colors, use <a href="https://www.dadither.com/#Download">DaDither</a> with “Spectrum Next / RGB333” palette mode and 256x192x8 settings to reduce to
-     Spectrum Next palette, then export  as PNG and convert it to an indexed 256-color PCX. To convert from PNG to indexed PCX one easy to use tool is <a href="https://www.gimp.org/">Gimp</a>. Load the PNG, switch to indexed mode in the Image/Mode menu, and choose 240 colors.
-     If your PNG file was already indexed, convert to RGB in the Images/Mode menu, and then back to ensure 240 max colors.</p>
+  <li>If you can't control the colours, use <a href="https://www.dadither.com/#Download">DaDither</a> with “Spectrum Next / RGB333” palette mode and 256x192x8 settings to reduce to
+     Spectrum Next palette, then export  as PNG and convert it to an indexed 256-colour PCX. To convert from PNG to indexed PCX one easy to use tool is <a href="https://www.gimp.org/">Gimp</a>. Load the PNG, switch to indexed mode in the Image/Mode menu, and choose 240 colours.
+     If your PNG file was already indexed, convert to RGB in the Images/Mode menu, and then back to ensure 240 max colours.</p>
 
 
 <p>NOTES:</p>
 <ul>
-  <li>Reducing from 256 to 240 may slightly degrade quality; try to limit manual artwork to 240 colors.</li>
-  <li>If Gimp detects fewer than 17 colors, it may create a 16-color PCX (which is not valid). Add dummy pixels below row 96 with extra colors to reach 17+ colors so Gimp saves a 256-color PCX.</li>
+  <li>Reducing from 256 to 240 may slightly degrade quality; try to limit manual artwork to 240 colours.</li>
+  <li>If Gimp detects fewer than 17 colours, it may create a 16-colour PCX (which is not valid). Add dummy pixels below row 96 with extra colours to reach 17+ colours so Gimp saves a 256-colour PCX.</li>
   <li>Pure magenta (255,0,255) is treated as transparent on Next. Use it for transparent areas only (see also below about Spectrum Next layers).</li>
 </ul>
 
@@ -364,30 +376,30 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER spec
 <code>256 %IMGLINES% 0,0 /s</code>
 
 <ul>
-  <li>About the /s: the Spectrum Next uses a color palette. That means color 0 isn’t necessarily black, it depends on how color 0 is defined in the palette.  
-  That’s why we see the /s parameter. What does it do? It tells DAAD Ready to shift the palette up by 16 colors and replace the first 16 colors with the standard
-  Spectrum colors.  In practice, this prevents the graphics from altering text colors, which normally use those first 16 palette slots. Do you remember when we
-  said to use only 240 colors in the PCX file? That’s why. If you remove /s, the shift won’t happen, and all 256 colors can be used, but then you must ensure
-  yourself color 0 is black, 7 is white, etc., so text displays correctly.</li>
+  <li>About the /s: the Spectrum Next uses a colour palette. That means colour 0 isn’t necessarily black, it depends on how colour 0 is defined in the palette.  
+  That’s why we see the /s parameter. What does it do? It tells DAAD Ready to shift the palette up by 16 colours and replace the first 16 colours with the standard
+  Spectrum colours.  In practice, this prevents the graphics from altering text colours, which normally use those first 16 palette slots. Do you remember when we
+  said to use only 240 colours in the PCX file? That’s why. If you remove /s, the shift won’t happen, and all 256 colours can be used, but then you must ensure
+  yourself colour 0 is black, 7 is white, etc., so text displays correctly.</li>
 <li>About "256 %IMGLINES%"": 256 is the width of the image in pixels and IMGLINES is defined in CONFIG.BAT, and its default value is 96, so images will be
    256x96 pixels. You can change that value to make taller or shorter images.</li>
 <li>That "0,0": it's saying the image is fixed at 0,0 (upper left corner)</li>
 
 </ul>
 <p>So in the end those lines are asking DAAD Ready to convert PCX images to Layer2 format (LY2) for Spectrum Next, 256 pixels wide, IMGLINES pixels tall (96 by default), fixed at position 
-  0,0 (top-left corner), and shifting the palette to preserve text colors.</p>
+  0,0 (top-left corner), and shifting the palette to preserve text colours.</p>
 
 <u>Possible changes</u>
 
 <p>Displaying more than one image in the Spectrum Next is possible, but as images use palette, when loading one image, the palette changes for the entire screen, affecting all images on screen. So, unless
-  all images use exactly the same palette, color conflicts may occur. You can limit the palette colors applied by a specific imag though, so for instance you can have colors 0-127 for the text and 
-  location picture, and use colors above that for a frame. This line asks DAAD Ready to only apply colors from 0 to 127 when loading this images:</p>
+  all images use exactly the same palette, colour conflicts may occur. You can limit the palette colours applied by a specific image though, so for instance you can have colours 0-127 for the text and 
+  location picture, and use colours above that for a frame. This line asks DAAD Ready to only apply colours from 0 to 127 when loading this images:</p>
 
 <code>
     for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext %%i.PCX %%i.LY2 256 %IMGLINES% 0,0 0-127
 </code>
 
-<p>If you want some image to use the current colors (apply none) just write an inverted range (second number lower than the first):</p>
+<p>If you want some image to use the current colours (apply none) just write an inverted range (second number lower than the first):</p>
 
 <code>
     for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER specnext %%i.PCX %%i.LY2 256 %IMGLINES% 0,0 1-0
@@ -406,7 +418,7 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER spec
 
 <ul>
   <li>The ULA layer (the original Spectrum screen), used for text and drawn first.</li>
-  <li>The Layer2 layer, allowing 256-color graphics, drawn on top of the ULA layer. Can have transparencies.</li>
+  <li>The Layer2 layer, allowing 256-colour graphics, drawn on top of the ULA layer. Can have transparencies.</li>
 </ul>
 
 <img src="res/nextlayers_en.png" alt="Layers of the Spectrum Next" style="width: 100%; max-width: 600px;" />
@@ -415,10 +427,20 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX  ..\TOOLS\SCRMAKER\SCRMAKER spec
 DAAD Ready automatically ensures transparency outside the graphic area so the text below remains visible. However, if we want to place
 graphics elsewhere (for example, to build a graphical inventory) or add a decorative frame, we must ensure manually that transparent 
 areas are properly defined. To do that, simply use pure magenta (RGB 255,0,255 or #FF00FF) for any area you want to be transparent.  
-That color won't be shown and will make the underlying ULA text visible.</p>
+That colour won't be shown and will make the underlying ULA text visible.</p>
 
-<p>Of course, that pure magenta color shouldn’t appear in actual visible graphics, since it would become transparent.</p>
+<p>Of course, that pure magenta colour shouldn’t appear in actual visible graphics, since it would become transparent.</p>
 
+<p>The Spectrum Next has limited access to the AY chip via the SFX condact:</p>
+<small>
+  <table>
+    <tr><td colspan=3>SFX</td></tr>
+  <tr>
+    <th>Parameter 2</th><th>Parameter 1</th><th>Description</th>
+  </tr>
+  <tr><td>0-13</td><td>Any</td><td>Writes the value of the parameter in the second parameter, in the AY register (audio chip) indicated in the first parameter.</td></tr>
+  </table>
+</small>
 
  <a name='esxdos'></a>
   <h4>ZX Spectrum with DivIDE/DivMMC (ESXDOS)</h4>
@@ -448,9 +470,9 @@ That color won't be shown and will make the underlying ULA text visible.</p>
   <p>The ZX-Uno is a Spanish Spectrum clone launched a couple of years before the Spectrum Next. As the Spectrum Next, it is based on an FPGA implementation of the Spectrum hardware,
     although it includes some enhancements other older clones had already implemented.</p>
     
-    <p>For instance, it supports a video mode called Timex HiColor, in which instead of having 8x8 pixel attributes as the original Spectrum,  where only one ink color and one paper color can
-       exist, it uses 8x1 pixel attributes, allowing much more colorful graphics. In addition, it also supports ULAPlus, which allows changing the default Spectrum colors and,
-        in practice, use up to 64 colors on screen.</p>
+    <p>For instance, it supports a video mode called Timex HiColor, in which instead of having 8x8 pixel attributes as the original Spectrum,  where only one ink colour and one paper colour can
+       exist, it uses 8x1 pixel attributes, allowing much more colourful graphics. In addition, it also supports ULAPlus, which allows changing the default Spectrum colours and,
+        in practice, use up to 64 colours on screen.</p>
 
   <p>Without reaching the Spectrum Next’s Layer2 mode, the combination of HiRes mode and ULAPlus allows for very high-quality graphics.</p>
 
@@ -464,8 +486,8 @@ That color won't be shown and will make the underlying ULA text visible.</p>
         use <a href="https://worldofspectrum.net/zx-modules/83/index.html">Img2ULAPlus</a>.
       </li>
       <li>
-        You can also use digitized images and process them with <a href="https://www.dadither.com/#Download">DaDither</a>, selecting platform ZX Spectrum ULAPlus, Screen 256x192x8 (8x1), and palette (Color, 48 high colors, slow).  
-        This will generate an image we can save from the Result menu in SCR format, which can be used directly in DAAD Ready. The “48 high colors” palette mode keeps the first 16 colors free, which are reserved for text colors 
+        You can also use digitized images and process them with <a href="https://www.dadither.com/#Download">DaDither</a>, selecting platform ZX Spectrum ULAPlus, Screen 256x192x8 (8x1), and palette (Colour, 48 high colours, slow).  
+        This will generate an image we can save from the Result menu in SCR format, which can be used directly in DAAD Ready. The “48 high colours” palette mode keeps the first 16 colours free, which are reserved for text colours
       </li>
     </ul>
   </p>
@@ -492,13 +514,23 @@ That color won't be shown and will make the underlying ULA text visible.</p>
 <ul>
   <li>About 256 %IMAGELINES% : it's with and height of the image. IMAGELINES is defined at the CONFIG.BAT file, and defaults to 96, so DAAD Ready creates 256x96 images by default. You can change to 32 32 for instance, to create 32x32 images.</li>
   <li>About 0,0: it's saying the image is fixed at 0,0 (upper left corner). If changed, the image would be fixed at some other position. If removed, the image will be floating. </li>
-  <li>About 16-63: it's limiting the palette to colors 16 to 63. The ZX-Uno has a 64 color palette, but DAAD Ready reserves the first 16 colors for text, so  graphics should use colors 
-      16 to 255. Here we limit to 16-63 to avoid color conflicts between several images on screen. You can of course removed this parameter, o set to 0-63, to access 
-      whole palette, but then you must ensure yourself color 0 is black, 7 is white, etc., so text displays correctly.
+  <li>About 16-63: it's limiting the palette to colours 16 to 63. The ZX-Uno has a 64 colour palette, but DAAD Ready reserves the first 16 colours for text, so  graphics should use colours 
+      16 to 255. Here we limit to 16-63 to avoid colour conflicts between several images on screen. You can of course removed this parameter, o set to 0-63, to access 
+      whole palette, but then you must ensure yourself colour 0 is black, 7 is white, etc., so text displays correctly.
   </li>
   <li>About /SCR: it tells SCRMAKER that the input graphic is in SCR format (as produced by DaDither). If omitted, it expects MLT format, which is also valid (as produced by Img2ULAPlus).</li>
 </ul>
 
+<p>The ZX-Uno has limited access to the AY chip via the SFX condact:</p>
+<small>
+  <table>
+    <tr><td colspan=3>SFX</td></tr>
+  <tr>
+    <th>Parameter 2</th><th>Parameter 1</th><th>Description</th>
+  </tr>
+  <tr><td>0-13</td><td>Any</td><td>Writes the value of the parameter in the second parameter, in the AY register (audio chip) indicated in the first parameter.</td></tr>
+  </table>
+</small>
 
   <a name='msx1'></a>
   <h4>MSX1</h4>
@@ -539,14 +571,14 @@ That color won't be shown and will make the underlying ULA text visible.</p>
 
   <p>To understand what's explained here, you should have read first the "Important Stuff" section of this manual. If you didn't, please do so before continuing.</p>
 
-  <p>MSX2 uses images in the standard MSX SC8 format (screen 8), which allows an advanced 256-color palette and can be used at 256x212 resolution. You have to put 
+  <p>MSX2 uses images in the standard MSX SC8 format (screen 8), which allows an advanced 256-colour palette and can be used at 256x212 resolution. You have to put 
     them at the IMAGES/MSX2 folder. Images in MSX2 are compressed, and to avoid long waiting times they are compressed just once. If you modify a SC8 image, you must 
     delete the corresponding IM8 file so it can be recompressed.</p>
   </p>
   <p>We can use the converter at <a href="https://msx.jannone.org/conv/">https://msx.jannone.org/conv/</a>, selecting Screen 8.</p>
   <p><a href="https://www.dadither.com/#Download">DaDither</a> also allows creating images for MSX2 (Screen 8 256x212x8).</p>
 
-  <p>In Screen 8 mode, the MSX2 interpreter prevents the text from being affected by the graphic colors, so we don’t have to worry about that.</p>
+  <p>In Screen 8 mode, the MSX2 interpreter prevents the text from being affected by the graphic colours, so we don’t have to worry about that.</p>
 
   <p>As for sound, DAAD supports BEEP on MSX2, so sound can be made with BEEP or XPLAY. The sound will come from the MSX sound chip.</p>
 
@@ -572,7 +604,7 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
 <p>The first line is for graphics 000 to 009, the second for 010 to 099, and the third for 100 to 255.</p>
 
-<p>We can add a transparency color: an index from 0 to 255. For example, to make color 28 transparent:</p>
+<p>We can add a transparency colour: an index from 0 to 255. For example, to make colour 28 transparent:</p>
 
 <code>
 for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php ..\tools\imgwizard\imgwizard.php c %%i.SC8 %IMGLINES% RLE --transparent-color=28
@@ -605,8 +637,8 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   <tr><td>6</td><td>Any</td><td>Clears the buffer</td></tr>
   <tr><td>7</td><td>Any</td><td>Sets text drawing to the screen.</td></tr>
   <tr><td>8</td><td>Any</td><td>Sets text drawing to the buffer.</td></tr>
-  <tr><td>9</td><td>flagno</td><td>Changes the palette color defined in flag flagno to the R,G,B values contained in flags flagno+1, flagno+2, and flagno+3. Not supported by the Amiga.</td></tr>
-  <tr><td>10</td><td>flagno</td><td>Reads the palette color defined in flag flagno and stores its R,G,B values into flags flagno+1, flagno+2, and flagno+3.</td></tr>
+  <tr><td>9</td><td>flagno</td><td>Changes the palette colour defined in flag flagno to the R,G,B values contained in flags flagno+1, flagno+2, and flagno+3. Not supported by the Amiga.</td></tr>
+  <tr><td>10</td><td>flagno</td><td>Reads the palette colour defined in flag flagno and stores its R,G,B values into flags flagno+1, flagno+2, and flagno+3.</td></tr>
   <tr><td>128</td><td>Any</td><td>Copies the current window from the buffer to the screen</td></tr>
   <tr><td>129</td><td>Any</td><td>Copies the current window from the screen to the buffer</td></tr>
 </table>
@@ -627,21 +659,21 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
   <p>DaDither can also be used, but it’s not recommended, for two reasons:</p>
   <ul>
-    <li>It doesn’t achieve great quality with the limited color palette of the Commodore 64. Although better than ZX Spectrum, it’s still somewhat poor.</li>    
+    <li>It doesn’t achieve great quality with the limited colour palette of the Commodore 64. Although better than ZX Spectrum, it’s still somewhat poor.</li>    
     <li>Commodore 64 disks are especially slow, and graphis are loaded from disk on demand while playing. The C64 target have the graphics compressed to reduce image 
       loading time,but DaDither’s dithered images compress very poorly, which will negatively affect game performance.</li>
   </ul> 
 
   <u>Split-screen mode</u>
 
-  <p>DAAD originally works in the C64’s HiRes mode (320x200). Now it’s possible to use the Multicolor mode (160x200, but with more colors) at the top of the screen by enabling what is called “split screen.” This is 
+  <p>DAAD originally works in the C64’s HiRes mode (320x200). Now it’s possible to use the Multicolor mode (160x200, but with more colours) at the top of the screen by enabling what is called “split screen.” This is 
      done by editing the CONFIG.BAT file and changing where it says splitModeOff to splitModeOn. That will affect bot Commodore 64 and Amstrad CPC. The split screen 
     feature is activated via the metacondact XSPLITSCR, or via GFX condact. XSPLITSCR n and GFX n 15 are the same.</p>
 
   <p>Unfortunately, maintaining that split mode running requires complex interrupt routines that are difficult to handle while reading from disk, so you’ll notice the entire screen is hidden while loading a new image,
     and you might even see some flickering or strange effects occasionally during disk reads or writes -for example, when saving or loading a game- unless you hide the images first.</p>
 
-  <p>In split-screen mode, instead of placing ART files in the IMAGES folder, you must place KOA files (Koala format) for Multicolor mode, using 160x200, 16 colors.</p>
+  <p>In split-screen mode, instead of placing ART files in the IMAGES folder, you must place KOA files (Koala format) for Multicolor mode, using 160x200, 16 colours.</p>
 
   <p>DAAD Ready will default to 96 px height for the images, which in split screen mode cannot be changed as the split line is always the same. If you don't use split screen you can change the image height by changing
      the variable %IMGLINES% in the CONFIG.BAT file.</p>
@@ -699,7 +731,7 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   <p>To add images to the Amstrad CPC interpreter, you need to place files with extension .SCR (320x200) in the images/CPC folder, together with a .PAL file of the same name (for example 001.SCR and 001.PAL).  
   Do not place them directly in the images folder, as that would overwrite Spectrum SCR files, which have a different format.</p>
 
-  <p>The SCR images must be in mode 1, 320x200, and 4 colors.</p>
+  <p>The SCR images must be in mode 1, 320x200, and 4 colours.</p>
 
   <p>Known bug: if the image appears misplaced, it may be due to a known bug. The good news is you can avoid it: you may probably used a full screen window and filled it with text, so it scrolls. You can do that, 
      but first make sure to create that window with maximum height and width. Just don't use it without initializing it.
@@ -707,7 +739,7 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
   <u>Split screen</u>
 
-  <p>Amstrad CPC can enable split-screen mode, in which the upper part of the screen will be in mode 0 (160x96, 16 colors).</p>
+  <p>Amstrad CPC can enable split-screen mode, in which the upper part of the screen will be in mode 0 (160x96, 16 colours). Please notice split screen mode is experimental and may become unstable. Use it at your own</p>
 
   <p>To activate split-screen mode, you must edit CONFIG.BAT and change splitModeOff to splitModeOn. Doing that would also affect the Commodores 64, which also supports splitted screen. The split screen 
     feature is made via the metacondact XSPLITSCR, or via GFX condact. XSPLITSCR n and GFX n 15 are the same.
@@ -721,9 +753,9 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   <p>Images should be mode 1 by default (320x200), but if you switch to split-screen, they must be 160x200 SCR files in mode 0 and you should put them in the IMAGES/CPC/SPLITMODE folder instead.</p>
 
   <p>Another useful tool for CPC is <a href="https://www.cpcwiki.eu/index.php/ConvImgCPC">ConvImgCPC</a>, not only because it allows creating graphics like DaDither, 
-    but also because it allows editing the color palette.  On Amstrad CPC, the palette selected for the graphic affects the text, so it’s important that our graphic 
-    has appropriate tones in the right color indexes. For example, color 0 should be black and color 3 white, or at least contrasting colors. This can be done in
-    ConvImgCPC by locking those colors and forcing the tool to recalculate the image.</p>
+    but also because it allows editing the colour palette.  On Amstrad CPC, the palette selected for the graphic affects the text, so it’s important that our graphic 
+    has appropriate tones in the right colour indexes. For example, colour 0 should be black and colour 3 white, or at least contrasting colours. This can be done in
+    ConvImgCPC by locking those colours and forcing the tool to recalculate the image.</p>
       
     <p>As for sound, DAAD supports BEEP on CPC, so sound can be made with BEEP or XPLAY. The sound will come from the sound chip.</p>
 
@@ -750,9 +782,11 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   <tr>
     <th>Parameter 2</th><th>Parameter 1</th><th>Description</th>
   </tr>
-  <tr><td>9</td><td>flagno</td><td>Modifies the palette index (0-15) defined in the flag flagno, to the palette color (0-26) indicated in the flag flagno + 1 (you can see the CPC palette below).</td></tr>
+  <tr><td>9</td><td>flagno</td><td>Modifies the palette index (0-15) defined in the flag flagno, to the palette colour (0-26) indicated in the flag flagno + 1 (you can see the CPC palette below). If function 17 is activated, calling this function will force the application of the entire image palette (with the change included).</td></tr>
   <tr><td>15</td><td>0-2</td><td>0: No split screen, 1: Split screen with upper mode 0 and lower mode 1, 2: Split screen with upper mode 2 and lower mode 1</td></tr>
   <tr><td>16</td><td>0-1</td><td>Says whether CPC will blank the palette when loading an image (fade to black), or just draw directly.</td></tr>
+  <tr><td>17</td><td>0-1</td><td>Indicates whether the CPC will apply the image palette or just the pixels.</td></tr>
+  <tr><td>18</td><td>any</td><td>Forces the application of the palette of the last image displayed with DISPLAY. Note that if it was modified with function 9, it will be applied modified.</td></tr>
   </table>
 </small>
 
@@ -768,13 +802,13 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
 <p>The Commodore Amiga and Atari ST interpreters share the same multimedia capabilities, so they are explained together. There are minor changes though that will be explained here.</p>
 
-<p>To add images to the Amiga/ST interpreters, we’ll use the .PNG format (also, PI1 Degas format can be used). We should create PNG files with maximum 16 colors and a resolution of 320x200. It can be either truecolor or indexed, it doesn't matter, 
-  but if you use indexed file there's no guarantte the colors will remain in the palette in the same order.</p>
+<p>To add images to the Amiga/ST interpreters, we’ll use the .PNG format (also, PI1 Degas format can be used). We should create PNG files with maximum 16 colours and a resolution of 320x200. It can be either truecolor or indexed, it doesn't matter, 
+  but if you use indexed file there's no guarantee the colours will remain in the palette in the same order.</p>
 
   <p>Place the files at the IMAGES\AMIGA_ST\ folder.</p>
 
-<p>Amiga and ST palettes affects also text, so to avoid text becoming unreadable because of using two very similar colors for paper and ink, DAAD Ready will sort the palette so the darkest color of the image will be
-   the color used for color 0, and the most brightest one the one used for color 1. As DAAD defaults to PAPER 0, INK 1 in the Amiga/ST targets, that would work fine by default.</p>
+<p>Amiga and ST palettes affects also text, so to avoid text becoming unreadable because of using two very similar colours for paper and ink, DAAD Ready will sort the palette so the darkest colour of the image will be
+   the colour used for colour 0, and the most brightest one the one used for colour 1. As DAAD defaults to PAPER 0, INK 1 in the Amiga/ST targets, that would work fine by default.</p>
 
 <p>Images should be placed in the IMAGES folder directly (001.PNG, 003.PNG, 005.PNG, etc.).</p>
 
@@ -820,7 +854,7 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 </code>
 
 <ul>
-  <li>In the first example, we indicate a fixed graphic located at 24,180, and the palette range to apply is 0–10, so when loading this image, the palette won't be applied for colors 11 to 15.</li>
+  <li>In the first example, we indicate a fixed graphic located at 24,180, and the palette range to apply is 0–10, so when loading this image, the palette won't be applied for colours 11 to 15.</li>
   <li>In the second example, we say that the graphic is floating, that it has dimensions of 120x96, and that it should be buffered (this means it loads into RAM when the game starts and is always available without reading the disk each time).</li>
   <li>The third example simply states that the graphic is floating and it should not be compressed.</li>
 </ul>
@@ -833,23 +867,23 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   <li>buffer:0–1 → 0 = not buffered, 1 = buffered (loads into RAM at game start). Defaults to not buffered if absent.</li>
   <li>X:0–255 → X position of the graphic on screen (only if fixed). Defaults to 0.</li>
   <li>Y:0–255 → Y position of the graphic on screen (only if fixed) Defaults to 0.</li>
-  <li>PCS:0–15 → first color of the palette to apply (only if fixed) Defaults to 0.</li>
-  <li>PCE:0–15 → last color of the palette to apply (only if fixed) Defaults to 15.</li>
+  <li>PCS:0–15 → first colour of the palette to apply (only if fixed) Defaults to 0.</li>
+  <li>PCE:0–15 → last colour of the palette to apply (only if fixed) Defaults to 15.</li>
   <li>width:0–255 → width of the graphic (only if floating). Defaults to 320.</li>
   <li>height:0–255 → height of the graphic (only if floating).  Defaults to 96.</li> 
   <li>compress:0–1 → 0 = no compression, 1 = compressed.  Defaults to compressed.</li>
 </ul>
 
-<p>Partially applying the palette is useful if you want to have several graphics on screen, or reserve some colors for text. And you don't want all the images to have exactly the same colors. You can 
-  reserve some color for location graphics, and some others for inventory images, for example.
+<p>Partially applying the palette is useful if you want to have several graphics on screen, or reserve some colours for text. And you don't want all the images to have exactly the same colours. You can 
+  reserve some colour for location graphics, and some others for inventory images, for example.
 </p>
 
 <p>Please notice a float image can't have X,Y values, although if they are present they would just be ignored. Also, 
   a float image doesn't apply palette at all, so PCS and PCE would be ignored too.</p>
 
 <p>Regarding compression, Amiga and Atari ST are compressed by default in DAAD Ready. That means they take less disk space,
-   but loading them takes slightly longer. An image compresses better the more areas where a solid color is present horizontally.
-   That is, horizontal lines of the same color compress very well, while images with a lot of color changes horizontally
+   but loading them takes slightly longer. An image compresses better the more areas where a solid colour is present horizontally.
+   That is, horizontal lines of the same colour compress very well, while images with a lot of colour changes horizontally
    compress poorly. The compressor itself may decide not to compress an image if it deems the result would not be smaller 
    than the original, but you can also take that decision yourself by setting the compress option to 0 (because you need it to load fast).</p>
 
@@ -890,8 +924,8 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   <tr><td>6</td><td>Any</td><td>Clears the buffer</td></tr>
   <tr><td>7</td><td>Any</td><td>Sets text drawing to the screen. Atari ST only, not Amiga.</td></tr>
   <tr><td>8</td><td>Any</td><td>Sets text drawing to the buffer. Atari ST only, not Amiga.</td></tr>
-  <tr><td>9</td><td>flagno</td><td>Changes the palette color defined in flag flagno to the R,G,B values contained in flags flagno+1, flagno+2, and flagno+3. Not supported by the Amiga.</td></tr>
-  <tr><td>10</td><td>flagno</td><td>Reads the palette color defined in flag flagno and stores its R,G,B values into flags flagno+1, flagno+2, and flagno+3.</td></tr>
+  <tr><td>9</td><td>flagno</td><td>Changes the palette colour defined in flag flagno to the R,G,B values contained in flags flagno+1, flagno+2, and flagno+3. Not supported by the Amiga.</td></tr>
+  <tr><td>10</td><td>flagno</td><td>Reads the palette colour defined in flag flagno and stores its R,G,B values into flags flagno+1, flagno+2, and flagno+3.</td></tr>
 </table>
 </small>
 
@@ -910,18 +944,18 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
 <p>To understand what's explained here, you should have read first the "Important Stuff" section of this manual. If you didn't, please do so before continuing.</p>
 
-<p>PC/DOS interpreter supports VGA 256-color 320x200 graphics and also SVGA256 (VESA) 640x400. By default DAAD Ready creates location images with a resolution of 320x96, fixed, at 0,0.  
+<p>PC/DOS interpreter supports VGA 256-colour 320x200 graphics and also SVGA256 (VESA) 640x400. By default DAAD Ready creates location images with a resolution of 320x96, fixed, at 0,0.
   However, you can change the height by modifying the IMGLINES variable in the CONFIG.BAT file (it affects all targets).</p>
 
 <p>To create the images you simply need to place a .PCX file in the IMAGES/PC folder with three-digit numbers matching the location IDs, or in the IMAGES/PC/SVGA folder if you are using SVGA mode. 
-  They must be 256 color indexed (not RGB) PCX files (i.e. 001.PCX, 002.PCX, etc.). If your image has few colors (16 or less), some image editors like Gimp will create a 16 color indexed file instead of 256 colors,
-  which is not valid. Avoid that by adding some other colors to the zone at the bottom of the image, that will be cropped anyway.</p>
+  They must be 256 colour indexed (not RGB) PCX files (i.e. 001.PCX, 002.PCX, etc.). If your image has few colours (16 or less), some image editors like Gimp will create a 16 colour indexed file instead of 256 colours,
+  which is not valid. Avoid that by adding some other colours to the zone at the bottom of the image, that will be cropped anyway.</p>
 
 <p>To use SVGA mode, you need to edit the CONFIG.BAT file and change the variable HIRES from 0 to 1. By default, DAAD Ready uses VGA mode for PC/DOS. Please notice the text area in the SVGA mode looks like the VGA mode, 
   you won't see smaller text. Just the images double the resolution.</p>
 
-<p>Despite 256 colours are supported, it's recommended to create files with a maximum of 240 colors though (0 to 239). If you do that, DAAD Ready will move the colors to the upper palette range (16-255), leaving
-   the first 16 colors for text and paper, with the usual PAPER 0, INK 1 settings.</p>
+Despite 256 colours are supported, it's recommended to create files with a maximum of 240 colours though (0 to 239). If you do that, DAAD Ready will move the colours to the upper palette range (16-255), leaving
+   the first 16 colours for text and paper, with the usual PAPER 0, INK 1 settings.
 </p>
 
 <p>As for sound, the DOS interpreter can play 8-bit mono samples via the SFX condact, and OPL music using the DRO file format.</p>
@@ -987,8 +1021,8 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
 <p>First line is for graphics 000 to 009, second for 010 to 099, and third for 100 to 255.</p>
 
 <p>The lines default to create images with a resolution of %IMGWIDTH% by %IMGHEIGHT%, which happen to be 320x96 by default, fixed image at coordinates 0,0, and apply the whole palette from 0 to 255 and shift the palette because of the /s. A shifted
-  palette means if the image has 240 colors maximum, the image will be shifted up by 16 colors to preserve text colors in the first 16 palette entries. If you want to have full control of the 256 colors, you can remove the /s parameter, but then 
-  you must ensure yourself color 0 is black, 7 is white, etc., so text displays correctly.
+  palette means if the image has 240 colours maximum, the image will be shifted up by 16 colours to preserve text colours in the first 16 palette entries. If you want to have full control of the 256 colours, you can remove the /s parameter, but then 
+  you must ensure yourself colour 0 is black, 7 is white, etc., so text displays correctly.
 </p>
 
 <p>These are some examples of possible changes to the image processing lines:</p>
@@ -1000,13 +1034,13 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
 </code>
 
 <ul>
-  <li>The first example marks a floating graphic as it has no X,Y cooordinates, 320x96 in size, applying palette from colout 128 to 255.</li>
-  <li>The second marks a floating graphic, 32x32 in size, with no palette applied at all as in 1-0 the first number is greater than the second (that's the way to say you don't want to apply a single color).</li>
+  <li>The first example marks a floating graphic as it has no X,Y cooordinates, 320x96 in size, applying palette from colour 128 to 255.</li>
+  <li>The second marks a floating graphic, 32x32 in size, with no palette applied at all as in 1-0 the first number is greater than the second (that's the way to say you don't want to apply a single colour).</li>
   <li>The third marks a fixed graphic, 320x8, located at x=0, y=192, applying the whole palette 0–255.</li>
 </ul>
 
-<p>Partially applying the palette is useful if you want to have several graphics on screen, or reserve some colors for text. And you don't want all the images to have exactly the same colors. You can 
-  reserve some color for location graphics, and some others for inventory images, for example.</p>
+<p>Partially applying the palette is useful if you want to have several graphics on screen, or reserve some colours for text. And you don't want all the images to have exactly the same colours. You can 
+  reserve some colour for location graphics, and some others for inventory images, for example.</p>
 
 <p>Furthermore, PC/DOS supports the following options for the GFX condact:</p>
 
@@ -1022,8 +1056,8 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
   <tr><td>4</td><td>Any</td><td>Sets graphics drawing to the buffer</td></tr>
   <tr><td>5</td><td>Any</td><td>Clears the screen</td></tr>
   <tr><td>6</td><td>Any</td><td>Clears the buffer</td></tr>
-  <tr><td>9</td><td>flagno</td><td>Changes the palette color defined in flag flagno to the R,G,B values contained in flags flagno+1, flagno+2, and flagno+3.</td></tr>
-  <tr><td>10</td><td>flagno</td><td>Reads the palette color defined in flag flagno and stores its R,G,B values into flags flagno+1, flagno+2, and flagno+3.</td></tr>
+  <tr><td>9</td><td>flagno</td><td>Changes the palette colour defined in flag flagno to the R,G,B values contained in flags flagno+1, flagno+2, and flagno+3.</td></tr>
+  <tr><td>10</td><td>flagno</td><td>Reads the palette colour defined in flag flagno and stores its R,G,B values into flags flagno+1, flagno+2, and flagno+3.</td></tr>
   <tr><td>11</td><td>flagno</td><td>A colour cycle loop starts from colour at flag flagno to colour at flag flagno+1. Flag flagno+2 should contain the number of frames 
   (1/50 of second) that have to pass for each cycling step. Notice if frames equals 0, or first colours number is greater than the second, the cycle won't start.
   Remember if the palette has been shifted because of the /s parameter in the image loading, you must take that into account when defining the colours to cycle.
@@ -1032,7 +1066,7 @@ for /L %%i in (100, 1, 256) do IF exist %%i.PCX %IMGPATHBACK%\TOOLS\SCRMAKER\SCR
       LET 100 1<br/>
       LET 101 15<br/>
       LET 102 25<br/>
-      GFX 100 11  ; starts color cycling of colors from 1 to 15 every 25 frames<br/>
+      GFX 100 11  ; starts colour cycling of colours from 1 to 15 every 25 frames<br/>
     </code>
   </td></tr>
   <tr><td>12</td><td>Any</td><td>Stops any ongoing colour cycling.</td></tr>
@@ -1162,8 +1196,8 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
   <tr><td>6</td><td>Any</td><td>Clears the buffer</td></tr>
   <tr><td>7</td><td>Any</td><td>Sets text drawing to the screen</td></tr>
   <tr><td>8</td><td>Any</td><td>Sets text drawing to the buffer</td></tr>
-  <tr><td>9</td><td>flagno</td><td>Changes the palette color defined in flag flagno to the R,G,B values contained in flags flagno+1, flagno+2, and flagno+3.</td></tr>
-  <tr><td>10</td><td>flagno</td><td>Reads the palette color defined in flag flagno and stores its R,G,B values into flags flagno+1, flagno+2, and flagno+3.</td></tr>
+  <tr><td>9</td><td>flagno</td><td>Changes the palette colour defined in flag flagno to the R,G,B values contained in flags flagno+1, flagno+2, and flagno+3.</td></tr>
+  <tr><td>10</td><td>flagno</td><td>Reads the palette colour defined in flag flagno and stores its R,G,B values into flags flagno+1, flagno+2, and flagno+3.</td></tr>
   <tr><td>13</td><td>resource number</td><td>Plays a MP4 video animation file located in the IMAGES folder. The file must be
      named nnn.MP4, where nnn is the resource number with three digits as with the images. The animation will be played once and then control returns to the game.
       While playing the animation, any key press will also finish the animation.
@@ -1191,7 +1225,7 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 
 <p>For Windows, DAAD Ready uses the ADP interpreter, which uses as source images that are in the IMAGES/EXPERIMENTAL folder. Sounds are taken from SOUNDS/EXPERIMENTAL</p>
 <p>The file format will always be PNG, with resolution 320x200 or 640x400, depending on the value of the HIRES variable in the CONFIG.BAT file. If 
-  the variable is 1, it's high resolution and we use 640x400. In both cases, the maximum number of colors is 256.</p>
+  the variable is 1, it's high resolution and we use 640x400. In both cases, the maximum number of colours is 256.</p>
 
 <p>If it's HIRES=1 mode, we put the images in IMAGES/EXPERIMENTAL/HIRES, and if HIRES=0, in IMAGES/EXPERIMENTAL/256.</p>
 <p>Other than that, this target allows all possible graphics features, using the same JSON file system as the original Amiga and ST interpreters.</p>
@@ -1210,10 +1244,10 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 <h4>Amiga OCS/HAM/AGA (experimental)</h4>
 
 
-<p>The new ADP interpreter allows running Amiga games with more advanced image formats, taking advantage of the graphical capabilities of these machines. The original used OCS, but limited to 16 colors, but
-  ADP can use OCS with 32 colors, HAM with 4096 colors or AGA with 256 colors.</p>
+<p>The new ADP interpreter allows running Amiga games with more advanced image formats, taking advantage of the graphical capabilities of these machines. The original used OCS, but limited to 16 colours, but
+  ADP can use OCS with 32 colours, HAM with 4096 colours or AGA with 256 colours.</p>
 
-<p>The resolution is always for 320x200, but if you use HAM mode you must put the images in IMAGES\EXPERIMENTAL\TRUECOLOR, if you use AGA, in IMAGES\EXPERIMENTAL\256, and for OCS with 32 colors, in IMAGES\EXPERIMENTAL\32. Keep in mind that by selecting a particular mode, you may be leaving out the most basic models of Commodore Amiga.</p>
+<p>The resolution is always for 320x200, but if you use HAM mode you must put the images in IMAGES\EXPERIMENTAL\TRUECOLOR, if you use AGA, in IMAGES\EXPERIMENTAL\256, and for OCS with 32 colours, in IMAGES\EXPERIMENTAL\32. Keep in mind that by selecting a particular mode, you may be leaving out the most basic models of Commodore Amiga.</p>
 <p>Sounds must go in SOUNDS\EXPERIMENTAL.</p>
 <p>Other than that, this target allows all possible graphics features, using the same JSON file system as the original Amiga interpreter (see the Amiga section in this manual)</p>
 
@@ -1222,10 +1256,10 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 <h4>Atari ST/STE/Falcon (experimental)</h4>
 
 
-<p>The new ADP interpreter allows running Atari ST games with more advanced image formats, taking advantage of the graphical capabilities of these machines. The original used 16 colors over a palette of 4096 colors, but
-  ADP can use 256 color graphics for Atari Falcon.</p>
+<p>The new ADP interpreter allows running Atari ST games with more advanced image formats, taking advantage of the graphical capabilities of these machines. The original used 16 colours over a palette of 4096 colours, but
+  ADP can use 256 colour graphics for Atari Falcon.</p>
 
-<p>The resolution is always for 320x200, but if you use the 256 color mode you must put the images in IMAGES\EXPERIMENTAL\256 and if you use the traditional mode for ST and STe, in IMAGES\EXPERIMENTAL\16.</p>
+<p>The resolution is always for 320x200, but if you use the 256 colour mode you must put the images in IMAGES\EXPERIMENTAL\256 and if you use the traditional mode for ST and STe, in IMAGES\EXPERIMENTAL\16.</p>
 
 <p>Sounds must go in SOUNDS\EXPERIMENTAL.</p>
 
@@ -1250,8 +1284,8 @@ for /L %%i in (100, 1, 256) do IF exist IMAGES\HTML\%%i.png PHP\PHP TOOLS/jDAADI
 <tr><td>MSX 1</td><td>Put a file named DAAD.SC2 in the IMAGES folder.</td></tr>
 <tr><td>MSX 2</td><td>Put a file named DAAD.SC8 in the IMAGES folder.</td></tr>
 <tr><td>PC(DOS)/Windows</td><td>Put a file named DAAD.PCX in the IMAGES/PC, o IMAGES/PC/SVGA. Note that even in SVGA mode you need a 320x200 loading screen.</td></tr>
-<tr><td>Atari ST</td><td>Put a file named DAAD.PNG in the IMAGES folder. 320x200, maximum 16 colors.</td></tr>
-<tr><td>Amiga</td><td>Put a file named DAAD.PNG in the IMAGES folder. 320x200, maximum 16 colors.</td></tr> 
+<tr><td>Atari ST</td><td>Put a file named DAAD.PNG in the IMAGES folder. 320x200, maximum 16 colours.</td></tr>
+<tr><td>Amiga</td><td>Put a file named DAAD.PNG in the IMAGES folder. 320x200, maximum 16 colours.</td></tr> 
 <tr><td>Windows Experimental</td><td>Just like with Atari ST</td></tr>
 <tr><td>MacoS Experimental</td><td>Just like with Atari ST</td></tr>
   </tbody>
@@ -1319,12 +1353,14 @@ It is followed by another list of additional software that you may not strictly 
   <tr><td>8</td><td>Sets text writing on the buffer. </td></tr>
   <tr><td>9</td><td>Palette modification</td></tr>
   <tr><td>10</td><td>Palette reading.</td></tr>
-  <tr><td>11</td><td>Start of color cycle.</td></tr>
-  <tr><td>12</td><td>Stop of color cycle.</td></tr>
+  <tr><td>11</td><td>Start of colour cycle.</td></tr>
+  <tr><td>12</td><td>Stop of colour cycle.</td></tr>
   <tr><td>13</td><td>Video/animation playback.</td></tr>
   <tr><td>14</td><td>Video/animation playback in a loop.</td></tr>
   <tr><td>15</td><td>Split-screen management.</td></tr>
   <tr><td>16</td><td>Black palette management.</td></tr>
+  <tr><td>17</td><td>Image palette application management.</td></tr>
+  <tr><td>18</td><td>Image palette application action.</td></tr>
   <tr><td>128</td><td>Copies the current window from the buffer to the screen</td></tr>
   <tr><td>129</td><td>Copies the current window from the screen to the buffer</td></tr>
 </table>

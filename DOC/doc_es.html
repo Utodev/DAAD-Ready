@@ -113,9 +113,10 @@
     <li><a href='#appendixa'>A - El juego de caracteres</a></li>
     <li><a href='#appendixb'>B - Personalización de DAAD Ready</a></li>
     <li><a href='#appendixc'>C - Idiomas soportados</a></li>
-    <li><a href='#appendixd'>D - Símbolos</a></li>
-    <li><a href='#appendixe'>E - Agradecimientos</a></li>
-    <li><a href='#appendixf'>F - Licencias</a></li>  
+    <li><a href='#appendixd'>D - El target CP/M</a></li>
+    <li><a href='#appendixe'>E - Símbolos</a></li>
+    <li><a href='#appendixf'>F - Agradecimientos</a></li>
+    <li><a href='#appendixg'>G - Licencias</a></li>
   </ul>
 </ul>
 
@@ -172,6 +173,7 @@
   <li><b>Linux (experimental)</b></li>
   <li><b>Commodore Amiga OCS/HAM/AGA (experimental)</b></li>
   <li><b>Atari ST/STE/Falcon (experimental)</b></li>
+  <li><b>CP/M 2.2</b></li>
 </ul>
 
 <p>Los targets experimentales usan intérpretes alternativos que aún no han sido probados en profundidad, por lo que pueden surgir problemas.</p>
@@ -243,6 +245,7 @@
   <tr><td>LINUX_EXPERIMENTAL.BAT</td><td>Linux Experimental</td></tr>
   <tr><td>AMIGA_EXPERIMENTAL.BAT</td><td>Amiga OCS/HAM/AGA Experimental</td></tr>
   <tr><td>ATARIST_EXPERIMENTAL.BAT</td><td>Atari ST/STE/Falcon Experimental</td></tr>
+  <tr><td>CPM.BAT</td><td>CP/M 2.2 (experimental)</td></tr>
 </table>
 
 <p>¿Por qué dos targets CPC? A día de hoy, la version para CPC hace uso de images comprimidas, que ayudan a que quepan más imágenes en un disquete. Lamentablemente, 
@@ -250,6 +253,8 @@
   imágenes, así que puede funcionar en una máquina de 64K como el CPC 664.
   </p>
 
+
+<p>Ten en cuenta que el intérprete de CP/M también es muy limitado y no soporta muchas de las características disponibles en otros targets. Consulta el Apéndice para más detalles.</p>
 
 <a name="otherdetails"></a>
 <h6>Otros detalles</h6>
@@ -2422,8 +2427,43 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
 <p>Si tu idioma usa otros símbolos especiales, probablemente aun es viable, siempre y cuando usen el alfabeto romano.</p>
 
 <a name="appendixd"></a>
+<h6>Apéndice D - El target CP/M</h6>
 
-<h6>Apéndice D - Símbolos</h6>
+<p>El target CP/M es muy básico incluso para ser CP/M, porque está pensado para poder ser ejecutado en cualquier máquina que corra CP/M sin cambios, por lo que ni siquiera
+   usa funcionalidades propias de cada máquina (lo cual requeriría hacer un intérprete CP/M para cada máquina, o preguntar al iniciar sobre qué máquina se está ejecutando.</p>
+   
+<p>Por ejemplo, algo tan sencillo como borrar la pantalla se hace diferente en un Amstrad CPC con CP/M, en un Osborne 1, en un Kaypro 2 o en un equipo con terminal VT100. Por eso, 
+  el target CP/M no borrar la pantalla cuando aparece un CLS. </p>
+
+<p>¿Que más cosas no hace?</p>  
+
+<ul>
+  <li>No soporta WINDOW, WINSIZE o WINPOS. Todo va a la misma ventana a pantalla completa.</li>
+  <li>No soporta gráficos ni sonido: ni PICTURE, ni DISPLAY,ni SFX, ni GFX, ni BEEP hace nada. PICTURE fallará como si la imagen no existiera.</li>
+  <li>No puede posicionar el cursor, por lo que TAB, CENTRE, SAVEAT, BACKAT y PRINTAT no hacen nada.</li>
+  <li>No se puede cambiar colores, así que INK, PAPER y BORDER no hacen nada.</li>
+  <li>El mencionado CLS.</li>
+</ul>
+
+<p>Estos cambios, en general, hacen que el target CP/M pueda ejecutar las aventuras creadas para otros ordenadores, si no hemos complicado mucho la 
+  plantilla por defecto, ni añadido muchas ventanas. Simplemente el texto saldrá todo seguido, sin borrado entre localidades, sin colores y sin gráficos. </p>
+
+<p>Además, los terminales básicos CP/M no permiten modificar el juego de caracteres, lo cual implica que nos limitamos al ASCII7, con los caracteres ingleses. Cualquier carácter fuera de 
+  rango se mostrará con una # en su lugar. No obstante, el el compilador intentará que eso no llegue a ocurrir, haciendo algunas conversiones previas de caracteres. Por ejemplo,
+sustituye ñ por n para evitar que acabemos viendo oto#o en lugar de otono (otoño). Debido a esta limitación, el target CP/M no soporta la fuente superior.</p>
+
+<p>Finalmente, dos detalles más:</p>
+<ul>
+  <li>El target CP/M está pensado para CP/M 2.2. Probablemente funcionará en CP/M 3.0 (CPM Plus), pero no en versiones anteriores.</li>
+  <li>El target CP/M asume que la pantalla tiene 80 columnas. En un terminal con una cantidad diferente de columnas, el texto puede no mostrarse correctamente. No obstante,
+    el intérprete permite que le digas el numero de columnas desde la linea de comandos: teclear TEST (o como se llame tu juego) lanza el intérprete por defecto, en 80 
+    columnas, pero si teclamos "TEST 52", se lanza con 52 columnas.   </li>
+  <li>El target CP/M está pensado para procesadores Z80. Por ahora no hay soporte para 8080.</li>
+</ul>
+
+<a name="appendixe"></a>
+
+<h6>Apéndice E - Símbolos</h6>
 <p>DAAD Ready proporciona una serie de valores que puedes usar en tu código, para no tener que calcularlos, e incluso en algunos casos, te proporcionará un valor diferente dependiendo
    de la máquina que uses, para que no tengas que usar #ifdef para cambiar valores según cual sea.</p>
    
@@ -2435,10 +2475,10 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
       
       <p>Esta es la lista de símbolos que DAAD Ready te proporciona por defecto. Puedes crear otros usando #define:</p>
 
-<u><b>Símbolos de máquina (rarget)</b></u>
+<u><b>Símbolos de máquina (target)</b></u>
 
 <ul> 
-  <li>Se define un símbolo con la máquina: zx, cpc, c64, cp4, msx, msx2, pcw, amiga, st, pc o html.</li>
+  <li>Se define un símbolo con la máquina: zx, cpc, c64, cp4, msx, msx2, pcw, amiga, st, pc, cpm o html.</li>
   <li>Cuando un objetivo tiene un subtarget,  también se añade como símbolo, tanto tal cual como con "mode_" antepuesto. Por ejemplo, para ZX, además del símbolo "zx", se generarán mode_128k,
      mode_48k, mode_plus3, mode_esxdos, mode_next o mode_uno según el caso. También los mismos símbolos sin el prefijo "mode_".</li>
 </ul>
@@ -2509,8 +2549,8 @@ table><tr><th>Símbolo</th><th>Valor</th></tr> <tr><td>RESETMS</td><td>0</td></t
 <p>Finalmente, todas las palabras del vocabulario se añaden como símbolos, añadidas con el prefijo "_VOC_". Así, si el verbo LEAVE es el número 80, el símbolo _VOC_LEAVE será 80.</p> 
 <p>Obviamente, usar estos símbolos puede no ser necesario en muchas aventuras, pero algunos pueden ser muy convenientes. Por ejemplo, si tenemos un código que revisa todos los objetos para ver si los llevamos, podemos hacer que revise desde el objeto 0 al 15, porque cuando escribimos el código el último objeto es el 15, pero si añadimos más objetos, el código no funcionará. En su lugar, podemos usar el símbolo LAST_OBJECT, que siempre tendrá el valor del último objeto, y así el código funcionará siempre.</p>
 
-<a name="appendixe"></a>
-<h6>Apéndice E - Agradecimientos</h6>
+<a name="appendixf"></a>
+<h6>Apéndice F - Agradecimientos</h6>
 
 <ul>
   <li>Tim Gilberts, de Gilsfot/Infinite Imaginations, por crear DAAD</li>
@@ -2553,8 +2593,8 @@ table><tr><th>Símbolo</th><th>Valor</th></tr> <tr><td>RESETMS</td><td>0</td></t
 
 </ul>
 
-<a name="appendixf"></a>
-<h6>Apéndice F - Licencias</h6>
+<a name="appendixg"></a>
+<h6>Apéndice G - Licencias</h6>
 
 <p>DAAD Ready contiene software de un montón de partes, y ha sido creado por Uto (@utodev) que es el autor de Maluva (la extensión de DAAD) y DRC (el nuevo compilador). Todo el software usado es free o de código abierto, y en algunos casos donde la licencia no estaba especificada, el permiso ha sido facilitado por el autor.</p>
 

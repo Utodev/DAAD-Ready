@@ -288,6 +288,18 @@ for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\TOOLS\SCRMAKER\SCRMAKER spec
 
 <p>Tienes 8.960 bytes disponibles para imágenes precargadas.</p>
 
+<p>El Spectrum 128K tiene acceso limitado al chip AY a través del comando SFX:</p>
+<small>
+  <table>
+    <tr><td colspan=3>SFX</td></tr>
+  <tr>
+    <th>Parametro 2</th><th>Parametro 1</th><th>Descripción</th>
+  </tr>
+  <tr><td>0-13</td><td>Cualquiera</td><td>Escribe el valor del parámetro en el segundo parámetro, en el registro AY (chip de audio) indicado en el primer parámetro.</td></tr>
+  </table>
+</small>
+
+
 <a name="zx48k"></a>
 <h4>ZX Spectrum 48K</h4>
 
@@ -417,6 +429,17 @@ Ese color no se mostrará y hará visible el texto ULA subyacente.</p>
 
 <p>Por supuesto, ese color magenta puro no debería aparecer en gráficos visibles reales, ya que se volvería transparente.</p>
 
+<p>El Spectrum 128K tiene acceso limitado al chip AY a través del comando SFX:</p>
+<small>
+  <table>
+    <tr><td colspan=3>SFX</td></tr>
+  <tr>
+    <th>Parametro 2</th><th>Parametro 1</th><th>Descripción</th>
+  </tr>
+  <tr><td>0-13</td><td>Cualquiera</td><td>Escribe el valor del parámetro en el segundo parámetro, en el registro AY (chip de audio) indicado en el primer parámetro.</td></tr>
+  </table>
+</small>
+
 
  <a name='esxdos'></a>
   <h4>ZX Spectrum con DivIDE/DivMMC (ESXDOS)</h4>
@@ -496,6 +519,17 @@ Ese color no se mostrará y hará visible el texto ULA subyacente.</p>
   </li>
   <li>Acerca de /SCR: le dice a SCRMAKER que el gráfico de entrada está en formato SCR (como el producido por DaDither). Si se omite, espera formato MLT, que también es válido (como el producido por Img2ULAPlus).</li>
 </ul>
+
+<p>El Spectrum 128K tiene acceso limitado al chip AY a través del comando SFX:</p>
+<small>
+  <table>
+    <tr><td colspan=3>SFX</td></tr>
+  <tr>
+    <th>Parametro 2</th><th>Parametro 1</th><th>Descripción</th>
+  </tr>
+  <tr><td>0-13</td><td>Cualquiera</td><td>Escribe el valor del parámetro en el segundo parámetro, en el registro AY (chip de audio) indicado en el primer parámetro.</td></tr>
+  </table>
+</small>
 
 
   <a name='msx1'></a>
@@ -635,6 +669,8 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
      hace editando el archivo CONFIG.BAT y cambiando donde dice splitModeOff por splitModeOn. Eso afectará tanto a Commodore 64 como a Amstrad CPC. La pantalla dividida
     se activa mediante el metacondacto XSPLITSCR, o mediante el condacto GFX. XSPLITSCR n y GFX n 15 son lo mismo.</p>
 
+    <p>Ten en cuenta que este modo es experimental y puede volverse inestable. Úsalo bajo tu propio riesgo.</p>
+
   <p>Desafortunadamente, mantener ese modo dividido en ejecución requiere rutinas de interrupción complejas que son difíciles de manejar mientras se lee desde el disco, por lo que notarás que toda la pantalla se oculta mientras se carga una nueva imagen,
     e incluso podrías ver algún parpadeo o efectos extraños ocasionalmente durante las lecturas o escrituras del disco, por ejemplo, al guardar o cargar un juego, a menos que ocultes las imágenes primero.</p>
 
@@ -697,12 +733,9 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
 
 
 
-    <p>Known bug: if the image appears misplaced, it may be due to a known bug. The good news is you can avoid it: you may probably used a full screen window and filled it with text, so it scrolls. You can do that, 
-     but first make sure to create that window with maximum height and width. Just don't use it without initializing it.
-  </p>
+  <p>Bug conocido: si la imagen aparece descolocada, puede deberse a un bug conocido. La buena noticia es que puedes evitarlo: probablemente hayas usado una ventana de pantalla completa y la hayas llenado de texto, por lo que se desplaza. Para evitar eso, nunca debes dejar que una ventana de pantalla completa se desplace. 
+    Puedes evitarlo haciendo las ventanas con una línea menos que la pantalla completa.</p>
 
-  <p>Bug conocido: si la imagen aparece descolocada, puede deberse a un bug conocido. La buena noticia es que puedes evitarlo: probablemente hayas usado una ventana de pantalla completa y la hayas llenado 
-    con texto, de modo que haga scroll. Puedes hacer eso, pero primero asegúrate de crear esa ventana con la altura y el ancho máximos. Simplemente no la uses sin inicializarla antes.</p>
 
 
   <u>Pantalla dividida</u>
@@ -750,9 +783,11 @@ for /L %%i in (100, 1, 255) do IF exist %%i.SC8 IF NOT exist %%i.IM8 ..\php\php 
   <tr>
     <th>Parametro 2</th><th>Parametro 1</th><th>Descripción</th>
   </tr>
-  <tr><td>9</td><td>flagno</td><td>Modifica el índice de paleta (0-15) definido en la bandera flagno, al color de paleta (0-26) indicado en la bandera flagno + 1. Puedes ver la paleta del CPC más abajo.</td></tr>    
+  <tr><td>9</td><td>flagno</td><td>Modifica el índice de paleta (0-15) definido en la bandera flagno, al color de paleta (0-26) indicado en la bandera flagno + 1. Puedes ver la paleta del CPC más abajo. Si la función 17 está activada, llamar a esta función forzará la aplicación de toda la paleta de la imagen (con el cambio incluido).</td></tr>
   <tr><td>15</td><td>0-2</td><td>0: Sin pantalla dividida, 1: Pantalla dividida con la parte superior en modo 0 y la inferior en modo 1, 2: Pantalla dividida con la parte superior en modo 2 y la inferior en modo 1</td></tr>
   <tr><td>16</td><td>0-1</td><td>Indica si el CPC borrará la paleta al cargar una imagen (la pondrá en negro), o si simplemente dibujará directamente.</td></tr>
+  <tr><td>17</td><td>0-1</td><td>Indica si el CPC aplicará la paleta de la imagen o solamente los pixels.</td></tr>
+  <tr><td>18</td><td>cualquiera</td><td>Fuerza la aplicación de la paleta de la última imagen mostrada con DISPLAY. Notese que si se modificó con la función 9, se aplicará modificada.</td></tr>
   </table>
 </small>
 <br/>
@@ -1326,6 +1361,8 @@ Le sigue otra lista de software adicional que quizás no necesites estrictamente
   <tr><td>14</td><td>Reproducción de video/animación en bucle.</td></tr>
   <tr><td>15</td><td>Gestión de pantalla partida.</td></tr>
   <tr><td>16</td><td>Gestión de paleta en negro.</td></tr>
+  <tr><td>17</td><td>Gestión de aplicación de paleta de imágenes.</td></tr>
+  <tr><td>18</td><td>Acción de aplicación de paleta de imágenes.</td></tr>
   <tr><td>128</td><td>Copia la ventana actual desde el búfer a la pantalla</td></tr>
   <tr><td>129</td><td>Copia la ventana actual desde la pantalla al búfer</td></tr>
 </table>

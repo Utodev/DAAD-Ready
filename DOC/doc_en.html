@@ -108,9 +108,10 @@
     <li><a href='#appendixa'>A - The Character Set</a></li>
     <li><a href='#appendixb'>B - DAAD Ready Customization</a></li>
     <li><a href='#appendixc'>C - Supported languages</a></li>
-    <li><a href='#appendixd'>D - Symbols</a></li>
-    <li><a href='#appendixe'>E - Greetings</a></li>  
-    <li><a href='#appendixf'>F - Licenses</a></li>  
+    <li><a href='#appendixc'>D - The CP/M target</a></li>    
+    <li><a href='#appendixd'>E - Symbols</a></li>
+    <li><a href='#appendixe'>F - Greetings</a></li>  
+    <li><a href='#appendixf'>G - Licenses</a></li>  
 
   </ul>
 </ul>
@@ -153,10 +154,13 @@
   <li><b>Linux (experimental)</b></li>
   <li><b>Commodore Amiga OCS/HAM/AGA (experimental)</b></li>
   <li><b>Atari ST/STE/Falcon (experimental)</b></li>
+  <li><b>CP/M (experimental)</b></li>
 
 </ul>
 
 <p>The experimental targets use alternative interpreters not yet tested in depth, so issues may arise.</p>
+
+<p>Please notice the CP/M interpreter is also very limited, and does not support many features available in other targets. Check the Appendix for more details.</p>
 
 <p>Notice that PC target refers to the classic PC from the 80s/90s, with DOS as operating system, not modern PCs.</p>
 
@@ -256,6 +260,7 @@
   <tr><td>LINUX_EXPERIMENTAL.BAT</td><td>Linux Experimental</td></tr>
   <tr><td>AMIGA_EXPERIMENTAL.BAT</td><td>Amiga OCS/HAM/AGA Experimental</td></tr>
   <tr><td>ATARIST_EXPERIMENTAL.BAT</td><td>Atari ST/STE/Falcon Experimental</td></tr>
+  <tr><td>CPM.BAT</td><td>CP/M (experimental)</td></tr>
 
 </table>
 
@@ -1886,7 +1891,7 @@ section for the current Verb.
      pressed the values are added. For example, left and right at the same time, the value will be 3.</li>
   </li>
   <li>
-    PTR files are 81 bytes long, 9x9, each byte represents a pixel in a 9x9 square. Color 0 is transparent.</li>
+    PTR files are 81 bytes long, 9x9, each byte represents a pixel in a 9x9 square. Colour 0 is transparent.</li>
 
 </ul>
 
@@ -2859,6 +2864,43 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
 
 
   <p>Obviously, using these symbols may not be necessary in many adventures, but some can be very convenient. For example, if we have a code that looks at all the objects to see if we carry them, we can make it look from object 0 to 15, because when we write the code the last object is 15, but if we add more objects, the code will not work. Instead, we can use the LAST_OBJECT symbol, which will always have the value of the last object, and so the code will always work.</p>
+
+
+<a name="appendixd"></a>
+<h6>Appendix D - The CP/M target</h6>
+
+<p>The CP/M target is very basic even for CP/M, because it is designed to be run on any machine that runs CP/M without changes, so it does not even
+   use machine-specific features (which would require making a CP/M interpreter for each machine, or asking at startup which machine is running).</p>
+   
+<p>For example, something as simple as clearing the screen is done differently on an Amstrad CPC with CP/M, on an Osborne 1, on a Kaypro 2, or on a VT100 terminal. Therefore,
+  the CP/M target does not clear the screen when a CLS appears. </p>
+
+<p>What else does it not do?</p>  
+
+<ul>
+  <li>Does not support WINDOW, WINSIZE, or WINPOS. Everything goes to the same full-screen window.</li>
+  <li>Does not support graphics or sound: neither PICTURE, DISPLAY, SFX, GFX, nor BEEP does anything. PICTURE will fail as if the image does not exist.</li>
+  <li>Cannot position the cursor, so TAB, CENTRE, SAVEAT, BACKAT, and PRINTAT do nothing.</li>
+  <li>Cannot change colors, so INK, PAPER, and BORDER do nothing.</li>
+  <li>The aforementioned CLS.</li>
+</ul>
+
+<p>These changes, in general, make the CP/M target able to run adventures created for other computers, as long as we have not complicated the
+  default template too much, nor added many windows. The text will simply appear all together, without clearing between locations, without colors, and without graphics. </p>
+
+<p>Moreover, basic CP/M terminals do not allow modifying the character set, which implies that we are limited to ASCII7, with English characters. Any character outside the
+  range will be displayed as a # instead. However, the compiler will try to prevent this from happening by making some preliminary character conversions. For example,
+it replaces ñ with n to avoid seeing oto#o instead of otono (otoño). Due to this limitation, the CP/M target does not support the upper font.</p>
+
+<p>Finally, two more details:</p>
+<ul>
+  <li>The CP/M target is designed for CP/M 2.2. It will probably work on CP/M 3.0 (CPM Plus), but not on earlier versions.</li>
+  <li>The CP/M target assumes the screen has 80 columns. On a terminal with a different number of columns, the text may not display correctly. However,
+    the interpreter allows you to specify the number of columns from the command line: typing TEST (or whatever your game is called) launches the interpreter by default, in 80
+    columns, but if we type "TEST 52", it launches with 52 columns.   </li>
+  <li>The CP/M target is designed for Z80 processors. There is currently no support for 8080.</li>
+</ul>
+
 
 <a name="appendixe"></a>
 <h6>Appendix E - Greetings</h6>
