@@ -80,7 +80,7 @@
 define('CLIPWIDTH',320); // whole width
 define('NUM_PLANES',4);
 define('BYTES_PER_LINE',160);
-define('VERSION','2.0');
+define('VERSION','2.1');
 
 $verbose = false;
 
@@ -96,9 +96,9 @@ function error($errorMsg)
 
 function syntax()
 {
-    echo "IMG2DAAD ".VERSION." - Creates DAAD Graphic Databases for Atari ST and Amiga\n\n";
+    echo "IMG2DAAD ".VERSION." - Creates DAAD Graphic/sound Databases for Atari ST and Amiga\n\n";
     echo "SYNTAX: IMG2DAAD <folder>{;folder} [outputfile] [-c] [-a] [-v] [-<lines>]\n\n";
-    echo "<folder>     : folder where to look for .PI1 or .PNG images. You can add several folders, just concatenate with semicolon as separator \n";
+    echo "<folder(s)>  : folder where to look for .PI1 or .PNG images and WAV sounds. You can add several folders, just concatenate with semicolon as separator \n";
     echo "[outputfile] : file name for the output database, if absent, PART1.DAT will be used.\n";
     echo "-c           : compress images\n\n";
     echo "-a           : generate Amiga 12 bit palette file. Requires patched interpreter, if you are no using 12 bit palette you can use same DAT file for Amiga, and use original interpreters.";
