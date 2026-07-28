@@ -2442,6 +2442,7 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
   <li>No soporta gráficos ni sonido: ni PICTURE, ni DISPLAY,ni SFX, ni GFX, ni BEEP hace nada. PICTURE fallará como si la imagen no existiera.</li>
   <li>No puede posicionar el cursor, por lo que TAB, CENTRE, SAVEAT, BACKAT y PRINTAT no hacen nada.</li>
   <li>No se puede cambiar colores, así que INK, PAPER y BORDER no hacen nada.</li>
+  <li>No hay función "Más...". El texto simplemente continuará sin pausar.</li>
   <li>El mencionado CLS.</li>
 </ul>
 
@@ -2452,13 +2453,17 @@ MESSAGE “¡No estás jugando en un Spectrum!”<br/>
   rango se mostrará con una # en su lugar. No obstante, el el compilador intentará que eso no llegue a ocurrir, haciendo algunas conversiones previas de caracteres. Por ejemplo,
 sustituye ñ por n para evitar que acabemos viendo oto#o en lugar de otono (otoño). Debido a esta limitación, el target CP/M no soporta la fuente superior.</p>
 
-<p>Finalmente, dos detalles más:</p>
+<p>Finalmente, algunos detalles más:</p>
 <ul>
   <li>El target CP/M está pensado para CP/M 2.2. Probablemente funcionará en CP/M 3.0 (CPM Plus), pero no en versiones anteriores.</li>
   <li>El target CP/M asume que la pantalla tiene 80 columnas. En un terminal con una cantidad diferente de columnas, el texto puede no mostrarse correctamente. No obstante,
     el intérprete permite que le digas el numero de columnas desde la linea de comandos: teclear TEST (o como se llame tu juego) lanza el intérprete por defecto, en 80 
     columnas, pero si teclamos "TEST 52", se lanza con 52 columnas.   </li>
   <li>El target CP/M está pensado para procesadores Z80. Por ahora no hay soporte para 8080.</li>
+  <li>Si al ejecutar el fichero del juego obtenemos un error BAD LOAD, lo más probable es que la máquina donde lo ejecutamos no tenga memoria suficiente para el juego. El juego
+    carga el intérprete y la base de datos en memoria, pero no los Xmessages, por lo que una manera de hacer caber el juego es usar mas XMessages, que se cargan bajo demanda,
+    aunque implique sacrificar velocidad.</li>
+  </li>
 </ul>
 
 <a name="appendixe"></a>

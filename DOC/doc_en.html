@@ -2882,6 +2882,7 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
   <li>Does not support graphics or sound: neither PICTURE, DISPLAY, SFX, GFX, nor BEEP does anything. PICTURE will fail as if the image does not exist.</li>
   <li>Cannot position the cursor, so TAB, CENTRE, SAVEAT, BACKAT, and PRINTAT do nothing.</li>
   <li>Cannot change colors, so INK, PAPER, and BORDER do nothing.</li>
+  <li>There is no "More..." feature. Text will simply continue without pausing.</li>
   <li>The aforementioned CLS.</li>
 </ul>
 
@@ -2892,13 +2893,16 @@ name is avoided in the response and answers with a simple “OK, taken.”</p>
   range will be displayed as a # instead. However, the compiler will try to prevent this from happening by making some preliminary character conversions. For example,
 it replaces ñ with n to avoid seeing oto#o instead of otono (otoño). Due to this limitation, the CP/M target does not support the upper font.</p>
 
-<p>Finally, two more details:</p>
+<p>Finally, some more details:</p>
 <ul>
   <li>The CP/M target is designed for CP/M 2.2. It will probably work on CP/M 3.0 (CPM Plus), but not on earlier versions.</li>
   <li>The CP/M target assumes the screen has 80 columns. On a terminal with a different number of columns, the text may not display correctly. However,
     the interpreter allows you to specify the number of columns from the command line: typing TEST (or whatever your game is called) launches the interpreter by default, in 80
     columns, but if we type "TEST 52", it launches with 52 columns.   </li>
   <li>The CP/M target is designed for Z80 processors. There is currently no support for 8080.</li>
+  <li>If when running the game file we get a BAD LOAD error, it is most likely that the machine where we run it does not have enough memory for the game. The game
+    loads the interpreter and the database into memory, but not the Xmessages, so one way to make the game fit is to use more XMessages, which are loaded on demand,
+    although this implies sacrificing speed.</li>
 </ul>
 
 
