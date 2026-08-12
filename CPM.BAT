@@ -34,6 +34,26 @@ IF  NOT DEFINED LANG (
     )
 echo Language: %LANG% %BASELANG%
 
+IF NOT EXIST "ASSETS\CPM.warning" (
+    if "%BASELANG%" == "ES" (
+        tools\cecho\cecho "{06}AVISO: ESTA BAT GENERA UNA DISTRIBUCION PARA CP/M UTILIZANDO EL NUEVO INTERPRETE, que no es un interprete original de DAAD. {07}" 
+        tools\cecho\cecho "{06}El intérprete CP/M esta en una etapa de pruebas, y aunque en general ha sido ya probado, podrian aparecer problemas o incompatibilidades inesperadas. {07}"
+        tools\cecho\cecho "{06}Por favor, antes de reportar un error comprueba que el comportamiento es diferente en otras maquinas.{07}"
+        echo.
+        PAUSE
+        echo "OK" > ASSETS\CPM.warning
+    )
+    if "%BASELANG%" == "EN" (
+        tools\cecho\cecho "{06}WARNING: THIS BAT GENERATES A DISTRIBUTION FOR CP/M USING NEW CP/M INTERPRETER, WHICH IS NOT AN ORIGINAL DAAD interpreter{07}" 
+        tools\cecho\cecho "{06}CP/M interpreter is in early stages of development, and although it has been tested quite a lot, unexpected problems or incompatibilities could appear. {07}"
+        echo.
+        tools\cecho\cecho "{06}Before reporting a bug, please check that the behaviour is different in other machines.{07}"
+        PAUSE
+        echo "OK" > ASSETS\CPM.warning
+    )
+)
+
+
 
 IF NOT exist %GAME%.DSF COPY ASSETS\TEMPLATES\BLANK_%LANG%.DSF %GAME%.DSF
 
@@ -88,6 +108,8 @@ REM ----  CLEAN ----
 DEL DAAD.DDB > nul 2>&1
 DEL RELEASE\CPM\%GAME%.COM > nul 2>&1
 MOVE %GAME%.COM RELEASE\CPM > nul 2>&1
+DEL RELEASE\CPM\0.XMB > nul 2>&1
+IF exist 0.XMB MOVE 0.XMB RELEASE\CPM > nul 2>&1
 DEL %GAME%.json > nul 2>&1
 DEL *.BIN > nul 2>&1
 DEL *.XMB > nul 2>&1
@@ -96,7 +118,8 @@ IF exist CUSTOM2.BAT CALL CUSTOM2.BAT
 IF ERRORLEVEL  1 GOTO CUSTOM
 REM ---- TESTER ---- 
 ECHO.
-MOVE %GAME%.DSK RELEASE\CPM > nul 2>&1
+MKDIR RELEASE\CPM\FLOPPY > nul 2>&1
+MOVE %GAME%.DSK RELEASE\CPM\FLOPPY > nul 2>&1
 tools\cecho\cecho {03}
 IF "%BASELANG%" == "EN" (
 ECHO Game ready,press any key to test or  CTRL+C to stop
@@ -117,8 +140,7 @@ tools\cecho\cecho {07}
 PAUSE
 
 cd TOOLS\CPCE
-CPCE95 -v+ ..\..\RELEASE\CPM\%GAME%.DSK
-REM WinApe.exe C:\Users\csanchez\MEGA\Github\DAAD-Ready\RELEASE\CPM\%GAME%.DSK /A
+CPCE95 -v+ ..\..\RELEASE\CPM\FLOPPY\%GAME%.DSK
 cd ..\..
 
 
