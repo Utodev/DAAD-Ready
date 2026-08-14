@@ -1,0 +1,129 @@
+================================================
+TS1510 ROM Cartridges for the TS1000/TS1500/ZX81
+Timex Sinclair
+================================================
+
+
+1510 Command Cartridge Player
+
+
+OPERATING INSTRUCTIONS
+
+The TIMEX SINCLAIR 1510 Command Cartridge Player can be used with either the
+TIMEX SINCLAIR 1000 Personal Computer or the TIMEX SINCLAIR 1500 Personal
+Computer. it provides fast and convenient plug-in cartridge software capability on
+either computer.
+
+
+GENERAL
+
+The TIMEX SINCLAIR Command Cartridge Player attaches quickly and easily to the
+rear edge connector of either the TIMEX SINCLAIR 1000 or TIMEX SINCLAIR 1500. It
+takes its power from the computer with no additional wires or cables.
+
+
+CONNECTING THE TIMEX SINCLAIR 1510
+
+- Remove the power plug from the computer to turn the computer's power off.
+
+- If you are using a peripheral with a pass through connector (open in the rear of the
+  peripheral’s connector), attach the plastic edge connector on the front of the TIMEX
+  SINCLAIR 1510 to the rear edge connector of the desired peripheral.
+
+- Attach the TIMEX SINCLAIR 1510 (or TIMEX SINCLAIR 1510 combined with peripheral
+  from the above step) to the computer. To do this, attach the plastic edge connector on
+  the front of the TIMEX SINCLAIR 1510 (or TIMEX SINCLAIR 1510 combined with peripheral)
+  to the rear edge connector of either computer.
+
+- If you are using the TIMEX SINCLAIR 1510 on the TIMEX SINCLAIR 1500 Computer, the
+  extra TIMEX SINCLAIR 1016 RAM Module is not needed for 16K or larger cartridges and
+  should not be used. The TIMEX SINCLAIR 1016 RAM Module can be used on the TIMEX
+  SINCLAIR 1500 with 8K cartridges.
+
+- If you are using the TIMEX SINCLAIR 1510 on the TIMEX SINCLAIR 1000 Computer, you
+  must use the TIMEX SINCLAIR 1016 RAM Module. Attach the TIMEX SINCLAIR 1016
+  RAM Module to the rear edge connector of the TIMEX SINCLAIR 1510.
+
+
+INSERTING A TIMEX COMMAND CARTRIDGE
+
+If you are ready to insert a Timex Command Cartridge into the TIMEX SINCLAIR 1510
+Command Cartridge Player. To do so, hold the base of the TIMEX SINCLAIR 1510 firmly
+on the table top with one hand. With the other hand, hold the Command Cartridge
+with the label facing front and insert it into the slot on top of the TIMEX SINCLAIR 1510.
+Be sure it is firmly seated so that only about 1/16” of the label (or about two rows of the
+cartridge’s textured surface) is visible.
+
+
+USING THE TIMEX SINCLAIR 1510 ON THE TIMEX SINCLAIR 1500 COMPUTER
+
+- Be sure the TIMEX SINCLAIR 1016 RAM Module is not connected for cartridges 16K
+  or larger.
+
+- Reconnect the power plug(s) to any of the peripherals that you have configured.
+
+- Then reconnect the power plug in the rear of the TIMEX SINCLAIR 1500.
+
+- Notice that the cartridge program automatically starts once the computer power is connected.
+  The cartridge can be automatically started again at any time by pressing the
+  button labeled “RESET” on the top of the TIMEX SINCLAIR 1510.
+
+
+USING THE TIMEX SINCLAIR 1510 ON THE TIMEX SINCLAIR 1000 COMPUTER
+
+- Be sure the TIMEX SINCLAIR 1016 RAM Module is connected when using the TIMEX
+  SINCLAIR 1510 and any cartridge on the TIMEX SINCLAIR 1000.
+
+- Reconnect the power plug(s) to any of the peripherals that you have configured.
+
+- Reconnect the power plug on the left side of the TIMEX SNCLAIR 1000.
+
+- Notice that the computer displays the “K” cursor indicating it is ready.
+
+- To start the cartridge program running simply enter “RAND USR 8192". The RAND key-
+  word, located above the T key, is entered by pressing the T key when the “K” cursor is
+  on the screen. The USR keyword, located below the L key, is obtained by first entering
+  “Function” mode (press the shift key and then press the enter key) and then pressing
+  the L key.
+
+- To aid you in remembering these instructions a small self-stick label has been provided
+  that you may attach to either the TIMEX SINCLAIR 1510 or the TIMEX SINCLAIR 1000.
+
+
+USING A NEW CARTRIDGE
+
+- To remove a cartridge, first disconnect power from the computer.
+
+- Hold the base of the TIMEX SINCLAIR 1510 firmly on the table top with one hand. With
+  the other hand, remove the cartridge by pulling it upwards and out of the slot on top of
+  the TIMEX SINCLAIR 1510.
+
+- Insert a new cartridge, reconnect power to the computer and follow the instructions
+  above to use a new cartridge program.
+
+
+USING THE TIMEX SINCLAIR 1510 BY ITSELF (without a cartridge)
+
+- The “RESET” button on the TIMEX SINCLAIR 1510 provides a quick way to restart the
+  computer (either the TIMEX SINCLAIR 1000 or TIMEX SINCLAIR 1500). Pressing the
+  RESET button will return the computer to the start-up or “K” cursor state at any time if
+  no cartridge is inserted.
+
+©1983
+Timex Computer Corporation
+Waterbury Connecticut 06725
+
+
+===============================================================================
+
+
+TECHNICAL NOTES
+
+TS1510 ROM cartridges contain a non-pageable ROM that can be either 8K, 16K or 24K.
+
+For an 8K ROM cartridge, the 8K appears at $2000-$3FFF.
+
+For a 16K ROM Cartridge, the first 8K appears at $2000-$3FFF and the second 8K appears at $8000-$9FFF.
+
+For a 24K ROM cartridge, the first 8K appears at $2000-$3FFF, the second 8K appears at $8000-$9FFF and the
+third 8K appears at $A000-$BFFF.

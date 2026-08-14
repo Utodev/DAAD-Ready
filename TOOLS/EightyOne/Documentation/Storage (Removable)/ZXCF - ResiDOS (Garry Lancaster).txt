@@ -1,0 +1,3700 @@
+=================================
+ResiDOS v2.30 for the ZX Spectrum
+Garry Lancaster
+=================================
+
+Introduction
+
+ResiDOS is an extension to ZX Spectrum BASIC that operates with various add-on interfaces
+providing extra memory and hard disk or compactflash/SD card interfaces.
+
+ResiDOS installs itself into your interface's onboard RAM together with a modified copy of the
+Spectrum ROM, and then provides you with extra BASIC commands for accessing files on the hard
+disk or compactflash card, and using the extra RAM on your interface. It also provides a
+comprehensive task manager which can be reached using the NMI button and allows you to instantly
+switch between a number of programs or games running on your Spectrum.
+
+-------------------------------------------------------------------------------------------------
+
+Installation
+
+Installing for the first time
+
+Installing ResiDOS is simple. First download the appropriate version of the installation software
+for your interface from the downloads page and load it into your Spectrum. The software is
+provided in the form of an emulator TAP or TZX file, so you will need to transfer it using
+software such as playtzx or an emulator. You'll find suitable software on the World Of Spectrum
+site. Once it's transferred, just LOAD it into your Spectrum and follow the simple on-screen
+instructions.
+
+During installation, the program will confirm the size of your interface's RAM (usually 128K,
+512K or 1024K).
+
+Once you have changed the jumpers on your interface as instructed, the Spectrum will reset and
+you should see the ResiDOS boot screen appear!
+
+
+Upgrading to a new version of ResiDOS
+
+When a new version of ResiDOS becomes available, installation is even easier. Just load the
+installation program, and it will automatically detect your existing version. You can then choose
+to upgrade, and the system will be automatically updated, leaving all your installed ROMs and
+tasks still in the interface's memory.
+
+If you choose to re-install, the normal installation procedure will occur. This will wipe all the
+packages, ROMs and tasks from your interface's memory.
+
+If you have the FATfs package installed, then instead of loading the installer from tape you can
+simply copy the installation files (residos.bas and residos.c) onto your FAT16 card, and LOAD
+them directly from there, using LOAD %"residos.bas".
+
+One final possibility (if you have the TapeIO package installed) is to copy the installer tape
+image (residos.tzx) onto your card and then load it with %tapein "residos.tzx":LOAD "".
+
+-------------------------------------------------------------------------------------------------
+
+Setting up your hard disk or CompactFlash
+
+From v2.00, ResiDOS can work with cards and disks formatted to one of two different filesystems:
+
+IDEDOS, including +3DOS
+FAT
+
+The base installation of ResiDOS only supports IDEDOS drives, so in order to allow use of FAT
+drives, you must install the optional FATfs package. In the future, other filesystems may also
+become available.
+
+You can use any combination of IDEDOS and FAT drives. If you have two drives or cards, you can
+format one with IDEDOS and one with FAT. If you have only one card, you can choose either system.
+It is also possible to divide a single card between IDEDOS and FAT; see this page for details
+(although please note that it was written for the +3e, and so the syntax of the commands is
+slightly different).
+
+
+IDEDOS or FAT?
+
+FAT has the following advantages:
+- All PCs and Macs can read and write to FAT drives (as can digital cameras, PDAs etc), so
+  transferring files between your PC and Spectrum is extremely easy
+- Each partition can be up to 2GB in size (when FAT32 support is added, even this limitation will
+  be removed); IDEDOS partitions are limited to 16MB (although there is no limit on the number of
+  partitions)
+- Files can be organized into directories
+
+IDEDOS has the following advantages:
+- IDEDOS drives can be directly used by the +3e
+- IDEDOS drives can be used with the ZXVGS operating system
+- CP/M, which may be ported to ResiDOS soon, needs IDEDOS drives
+- Swap partitions, which could be used by games and other apps, are only currently available on
+  IDEDOS drives
+
+
+Setting up a FAT drive
+
+ResiDOS cannot directly format FAT drives. Instead, format your card or disk with your PC. You
+need one or more FAT16 partitions. In Windows XP, this is done by selecting "FAT" as the format
+type; do not select "FAT32", as the FATfs package does not support it at the time of writing.
+
+Then, after installing ResiDOS and the FATfs package, simply insert the card into your interface
+and reset the Spectrum. It should be automatically detected and mapped to one or more drive
+letters (shown on the startup screen).
+
+
+Setting up an IDEDOS drive
+
+Before you can use your hard disk or CompactFlash, it needs to be initialised with the IDEDOS
+system. ResiDOS can work with two different physical drives, normally known as the "master" and
+"slave" unit; in all the following commands, the first number given identifies the unit number,
+which is 0 for the master and 1 for the slave.
+
+The first thing to do is make sure that ResiDOS understands the structure of your disk. Normally,
+it automatically detects this and displays the details on the boot screen. However, if for some
+reason this doesn't work, you can manually specify the parameters (shown on the drive itself, or
+to be found on the manufacturer's website) with the following command:
+
+    %DRIVE 0,977,10,17
+
+(The above command assumes your hard disk is the master drive (unit 0) and has 977 cylinders, 10
+heads and 17 sectors). Once you have entered this command, the details are permanently stored in
+your interface's RAM.
+
+You can re-enable auto-detection for the master drive (unit 0) with the command:
+
+    %DRIVE 0
+
+If you want to disable detection of a drive altogether, to save a bit of time on boot, you can do
+so with the following example command, which disables detection of the slave drive (unit 1):
+
+    %DRIVE 1,0,0,0
+
+When you're sure that ResiDOS knows the correct details, you need to initialise the disk. Note
+that doing this erases everything currently stored on the disk. The command to use is:
+
+    %REFORMAT 0,15
+
+This initialises the master drive (unit 0), allowing up to 15 partitions to be created. You can
+specify any number you like for the number of partitions, but note that the more you allow, the
+slower certain partition management commands will be. Each partition can be up to 16Mb in size;
+I'd recommend calculating the number you would need to completely fill the disk, and adding
+several more for a bit of elbow-room. So, a 1Gb disk could use about 1000/16=63 partitions, and
+you might wish to specify around 80.
+
+From v1.92, it is possible to share a disk between ResiDOS and another filesystem (such as FAT).
+To do this, you need to limit ResiDOS to using a limited number of cylinders on the disk. The
+command to use is:
+
+    %REFORMAT 0,15,200
+
+This formats the master drive as before, but only the first 200 cylinders will be used by
+ResiDOS, leaving the rest available for other filesystems. For more information on how this
+works, and how to create an effective shared disk, see the explanation on the +3e website about
+sharing disks (note, however, that the syntax of +3e commands differs from the ResiDOS syntax
+described here).
+
+Once the disk is initialised (you only ever need to do this once) you can use the partition
+management commands to add some partitions for storing your files.
+
+-------------------------------------------------------------------------------------------------
+
+Switching disks or CompactFlash cards
+
+To switch to using a different hard disk or CompactFlash card, you can use the following command:
+
+    %DRIVES
+
+This will unmap all existing drives and re-detect your disks/cards, automatically mapping any
+drives back again as it would do on boot. Your BASIC program and all other data will be
+unaffected by this process, so it's a very useful command for transferring files from one
+CompactFlash card to another.
+
+Note that once your disk is initialised, ResiDOS stores its details (about cylinders, heads,
+sectors etc) on the disk itself, so when swapping disks or CompactFlash cards there is no need to
+set these details again.
+
+-------------------------------------------------------------------------------------------------
+
+Entering ResiDOS Commands
+
+ResiDOS commands are easy to enter under any version of BASIC, from the standard keyword-driven
+48K BASIC to the more recent versions such as SE BASIC and Gosh Wonderful, which allow commands
+to be entered letter-by-letter.
+
+For all commands, the % characters shown on this website are completely optional. They're only
+required if the command would otherwise be accepted by BASIC (eg, in most BASICs, LOAD "name"
+would load a program from tape, so you need to use LOAD %"name" to load a program from disk or
+compactflash). For BASICs which use keyword entry (eg standard 48K BASIC), it's also usually
+convenient to start commands which don't have a keyword with %, simply to take the Spectrum out
+of K mode and into L mode. On single-character-entry BASICs like SE BASIC or Gosh Wonderful
+there's no need to bother with the leading %.
+
+Additionally, commands which are not present as Spectrum keywords (such as LOAD and SAVE) may be
+entered as upper or lower-case (or a mixture), although they are always shown in capitals on this
+site. If you are using a single-character-entry BASIC, then they will usually accept keywords in
+lower-case as well.
+
+Finally, commands can be abbreviated, to save you from having to type in the entire command name.
+This is done by adding a "." character to the partial command name. ResiDOS will make a guess at
+the command desired and fill it in for you.
+
+As an example of the flexibility of the system, here are a number of ways to enter the same
+command (which lists the partitions on your disk):
+
+    %PARTITIONS
+    PARTITIONS
+    partitions
+    %Partitions
+    %PAR.
+    p.
+
+
+Entering functions
+
+From v1.81, ResiDOS contains its own built-in functions, that can be used as parts of expressions
+in the same way as other functions. They are entered as if they were user-defined functions, as
+the FN keyword followed by the function name and a list of parameters in brackets. Optionally,
+you can use a % sign between FN and the function name. A couple of examples of using ResiDOS
+functions in expressions are:
+
+    GOTO FN ERL()+1
+    PRINT 100*FN %ERR()
+
+-------------------------------------------------------------------------------------------------
+
+Partition Management
+
+Note that some of this section is concerned with creating and managing partitions on IDEDOS
+drives, so if you are using FAT drives (with the optional FATfs package), then much of it does
+not apply. However, it is still possible to list partitions on FAT drives with the %PARTITIONS
+command. You should also read the section on mapping partitions to drives, at the end of this
+page.
+
+The IDEDOS system used by ResiDOS allows you to divide your hard disk up into many separate
+partitions, which can each be assigned to a drive letter and used for storing files. You can have
+as many partitions as you like on your disk, but due to memory constraints it may not be possible
+to map them all at one time.
+
+Partitions can be one of two types: "data", for holding files; and "swap", for use as temporary
+workspace by programs or the operating system. Other types may be added in the future. Note that
+no programs currently require swap partitions, but there is no harm in creating one for future
+use.
+
+Commands exist to allow you to create and delete partitions and assign them to drive letters.
+Unlike some inferior operating systems, this can all be done from BASIC, and there is no need to
+reset your Speccy at any point!
+
+
+Creating, deleting and listing partitions
+
+You can create a partition using one of the following commands, which create data and swap
+partitions respectively:
+
+    %PARTITION "name",size
+    %PARTITION "name",size, 2
+
+To identify which unit a partition is to be created on, the number can be included at the start
+of the name, followed by the unit number (eg "0>Documents" or "1>Games"). If you don't specify
+the unit, then unit 0 is assumed. Names can be up to 16 characters long (this doesn't include the
+unit identifier) and are not case-sensitive.
+
+The size for a partition can be given in kilobytes (K) or megabytes (MB), with a maximum size of
+16 megabytes allowed. A number smaller than 256 is assumed to be a size in megabytes; a number
+larger or equal to 256 is assumed to be a size in kilobytes.
+
+You can delete a partition, together with any files that are stored on it, using the command:
+
+    %ERASE "unit>name"
+
+In this command, you must specify the unit number, as otherwise it will be assumed you are trying
+to erase a file. You can use ERA or DEL instead of ERASE if you prefer. Note that a partition can
+only be deleted if there are currently no drives mapped to it.
+
+You may also rename a partition, using the following command:
+
+    %REN "unit>name","newname"
+
+Again, you must include the unit identifier for this command, otherwise it will assume you want
+to rename a file, not a partition.
+
+Finally, you may display a list of partitions, in a normal or expanded form, using the following
+commands:
+
+    %PARTITIONS
+    %PARTITIONS+
+
+This will show all partitions on all units. Note that if you have other filesystem packages
+installed (such as FATfs) then some cards/disks will show up more than once, with different unit
+numbers.
+
+
+Automatic drive mappings
+
+Normally, when the Spectrum starts up, ResiDOS automatically maps all the data partitions it
+finds to all the available drive letters. If you don't like this behaviour, you can manually
+specify your own drive mappings. You can also turn off the automatic mapping feature with the
+command:
+
+    %AUTOMAP-
+
+The feature can be re-enabled at a later time with the command:
+
+    %AUTOMAP+
+
+
+Mapping drives to partitions
+
+It is also possible to manually map drives to partitions, so that you can choose which drive
+letters a particular partition uses.
+
+When mapping a drive to a partition, you can make the assignment permanent, which means that
+ResiDOS will automatically make the same assignment every time the Spectrum starts up. This is
+done by adding the + character to the end of the mapping command. Such permanent mappings happen
+before the automatic mapping takes place, so you can permanently map your favourite drives and
+let automatic mapping take care of the remainder.
+
+The commands to map drives to partitions are:
+
+    %MAP "drive:","name"
+    %MAP+ "drive:","name"
+
+Similar commands are available to remove mappings from drives. Using the + character here means
+that any permanent assignment associated with the drive will also be removed:
+
+    %UNMAP "drive:"
+    %UNMAP+ "drive:"
+
+Finally, you can obtain a listing of the current drive mappings with the following command, in
+which you can optionally specify a stream number for the output (ie stream 3 is often used for
+the printer):
+
+    %MAP
+    %MAP #3
+
+-------------------------------------------------------------------------------------------------
+
+Drives, directories, paths and user areas
+
+The location of a file is determined by one or more of the following pieces of information:
+
+- drive (a letter from A-P)
+- user area (a number from 0-15)
+- path (a list of directories, separated with the / or \ character)
+
+Drives are available for all filesystems. User areas are only supported by IDEDOS drives.
+Directories and paths are only supported by FAT drives.
+
+You can specify any, all or none of the pieces of information above when naming a file. Any
+missing information is provided by the current default drive, user area or path, which can be
+changed using the %CD command (see later). When specifying locations, the user area must come
+first, followed by the drive, followed by a colon (:), followed by the path. For example, the
+following are all valid locations:
+
+A:
+2:
+\
+0e:
+../
+docs/letters/
+f:\zcode\infocom\zork
+
+Locations can be included with filenames in any command that uses them (eg SAVE, LOAD, %CP; see
+files for more information).
+
+
+Setting the default drive, user area or path
+
+You can set the drive which is used by default to any you like; if you don't use this facility,
+then ResiDOS will use A: as the default drive, and 0 as the default user area. To set the default
+drive, user area or path, use the commands:
+
+    %CD "c:"
+    %CD "3:"
+    %CD "5d:"
+    %CD "games/"
+    %CD "e:\data\new"
+
+If you wish, you can make your preference permanent by adding the + character to the end of the
+command. For example, to make E: the default drive, and have ResiDOS remember this preference
+every time you switch on, use:
+
+    %CD+ "E:"
+
+To make a path permanent, you must specify the drive to which it applies. Each drive has its own
+default path, so you can set permanent paths for multiple different drives. For example:
+
+    %CD+ "A:games/"
+    %CD+ "e:\data\new"
+
+
+Creating and deleting directories
+
+You can create directories with the %MD (or %MKDIR) command:
+
+    %MD "advents"
+    %MKDIR "c:\advents\level9"
+
+You can delete directories with the %RD (or %RMDIR) command. They must be empty before they can
+be removed:
+
+    %RD "games"
+    %RMDIR "/data/test"
+
+
+Showing the current location
+
+One final command that is available is %PWD, which simply prints the current working directory
+(ie the current user area, drive and path):
+
+    %PWD
+
+-------------------------------------------------------------------------------------------------
+
+Using files in ResiDOS
+
+Filenames consist of an 8-character name, optionally followed by a full stop ( . ) and an
+extension of up to 3 characters. The characters allowed are:
+
+- letters A to Z (upper- or lower-case; there is no distinction)
+- numbers 0 to 9
+- the following characters: " # $ ' @ ^ _ { } ~ `
+
+Although extensions are not needed by BASIC or ResiDOS, you may find it helpful to name files in
+a consistent way, so that all BASIC programs have an extension of .BAS, for example.
+
+Some example filenames are:
+
+    prog
+    TEST.BAS
+    puzzle
+    screen.scr
+    test21.z__
+
+
+Wildcards
+
+Some commands can have wildcards provided in their filenames. These are used to match multiple
+files. The following wildcard characters are allowed:
+
+    * matches any sequence of characters
+    ? matches any single character
+
+Wildcard characters can be used in either the name or extension part of the filename. Some
+examples are:
+
+    *.*
+    *.bas
+    c:test.b??
+
+
+LOADing and SAVEing files
+
+You can load and save files to and from the hard disk or CompactFlash card using the standard
+LOAD and SAVE syntax, but adding a % sign after the command name. For example:
+
+    SAVE %"hello.bas" LINE 10
+    LOAD %"piccy" SCREEN$
+
+Note that DATA files are not currently supported, although BASIC programs, CODE files and SCREEN$
+are.
+
+If you attempt to SAVE a file when one already exists with the same name, the existing file will
+be renamed by changing its extension to .BAK, before the new file is saved. If there was an
+existing .BAK file of the same name, it will be automatically deleted.
+
+You can also LOAD any type of file that was not created by the Spectrum (standard PC text files,
+for example), using LOAD %"name" CODE. If you do not specify a start address, then 32768 will be
+used as the default. Such files can alternatively be LOADed using the SCREEN$ keyword, although
+this obviously only really makes sense if they are Spectrum screen dumps.
+
+Additionally, snapshot files in the standard .SNA or .Z80 file formats (including those saved by
+the Task Manager, which are in .Z80 format) can be reloaded using the command:
+
+    %SNAPLOAD "snapname"
+
+This command can load 48K and 128K snapshots, although you will get an "out of memory" error if
+you try to load a 128K snapshot when in 48K mode. Note also that the command decides which format
+the snapshot is in from the file extension, so be sure to name your snapshots with the
+appropriate extension (.Z80 or .SNA).
+
+To aid compatibility with certain snapshots, there are two additional options with this command.
+Use "+" to make the snapshot loader use a small amount of screen memory (normally it uses the
+stack area, which is okay in most cases). Use "-" to run the snapshot using the Spectrum's
+built-in ROM rather than the patched one used with ResiDOS. Either or both of these options may
+be used, eg:
+
+    %SNAPLOAD+ "snapname"
+    %SNAPLOAD- "snapname"
+    %SNAPLOAD+- "snapname"
+
+
+Changing BASIC auto-run status
+
+It is not possible to MERGE files in ResiDOS, but you can change whether or not a BASIC program
+auto-runs, using the LINE command:
+
+    LINE %"filename",line
+
+If you specify a line number of 0, then the BASIC program will no longer auto-run.
+
+
+Cataloguing files
+
+To show a list of all files on the current drive in the current user area, use one of the
+following:
+
+    %CAT
+    %DIR
+
+You can also specify a string containing a drive, path and/or user area, to see files in that
+particular location (otherwise the defaults are assumed). The string can also contain a filename
+or wildcards, and will display only those files which match the string.
+
+Additionally, you can add the + character at the end of the command to show all files (including
+system files, which are normally hidden) together with the attributes for each file. Some
+additional information is also given for BASIC and CODE files saved by ResiDOS.
+
+Finally, you can specify a stream number, so that you can (for example) print the catalog
+listing. (This also applies to all other commands in ResiDOS which just produce a listing of
+information).
+
+Some examples are:
+
+    %CAT "d:games\"
+    %DIR "15C:"
+    %CAT "*.bas"
+    %CAT+ "e:test.*"
+    %DIR+ #3;"c:"
+
+
+Deleting files
+
+To erase files from the hard disk, use one of the following commands:
+
+    %ERASE "filename"
+    %ERA "filename"
+    %DEL "filename"
+
+You can use wildcards in order to erase many files at the same time, but be careful if using this
+facility!
+
+
+Copying files
+
+You can make a copy of file to a new file with a different name, or copy one or more files (using
+wildcards) to a different drive, user area or directory. If you specify "" as the destination,
+then the current location is used. Some examples are:
+
+    %CP "letter.doc","letter2.doc"
+    %CP "*.rom","b:"
+    %CP "0c:*.*","3c:"
+    %CP "manic.sna","e:"
+    %CP "/snaps/sinclair/c/*.z80",""
+
+
+Renaming files
+
+To rename a file, use:
+
+    %REN "filename","newname"
+
+This must be a single file (you cannot use wildcards). It is possible to use this command to
+change the user area for a file (but not the drive or directory), simply by specifying the same
+name with a different user area.
+
+
+Changing file attributes
+
+You can add or remove various file attributes from a file (or group of files, using wildcards).
+The possible attributes are:
+
+- P (protected, or read-only)
+- S (system, or hidden)
+- A (archive - doesn't have any real use)
+
+Protected files cannot be erased or changed, and system files cannot be copied and are not
+normally listed in catalogs (only in expanded catalogs). You can add or remove a single attribute
+at a time, by using a "+" or "-" character, as in the following examples:
+
+    %ATTRIB "*.*","+p"
+    %ATTRIB "*.sys","+s"
+    %ATTRIB "letter.doc","-p"
+
+-------------------------------------------------------------------------------------------------
+
+128K RAMdisk emulation
+
+128K Spectrum BASIC includes a number of commands for saving files to the extra memory as a
+RAMdisk. ResiDOS includes emulation of these RAMdisk commands, which work in both 128K and 48K
+modes.
+
+
+Setting up the emulated RAMdisk
+
+ResiDOS always uses user area 15 of drive M: to hold RAMdisk files (it uses the hard disk or
+compactflash card rather than memory, and so can store a lot more files than the 62K or so that
+the 128K Spectrum can manage). In order to use the RAMdisk commands, therefore, you must first
+map drive M: to a suitable partition. Here's one suggested way to ensure you always have a 500K
+RAMdisk available whenever you start the Speccy:
+
+    %PARTITION "RAMdisk",500
+    %MAP+ "M:","RAMdisk"
+
+Alternatively, if you want to share a partition that you already use (this is quite safe, as the
+RAMdisk always uses user area 15, whereas the normal default user area is 0), remap it to drive
+M: as follows. If this is the drive you want to use by default for normal file operations (on
+user area 0, for example), you can also do that as shown.
+
+    %MAP+ "M:","name"
+    %CD+ "0M:"
+
+If you are map drive M: to a partition on a FAT disk (using the optional FATfs package), then you
+should be slightly more careful. Since FAT filesystems don't support user areas, using the
+RAMdisk will affect all files in the current directory of the drive; there is no user area
+protection, as with IDEDOS partitions. So be careful if you decide to do something drastic like
+ERASE !"*.*".
+
+
+Using the emulated RAMdisk
+
+Once it has been set up, you can use all the standard 128K BASIC commands that access the
+RAMdisk. The only limitations are that you cannot currently load or save DATA files, or perform
+MERGE operations, as these facilities are not yet available in ResiDOS.
+
+Some example commands are:
+
+    CAT !
+    LOAD !"name"
+    SAVE !"name" LINE 10
+    LOAD !"name" SCREEN$
+
+-------------------------------------------------------------------------------------------------
+
+Customising ResiDOS
+
+As well as being able to configure ResiDOS to automatically set up drive mappings and default
+drives when you boot up, you can customise it in other ways.
+
+All "permanent" settings are held in a special system file called residos.cfg which is saved on
+the first available partition of your system. This is a text-based configuration file, so if you
+wish you can edit it on your PC/Mac, as well as using the normal ResiDOS commands.
+
+If you switch cards, then a new config file will be created on the new card. This allows you to
+keep different settings for different cards (for example, the AUTORUN file will probably need to
+be different). If you prefer to keep the same settings, you can simply copy the residos.cfg file
+across from one card to the other.
+
+You can stop the permanent settings (and automapping) from happening if you hold down the CAPS
+SHIFT key whilst booting the Spectrum. You can also delete all permanent settings in one go by
+deleting the residos.cfg file.
+
+
+Custom colours
+
+You can choose custom colours which will be set every time the Spectrum starts up, rather than
+the usual boring old black on white. To do this, use the normal colour commands, but followed by
+"%". By using the percentage sign you specify that the current colour scheme (including the new
+colour you are just setting) will be used whenever you boot. Additionally, you can use the new
+ATTR command to specify all colours together (this is calculated as
+ink+(paper*8)+(bright*64)+(flash*128)). The commands are:
+
+    INK % n
+    PAPER % n
+    BRIGHT % n
+    FLASH % n
+    ATTR % n
+
+Note that because the % sets all the current scheme as default, the following examples have the
+same effect, and set a default colour scheme of yellow ink on blue paper:
+
+    INK % 6:PAPER % 1
+    INK 6:PAPER % 1
+
+
+Autorun files
+
+You can also set an "autorun" file. This must be a BASIC program (which can do whatever you like)
+which will run automatically on boot, or just whenever you enter the special %AUTORUN command.
+
+To set an autorun file, use one of the following commands:
+
+    %AUTORUN "filename"
+    %AUTORUN+ "filename"
+
+You may specify a drive and/or user area with the filename (otherwise the defaults will be
+assumed). These two commands differ, because with the second case, the autorun file will
+automatically be loaded every time you reset (or NEW) your Spectrum. The first command stores the
+filename, but will not load it unless you enter the following command:
+
+    %AUTORUN
+
+Note that you can hold the CAPS SHIFT key down when booting to stop drives from being
+automatically mapped, so any autorun file will not be able to be loaded.
+
+You can disable the autorun file with the following command:
+
+    %AUTORUN-
+
+
+Processor speed
+
+Some systems (only ZX-Badaloc, at the time of writing) allow the Z80 processor speed to be
+increased above the standard 3.54MHz. The following commands can be used to select the system
+speed:
+
+    %SPEED n
+    %SPEED+ n
+    %SPEED- n
+
+Each command sets the current speed to n (discussed below). If the "+" option is used, then the
+speed is made permanent and takes effect every time the Spectrum starts up. If the "-" option is
+used, then any permanent speed setting is removed, and the Spectrum reverts to the default system
+speed every time it starts up.
+
+The value of n depends on the system. For ZX-Badaloc it is as follows:
+
+0 - 3.54 MHz
+1 - 7.08 MHz
+2 - 14.16 MHz
+3 - 21.25 MHz
+4 - 7.08 MHz, 100Hz interrupts, 100Hz VGA
+5 - 14.16 MHz, 100Hz interrupts, 100Hz VGA
+6 - 28.32 MHz, 100Hz interrupts, 100Hz VGA
+7 - 42.50 MHz, 100Hz interrupts, 100Hz VGA (not recommended at time of writing)
+
+This command may be executed on all ResiDOS systems, although it will have no effect on anything
+except ZX-Badaloc.
+
+-------------------------------------------------------------------------------------------------
+
+Using optional packages, alternative BASICs and Interface 2 ROMs
+
+The RAM in your interface can be used to store alternative versions of BASIC, or Interface 2 ROM
+images. Once they have been added, you can start them up at any time using a simple command.
+
+Additionally, ResiDOS can be enhanced by loading optional packages which provide additional
+features such as new commands and access to other types of filesystems, such as the common FAT-16
+type used on PCs. The latest packages can be downloaded directly from the ResiDOS homepage:
+http://www.worldofspectrum.org/residos/
+
+
+Installing ROMs
+
+You can install ROMs in one of two ways:
+
+- directly from a file stored on your hard disk or card
+- by first loading the ROM into memory (from tape or hard disk)
+
+Suitable ROMs for installation include ResiDOS- specific packages, alternative BASICs (such as
+Gosh Wonderful, SE BASIC or Sea Change) or Interface 2 ROMs (such as those originally released by
+Sinclair, or unreleased prototypes from Parker which have recently come to light).
+
+
+Installing ROMs from a file
+
+If you have copied a ROM to disk or card, then install it with the following commands:
+
+    CLEAR 32767
+    %INSTALL "filename",n
+
+The first command reserves space for the installation process, and the second performs the
+installation. The name of the ROM kept by ResiDOS will be the filename (excluding any extension
+after a "."). The number, n, should be any of the following values, added together as appropriate:
+
+0:  for a package, or an Interface 2 ROM (or any other ROM that does not require ResiDOS support)
+1:  for a BASIC ROM
+16: to install the ROM into the writeable "RAM" part of the interface memory (the non-writeable
+    "ROM" part is used by default)
+32: to disable the NMI button for this ROM (only affects BASIC ROMs)
+
+If you don't specify a value, then the default of 0 will be used. If you are installing a
+package, then any value except 0 will be ignored, since packages include their own information
+telling ResiDOS how they should be installed.
+
+Note that it is generally advisable to only store BASIC ROMs into the non-writeable "ROM" part of
+the memory, since unless they have been specifically patched they tend to overwrite themselves.
+However, if you are running short of ROM space on a ZXATASP interface, you may specify RAM
+instead. This is not a concern on other interfaces, since the memory can be configured
+automatically by ResiDOS to be ROM or RAM as required.
+
+A couple of examples are:
+
+    CLEAR 32767
+    %INSTALL "SEBASIC.ROM",1
+    %INSTALL "c:jetpac.rom",0
+    %INSTALL "FATfs.pkg"
+
+
+Installing ROMs already loaded into memory
+
+An alternative installation method is to load the ROM image into memory, and then install it
+directly from there. Since this allows you to load from tape, it is handy for installing packages
+like FATfs when you don't have access to the disk.
+
+To use this method, first CLEAR to a suitable address, and then load in the ROM to above this
+address. For example:
+
+    CLEAR 39999
+    LOAD "FATfs" CODE 40000
+
+Then the ROM can be installed by using the following form of the %INSTALL command:
+
+    %INSTALL "name"@address,n
+
+As before, the "n" value is optional.
+
+To install the package just loaded in the previous example, use:
+
+    %INSTALL "FATfs"@40000
+
+
+Managing alternative ROMs
+
+You can see a list of all the installed ROMs in your interface by using the following commands
+(the second version includes hidden ROMs, used by the system but not selectable by the user):
+
+    %ROMS
+    %ROMS+
+
+You can uninstall any ROM using the following command (this only removes it from the interface
+memory, not from the hard disk):
+
+    %UNINSTALL "name"
+
+
+Using alternative ROMs
+
+Once you have installed some ROMs as described in the previous sections, they are available for
+instant use whenever you switch on the Spectrum. To use the features of an installed package, see
+the documentation for that package. To switch to an alternative BASIC, or run an Interface 2 ROM,
+use the following command:
+
+    %ROM "name"
+
+For example, having installed the ROMs above, we could use either of them like this:
+
+    %ROM "SEBASIC"
+    %ROM "jetpac"
+
+If you specify an Interface 2 ROM, it will immediately start. Pressing the reset button will
+reset the ROM. To return to ResiDOS you will need to either reset your interface and the Spectrum
+together, or switch off the power completely and then switch the system back on.
+
+If you are activating a BASIC ROM, the Spectrum will restart using that BASIC. You can then use
+ResiDOS commands as normal, and the additional features of the particular BASIC you have chosen.
+
+The new BASIC will remain as the default one even if you switch off the Spectrum and turn back on
+again. To return to the original BASIC, you can simply select the "Standard" ROM (which is
+automatically created as part of the installation process), for example:
+
+    %ROM "Standard"
+
+Alternatively, hold down the CAPS SHIFT key while the Speccy is booting up, and the standard ROM
+will be automatically re-selected.
+
+One final feature is the ability to switch off the interface memory altogether and use your
+Spectrum's built-in ROM, without having to unplug the interface or set the upload or disable
+jumper (this is useful for 128K Spectrums and +3s). To do this, use the command:
+
+    %ZX
+
+-------------------------------------------------------------------------------------------------
+
+Spectrum Modes with ResiDOS
+
+ResiDOS can operate in a number of different modes, depending upon the configuration of your
+Spectrum. The two basic modes of operation are:
+
+- 128K mode
+- 48K mode
+
+When ResiDOS starts up, it displays the current mode on the title screen. If you have a 48K
+Spectrum, then 48K mode is the only possibility. For 128K Spectrums, ResiDOS will usually start
+up in 128K mode.
+
+
+128K Mode
+
+In ResiDOS, 128K mode behaves in the same way as what is often referred to as USR 0 mode; this
+mode is usually required by demos, and modern programs from Russia and other countries.
+(Normally, 128K Spectrums enter this mode by typing USR 0 in 128K BASIC).
+
+This mode gives access to all the special hardware of the 128K machines (the sound and extra
+memory), but without access to the 128K BASIC editor and commands. Under ResiDOS, the 128K
+RAMdisk commands and SPECTRUM command are also available (in fact, they also work in 48K mode).
+
+This mode is recommended for loading 128K programs. Some 128K programs will not load in this mode
+(since they check to see if 128K BASIC is active). In such cases, you must disable ResiDOS and
+restart into 128K BASIC with the %ZX command.
+
+IMPORTANT NOTE: The current version of the Task Manager does not understand that some tasks might
+run in 128K mode and use the whole 128K of memory, and will not save 128K snapshots. It is
+possible to have a single task loaded which uses the extra memory of the 128K Spectrum, and
+switch between that and other tasks. However, if two 128K programs are loaded, there will be
+problems. This will be addressed in a future version.
+
+
+48K mode
+
+Some games will not work correctly in 128K mode. For these you can use the SPECTRUM command to
+force the computer into 48K mode until the next reset.
+
+If you always want to work in this mode, the command SPECTRUM+ will make 48K mode active every
+time the computer is switched on. To disable this mode, and re-enter 128K mode on the next reset,
+use the SPECTRUM- command.
+
+
+Disabling ResiDOS
+
+It is possible to temporarily disable ResiDOS and then re-enable it, whilst leaving any program
+in memory unchanged. This can be useful if you have some piece of hardware which is incompatible
+with ResiDOS, such as Microdrives, or a Wafadrive etc. It is also useful for switching from the
+%ZX mode's 128K BASIC back into ResiDOS without having to switch off.
+
+The commands to do this differ, depending upon which interface you own:
+
+ZXATASP
+Disable ResiDOS: OUT 671,192:OUT 671,128
+Re-enable ResiDOS: OUT 671,64:OUT 671,0
+
+ZXCF range
+Disable ResiDOS: OUT 4287,128
+Re-enable ResiDOS: OUT 4287,64
+
+ZX-Matrix
+Disable ResiDOS: OUT 63,128
+Re-enable ResiDOS: OUT 63,64
+
+ZXMMC+
+Disable ResiDOS: OUT 127,0
+Re-enable ResiDOS: OUT 127,192
+
+ZX-Badaloc
+Disable ResiDOS: OUT 21727,0
+Re-enable ResiDOS: OUT 21727,200
+
+divIDE Plus
+Disable ResiDOS: OUT 23,0
+Re-enable ResiDOS: OUT 23,104
+
+MB02+
+Disable ResiDOS: OUT 23,0
+Re-enable ResiDOS: OUT 23,105
+
+-------------------------------------------------------------------------------------------------
+
+BREAK and error-trapping
+
+ResiDOS contains facilities to detect BREAK and error conditions, and have them handled by your
+own BASIC program, instead of simply having an error message produced. This allows you to write
+more professional-looking BASIC programs, which can't be broken in to, and which can cope with
+expected errors (such as being unable to find a file requested by the user, for example).
+
+You are advised to SAVE your work before running any program with error-trapping facilities, as
+if you have made a mistake somewhere, much trouble can ensue!
+
+
+BREAK-trapping
+
+You can prevent the user from BREAKing into your program with the %ONBREAK command. This has two
+forms; to stop BREAK from being effective, use:
+
+    %ONBREAK THEN CONTINUE
+
+The THEN keyword is optional, and used to make entering the CONTINUE keyword easier on normal
+keyword-driven BASICs. On single-letter-entry BASICs, there is no need to use it.
+
+To restore the normal operation of BREAK, use:
+
+    %ONBREAK OFF
+
+(You could include the THEN keyword again, but it would be more trouble than it's worth to enter
+it).
+
+Note that BREAK-trapping prevents the user from stopping the program in any of the following ways:
+
+- pressing CAPS SHIFT + BREAK
+- pressing SPACE or "n" at a "scroll?" prompt
+- entering STOP in an INPUT statement
+
+It does not prevent the user from BREAK-ing in by pressing CAPS SHIFT + 6 in an INPUT LINE
+statement, so you are advised to use a straightforward INPUT instead.
+
+
+Error-trapping
+
+All other errors (except for "OK", "Program finished" and "STOP statement") can be trapped using
+the %ONERR command. This takes any of the following forms, allowing you to transfer control to an
+error routine, or just call a subroutine before continuing with the program after the point where
+the error occurred:
+
+    %ONERR THEN GOTO line
+    %ONERR THEN GOSUB line
+    %ONERR OFF
+
+(Again, the THEN statement is optional.)
+
+Your error-handling routine can use any of the following new functions to determine what the
+error was. They provide the error number, line and statement respectively:
+
+    FN ERR()
+    FN ERL()
+    FN ERS()
+
+Additionally, the following command makes the last trapped error occur as normal (as if it had
+not been trapped):
+
+    %REPORT
+
+As an example, here is a program that turns on error trapping, causes an error and lets the error
+routine output details of the error:
+
+      10 %ONERR GOTO 9000
+      20 PRINT "Hello"
+      30 PRINT: PRINT f
+      40 PRINT "Never get here"
+    8999 STOP
+    9000 PRINT "Error code was ";FN ERR()
+    9010 PRINT "Error line was ";FN ERL()
+    9020 PRINT "Error statement was ";FN ERS()
+    9030 PRINT "Now causing error..."
+    9040 %REPORT
+
+
+Warning!
+
+There is a known flaw in ResiDOS with error-trapping. The error-trapping variables are shared
+between tasks, rather than being saved with each task individually. This means that changing
+error-trapping in one task will affect all the others. I hope to resolve this in a new release of
+the task manager in the near future.
+
+-------------------------------------------------------------------------------------------------
+
+Packages
+
+There is a host of various packages available from the ResiDOS home page:
+http://www.worldofspectrum.org/residos
+which can be downloaded and installed as part of the ResiDOS firmware.  The most useful packages
+are detailed below (the Task Manager, the FATfs package, the TapeIO package, and the channels
+package).
+
+-------------------------------------------------------------------------------------------------
+
+The ResiDOS Task Manager
+
+Overview
+
+The Task Manager is an optional package that you can install on ResiDOS. Note that the current
+version (v1.00) only operates with 48K tasks, so you cannot save snapshots of 128K games. You
+should also only attempt to run one 128K game as a task at a time, otherwise the extra Spectrum
+memory will be overwritten by the 2nd 128K game. This limitation will be removed in a future
+release.
+
+When you press the NMI button on your interface, the Spectrum immediately stops whatever it was
+doing (whether you were in BASIC, a word processor, a commercial game or whatever) and enters the
+Task Manager.
+
+The Task Manager screen shows a list of the current tasks running on your Spectrum, together with
+the menu options that are available to you. When you first enter the task manager, the task list
+will consist of just a single task, named "Task 0", which is whatever you were doing at the time.
+To return to it, simply press ENTER.
+
+Using the RAM in your interface, you can store several tasks at the same time, and switch between
+them instantly from the task manager screen. The number of tasks you can have running at once
+depends on the amount of RAM in your interface. Since ZXATASP interfaces have their memory
+strictly divided between ROM and RAM, they can run fewer tasks than a different interface with an
+equivalent amount of memory. The maximum number of tasks allowable is 16 (this is only possible
+on a 1Mb ZXCF interface).
+
+The menu options described below allow you to manage your tasks quickly and easily.
+
+
+Managing Tasks
+The options available are shown on the task manager screen. Simply press the highlighted letter
+to select the option.
+
+Cursor keys (up and down)
+    Use these to move the highlight up and down the task list.
+ENTER
+    Re-enters the highlighted task.
+New
+    Creates a new task, activates it and resets the Spectrum into BASIC. (Don't worry, all the
+other
+    tasks are still there!)
+Copy
+    Makes a copy of the highlighted task.
+Delete
+    Deletes the highlighted task.
+Purge
+    Deletes all tasks except the highlighted task.
+Rename
+    Renames the highlighted task. Task names are up to 16 characters long.
+Border
+    Sets the border colour for the highlighted task. Since it isn't possible for ResiDOS to know
+the
+    border colour, it makes a guess which is sometimes wrong. You can change that here before
+saving
+    a snapshot.
+Snapshot
+    Saves a snapshot of the highlighted task onto the hard disk in the standard .Z80 file format.
+    This can be reloaded later using the %SNAPLOAD "filename" command (which can load any 48K or
+128K
+    snapshot in .Z80 or .SNA format).
+
+
+Other options
+
+Turn off Spectrum
+    This takes you to a special "shutdown" screen, from which you can turn off the Spectrum in
+    safety. When you switch back on, the Task Manager will start up again, and you will be able
+to
+    continue exactly where you were, with all your tasks still running.
+
+-------------------------------------------------------------------------------------------------
+
+The FATfs Package
+
+This package adds support for reading and writing to FAT16-formatted disks to your ResiDOS system.
+This is incredibly useful, since all PCs and Macs (and even some PDAs and digital cameras etc) can
+use this format of disk. This means copying files (including other packages, upgrades to ResiDOS,
+snapshots and Infocom games for ZXZVM) between your PC and Speccy becomes extremely easy.
+
+Once installed, any FAT16-formatted disks can be accessed using LOAD, SAVE and all the other
+ResiDOS
+commands.
+
+The current version has the following limitations, which will be addressed in a future release:
+- no support for FAT32 or FAT12 disks
+- no support for long filenames
+- partitions cannot be created, renamed or deleted by ResiDOS
+
+-------------------------------------------------------------------------------------------------
+
+Loading/saving from .TAP and .TZX files
+
+TapeIO Package
+
+The TapeIO package is an optional package that you can install on ResiDOS which gives you the
+ability to load and save directly to .TAP and .TZX files on your flash card or hard disk as if it
+was a real tape. This means that you can take advantage of the thousands of .TAP and .TZX
+emulator files available and use them with your Spectrum
+
+The most important commands to use are %TAPEIN and %TAPEOUT. Each of these takes the name of a
+.TAP or .TZX file. Thereafter, and standard LOAD commands that would normally access the tape
+will be redirected to whichever .TAP/.TZX file you specified in the %TAPEIN command. Similarly,
+any standard SAVE commands that would normally access the tape will be redirected to the
+.TAP/.TZX file specified in the %TAPEOUT command. In order to redirect access to tape, simply use
+the %TAPEIN or %TAPEOUT command without a filename.
+
+For example, to load up Jetpac from a jetpac.tap file, use the following commands:
+
+    %TAPEIN "jetpac.tap"
+    LOAD ""
+
+To create a .TZX file containing your latest masterpiece, so that it can be loaded by an
+emulator, use commands such as:
+
+    %TAPEOUT "myprog.tzx"
+    SAVE "My Program" LINE 10
+    %TAPEOUT
+
+
+Controlling the tapepointer
+
+Some more useful commands that are available are %TAPELIST and %TAPEWIND.
+
+The first of these lists out the contents of the current .TAP/.TZX file being used for input (ie
+the last one specified in a %TAPEIN command). It also shows which is the next block that will be
+LOADed, with a cursor (similar to the cursor in a BASIC program listing).
+
+With the %TAPEWIND command, you can "wind" the tape pointer forwards (using a positive number) or
+backwards (using a negative number) by a number of blocks, or to a specific block number (using
+the "=" option). If you do not specify any number, then the input tapefile will be rewound to the
+start.
+
+For example, use the following commands to wind the tape in different ways and see the result on
+the tapelisting:
+
+    %TAPEWIND 3
+    %TAPELIST
+    %TAPEWIND -2
+    %TAPELIST
+    %TAPEWIND=6
+    %TAPELIST
+    %TAPEWIND
+
+Finally, you can also change the behaviour when the last file is loaded from the input .TAP/.TZX
+file. Normally, when this happens the tapefile is "ejected" and subsequent LOAD commands use the
+real tape again, until another %TAPEIN command is used. However, if you would prefer the tapefile
+to be "rewound" to the start, then use the following command:
+
+    %TAPEMODE 1
+
+To revert to the default behaviour (ejecting the tapefile), use:
+
+    %TAPEMODE 0
+
+
+Transferring files between disk and .TAP/.TZX files
+
+It's also easy to transfer files from within .TAP and .TZX files to separate files on your flash
+card or hard disk. There are commands available to transfer files with headers (%TAPEGET and
+%TAPEPUT) and also headerless files (%TAPEBGET and %TAPEBPUT). For details, see the full command
+reference below.
+
+
+Troubleshooting
+
+All .TAP files should work correctly with ResiDOS, as well as some .TZX files which use the
+standard Spectrum loading system. However, any .TZX files using speedloading or other custom
+loaders will not work. If a game appears to stop loading from a .TZX file, then it is likely to
+have a custom loader. Using the %TAPELIST command on such a file should show which blocks ResiDOS
+can "see" and help to show if it is a non-standard loader program.
+
+If a CODE file which might overwrite the ROM area or the stack is encountered, then TapeIO will
+load this byte-by-byte in "slow" mode, to ensure that ResiDOS data is not corrupted. In such
+cases, the border will flash multicoloured during loading.
+
+If you have a 128K Spectrum and find a game that fails to load, please try again after selecting
+48K mode (with the %SPECTRUM command). Many games will only load in 48K mode by design (and would
+have included instructions on the cassette inlay to switch to 48K mode before loading).
+
+
+TapeIO Command Reference
+
+Here is a complete list of all the commands supported by the TapeIO package, including several
+options and variants that aren't described above. Please read carefully to get the most out of
+this package.
+
+%TAPEIN "filename"
+    Redirect all tape LOAD commands to use the .TAP or .TZX file specified.
+%TAPEIN
+    Redirect all tape LOAD commands back to physical tape.
+%TAPEOUT "filename"
+    Create a new .TAP or .TZX file, and redirect all tape SAVE commands to it.
+%TAPEOUT+ "filename"
+    Open an existing .TAP or .TZX file, and redirect all tape SAVE commands to it (appending to
+the
+    end of the file).
+%TAPEOUT
+    Redirect all tape SAVE commands back to physical tape.
+%TAPELIST
+    List the contents of the current input tapefile.
+%TAPELIST #n
+    List the contents of the current input tapefile to stream "n".
+%TAPEWIND n
+    Wind the tapepointer by "n" blocks (positive is forwards, negative is backwards).
+%TAPEWIND=n
+    Wind the tapepointer to block number "n".
+%TAPEWIND
+    Rewind the tapepointer to the start of the tapefile.
+%TAPEGET "diskname"
+    Copy the next file with a header from the input tapefile onto disk, using the specified name
+for
+    the disk file.
+%TAPEGET
+    Copy all files with a header from the input tapefile onto disk, translating names to fit in
+the
+    8.3 name format.
+%TAPEBGET "diskname"
+    Copy the next block (could be a header or data block) from the input tapefile onto disk,
+using
+    the specified name for the disk file.
+%TAPEBGET+ "diskname"
+    Copy the next block (could be a header or data block) from the input tapefile onto disk,
+using
+    the specified name for the disk file. Copy the entire block, including the block type and
+parity
+    byte (which are normally stripped out).
+%TAPEPUT "diskname"
+    Copy a disk file into the current output tapefile, complete with an appropriate header.
+%TAPEBPUT "diskname"
+    Copy a disk file into the current output tapefile as a headerless block (of type 255).
+%TAPEBPUT "diskname", n
+    Copy a disk file into the current output tapefile as a headerless block (of type "n").
+%TAPEBPUT- "diskname"
+    Copy a disk file into the current output tapefile as a headerless block, but don't add a type
+    byte or parity byte.
+%TAPEMODE n
+    Set the behaviour for what happens when the end of the input tapefile is reached (0=eject,
+    1=rewind).
+%TAPEMODE+ n
+    Set the behaviour for what happens when the end of the input tapefile is reached (0=eject,
+    1=rewind). Make this behaviour permanent.
+%TAPEMODE- n
+    Set the behaviour for what happens when the end of the input tapefile is reached (0=eject,
+    1=rewind). Remove any permanent behaviour.
+
+-------------------------------------------------------------------------------------------------
+
+Extended Channels
+
+ResiDOS provides built-in support for accessing new extended channels in addition to the three
+standard ("K", "S" and "P") channels. Streams can be opened and closed using the normal OPEN #
+and CLOSE # commands (and ResiDOS also fixes the bug with the Spectrum's CLOSE # command so that
+it is safe to use). Machine-code programmers also have comprehensive access to these extended
+channels (see the programming section for details).
+
+Once a stream is open to a channel, you can send output to it and receive input from it using any
+standard Spectrum BASIC command that allows a stream number to be specified. Additionally, most
+ResiDOS commands that display output may be redirected to a stream, allowing you to capture and
+manipulate such information. For example, any of these commands are allowed:
+
+    PRINT #5;"Some text"
+    INPUT #7;a$
+    LIST #4;9000
+    LPRINT #4;x$
+    LLIST #10
+    CAT #6;"*.bas"
+    %roms+ #15
+    %partitions #8
+    %pwd #2
+    %map #4
+    %tapelist #9
+
+Additionally, ResiDOS provides two additional functions and a command to read/write the current
+position in the stream, and to read the size of the stream (not all channels support these
+operations):
+
+    FN ptr#(stream)
+    FN ext#(stream)
+    POINT #stream, position
+
+ResiDOS does not actually provide any extended channel types itself; these may be provided by
+various optional packages. The most important of these is the channels package, which you are
+encouraged to download and install.
+
+
+Commands and functions for streams and channels
+
+ResiDOS uses the following commands for manipulating streams and channels:
+
+OPEN #stream, c$
+    This command opens a stream to a channel. The value of stream can be any number from 0 to 15;
+if
+    one of the standard streams (0-3) is specified, then its original assignment is replaced with
+the
+    new channel specified. The value of c$ is either a single character representing one of the
+    Spectrum's standard channels ("K", "S" or "P"), or a string specifying a new extended channel.
+
+    The exact form of the channel specifier is documented separately for each new channel
+provided,
+    but generally it consists of a letter followed by a ">" character; optionally, there may be
+    further parameters inside the string (usually separated by commas). If you want to calculate
+a
+    value for a parameter, this is perfectly possible - just remember to use the STR$ function to
+    build up the string.
+
+    For example, to open stream 5 to a region of memory specified by the variables addr and len,
+use
+    the following command:
+
+        OPEN #5, "m>" + STR$ addr + "," + STR$ len
+
+CLOSE #stream
+    This command closes a stream, flushing any output that might be buffered. If the stream was
+one
+    of the standard streams (0-3), then it is re-assigned to its default channel (ie "K" for
+streams
+    0 & 1, "S" for stream 2 and "P" for stream 3).
+
+    For example, to close stream 5:
+
+        CLOSE #5
+
+FN ptr#(stream)
+    This function returns the current position of the pointer in the stream specified. Not
+all
+    channels support this function; see the documentation for individual channels.
+
+    For example, to find the position of the pointer in stream 5:
+
+        LET pos=FN ptr#(5)
+
+FN ext#(stream)
+    This function returns the extent (size) of the stream specified. Not all channels support
+this
+    function; see the documentation for individual channels.
+
+    For example, to find the size of stream 5:
+
+        LET size=FN ext#(5)
+
+POINT #stream, pos
+    This command sets the current position of the pointer for the stream specified. Not all
+channels
+    support this function; see the documentation for individual channels.
+
+    For example, to set the pointer to the start of stream 5:
+
+        POINT #5, 0
+
+-------------------------------------------------------------------------------------------------
+
+Channels Package
+
+The channels package provides a number of new channels for use under ResiDOS. Most of these are
+compatible with the extended channels of the ZX Spectrum +3e, although there are also several
+important additions.
+
+After installing the package (available here), in order to make use of the new channels, you will
+need to read the information on using extended channels in ResiDOS.
+
+The channels provided are:
+
+- File access ("I>", "O>" and "U>")
+- String variables ("V>")
+- Memory regions ("M>")
+- Text windows ("W>")
+- Null ("Z>")
+
+- File channels
+  Streams may be opened to any file in one of three different access modes: input (using the "I>"
+  channel), output (using the "O>" channel) and update (using the "U>" channel).
+
+  In input and update modes, the file must already exist, or an error will occur. In output mode,
+  the file is deleted if it already exists, and then a new file is created. Once the file is
+open,
+  it can be input from (if opened in input or update modes) or output to (if opened in output or
+  update modes). Because of file buffering, it is essential to CLOSE # any file channel before
+  finishing, otherwise data may be lost.
+
+  The channel specifier for all file channel types requires the filename of the file to follow
+the
+  ">" character.
+
+  File channels support all the pointer operations (FN ptr#(), FN ext#() and POINT #).
+
+  It should be noted that files on IDEDOS disks are always stored as a number of 128-byte
+"records"
+  and so you may read rubbish at the end of a file if it is not an exact multiple of 128 bytes in
+  length. To avoid this problem, you should write some code or "signature" at the end of your
+file
+  which you can detect when reading it back. Alternatively, you could write the number of bytes
+or
+  entries in your file at the start. This problem does not exist for files on FAT disks, but it
+  would be good practice to do this anyway, since it will then allow your program to be used with
+  files on both FAT and IDEDOS disks.
+
+  Examples
+  OPEN #4, "o>test.txt"
+  Creates a file named "test.txt" on the default drive for output through stream 4.
+
+  OPEN #5, "i>a:test2.txt"
+  Opens a file named "test2.txt" on drive A: for input through stream 5.
+
+  OPEN #6, "u>c:/data/list.txt"
+  Opens a file named "list.txt" in the "data" directory of drive C: for update through stream 6.
+
+- Variable channels
+  The "V>" channel can be used to direct output to or input from a string variable, which can be
+  easily manipulated within a BASIC program. This would allow you to (for example) examine disk
+  catalogs in your BASIC program, or make an auto-running game demo (by inputting from a string
+  containing set keystrokes).
+
+  The channel specifier for the variable channel type requires the name of the string variable to
+  follow the ">" character.
+
+  Variable channels support all the pointer operations (FN ptr#(), FN ext#() and POINT #).
+
+  The string specified must be a character array with a single dimension, large enough to hold
+the
+  maximum amount of data you expect to have to deal with.
+
+  Example
+  Here is an example program that outputs a list of installed ROMs to a string.
+
+    10 DIM a$(1000)
+    20 OPEN #8, "V>a$"
+    30 %roms+ #8
+    40 LET l=FN ptr#(8)
+    50 CLOSE #8
+    60 PRINT "Assignment length is ";l
+    70 PRINT "List is:"
+    80 PRINT a$( TO l)
+
+- Memory channels
+  The "M>" channel can be used in a very similar way to the variable channels. However, as it is
+a
+  fixed memory region, it is more suitable for use by machine-code programs.
+
+  The channel specifier for the memory channel type requires the address and length of the memory
+  region (separated by a comma) to follow the ">" character.
+
+  Memory channels support all the pointer operations (FN ptr#(), FN ext#() and POINT #).
+
+  Example
+  Here is an example program that outputs a disk catalogue to memory and then runs a machine-code
+  routine to process it:
+
+    10 CLEAR 29999
+    20 OPEN #7, "M>30000,1000"
+    30 CAT #7
+    40 LET x=USR myroutine
+    50 CLOSE #7
+
+- Window channels
+  The "W>" window channels are the most complex of the extended channels currently available on
+  ResiDOS. Two different types of window, with very different behaviours, are available:
+
+
++3e-compatible windows
+
+These windows are the default type, and provide the same facilities as those provided by the ZX
+Spectrum +3e (except that, under ResiDOS, input is also supported). These windows support
+Spectrum-style control codes, so that you can use normal PRINT items such as INK, PAPER and AT
+(amongst others) in your PRINT # commands, they also support Spectrum tokens and graphics
+characters (so that you can use LIST # directly, for example).
+
+
+VT52-compatible windows
+
+These windows are created when you specify a character set address of zero (see below for
+details). These windows broadly emulate a subset of the VT52 terminal, and so use completely
+different control codes to the +3e-compatible windows. They are intended for applications such as
+CP/M and internet application console windows. They support only the standard ASCII character
+set, not Spectrum tokens or graphics characters. Additionally, they do not support line input;
+only (non-echoed) character input is provided.
+
+The channel specifier for the window channel type requires the following values (separated by
+commas) to follow the ">" character: top line (0-23), leftmost column (0-31), height (1-24),
+width (1-32), and optionally character size (3-8) and character set address. If no character size
+is specified, the default is 8. If a character set address is given, then this is used instead of
+the built-in fonts; this allows you to use nice fonts such as those provided with art programs
+and adventure games. If the character set address is given as zero (0), then a VT52-compatible
+window is created instead of a +3e-compatible window.
+
+Note that the character size has no bearing on the way the window is defined, but it does affect
+the number of "actual" columns you have available. For example, the following defines a window
+the size of the entire screen; but because a character size of 5 is specified, the number of
+characters that can be printed in the window at any time is 24x51:
+
+
+    OPEN #5,"w>0,0,24,32,5"
+
+Window channels do not support the pointer operations. However, the "set position" operation
+(POINT #) can be used to change the region of memory to which window output is sent. Normally,
+this is the standard Spectrum screen address (16384), but it can be set to any 8K boundary. This
+is mostly useful for machine-code programmers, as it allows them to perform window output
+directly to the 128K Spectrum's alternate screen at 49152 in page 7, for example.
+
+
++3e-compatible windows
+
+When PRINTing to +3e-compatible windows, you can use many of the same control functions as you
+can with the normal screen. For example: ' (apostrophe; start a new line), , (comma; start a new
+column), TAB, AT, INK , PAPER, FLASH, BRIGHT , INVERSE, OVER. Of these, only AT behaves slightly
+differently; it takes y to be a pixel line and x to be an actual character column.
+
+When first defined, windows are in non-justified mode, but they can be set to be left-, full- or
+centre-justified. Note that in justified mode, some features and control codes cannot be
+accessed, so you may need to switch back to non-justified mode to use them.
+
+Input is supported in +3e-compatible windows. If you use INKEY$ # , then the keyboard is simply
+scanned and a character returned without anything being output to the window. If you use INPUT #,
+then a cursor is added to the window at the current position. The user can then input any text
+desired, using the left and right arrows to move along the text input so far, or the up and down
+arrows to move to the start or end of the text. The DELETE key deletes the character to the left
+of the cursor, and the ENTER key completes the input. Depending upon memory available, the entire
+size of the window can be used in the input, although care is taken to ensure that no input
+character is ever scrolled off the top of the window. An absolute maximum of 255 characters is
+allowed in the input line.
+
+A complete list of control codes follows; these codes can be sent to a window by PRINTing them
+using the CHR$ function. If a code is preceded by (j) then it will be ignored if issued in
+justified mode (however, their settings will still be taken into account; for example, you can
+justify double-width text, but you must set it before entering justified mode). If a code is
+preceded by (e) then it can only be used in justified mode if the "embedded codes" feature has
+been set (which requires more memory to be allocated for the channel).
+
+0              Turn justification off
+1              Turn justification on
+2              Save current window contents
+3              Restore saved window contents
+4              Home cursor to top left
+5              Home cursor to bottom left
+(j) 6          Tab to left or centre of window (PRINT comma)
+7              Scroll window
+(j) 8          Move cursor left
+(j) 9          Move cursor right
+10             Move cursor down
+11             Move cursor up
+(j) 12         Delete character to left of cursor
+13             Start new line (PRINT apostrophe)
+14             Clear window to current attributes
+15             Wash window with current attributes
+(e) 16, n      Set INK n (0-7)
+(e) 17, n      Set PAPER n (0-7)
+(e) 18, n      Set FLASH n (0-1)
+(e) 19, n      Set BRIGHT n (0-1)
+(e) 20, n      Set INVERSE n (0-1)
+(e) 21, n      Set OVER n (0-1)
+(j) 22, y, x   Set cursor to pixel line y, character size column x
+(j) 23, n      TAB to character size column n
+(e) 24, n      Set attributes n (0-255)
+(j) 25, n      If n=1, then characters 165-255 will be printed as UDGs, with data located at the
+end of the
+               standard UDGs. If n=0, then characters 165-255 will be printed as BASIC keyword
+tokens (the
+               default).
+(e) 26, n      Fill window with byte n. Attributes are affected, but not cursor position.
+(e) 27, n      Fill window with character n. Attributes and cursor position are affected.
+(j) 28, n      Set double width (n=1) or normal width (n=0).
+(e) 29, n      Set height n (0=normal, 1=double, 2=reduced, 3=double reduced)
+30, n          Set justification mode (0=left, 1=centred, 2=full)
+(j) 31, n      Allow embedded codes in justified mode if n=1.
+
+
+VT52-compatible windows
+
+VT52-compatible windows behave very differently from +3e-compatible windows, and are most useful
+for applications such as CP/M and internet console applications. They do not support line input
+(INKEY$# and INPUT # are allowed, but are implemented as non-echoed character input) or non-ASCII
+characters (such as the Spectrum tokens and graphics characters). By default, these windows
+operate in a "non-wrapping" mode (when the end of a line is reached, text does not wrap
+automatically to the next line unless CR and LF codes are issued) and with a visible cursor,
+although these modes can be changed. The full list of control codes supported is as follows
+(other control codes are ignored):
+
+7 (BEL)    Sounds a beep.
+8 (BS)     Moves the cursor 1 character to the left and replaces the character under the cursor
+with a
+           space. If wrapping is enabled and the cursor is already at the left, it moves to the
+rightmost
+           position of the previous line (unless it is already on the top line).
+10 (LF)    Moves the cursor down 1 line, scrolling the window up if necessary.
+13 (CR)    Moves the cursor to the leftmost column of the current line.
+27 (ESC)   Introduces an escape sequence or a literal character.
+           The following escape sequences are interpreted. If an ESC character is followed by any
+character
+           other than those in this list, then that character is output as a literal (without any
+further
+           interpretation) directly to the window, and the escape sequence is terminated.
+           ESC A      Moves the cursor up. If the cursor is already on the top row, it has no
+effect.
+           ESC B      Moves the cursor down. If the cursor is already on the bottom row, it has
+no effect.
+           ESC C      Moves the cursor right. If the cursor is already in the rightmost column,
+it has no effect.
+           ESC D      Moves the cursor left. If the cursor is already in the leftmost column, it
+has no effect.
+           ESC E      Clears the window. The cursor position is not affected.
+           ESC H      Homes the cursor (ie moves the cursor to row 0, column 0).
+           ESC I      (Reverse index). Moves the cursor up 1 line, scrolling the window down if
+necessary.
+           ESC J      Erases all characters from the cursor (including the character under the
+cursor) to
+                      the end of the window. The cursor position is not affected.
+           ESC K      Erases all characters from the cursor (including the character under the
+cursor) to
+                      the end of the line. The cursor position is not affected.
+           ESC L      Inserts a line. The row with the cursor on it and all rows below are
+scrolled down
+                      1 line. The cursor row is cleared. The cursor position is not affected.
+           ESC M      Deletes the row with the cursor on it. All rows below are scrolled up 1
+line.
+                      The bottom row is cleared. The cursor position is not affected.
+           ESC N      Deletes the character under the cursor. All characters to the right of the
+cursor
+                      are moved 1 column to the left. The character at the end of the row is
+cleared.
+                      The cursor position is not affected.
+           ESC Y r c  Moves the cursor to the given position. r is the row number plus 32, and c
+is the
+                      column number plus 32. If the position is beyond the edge of the window,
+the cursor
+                      is moved to the edge of the window.
+           ESC b c    Sets the foreground (ink) colour. c can be either a Spectrum colour (0 to
+7) or a
+                      colour value compatible with Locomotive's +3 CP/M implementation, as
+follows:
+                      32, black
+                      34 or 35, blue
+                      40 or 44, red
+                      42 or 47, magenta
+                      64 or 80, green
+                      66 or 83, cyan
+                      72 or 92, yellow
+                      74 or 95, white
+           ESC c c    Sets the background (paper) colour. c can be either a Spectrum colour (0 to
+7) or a
+                      colour value compatible with Locomotive's +3 CP/M implementation, as
+follows:
+                      32, black
+                      34 or 35, blue
+                      40 or 44, red
+                      42 or 47, magenta
+                      64 or 80, green
+                      66 or 83, cyan
+                      72 or 92, yellow
+                      74 or 95, white
+           ESC d      Erases all characters from the start of the window up to the cursor
+(including the
+                      character under the cursor). The cursor position is not affected.
+           ESC e      Enables the cursor blob.
+           ESC f      Disables the cursor blob.
+           ESC j      Saves the cursor position.
+           ESC k      Restores the cursor position (as saved by ESC j).
+           ESC l      Erases all characters on the current line. The cursor position is not
+affected.
+           ESC o      Erases all characters from the start of the line up to the cursor
+(including the
+                      character under the cursor). The cursor position is not affected.
+           ESC p      Enables reverse video mode.
+           ESC q      Disables reverse video mode.
+           ESC r      Enables underline mode.
+           ESC u      Disables underline mode.
+           ESC v      Enables wrapping at the end of a line.
+           ESC w      Disables wrapping at the end of a line.
+
+- Null channels
+  The "Z>" channel simply discards all output that is sent to it. It always returns a CR
+character
+  (ASCII 13) when it is read from (so the INPUT # command always returns an empty string). This
+can
+  be handy if you wish to execute a command which produces output that you do not want.
+
+  The channel specifier for the null channel type is simply "Z>".
+
+  Null channels support all the pointer operations (FN ptr#(), FN ext#() and POINT #).
+
+  Example
+  Here is an example program that does nothing much at all!
+
+    10 OPEN #4,"Z>"
+    30 CAT #4
+    40 INPUT #4;x$
+    50 CLOSE #4
+
+-------------------------------------------------------------------------------------------------
+
+Packages
+
+Starting with v2.00, it is possible to load a number of optional packages into your interface's
+memory, which extend the capabilities of ResiDOS. To install or uninstall a package, download it
+and use the %INSTALL and %UNINSTALL commands.
+Alternatively, you can download the following BASIC program which guides you through the process
+of installing or upgrading a package:
+
+pkginst.tzx - Package installer (tape-loadable version)
+pkginst.bas - Package installer (version to copy direct to disk/card)
+All packages are provided here in two formats:
+
+.tzx  A tape file that can be loaded into memory before installation (or saving to disk)
+.pkg  A file that can be copied straight to a FAT-formatted disk, and installed directly from
+there. To
+      do this, you'll need a version of the FATfs package already installed.
+
+The package system has been designed so that every package works on any version of ResiDOS,
+regardless of what interface you own.
+
+
+Available packages
+
+The following packages are currently available:
+
+- Channels, adds channels for accessing disk files, memory, variables and extremely flexible text
+  windows.
+- FATfs, adds support for FAT-formatted disks/cards
+- TapeIO, adds support for LOADing and SAVEing to .TAP and .TZX emulator files
+- TaskMan, allows saving snapshots and switching between multiple tasks
+- ZX80, a ZX80 emulator
+- ZX81, a ZX81 emulator
+
+Many packages are planned for the future, including the following possibilities (in no particular
+order):
+
+- Interface 1/microdrive support
+- TR-DOS filesystem
+- GDOS (+D/Disciple) filesystem
+- File selector (used by LOAD %"" etc)
+- CamelForth programming language
+- Device manager (for installable printer, RS232, mouse drivers etc)
+- GUIToolkit (for supporting desktop operating systems)
+- ZSock (for internet access)
+
+Packages can provide many services, including machine-code APIs, new BASIC commands, hook codes,
+extra i/o channels and NMI handlers.
+
+
+Channels
+
+The Channels package adds several new channel types that you can access from BASIC (using PRINT
+#, INPUT # and other commands) or from machine-code. Most of the channels added are compatible
+with their equivalents on the ZX Spectrum +3e, but there are also several very important
+additions.
+
+The channels available are:
+
+"I>", "O>" and "U>": input, output and update access to disk files
+"M>": memory regions
+"V>": string variables
+"W>": text windows (+3e-compatible and VT52 emulation types)
+"Z>": null channel
+
+For full details on the channels provided, please see the Channels package section. Also see the
+extended channels section for details of the commands provided by ResiDOS for accessing extended
+channels.
+
+
+Channels v1.00 files:
+
+- channels.pkg
+- channels.tzx
+
+There is also a BASIC program demonstration some of the features of the window channels:
+
+- windemor.tap
+
+
+FATfs
+
+This package adds support for reading and writing to FAT16-formatted disks to your ResiDOS
+system. This is incredibly useful, since all PCs and Macs (and even some PDAs and digital cameras
+etc) can use this format of disk. This means copying files (including other packages, upgrades to
+ResiDOS, snapshots and Infocom games for ZXZVM) between your PC and Speccy becomes extremely easy.
+
+Once installed, any FAT16-formatted disks can be accessed using LOAD, SAVE and all the other
+ResiDOS commands.
+
+The current version has the following limitations, which will be addressed in a future release:
+
+- no support for FAT32 or FAT12 disks
+- no support for long filenames
+- partitions cannot be created, renamed or deleted by ResiDOS
+
+Note that from ResiDOS v2.01 this package is automatically installed together with the base
+system. You may, however, uninstall it at any time, or upgrade/reinstall it with the following
+files.
+
+
+FATfs v1.01 files:
+
+- fatfs.pkg
+- fatfs.tzx
+
+
+TapeIO
+
+The TapeIO package allows you to LOAD and SAVE directly to emulator files of the .TAP and .TZX
+variety. For full details on the comprehensive facilities provided, please see the TapeIO
+Commands section.
+
+If all you want to do is load a game from a .TAP/.TZX file, then once you have installed this
+package, just use the %TAPEIN command to open the .TAP/.TZX file for input and then use the
+normal tape loading commands. For example, to load Manic Miner from the MANIC.TAP file:
+
+    %TAPEIN "manic.tap"
+    LOAD ""
+
+
+TapeIO v1.03 files:
+
+- tapeio.pkg
+- tapeio.tzx
+
+
+TaskMan
+
+The Task Manager is used to allow a sort of multi-tasking on your Spectrum; whenever you press
+the "magic" button on your interface, the Task Manager is entered, allowing you to switch between
+different programs running on your Spectrum. You can also use it to save snapshots to disk or
+card.
+
+
+TaskMan v1.00 files:
+
+- taskman.pkg
+- taskman.tzx
+
+
+ZX80 emulator
+
+The ZX80 emulator is written by Paul Farrow, and allows you to emulate a ZX80 on your Spectrum.
+This package requires a 128K Spectrum since the normal Spectrum screen is used by the ZX80 for
+program data, and the alternate screen (only available in 128K Spectrums) must therefore be used.
+You will receive an "out of memory" error if trying to run in 48K mode.
+
+After installation, you can start the emulator with one of the following commands:
+
+    %zx80
+    %zx80 "snapshotfile"
+
+The first command simply starts up the emulator, leaving you at the "K" prompt. The second starts
+the emulator and runs the named snapshot file, which must be in the standard ZX80 .O snapshot
+format.
+
+It is also possible to LOAD and SAVE programs from within the emulator. When you enter LOAD or
+SAVE, a menu appears with several transfer options. Choose the ResiDOS file option to LOAD or
+SAVE to a file named zx80.o on the default drive. It is not possible to specify other files from
+within the emulator, since the ZX80 does not use filenames. This means that after saving a file
+you are advised to exit the emulator (by resetting the Spectrum) and rename it for safe-keeping.
+
+Full details of using the ZX80 emulator, including the option of copying programs directly from
+tape to disk, are on Paul Farrow's website (www.fruitcake.plus.com).
+
+ZX80 package v1.01 (including Paul Farrow's ZX80 emulator v2.03) files:
+
+- zx80.pkg
+- zx80.tzx
+
+
+ZX81 emulator
+
+The ZX81 emulator is written by Paul Farrow, and allows you to emulate a ZX81 on your Spectrum.
+This package requires a 128K Spectrum since the normal Spectrum screen is used by the ZX81 for
+program data, and the alternate screen (only available in 128K Spectrums) must therefore be used.
+You will receive an "out of memory" error if trying to run in 48K mode.
+
+After installation, you can start the emulator with one of the following commands:
+
+    %zx81
+    %zx81 "snapshotfile"
+
+The first command simply starts up the emulator, leaving you at the "K" prompt. The second starts
+the emulator and runs the named snapshot file, which must be in the standard ZX81 .P snapshot
+format. All snapshots should work, including high-resolution games.
+
+It is also possible to LOAD and SAVE programs from within the emulator. When you enter LOAD or
+SAVE, a menu appears with several transfer options. Choose the ResiDOS file option to LOAD or
+SAVE to disk or card. The file will be saved or loaded with the name given in the ZX81 LOAD or
+SAVE command, which may include drive letters, user areas and paths. It is advisable to save
+files with the .P extension, although this is not required.
+
+Full details of using the ZX81 emulator, including the option of copying programs directly from
+tape to disk, are on Paul Farrow's website (www.fruitcake.plus.com).
+
+ZX81 package v1.01 (including Paul Farrow's ZX81 emulator v2.07) files:
+
+- zx81.pkg
+- zx81.tzx
+
+-------------------------------------------------------------------------------------------------
+
+ResiDOS Command Reference
+
+The following is a complete list of commands currently provided by ResiDOS. "Hard disk" refers to
+hard disks, CompactFlash cards or SD/MMC cards (depending upon your interface).
+
+Note that this reference does not include commands provided by optional packages, such as TapeIO
+and the ZX80/ZX81 emulators. Please see the package instructions for information on the commands
+that they provide.
+
+For all commands, the % characters are optional. They're only required if the command would
+otherwise be accepted by BASIC (eg, in most BASICs, LOAD "name" would load a program from tape,
+so you need to use LOAD %"name" to load a program from disk or card). For BASICs which use
+keyword entry (eg standard Spectrum BASIC), it's usually convenient to start commands which don't
+have a keyword with %, simply to take the Spectrum out of K mode and into L mode. On
+single-character-entry BASICs like SE BASIC or Gosh Wonderful there's no need to bother with the
+leading %.
+
+For commands which simply display some information (ie CAT, DIR, ROMS, PARTITIONS, MAP) you can
+redirect the display to any stream by specifying a stream number after the command name (but
+before any parameters). For example:
+
+    %ROMS+ #3
+    %DIR #4;"*.bas"
+
+
+Disk management commands
+
+%DRIVE unit, cyl, head, sec
+    Specifies the parameters (number of cylinders, heads and sectors) of your hard disk. "Unit"
+is 0
+    for the master drive, or 1 for the slave drive. Only needs to be done if the auto-detection
+fails
+    to work.
+
+%DRIVE unit, 0, 0, 0
+    Disables any detection of "unit" altogether. This might help improve boot speed slightly if,
+for
+    example, you never have a slave drive attached.
+
+%DRIVE unit
+    Changes "unit" to use auto-detection again, rather than manually set parameters.
+
+%DRIVES
+    Unmaps all current drives and re-initialises IDEDOS (causing disks to be re-detected, and
+drives
+    mapped back again), without losing any of the program or data currently in memory. This is
+useful
+    to allow swapping of compactflash cards while the Spectrum is still on.
+
+%REFORMAT unit, maxpartition
+    Completely erases the hard disk (unit=0 for master, 1 for slave) and initialises it with the
+    IDEDOS structure. Following this, you will be able to use the partition management commands
+to
+    add partitions for storing data on the disk. The maxpartition number is approximately the
+total
+    number of partitions you will be able to create; don't make this too large (hundreds of
+    partitions), or other disk management routines will be too slow. Don't make it too small, or
+you
+    may not be able to create all the partitions you want (some partitions are used to keep track
+of
+    free space, etc). Suggested values are between 15-63.
+
+%REFORMAT unit,maxpartition,cyls
+    Same as the previous command, but limits IDEDOS to using the first cyls cylinders on the
+disk,
+    allowing it to be shared with other filesystems (such as FAT, used by PCs and the optional
+FATfs
+    package).
+
+
+Partition management commands
+
+Note that some commands in this section only work with an IDEDOS drive (formatted with the
+%REFORMAT command. For other filesystems (eg with the optional FATfs package) it may not be
+possible to create, delete or rename partitions; see the documentation for the filesystem package
+for details of what it supports.
+
+%PARTITIONS
+    Displays a list of all the partitions on your disk.
+
+%PARTITIONS+
+    Displays an expanded listing of all the partitions on your disk, including their physical
+    positions on the disk.
+
+%PARTITION "name",size
+    Creates a new data partition on your disk, for storing files. Partition names are not
+    case-sensitive, and can be up to 16 characters long, and include a unit identifier ("0>" or
+    "1>"). The maximum partition size is 16Mb. Sizes can be specified in kilobytes (numbers
+larger or
+    equal to 256), or megabytes (numbers up to 255).
+
+%PARTITION "name",size,2
+    Creates a swap partition on your disk for temporary use by the Spectrum. These are not
+currently
+    used by ResiDOS itself, but may be used by applications in the future. The maximum partition
+size
+    is 16Mb. Sizes can be specified in kilobytes (numbers larger or equal to 256), or megabytes
+    (numbers up to 255). (NB: In fact, you can specify any partition type in this command, but
+only 2
+    (swap) and 3 (data) are useful types).
+
+ERASE % "unit>name"
+%ERASE "unit>name"
+%ERA "unit>name"
+%DEL "unit>name"
+    Deletes a partition, together with all the files it contains. This can only be done if no
+drive
+    is currently "mapped" to it. The unit identifier must be present in this command.
+
+%REN "unit>name","newname
+    Renames a partition. The unit identifier must be present in the original name in this command.
+
+
+Drive mapping commands
+
+%AUTOMAP+
+    Turns automatic drive mappings on.
+
+%AUTOMAP-
+    Turns automatic drive mappings off.
+
+%MAP
+    Displays a list of the current drive mappings.
+
+%MAP "drive","name"
+    Maps a drive ("A:" to "P:") to the partition specified. A maximum of 6 drives can be mapped
+at
+    any time.
+
+%MAP+ "drive","name"
+    Maps a drive, and makes the assignment permanent, so it will automatically be restored each
+time
+    you switch on.
+
+%UNMAP "drive"
+    Unmaps the drive ("A:" to "P:") specified.
+
+%UNMAP+ "drive"
+    Unmaps a drive. Additionally, removes any permanent assignment for the drive.
+
+
+Drive, directory and path commands
+
+%CD "location:path"
+    Makes the specified location and path the default. The location can be a user area (0-15) or
+a
+    drive (A-P), or both. The path can be any list of directories (separated with / or \
+characters)
+    from the current directory. If you don't specify all of these, the current default for the
+others
+    will be retained. Any filenames that don't include a drive letter, user area or path will now
+    refer to these defaults.
+
+%CD+ "location:path"
+    Makes the specified location and path the default, and makes this permanent so that it will
+also
+    be the default on startup. Each drive can have its own default path. If you don't set any
+    defaults, then the root directory and user area 0 on drive A: will be used when you switch on.
+
+%MD "directory"
+%MKDIR "directory"
+    Creates a directory.
+
+%RD "directory"
+%RMDIR "directory"
+    Removes a directory (it must be empty).
+
+%PWD
+    Prints the current working drive, user area and directory.
+
+
+File management commands
+
+CAT %
+%CAT
+%DIR
+    Shows a list of all files on the default drive in the default user area.
+
+CAT+ %
+%CAT+
+%DIR+
+    Shows an expanded listing of all files on the default drive in the default user area.
+
+CAT % "filespec"
+%CAT "filespec"
+%DIR "filespec"
+    Shows a list of files that match the file specification provided. This can include a user
+area,
+    drive, filename, extension and wildcard characters (* and ?).
+
+CAT+ % "filespec"
+%CAT+ "filespec"
+%DIR+ "filespec"
+    Shows an expanded listing of files that match the file specification provided.
+
+LOAD %"filename"
+Loads a BASIC program from hard disk.
+LOAD %"filename" CODE
+    Loads a CODE file from hard disk. If the file came from another system (ie was not SAVEd by
+    ResiDOS or a +3/+3e), then the default load address will be 32768.
+
+LOAD %"filename" CODE a
+    Loads a CODE file from hard disk at a specific address.
+
+LOAD %"filename" CODE a, l
+    Loads a CODE file from hard disk at a specific address, and with a specific length.
+
+LOAD %"filename" SCREEN$
+    Loads a screen from hard disk.
+
+SAVE %"filename"
+    Saves a BASIC program to hard disk.
+
+SAVE %"filename" LINE n
+    Saves an auto-starting BASIC program to hard disk.
+
+SAVE %"filename" CODE a, l
+    Saves a CODE file to hard disk.
+
+SAVE %"filename" SCREEN$
+    Saves a screen to hard disk.
+
+%SNAPLOAD "filename"
+    Loads a standard .SNA or .Z80 snapshot from hard disk.
+
+%SNAPLOAD+ "filename"
+    Loads a standard .SNA or .Z80 snapshot from hard disk. Overwrites a small amount of screen
+    (instead of stack memory), which aids compatibility with some snapshots.
+
+%SNAPLOAD- "filename"
+    Loads a standard .SNA or .Z80 snapshot from hard disk. Starts the snapshot with the built-in
+ROM,
+    which aids compatibility with some snapshots.
+
+%SNAPLOAD+- "filename"
+    Loads a standard .SNA or .Z80 snapshot from hard disk. Uses the screen and the built-in ROM,
+    which aids compatibility with some snapshots.
+
+LINE %"filename", line
+    Changes the auto-run line number for a BASIC program. If the line provided is 0, auto-running
+is
+    disabled for the program.
+
+ERASE % "filespec"
+%ERASE "filespec"
+%ERA "filespec"
+%DEL "filespec"
+    Erases a file from the hard disk. The filespec can include wildcards to erase multiple files
+at
+    once.
+
+%REN "filename","newname"
+    Renames a file (wildcards are not allowed). This command can be used to change the user area
+a
+    file is located in (but not the drive).
+
+%ATTRIB "filespec","+attrib"
+    Adds the attribute (P=protected, S=system or A=archive) to the file (or group of files)
+specified.
+
+%ATTRIB "filespec","-attrib"
+    Removes the attribute (P=protected, S=system or A=archive) from the file (or group of files)
+    specified.
+
+%CP "filename","filename2"
+    Copies a single file to a new file, which may be in the same location, or a different one.
+
+%CP "filespec","location:"
+    Copies one or more files (if using wildcards) to another location.
+
+
+Customisation commands
+
+INK % n
+    Sets ink colour to n and saves the current colour scheme as the default.
+
+PAPER % n
+    Sets paper colour to n and saves the current colour scheme as the default.
+
+BRIGHT % n
+    Sets bright to n and saves the current colour scheme as the default.
+
+FLASH % n
+    Sets flash to n and saves the current colour scheme as the default.
+
+ATTR % n
+    Sets attributes to n and saves them as the default colour scheme.
+
+%AUTORUN "filename"
+    Sets the autorun file, which will only be executed with %AUTORUN.
+
+%AUTORUN+ "filename"
+    Sets the autorun file, which will be executed automatically on boot, or with %AUTORUN.
+
+%AUTORUN-
+    Removes any autorun file setting.
+
+%AUTORUN
+    Loads and runs the autorun file.
+
+%SPEED n
+    Sets the processor speed to n. Supported only on ZX-Badaloc, where n is 0 (3.54MHz), 1
+(7MHz), 2
+    (14MHz) or 3 (21MHz). Add 4 to enable the clock/screen/interrupt doubler (gives speed up to
+    42MHz).
+
+%SPEED+ n
+    Sets the processor speed to n and makes this the default speed when starting up.
+
+%SPEED- n
+    Sets the processor speed to n and removes any default speed, so the standard system speed is
+used
+    when starting up.
+
+
+ROM management commands
+
+%INSTALL "filename"
+    Installs a file from the hard disk to the interface memory as a package or an Interface
+II-type
+    ROM. NB: you must first CLEAR 32767 or lower.
+
+%INSTALL "filename",n
+    Installs a file image from the hard disk to the interface as a type "n" ROM. NB: you must
+first
+    CLEAR 32767 or lower. Values for "n" are made as the sum of the following, and are ignored
+for
+    packages:
+    0:  for an Interface II ROM (or any other ROM that does not require ResiDOS support)
+    1:  for a BASIC ROM
+    16: to install the ROM into the writeable "RAM" part of the interface memory
+    32: to disable the NMI button for this ROM (only affects BASIC ROMs)
+
+%INSTALL "name"@addr
+%INSTALL "name"@addr,n
+    As the previous commands, but indicates that the ROM image is already loaded into memory at
+the
+    specified address and does not need to be loaded from a file. The name refers only to the
+name
+    that will be given to the ROM when it is installed. NB: you should CLEAR to an address lower
+than
+    addr before loading the image to memory and then executing the %INSTALL command.
+
+%ROMS
+    Shows a list of all installed ROMs.
+
+%ROMS+
+    Shows a list of all installed ROMs, including hidden system ones.
+
+%UNINSTALL"name"
+    Uninstalls a ROM.
+
+%ROM "name"
+    Restarts computer using selected BASIC or Interface 2 ROM.
+
+%ZX
+    Restarts computer using internal ROM, effectively disabling the interface.
+
+
+Spectrum mode commands
+
+%SPECTRUM
+    Switch 128K Spectrum into 48K mode until the next time the computer is reset.
+
+%SPECTRUM+
+    Always run in 48K mode, even after a reset.
+
+%SPECTRUM-
+    Turns off permanent 48K mode (you'll need to reset to return to 128K mode).
+
+ZXATASP: OUT 671,192:OUT 671,128
+ZXCF: OUT 4287,128
+ZXMMC+: OUT 127,0
+ZX-Badaloc: OUT 21727,0
+divIDE Plus: OUT 23,0
+    Disables ResiDOS, whilst keeping the current program in memory.
+
+ZXATASP: OUT 671,64:OUT 671,0
+ZXCF: OUT 4287,64
+ZXMMC+: OUT 127,192
+ZX-Badaloc: OUT 21727,200
+divIDE Plus: OUT 23,104
+    Re-enables ResiDOS, whilst keeping the current program in memory.
+
+
+Error-trapping commands
+
+%ONBREAK THEN CONTINUE
+    Turns on BREAK-trapping. The THEN is optional.
+
+%ONBREAK OFF
+    Turns off BREAK-trapping.
+
+%ONERR THEN GOTO line
+    Turns on error-trapping. If an error occurs, control is transferred to the line indicated.
+The
+    THEN is optional.
+
+%ONERR THEN GOSUB line
+    Turns on error-trapping. If an error occurs, control is transferred to the line indicated.
+When a
+    RETURN is encountered, execution continues at the statement after the error occurred. The
+THEN is
+    optional.
+
+%ONERR OFF
+    Turns off error-trapping.
+
+%REPORT
+    Reports the last error that was trapped.
+
+
+Error-trapping functions
+
+FN %ERR()
+    Gives the error number of the last error that was trapped.
+
+FN %ERL()
+    Gives the line number of the last error that was trapped.
+
+FN %ERS()
+    Gives the statement number of the last error that was trapped.
+
+
+Channel commands
+
+OPEN # stream, c$
+    Opens a stream (0..15) to the channel specified by c$. This may be a standard channel ("K",
+"S"
+    or "P") or a new channel provided by a package.
+
+CLOSE # stream
+    Closes a stream (0..15). If the stream is in the range 0..3, the original default channel
+    assignment is restored.
+
+POINT # stream, pos
+    Sets the current pointer position of the stream to pos.
+
+
+Channel functions
+
+FN %PTR#(stream)
+    Returns the current pointer position of the stream specified.
+
+FN %EXT#(stream)
+    Returns the extent (size) of the stream specified.
+
+-------------------------------------------------------------------------------------------------
+
+ResiDOS Programming
+
+ResiDOS provides an extremely comprehensive and powerful programming environment for the
+machine-code programmer. It is possible to write both application programs and "packages", which
+can extend the features of ResiDOS.
+
+All calls are provided in a hardware-independent way and so can be used without knowing whether
+your application is running on a ZXCF, DividePlus or any other interface supported by ResiDOS.
+Additionally, file-system calls (which use the +3DOS and IDEDOS call interfaces also used in the
+ZX Spectrum +3, +2A/+2B and +3e) can be used to manipulate files on any filesystem (+3DOS, FAT
+etc) without the programmer needing to be aware of which filesystem is in use.
+
+Code sample format
+All the example pieces of code on these pages are provided in the format used by Interlogic's
+free z80asm assembler which is available for many platforms at Z88 Forever!. Binaries are
+provided for several platforms, and most others (including MacOS X) can compile the source
+package.
+
+Whilst this assembler is slightly non-standard, it has a number of very useful features. It is
+also the assembler currently used by Z88DK, a C compiler which targets the Spectrum amongst many
+other Z80-based platforms.
+
+You should download the following file, which contains various necessary include files for
+programming in ResiDOS, together with an example utility program (assembly file and pre-built
+TAP/TZX):
+
+- resitools.zip
+
+-------------------------------------------------------------------------------------------------
+
+ResiDOS Downloads
+
+The latest release of ResiDOS is v2.30.
+
+For first-time installs, you can download the installer program for your interface in TZX or TAP
+format. Suitable software (such as playtzx or an emulator) for transferring this to tape for
+loading to your Spectrum is available from the World Of Spectrum website. (If you have a divIDE+
+you may be able to copy the TAP or TZX file to a card/disk and load it from there using an
+existing firmware such as FATware.)
+
+Once you have a version of ResiDOS installed, you can upgrade to later versions with one of these
+three options:
+
+- Load the installer from tape, using the TAP/TZX file for your interface (as above)
+- Copy the TAP/TZX file for your interface to your card/disk, and load it from within ResiDOS, if
+  you have the TapeIO package installed. To do this, use the commands %tapein "residos.tzx": LOAD
+""
+- Copy the BASIC loader file (residos.bas) and the code file for your interface (residos.c) to
+your
+  card/disk. Then load from within ResiDOS using LOAD %"residos.bas"
+
+The BASIC loader program, which can be copied to your disk and used to upgrade to new versions of
+ResiDOS, is in the following files:
+
+- residos.bas
+
+Or use the appropriate  versions of the following files or your interface:
+
+- residos.tzx
+- residos.tap
+- residos.c
+
+Until a firmware selector is available for divIDE Plus, ResiDOS will not boot up automatically
+when you power on the Spectrum. To enter ResiDOS once your Spectrum has booted, enter the
+following commands exactly as shown:
+
+    POKE 18455,237: POKE 18456, 65: POKE 18457, 199
+    RANDOMIZE USR 18455
+
+
+ResiDOS for MB02+ (and MB02+IDE)
+
+This version requires a minimum of 256K SRAM onboard your interface. It also requires an MBIDE
+interface for hard disk/CF access (the MB02+IDE has this built in). It should also work if you
+have both an MB02+ (without MBIDE interface) and a divIDE connected to your Spectrum at the same
+time.
+
+Note that you should not install the BS-DOS Ramdrive utility, as this will overwrite areas of the
+SRAM used by ResiDOS.
+
+Until an updated bootrom is available for MB02+, ResiDOS will not boot up automatically when you
+power on the Spectrum. To enter ResiDOS once your Spectrum has booted (into BS-DOS or the
+standard ROM), enter the following commands exactly as shown:
+
+    POKE 18711,237: POKE 18712, 65: POKE 18713, 199
+    RANDOMIZE USR 18711
+
+-------------------------------------------------------------------------------------------------
+
+ResiDOS Programming
+
+From v1.40, it is possible to access some of the features of the operating system from
+machine-code programs, so that utility programs which access files can be written.
+
+Calls are available in ResiDOS using hook codes, which are invoked using the RST 8 instruction
+followed by a hook code. There are two main hook codes available to programmers: the version
+information hook code, which detects which version of ResiDOS is available (if any), and the
+package call hook code, which is used to access all other facilities.
+
+All the following pieces of code are provided in the format used by Interlogic's free z80asm
+assembler which is available for many platforms at Z88 Forever!
+(www.worldofspectrum.org/z88forever). Binaries are provided for several platforms, and most
+others (including MacOS X) can compile the source package. Additionally, instead of using "magic
+numbers" for the various call IDs etc, these are defined as meaningful words. You should download
+the resitools file from the ResiDOS Home page (www.worldofspectrum.org/residos), which contains
+the necessary include files, together with an example utility program (assembly file and
+pre-built TAP/TZX).
+
+
+Detecting ResiDOS
+
+Any program which is going to use ResiDOS facilities must first check that it is installed, and
+that a suitable version number is available. You should check for a version which is high enough
+to support all the calls you are going to use. ResiDOS version 1.40 was the first to support
+package calls; each call introduced subsequently has the first version for which it was available
+listed.
+
+Some suitable code for testing the version follows. It can be called from BASIC, and returns the
+version number in BC (or 0 if not installed).
+
+.residetect
+        ld   hl,(ERR_SP)
+        push hl                         ; save the existing ERR_SP
+        ld   hl,detect_error
+        push hl                         ; stack error-handler return address
+        ld   hl,0
+        add  hl,sp
+        ld   (ERR_SP),hl                ; set the error-handler SP
+        rst  RST_HOOK                   ; invoke the version info hook code
+        defb HOOK_VERSION
+        pop  hl                         ; ResiDOS doesn't return, so if we get
+        jr   noresidos                  ; here, some other hardware is present
+.detect_error
+        pop  hl
+        ld   (ERR_SP),hl                ; restore the old ERR_SP
+        ld   a,(ERR_NR)
+        inc  a                          ; is the error code now "OK"?
+        jr   nz,noresidos               ; if not, ResiDOS was not detected
+        ex   de,hl                      ; get HL=ResiDOS version
+        push hl                         ; save the version
+        ld   de,$0140                   ; DE=minimum version to run with
+        and  a
+        sbc  hl,de
+        pop  bc                         ; restore the version to BC
+        ret  nc                         ; and return with it if at least v1.40
+.noresidos
+        ld   bc,0                       ; no ResiDOS
+        ld   a,$ff
+        ld   (ERR_NR),a                 ; clear error
+        ret
+
+
+Detecting ResiDOS from BASIC
+
+You may wish to detect whether ResiDOS is installed from BASIC (this may be done before
+attempting to use a ResiDOS BASIC command to load a machine code file from disk, for example).
+
+The suggested way to do this (as used by the ResiDOS installer program) is to check whether the
+ResiDOS initialisation hook is present in the BASIC ROM. This is done as follows:
+
+    IF PEEK 4768=207 AND PEEK 4769=254 THEN PRINT "ResiDOS is installed"
+
+Note that there is no way to determine the version of ResiDOS which is installed without using
+machine-code.
+
+
+Package calls
+
+The facilities of ResiDOS are divided up into packages, each of which provides its own set of
+calls. Two packages are currently provided: the ResiDOS package itself, and the IDEDOS package.
+The first of these provides system functions not related to disk access; the other provides all
+the useful calls for accessing partitions and files.
+
+Making a package call involves the following steps:
+- setting up registers required by the call
+- switching to the alternate set, and loading B with the package ID and HL with the call ID
+- invoking the package call hook code
+- checking for errors if the carry flag is reset (Fc=0)
+- examining the registers returned by the call
+
+
+Non-standard Packages
+
+From ResiDOS v1.40, two packages have always been available: ResiDOS and IDEDOS. These packages
+work in a slightly different way to all subsequently-released packages.
+For these packages, the alternate registers are set up with B=package ID (PKG_RESIDOS or
+PKG_IDEDOS) and HL=call ID (as listed in the call references).
+Here is some generic code to make a ResiDOS or IDEDOS package call. Note that if you are
+intending to return to BASIC at any point, you should always preserve the alternate HL register
+pair (H'L') as this is required by BASIC:
+
+        ; set up any entry parameters here
+        exx
+        ld   b,package_id
+        ld   hl,call_id
+        rst  RST_HOOK                   ; invoke the package call hook code
+        defb HOOK_PACKAGE
+        jr   nc,process_error           ; handle error if Fc=0
+        ; handle any return values here
+
+
+Standard Packages
+
+From ResiDOS v2.00, a new standardised system was introduced to make calls to all
+subsequently-released packages.
+
+For these packages, the alternate registers are set up with BC=call ID (as listed in the call
+references). In fact, this call ID is made up of two 8-bit values: B=package ID and C=call
+number, but these are usually referred to as a single 16-bit call ID value.
+
+Note that any call to a standard package may fail with Fc=0 and A=rc_resi_package_not_found if
+the package is not installed, or if the version of the package installed is not high enough to
+support the call.
+
+Code to invoke a call provided by a standard package would be:
+        ; set up any entry parameters here
+        exx
+        ld   bc,call_id
+        rst  RST_HOOK                   ; invoke the package call hook code
+        defb HOOK_PACKAGE
+        jr   nc,process_error           ; handle error if Fc=0
+        ; handle any return values here
+
+
+Standard Calls
+
+All standard packages provide a set of 8 standard calls (where B=package ID and C=$00..$07).
+These are mostly of use only to ResiDOS itself, to manage the packages. However, one of these
+standard calls can be used to determine the version of a package that is installed, and this can
+be used by application programs to ensure that a recent-enough version of the package is
+available to them.
+
+This is the PKG_STDCALL_INFO ($02) call, and can be used by setting A=info_version (0) and making
+the call. If the package is present, the call will be successful (Fc=1) and BC contains the
+binary-coded-decimal version number of the installed package. If the call fails (Fc=0), an error
+of A=rc_resi_package_not_found will be returned.
+
+For example, to check what version (if any) of the TapeIO package is installed, use the following
+code:
+        ld   a,info_version
+        exx
+        ld   bc,TAPEIOPKG_ID*$100+PKG_STDCALL_INFO
+        rst  RST_HOOK                   ; invoke the package call hook code
+        defb HOOK_PACKAGE
+        jr   nc,process_error           ; handle error if Fc=0
+        ; BC holds version number (in BCD form)
+
+
+The ResiDOS Package
+
+This package provides calls to access ResiDOS facilities and hardware features (such as extra
+built-in memory). The calls provided can be used without knowing whether your application is
+running on a DivIDE Plus, ZXCF, ZXATASP or any future interface which may be supported by ResiDOS.
+
+The ResiDOS Package provides the following calls:
+- RESI_REPORT
+- RESI_BASIC
+- RESI_GETPAGER
+- RESI_FINDPKG
+- RESI_FINDBASIC
+- RESI_ALLOC
+- RESI_DEALLOC
+- RESI_LOGO
+- RESI_MESSAGE
+- RESI_NMISVC
+- RESI_BROADCASTEXP
+- RESI_CONFIG
+- RESI_CHANNELSVC
+- RESI_STREAM_OPEN
+- RESI_STREAM_CLOSE
+- RESI_STREAM_IN
+- RESI_STREAM_OUT
+- RESI_STREAM_PTR
+- RESI_STREAM_SELECT
+- RESI_COMMAND
+- RESI_IM1SVC
+- RESI_TEMPSVC
+- RESI_STREAM_LINEIN
+
+
+RESI_REPORT ($0310)
+
+Generates report message for specified ResiDOS/IDEDOS error code.
+
+Available from: v1.40
+       IN:      A=error code returned by ResiDOS/IDEDOS
+                B=package ID (only needed if A=rc_pkg_*)
+      OUT:  -
+
+      Register status on return:
+    (call does not return)
+
+Example:
+        ld   a,rc_noswap                ; "no swap partition"
+        exx                             ; switch to alternate set
+        ld   b,PKG_RESIDOS              ; ResiDOS package
+        ld   hl,RESI_REPORT             ; ResiDOS call ID
+        rst  RST_HOOK                   ; invoke the package call hook code
+        defb HOOK_PACKAGE
+
+
+RESI_BASIC ($0313)
+
+Calls a routine in the current BASIC ROM. This isn't terribly useful for normal programs, but is
+provided to allow packages to call standard routines in the BASIC ROM. Note that the "current"
+BASIC ROM may be an alternate such as Gosh Wonderful or SE BASIC and so only well-known entry
+points should be used. The IY register pair is set to ERRNR ($5c3a) by ResiDOS before the BASIC
+ROM routine is called.
+
+Available from: v1.84
+
+       IN:      IY=address of routine in BASIC ROM
+                Other parameters as required by routine
+      OUT:      Outputs from routine in BASIC ROM
+
+      Register status on return:
+    As defined by BASIC ROM routine
+
+Example:
+        ld   ix,$4000                   ; parameters needed by
+        ld   de,$1b00                   ; BASIC ROM's "SA-BYTES"
+        ld   a,$ff                      ; routine to save a screen to tape
+        ld   iy,$04c2                   ; SA-BYTES routine address
+        exx                             ; switch to alternate set
+        ld   b,PKG_RESIDOS              ; ResiDOS package
+        ld   hl,RESI_BASIC              ; ResiDOS call ID
+        call PACKAGE_CALL_PKG           ; make the call from this package
+
+RESI_GETPAGER ($031c)
+Installs a routine to the specified location which can be used to switch built-in interface
+memory to the bottom 16K ($0000-$3fff), where the BASIC ROM is normally located. The routine can
+be located anywhere you like within the Spectrum's standard memory map (you should allow a space
+of 32 bytes to hold the routine). If running on a 128K Spectrum, you can place it within any of
+the additional pages (although it is your responsibility to ensure the correct page is switched
+in).
+
+Once you have obtained this routine, you can call it at any time with a "bank ID" in A which has
+previously been provided to you by the calls RESI_FINDPKG, RESI_FINDBASIC or RESI_ALLOC. Do not
+use any other values! After calling the routine, the 16K memory bank indicated by the "bank ID"
+will be located at $0000-$3fff. If you are switching in a bank obtained by RESI_ALLOC, don't
+forget to disable interrupts first, otherwise you may crash. It is safe to leave interrupts
+enabled when paging in a package or BASIC, provided the interrupt mode is 1.
+
+Available from: v1.84
+       IN:  DE=address of 32-byte area to hold paging routine
+      OUT:  Fc=1, success
+
+      Register status on return:
+      ......../IXIY same
+      AFBCDEHL/.... different
+
+The paging routine is called as follows:
+       IN:  A=bank ID
+      OUT:  -
+
+      Register status on return:
+      AFBCDEHL/IXIY same
+      ......../.... different
+
+An example of using the call, and the paging routine is as follows:
+
+        ld   de,mypager                 ; location for paging routine
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_GETPAGER           ; get paging routine
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+        jr   nc,failed                  ; call failed if Fc=0
+        ....                            ; more program
+        di                              ; disable interrupts
+        ld   a,(mybank)                 ; bank obtained by RESI_ALLOC
+        call mypager                    ; switch it in to $0000-$3fff
+        ....                            ; more program
+        ld   a,(basicbank)              ; bank obtained by RESI_FINDBASIC
+        call mypager                    ; switch BASIC ROM back in
+        ei                              ; re-enable interrupts
+        ....                            ; more program
+
+.mypager
+        defs  2                         ; 32 bytes to hold paging routine
+
+
+RESI_FINDPKG ($031f)
+
+Obtains the bank ID for a package, so that the programmer can page in the package directly using
+a pager routine obtained with RESI_GETPAGER.
+
+Available from: v1.84
+          IN:  A=package ID
+      OUT(s):  Fc=1, A=bank ID
+      OUT(f):  Fc=0, A=error code
+
+      Register status on return:
+      ....DEHL/IXIY same
+      AFBC..../.... different
+
+Example:
+        ld   a,PKG_IDEDOS               ; request bank for IDEDOS package
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_FINDPKG            ; get bank
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+        jr   nc,failed                  ; call failed if Fc=0
+        ld   (idedos_bank),a            ; save for later
+
+
+RESI_FINDBASIC ($0322)
+
+Obtains the bank ID for the version of BASIC currently being used, so that the programmer can
+page it back in directly using a pager routine obtained with RESI_GETPAGER.
+
+Available from: v1.84
+          IN:  -
+      OUT(s):  Fc=1, A=bank ID
+      OUT(f):  Fc=0, A=error code
+
+      Register status on return:
+      ..BCDEHL/IXIY same
+      AF....../.... different
+
+Example:
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_FINDBASIC          ; get bank
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+        jr   nc,failed                  ; call failed if Fc=0
+        ld   (basic_bank),a             ; save for later
+
+
+RESI_ALLOC ($0325)
+
+Requests a 16K bank of RAM for the program's use. If successful, the bank can be switched in to
+$0000-$3fff by disabling interrupts and using a pager routine obtained with RESI_GETPAGER. A
+program or package can request as many banks as it likes, and switch between them using the pager
+routine.
+
+Available from: v1.84
+          IN:  -
+      OUT(s):  Fc=1, A=bank ID
+      OUT(f):  Fc=0, A=error code
+
+      Register status on return:
+      ......../IXIY same
+      AFBCDEHL/.... different
+
+Example:
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_ALLOC              ; get free bank
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+        jr   nc,failed                  ; call failed if Fc=0
+        ld   (mybank),a                 ; save for later
+
+
+RESI_DEALLOC ($0328)
+
+Frees a 16K bank of RAM previously obtained with RESI_ALLOC. After using this call, the program
+or package may not access the bank again. If a program fails to de-allocate its banks, they will
+be reclaimed by the system the next time that ResiDOS starts up. If a package fails to
+de-allocate its banks when it is uninstalled, they will not be freed (this would be considered to
+be a bug in the package).
+
+Available from: v1.84
+          IN:  A=bank ID
+      OUT(s):  Fc=1
+      OUT(f):  Fc=0, A=error code
+
+      Register status on return:
+      ......../IXIY same
+      AFBCDEHL/.... different
+
+Example:
+        ld   a,(mybank)
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_DEALLOC            ; release bank
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+
+
+RESI_LOGO ($032b)
+
+Displays any interface-specific graphical logo at the requested position on screen. If the
+interface used by this version of ResiDOS does not have a logo (currently only ZXCF interfaces
+use a logo), then this call returns an error of rc_notimp.
+
+Available from: v2.00
+          IN:  C=screen line
+               B=screen column
+      OUT(s):  Fc=1
+      OUT(f):  Fc=0, A=error code
+
+      Register status on return:
+      ......../IXIY same
+      AFBCDEHL/.... different
+
+Example:
+        ld   bc,$0800                   ; line 0, column 8
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_LOGO               ; display logo
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+
+
+RESI_MESSAGE ($032e)
+
+This call allows you to obtain the text description of any ResiDOS/IDEDOS/ package error obtained
+from a previous call. The text returned is the same as that which would be generated by the
+RESI_REPORT call. The buffer you provide at DE must be at least 23 bytes long. If the error code
+in A is a package-specific error (rc_pkg_error_0...rc_pkg_error_31) then you should also supply
+the package ID for the call that produced the error in B. Messages obtained are terminated with
+bit 7 set in the last character.
+
+Available from: v2.00
+          IN:  A=error code
+               B=package ID (only needed if A=rc_pkg_*)
+               DE=address of 23-byte buffer
+      OUT(s):  Fc=1
+      OUT(f):  Fc=0, A=error code
+
+      Register status on return:
+      ......../IXIY same
+      AFBCDEHL/.... different
+
+Example:
+        ld   a,rc_notimp                ; get text for "rc_notimp" error
+        ld   b,PKG_RESIDOS              ; generated by ResiDOS package
+                                        ; (not actually needed in this case)
+        ld   de,mybuffer
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_MESSAGE            ; get message to DE
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+
+
+RESI_NMISVC ($0331)
+
+This call is only for the use of packages which implement an NMI handler (ie have PKGCAPS_NMI set
+in their package capabilities) and should only be called during execution of their package_nmi
+call.
+
+It allows any NMI handler to obtain the set of register values that were in force at the time
+that the NMI button was pressed, and to change these before returning from the package_nmi call.
+This allows the state of the Spectrum to be changed by the NMI handler (Task Manager does this
+when switching tasks, for example).
+
+The NMI register record obtained is held in the same format as the 30-byte header of v1.45 Z80
+snapshot files (described here).
+
+Available from: v2.00
+          IN:  B=reason code:
+                   nmisvc_getregs (0) to obtain NMI register record
+                   nmisvc_putregs (1) to update NMI register record
+               HL=address of NMI register record
+      OUT(s):  Fc=1
+      OUT(f):  Fc=0, A=error code
+
+      Register status on return:
+      ......../.... same
+      AFBCDEHL/IXIY different
+
+Example:
+        ld   b,nmisvc_getregs           ; obtain NMI register record
+        ld   hl,z80hdrbuffer            ; address of 30-byte buffer
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_NMISVC             ; get record to HL
+        call PACKAGE_CALL_PKG           ; make the call from this package
+
+
+RESI_BROADCASTEXP ($0334)
+
+This call broadcasts an expansion call to all currently-installed packages (using their
+package_exp call). Any parameters required can be passed in BC/DE/HL/IX and will be preserved;
+return results from each package called are simply ignored.
+
+Any reason code may be provided to this function; only packages which support the reason code
+will be affected. Reason codes that are currently supported by one or more packages are:
+exp_boot    Initialise package after power-cycle (no parameters).
+exp_fs_setdrive Filesystem packages: set the current drive letter. B holds the upper-case drive
+letter.
+exp_fs_setuser  Filesystem packages: set the current user area. B holds the user area number
+(0-15).
+exp_fs_snapdata Filesystem packages: get snapshot data. (Details to be documented later.)
+
+Note that none of the above reason codes should be broadcast by applications or other packages -
+they are for internal ResiDOS use only. If you wish to add a new expansion call reason code,
+please discuss it with me first.
+
+Available from: v2.00
+          IN:  A=reason code
+               BC/DE/HL/IX=parameters, dependent on reason code
+      OUT(s):  Fc=1
+
+      Register status on return:
+      ..BCDEHL/IXIY same
+      AF....../.... different
+
+Example:
+        ld   a,exp_boot                 ; initialise all packages
+                                        ; DO NOT USE THIS REASON!
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_BROADCASTEXP       ; broadcast to all packages
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+
+
+RESI_CONFIG ($0337)
+
+This call accesses the ResiDOS configuration file, residos.cfg on the boot drive. It can be used
+to read, write or delete any named entry.
+
+NOTE: It is important that the buffers pointed to be DE and HL do not lie in the top 2K of RAM.
+They must lie between $4000 and $f800.
+
+Available from: v2.00
+
+          IN:  A=reason code:
+                   rc_config_getvalue (0), to read a numeric value
+                   rc_config_gettext (1), to read a text value
+                   rc_config_setvalue (2), to write a numeric value
+                   rc_config_settext (3), to write a text value
+                   rc_config_delete (4), to delete a value
+               DE=address of setting name (lower-case, $ff-terminated)
+               HL=numeric value, or address of text buffer
+      OUT(s):  Fc=1
+               HL=numeric value (for rc_config_getvalue only)
+      OUT(f):  Fc=0, A=error code
+
+      Register status on return:
+      ......../IXIY same
+      AFBCDEHL/.... different
+
+Example:
+        ld   b,rc_config_setvalue       ; set a numeric value
+        ld   hl,3                       ; number to set
+        ld   de,configname              ; address of setting name (lower-case, $ff-terminated)
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_CONFIG
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+
+
+RESI_CHANNELSVC ($033a)
+
+This call provides services for packages that implement extended channels. Only packages can
+provide channels (since the input/output handlers are always package calls) so application
+programs should generally not use this call, although they may wish to use the
+channelsvc_parseint* reasons for non-channel-related purposes.
+
+The channelsvc_parseint* reasons are intended to allow a package to easily parse parameters
+present in a channel specifier string. A default of zero is used if no integer is found.
+Therefore, a string "A>,76" would provide values of 0 and 76 when parsed with a
+channelsvc_parseint followed by a channelsvc_parseintcomma.
+
+
+The channelsvc_create reason creates a channel in the CHANS area, updating all system variables
+as appropriate. The layout of all ResiDOS-compatible channels is as follows (as defined in
+packages.def):
+
+         defw $0008             ; "output" routine (switch to ResiDOS)
+         defw $0008             ; "input" routine (switch to ResiDOS)
+         defb 'A'               ; channel name (single uppercase letter)
+         defw pkgout            ; package call for output routine
+         defw pkgin             ; package call for input routine
+         defw length            ; total length of channel (11+size of user data)
+         ...optional user data follows...
+
+The channelsvc_delete reason deletes a channel, updating all system variables as appropriate.
+
+The channelsvc_grow and channelsvc_shrink reasons increase or decrease the size of a channel, by
+adding or removing data from the end of the user data area. Channels may not be shrunk to less
+than 11 bytes. Again, all system variables are kept up-to-date.
+
+Available from: v2.12
+          IN:  A=reason code:
+                   channelsvc_parseint (0), to parse an integer from a string
+                   channelsvc_parseintmax (1), to parse an integer up to a maximum value from a
+                     string
+                   channelsvc_parseintcomma (2), to parse an integer preceded by a comma from a
+                     string
+                   channelsvc_parseintcommamax (3), to parse an integer up to a maximum value,
+                     preceded by a comma, from a string
+                   channelsvc_create (4), to create a channel
+                   channelsvc_delete (5), to delete a channel
+                   channelsvc_grow (6), to increase the size of a channel
+                   channelsvc_shrink (7), to decrease the size of a channel
+
+               For the channelsvc_parseint* calls:
+                   HL=address of string to parse
+                   BC=length of string to parse
+                   DE=maximum value allowable (*max versions only)
+
+               For channelsvc_create:
+                   D=channel name (uppercase letter)
+                     Bit 7 may be used as a flag, and is ignored by ResiDOS
+                   E=package ID which handles this channel
+                   H=package call number for output to this channel
+                   L=package call number for input from this channel
+                   BC=total length of channel data (min 11 bytes if no user data)
+
+               For channelsvc_delete:
+                   HL=address of channel
+
+               For channelsvc_grow, channelsvc_shrink:
+                   HL=address of channel
+                   BC=number of bytes to grow or shrink channel by
+
+      OUT(s):  Fc=1
+
+               For the channelsvc_parseint* calls:
+                   HL=address of string after integer
+                   BC=length of string after integer
+                   DE=value (defaults to zero if no integer found)
+
+               For channelsvc_create:
+                   HL=address of channel
+                   DE=address of user data (ie DE=HL+chandata_userdata)
+
+      OUT(f):  Fc=0, A=error code
+
+      Register status on return:
+      ......../IXIY same
+      AFBCDEHL/.... different
+
+Example:
+        ld   a,channelsvc_create        ; create a channel
+        ld   d,'X'                      ; channel name
+        ld   e,MYPKG_ID
+        ld   h,MYOUTCALL
+        ld   l,MYINCALL
+        ld   bc,11+4                    ; "X" channel has 4 bytes of user data
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_CHANNELSVC
+        call PACKAGE_CALL_PKG           ; make the call from this package
+
+
+RESI_STREAM_OPEN ($033d)
+
+This call allows you to open a stream to any channel descriptor. This can be one of the standard
+(S, P, or K) channels, or a new channel provided by ResiDOS or a package. This call is directly
+equivalent to using the BASIC command OPEN #.
+
+Note that, in common with the other RESI_STREAM_* calls, errors generated can be
+ResiDOS/IDEDOS/package errors (as normally returned by other calls) or they may be a BASIC error
+code (-1). You should check the zero flag to determine which type of error has been returned.
+Typically, the only BASIC errors generated are likely to be "O Invalid Stream" (Fz=1, A=$17) or
+"J Invalid I/O Device" (Fz=1, A=$12).
+
+Available from: v2.14
+          IN:  A=stream (0..15)
+               DE=address of string specifying channel to open
+               BC=length of string specifying channel to open
+      OUT(s):  Fc=1
+      OUT(f):  Fc=0,
+                     Fz=0, A=ResiDOS/IDEDOS/package error code
+                           B=package id (for package error codes)
+                     Fz=1, A=BASIC error code - 1
+
+      Register status on return:
+      ......../..IY same
+      AFBCDEHL/IX.. different
+
+Example:
+        ld   a,4                        ; stream 4
+        ld   de,msg_chan_start
+        ld   bc,msg_chan_end-msg_chan_start
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_STREAM_OPEN        ; open stream to channel
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+
+        ....
+
+.msg_chan_start
+        defm    "i>a:data.txt"
+.msg_chan_end
+
+
+RESI_STREAM_CLOSE ($0340)
+
+This call closes a stream. If the stream is in the range 0..3, then it is re-attached to its
+default channel. This call is directly equivalent to using the BASIC command CLOSE #.
+
+Note that, in common with the other RESI_STREAM_* calls, errors generated can be
+ResiDOS/IDEDOS/package errors (as normally returned by other calls) or they may be a BASIC error
+code (-1). You should check the zero flag to determine which type of error has been returned.
+Typically, the only BASIC errors generated are likely to be "O Invalid Stream" (Fz=1, A=$17) or
+"J Invalid I/O Device" (Fz=1, A=$12).
+
+Available from: v2.14
+          IN:  A=stream (0..15)
+      OUT(s):  Fc=1
+      OUT(f):  Fc=0,
+                     Fz=0, A=ResiDOS/IDEDOS/package error code
+                           B=package id (for package error codes)
+                     Fz=1, A=BASIC error code - 1
+
+      Register status on return:
+      ......../..IY same
+      AFBCDEHL/IX.. different
+
+Example:
+        ld   a,4                        ; stream 4
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_STREAM_CLOSE       ; close stream
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+
+
+RESI_STREAM_IN ($0343)
+
+This call reads a single character from the currently active stream, if one is available. If Fc=1
+and Fz=1, a character was not available, but you can loop back and wait until Fc=1 and Fz=0. If
+the stream is permanently unable to provide a character (an end-of-file condition, for example)
+then an error will be returned.
+
+NOTE: If the current stream is open to one of the standard channels (K, S or P) then if an error
+occurs, a BASIC error report may be generated, and no return made to the caller.
+
+Note that, in common with the other RESI_STREAM_* calls, errors generated can be
+ResiDOS/IDEDOS/package errors (as normally returned by other calls) or they may be a BASIC error
+code (-1). You should check the zero flag to determine which type of error has been returned.
+Typically, the only BASIC errors generated are likely to be "O Invalid Stream" (Fz=1, A=$17) or
+"J Invalid I/O Device" (Fz=1, A=$12).
+
+Available from: v2.14
+
+          IN:  -
+      OUT(s):  Fc=1,
+                     Fz=0, A=character
+                     Fz=1, character not currently available
+                           (this is not an EOF condition)
+      OUT(f):  Fc=0,
+                     Fz=0, A=ResiDOS/IDEDOS/package error code
+                           B=package id (for package error codes)
+                     Fz=1, A=BASIC error code - 1
+
+      Register status on return:
+      ......../..IY same
+      AFBCDEHL/IX.. different
+
+Example:
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_STREAM_IN          ; read from stream
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+
+
+RESI_STREAM_OUT ($0346)
+
+This call writes a single character to the currently active stream.
+
+NOTE: If the current stream is open to one of the standard channels (K, S or P) then if an error
+occurs, a BASIC error report may be generated, and no return made to the caller.
+
+Note that, in common with the other RESI_STREAM_* calls, errors generated can be
+ResiDOS/IDEDOS/package errors (as normally returned by other calls) or they may be a BASIC error
+code (-1). You should check the zero flag to determine which type of error has been returned.
+Typically, the only BASIC errors generated are likely to be "O Invalid Stream" (Fz=1, A=$17) or
+"J Invalid I/O Device" (Fz=1, A=$12).
+
+Available from: v2.14
+          IN:  A=character
+      OUT(s):  Fc=1
+      OUT(f):  Fc=0,
+                     Fz=0, A=ResiDOS/IDEDOS/package error code
+                           B=package id (for package error codes)
+                     Fz=1, A=BASIC error code - 1
+
+      Register status on return:
+      ......../..IY same
+      AFBCDEHL/IX.. different
+
+Example:
+        ld   a,'*'
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_STREAM_OUT         ; write '*' to stream
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+
+
+RESI_STREAM_PTR ($0349)
+
+This call gets or sets the read/write pointer or size of the currently active stream. If the
+current stream does not support the requested operation, then the BASIC error code "J Invalid I/O
+Device" (Fc=0, Fz=1, A=$12) will be returned.
+
+Note that, in common with the other RESI_STREAM_* calls, errors generated can be
+ResiDOS/IDEDOS/package errors (as normally returned by other calls) or they may be a BASIC error
+code (-1). You should check the zero flag to determine which type of error has been returned.
+Typically, the only BASIC errors generated are likely to be "O Invalid Stream" (Fz=1, A=$17) or
+"J Invalid I/O Device" (Fz=1, A=$12).
+
+Available from: v2.14
+          IN:  A=reason code:
+                    streamptr_getptr (0), to obtain the current stream pointer
+                    streamptr_setptr (1), to change the current stream pointer
+                    streamptr_extent (2), to obtain the current stream size
+
+               For streamptr_setptr:
+                    DEBC=pointer
+
+      OUT(s):  Fc=1
+
+               For streamptr_getptr:
+                    DEBC=pointer
+
+               For streamptr_extent:
+                    DEBC=size
+
+
+
+      OUT(f):  Fc=0,
+                     Fz=0, A=ResiDOS/IDEDOS/package error code
+                           B=package id (for package error codes)
+                     Fz=1, A=BASIC error code - 1
+
+      Register status on return:
+      ......../..IY same
+      AFBCDEHL/IX.. different
+
+Example:
+        ld   a,streamptr_getptr
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_STREAM_PTR         ; get the current stream pointer
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+
+
+RESI_STREAM_SELECT ($034c)
+
+This call sets the current stream. This is the stream that all input and output (via BASIC
+commands and RST $10 as well as through the other RESI_STREAM_* calls) will be sent through.
+
+Note that, in common with the other RESI_STREAM_* calls, errors generated can be
+ResiDOS/IDEDOS/package errors (as normally returned by other calls) or they may be a BASIC error
+code (-1). You should check the zero flag to determine which type of error has been returned.
+Typically, the only BASIC errors generated are likely to be "O Invalid Stream" (Fz=1, A=$17) or
+"J Invalid I/O Device" (Fz=1, A=$12).
+
+Available from: v2.14
+          IN:  A=stream (0..15)
+      OUT(s):  Fc=1
+      OUT(f):  Fc=0,
+                     Fz=0, A=ResiDOS/IDEDOS/package error code
+                           B=package id (for package error codes)
+                     Fz=1, A=BASIC error code - 1
+
+      Register status on return:
+      ......../IXIY same
+      AFBCDEHL/.... different
+
+Example:
+        ld   a,4
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_STREAM_SELECT      ; set the current stream to #4
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+
+
+RESI_COMMAND ($034f)
+
+This powerful call allows the machine-code programmer to perform any ResiDOS BASIC command or
+function (including any supplied by installed packages). On entry, HL contains a command/function
+handler ID for the required BASIC command or function. These IDs are documented separately for
+ResiDOS and (optionally) for each package supplying commands and functions.
+
+For functions, the BASIC floating-point stack should contain all the input values required by the
+function (with the final function parameter being topmost on the floating-point stack). When the
+function completes, the topmost value on the floating-point stack is the result of the function
+(if any); all inputs to the function will have been consumed.
+
+For commands, IX should point to a 32-byte buffer containing input parameters for the command (as
+documented separately for each command). IY should point to the system variable ERR_NR ($5c3a),
+and this should contain an 8-bit field of command options (as documented separately for each
+command). Finally, some commands may also require parameters to be loaded on the BASIC
+floating-point stack (although this is not usual - none of the built-in ResiDOS commands do
+this). Again, this requirement is documented separately for each command.
+
+If the command or function fails for any reason, a BASIC error report is not generated, but the
+error status is returned to the caller. If desired, the caller can then generate the BASIC error
+using the RESI_REPORT call.
+
+Note that this call is not intended to replace the finer control that machine-code programs can
+obtain by calling lower-level +3DOS, IDEDOS, ResiDOS or package calls, but it can be useful to
+access functionality that isn't readily exposed except through BASIC commands.
+
+NOTE: Packages may execute commands or functions provided by ResiDOS or other packages, but not
+from within a command or function handler.
+
+Available from: v2.19
+          IN:  HL=command/function handler ID
+               floating-point stack: as required by command/function
+               IX=address of 32-byte parameter buffer (commands only)
+               IY=ERR_NR ($5c3a)
+               (IY+0)=command option flags (commands only)
+      OUT(s):  Fc=1
+               floating-point stack: contains result (functions only)
+      OUT(f):  Fc=0,
+                     Fz=0, A=ResiDOS/IDEDOS/package error code
+                           B=package id (for package error codes)
+                     Fz=1, A=BASIC error code - 1
+
+      Register status on return:
+      ......../..IY same
+      AFBCDEHL/IX.. different
+
+Example:
+        ld   ix,parambuffer
+                                        ; don't need to set string address,
+                                        ; as length is zero
+        ld   (ix+2),0                   ; string length 0 (low byte)
+        ld   (ix+3),0                   ; string length 0 (high byte)
+        ld   (ix+4),2                   ; stream 2
+        ld   (iy+0),$80                 ; option 7 ("+", expanded catalog)
+        ld   hl,HANDLERID_CAT           ; CAT command handler
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_COMMAND            ; execute command: CAT+ #2;""
+                                        ; (ie same as just CAT+)
+        rst  RST_HOOK
+        defb HOOK_PACKAGE
+
+        ...
+        
+        ld   (iy+0),$ff                 ; remember to reset ERR_NR before
+        ...                             ; returning to BASIC (also restore H'L')
+
+.parambuffer
+        defs 32
+
+
+RESI_IM1SVC ($0352)
+
+This call is only for the use of packages. By calling this function, a package can register
+itself to be called whenever an interrupt occurs. When this happens, the package will continue to
+receive a call to their standard _EXP call with a reason of A=exp_im1. At this point they can
+perform any operations they like, although it is desirable to keep processing to a minimum. The
+package must preserve the BCDEHLIXIY registers.
+
+Packages may register or de-register a handler at any time. The interrupt chain is preserved
+across resets and power cycles. Therefore, packages which enable/ disable interrupt handlers in
+response to commands or other events may wish to ensure that they deregister their interrupt
+handler at boot (when EXP_BOOT is supplied to their _EXP call), in case a power cycle/reset
+occurred when one was still active. It is also important to remember to de-register your
+package's interrupt handler before allowing it to be uninstalled (ie when your _BYE call is
+invoked).
+
+Available from: v2.20
+
+          IN:  A=reason code:
+                   im1svc_reg (0) to register the IM1 handler for this package
+                   im1svc_dereg (1) to de-register the IM1 handler for this package
+      OUT(s):  Fc=1
+      OUT(f):  Fc=0, A=error code
+
+      Register status on return:
+      ......../IXIY same
+      AFBCDEHL/.... different
+
+Example:
+        ld   a,im1svc_reg               ; register interrupt handler
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_IM1SVC
+        call PACKAGE_CALL_PKG           ; make the call from this package
+
+
+RESI_TEMPSVC ($0355)
+
+ResiDOS contains an internal 2K temporary buffer, which it uses to hold data from main memory
+when performing a memory-intensive operation. The buffer is used during the %CP and CAT BASIC
+commands, and also during configuration file processing operations. At other times, the buffer is
+available for the use of a package to save and restore data to.
+
+This call is only for the use of packages, and may not be used during an NMI or IM1 interrupt.
+Filesystem packages should also not use this call at times when they are likely to be called by
+the ResiDOS config processing or %CP or CAT commands.
+
+Typically, a package can use this buffer during processing of a BASIC command or other call that
+it is implementing. On return to the caller, it should always release the temp buffer so that it
+can be used for other purposes again.
+
+To use the buffer, a package must first lock it using the tempsvc_lock reason. This may fail
+(with rc_resi_no_room) if the temp buffer is locked by another package. Once locked, the package
+may issue any number of calls with tempsvc_save and tempsvc_restore to save and restore data in
+the temp buffer. It is up to the package to manage the 2K area as desired. Finally, the package
+must unlock the buffer with the tempsvc_unlock reason.
+
+Available from: v2.21
+          IN:  A=reason code:
+                   tempsvc_lock (0) to lock the temp buffer for this package
+                   tempsvc_unlock (1) to unlock the temp buffer
+                   tempsvc_save (2) to save data to the temp buffer
+                   tempsvc_restore (3) to restore data from the temp buffer
+
+               For tempsvc_save & tempsvc_restore:
+                   HL=offset into 2K temporary buffer (0...2047)
+                   DE=memory address to save/restore from
+                   BC=size to save/restore
+
+      OUT(s):  Fc=1
+      OUT(f):  Fc=0, A=error code
+
+      Register status on return:
+      ......../IXIY same
+      AFBCDEHL/.... different
+
+Example:
+        ld   a,tempsvc_lock             ; lock the temp buffer
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_TEMPSVC
+        call PACKAGE_CALL_PKG           ; make the call from this package
+        jr   nc,handle_errors
+
+        ....
+
+        ld   a,tempsvc_save             ; save data to temp buffer
+        ld   hl,0                       ; use offset 0 (start of buffer)
+        ld   de,$c000                   ; save from $c000
+        ld   bc,1024                    ; 1K to save
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_TEMPSVC
+        call PACKAGE_CALL_PKG           ; make the call from this package
+        jr   nc,handle_errors
+
+        ....
+
+        ld   a,tempsvc_restore          ; restore data from temp buffer
+        ld   hl,0                       ; use offset 0 (start of buffer)
+        ld   de,$c000                   ; restore to $c000
+        ld   bc,1024                    ; 1K to restore
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_TEMPSVC
+        call PACKAGE_CALL_PKG           ; make the call from this package
+        jr   nc,handle_errors
+
+        ....
+
+        ld   a,tempsvc_unlock           ; unlock the temp buffer
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_TEMPSVC
+        call PACKAGE_CALL_PKG           ; make the call from this package
+        jr   nc,handle_errors
+
+
+RESI_STREAM_LINEIN ($0358)
+
+This call reads characters from the currently active stream into a buffer until a CR (ASCII 13)
+character is received. The CR is not added to the buffer (nor is any other terminator). The
+return values provide the size of the input data returned and the address following the last data
+byte (so that the user can easily append a terminator if required).
+
+If the buffer is filled before a CR is received, this call will continue to poll the stream and
+discard all further characters until a CR is obtained.
+
+This call differs from manually calling RESI_STREAM_IN until a CR is received. Some channels
+provide a special routine for line input, and this will only be invoked by RESI_STREAM_LINEIN,
+not by RESI_STREAM_IN. For example, window channels will provide an on-screen user prompt where a
+line can be typed and edited before ENTER is pressed and the result returned. Using
+RESI_STREAM_IN would only use the character input routine, which provides no on-screen feedback
+for window channels.
+
+New channels which provide only character input can still be accessed using this routine, which
+gives a convenient way of obtaining an entire line of input at once. However, the standard
+channels (of which only "K" allows input) may not be accessed with this routine - use
+RESI_STREAM_IN instead for this case.
+
+Note that, in common with the other RESI_STREAM_* calls, errors generated can be
+ResiDOS/IDEDOS/package errors (as normally returned by other calls) or they may be a BASIC error
+code (-1). You should check the zero flag to determine which type of error has been returned.
+Typically, the only BASIC errors generated are likely to be "O Invalid Stream" (Fz=1, A=$17) or
+"J Invalid I/O Device" (Fz=1, A=$12).
+
+Available from: v2.23
+          IN:  HL=buffer address
+               BC=buffer size
+      OUT(s):  Fc=1,
+                     HL=address in buffer following input data
+                     BC=number of characters received
+      OUT(f):  Fc=0,
+                     Fz=0, A=ResiDOS/IDEDOS/package error code
+                           B=package id (for package error codes)
+                     Fz=1, A=BASIC error code - 1
+
+      Register status on return:
+      ......../..IY same
+      AFBCDEHL/IX.. different
+
+Example:
+        ld   hl,buffer
+        ld   bc,bufsize
+        exx
+        ld   b,PKG_RESIDOS
+        ld   hl,RESI_STREAM_LINEIN      ; read line from stream
+        rst  RST_HOOK
+
+
+The IDEDOS Package
+
+This package provides many of the calls available in +3DOS (used on the +3 and +3e) and IDEDOS
+(used on the +3e). The calls all use the same input and output parameters, but there are some
+"gotchas":
+
+- 128K memory configurations are not supported. You should always specify 0 for the page number
+  in calls which expect it.
+- Some calls return addresses "in page 7" (such as DOS_REF_HEAD). Data at these addresses
+  cannot be accessed directly, since it is not in main memory. Instead, you must use the
+  IDE_ACCESS_DATA call, detailed later.
+
+
++3DOS Calls
+
+The following +3DOS calls may be used. Full details are in the +3 manual, which can be obtained
+from The World Of Spectrum. Calls marked with an asterisk probably won't work as expected, or be
+very useful.
+
+- DOS_INITIALISE
+- DOS_VERSION
+- DOS_OPEN
+- DOS_CLOSE
+- DOS_ABANDON
+- DOS_REF_HEAD
+- DOS_READ
+- DOS_WRITE
+- DOS_BYTE_READ
+- DOS_BYTE_WRITE
+- DOS_CATALOG
+- DOS_FREE_SPACE
+- DOS_DELETE
+- DOS_RENAME
+- DOS_BOOT *
+- DOS_SET_DRIVE
+- DOS_SET_USER
+- DOS_GET_POSITION
+- DOS_SET_POSITION
+- DOS_GET_EOF
+- DOS_GET_1346 *
+- DOS_SET_1346 *
+- DOS_FLUSH
+- DOS_SET_ACCESS
+- DOS_SET_ATTRIBUTES
+- DOS_OPEN_DRIVE
+- DOS_SET_MESSAGE
+- DOS_REF_XDPB
+- DOS_MAP_B *
+- DD_SET_RETRY
+- DD_SEL_FORMAT *
+- DD_ENCODE
+- DD_L_XDPB *
+- DD_L_DPB *
+
+
+IDEDOS Calls
+
+The following IDEDOS calls are provided. Documentation is provided at the +3e website.
+
+- IDE_VERSION
+- IDE_INTERFACE
+- IDE_INIT
+- IDE_DRIVE
+- IDE_SECTOR_READ
+- IDE_SECTOR_WRITE
+- IDE_FORMAT
+- IDE_PARTITION_FIND
+- IDE_PARTITION_NEW
+- IDE_PARTITION_INIT
+- IDE_PARTITION_ERASE
+- IDE_PARTITION_RENAME
+- IDE_PARTITION_READ
+- IDE_PARTITION_WRITE
+- IDE_PARTITION_WINFO
+- IDE_PARTITION_OPEN
+- IDE_PARTITION_CLOSE
+- IDE_PARTITION_GETINFO
+- IDE_PARTITION_SETINFO
+- IDE_SWAP_OPEN
+- IDE_SWAP_CLOSE
+- IDE_SWAP_OUT
+- IDE_SWAP_IN
+- IDE_SWAP_EX
+- IDE_SWAP_POS
+- IDE_SWAP_MOVE
+- IDE_SWAP_RESIZE
+- IDE_DOS_MAP
+- IDE_DOS_UNMAP
+- IDE_DOS_MAPPING
+- IDE_DOS_UNPERMANENT
+- IDE_SNAPLOAD
+- IDE_ACCESS_DATA
+- IDE_IDENTIFY
+- IDE_PARTITIONS
+
+One slight difference is that for the IDE_DOS_MAP and IDE_DOS_UNMAP calls, the FLAGS3 variable is
+not used (it doesn't exist on all Spectrums). Instead, you can provide a drive letter as
+lower-case to make the mapping permanent.
+
+A special call, IDE_ACCESS_DATA, is provided so that data which exists in the ResiDOS memory can
+be read or written by programs. Such addresses are referred to in the +3DOS documentation as
+being "in page 7". Instead, use this call, with the provided address as the source or
+destination, and your own buffer as the other address.

@@ -1,0 +1,187 @@
+==================================================
+G22/R BACKGAMMON ROM Cartridge for the ZX Spectrum
+Sinclair Research
+==================================================
+
+Backgammon is a 3000 year old game of chance and skill for two people - or in this 
+case between a computer and a person. The game is played on a special backgammon 
+board with pieces (also called 'men' or 'stones'), rather like draught pieces, and 
+a pair of dice. A comparatively modern addition to the game is the doubling cube 
+which gives the game an extra dimension and enhances the opportunity of using 
+skill rather than just luck to defeat one's opponent.
+
+
+The Backgammon Board
+
+The board consists of 24 points which are divided into four 'tables' each 
+consisting of 6 points. The points are represented by alternative white and black 
+triangles and are denoted by the 24 letters from A to Z in the program. As the 
+board is displayed, the black or red side is at the top, and the while or light 
+blue side is at the bottom. The ZX Spectrum plays from the top side and owns the 
+red men. You play on the bottom side using the light blue men. The thick vertical 
+black area which divides the board is called the bar. The two tables an the right 
+of the bar are the inner tables and the two tables on the left are the outer 
+tables.
+
+
+The Rules of Backgammon The Play
+
+Your men play with the alphabet (from right to left at the top and from left to 
+right at the bottom) and the ZX Spectrum's red men move in the opposite direction.
+
+
+The Objective
+
+Your objective is to move all your men into your inner table (points S to X) and 
+then to bear them off the table before the ZX Spectrum does the same thing with 
+his men and his inner table (points A to F).
+
+
+The Move
+
+You and the ZX Spectrum take turns to roll the dice and move one or more men the 
+precise number of spaces indicated by the dice. Each die must be played 
+individually and each move must be legal. If a double is thrown then the value of 
+the throw is doubled and four separate and individual moves must be made. If you 
+can play only one die, then you must play the higher throw.
+
+
+Blocking
+
+If a player has two of more men on a point then that point is blocked to his 
+opponent. His opponent may not land on that point, even temporarily.
+
+
+Hitting
+
+If a player has only one man on a point (a blot) then his opponent can land on 
+that point and send the man to the bar - this is called a hit.
+
+
+The Bar
+
+If a player has one or more men on the bar then he must move them off the bar 
+before he makes any other play. If you are on the bar then you will come in 
+(unless you are blocked) as if you had men on a point immediately to the right of 
+point A. Similarly the ZX Spectrum will come off the bar as if it had men on a 
+point immediately to the right of point X. A player who cannot get off the bar may 
+lose a part or all of his turn.
+
+
+Bearing Off
+
+When a player has all his men in his inner table then he can start bearing off. If 
+a throw bears off exactly, i.e. the man would land exactly one point past the last 
+point, then that man can be borne off. A man can also be borne off with a throw 
+that is too high provides that that man is the furthest man out.
+
+
+The Doubling Cube
+
+At the beginning of the game, the doubling cube is at the centre of the bar and 
+shows either 64 (which really indicates 1) or 2. While the doubling cube is so 
+placed, either player has the right to offer his opponent a double. A player who 
+wishes to offer a double (because he believes that he is likely to win the game) 
+must make the offer at the start of his own turn, before rolling his dice. If his 
+opponent declines this offer then he loses the game and the offerer wins the 
+number of points displayed on the doubling cube before the offer was made. If the 
+offer is accepted then the doubling cube is turned to the next highest number and 
+placed nearest to the player who accepted the double. That player then has charge 
+of the cube and only he can subsequently offer another double (which he might want 
+to do if the game were to turn in his favour) in which case the doubling cube and 
+the right to offer a double would change hands.
+
+
+Scoring
+
+The first player to bear off all his pieces wins at least the number of points 
+displayed on the doubling cube. If the loser has not borne off any men but does 
+not have a man on the bar or on his opponent's home table then the win is a gammon 
+and the winner collects double the number of points shown on the doubling cube. If 
+the loser still has a man on the bar or on his opponent's inner table then the win 
+is a backgammon and the winner collects three times the number of points shown on 
+the doubling cube.
+
+
+Playing the ZX Spectrum
+
+If you are not familiar with the rules of Backgammon, you can learn as you play 
+since the Program will not let you make an illegal move and it will also tell you 
+why a move is illegal. After the program is loaded you will be asked a couple of 
+questions. First you will be asked for the level of ZX Spectrum play: press 1 to 
+4, where 4 is the hardest level.
+
+Having set the level of play the score will be displayed along with the current 
+level of ZX Spectrum play. You will be given an opportunity to go back to the 
+first page (press Y for YES) or play a game (press N for NO). If you do not 
+respond within 40 seconds the program will enter an automatic demonstration mode.
+
+You will then be asked whether you wish to enter your own die throws manually. 
+Press Y for YES, or N key for NO. Press Y for YES only if you are convinced the 
+program is cheating or you wish to play against another computer.
+
+Once you have pressed N, the Backgammon table will then be displayed and the dice 
+will roll to decide who will play first. The doubling cube in the middle of the 
+bar is set at 64 which really indicates 1 (thus may seem strange but traditionally 
+there is no 1 on a doubling cube and 64 is used to indicate both 1 and 64). If the 
+rolling dice settle in a double then the stake (as indicated by the doubling cube) 
+will be doubled to 2 and the dice will be rolled repeatedly until a non-double is 
+thrown. Your die is on the top: whoever has the highest throw plays first with the 
+same throw. When it is your move and the dice have settled, the program will 
+prompt you with the message:
+
+                           YOUR MOVE WITH THE n
+
+where n is the number on one of the die. You reply by entering a single letter 
+which falls into 3 categories:
+1-Enter A to X to move a man from that point.
+2-Enler Y to move a man off the bar.
+3-Enler Z to play the other die first.
+
+Provided that your move is legal, according to the rules of Backgammon, the 
+appropriate man will be moved to its new post. If your move is illegal, a message 
+informing you why the move is illegal will be flashed up and you will be asked for 
+your move again. If you cannot move, the program will tell you so and then pass to 
+the ZX Spectrum's turn.
+
+When you have pressed the key or keys to make your move(s), you may still change 
+your mind by deleting and re-entering your moves. To replay your moves, press the 
+DELETE key ('0') on the Spectrum. This will return your man to its previous 
+position. You may then press a key to make a new Move. When you are satisfied with 
+your moves, press ENTER to complete your moves and allow the Spectrum to make as 
+moves.
+
+After the Spectrum has played, you may double by pressing the key D. If you do not 
+wish to double, press ENTER to roll your dice. If the ZX Spectrum accepts the 
+offer of a double, the number on the doubling cube will double and the cube will 
+move over to the ZX Spectrum's side. Pressing D has no special effect if the ZX 
+Spectrum has charge of the doubting cube.
+
+If the ZX Spectrum does have charge of the doubling cube, then it may offer you a 
+double before it rolls the dice with the prompt:
+
+                          DOUBLE OFFER - Y TO ACCEPT
+
+If you enter Y to accept, then the number on the doubling cube will double and the 
+cube will move over to your side. If you press any other key to reject, the 
+Spectrum will ask for confirmation that you are resigning. Press R to resign. The 
+game will terminate with the ZX Spectrum winning the current stake as displayed on 
+the doubling cube. 
+
+Backgammon is a game of both skill and luck. It is not unusual for the less 
+skilful player to win the odd game by having more luck. If you want to compare 
+your play with that of the ZX Spectrum you should play a series of games for 
+points. You would normally play a reasonable number of games if you play 'first to 
+eleven' i.e. the winner is the first to accumulate eleven points.
+
+At any stage of the game when it is your turn to move, you may ask the Spectrum to 
+recommend a move by pressing the key '1'.
+
+The rolling of the dice is guaranteed to be completely random. It uses the random 
+number generator which is continuously called while you are thinking of your move 
+and frozen by the random time at which your move is entered.
+
+
+Joysticks
+
+You may not use joysticks with this game.

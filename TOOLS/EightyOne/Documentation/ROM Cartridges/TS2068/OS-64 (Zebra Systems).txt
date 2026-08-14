@@ -1,0 +1,359 @@
+﻿======================================
+OS-64 Command Cartridge for the TS2068
+Zebra Systems
+======================================
+
+
+                                                 OS-64
+
+                                     The 64 Column Operating System
+
+                                       For the Timex/Sinclair 2068
+                                         Personal Color Computer
+
+                                ZEBRA SYSTEMS INC. & BIBLIOTECA SAGITTARII
+
+                                                 - 1 -
+
+
+Contents
+
+  Publication Credits ........................................................1
+  Oviewview ..................................................................3
+  Limitations Of The 64 Column Mode ..........................................3
+  Using The Cartridge ........................................................4
+  Centronics Printer Support .................................................4
+    Overview .................................................................4
+    Selecting An Interface ...................................................4
+    Sending Control Codes & Graphics Data ....................................5
+    Printer Output Width .....................................................5
+    Changing Printer Width ...................................................6
+    Suppressing System Linefeed/Carriage Return ..............................6
+    Centering COPY Output ....................................................6
+    Important Printer Notes ..................................................7
+  OS-64 Variances ............................................................7
+    Graphics .................................................................7
+    Screen Saving ............................................................7
+  Using OS-64 with ZEBRA Disk Drives .........................................8
+  Extended System Variables ..................................................9
+  OS-64 Memory Map ..........................................................10
+
+                                                 - 2 -
+
+                                                 OS-64
+                                The 64 Column Operating System Cartridge
+
+Overview
+
+The OS-64 cartridge is a normal Timex/Sinclair 2068 operating system modified to provide a complete 64 
+column environment. OS-64 provides the following.
+
+1) 64 columns on screen, this includes...
+   a) LISTings
+   b) PRINTing
+   c) Editing
+
+2) 64 columns to your Centronics printer, this includes...
+   a) LPRINT
+   b) LLIST
+   c) COPY - Epson compatible only
+
+Complete Centronics printer support is built in and it is virtually user transparent. With OS-64 what 
+you see on the screen (in 64 columns) is what you get on your Centronics printer.
+
+OS-64 generates 64 characters per line on screen by using the T/S 2068's special 64 column video mode.
+
+
+Limitations Of The 64 Column Mode
+
+The 64 column video mode is a powerful hardware option because it doubles the amount of textual 
+information that you can display on your screen; enabling you to program more professional applications. 
+As is usual with small computers, advanced features require trade-offs with other features. This is very 
+true with the TS2068's advanced video modes. Below I will discuss the limitations of the TS2068's 64 
+column mode.
+
+The 64 column mode requires the user the use of a monochrome or RGB monitor. The visual quality of text 
+on Color TVs or color monitors will probably be unacceptable.
+
+The 64 column video mode does not provide FLASH. As a result the BASIC keyword FLASH will not do 
+anything. Also, the editing line cursor will not FLASH.
+
+There is no separately selectable BORDER color, the BORDER is automatically set to the current PAPER 
+color.
+
+                                                 - 3 -
+
+There is no local (temporary) PAPER or INK. In OS-64, all PAPER and INK commands have global effect, 
+that is, they change the entire screen. When you set PAPER, the INK automatically gets set to a 
+complimentary color and vice versa.
+
+
+Using The Cartridge
+
+There's not much to it. Just turn the power to your computer off, plug the OS-64 cartridge in, and power 
+up the computer. Voila! A 64 column enhanced operating system is at your fingertips. Just about 
+everything works the same as the normal system, except you have the 64 column format.
+
+One of the things you will have to learn about is the built-in Centronics printer support.
+
+
+Centronics Printer Support
+
+Overview
+
+OS-64 does not support the Timex/Sinclair 2040 printer. LPRINT/LLIST/COPY output goes to your Centronics 
+printer if you have a Centronics interface attached to your computer. Built in to the system is code to 
+support the following Centronics interfaces...
+
+                                     1) Aerco
+                                     2) Tasman-B
+                                     3) Tasman-C
+                                     4) A & J
+                                     5) Oliger
+
+A single POK will select your interface. If you desire, you can provide your own interface driver in RAM 
+and select it for system use. This allows you to drive devices with any protocol (This includes RS232, 
+as well as Centronics).
+
+
+Selecting An Interface
+
+To select one of the five interfaces listed above. POKE address 65523 with the following values:
+
+                                     1) Aerco       167
+                                     2) Tasman-B    135
+                                     3) Tasman-C    122
+                                     4) A & J       145
+                                     5) Oliger      167
+
+                                                 - 4 -
+
+To select your own interface driver positions at address 'N' in RAM you have to alter the new system 
+variable IFDR_addr to point to your routine. Use the following commands to do this...
+
+                                     < POKE 65523,N-INT (N/256) >
+                                      < POKE 65524,INT (N/256) >
+
+If after selecting your own interface drive you want to reselect a system driver use the appropriate 
+POKE from the descriptions plus the following...
+
+                                           < POKE 65524, 63 >
+
+
+Sending Control Codes & Graphics Data
+
+There are two types of data that can be sent to your Centronics printers; Character or Control codes. 
+Each is handled differently within the system. If you want to send control codes or graphics date to 
+your printer you must first signal the system by altering the new system variable PRDAT_typ (printer 
+data type).
+
+To select control code output...
+            < POKE 65514,1 >
+
+To re-select character output...
+            < POKE 65514,0 >
+
+In practice you should only select control code output for the brief period necessary to actually pass 
+the control codes and then immediately re-select character output. Below is an example of this method. 
+In this example we are sending the control codes for Emphasized Print mode to a Star Micronic SG10.
+
+Example:
+            10 POKE 65518,1 : REM PRDAT_typ=cntrl code
+            20 LPRINT CHR$ 27; CHR$ 69; : REM cntrl codes out
+            30 POKE 65518,0 : REM PRDAT_typ=character
+
+
+Printer Output Width
+
+Output width to your Centronics printer defaults to 64 columns to logically match the screen; what you 
+see on the screen is exactly what you get on your printer. This 64 column output is not centered on the 
+paper, but most printers have control codes to set the left margin. Below is an example of how you would 
+center the LLIST/LPRINT output for a Star Micronics SG10.
+
+Example:
+            10 POKE 65518,1 : REM PRDAT_typ=cntrl1 code
+            20 LPRINT CHR$ 27;"M";CHR$ 8; : REM cntrl codes out
+            30 POKE 65518,0 : REM PRDAT_typ=character
+
+                                                 - 5 -
+
+Changing Printer Width
+
+To change printer output width, do the following...
+
+            < POKE 65525,width : RANDOMIZE USR 15623 >
+
+Note: Maximum width is 255 characters.
+
+
+Suppressing System Linefeed/Carriage Return
+
+The system normally generates a Carriage return and a Linefeed code after each 'width’ no# of 
+characters, but we can suppress this by doing the following...
+
+            < POKE 65510,0 : REM suppress linefeed>
+            < POKE 65511,0 : REM suppress carriage return >
+
+If you suppress carriage returns, you will become responsible for deciding when you want a carriage 
+return. You will have to explicitly send this code when necessary. You could use the following routine 
+to do this...
+
+            10 POKE 65518,1
+            20 LPRINT CHR$ 134
+            30 POKE 65518,0
+
+Suppressing the system CR/LF will effect LLIST so you will have to be careful to consider this during 
+program development.
+
+To restore normal CR/LF operation, POKE 65510,13 & POKE 65511,10.
+
+
+Centering COPY Output
+
+COPY output is normally aligned with the left-hand side of the printer paper. OS-64 has a built-in 
+facility to allow COPY centering if you should desire it. Eight bytes in the extended system variables 
+area are reserved as a COPY centering control code table. The control codes necessary to set the 
+left-hand margin for printing are different from printer to printer. If you can determine the control 
+code sequence for your printer, you can POKE them into the table, thereby centering all the subsequent 
+COPY output. Below is an example for the Star Micronics SG10 printer.
+
+    10 POKE 65528,3: REM length of the subsequent cntrl code sequence
+    20 POKE 65529,27: REM ESCAPE code
+    30 POKE 65530,77: REM set left margin code
+    40 POKE 65531,19: REM left margin at column 19
+
+Please note that memory address 65528 holds the length of the subsequent control code sequence. It is 
+very important to have this correct.
+
+                                                 - 6 -
+
+Important Printer Notes
+
+- Embedded print commas cause a linefeed.-
+
+- COPY routines reset all printer modes to power up defaults.
+
+- At the end of LPRINT/LLIST output to your Centronics printer the printer's buffer may still have the
+  last bit of LPRINT/LLIST data stored but unprinted. Executing < LPRINT > will force the remaining
+  buffer to be printed.
+
+- If you are outputting to your Centronics printer and it does goes offline (error, paper-out,
+  power-off), pressing BREAK will not immediately return you to BASIC. This is because, at BREAK time,
+  the print-out routine does special output to clear the printer, and if the printer is offline it will
+  wait until you service the printer and bring it back online, before terminating.
+
+
+OS-64 Variances
+
+The OS-64 in most respects is a fully functional equivalent to your normal system- The few areas where 
+the OS-64 varies from your normal system will be discussed in the following sections.
+
+
+Graphics
+
+Under the OS-64 your screen display is actually 512 pixels wide but you cannot access this double 
+horizontal from BASIC. The following graphics commands: PLOT, DRAW, CIRCLE, work exactly as they do in 
+the normal system. You specify (X,Y) coordinates where X has the range of 0-255 and Y has a range of 
+0-175. The graphics will be drawn exactly as you would expect.
+
+The graphics command POINT works a bit differently in OS-64 than with your normal system. Normally POINT 
+tests the single screen pixel specified and returns the value zero if that pixel is off or the value one 
+if that pixel is on. With the OS-64 you use the specification coordinates with the same range (X = 
+0-255) but two pixels are tested at once and the actual pixels tested (in the 512 wide screen) are 
+((X*2),Y) and (((X*2)+1),Y). The following values are returned by the POINT command and reflect the 
+status of the two pixels tested...
+
+            0 = Both pixels off     > 00
+            1 = Right pixel on      > 01
+            2 = Left pixel on       > 10
+            3 = Both pixels on      > 11
+
+
+Screen Saving
+
+The normal method of SAVEing screens will not work for 64 column screens. To SAVE a 64 column screen you 
+must SAVE two separate code blocks back-to-back as follows...
+
+                                                 - 7 -
+
+    < SAVE "name" CODE 16384,6144: SAVE "name" CODE 24576,6144 >
+
+To LOAD your saved screens back into memory, do the execute commands...
+
+    < LOAD "name" CODE 16384: LOAD "name" CODE 24576 >
+
+
+Using OS-64 with ZEBRA Disk Drives
+
+OS-64 is compatible with the ZEBRA disk drive with the following exceptions.
+
+1. When you press the reset button on the disk drive interface module, the OS-64 will not boot up 
+properly unless you ensure that there is
+
+   a. No disk in drive 'A', or
+
+   b. You have a 'START' program on the disk in drive 'A' with the following as its first line:
+      < OUT 244,3: RANDOMIZE USR 3379>, or
+
+   c. For the OS-64 boot and auto-CAT on reset:
+      < OUT 244,3: RANDOMZE USR 3379: CAT * >, or
+
+   d. For the OS-64 to boot and auto-start a program on reset:
+      < OUT 244,3: RANDOMIZE USR 3379: LOAD *"name" >.
+
+2. Due to a lack of foresight on the TOS programmers' part, the Disk MERGE command will not work with 
+OS-64 without special POKES directly preceding MERGE commands. The following technique should allow you 
+to MERGE from disk: < POKE 26064,195: POKE 26065,144: POKE 26066,253: MERGE *"name" >.
+
+                                                 - 8 -
+
+Extended System Variables
+
++----------+---------+-----------+----------------------------------------------------------------------+
+| Number   | Address | Name      | Contents                                                             |
+| Of Bytes |         |           |                                                                      |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 2        | 65506   | -         | Unused locations.                                                    |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 2        | 65508   | Xpos      | Used by COPY routine.                                                |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 1        | 65510   | CR        | Code here is sent out by LPRINT and LLIST as carriage return.        |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 1        | 65511   | LF        | Same as above but for linefeed.                                      |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 2        | 65512   | COPY_addr | Address of the Centronics COPY routine. Normally points to ROM;      |
+|          |         |           | but, you can alter it to point to your own routine.                  |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 1        | 65514   | -         | Unused location.                                                     |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 1        | 65515   | Hpos      | Used by COPY routine.                                                |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 1        | 65516   | COLM      | Used by COPY routine.                                                |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 1        | 65517   | MAXcl     | Highest column in printer buffer with character in it.               |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 1        | 65518   | PRDAT_typ | Printer data type: 0 = character; 1 = control codes or graphic data. |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 1        | 65519   | LINE      | Used by COPY routine.                                                |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 1        | 65520   | Ypos      | Used by COPY routine.                                                |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 2        | 65521   | -         | Unused locations.                                                    |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 2        | 65523   | IFDR_addr | Interface driver routine address. Normally points to ROM, but, you   |
+|          |         |           | can alter it to point to your own routine.                           |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 1        | 65525   | WDTH      | Printer output width.                                                |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 1        | 65526   | -         | Unused location.                                                     |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 1        | 65527   | FLAGSnew  | Various control flags.                                               |
++----------+---------+-----------+----------------------------------------------------------------------+
+| 4        | 65528   | COPYtab   | Table of control codes for COPY centering tabulation.                |
++----------+---------+-----------+----------------------------------------------------------------------+
+
+                                                 - 9 -
+
+OS-64 Memory Map
+
+                                                 - 10 -

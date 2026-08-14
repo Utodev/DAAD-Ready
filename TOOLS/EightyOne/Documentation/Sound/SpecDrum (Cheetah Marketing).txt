@@ -1,0 +1,992 @@
+================================================
+SpecDrum Digital Drum System for the ZX Spectrum
+Cheetah Marketing Ltd
+================================================
+
+CONTENTS
+
+SECTION 1: SETTING UP AND LOADING
+
+SECTION 2: WELCOME
+  General description, loading Demo Songs, creating new Songs
+
+SECTION 3: GENERAL FEATURES
+  INPUTing numbers and NAMEs
+  Terms: BEAT, DIV/BEAT, BARS, VOICES, CHANNELS
+
+SECTION 4: LIST OF FUNCTIONS and description of "pages"
+  Program outline
+  THE MAIN PAGE
+    CHOOSE SONG, DRUM PLAY, SYNCRO, PATTERN,
+    EDIT Song, NAME, TEMPO, FINISH, LOAO/SAVE,
+    COPY SONG, DELETE SONG
+
+SECTION 5: THE PATTERN PAGE
+  FILE, REALTIME. TEMPO/FORMAT, DRUM PLAY, SHIFT.
+  The Pattern Display, writing Patterns, cursor control
+  TEMPO/FORMAT sub-page.
+    BEATS/BAR, NO. OF BARS, INSERT (voice), TEMPO TRANSFER
+  REALTIME sub-page.
+    WRITE, ORUM PLAY, SYNCRO.
+  FILE sub-page.
+    PUT, GET, ERASE.
+
+SECTION 6: THE EDIT Song PAGE
+  Writing the Song List (linking Patterns), setting
+  Pattern and Loop numbers, Delete, Insert, DRUM PLAY.
+
+SECTION 7: THE LOAD/SAVE PAGE.
+  CHOOSE SONG, LOAD SONG, SAVE SONG. LOAD DUMP, SAVE DUMP,
+  NAME, LOAD VOICE.
+
+SECTION 8: HINTS ON PROGRAMMING.
+  Use of SHIFT Patt and INSERT.
+  DIV/BEAT, Memory use, SYNCRO and multitracking
+
+
+1 SETTING UP AND LOADING
+
+CONNECTING THE SPECDRUM
+
+  Make sure that the computer is disconnected from
+the power supply or switched off at the mains.
+
+  Carefully plug the edge connector of the SpecDrum
+Module into the expansion socket at the back of the
+computer.
+
+  The audio output of the SpecDrum is through the
+connected lead and phono plug. This should be
+connected to the input of your amplifier. (If you are
+using a hi-fi system, connect to the LINE IN or AUX input
+sockets, NOT MIC.) If your input socket is not the phono
+type, you will need an adaptor (readily available from hi-
+fi or music shops).
+
+  Turn the volume of your amplifier LOW.
+
+  Re-connect the computer power. The screen should
+show the Sinclair copyright notice. If this does not
+appear, immediately disconnect the power from the
+computer, and check that the SpecDrum is correctly
+connected.
+
+NOW LOAD THE PROGRAM.
+
+  Type LOAD ""
+
+  LOAD "" should appear at the bottom of the screen
+(in case of difficulty refer to the 'Tape Storage’
+section of the Sinclair Spectrum Manual).
+
+  Press ENTER, then play the SpecDrum tape from the
+beginning of side 1.
+
+  When the program has loaded, the main page of the
+SpecDrum will appear on the screen, with C choose
+song selected automatically.
+
+
+TO LOAD THE DEMONSTRATION SONGS
+
+  Insert the SpecDrum tape at the beginning of side 2.
+
+  Press key
+  C
+  Choose song (automatically selected after program loads).
+  1 or other selection,
+  ENTER
+  Song chosen.
+  1
+  ENTER
+  Div/Beat
+  J
+  Load/Save Page
+  3
+  Load Dump
+
+  Start the tape. The songs load one at a time, their
+names appearing by the red square in the list on the
+left of the screen.
+
+  There are 11 songs on the tape. When they have
+loaded, stop the tape and hold down the SPACE key
+until the red square in the list returns to 1.
+
+  Press R to return to main page.
+
+We have provided 2 extra voices on side 2 of the
+software tape. These can be accessed by following
+the steps outlined in Section 7.
+
+
+2 WELCOME - GETTING TO KNOW YOUR SPECDRUM
+
+  The SpecDrum converts your 48k Spectrum into a
+programmable Digital Drum System, using digital
+recordings of real drum sounds to achieve the degree
+of realism found until now, only on specialist machines
+costing hundreds of pounds or more.
+
+  A "KIT" of eight different drum sounds is provided;
+alternative sounds may be loaded from cassette tape.
+
+  Rhythm patterns can be written using the on-screen
+display, or in "REALTIME" by tapping the computer
+keyboard, making writing even the most complicated
+rhythms quick and easy.
+
+  16 different Songs can be stored in memory; these
+may be saved to and loaded from cassette.
+
+  Each of the 16 Songs may contain 64 different rhythm
+patterns. A Song is written by writing rhythm patterns,
+filing them, then linking them together in order.
+
+  The best way to get to know the SpecDrum system,
+and to see how easy it is to write your own rhythm
+patterns and Songs, is to try it out for yourself. Most
+keys and functions are listed on-screen. Refer to the
+relevant section in the Manual for full explanations of
+the various functions.
+
+IF IN DOUBT, TRY IT OUT!
+
+... you Can hardly go wrong.
+
+You may find it useful to load in the Demo Songs
+provided and see how they are made up
+
+HOW TO LOAD THE DEMO SONGS
+
+  Having loaded SpecDrum, wind the tape to the end
+and turn it over. The screen shows the MAIN PAGE, the
+central section of the program, from which the other
+sections, or PAGES, are selected.
+
+  PRESS: 1 then ENTER
+    The flashing "?" after CHOOSE SONG will be
+    replaced by "1" and DIV/BEAT at the top left of the
+    screen will flash.
+
+  PRESS: 4 then ENTER
+    "4" will appear after DIV/BEAT and "Song" appears
+    next to it in the list of Songs on the left. There must
+    be a Song in the list before the LOAD/SAVE PAGE
+    can be selected.
+
+  PRESS: 3 for LOAD DUMP
+    Now start the tape. As the Demo Songs load, their
+    names will appear in the list, When all 11 are
+    loaded, hold down the SPACE key until the red
+    square showing the current Song number returns
+    to 1.
+
+  PRESS: R to RETURN to the MAIN PAGE
+
+  Now the Demo Songs can be played.
+
+    PRESS: C then the Song number, then ENTER
+    PRESS: D to play the Song. SPACE to stop.
+
+    Good, eh?
+
+  Read the MAIN PAGE section for a description of the
+other functions on the MAIN PAGE, and before going
+any further, the General Features section on how to
+INPUT numbers and names.
+
+  To see how any of the Songs is built up from its
+component patterns,
+
+  PRESS: E to select the EDIT Song PAGE, and you can
+    step through the Song section by section. Look at
+    the EDIT Song section of the manual to see what
+    the numbers mean and which keys to press. Try
+    altering some of the Pattern and Loop numbers.
+
+  PRESS: Q for QUIT, then Y to go back to the MAIN
+    PAGE
+
+To see how the Patterns in a Song are displayed,
+
+  PRESS: P to select the PATTERN PAGE. Read the
+    PATTERN PAGE section to see how to write
+    Patterns of your own, and how to GET Patterns out
+    of the FILE to look at, listen to, and modify.
+
+  PRESS: Q for QUIT, then Y to go back to the MAIN
+    PAGE.
+
+  By now, you should have a fairly good idea of how
+Patterns and Songs are written and displayed.
+
+  To start writing a Song from scratch, you must first
+create a new Song by CHOOSEing an empty Song
+number on the MAIN PAGE:
+
+  PRESS: C for CHOOSE SONG then INPUT (see
+    General Features) a Song number (1-16) without a
+    name next to it.
+
+  DIV/BEAT: ? will now flash, requiring a number to be
+    INPUT. Thus is the no. of time Divisions per Beat for
+    the Song (see MAIN PAGE} and cannot be changed
+    once chosen. 3 or 4 are good values to start with,
+    unless you are feeling ambitious, or silly!
+
+  When you have INPUT your Divisions per Beat, the
+name "Song" will appear in the list by its number, and at
+NAME. You have created a new empty Song called
+"Song", and with a Tempo (speed) of 125 Beats Per
+Minute. The NAME and TEMPO can be changed now or
+later using the functions on the MAIN PAGE.
+
+  Having created your Song, you can start writing
+rhythm Patterns, filing them, then linking and Looping
+them using the PATTERN and EDIT Song PAGES. All
+you need to know about each Page in the program
+can be found in the relevant section in the manual.
+
+  Have fun. and give the neighbours a thought!
+
+
+3 GENERAL FEATURES and TERMS USED
+
+  All the functions available are displayed on-screen
+with the associated keys.
+
+  e.g. N NAME:
+
+  When a function is selected the relevant key square
+on the screen turns green.
+
+INPUTing
+  When a number is required by the program a
+flashing "?" appears by the relevant function.
+  To INPUT a number, type it in, then press ENTER
+  All numbers required may have up to two digits
+except TEMPO, which may have three. After the first
+digit has been typed. the "?" is replaced by that digit.
+and a line, appears after it. The line shows that the
+number may have another digit. A full stop shows that
+No more digits may be used.
+  A wrongly typed in number may be corrected before
+pressing Enter by pressing CAPS SHIFT and 0 to
+DELETE.
+  NAMEs are INPUT in the same way, but of course
+letters, (upper or lower case), are required.
+
+  The BEAT is the basic rhythmic unit in music. It is the
+regular pulse of the music (the one you tap your foot
+to). (If you can tap your fingers to the beat of a song,
+you can program the SpecDrum.) The tempo of
+music is expressed as the number of Beats Per Minute.
+  The rhythm Patterns in the SpecDrum are divided into
+beats. These are shown on the Pattern Display. The
+beats are also sub-divided. THE VALUE GIVEN TO DIV/
+BEAT IS THE NUMBER OF TIME DIVISIONS PROGRAMMABLE IN
+EACH BEAT OF THE PATTERNS IN A SONG. That is, DIV/BEAT
+gives the number of drums that can be fitted one after
+the other in the space of one beat.
+  DIV/BEAT can be set from 1 to 32. Care must be
+taken when choosing the divisions per beat for a Song,
+bearing in mind the rhythms you want to program. 3
+or 4 divisions per beat are often sufficient, but higher
+numbers allow more rhythmic variety and "feel". See
+Hints on Programming.
+
+  Most music is also divided into groups of Beats called
+BARS. The number of Beats per Bar (BEATS/BAR) is
+definable for each Pattern written, and is called the
+"tune signature" of the rhythm. However, from a rhythm
+writing point of view, this only affects the way that a
+Pattern is displayed. At any time when writing a Pattern
+BEATS/BAR may be altered: this changes the display,
+but not the sound of the Pattern.
+
+  The SpecDrum has 8 VOICES, (1-8), each of which
+holds a drum sound. The voices are grouped into 3
+CHANNELS.
+
+                SOUND
+CHANNEL  VOICE  (STANDARD KIT)
+1        1      KICK (Bass Drum)
+         2      SNARE
+2        3      MID TOM
+         4      LOW TOM
+         5      COWBELL
+3        6      HIHAT Closed
+         7      HIHAT Open
+         8      CLAPS
+
+  Sounds on the same CHANNEL cannot be sounded
+simultaneously. (But see Hints on Programming.)
+
+
+4 LIST OF FUNCTIONS AND KEYS
+
+  The SpecDrum Digital Drum System has been
+designed to be very simple to use, most functions
+requiring only a single key press With a few exceptions,
+the options available are displayed on the screen with
+their corresponding keys. Key labels on screen turn
+green to show the selected function.
+
+  There are four main sections to the program,
+called PAGES.
+
+  The MAIN PAGE is shown when the program has loaded.
+This is the central page from which the other Parts of
+the program are selected.
+
+  The PATTERN PAGE displays rhythm patterns on the
+screen and allows patterns to be written using the
+display and cursor, or by tapping the keyboard. The
+Pattern Page has three sub-pages: REALTIME, FILE, and
+TEMPO/FORMAT.
+
+  The EDIT SONG PAGE allows the patterns written to
+be linked together and Looped to form a complete
+Song.
+
+  The LOAD/SAVE PAGE allows Songs to be loaded
+from cassette or Songs in memory to be saved. Also
+individual drum sounds or complete Kits of eight
+sounds may be loaded from tape.
+
+
+MAIN PAGE FUNCTIONS
+
+  KEY
+  C CHOOSE SONG
+  Press C A flashing "?" appears after the words
+CHOOSE SONG to show that a number is required
+INPUT the number (type in number, press ENTER) of the
+required Song (1-16). The Songs in memory are listed
+with their names on the left of the page. If there are no
+Songs in memory (i.e. when the program first loads),
+the CHOOSE SONG option is automatically selected.
+  Before a new Song can be written it must first be
+created. To create a new Song, CHOOSE an unwritten
+Song by INPUTing a number which has no adjacent
+name in the list. DIV/BEAT at the top left of the screen
+will flash. The number required is the number of time
+divisions per beat for the Song, that is, the number of
+drums which can be inserted between each beat (see
+PATTERN PAGE).
+  DIV/BEAT must always be defined for a Song before it
+can be written. The range is 1 to 32.
+  A new Song will be given the name "Song" until a
+name is chosen (see NAME).
+  A red square indicates the current Song in the list.
+
+  D DRUM PLAY
+  Press D to play the current Song. While the
+SpecDrum is playing the Tempo may be altered using:
+
+  KEY
+  L - Tempo down
+  ENTER - Tempo up
+
+  Press SPACE to stop. The new Tempo in Beats Per
+Minute is shown at the bottom of the screen, and at
+TEMPO bpm.
+
+  S SYNCRO
+  Press S to switch SYNCRO on or off. The SYNCRO
+function allows the SpecDrum to be synchronized with a
+tape recorder for multi-tracking or speed control. When
+playing patterns or Songs the SpecDrum puts out
+pulses from the MIC socket of the computer. These
+pulses may be recorded onto tape. Set SYNCRO ON,
+press D for DRUM PLAY, and replay the recorded
+pulses into the EAR socket. The SpecDrum will
+synchronize itself with the tape, following the pulses.
+Care should be taken that there is no spurious noise on
+the tape, as this may cause false triggering.
+
+  P PATTERN
+  Press P to select PATTERN PAGE.
+
+  E EDIT SONG
+  Press E to select EDIT SONG PAGE.
+
+  N NAME
+  The current Song can be named by pressing N and
+typing the name (up to 5 letters), then ENTER. The name
+will appear by the Song number in the list.
+
+  T TEMPO
+  The Tempo of the current Song may be defined.
+Press T, and INPUT the required Tempo in Beats Per
+Minute (1-999).
+
+  F FINISH
+  When you have finished writing a Song, pressing F
+will "tidy up" the Song, giving the Patterns consecutive
+numbers, and optimising the amount of memory used.
+
+  J LOAD/SAVE
+  Press J to select the LOAD/SAVE PAGE.
+
+  cs 9 COPY SONG
+  To copy the current Song, press CAPS SHIFT and 9
+and then INPUT the number of the destination Song
+
+  cs 0 DELETE SONG
+  Press CAPS SHIFT and 0, then Y to delete, or any
+other key to escape.
+
+
+5 PATTERN PAGE
+
+  Press P on Main page to select
+  Press Q to Quit to Main page
+
+  The Pattern page allows rhythm patterns to be written
+using the PATTERN DISPLAY and the cursor.
+  The five functions displayed at lower left of the page
+are:
+
+  KEY
+  F FILE Selects sub-page allowing patterns to be
+    stored or retrieved from the Pattern File.
+  R REALTIME Selects sub-page allowing rhythms to be
+    written by tapping the computer keyboard.
+  T TEMPO/FORMAT Selects sub-page allowing no. of
+    beats per bar and no. of bars in the Pattern to be
+    defined.
+  D DRUM PLAY The displayed pattern is played and
+    repeated. The Pattern Tempo may be changed
+    while pattern is playing by pressing L (slower) or
+    ENTER (faster). The new Pattern Tempo will be
+    shown at the bottom of the page when SPACE is
+    pressed.
+  S SHIFT The displayed pattern is rotated to the left to
+    allow a new start point to be chosen.
+
+
+THE PATTERN DISPLAY
+
+  When the PATTERN PAGE is selected a pattern of two
+four-beat bars is displayed, with drum 6 (HIHAT C)
+inserted on each beat. Bars are equal groups of beats
+within each pattern. Patterns are displayed in bars to
+help writing in various time signatures. (This does not
+affect the actual sound.) The number of beats per bar
+(BEATS/BAR) may be altered from the TEMPO/FORMAT
+sub-page (see below).
+
+  The Pattern Display shows up to three lines of a
+pattern at once. The centre line (white background) is
+the write/edit line and contains the cursor (the vertical
+black line). The upper and lower lines show the
+preceding and following lines of the pattern as
+appropriate. Of course, a pattern may be more than
+three lines long and the display may be moved up and
+down through a pattern using the Cursor Keys (see
+Wating Patterns below).
+
+
+                                PROGRAM STRUCTURE
+                         +----------------------------+   +---+   +------+
+                         |                            |---| J |->-|      |
+                         |                            |   +---+   | LOAD |
+                         |          MAIN PAGE         |           | SAVE |
+                         |                            |   +---+   |      |
+                         |                            |-<-| R |---|      |
+                         +----------------------------+   +---+   +------+
+                           |            |           |
+                         +---+          ^         +---+
+                         | P |          |         | E |
+                         +---+          |         +---+
+                           |         QUIT TO        |
+                           V        MAIN PAGE       V
+                           |            ^           |
+     +----------------------------+     |     +----------------------------+
+     |                            |   +---+   |                            |
++->--|        PATTERN PAGE        |->-| O |-<-|        PATTERN PAGE        |
+|    |                            |   +---+   |                            |
+|    +----------------------------+           +----------------------------+
+|        |          |          |
+|        |          |          |
+|       +-+        +-+        +-+
+^       |T|        |F|        |R|
+|       +-+        +-+        +-+
+|        |          |          |
+|        V          V          V
+|   +--------+ +--------+ +--------+
+|   |TEMPO   | |        | |  REAL  |
+|   |FORMAT  | |  FILE  | |  TIME  |
+|   |SUB PAGE| |SUB PAGE| |SUB PAGE|
+|   +--------+ +--------+ +--------+
+|        |          |          |
+|       +-+        +-+        +-+
+^       |R|        |R|        |R|
+|       +-+        +-+        +-+
+|        |          |          |
+|        V          V          V
+|    +----------------------------+
+|    |                            |
++-<--|   RETURN TO PATTERN PAGE   |
+     |                            |
+     +----------------------------+
+
+
+
+                          PATTERN DISPLAY
+                                                                                END OF
+               DIV BEAT 4                  BEAT BAR 4                       =    LINE
+                              #                                             =  /
+CHANNEL 3 - 6   6   6   6   6 # 6   6   7   6   6   6   6   6   6   6   6   = /
+                              #                                             =/
+CHANNEL 2 -         2         #     2               2       3 3 3 3 2   4 4 =
+                              #                                             =
+CHANNEL 1 - 1           1   1 #             1           1   1               =
+                              \                                             =
+            #       #       #  \    #      |#       #       #       #     |¦
+                   /            \          \                               \
+                  /              \          \                               \
+                BEAT           CURSOR     BAR LINE                          END
+               MARKER                                                      MARKER
+
+
+  The Bottom (light blue) part of each line shows the
+position of the start of each beat (-) and the end of each
+bar (|). Above this, numbers corresponding to the drum
+numbers (shown at the bottom right of the page)
+indicate the positions of the drums occurring in the
+pattern.
+
+  Normally a whole number of bars will be displayed on
+each line. If a bar is too long to fit into one line then the
+display will automatically "squash" itself by using half
+the horizontal space for each division.
+
+
+WRITING PATTERNS USING
+THE DISPLAY AND CURSOR
+
+  Drums are written into the displayed pattern by
+moving the cursor to the required position then pressing
+the number (1-8) of the drum to be inserted. The
+number of the drum will appear at the cursor position
+and will overwrite any drum on the same channel
+already at that position. (Drums on the same channel
+cannot be sounded simultaneously). Drums may be
+deleted by pressing SYMBOL SHIFT and the number of
+the drum.
+
+  The Cursor Control keys:
+    ENTER or > (CAPS SHIFT 8 on original Spectrum)
+      moves the cursor RIGHT by one division
+    L or < (CAPS SHIFT 5) moves the cursor LEFT by
+      one division.
+    P or ^ (CAPS SHIFT 7) moves the cursor UP to the
+      preceding line.
+    SPACE or v (CAPS SHIFT 6) moves the cursor
+      DOWN to the following line.
+    CAPS SHIFT 9 inserts an extra division to the right
+      of the cursor, allowing space to be inserted at
+      any point, lengthening the pattern.
+    CAPS SHIFT 0 deletes the division at the cursor
+      position, shortening the pattern.
+
+  If held down these keys will auto-repeat.
+
+
+THE TEMPO/FORMAT sub-page
+(To select press T on PATTERN PAGE)
+Functions:
+  KEY
+  B BEATS/BAR Press B then INPUT number of beats
+    per bar required (1-32). NOTE this will not change
+    the pattern itself, just the way it 1s displayed.
+
+  N NO. OF BARS Press N then INPUT number of bars.
+    required in the pattern. CAUTION: THIS WILL
+    CREATE THE REQUIRED AMOUNT OF SPACE, BUT
+    WILL ERASE ANY PATTERN ALREADY IN THE
+    DISPLAY. To increase the length of an already
+    written pattern use CAPS SHIFT 9 on the PATTERN
+    PAGE.
+
+  If the number of bars chosen would exceed the
+maximum allowed pattern length, then the system will
+give the maximum number of bars possible. This is
+indicated by a black background on the displayed
+number.
+
+  KEY
+  H INSERT HIHAT Drum 6 is inserted on each beat in
+    the pattern.
+  K INSERT KICK Drum 1 is inserted on the first beat of
+    each bar.
+
+  These INSERT functions may be used to create an
+audible guide for REALTIME programming.
+
+While writing patterns the Pattern Tempo may be
+changed independently of the current Song Tempo. The
+tempo may be transferred using:
+
+  KEY
+  1 Transfers Song Tempo to Pattern Tempo
+  2 Transfers Pattern Tempo to Song Tempo
+
+  Finally...
+  R Return to PATTERN PAGE
+
+
+THE REALTIME sub-page
+(To select press R on PATTERN PAGE}
+
+  This sub-page allows patterns to be written, added to
+or edited by tapping the rhythm on the computer
+keyboard while the pattern is playing.
+  NOTE: If a pattern is to be written from scratch in
+Realtime then an audible tempo guide is required. This
+may be provided by the INSERT HIHAT and INSERT
+KICK functions on the TEMPO/FORMAT sub-page, and
+can be deleted later. The two bar pattern provided when
+the PATTERN PAGE is first selected has HIHATs (drum
+6) already inserted tor this reason.
+
+  One voice at a time may be written in Realtime. Press
+keys (1-8) to select the voice to be written. This will be
+indicated by the corresponding number (lower right
+panel) turning red, and the name of the drum appearing
+after the word WRITE.
+
+  Having selected the voice, press
+
+  KEY
+  W for WRITE
+
+  The pattern will start playing and will repeat until
+SPACE is pressed. The red rectangle (top left corner of
+the screen) flashes white at the beginning of the pattern.
+
+TAPPING THE 9 KEY will now insert the selected drum
+at that point in the pattern, corrected to the nearest
+division.
+HOLDING DOWN THE 9 KEY will delete the selected
+drum while the key is depressed.
+
+  KEY
+  D DRUM PLAY As for PATTERN PAGE. Useful here for
+    setting tempo.
+  S SYNCRO See SYNCRO section.
+  R RETURN to PATTERN PAGE. Rhythms written in
+    Realtime will now be displayed (for correction if
+    necessary!).
+
+
+THE FILE sub-page
+(Press F on PATTERN PAGE)
+
+  Allows storing, retrieving, and erasing of patterns in
+the current Song's Pattern File.
+
+  A song may have up to 64 different Patterns in its
+Pattern File. The Pattern Fite is used by the SONG EDIT
+PAGE to build up the Song itself. Each filed Pattern is
+given a number (1-64). The numbers of the filed
+Patterns are listed in the top right window
+
+  To file the Pattern just written (i.e. the Pattern in the
+display), press:
+
+  KEY
+  P for PUT then INPUT number 1-64 to give the Pattern
+    its file number
+
+  After pressing ENTER the number will appear in the
+list to Show the Pattern has been filed. If a Pattern with
+this number is already filed it will be replaced by the
+new Pattern.
+
+  To get a Pattern from the File to the display, press:
+
+  G for GET then INPUT the number of the Pattern
+    required. This can now be edited on the display or
+    in Realtime without altering the filed Pattern.
+
+  To erase a Pattern from the file, press:
+
+  E for ERASE then INPUT the Pattern number. The
+    number will disappear from the list, showing it to be
+    ERASED.
+
+  TO ESCAPE FROM THE PUT, GET, OR ERASE
+FUNCTIONS IF SELECTEO BY MISTAKE, INPUT 0 AS
+THE PATTERN NUMBER.
+
+  R RETURN to PATTERN PAGE.
+
+
+6 EDIT SONG PAGE
+
+To select press E on MAIN PAGE
+To Quit to MAIN PAGE press Q
+
+  This page allows Patterns already filed to be linked
+together to form a Song. This is done by forming a list of
+the Pattern numbers in the required order.
+
+  There may be up to 255 entries in the list, giving a
+Song of up to 255 sections, each of which may be
+looped | to 255 times.
+
+  Each section in the Song is represented by two
+numbers, the PATTERN number, and the LOOP number
+(i.e. the no. of repeats).
+
+  The Song list is displayed horizontally across the
+bottom part of the screen. The upper of the two
+numbers in each entry is the PATTERN number, the
+lower is the LOOP number. If the list is empty two 0's
+will be shown in the black central window.
+
+  To set the two numbers in the window to the required
+Pattern and Loop numbers the following keys are used:
+
+  KEY
+  1 Decrease PATTERN number
+  2 Increase PATTERN number
+  3 Decrease LOOP number
+  4 Increase LOOP number
+
+  Note that the Pattern number must be set first and
+that the Loop number is then set automatically to 1
+(You cannot nave 0 repeats!)
+
+  KEY
+  ENTER or > (CAPS SHIFT 8) Move RIGHT through list.
+  L or< (CAPS SHIFT 5) Move LEFT through list.
+
+  To write another entry move RIGHT. This moves the
+window to the next entry. (Actually the list moves left). If
+the previous entry was the last in the list the window will
+again show two 0's. These must be set before moving
+right again. Move LEFT to take the window back to
+previous entries.
+
+  The number at STEP on the left of the screen
+shows the entry in the list (i.e. the section of the Song)
+that the window is currently showing.
+
+  Entries may be deleted or extra entries inserted into
+the list using:
+
+  KEY
+  CAPS SHIFT 0 Deletes the entry shown by window.
+  CAPS SHIFT 9 inserts an empty entry (0,0) to the left
+    of the window. The window will show the inserted
+    entry which must be set before continuing.
+
+  In this way a list of up to 255 entries may be written to
+build up a Song from its filed Patterns.
+
+  KEY
+  D for DRUM PLAY Plays the Song from the current
+    window position in the list. This also enables
+    Patterns in the File to be quickly listened to and
+    identified without returning to the Pattern Page.
+  Q for QUIT The message "Quit Selected? Y" will
+    appear. Press Y to return to the Main Page, any
+    other key to remain on the Song Edit Page. If the
+    "Out of Memory - File not Put" message appears
+    after pressing Q, then the list will not be accepted
+    unless it is shortened by deleting entries.
+
+
+7 THE LOAD/SAVE PAGE
+
+The LOAD/SAVE PAGE allows Songs to be loaded
+from and saved to cassette tape. Alternative drum
+sounds or "KITs" of eight sounds may also be loaded.
+
+  KEY
+  C CHOOSE SONG
+      Press C then INPUT the number that you wish the
+    Song to be loaded to or saved from. Songs cannot
+    be loaded to already occupied places in the list. If
+    you are looking for a particular Song on tape, its
+    name can be specified using NAME (see below).
+
+  1 LOAD SONG
+      After choosing the Song number, press 1 then
+    start the tape. When loaded, the Song's name will
+    appear in the list.
+
+  2 SAVE SONG
+      The chosen Song will be saved immediately
+    SAVE SONG is selected, so make sure that you are
+    recording before pressing 2.
+
+  3 LOAD DUMP
+      When 3 is pressed ALL THE SONGS IN MEMORY
+    WILL BE ERASED, and Songs from tape will be
+    loaded into successive Song numbers
+    automatically. When the required Songs have
+    loaded, hold down SPACE until the red square
+    indicating the Song number returns to no. 1.
+
+  4 SAVE DUMP
+      All the Songs in memory are saved in order.
+    Again, saving begins as soon as 4 is pressed.
+
+  N NAME
+      The name of a Song to be loaded may be
+    specified by pressing N, typing the name, and
+    pressing ENTER.
+
+  5 LOAD VOICE
+      Press 5, then INPUT the number of the voice
+    (1-8) to which you wish the sound to be loaded.
+    The name of the sound currently in that voice will
+    appear and will be replaced by the name of the
+    loaded sound. Note that sounds may be loaded
+    only to certain groups of voices. The voices to
+    which a sound may be loaded are specified on the
+    tape.
+      To load a complete KIT of eight sounds, INPUT 9
+    as the voice number.
+
+  R RETURN to MAIN PAGE.
+
+
+8 HINTS ON PROGRAMMING
+
+  As you get to know the SpecDrum system, you will
+find for yourself various "short cuts" and ways to speed
+up writing your rhythm patterns and Songs.
+  Here are some tips and general points which may be
+useful.
+
+SHIFT
+  The SHIFT pattern function on the Pattern Page may
+be used in conjunction with the INSERT and BEATS/
+BAR functions on the Tempo/Format Page to quickly
+insert voices 1 or 6 throughout a Pattern at any spacing
+desired. For example, to insert 2 HIHATs per beat:
+
+PRESS:
+  T to select Tempo/Format Page
+  H to insert voice 6 (HIHAT C) on every beat
+  R to Return to Pattern Page
+  S until start of Pattern is between 6s
+  T Tempo/Format
+  H insert again
+  R Return to Pattern Page
+  S until original start point comes round
+
+  You now have twice as many 6s per beat, spaced
+according to how much the Pattern was SHIFTed before
+INSERTing.
+
+DIV/BEAT
+  It is worth paying some thought to the number of DIV/
+BEAT chosen when writing a new Song, especially if the
+rhythms you intend to write are complex.
+  Bear in mind not only that the number chosen must
+be big enough to cope with the FASTEST notes in the
+Song, but also that certain rhythm combinations may
+require a higher number than is obvious at first.
+
+For Example,
+  to play triplets (3 notes per beat) requires
+  3 DIVs/BEAT
+  to play semiquavers (4 notes per beat) requires
+  4 DIVs/BEAT
+
+However,
+  triplets AND semiquavers (3s against 4s) at the same
+time, or in the same Pattern or Song, require 12 (3 x 4)
+DIVs.
+  Similarly, 3s and 2s require 6 divisions per beat, 8s
+and 3s require 24. The number required is the LOWEST
+COMMON MULTIPLE, not just one number times the
+other: 6s against 9s require 18 divisions, not 54.
+  Although sounds on the same channel cannot occur
+simultaneously, the impression that this is happening
+can sometimes be achieved by using a large number of
+DIVs/BEAT placing the sounds on adjacent divisions,
+one after the other. This is best done by trial and error.
+Never be afraid to experiment.
+  Interesting effects can also be obtained by writing
+groups of, say, four (or more) notes consecutively when
+using a large number of DIVs/BEAT. For example.
+create a Song with 24 DIV/BEAT, then, using the SHIFT
+and INSERT technique described above, write a Pattern
+with four or more HIHATS at the beginning of each
+beat. Experiment with other sounds and combinations.
+
+EFFICIENT MEMORY USE
+
+The SpecDrum, being computer based, has a much
+greater storage Capacity than most drum machines, but
+it is always worthwhile to use the memory as efficiently
+as possible. The extremely flexible dynamic filing
+system does much of this for you, allocating as much
+memory as required to what is being written without
+wasting space on unwritten Patterns or Songs. This
+means that all the memory can be used for one (very)
+long Song, or up to 16 shorter Songs, as required.
+  As a general rule, try not to write Patterns which differ
+only slightly and otherwise duplicate each other. If
+possible, make a separate shorter Pattern of the part
+the others have in common so that this need only be
+stored once. For example, if you find you have several
+two bar Patterns with differences only in the second bar,
+then make a Pattern from the first bar only, and store
+only the second bars of the others. You will have more
+Patterns in the File, and the Song List will be longer, but
+less memory should have been used.
+  Also remember that the more divisions per beat used,
+the more memory is used for each beat, in direct
+proportion.
+  Unless you wish to store several long complex Songs
+at once, memory space should not be a problem. You
+may prefer to write lots of 16 bar Patterns - it's up to
+you.
+
+SYNCRO and multitracking
+
+  The SpecDrum does not have separate outputs for
+each voice, but using the SYNCRO facility each sound
+in a Song can be recorded separately onto different
+tracks of a multitrack tape machine, allowing individual
+treatment (e.g. reverb, etc.) and mixing, and of course
+the use of alternative sounds in the same Song.
+  Having written the complete Song, connect the MIC
+socket of the Spectrum to the record input of a track of
+the multitrack. Play the Song, recording the Sync pulses
+onto the track. (Find a recording level which will trigger
+the SpecDrum without leaking onto other tracks. If
+necessary leave the adjacent track free. This depends
+on your tape machine.)
+  Next, COPY the Song (CAPS SHIFT 9 MAIN PAGE),
+and in each copy delete all the sounds except those
+you wish to isolate. (Use the Realtime sub-page.) Then,
+for each copy select SYNCRO ON, and DRUM PLAY,
+and replaying the Sync track into the EAR socket,
+record the output of the SpecDrum onto a new track.
+  In this way a tape can be built up with separate
+synchronized sounds on each track, ready for remixing.
+
+  THE POSSIBILITIES ARE ENDLESS!
+
+P.S. Watch out for releases of new sets of voices to
+add to your system.
+
+© COPYRIGHT 1986. P.HENNIG, A.PATEMAN.
+
+------------------------------------------------------
+
+Cheetah released the following add-on voice packages:
+- SpecDrum - Afro Kit
+- SpecDrum - Electro Kit
+- SpecDrum - Latin Kit

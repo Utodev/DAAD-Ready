@@ -1,0 +1,203 @@
+===========================================================
+ZX Interface 2 ROM Cartridge Prototypes for the ZX Spectrum
+Parker Brothers
+===========================================================
+
+Parker Brothers intended to release the following games in ZX Interface 2 ROM
+cartridge format but abandoned the development before the games were completed.
+However, these prototype versions of the games survive.
+
+- Gyruss
+- Loco Motion
+- Montezuma's Revenge
+- Popeye
+- Q*Bert
+- Return Of The Jedi - Death Star Battle
+- Star Wars - The Arcade Game
+
+All games require 48K of RAM.
+
+Note: Amazon Systems, who was developing the games for Parker Brothers, owns the
+copyright for Loco Motion.
+
+Two of the games were subsequently released on cassette:
+
+- Montezuma's Revenge (renamed as Panama Joe) [cassette code 4038]
+- Return Of The Jedi - Death Star Battle      [cassette code 4039]
+
+Below are the instructions from the cassette releases for these games.
+
+-------------------------------------------------------------------------------
+
+PANAMA JOE
+==========
+
+Here's a story 'bout Panama Joe
+The Rap inside is what you need to know
+
+
+Montezuma's Rap
+
+This is the place where PJ's gone
+You wan to walk with him, step right along
+Down in the ground buried for an age
+Is a pyramid and that's our stage
+Let's act!
+
+Way down here's where Montezuma lived
+So let's find out how he protected it.
+Well, there's fire and flame all over the place
+Step in there and you'll singe your face,
+It's a pit!
+
+Hey! Dodge that skull - mind that snake
+You walk on him and your bones'll ache!
+Leap that chasm - climb that rope
+If you fall off you'll feel a dope
+It's a drop!
+
+Well I think that I've been here before
+Only thing is I didn't use that door!
+I think that I'll retrace my steps
+Grab that key and go onto the next
+It's a maze!
+
+Now this here game takes a lot of doing
+But Panama Joe just keeps on going
+He's got five lives and they could prove
+To be just enough to reach the treasure trove
+It's a steal!
+
+
+LOADING
+To load Panama Joe type LOAD"" and press ENTER. Then start the tape.
+(The Spectrum manual gives step-by-step loading instructions.)
+
+
+PLAYING
+When Panama Joe has finished loading you will be offered a Joystick
+selection screen:
+1  selects Kempston
+2  selects Protek
+3  selects ZX Interface 2
+4  allows user defined keys
+
+The ZX Interface 2 joystick is the right-hand one and uses the control
+keys: 6 to move left, 7 to move right, 8 to move down, 9 to move up
+and 0 to jump.
+(Any joystick with a 9-way D plug can be used with the ZX Interface 2.)
+
+If you want to reconfigure the joystick controls select option 4.
+This allows you to use any keys except:
+CAPS SHIFT and SYMBOL SHIFT which are reserved;
+J, K and L which select game levels 1, 2 and 3;
+P which pauses and releases game play.
+
+
+THE GAME
+You must guide Panama Joe through the pyramid to Montezuma's treasure
+room. The inventory window in the top left shows the number of lives
+remaining (you start with five) plus any items you have collected en-
+route and not used.
+
+
+SCORING
+Collect a Torch, Key, Sword or Hammer    50
+Open a door                             300
+Collect a jewel                        1000
+Kill a skull                           2000
+Kill a spider                          3000
+
+An extra life is gained for every 10,000 points scored.
+
+
+HINT
+When you reach Montezuma's treasure room ... jump!
+
+-------------------------------------------------------------------------------
+
+RETURN OF THE JEDI - DEATH STAR BATTLE
+======================================
+
+The Empire is building an awesome and sinister weapon - THE DEATH STAR!
+Can you, and the Millenium Falcon, stop them?
+
+
+Death Star Battle
+
+The objective of your mission is the destruction of the Death Star ... but
+reaching this powerful and heavily defended space station will not be easy.
+
+First you must survive the attacks of the Tie Interceptors as they
+relentlessly pursue you. When you reach the Death Star you must anticipate the
+seemingly random way in which portals in the enemy field open up. These portals 
+allow Tie Interceptors access to their base and they provide the Millennium
+Falcon with its chance to penetrate the Death Star's defences. You'll need
+split second timing if you're to make it through.
+
+Once you penetrate the enemy shield you'll still have to contend with the heat
+seeking Death Ray. Blast the Death Star with your Pulse Laser until you have
+cleared a route to the energy core - hit that and the terrible construction
+will be engulfed in a fearsome explosion sending hundreds of blazing fireballs
+hurtling into space. You'll need all your piloting skills to avoid being hit
+by one and meeting the same fate as the Death Star.
+
+LOADING
+To load Death Star Battle type LOAD "" and press ENTER
+The start the tape (The Spectrum manual gives step-by-step loading instructions)
+
+PLAYING
+When Death Star Battle has finished loading you will be offered a Joystick
+select screen:
+1  selects Kempston
+2  selects Protek
+3  selects ZX Interface 2
+4  allows use defined keys
+
+The ZX Interface 2 joystick is the right-hand one and uses the control keys:
+6 to move left, 7 to move right, 8 to move down, 9 to move up and 0 to fire.
+(Any joystick with a 9-way D plug can be used with the ZX Interface 2).
+
+If you want to reconfigure the joystick controls selection option 4.
+This allows you to use any keys except: CAPS SHIFT and SYMBOL SHIFT which are
+reserved.
+B which selected the difficult game option
+P which pauses and releases game play.
+
+The Game
+When you press the 'fire' button or B key the first of your 5 Millennium
+Falcons will appear in the middle of the screen. Your remaining Falcons are
+shown at the bottom of the screen.
+The portals in the Death Star's enemy shield will not start appearing until
+you have destroyed three Tie Interceptors.
+
+The Death Star
+As the game progresses you'll see that the Death Star is being built, defence
+zone by defence zone. The white light you see, flashing intermittently, is
+welding in progress. If it is completed the Death Ray will become fully
+operational and will destroy your remaining Millennium Falcons, laying the
+universe open to domination by the Empire.
+
+The Imperial Shuttle
+Aboard the Imperial Shuttle is Darth Vader. It isn't easy to destroy his
+transporter but with the right moves and quick reactions it can be done. At
+random points throughout the game you will hear a warning sound.
+This means that the Imperial Shuttle is approaching. It if collides with your
+Millennium Falcon you will be destroyed.
+
+Round progression
+Each time you destroy the Death Star the game will re-start automatically, but
+the shuttle building the Death Star will move faster and faster.
+
+The more points that you score the more often the Tie Interceptors will fire
+at you.
+
+SCORING
+Green Tie Interceptors                50
+Yellow Tie Interceptors              500
+Imperial Shuttle                    3000
+Death Star Defence Zone               30
+
+BONUSES
+Bonus points are gained throughout the Death Star explosion sequence.
+1000 points are rewarded if Level B is selected.

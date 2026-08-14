@@ -1,0 +1,221 @@
+=======================
+ARX Hi-Res for the ZX81
+Andy Rea (2006)
+=======================
+
+Display file resolution: 256 x 192
+Display file structure : 32 bytes x 192
+Display file size      : 6144 bytes
+Display file location  : 8K-16K region
+
+The ARX mechanism utilises the basic 64 character UDG mode to generate a true
+high resolution display.
+
+An ARX display driver renders 12 full character sets on the screen at the same
+time such that each position of the display is populated with a unique character.
+Hence the first two rows contain the characters from character set 1, the next
+two rows the characters from character set 2, the next two rows the characters
+from character set 3, etc. In this way, the whole display is filled using 12
+character sets, i.e. 12 x 64 = 768 = 24 x 32.
+
+A program can redefine the characters of the 12 character set on the fly to achieve
+a full pixel addressable high resolution display.
+
+
+ARX Display File Layout
+-----------------------
+The display file is not laid out logically and so does not progresses across the
+columns of the first line before moving down to the next line. Instead the ARX
+display file progresses down the 8 lines for the character in row 0 column 0, then
+down the 8 lines for the character in row 0 column 1, then the lines for row 0
+column 2, etc, before then moving to the start of the next row and repeating this
+pattern.
+
+The display file for the ARX display driver presented here is 6K in size and
+occupies memory locations $2000 - $37FF.
+
+An address in the ARX display file is composed as follows:
+
+ 15  14  13  12  11  10   9   8   7   6   5   4   3   2   1   0 
++---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+| 0 | 0 | 1 | R | R | R | R | R | C | C | C | C | C | L | L | L |
++---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+
+R = Row number (0-23).
+C = Column number (0-31).
+L = Line number (0-7).
+
+Logical Display File Translation
+--------------------------------
+It can often be easier for a program to operate using a logical display file layout.
+Converting a logical display file address to an address in the ARX display file can
+be done by rotating the low byte leftwards to reorder the column and line bits as
+follows:
+
+ 15  14  13  12  11  10   9   8   7   6   5   4   3   2   1   0 
++---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+| 0 | 0 | 1 | R | R | R | R | R | L | L | L | C | C | C | C | C |
++---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+
+R = Row number (0-23).
+C = Column number (0-31).
+L = Line number (0-7).
+
+
+; ----------------
+; Start ARX Driver
+; ----------------
+
+START_ARX_DRIVER:
+        CALL AWAIT_NEW_FRAME                    ; Await the start of a new frame to ensure a flicker-free transition.
+
+        LD   IX,ARX_DRIVER_PICTURE              ; The ARX display driver will be executed upon the next activation of the display mechanism.
+        RET
+
+; ---------------
+; Stop ARX Driver
+; ---------------
+
+STOP_ARX_DRIVER:
+        CALL AWAIT_NEW_FRAME                    ; Await the start of a new frame to ensure a flicker-free transition.
+
+        LD   A,$1E                              ; Revert to the standard pixel patterns in the ROM.
+        LD   I,A
+        LD   IX,$0281                           ; The standard display driver will be executed upon the next activation of the display mechanism.
+        RET
+
+; --------------------------
+; Await Start of a New Frame
+; --------------------------
+
+AWAIT_NEW_FRAME:
+        LD   HL,$4034                           ; Point at the FRAMES system variable.
+        LD   A,(HL)                             ; Note the initial value of the low byte of FRAMES.
+
+ANF_LOOP:
+        CP   (HL)                               ; Read the current low byte of FRAMES.
+        JR   Z,ANF_LOOP                         ; Loop back until the value of FRAMES changes.
+        
+        RET
+
+; --------------------------------------------------
+; Generate Main Picture Area And Begin Bottom Border
+; --------------------------------------------------
+; Enters here after all top border lines have been generated. First perform a delay to align with the next HSync pulse.
+
+ARX_DRIVER_PICTURE:
+        LD   B,$03                              ; 7                     Delay to ensure the LNCTR is reset when aligned with the hardware generated HSync.
+
+ADP_DELAY:
+        DJNZ ADP_DELAY                          ; 13/8=34
+
+; Preserve the value of the I register.
+
+        LD   A,I                                ; 9
+        LD   E,A                                ; 4                     Save the current value of I, which allows the user program to use it.
+
+; Prepare registers for exiting the driver routine.
+
+        LD   A,($4028)			        ; 13                    Fetch the number of bottom border lines from system variable MARGIN.
+        DEC  A                                  ; 4                     Decrement the number of bottom border lines to output to compensate for the initial delay of the VSync routine.
+        LD   D,A                                ; 4                     Save the number of bottom border lines.
+       
+        LD   IX,ARX_DRIVER_VSYNC                ; 14                    Set the display vector address to point at the VSync pulse generation routine.
+
+; Initialise registers required by the ARX display driver.
+
+        LD   A,$20                              ; 7                     The first character set begins at $2000.
+        LD   I,A                                ; 9
+
+        LD   BC,$0C08                           ; 10                    B=Number of character sets. C=Number of lines in a row.
+
+; Force the LNCTR to reset so that characters are output starting with their top line.
+
+        IN   A,($FE)                            ; 11                    Force the LNCTR to 0 aligned with the start of the hardware HSync pulse. Also sets the video output to black.
+
+; Enter a loop to output the 8 lines of a row of characters. Each iteration takes 207 T-cycles.
+
+ADP_ROW1_LOOP:
+        OUT  ($FF),A                            ; 11                    Set the video output back to white. Doubles as a delay on subsequent loop iterations.
+
+        LD   H,$00                              ; 7                     Delay to ensure the picture begins with the same left border size as the standard display.
+        LD   L,H                                ; 4                     HL holds $0000 which ensures the CP (HL) instructions in later delays do not accidentally invoke any RAM based memory mapped devices.
+
+        LD   A,I                                ; 9                     Restore the value of I into A since this will be incremented by 2 to advance to the next character set.
+
+L41C7:  CALL DISPLAY_ROW1 + $8000               ; 17+(32*4)+10=155      Output a line of the row by 'executing' the echo of it.
+        DEC  C                                  ; 4                     Decrement the count of the number of lines in the row.
+        JR   Z,ADP_ROW1_DONE                    ; 12/7                  Jump ahead if all lines of the row have been output.
+
+        JP   ADP_ROW1_LOOP                      ; 10                    Loop back to output the next line of the row.
+
+; Move on to outputting the second row of characters for the current character set.
+
+ADP_ROW1_DONE:
+        LD  C,$08                               ; 7                     Re-initialise with the number of lines in a row.
+
+; Enter a loop to output the 8 lines of a row of characters. Each iteration takes 207 T-cycles.
+
+ADP_ROW2_LOOP:
+        ADD HL,HL                               ; 11                    Delay.
+        ADD HL,HL                               ; 11                    Delay.
+        CP  (HL)                                ; 7                     Delay. This will read from address $0000 and so will not accidentally invoke any RAM based memory mapped devices.
+
+        CALL DISPLAY_ROW2 + $8000               ; 17+(32*4)+10=155      Output a line of the row by 'executing' the echo of it.
+        DEC  C                                  ; 4                     Decrement the count of the number of lines in the row.
+        JR   Z,ADP_ROW2_DONE                    ; 12/7                  Jump ahead if all lines of the row have been output.
+
+        JR   ADP_ROW2_LOOP                      ; 12                    Loop back to output the next line of the row.
+
+; Two rows have been output using the current character set, so now move onto the next character set.
+
+ADP_ROW2_DONE:
+        ADD  A,$02                              ; 7                     Advance to the next character set.
+        LD   I,A                                ; 9
+
+        LD   C,$08                              ; 7                     Re-initialise with the number of lines in a row.
+        DJNZ L41C7                              ; 13/8                  Loop back to render the next character set.
+
+; All lines of the main picture area have been output.
+
+        LD   A,E
+        LD   I,A                                ;                       Restore the original value of I.
+
+        LD   A,D                                ;                       Retrieve the number of bottom border lines.
+        JP   $029E				;                       Enable the NMI generator and return to user program, which will be interrupted as the bottom border is being generated.
+
+; -----------------------------------------
+; Generate VSync Pulse And Begin Top Border
+; -----------------------------------------
+; Returns here after the bottom border has been generated.
+
+ARX_DRIVER_VSYNC:
+        LD   B,$09                              ; 7                     Delay to ensure the VSync pulse begins aligned with the end of the next hardware generated HSync.
+        
+ADV_DELAY:
+        DJNZ ADV_DELAY                          ; 13/8=112
+        
+        PUSH IY                                 ; 15                    Save the current value of IY, which allows the user program to use it.
+
+        LD   IY,$4000                           ; 14                    Point at the start of the system variables, which is required by the VSync ROM routine.
+        CALL $0220				;                       Generate the VSync pulse and then start generating the top border lines.
+
+; Immediately returns back to here but with the NMI generator now switched on. The IX register now holds $0281.
+
+        POP  IY                                 ;                       Restore the original value of IY.
+
+        LD   IX,ARX_DRIVER_PICTURE              ;                       Set the display vector address to point at the main picture generation routine.
+        JP   $02A2				;                       Enable the NMI generator and return to the user program, which will be interrupted as the top border is being generated.
+
+; ----------------------
+; Display Row Characters
+; ----------------------
+; The two rows of characters rendered using each character set.
+
+DISPLAY_ROW1:
+        DEFB $00, $01, $02, $03, $04, $05, $06, $07, $08, $09, $0A, $0B, $0C, $0D, $0E, $0F, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $1A, $1B, $1C, $1D, $1E, $1F
+        RET
+
+DISPLAY_ROW2:
+        DEFB $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $2A, $2B, $2C, $2D, $2E, $2F, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $3A, $3B, $3C, $3D, $3E, $3F
+        RET

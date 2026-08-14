@@ -1,0 +1,244 @@
+Instructions for PP Spectrum hard disk ROM
+
+  Hard disk ROMs on site contains simple IDE disk operating system, which main purpose is 
+simple storage and usage of files, mostly playing games.
+Therefore no complicated file operations etc., only save and load complete files. There is 
+also snapshot function, more details later.
+
+  Keyboard input is changed and all commands & functions must be entered letter by letter, 
+unlike by original Spectrum 48K. This is good because people need much time to adapt for 
+Speccy's input system, and I think that noone use regularly and exclusively only 
+Spectrum today.   Most of commands can be shorted by typing only first 2 letters - try 
+it, and you will see...
+
+   SAVE & LOAD
+Usage of this commands is almost same as by original tape commands. So SAVE goes: SAVE 
+"name" [CODE] [start, length]. Max len of filename is 15 char (instead 10 original). LOAD 
+has same syntax as by tape. But you can't use LOAD "" - this is not possible by disks.
+  There is no support for arrays. If you want to save arrays, save it like BASIC program 
+(SAVE "name"). It's rare used, and needs lot of ROM space, so I dropped it out.
+
+   ERASE
+Deleting of files : ERASE "name" - no need to type CODE for block. Only last file on 
+charea (equivalent of partition here) may be erased.
+
+   CAT a-z,0-9
+CAT command will print on screen files in charea with main parameters and remaining free 
+space. Usage:  CAT a , CAT F,  cat Y,  CAT 7   etc. Because of faster typing no quoting 
+is required.
+ 
+   SNAPSHOT
+Purpose is to save complete machine state to file, and making possible to load it, and 
+continue play (work ?) at same point.  You need NMI button for this to work. See on my 
+WEB-site more about button (https://piters.tripod.com/zx.htm).
+When pressing NMI button, lines in Border appear. Then you have 3 choices:
+Pressing C continues
+Pressing B jumps into Basic - this is not always possible (some games destroy complete 
+system (variables)
+Pressing M is for snapshot store - it resets Speccy, and then user must type MOVE "name"  
+where name is desired filename. Block of 48 KB will be saved on IDE drive.
+Later you can load it with :  LOAD "name" CODE.
+Note: there must be special area on IDE drive for temporary storage, required size is 10KB 
+- see source file ZXHDOS. 
+
+   PARTITIONING
+IDE drives are divided on 36 'charea' - letters A to Z and cyphers 0-9. Files go to 
+apropriate chareas by beginning character. You should bear in mind by space allocation 
+that there is much more name starting with S, T than with Q, Y...
+
+   OTHER
+There is also couple small improvement in ROM, like hex-input, conversion etc.  
+You can enter numbers in hex form by adding prefix &. So :  PRINT &ff (or &FF) will 
+display 255. Max value is &FFFF.
+For hex outprint you need prefix % by print: PRINT %100 will display &64 .
+See programming reference about how customizing ROM for particular hard drive.
+
+  PP
+
+-------------------------------------------------------------------------------------------
+
+              IDE HARD DISK PROGRAMMING REFERENCE
+
+ Port addresses with given scheme and GAL (48K version):
+
+  Data register :   #69
+  Parameter reg.:   #79
+  Sector count r.:  #6B
+  Start sector r.:  #7B
+  Cylinder low  :   #6D
+  Cylinder high :   #7D 
+  Head reg.     :   #6F
+  Command/status:   #7F
+
+ Example routines for read & write:
+
+;I/O port addresses
+DAT EQU #69
+PAR EQU #79
+SEC EQU #6B
+STA EQU #7B
+ZYL EQU #6D
+ZYH EQU #7D
+HEA EQU #6F
+COM EQU #7F
+
+;Enter parameters for Read & Write: HL address, BC start sector,
+;A sector count, DE cylinder offset
+;Out parameters: If zero flag set - OK , else error
+
+REABE      CALL REABL ;block read with error test. Entry point.
+ERRT      ;error testing
+           EI
+           RET Z  ;return to caller if no error
+           IN A,(PAR)
+           BIT 6,A
+           JR NZ,ECCE
+           RST 8
+           DEFB #1E ;Disk error - new error message code, this is an example 
+& requires changes in ROM.
+ECCE       RST 8
+           DEFB #1F  ;ECC error...
+    
+REABL      CALL CALC
+           LD A,#20 ;read command
+           OUT (COM),A
+CWR        CALL WAIDR
+SELL       INI
+           INI
+           INI
+           INI
+           INI
+           INI
+           INI
+           INI ;8 bytes in 1 pass
+           DJNZ SELL
+           IN A,(COM)
+           BIT 0,A  ;is error ?
+           RET NZ
+           DEC E  ;decrease sector counter
+           JR NZ,CWR
+           RET ;with zero flag set - no error
+
+WRIBE      CALL WRIBL ;Block write with error test. Entry point.
+           JR ERRT
+;Write is in reversed MSB/LSB order due to interface!
+WRIBL      CALL CALC
+           LD A,#30  ;write command
+           OUT (COM),A
+WRIT       CALL WAIDR
+SWRL       INC HL
+           OUTD
+           OUTI
+           INC HL
+           INC HL
+           OUTD
+           OUTI
+           INC HL
+           INC HL
+           OUTD
+           OUTI
+           INC HL
+           INC HL
+           OUTD
+           OUTI
+           INC HL
+           DJNZ SWRL
+           IN A,(COM)
+           BIT 0,A
+           RET NZ
+           DEC E
+           JR NZ,WRIT
+           RET
+
+WAIDR      LD BC,50000 ;time out counter prepare
+WAIDL      IN A,(COM)
+           BIT 3,A ; ready ?
+           JR NZ,SET64
+           DEC BC
+           LD A,B
+           OR C
+           JR NZ,WAIDL
+           POP DE  ;drop call.
+           INC A ; reset zero flag
+           RET  ;time out
+SET64      LD BC,#4069  ;set port address (C) & loop counter : 8x#40=512
+           RET
+
+;Below there will be some drive depending values
+
+HEADS  EQU 7 ;this is an example - depends from used drive
+SECTOR EQU 17 ;also an example - sectors per track by used drive
+
+CALC       OR A ;avoids zero sector count - it transfers 128 sectors!
+           JR NZ,CONTIN
+           RST 8
+           DEFB #19 ; parameter error
+CONTIN     DI
+           PUSH HL
+           PUSH DE
+           LD E,A
+           LD H,B
+           LD L,C
+           LD D,-1 ; preset counter
+           LD BC,-HEADS*SECTOR ; here comes the complement of HEAD
+ and SECTOR product of the used drive
+CYLCL      INC D
+           ADD HL,BC
+           JR C,CYLCL
+           SBC HL,BC
+;D now holds additional cyl. offset
+           LD H,-1
+           LD A,L
+HEDCL  INC H
+           SUB SECTOR ; here comes sector(per track) param. of used drive
+           JR NC,HEDCL
+           ADD A,SECTOR+1  ;here comes sector(per track) plus 1...
+           LD L,A
+           LD A,H
+           OR #A0
+           LD H,A
+
+ISEX       IN A,(COM)
+           BIT 7,A
+           JR NZ,ISEX
+           LD A,E
+           OUT (SEC),A
+           LD A,L
+           OUT (STA),A
+           LD A,H
+           OUT (HEA),A
+           POP HL
+           LD C,D
+           LD B,0
+           ADD HL,BC
+           LD A,L
+           OUT (ZYL),A
+           LD A,H
+           OUT (ZYH),A
+           POP HL
+           RET
+
+;END
+
+   With this routines transfer speed is about 150 KB per second by read and
+ something less by write. Measured with IDE-Flash drive.
+              
+  
+  How to adapt Zxiderom (in archive) for work with my hard disk?
+
+Need to change only 3 locations:
+
+1.  Adress(hex): 04D0 - Here enter 16-bit complement of HEADxSECTOR in LSB/MSB order 
+(Intel). Formula is:
+  65536-(Head x SectorPerTrack).
+  Example: disk has 15 heads and 7 sectors/track 
+ Then it is 65536-15x7 = 65431 = FF97hex, so enter 97, FF .
+
+2. Adr: 04DD  - Here SectorPerTrack , 7 in above example.
+
+3. Adr: 04E1  - Here SectorPerTrack + 1 ,  8 in above example.
+
+
+  PP
+
+

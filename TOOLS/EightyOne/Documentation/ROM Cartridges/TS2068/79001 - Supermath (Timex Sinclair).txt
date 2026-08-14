@@ -1,0 +1,46 @@
+==================================
+SUPERMATH ROM Cartridge for TS1500
+Timex Sinclair
+==================================
+
+SUPERMATH
+© Timex 1982
+
+SUPERMATH, with its five levels of difficulty, is a useful instruction aid for
+anyone who wishes to improve their skill in the four basic arithmetic functions;
+Addition, Subtraction, Multiplication, or Division. In each session, you will be
+given ten problems to solve and at the end of the session, a grade will be
+displayed, reflecting your achievement and allowing you to keep track of your
+progress. Problems are randomly generated, such that every session produces
+new tests of your skill, at the level of difficulty you have chosen.
+
+To play, insert the software cartridge into the Timex Command Cartridgeù Player
+(see instruction booklet for details) and begin. You will be asked to select a
+number, 1 through 4, denoting what type of problems you wish to practice:
+(1) Addition, (2) Subtraction, (3) Multiplication, or (4) Division. Once you have
+made the selection, and the ENTER key has been pressed, you will be asked to
+choose a difficulty level of 1 through 5 (Level 1 generates very simple problems,
+with the degree of difficulty increasing, until Level 5, where the problems
+become quite complex). It should now be noted that Level 5 Division, or, for that
+matter, any Division, will always require an answer in whole numbers only. You
+need not be concerned about the number of decimal positions, or the like. It will
+always be a whole-number answer.
+
+When the first problem appears on the screen, you will be asked to enter your
+answer. If your answer is correct, your computer will indicate that it is correct,
+and the next problem will appear. If, at any time, you answer incorrectly, your
+computer will indicate the correct answer, give you time to recognize it, and then
+move onto the next problem.
+
+At the end of ten problems, your Grade will be displayed, and you will then be
+asked if you wish to have another session. Answer Y (for Yes), or N (for No), and
+play will continue accordingly. The game may be interrupted, at any time, by
+depressing the BREAK key. Play may be restarted by pressing RUN.
+
+WARRANTY
+There are no warranties which extend beyond the description on the face
+hereof. No other warranty, whether express or implied, including the warranty of
+merchantability, shall exist in connection with the sale of this product. In no
+event shall Timex be liable for any consequential, incidental or special damages.
+
+MODEL NO. 344-095900

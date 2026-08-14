@@ -1,0 +1,202 @@
+=================================
+Multiface 128 for the ZX Spectrum
+Romantic Robot
+=================================
+
+INTRODUCTION.
+
+MULTIFACE 128 is a true MULTIpurpose interFACE with:
+
+   1) Fully universal and 100% automatic BACK-UP facility for tape, microdrive, Discovery,
+   Plus D or Disciple
+   2) 8K RAM extension - suitable for our GENIE, LIFEGUARD, or as a buffer, etc.
+   3) MULTI TOOLKIT to study/modify/develop programs, POKE infinite lives, etc.
+
+
+CONNECTING THE MULTIFACE.
+
+The Spectrum must be switched OFF before attaching/removing the Multiface 128.
+
+MULTIFACE 128 plugs:
+   a) on the SPECTRUM edge connector - for tape users
+   b) on the INTERFACE 1 edge connector - if used with microdrives
+   c) between the SPECTRUM and Plus D, DISCIPLE or DISCOVERY
+
+Check all connections carefully before switching the Spectrum ON, or else serious damage may
+occur and your guarantee will be VOID. A proper attachment is vital for the functioning of the
+Multiface - and a bad contact is the cause of 99% of all problems. If attaching/using the M128
+brings random coloured squares or other garbage on the screen, clean the edge connector with an
+ink eraser and re-connect the Multiface 128. If your system and the Multiface still should not
+work, switch the Spectrum OFF, remove any add-ons except the Multiface, re-read these
+instructions carefully and try again. Should you really not succeed, please telephone us on
+01-200 8870 or write to us. Please do NOT return the Multiface until we ask you to do so. In
+such case, please use the original packaging, state your name, address, phone and describe the
+problem and the whole equipment used. Please read the guarantee conditions carefully as well.
+
+
+Notes On Spectrum Crashes:
+
+Very rarely, a Spectrum may have a substandard Z80 and be unfit for the Multiface. The typical
+effects are:
+a) the first pressing of the Multiface's red button causes the Spectrum to reset/crash (as NEW or
+reset)
+b) further pressing of the red button has no effect whatsoever.
+
+Your Spectrum may otherwise seem to be working perfectly, since only a few hardware devices,
+such as the Multiface, use one particular "line" (NMI), which you may have never needed before.
+The use of NMI is essential for the Multiface and if your Spectrum (or more precisely its Z80) is
+faulty, you can either have it replaced or repaired. We can carry out the repair ourselves at the
+cost of £14.95 - we will need your Spectrum (without the power supply), Multiface and a
+payment by cheque, PO, cash or card. If you prefer to have your Spectrum checked and/or
+repaired locally, please do ensure that the repair shop gets the Multiface as well, so that your
+whole set-up will be made to work properly. It is also good idea to try the Multiface on another
+Spectrum to help to establish that it is really YOUR Spectrum that is faulty.
+
+
+USING THE MULTIFACE.
+
+Multiface 128 works on the Spectrum 48/128/ + 2. It can be used any time in any mode: It is
+immaterial what is inside the Spectrum at that moment or how or from what source (tape, disk,
+cartridge) it has been loaded (or typed in, etc.). Multiface does not save programs, but computer
+contents (compressed RAM image). Upon returning from the M128 or upon re-loading, the
+programs continue as if never frozen. To use the M128:
+       1) Push the red button to activate the Multiface and obtain the MAIN MENU
+       2) Select the required option from the menu by pressing its relevant key - it is always
+          shown in inverse and it is usually the first letter, such as e for exit).
+
+The MAIN MENU options are:
+
+exit - to abandon the Multiface and exit to BASIC (provided BASIC is present)
+       By using exit, you come out of the Multiface entirely. All efforts are made to preserve the
+       current program in the Spectrum intact. The main condition is the existence of standard
+       system variables - without these the Spectrum crashes. A successful exit gives you full
+       access to the program (you may miss the MULTI TOOLKIT, though). To restart it, if
+       needed, you must know the starting line or address. Exit is impossible in the 128K mode
+       when the edit ROM is paged and Spectrum ROM is OFF; in such case it does not appear on
+       the menu at all. All in all, you can only exit to BASIC if it exists - it is like jumping into a
+       pool: a joy if it's full of water, a crash if there is none.
+
+return - to continue the program
+
+save - to proceed to the SAVE routines:
+       a) input the name of the program
+       up to 9 characters (or just press ENTER to input RUN automatically as a default)
+       b) save to: tape  microdrive  opus  disciple (use d for Plus D interface, too)
+       You can save the entire program (including the screen) or the screen only. Programs are
+       compressed to take the minimal room possible and to load faster. Screens saved on their
+       own are left intact as standard Spectrum hi-res screens
+       c) format microdrive cartridges more effectively, ideally to 100 + K.
+       Cartridges are automatically named after the programs to be saved.
+       
+tool - to access the MULTI TOOLKIT routines
+       quit - to return to the main menu
+       ENTER - to PEEK and scroll through addresses or to POKE
+       SPACE - to allow you to type in a new address
+       hex - to toggle between hexadecimal and decimal display format
+       reg - to point to the Z80 registers as they were when the program was frozen.
+          They start from the program counter (PC-low, hi) and can also be changed.
+       window - to open a window with full on-screen editing using the cursor keys.
+          The flashing window address corresponds to the address in the bottom edit line.
+          The window display is by default in hex, but you can change it to
+       text - to see the 128 bytes in the window as ASCII text.
+       select - to inspect RAM banks 0-7 on 128K Spectrums. Press s + the bank number
+print - to dump screen to printer.
+       For printer interfaces using COPY command - Multiprint, ZX Lprint II, Kempston.
+       You can POKE address 8200 with the following values, if you wish to:
+       113 to turn the line feed ON (CR plus LF, i. e. sending 13 plus 10)
+       112 to turn the line feed OFF (CR only)
+       17 to dump screen as text (text copy) with the line feed on (CR + LF)
+       16 to dump screen as text (text copy) with the line feed off (CR only).
+       These pokes can be used on the above Interfaces in EPSON default.
+          
+jump - not to return, but jump to another address. Strictly for machine code users only!
+       Enter the address to jump at 8192/3 (low/hi). You can jump to Spectrum ROM/RAM AND
+       to M128 8K RAM. As the M128 RAM overshadows the ZX ROM (8192-16383), address
+       8194 determines the paging status: if it is 0, the M128 RAM remains paged, 1 pages out the
+       RAM and any other value disables the jump command entirely.
+
+       You can jump from the main menu, and you can also pre-program Multiface to jump
+       directly upon pressing the red button and by-pass M128 operating system entirely. To
+       program the "direct jump", POKE 8192-3 with the jump address as usual, and then also
+       8195-7 with a special identification code word RUN (i. e. 82, 85, 87). Whenever you push
+       the button now, you will jump to the predefined address and not even see the M128 menu.
+       To return from your program to the program you stopped, use RST 0. To revert back to the
+       Multiface normal operation, press the red button and BREAK key simultaneously - this also
+       cancels the code word RUN.
+
+       In standard mode Multiface uses 8192-11144 as a buffer (8192-13496 once you proceed to
+       SAVE) and overwrites anything in there. Using direct jump, you have 8257-16338 available
+       - plus all of Spectrum RAM to which you can also jump to.
+
+clear - to clear the extra 64K RAM bank (in 128K mode only!)
+       You can clear any time, but it is only useful with 48K programs in 128K mode. However,
+       you should save 48K programs in 48K mode anyway. Also, for obvious reasons, clearing
+       the banks in 128K programs is not a good idea...
+
+                                 PIRACY IS ILLEGAL!
+                   MULTIFACE 128 is NOT designed to encourage piracy!
+                   Please note that you must not use it to copy, reproduce
+                   or infringe in anyway any copyright material without the
+                   clear permission of the copyright owner. ROMANTIC
+                   ROBOT neither condones nor authorises the use of
+                   Multiface for the reproduction of copyright material - to
+                   do so is illegal!
+                   *************************************************
+
+
+GENERAL HINTS and TIPS.
+
+Using The On/Off Switch.
+
+Multiface 128 has a software switch to make it (in)visible, mainly to prevent possible clashes
+with other hardware/software.
+
+As a rule, M128 can ALWAYS be activated, irrespective if previously set ON or OFF. Upon
+powering up the Spectrum, the Multiface 128 is automatically OFF! - thus loading a program
+SAVED previously by the Multiface 128 will leave a partially corrupted screen. To switch the
+M128 ON, press the red button, which both activates AND switches it ON. Press r to return and
+the M128 will remain ON. You can switch it OFF by pressing o when you are in the M128 main
+menu - o simply toggles between ON/OFF as shown.
+
+
+Using The Extra 8K RAM.
+
+Multiface has an 8K ROM (containing its own software) and an 8K RAM used as a buffer. You
+can use the 8K RAM for your own m/code routines or for data, but NOT for BASIC. The RAM
+must be paged in machine code to be accessed: use IN A,(191) to page IN and IN A,(63) to
+page OUT. The IN and OUT BASIC commands can not be used here. The 8K RAM overshadows
+the Spectrum ROM and thus anything contained in the M128 RAM cannot make any calls to the
+Spectrum ROM, as they both occupy the same area. M128 RAM routines should therefore be self
+contained, independent of Spectrum ROM. All in all, the use of the M128 RAM requires a good
+knowledge of m/c - or else forget it...
+
+
+Poking Infinite Lives.
+
+To start with, please ensure that you are not infringing copyright. To POKE, say, 31000,0: First
+load a program as usual. When it's loaded, push the Multiface button and select the tool by
+pressing t. When the toolkit menu appears, press SPACE and type 31000. Once you type 5 digits
+(address is always 5 digits long), the cursor automatically moves to the value field (no need to
+press ENTER), so type 0 (value is 1-3 digits long) and this time press ENTER. Finally press q to
+quit the toolkit and r to return to the program.
+
+
+GUARANTEE.
+
+This guarantee is in addition to and does not affect any statutory or other rights of consumers or
+purchasers. ROMANTIC ROBOT guarantee that if within 6 months of the date of purchase the
+Multiface proves to be defective by reason of faulty design, workmanship or materials, it will be
+repaired or replaced free of charge, provided that:
+      1) It has not been in any way misused, used with unsuitable equipment or subjected to
+      deliberate, accidental or consequential damage
+      2) No unauthorized modifications, repairs or adjustments were made to the Multiface
+      3) A dated proof of purchase will be provided to confirm that the Multiface is still under
+      guarantee; for units purchased directly from us, please supply the details of the original
+      order instead
+      
+The purchaser's sole and exclusive remedy under this guarantee is for the Multiface repair or
+replacement. No other remedy, including but not limited to, incidental or consequential damage
+or loss of whatsoever nature shall be available to the purchaser.
+
+Designed and manufactured by ROMANTIC ROBOT UK Ltd.
+54 Deanscroft Avenue, London NW9 8EN. Tel. 01-200 8870. 

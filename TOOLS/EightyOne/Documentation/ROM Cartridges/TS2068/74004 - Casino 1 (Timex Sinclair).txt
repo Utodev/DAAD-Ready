@@ -1,0 +1,246 @@
+﻿=================================
+CASINO 1 ROM Cartridge for TS2068
+Timex Sinclair
+=================================
+
+CASINO 1
+© R Leninger 1983
+
+Loading time: 1 minute 45 seconds
+
+Load name must be typed in lower case letters.
+
+CASINO 1 includes computer simulations of three popular games of chance:
+Twenty-One (or "Blackjack"), Craps and Slot Machines. Twenty-One and Craps
+may be enjoyed by up to three players per game. Although Slots is designed for
+one player at a time, any number can participate if they're willing to share the
+initial stake of $100.
+
+Each game on the Casino program cassette features realistic graphics and
+stimulating sound effects to create the excitement of Las Vegas or Monte Carlo
+in your own home. Since each game on the Casino program is governed by the
+same odds and the same random selection that characterize the "real thing", the
+dedicated student of gambling will find that Casino's games provide an excellent
+opportunity for sharpening mathematical skills that often mean the difference
+between breaking even and winning big.
+
+COMMAND CARTRIDGE INSTRUCTIONS
+If you have the cartridge version of this software program please follow the
+steps listed below:
+
+1. Turn off your TS2000
+2. Lift cartridge door open
+3. Insert command cartridge
+4. Program will now begin execution. If Step 5 does not occur - start over with
+   Step 1 ... and reseat cartridge once again.
+
+ALWAYS TURN OFF YOUR TS2000 BEFORE INSERTING OR REMOVING CARTRIDGE
+
+You may bypass tape load instructions below.
+
+TO LOAD: Press LOAD "casino", start the cassette recorder and press ENTER.
+Turn off the tape recorder when you see a "menu" on the screen that says:
+
+        The following are available
+
+        1. Twenty-One
+        2. Craps
+        3. Slots
+        4. Exit this program
+        Select game by number
+
+TO PLAY: Decide which of the three games you want to play and press the
+number for that game listed on the menu. If you choose Twenty-One or Craps,
+the computer will ask you how many people are playing. After you enter a
+number (or immediately, if you've chosen Slots), the computer sets the game.
+
+In each game, you must bet before the action begins. The computer stakes you
+to $100 (in Slots, it even stacks up a hundred silver dollars for you). You may bet
+up to $999 in Twenty-One (but you can't bet more than you have, your beginning
+limit is $100), but you can only feed one dollar at a time, up to 3 bets into the
+Slots. Craps allows you to bet up to $95 per category (there are ten bet
+categories) in increments of $5. But again, you cannot bet more than you have.
+
+To place your first bet in Twenty-One, enter the amount of money you want to
+risk. When all of the players have made an initial bet, the computer deals the
+first two cars to each hand. Dealer's hand is shown with one card face down,
+one face up; other hands are shown face up.
+
+In Craps, select a betting category by moving the V-shaped cursor up or down
+until it's at the category you want to bet in and them press the number "1" for
+each $5 you want to bet in that category. You may continue placing bets until
+you reach your limit and/or press ENTER (if you change your mind, you may
+remove your money or decrease it in $5 increments by pressing the "0" key.
+Once all players have entered an initial bet, the computer rolls the dice.
+
+In Slots, you see a slot machine in the upper left quadrant of your display
+screen. You may bet up to three lines at a time by pressing the "B" key for each
+coin you want to drop. If you place only one bet the center slot machine spins
+when you press the "P" key to pull. If you place two bets, the top two machines
+are set in motion by a pull.
+
+STRATEGIES: If you're not an experienced gambler, you'll probably want to play
+Twenty-One or Craps the first few times with someone who knows the games.
+(Don't worry; he can't take advantage of your lack of experience - it's the
+computer that deals the cards or rolls the dice.)  They're both complicated games
+that can be confused (or expensive if the computer didn't advance you your
+stake). If you don't have any gambling friends, it is helpful to read the rules of
+Twenty-One or Craps in a reference book such as "Hoyle's Rules of Games."
+Although you can teach yourself both games by experience, the fast action of
+the Casino program sometimes leaves you bewildered.
+
+The object of TWENTY-ONE is to build a hand of cards whose values add up to
+21 - or closer to 21 (without going over that number) than anyone else's hand.
+If you go over 21, you "bust" and lose your money. An Ace counts as either one
+or 11 (the computer won't bust you by counting it as an 11 when you'd still be
+okay if it were a 1):  face cards (King, Queen and Jack) count as 10, and number
+cards 2 to 10 have the value of their numbers.
+
+The computer will deal you two cards and ask if you want to be hit (this means,
+do you want to have another card?). Before you press "y" (yes) or "n" (no), count
+your hand and look at the card that shows in the dealer's hand. If your cards are,
+for example, a ten and a nine - for 19 - you will probably want to "stand".
+Press "n". Once you stand, you're finished playing this hand - which continues
+until all players have stood. At the end of the hand, the dealer shows his cards
+and bets are paid or lost. The game continues until all players have lost all their
+money or until all players refuse to enter an amount when asked to bet.
+
+(If you do not have enough money to double your bet you will not be given these
+options).
+
+If your cards total 11 you will be asked if you wish to double. Pressing "y" for
+yes, your bet will be doubled and you will be dealt only 1 more card. Pressing
+"n" will allow you to continue play without doubling.
+
+If you are dealt Q or the same cards (say 2 Queens) you will be asked if you
+wish to split your hand. Press "y" if you wish to have your bet doubled and your
+cards split into 2 separate hands. Press "n" to continue play without splitting
+your hand.
+
+In "Craps", on the opening bet, only a "7", "11" or "craps" (2,3 or 12) make any
+difference if you bet on "LINE" or "DON'T PASS". If you bet on the LINE
+category and a "7" or an "11" is rolled, then you win. If you bet on the
+"DON'T PASS" or "CRAPS" categories and "craps" is rolled, you win. If you
+wagered on "CRAPS" and any number except "2", "3", or "12" is rolled ( or if you
+bet "LINE" and "CRAPS" is rolled) then you lose. If any number except 2,3,7,
+11 or 12 is rolled and you have placed your bet on "LINE" or on "DON'T PASS",
+you neither win nor lose.
+
+Any other number rolled becomes the "Point" and is displayed in the upper right
+hand corner of your display screen. The object of the game now is for the
+"Shooter" (the person rolling the dice; in this case, the computer) to roll the
+point again before he rolls a 7. If he rolls a point first, he wins; if he rolls a 7 first,
+he loses. You are betting, before each roll, on whether he will win, lose or have
+to roll again.
+
+Your choices are:
+
+LINE - this is a bet that will roll the point before getting a 7. If he does, you win;
+if he doesn't, you lose.
+
+DON'T PASS - is the opposite of LINE; it's a bet that he will not roll the point
+before a 7 is rolled.
+
+7 ON THE NEXT ROLL and 11 ON THE NEXT ROLL are self explanatory. If you
+bet that 7 or 11 will be thrown next and you're right, you win; if any other
+number (including the Point) is thrown, you lose.
+
+DOUBLES ON THE NEXT ROLL and CRAPS ON THE NEXT ROLL are like 7 or
+11 ON THE NEXT ROLL. "Doubles" are 2,4,6,8,10 or 12 rolled as two ones,
+two twos, two threes and so on. Craps are (2,3 or 12).
+
+FIELD - is a bet that any of the numbers which the computer shows in
+parenthesis after FIELD will be thrown on the next roll.
+
+6 BEFORE 7 - is a bet that a 6 will be rolled before a 7 is thrown, but not
+necessarily on the next roll.
+
+4 the hard way - you win if 2 two's are rolled before any other kind of 4 is
+rolled, 8 the hard way - you win if 2 four's are rolled before any other kind of 8
+is rolled.
+
+After each roll, the computer will show you which bets won, which lost and which
+stand (because they neither won nor lost), pays winnings and subtracts losses,
+and asks you to enter another bet on the next roll. If you bet 0, the game ends.
+
+Fortunately or unfortunately, there is no strategy for SLOTS. You simply feed
+your coins into the machines and pull the handle until all of your money is gone
+or you've gotten tired of the game. You may end the game any time you like by
+pressing "P" without entering a "B" first.
+
+To stop the bet in between bets on blackjack and craps, press the "S" key when
+asked to place a bet.
+
+LOADING INSTRUCTIONS:
+(See Chapter 4 of your instruction manual for detailed instructions.)
+
+1. First listen to the tape so you will be familiar with its distinct sections. The
+tape has a period of silence at the beginning, followed by a high-pitched,
+screechy noise. This is the computer program. The program is recorded twice on
+the cassette in case one does not load.
+
+2. Set the volume control on the cassette deck to about 3/4 of the maximum.
+If you have tone controls, set the bass to minimum and treble to maximum. If you
+have just one tone controls, set it to HIGH or MAXIMUM.
+
+3. Rewind the tape to the beginning. Connect the EAR jack on the computer
+to the EAR jack on the cassette deck recorder. Make sure the plugs are clean
+and securely in place.
+
+4. To instruct the computer to accept the program you must press the LOAD
+command and type the name of the program in quotation marks. See the
+instructions or cassette for the correct loading name.
+
+5. Start the cassette deck, allow a few seconds for it to get up to speed, then
+press ENTER during the silence before the program begins.
+
+6. The border of the TV screen will alternate between pale blue (cyan) and red,
+during the time the computer is searching for the program on the tape.
+
+7. When the program has been found, the screen border will show a pattern of
+lines in the same shades of blue and red, and shortly the name of the program
+will appear on the screen.
+
+8. Next, as the program itself is being loaded into the computer, the border
+pattern will become thinner, faster moving yellow and dark blue lines.
+
+9. When the computer has finished loading the program, one of two things
+will happen:
+
+  1. Most commercial programs will begin running automatically, usually with a
+  "title screen" or instructions to the user. (A title screen may tell you that the
+  tape is still loading, if not, you should stop the tape immediately at this point
+  so as to be in the proper position to load the next program if you wish.) or
+
+  2. The screen will be blank, except for a 0 OK, 0:1 in the lower left hand
+  corner. This is a report code and means that the computer has successfully
+  loaded the program.
+  Stop the tape immediately. To execute the program, you press RUN and
+  ENTER. This will start the program.
+
+SOME SUGGESTIONS
+1. The volume at which the program is loaded is very important. Usually 3/4
+maximum volume works best, but recorders vary and may require
+experimentation with the volume setting. If you have a technical background you
+can check the output level of your recorder's EAR/SPKR jack. It must be at least
+4 volts peak-to-peak, although 5 to 6 volts peak-to-peak is best.
+
+2. Clean and demagnetize the heads of the tape recorder. Your ears may not
+pick up the signal fluctuations due to magnetic flux on the tape heads, but the
+computer has a much more sensitive "ear".
+
+3. The computer is very susceptible to outside interference. Working on a
+metal table or near electrical appliances should be avoided.
+
+4. Occasionally, once a program has loaded, the video display will show
+instability. This can be corrected by adjusting the vertical hold on the television.
+
+WARRANTY
+There are no warranties which extend beyond the description on the face
+hereof. No other warranty, whether express or implied, including the warranty of
+merchantability, shall exist in connection with the sale of this product. In no
+event shall Timex be liable for any consequential, incidental or special damages.
+
+MODEL NO 345-064004
+
+© 1983 Timex Computer Corporation Waterbury, Connecticut 06725

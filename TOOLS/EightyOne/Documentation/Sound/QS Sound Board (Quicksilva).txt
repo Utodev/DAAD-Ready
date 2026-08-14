@@ -1,0 +1,349 @@
+================================
+QS Sound Board for the ZX80/ZX81
+Quicksilva
+================================
+
+  @@@@@@@  QS SOUND BOARD - EXPLANATION AND PROGRAMMING DETAILS  @@@@@@@
+
+NOTE For ' ALL ' machines with 8K ROM except systems using a 3K RAM PACK;
+RAMPOP Must be changed with the following Commands---------
+
+       POKE 16388,253 ; POKE 16389,(PEEK 16389)-1 ; NEW
+
+This must be done to enable the sound board, 'BEFORE" Loading or writing
+any program.
+
+
+The sound chip used has 16 internal REGISTERS (Memory Locations). Each
+Register controls a different section of the sound generation. (SEE Register
+Functions). To program a Register requires two operations ; First ADDRESS
+(choose) the Register you want to use ; Then load the DATA into the chosen
+Register. This can be done direct from BASIC by POKEING ADDRESS and DATA
+bytes into the top two locations in the RAM Space ; 32767 for ADDRESS bytes ;
+32766 for DATA bytes.
+
+
+EXAMPLE - Type in the following lines of BASIC - - - - - - - - - - - - - -
+
+ 10 PORE 32767,1      ADDRESS REGISTER 2 (Channel 'A' coarse tune)
+ 20 POKE 32766,7      LOAD DATA (Set pitch of tone on Channel 'A')
+
+
+REGISTERS 0 to 5      Used to alter the pitch of the 3 tone sources
+
+The pitch is determined by dividing the clock frequency (1.78977 MHz) by
+the combined numbers in the coarse and fine tune Registers. This means
+that the larger the numbers in these Registers the lower the pitch ; as the
+division will give a smaller result.
+
+REGISTER 6            Used to alter the pitch of the noise source
+
+The digital noise generator can be switched to any of the 3 channels
+
+REGISTER 7            Used to switch the various sound sources
+
+Controls the switching on or off of the tone generators (one for each
+channel) ; the switching on or off of the noise generator (single output
+to any channel) ; the switching of the two PORTS to input or output.
+Each Binary Bit of the number in this Register acts as one switch, a
+0 being on and a 1 being off. The easiest way I have found to use this
+Register is to first set a variable (SW) to 255 (255 being the code for
+all off), then Subtract the code to switch on the required sound source
+(SEE Register functions) and finally to POKE the variable into the Register.
+
+
+EXAMPLE - Now add the following lines to the program
+
+ 30 POKE 32767,7      ADDRESS REGISTER (Control register)
+ 40 LET SW=255        SET VARIABLE (SW = all off)
+ 50 LET SW=SW-1       SUBTRACT CODE (SW = Channel 'A' tone on ; rest off)
+ 60 POKE 32766,SW     LOAD REGISTER (Channel 'A' tone is switched on)
+
+To switch on another sound source just subtract the code for the function
+required. To switch off add the code to SW then POKE SW into register 7
+
+
+REGISTERS 8,9,10      Used to control the volume of each channel
+
+Loading these Registers with 0 to 15 gives direct 16 level volume control
+0 being low volume ; 15 being full volume. Loading a register with 16
+hands control of the volume for that channel over to the Envelope shaper.
+
+
+EXAMPLE - now add the following lines of BASIC then RUN the program.
+
+70 POKE 32767,8       ADDRESS REGISTER (Channel 'A' volume)
+80 POKE 32766,15      LOAD REGISTER (Set volume on channel 'A' to full)
+
+Try changing line 80 to give different volume levels ; also line 20 to
+give different pitches. Change line 10 to POKE 32767,0 ; then change line
+20 again to try the fine tune.
+
+
+REGISTERS 11,12       Used to set the length of time for one envelope cycle
+
+REGISTER 13           Used to control Envelope shape and pattern
+
+Gives control of ATTACK (rise to full volume) and DECAY (fall to zero).
+Either may be set to fast or slow in single or repeating patterns.
+
+
+EXAMPLE - now type in the following lines. Change line 80 to POKE 32766,16
+then RUN
+
+ 90 POKE 32767,12     ADDRESS REGISTER (Envelope length coarse)
+100 POKE 32766,35     LOAD DATA (Set envelope length)
+110 POKE 32767,13     ADDRESS REGISTER (Envelope shape control)
+120 POKE 32766,0      LOAD DATA (Set off single note)
+
+Experiment with different numbers until you get the feel of it.
+
+
+  @@@@@@@  QS SOUND BOARD - REGISTER FUNCTIONS AND REFERENCE SHEET  @@@@@@@
+
++---------------------------------+------------+--------------------------------+
+|REGISTER  FUNCTION               | RANGE      | NOTES                          |
++---------------------------------+------------+--------------------------------+
+|  0       8 Bit fine tune        | (0 to 255) | Channel 'A'                    |
+|  1       4 Bit coarse tune      | (0 to  15) | Channel 'A'    tone ; pitch ;  |
++---------------------------------+------------+--------------                  |
+|  2       8 Bit fine tune        | (0 to 255) | Channel 'B'    frequency       |
+|  3       4 Bit coarse tune      | (0 to  15) | Channel 'B'    control.        |
++---------------------------------+------------+--------------                  |
+|  4       8 Bit fine tune        | (0 to 255) | Channel 'C'                    |
+|  5       4 Bit coarse tune      | (0 to  15) | Channel 'C'    30 Hz to 8 kHz  |
++---------------------------------+------------+--------------------------------+
+|  6       5 Bit fine tune        | (0 to  31) | Low 'GRUMBLE' to high 'SSSSSH' |
++---------------------------------+------------+--------------------------------+
+|  7       Switching control      | (0 to 255) | (SEE BELOW)                    |
++---------------------------------+------------+--------------------------------+
+|  8       Volume of Channel 'A'  | (0 to  16) | FOR ALL CHANNELS ------------  |
+|  9       Volume of Channel 'B'  | (0 to  16) | 0 to 15 gives 'BASIC' control  |
+| 10       Volume of Channel 'C'  | (0 to  16) | of 16 separate volume levels.  |
+|                                 |            | 16 gives control to Env. Shaper|
++---------------------------------+------------+--------------------------------+
+| 11       Envelope length fine   | (0 to 255) | Controls length of time for    |
+| 12       Envelope length coarse | (0 to 255) | one cycle of Env. Shaper       |
++---------------------------------+------------+--------------------------------+
+| 13       Envelope shape control | (0 to  15) | (SEE BELOW)                    |
++---------------------------------+------------+--------------------------------+
+| 14       8 Bit I/O PORT 'A'     | (0 to 255) |                                |
+| 15       8 Bit I/O PORT 'B'     | (0 to 255) |                                |
++---------------------------------+------------+--------------------------------+
+
+
++-------------------------------------------------------------------------------+
+| @@@@@@@  SWITCHING CONTROL (REGISTER 7)                           @@@@@@@     |
++-------------+-----+-----+-----+-----+-----+-----+-----+-----+-----------------+
+| Bit ? reset |BIT 7|BIT 6|BIT 5|BIT 4|BIT 3|BIT 2|BIT 1|BIT 0|                 |
+|             |-----+-----+-----+-----+-----+-----+-----+-----+                 |
+| switches on |   IN/OUT  |      NOISE      |      TONE       |                 |
+|             |-----+-----+-----+-----+-----+-----+-----+-----+                 |
+|   channel   |PORTB|PORTA|  C  |  B  |  A  |  C  |  B  |  A  |                 |
++-------------+-----+-----+-----+-----+-----+-----+-----+-----+-----------------+
+| To switch on tone on Channel 'A'  Subtract   1 ; To switch off       Add   1  |
+| To switch on tone on Channel 'B'  Subtract   2 ; To switch off       Add   2  |
+| To switch on tone on Channel 'C'  Subtract   4 ; To switch off       Add   4  |
+| To switch on noise on Channel 'A' Subtract   8 ; To switch off       Add   8  |
+| To switch on noise on Channel 'B' Subtract  16 ; To switch off       Add  16  |
+| To switch on noise on Channel 'C' Subtract  32 ; To switch off       Add  32  |
+| To switch Port 'A' to INPUT       Subtract  64 ; To switch to OUTPUT Add  64  |
+| To switch Port 'B' to INPUT       Subtract 128 ; To switch to OUTPUT Add 128  |
++-------------------------------------------------------------------------------+
+
++-------------------------------------------------------------------------------+
+| @@@@@@@  ENVELOPE SHAPE CONTROL (REGISTER 13)                     @@@@@@@     |
++------+-------+------------------------+------+-------+------------------------+
+|BINARY|DECIMAL|ENVELOPE SHAPE          |BINARY|DECIMAL|ENVELOPE SHAPE          |
++------+-------+------------------------+------+-------+------------------------+
+|      |       |                        |      |       |      _______________   |
+| 00XX |0 to 3 |   \                    | 1011 |  11   |   \ |                  |
+|      |       |    \________________   |      |       |    \|                  |
+|      |       |                        |      |       |                        |
+| 01XX |4 TO 7 |    /|                  | 1100 |  12   |    /| /| /| /| /| /|   |
+|      |       |   / |_______________   |      |       |   / |/ |/ |/ |/ |/ |   |
+|      |       |                        |      |       |     ________________   |
+| 1000 |   8   |   |\ |\ |\ |\ |\ |\    | 1101 |  13   |    /                   |
+|      |       |   | \| \| \| \| \| \   |      |       |   /                    |
+|      |       |                        |      |       |                        |
+| 1001 |   9   |   \                    | 1110 |  14   |    /\  /\  /\  /\  /   |
+|      |       |    \________________   |      |       |   /  \/  \/  \/  \/    |
+|      |       |                        |      |       |                        |
+| 1010 |  10   |   \  /\  /\  /\  /\    | 1111 |  15   |    /|                  |
+|      |       |    \/  \/  \/  \/  \   |      |       |   / |_______________   |
++------+-------+------------------------+------+-------+------------------------+
+
+
+  @@@@@@@@@@@@@        QS SOUND BOARD - 5 OCTAVE SCALE        @@@@@@@@@@@@@
+
+The sound board can produce fairly accurate scales over a 5 octave range.
+From C at 32.7 Hz to B at 989 Hz. As the tones are produced by dividing
+down from a high frequency the accuracy depends on whether a division
+matches the correct musical frequency. Most of the time there is a division
+which is close enough to sound right (+ or - 0.5%). Notes can be produced
+which go 3 octaves higher than those given below but the accuracy is not
+as good (10% worst case). Values are given in both Decimal and Hex for a
+complete 5 octave scale. The values are in two parts, separated by a comma.
+The first part for loading into the coarse tune register; the second part
+for loading into the fine tune register.
+
++----+------------+------------+------------+------------+------------+
+|NOTE|  OCTAVE 1  |  OCTAVE 2  |  OCTAVE 3  |  OCTAVE 4  |  OCTAVE 5  |
+|    |DECIMAL  HEX|DECIMAL  HEX|DECIMAL  HEX|DECIMAL  HEX|DECIMAL  HEX|
++----+-------+----+-------+----+-------+----+-------+----+-------+----+
+| C  |13,093 |D,5D|06,174 |6,AE|03,087 |3,57|01,172 |1,AC|00,214 |0,06|
++----+-------+----+-------+----+-------+----+-------+----+-------+----+
+| C# |12,156 |C,9C|06,078 |6,4E|03,039 |3,27|01,148 |1,94|00,202 |0,CA|
++----+-------+----+-------+----+-------+----+-------+----+-------+----+
+| D  |11,231 |B,E7|05,244 |5,F4|02,250 |2,FA|01,125 |1,7D|00,190 |0,BE|
++----+-------+----+-------+----+-------+----+-------+----+-------+----+
+| D# |11,060 |B,3C|05,158 |5,9E|02,207 |2,CF|01,104 |1,68|00,180 |0,B4|
++----+-------+----+-------+----+-------+----+-------+----+-------+----+
+| E  |10,155 |A,9B|05,077 |5,4D|02,167 |2,A7|01,083 |1,53|00,170 |0,AA|
++----+-------+----+-------+----+-------+----+-------+----+-------+----+
+| F  |10,002 |A,02|05,001 |5,01|02,129 |2,81|01,064 |1,40|00,160 |0,A0|
++----+-------+----+-------+----+-------+----+-------+----+-------+----+
+| F# |09,115 |9,73|04,185 |4,B9|02,093 |2,5D|01,046 |1,2E|00,151 |0,97|
++----+-------+----+-------+----+-------+----+-------+----+-------+----+
+| G  |08,235 |8,EB|04,117 |4,75|02,059 |2,3B|01,029 |1,1D|00,143 |0,8F|
++----+-------+----+-------+----+-------+----+-------+----+-------+----+
+| G# |08,107 |8,6B|04,053 |4,35|02,027 |2,1B|01,013 |1,0D|00,135 |0,87|
++----+-------+----+-------+----+-------+----+-------+----+-------+----+
+| A  |07,242 |7,F2|03,249 |3,F9|01,252 |1,FC|00,254 |0,FE|00,127 |0,7F|
++----+-------+----+-------+----+-------+----+-------+----+-------+----+
+| A# |07,128 |7,80|03,192 |3,C0|01,224 |1,E0|00,240 |0,F0|00,120 |0,78|
++----+-------+----+-------+----+-------+----+-------+----+-------+----+
+| B  |07,020 |7,14|03,138 |3,8A|01,197 |1,C5|00,226 |0,E2|00,113 |0,71|
++----+-------+----+-------+----+-------+----+-------+----+-------+----+
+
+Depending on how much memory you have available you can either
+A)Small memory systems ; Use the values direct in strings (see below)
+B)Large memory systems ; Store the values in two Arrays (C and F ) then
+  poke C(n) into the coarse tune register and poke F(n) into the fine
+  tune register (where 'n' is the code for the note you want).
+
+
+EXAMPLE FOR SMALL MEMORY SYSTEMS
+
+ 10 LET A=32767                        (set A to register address)
+ 20 LET D=32766                        (set D to register data)
+ 30 POKE A,7                           (address control register)
+ 40 POKE D,255-1                       (switch on tone on channel A)
+ 50 POKE A,8                           (address channel A volume register)
+ 60 POKE D,15                          (set channel A to full volume)
+100 LET A$="6AE1AC50123B4754352815F4"  (values for 8 notes)
+110 GOSUB 590                          (500=decode and load registers)
+490 GOTO 100                           (repeat tune)
+500 FOR J=0 TO 7                       (loop=No of notes in A$)
+510 LET C=CODE A$-28                   (decode value of coarse tune into C)
+520 LET A$=A$(2 TO )                   (take out first chr in A$)
+530 LET F=CODE A$-28                   (F=first 1/2 of fine tune value)
+540 LET A$=A$(2 TO )                   (LET A$=TL$(A$) - for ZX-80)
+550 LET F=F*16+CODE A$-28              (F=value of fine tune)
+560 LET A$=A$(2 TO )
+570 POKE A,0                           (address fine tune register)
+580 POKE D,F                           (load fine tune value)
+590 POKE A,1                           (address coarse tune register)
+600 FORE D,C                           (load coarse tune register)
+610 FOR F=0 TO 30                      (loop to set length of each note)
+620 NEXT F
+630 NEXT J                             (repeat for the next note)
+640 RETURN                             (finished block of 8 notes)
+
+Once run this program will repeat the 8 notes whose values are in A$. The
+tune may be expanded by entering further 'LET A$=' (values of 8 new notes)
+and corresponding 'GOSUB 500' into the program between lines 110 and 490.
+Use B$ and C$ to expand the tune to more than one note at once. It is
+advisable to do all the decoding first, only when you have the data
+for PORKING in variables for all the registers to be changed should you
+start to actually load the registers with the new note values. To extend
+a note use the same value as last time.
+
+
+  @@@@@@@@@@@@@@@@@@@  QS SOUND BOARD - I/O PORTS  @@@@@@@@@@@@@@@@@@@
+
+The sound board has two 8 bit Input ; Output Ports. These may be used to
+connect your computer to the outside world. They can be used to switch
+things on and off ; control external equipment ; drive D. TO A. circuits ;
+plus many other functions.
+
+Connection to the Ports is made via a 16 pin I.C. Socket opposite she 3.5 mm
+Jack Socket at the top of the P.C.B. The connections are standard TTL
+compatible and have internal pullup resistors, so that when reading from
+a Port with no connection all bits will be high (ie. 255 when PEEKED).
+A simple circuit is given below, which may be duplicated up to 16 times,
+to enable reading of an external switch (ie. for games controls etc.).
+
+Bit 0 of I/O Port A via Pin 1 of 16 pin I.C. Skt.  _______ \______ GND (0V)
+                                                        Switch
+
+The volume of the Sound Board can be matched to your amplifier by adjusting
+the preset volume control mounted next to the 3.5 mm Jack Skt.
+
+Connection details for the two ports are given below ---------
+
+Pin l = Port A bit O ; Pin 9  = Port B bit 0        16 15 14 13 12 11 10  9
+Pin 2 = Port A bit 1 ; Pin 10 = Port B bit 1       +------------------------+
+Pin 3 = Port A bit 2 ; Pin 11 = Port B bit 2       |                        |
+Pin 4 = Port A bit 3 ; Pin 12 = Port B bit 3       |    16 PIN I.C. Skt.    |
+Pin 5 = Port A bit 4 ; Pin 13 = Port B bit 4       |o                       |
+Pin 6 = Port A bit 5 ; Pin 14 = Port B bit 5       +------------------------+
+Pin 7 = Port A bit 6 ; Pin 15 = Port B bit 6   Pins  1  2  3  4  5  6  7  8
+Pin 8 = Port A bit 7 ; Pin 16 = Port B bit 7
+
+
+  @@@@@@@@@@@@@@@@@@@@@@@@ PROGRAMMING EXAMPLES @@@@@@@@@@@@@@@@@@@@@@@@
+
+PHASER EFFECT
+
+ 10 LET A=32767                        (set A to address for Register addressing)
+ 15 LET D=32766                        (set D to address for Register Data)
+ 20 POKE A,7                           (Address control register)
+ 25 POKE D,255-8                       (Enable noise on channel A)
+ 30 FOR F=0 TO 15                      (Start loop to control frequency and volume)
+ 35 POKE A,6                           (Address noise period register)
+ 40 POKE D,32-F*2                      (Load register with decreasing velue)
+ 45 POKE A,8                           (Address channel A volume register)
+ 50 POKE D,15-F                        (Load register with decreasing value)
+ 55 FOR G=0 TO 25                      (Delay loop)
+ 60 NEXT G
+ 65 NEXT F
+
+
+TRAIN EFFECT
+
+ 10 LET A=32767
+ 15 LET D=32766
+ 20 POKE A,6                           (Address noise period register)
+ 25 POKE D,31                          (Set noise period to maximum)
+ 30 POKE A,7                           (Address control register)
+ 35 POKE D,255-(8+16+32)               (Enable noise on channels A,B,C)
+ 40 POKE A,8                           (Address channel A volume register)
+ 45 POKE D,16                          (Hand control of channel A to envelope shaper)
+ 50 POKE A,9
+ 55 POKE D,16                          (Repeat for channels B AND C)
+ 60 POKE A,10
+ 65 POKE D,16
+ 70 POKE A,13                          (Address envelope control register)
+ 75 FOKE D,10                          (Choose envelope shape)
+ 80 POKE A,12                          (Address envelope length coarse register)
+ 85 FOR F=0 TO 20                      (Loop which increases the speed of envelope)
+ 90 POKE D,22-F
+ 95 FOR G=0 TO 200                     (Delay loop)
+ 97 NEXT G
+ 99 NEXT F
+
+
+===============================================================================
+
+
+COMMERCIAL PROGRAMS RELEASED SUPPORTING THE QS SOUND BOARD
+
+The following programs were released by Quicksilva:
+- QS Asteroids
+- QS Defenda
+- QS Invaders
+- QS Scramble
+- QS Harmony
+- Cosmic Guerilla
+- Croaka-Crawla

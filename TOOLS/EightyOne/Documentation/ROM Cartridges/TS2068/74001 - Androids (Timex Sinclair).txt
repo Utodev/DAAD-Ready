@@ -1,0 +1,201 @@
+=================================
+ANDROIDS ROM Cartridge for TS2068
+Timex Sinclair
+=================================
+
+ANDROIDS
+© Peter Aked 1983
+
+Loading time: 2 minutes, 30 seconds
+
+Load name must be typed in lower case letters.
+
+Androids is a challenging strategy game of hunter and hunted, pitting the
+android against the monster masters of a maze that, seemingly, has no exit. As
+the android's force field weakens and his laser loses energy, he's prey to the
+lurking aliens who are waiting to spring when he's defenseless. Whether he
+makes it to the exit of the labyrinth, whether he has the strength to defend
+himself when he's backed into a corner, whether he destroys the monsters
+before they destroy him, all depend on how well you plan his desperate moves
+and whether your strategy succeeds.
+
+TIMEX COMMAND CARTRIDGE INSTRUCTIONS
+If you have the cartridge version of this software program, please follow the
+steps listed below:
+
+1. Turn off your TS2000.
+2. Lift cartridge door open.
+3. Insert command cartridge with label side up.
+4. Close cartridge door.
+5. Turn on your TS2000.
+6. Program will now begin execution.
+
+If Step 6 does not occur, start over with Step 1 ... and reseat cartridge
+once again.
+
+ALWAYS TURN OFF YOUR TS2gg@@ BEFORE INSERTING OR REMOVING CARTRIDGE.
+
+You may bypass tape load instructions below.
+
+TO LOAD: Press LOAD "androids", start the cassette player and press enter.
+The tape loads in 2 minutes 30 seconds. Stop the tape when an option menu
+appears on the screen. Choose quickly. If you don't make up your mind before
+the word "Androids" reaches the bottom of the screen, the demonstration
+program begins.
+
+TO PLAY: Your android is trapped in a maze while monsters haunt the labyrinth.
+our objective is to get him out of the maze in operating condition. Your android
+is equipped with a force field energy maximum of five and a laser maximum of
+strength seven. These provide the power to sustain and protect him.
+TO MOVE THE ANDROID: The "A" key moves your android up in the maze and
+"Z" moves him down. Press "X" to move him to the left, "C" to move him to your
+right. "V" fires his laser in the direction he's going.
+
+(NOTE: If these movement keys are inconvenient for you, or if you just want
+to change the movement keys, you can set your own by choosing "C"
+("Change Keys") when the options menu is on your display screen. The
+computer will then ask you which keys you want to use to move the android
+up, down, right and left and to fire his laser. The keys you choose will work
+until you quit the program or until you set new ones.)
+
+JOYSTICK FEATURE - 1 PLAYER
+This program optionally allows the use of a joystick to control its actions. With
+the joystick in slot 1 the following actions replace their keyboard counterparts:
+
+                Stick up = up
+                Stick down = down
+                Stick left = left
+                Stick right = right
+                Button = fire laser
+
+THIS PROGRAM REQUIRES THE JOYSTICK TO BE IN THE PLAYER 1 SLOT.
+
+Until you see the pulsating blue box that marks the exit from the maze, move
+your android through the corridors. You may want to take a detour to renew his
+force field strength or recharge his laser if he's been seriously weakened in his
+encounters with the monsters of the maze.
+
+TO SCORE: When the maze appears on your display screen, you can take as
+much time as you like to study the situation and decide which way your android
+should move to avoid monsters and find the exit. But notice you start with 3,082
+bonus points that tick off to zero very quickly in the upper left hand corner of the
+screen. If you don't get your android off to a quick escape, you'll lose them all
+before you move him.
+
+Although the most points come from moving your android out of the maze
+quickly with all of his field force and his laser energy intact, you pick up 18
+points every time he knocks out a monster with his laser.
+
+Remember, each time your android fires his laser it loses one point of energy.
+Once he's fired seven times, he's got to recharge his weapon or he's powerless
+against the monsters.
+
+Every time a monster fires on your android or collides with him, you lose one
+point of field energy. When he's been hit five times, his power is gone - and
+one more hit finishes him and ends the game.
+
+Watch the field strength and the laser energy level meters on the upper right.
+Your strategy in deciding which way to take your android through the maze is Â©
+going to depend on whether he's got the strength and energy to make it.
+
+STRATEGY
+If his laser energy and force field strength are at zero, your android can hide as
+long as a light blue box is between him and the monsters. The light blue boxes
+represent force fields monsters can't cross. But your android can't fire his laser
+through them either, so you can't knock out a monster without bringing your
+android out in the open.
+
+Dark blue boxes with a "G" inside are laser recharging stations. Every time your
+android enters a "G" box, you increase his laser energy by two points, up to the
+maximum of seven. Red boxes with an "S" strengthen your android's force field
+by one point each time he steps into one (maximum is five).
+
+Your android doesn't start his travels in the same position, and the exit is
+changed every time you play. Therefore, begin each game by moving your
+android at random, trying to locate the exit.
+
+Moving your android too fast through the maze may deplete his force field
+strength when he's surprised by monsters ahead of him. Moving him too slowly
+will lose bonus points for finding the exit. The android is home safe, but your
+score is low.
+
+Once you've successfully maneuvered your android out of the maze, press "P" to
+continue playing. "Androids" begins again and continues until your android is
+destroyed in the maze. The game is over.
+
+Should you not want to continue after releasing your android from the labyrinth,
+turn off the computer.
+
+LOADING INSTRUCTIONS:
+(See Chapter 4 of your instruction manual for detailed instructions.)
+
+1. First listen to the tape so you will be familiar with its distinct sections. The
+tape has a period of silence at the beginning, followed by a high-pitched,
+screechy noise. This is the computer program. The program is recorded twice on
+the cassette in case one does not load.
+
+2. Set the volume control on the cassette deck to about 3/4 of the maximum.
+If you have tone controls, set the bass to minimum and treble to maximum. If you
+have just one tone control, set it to HIGH or MAXIMUM.
+
+3. Rewind the tape to the beginning. Connect the EAR jack on the computer
+to the EAR jack on the cassette deck recorder. Make sure the plugs are clean
+and securely in place.
+
+4. To instruct the computer to accept the program you must press the LOAD
+command and type the name of the program in quotation marks. See the
+instructions or cassette for the correct loading name.
+
+5. Start the cassette deck, allow a few seconds for it to get up to speed, then
+press ENTER during the silence before the program begins.
+
+6. The border of the TV screen will alternate between pale blue (cyan) and red,
+during the time the computer is searching for the program on the tape.
+
+7. When the program has been found, the screen border will show a pattern of
+lines in the same shades of blue and red, and shortly the name of the program
+will appear on the screen.
+
+8. Next, as the program itself is being loaded into the computer, the border
+pattern will become thinner, faster moving yellow and dark blue lines.
+
+9. When the computer has finished loading the program, one of two things
+will happen:
+
+  1. Most commercial programs will begin running automatically, usually with a
+  "title screen" or instructions to the user. (A title screen may tell you that the
+  tape is still loading, if not, you should stop the tape immediately at this point
+  so as to be in the proper position to load the next program if you wish.) or
+
+  2. The screen will be blank, except for a 0 OK, 0:1 in the lower left hand
+  corner. This is a report code and means that the computer has successfully
+  loaded the program.
+  Stop the tape immediately. To execute the program, you press RUN and
+  ENTER. This will start the program.
+
+SOME SUGGESTIONS
+1. The volume at which the program is loaded is very important. Usually 3/4
+maximum volume works best, but recorders vary and may require
+experimentation with the volume setting. If you have a technical background you
+can check the output level of your recorder's EAR/SPKR jack. It must be at least
+4-volts peak-to-peak, although 5 to 6-volts peak-to-peak is best.
+
+2. Clean and demagnetize the heads of the tape recorder. Your ears may not
+pick up the signal fluctuations due to magnetic flux on the tape heads, but the
+computer has a much more sensitive "ear."
+
+3. The computer is very susceptible to outside interference. Working on a
+metal table or near electrical appliances should be avoided.
+
+4. Occasionally, once a program has loaded, the video display will show
+instability. This can be corrected by adjusting the vertical hold on the television.
+
+WARRANTY
+There are no warranties which extend beyond the description on the face
+hereof. No other warranty, whether express or implied, including the warranty of
+merchantability, shall exist in connection with the sale of this product. In no
+event shall Timex be liable for any consequential, incidental or special damages.
+
+MODEL NO. 345-064001
+
+© 1983 Timex Computer Corporation Waterbury, Connecticut 06725

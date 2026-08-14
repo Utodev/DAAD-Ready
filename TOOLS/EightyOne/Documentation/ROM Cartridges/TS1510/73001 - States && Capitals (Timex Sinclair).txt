@@ -1,0 +1,137 @@
+============================================
+STATES AND CAPITALS ROM Cartridge for TS2068
+Timex Sinclair
+============================================
+
+STATES AND CAPITALS
+© Timex 1983
+
+Loading time: 2 minutes 45 seconds
+
+An entertaining educational program to help you learn the 50 states and their capitals. The
+TS2000 draws you a map of the United States, shows you where each state is and locates the
+capital cities. STATES AND CAPITALS teaches you geography. And, because all names
+must be spelled correctly, you will be sharpening your spelling skills. You can have the
+TS2000 name the states and ask you for their capitals, or give you the capitals and ask you to
+supply the states - or a combination of the two. Also, "quiz the computer" by entering one and
+asking the computer to supply the other, thereby allowing the program to serve as a handy
+reference tool.
+
+TIMEX COMMAND CARTRIDGE INSTRUCTIONS
+If you have the cartridge version of this software program, please follow the steps listed
+below:
+
+1. Turn off your TS2000.
+2. Lift cartridge door open.
+3. Insert command cartridge with label side up.
+4. Close cartridge door.
+5. Turn on your TS2000.
+6. Program will now begin execution.
+
+If Step 5 does not occur, start over with Step 1 ... and reset cartridge once again.
+
+ALWAYS TURN OFF YOUR TS2000 BEFORE INSERTING OR REMOVING CARTRIDGE. You may bypass tape load
+instructions below.
+
+TO LOAD: Press LOAD "loader" start your tape and press ENTER. The program will load in
+2 minutes, 45 seconds. Stop the tape when the TS2000 tells you it is "selecting questions".
+Throughout the program, you will be shown instructions on the screen to guide you in its use.
+Always remember to press ENTER after typing anything with the flashing L cursor showing
+at the bottom of the screen.
+
+TO PLAY: After the computer has selected its questions, you'll be asked to "pick your topic."
+You may choose from the following four option -
+
+1. CAPITALS: Press 1. You are given the names of states, and asked to supply their capitals.
+
+NOTE: You have two chances at each question before the computer tells you the answer. All
+names must be spelled correctly (including capital letters where appropriate), or the computer
+will treat your answer as an incorrect one. If you use the DELETE key to change an answer
+before pressing ENTER, and you accidentally erase a quotation mark, type in a new one. Both
+your answer and the L cursor must be completely within the quotes. Otherwise, when you
+press ENTER, you'll see a question mark next to the L.
+
+You may exit any section by typing an X in response to a question. Then press S to select
+another topic, or E to quit the program entirely.
+
+2. STATES: Press 2. You are given the names of capitals, and asked to type in their states.
+
+3. MIXED CAPITALS AND STATES: Press 3. In this section you are given either the state
+or the capital, and asked to supply the other.
+
+4. ENTER STATES OR CAPITALS: Press 4. Type either the name of a state or a capital,
+and the TS2000 replies with both and shows you their locations on the map.
+
+There are 50 questions in each quiz. At the end, you are told how many you have answered
+correctly. Press S to select another topic, or E to quit the program.
+
+Good luck!
+
+LOADING INSTRUCTIONS:
+(See Chapter 4 of your instruction manual for detailed instructions.)
+
+1. First listen to the tape so you will be familiar with its distinct sections. The tape has a
+period of silence at the beginning, followed by a high-pitched, screechy noise. This is the
+computer program. The program is recorded twice on the cassette in case one does not load.
+
+2. Set the volume control on the cassette deck to about 3/4 of the maximum. If you have
+tone controls, set the bass to minimum and treble to maximum. If you have just one tone
+control, set it to HIGH or MAXIMUM.
+
+3. Rewind the tape to the beginning. Connect the EAR jack on the computer to the EAR
+jack on the cassette deck recorder. Make sure the plugs are clean and securely in place.
+
+4. To instruct the computer to accept the program you must press the LOAD command and
+type the name of the program in quotation marks. See the instructions or cassette for the
+correct loading name.
+
+5. Start the cassette deck, allow a few seconds for it to get up to speed, then press ENTER
+during the silence before the program begins.
+
+6. The border of the TV screen will alternate between pale blue (cyan) and red, during the
+time the computer is searching for the program on the tape.
+
+7. When the program has been found, the screen border will show a pattern of lines in the
+same shades of blue and red, and shortly the name of the program will appear on the screen.
+
+8. Next, as the program itself is being loaded into the computer, the border pattern will
+become thinner, faster moving yellow and dark blue lines.
+
+9. When the computer has finished loading the program, one of two things will happen:
+
+  1. Most commercial programs will begin running automatically, usually with a "title
+     screen" or instructions to the user. (A title screen may tell you that the tape is still
+     loading, if not, you should stop the tape immediately at this point so as to be in the
+     proper position to load the next program if you wish.) or
+
+  2. The screen will be blank, except for a 0 OK, 0:1 in the lower left hand corner. This is a
+     report code and means that the computer has successfully loaded the program.
+     Stop the tape immediately. To execute the program, you press RUN and ENTER. This
+     will start the program.
+
+SOME SUGGESTIONS
+1. The volume at which the program is loaded is very important. Usually 3/4 maximum
+volume works best, but recorders vary and may require experimentation with the volume
+setting. If you have a technical background you can check the output level of your recorder's
+EAR/SPKR jack. It must be at least 4-volts peak-to-peak, although 5 to 6-volts peak-to-peak
+is best.
+
+2. Clean and demagnetize the heads of the tape recorder. Your ears may not pick up the
+signal fluctuations due to magnetic flux on the tape heads, but the computer has a much more
+sensitive "ear."
+
+3. The computer is very susceptible to outside interference. Working on a metal table or
+near electrical appliances should be avoided.
+
+4. Occasionally, once a program has loaded, the video display will show instability. This
+can be corrected by adjusting the vertical hold on the television.
+
+WARRANTY
+There are no warranties which extend beyond the description on the face hereof. No other
+warranty, whether express or implied, including the warranty of merchantability, shall exist in
+connection with the sale of this product. In no event shall Timex be liable for any
+consequential, incidental or special damages.
+
+MODEL NO. 345-063001
+
+© 1983 Timex Computer Corporation Waterbury, Connecticut 06725

@@ -1,0 +1,34 @@
+================================================
+G29/R TRANZ AM ROM Cartridge for the ZX Spectrum
+Sinclair Research
+================================================
+
+The year is 3472 and all that remains on Earth are the ruins of a once great
+continent, a barren land, a desolate place of sand, rocks and boulders. But life
+adapts quickly and brings with it a New Age, a time ruled by cars and trophies, a
+land where petrol replaces gold, and esteem is possession of the 8 Great Cups of
+Ultimate. Possessed for too long by the 'Deadly Black Turbos', the 8 cups remain
+hidden through the land, their strange inscriptions long since forgotten and their
+locations reverently protected. Your chance...a Super Blown Red Racer equipped
+with advanced technology, and power which far surpasses any Black Turbo.
+
+
+Controlling your Red Racer
+
+Keyboard Controls
+
+TURN ANTI-CLOCKWISE: 'Z, C, B, M' keys.
+TURN CLOCKWISE: 'X, V, N' and SYMBOL SHIFT keys.
+ACCELERATION: any key on the third row (Q, W, E, R, etc)
+BRAKE: any key on the second row (A, S, D, F, etc)
+PAUSE the game by using the CAPS SHIFT key
+
+
+Joystick Controls
+
+Connect joystick to right hand socket.
+
+JOYSTICK FORWARD - accelerates
+JOYSTICK BACKWARD - brakes
+JOYSTICK RIGHT - turns clockwise
+JOYSTICK LEFT - turns anti-clockwise

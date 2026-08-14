@@ -1,0 +1,237 @@
+﻿=================================
+BUDGETER ROM Cartridge for TS2068
+Timex Sinclair
+=================================
+
+THE BUDGETER
+© Timex 1983
+
+Loading time: 3 minutes 20 seconds
+
+Plan your household budget for the next year. BUDGETER will help you compare
+budgeted expenses versus actual expenses - using charts and bar graphs. It
+will automatically compute the variance between budgeted and actual amounts.
+If you have a printer, you can make copies of the screen displays.
+
+TIMEX COMMAND CARTRIDGE INSTRUCTIONS
+It you have the cartridge version of this software program please follow the steps
+listed below:
+
+1. Turn off your TS2000.
+2. Lift cartridge door open.
+3. Insert command cartridge with label side up.
+4. Close cartridge door.
+5. Turn on your TS2000.
+8. Program will now begin execution.
+
+If Step 5 does not occur - start over with Step 1 ... and reset cartridge once
+again.
+
+ALWAYS TURN OFF YOUR TS2000 BEFORE INSERTING OR REMOVING CARTRIDGE.
+
+You may bypass tape load instructions below.
+
+TO LOAD: Press LOAD "loader" start your tape recorder and press ENTER. The
+program will load in 3 minutes 20 seconds, and starts automatically. Stop the
+tape when asked to do so by the computer.
+
+TO USE: Press ENTER for the title screen. Press ENTER again to see the menu
+of options you have at your disposal, and an invitation to select one of them.
+Simply press the number key on your TS2000 that corresponds to the option you
+wish to use. We'll explain each of these options for you in these instructions,
+
+NOTE: Always remember to press ENTER after typing anything with the flashing
+L cursor showing at the bottom of the screen.
+
+1. ADD ACCOUNT: Press 1. Before you can use any of the other options, you
+must first feed information into the TS2000's memory. Here you will establish the
+accounts, or categories of expenditure, for which you want to budget -
+electricity, telephone, food, clothing, health, travel, etc.
+
+Once you have planned your budget, you will want to save it on cassette, using
+option 8 below. Option 7 allows you to reload the budget you earlier saved, and
+update the file with your monthly expenditures using option 3. Options 2, 4, 5, 6.
+and 10 allow you to examine the file and compere your budget with your actual
+expenditures.
+
+Unless you have already loaded a data file (see option 7), you will be informed
+that the current file is empty, and if you wish to load a data file you must do 80
+now. Therefore, press: y - to load a data file from cassette. This is the same as
+option 7 below, offered here partly as a warning. If you intend to add new
+accounts to an existing file, you must load the file first, then add the new
+accounts to it. When you load a data file you clear any existing accounts from the
+computer's memory.
+
+n - to begin a new file. You are asked to input an account. The account name
+must be eight characters or less in length (any combination of letters and
+numbers)
+
+The name you give an account now will be the name by which you must refer to it
+in later options. After entering the account name, you will be shown the budget
+worksheet for that account - with the months of the year listed down the left-
+hand aide of the screen and columns labeled "Budget" and "Actual" for inputting
+your budget numbers. You are asked to input your budget for each month in turn,
+beginning with JAN. An arrow will help mark your place as you move down the
+columns. Type in your projected budget for the first month (whole dollar amounts
+only in this column - don't type the $). You are then asked to input your actual
+expenditure for that month. It you are only planning your budget, enter a 0. Enter
+your projected numbers for the remaining months in the same way. If you want to
+plan a budget for less than a year, simply enter zeros for the months not
+included in your budget.
+
+After numbers have been entered for each month, you are asked if the data is
+correct. Look it over. If you find an error, press n. Type the first three letters of
+the month you wish to change - then enter the adjusted amount. Press y if you
+have more corrections and follow the same procedure. Prass n to see the final
+projected budget for the account. If you have a printer attached, you can press y
+to make a copy of the screen or n to return to the menu. Select option 1 again to
+add another account. Continue until your budget is complete
+
+2. DELETE ACCOUNT: Press 2. Type in the name of the account to be deleted
+and press ENTER. The account will be displayed - press y to delete it, or n to
+return to the menu (in case you change your mind).
+
+3. ADJUST ACCOUNT: Press 3. Here's where you enter your monthly
+expenditures and compare them against your budget projections. Enter the
+account name you wish to adjust. You will be shown the adjustment screen for
+that account. Notice the third column labeled "Variance." "Variance" gives you
+the difference between "Budget" and "Actual." If your actual expenditures are
+less than the budgeted amount, variance will be a positive number. If you
+exceeded your budget for the month, variance will be a negative number.
+
+Enter the month you wish to adjust and the actual expenditure tor that month
+{you may use decimals in the column for expenditures). You will also need to
+repeat the budgeted amount - simply type if in exactly the way it appears on the
+screen. It you wish to adjust your budget numbers, either upwards or downwards.
+you can do so now. You may want to make such adjustments as you begin to see
+further opportunities for tightening or loosening purse strings in individual
+categories. Press n to finish - then press y 10 copy the Account Detail List (the
+adjusted budget) to the printer, or n to return to the menu.
+
+4. PRINT ACCOUNT OETAILS: Press 4 to view an account. Enter the name of
+the account you wish to see. The Account Detail List shows you the budgeted
+and actual figures and the variance for each month. (Notice this is the same
+screen you see at the end of both options 1 and 3.)
+
+5. LIST ALL ACCOUNTS: Press 5 for a listing of all accounts in the current data
+file. 1 you have forgotten the name of an account, you will find it listed here.
+Press y for a printer copy, or n to return to the menu.
+
+6, COMPUTE TOTALS: Press 6 to see the composite totals for all accounts tor
+each month as well as the year. Press y for a printer copy, or n to return to the
+menu.
+
+7. LOAD DATA FILE: Press 7 to load a data file from cassette. You are asked
+for a file name. Type if in exactly the way you did when you saved the file (see
+option 8), and press ENTER. Be sure you remove the original BUOGETER
+cassette from your tape recorder, and replace it with the cassette containing the
+data file you wish to load. Press the play button on your tape recorder. Stop the
+tape when the menu returns to your screen. You can now update or delete
+existing accounts, or add new accounts using option 1. Each data file will hold
+up to 50 accounts, or categories.
+
+NOTE: A single data file contains all the data for your entire budget. To
+execute options 2 through 6, or 10, you must first load the BUDGETER
+program then use option 7 to load the data. It is possible to nave several
+data files should you want to keep separate budgets for household, auto,
+business, etc.
+
+8. SAVE DATA FILE: Press 6 to save the data file currently in the computer onto
+a cassette. Be sure you have the MIC port on the TS2000 connected to the MIC
+port on your tape recorder, and the tape is set to the beginning if it's a new tape
+- or to location on a used tape where you will be sure not to record over
+anything you wish to keep. You are asked to enter the name with which you want
+to save the file - perhaps HOUSEHOLD, AUTO ... or even BUDGET. Type it in
+and press ENTER. Start the recorder in RECORD mode and press any key. You
+will be instructed to stop the tape when the save is complete. Press ENTER to
+return to the menu. The file you saved is still in the computer and you can
+continue to work with it. We recommend that you save a tile periodically to insure
+against its being lost - for instance, through a power failure. It is also a good
+idea to keep the previously saved version of the file on a separate tape as a
+backup copy.
+
+9. SAVE PROGRAM LOGIC: This option makes a backup copy of BUOGETER.
+Should anything happen to the original you will have this copy to use. (Note the
+entire program is saved, rather than simply a data file.)
+
+10. GRAPHICAL ANALYSIS: Press 10 to see a bar graph representation of
+either a single account or of the composite of the entire budget. Enter an
+account name, or xxxx (four x's) for the composite. The budget for each month is
+represented by a blue tine, the actual expenditure by a red line. Press y to send a
+copy of the graph to the printer of n to return to the menu.
+
+11. TERMINATE PROGRAM: Press 11, then press y to stop the program, or n
+to return to the beginning without any loss of data.
+
+LOADING INSTRUCTIONS:
+(See Chapter 4 of your instruction manual for detailed instructions.)
+
+1. First listen to the tape so you will be familiar with its distinct sections. The
+tape has a period of silence at the beginning. followed by a high-pitched,
+screechy noise. This is the computer program. The program is recorded twice on
+the cassette in case one does not load.
+
+2. Set the volume control on the cassette deck to about 3/4 of the maximum.
+If you have tone controls, set the bass to minimum and treble to maximum. If you
+have just one tone control, set it to HIGH or MAXIMUM.
+
+3. Rewind the tape to the beginning. Connect the EAR jack on the computer
+to the EAR jack on the cassette deck recorder. Make sure the plugs are clean
+and securely in place.
+
+4. To instruct the computer to accept the program you must press the LOAD
+command and type the name of the program in quotation marks. See the
+instructions of cassette for the correct loading name.
+
+5. Start the cassette deck, allow a few seconds for it to get up to speed, then
+press ENTER during the silence before the program begins.
+
+6. The border of the TV screen will alternate between pale blue (cyan) and red,
+during the time the computer is searching for the program on the tape.
+
+7. When the program has been found, the screen border will show a pattern of
+lines in the same shades of blue and red, and shortly the name of the program
+will appear on the screen.
+
+8. Next, as the program itself is being loaded into the computer, the border
+pattern will become thinner, faster moving yellow and dark blue lines.
+
+9. When the computer has finished loading the program, one of two things
+will happen:
+
+  1. Most commercial programs will begin running automatically, usually with a
+  "title screen" or instructions to the user. (A title screen may tell you that the
+  tape is still loading, if not, you should stop the tape immediately at this point
+  so as to be in the proper position to load the next program if you wish.) or
+
+  2. The screen will be blank, except for a 0 OK, 0:1 in the lower left hand
+  corner. This is a report code and means that the computer has successfully
+  loaded the program.
+  Stop the tape immediately. To execute the program, you press RUN and
+  ENTER. This will start the program.
+
+SOME SUGGESTIONS
+1. The volume at which the program is loaded is very important. Usually 3/4
+maximum volume works best, but recorders vary and may require
+experimentation with the volume setting. If you have a technical background you
+can check the output level of your recorder's EAR/SPKR jack. It must be at least
+4-volts peak-to-peak, although 5 to 6-volts peak-to-peak is best.
+
+2. Clean and demagnetize the heads of the tape recorder. Your ears may not
+pick up the signal fluctuations due to magnetic flux on the tape heads, but the
+computer has a much more sensitive "ear."
+
+3. The computer is very susceptible to outside interference. Working on a
+metal table or near electrical appliances should be avoided.
+
+4. Occasionally, once a program has loaded, the video display will show
+instability. This can be corrected by adjusting the vertical hold on the television.
+WARRANTY
+There are no warranties which extend beyond the description on the face
+hereof. No other warranty, whether express or implied, including the warranty of
+merchantability, shall exist in connection with the sale of this product. In no
+event shall Timex be liable for any consequential, incidental or special damages.
+
+MODEL NO. 345-062000
+
+© 1983 Timex Computer Corporation Waterbury, Connecticut 06725

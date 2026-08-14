@@ -1,0 +1,535 @@
+﻿=========================================
+Larken Disk-Drive Controller for the ZX81
+Larken Electronics
+=========================================
+
+LDOS
+
+Ldos disk operating system (dos) is a easy to use DOS for the
+ZX-81 that features Basic, Array and code saves; and automatic
+management of the directory and disk file storage.
+
+Ldos resides on a 2K eprom that is memory mapped from address
+14336 to 16383. The controller also has on board a 2K ram buffer
+that is mapped from 12288 to 14335. The dos is always entered
+by USR 14336 command.
+
+  eg: to enter LDOS :
+type: PRINT USR 14336
+
+   LDOS
+   *       (should appear)
+
+  
+LDOS COMMANDS
+
+Eight commands are supported by the eprom version of Ldos:
+
+  DIRECTORY     LOAD "xxxxxx.Tx"
+  FORMAT        SAVE "xxxxxx.Tx"
+  EXIT          DELETE "xxxxxx.Tx"
+
+and drive select commands
+
+These commands don't use token words like Timex Basic but are
+typed in letter by letter. Only the first 4 letters of a
+command need to be typed.
+
+  eg: DELE "xxx.B1"
+      FORM
+
+
+Syntax
+
+Load, save, and delete require a file name to follow the
+command.
+
+The proper syntax for a file name is —
+
+  When data type is array the first 2 characters specify the
+  name of the array. eg: save "a$name.Ax" will search for an
+  array called a$ and save it. The second character has to be
+  a "$" specifying a string array or a "#" specifying a numeric
+  array.
+  
+                      "XXXXXX.TX"
+                      |     ||_____ The extension has to be 2
+                      |     |       letters long. First letter
+The program name can be     |       specifies the file type:
+up to 6 characters long.    |         A - Array
+The whole file name is      |         B - Basic Prog
+in quotes.                  |         C - Code Block
+                            |       Last letter can be anything.
+                            |
+                            The period is a separator and
+                            is compulsory.
+
+
+Entering Commands
+
+Commands may be entered in immediate mode by entering The Ldos
+monitor using a Print USR call without a line number or commands
+can be executed from running basic programs.
+
+When a command is to be executed from within a program the
+command is held in a REM statement preceded by the USR call.
+
+  eg: 100 RAND USR 14336
+      120 REM SAVE"prog.Bz"
+
+
+Auto Run Programs
+
+When a program is saved from within a running program, it
+will continue from the next line when it is loaded back in.
+A STOP statement before the saving lines is sometimes wise to
+put in so the program doesn't accidently resave itself.
+
+  eg: 1 REM program  
+     80 STOP
+     90 RAND USR 14336         (use a RAND USR if you don't want
+    100 REM SAVE "TEST.B1"      anything printed on the screen.)
+    110 GOTO 1
+
+(type GOTO 90 to save program)
+
+
+Formatting
+
+New disks must be formatted by the Format Command before data
+can be saved on them. Formatting initializes the directory and
+writes zeros in the data field on all the tracks. It also
+reads the data back in to check for sumcheck errors (CRC ERR).
+
+A good disk should not have any CRC errors but sometimes a
+heavily gaussed disk may have to be Formatted more than once.
+
+Use a good quality double sided disk that is soft sectored.
+
+- If the system will save and load programs on disks that it has
+Formatted but won't read disks from another Larken system this
+means that one or both of the disk drives is not aligned correctly
+(most computer stores can align disk drives).
+
+
+Saving "XXXXX.TX"
+
+BASIC programs are saved from the start of the system
+variables to the end of the variable area. Variables are saved
+with the program. Note- to save a Basic Program, the first
+letter after the period in the file name must be a "B".
+
+MACHINE CODE or memory blocks can be saved by poking the start
+address into locations 12304 (lsb) and 12305 (msb) and by poking
+the length into locations 12306 (186) and 12307 (msb)
+then save the file with a "C" after the period in the
+file name.
+
+  eg: to save a block starting at 50000 that’s 500 bytes long
+       256*195+80=50000
+    POKE 12304,80
+    POKE 12305,195
+       256*1+244=500
+    POKE 12306,244
+    POKE 12307,1
+       then SAVE "xxxxx.Cx"
+
+
+Saving Code Continued-
+
+- Note, never load or save code over the machine stack area or
+undecoded memory areas in memory. eg: if you only have a 16k
+ram pack don't save memory above 32768, as this will cause
+unpredictable results.
+
+A Basic program for poking these locations could be on disk and
+loaded when ever needed.
+
+  eg: 10 REM Poking program
+      15 PRINT "INPUT START ADDRESS ? ";
+      20 INPUT A
+      25 PRINT A
+      30 LET B=INT (A/256)
+      35 LET C=A-(256*B)
+      40 POKE 12304,C
+      45 POKE 12305,B
+      47 PRINT "INPUT LENGTH? ";
+      50 INPUT A
+      55 PRINT A
+      60 LET B=INT (A/256)
+      65 LET C=A-(256*B)
+      70 POKE 12306,C
+      75 POKE 12307,B
+
+ARRAYS must be dimensioned in memory before then can be saved
+or loaded, or a "NO FILE" error will result. Also when an
+array is reloaded the predimensioned array in memory must be the
+same size as when it was saved.
+
+  eg: to save the array "a$"
+      10 DIM A$(1000)
+     100 RAND USR 14336
+     110 REM SAVE "A$XXXX.AX"     (example)
+
+
+LOAD "XXXXX.TX"
+
+Loading can be done in the Dos monitor or from within programs.
+The computer can effectively run up to a 150K (or 300K if 2 drvs)
+program by loading in new programs.
+
+When code is loaded, it is loaded back into the same place as
+where it was saved from.
+
+With the disk drive you can usually load code directly into
+free memory "below ramtop" as long as you leave about 100 bytes
+above the code for the stack. But be careful that your basic
+program isn't going to overwrite the code as it is unprotected
+by ramtop.
+
+
+DIRECTORY
+
+The directory displays all the files that are on the disk. A
+total of 52 files per disk be contained. The number of blocks
+used by the file is displayed and at the bottom the number of
+free blocks is printed also.
+
+When a disk full error occurs or an array can’t be found for
+saving, the file name will appear on the disk but no blocks will
+be used. Just delete this file name.
+
+The Directory can be printed on the printer by entering the dos
+with a LPRINT USR 14336 command. You won't be able to see what
+you are typing until you press enter. Also you will never get
+the screen full error. EXIT will return you to the Basic as
+normal.
+
+
+DELETE "XXXXX.TX"
+
+The delete command will remove the file name from the directory
+
+
+EXIT
+
+Exit returns you to basic when you are in the monitor.
+
+
+Selecting Drives
+
+When operating a dual drive system, the way you select the drive
+you want to access, is to directly output a value to port 87, by
+poking 12300, port (87) and poking 12301,0 (for drive l) or 2
+(for drive 2), then RAND USR 16374
+
+  eg: to set drive 1 - POKE 12300,87
+                       POKE 12301,0
+                       RAND USR 16374
+
+  eg: to set drive 2 - POKE 12300,87
+                       POKE 12301,2
+                       RAND USR 16374
+
+- when you first power up the system, drive 1 is automatically
+selected. It will stay selected until you select drive 2.
+
+- this subroutine at 16374 can be used to output data to any
+port. It is - LD BC,(12300) / OUT (C),B - in machine code.
+Note- only use odd # ports
+
+
+ERRORS
+
+? - Ldos doesn't recognise the command (first 4 letters)
+
+SYNTAX ERR   A syntax error occurs when
+  - a command doesn't have a legal file name
+  - the command in a REM statement isn't correct
+  
+NO FILE occurs
+  - on a load, move, delete or copy if the file isn't on disk
+  - when the dos can't find an array (maybe because it
+    wasn't already dimensioned)
+
+PROT ERR
+  - occurs when a save, delete, format or copy is performed on a
+    disk with a write protect sticker
+
+CRC ERR
+  - Occurs when data cannot be read from a track after 10
+    tries. The number after the error is the track number.
+
+DISK FULL
+  - Occurs when the disk doesn't have enough room on it to hold
+    the file. The file name will appear on the disk but no
+    blocks will be used.
+  - Occurs when more than 52 directory entries are made.
+
+
+ADDITIONAL COMMANDS are available on disk from LARKEN
+ELECTRONICS. These include Copy, Move, Badblocks, Backup and also
+extra BASIC commands such as Free, Clear, scroll (up, down,
+left, right) etc.
+
+
+They are available in 3 memory areas. A REM statement (16514),
+16k ramtop version (28000 to 32000), and a 64k ramtop version
+for rams that can run machine code up at 60000.
+
+Please specify the required version.
+
+
+ENTERING LDOS from MACHINE CODE
+
+When the dos is entered it checks to see if was called from a
+running program or from immediate mode by peeking basic
+variable (16391). If it sees a 255 then this means that the
+program wasn't running and that it should print "LDOS" and enter
+the keyboard input routine. If it is other that 255 then it gets
+the command from the next REM statement in the program. Either
+way the command is transferred to the command buffer at "cline".
+A routine called "sort" then checks syntax and jumps to the
+right routine.
+
+The way to enter the dos from machine code would be to transfer
+your command (eg: LOAD "xxxxx.XX") to "cline" and the jump or
+call sort. (Its not necessary to poke 16391)
+
+Directory Format, Copy and Delete always return to the keyboard
+routine when finished and have to be exited.
+
+Load and Save return by jumping to 0207 (hex).
+
+
+DOS Utility Subroutines
+
+Listed following are machine code subroutines that are in the
+dos that may be useful to programmers to make custom files,
+simulate sequential files, repair damaged directories or reenter
+deleted files. When entering savebf, loadbf, settrk or nextrk, you
+must be in fast mode. The outport subroutine calls fast mode
+itself.
+
+If your directory got damaged, maybe caused by the disk being
+glitched when you powerup etc, you can reconstruct it by:
+
+- format a new disk and then put all the names of the files
+(that you want to salvage off the damaged disk) on the new disk
+by saveing the programs to disk. (it doesn’t matter if there is
+no program in memory to save, you just want to get the name put
+into the directory)
+  - Enter the dos, do a directory and exit.
+  - place your damaged disk into the drive and then do a FAST,
+    turn the drive motor on with the outport subroutine, wait 1
+    second and then call Savebuffer.
+  - this will save the buffer (with the new directory in it) on
+    to the old disk.
+  - Then you must search through all the tracks (with the program
+    "dump.B1") to find what tracks your programs are on. Then the
+    tracks must be entered into the directory name cells (using the
+    program "tool.B1") according to the directory diagram in the
+    back of this manual.
+  - the tracks don't have to be entered into the track map if you
+    don't plan on doing any saves or deletes on the disk.
+  - you should then copy the programs off the disk and reformat
+    the disk.
+
+
+Machine Code Subroutines
+
+                HEX      DECIMAL
+----------------------------------
+Loadbuffer     38D2       14546
+Savebuffer     3A0D       14861
+Settrk         39BA       14778
+Nexttrk        39AB       14763
+Output         3FF6       16374
+Sort           3B8F       14479
+curtrk                    12289
+Cline                     12306
+buffer                    12352
+data                      12376
+
+workspc - start of dos work space (12288)
+buffer  - area of memory that is saved to or loaded from the disk
+          the first 24 bytes of buffer are used for sumcheck, file
+          name, track # and data address and length.
+data    - total length, 1960 bytes. Directory if trk 0 is loaded.
+loadbf  - subroutine to load the track the head is at, into
+          the buffer.
+savebf  - subroutine to save buffer to current track. Before
+          using this, turn the motor on for 1 second.
+settrk  - subroutine to set the head on the track# in the
+          variable (curtrk). It first returns to track 0
+nextrk  - subroutine to set head on next side or track depending
+          if curtrk is odd or even. Increments curtrk.
+curtrk  - trk # variable - range 0 to 79
+sort    - the entry point to the command interpreter. Command
+          should be at cline.
+cline   - command line. For direct entry into dos from assembly
+          language, transfer your command into cline then call
+          sort
+outport - general purpose port output routine. It can be used to
+          select drives 1 or 2, turn the motor on, or output data
+          to any odd # port. Poke 12300,port#  Poke 12301,data
+          then call output at 16374. (RAND USR 16374)
+        - Port 69 (dec) controls the disk drive.
+          Bit 0 - Stepper pulse
+          Bit 1 - Stepper direction
+          Bit 2 - Side select
+          Bit 3 - Motor on
+          Bit 4 - Write enable
+
+
+Data Format
+
+   0       Workspace start
+ ...       Dos work area. Not saved on disk. Next 1984 bytes saved on disk
+  64 255   Buffer start
+  65       Trk address 1-79
+  66
+  67 E \
+  68 X  |
+  69 A  | 
+  70 M  |
+  71 P  |  Name of program using track
+  72 L  |
+  73 .  |
+  74 B  |
+  75 1 /
+  76   \  Start address of data
+  77   /
+  78   \  Length of data 
+  79   /
+ ...      Reserved for sum check
+  88
+ ...      1960 bytes of data
+2047
+
+
+Directory Format (TRK0)
+
+Address in memory referenced from workspc:
+
+   0       Workspace start address - 12288
+ ...       Dos Variables and Workspace area - not used on disk
+  64 255   Start of Disk buffer area. From this are on is saved on disk
+  65 0     Track address 0
+ ...       Reserved are for sum check
+  88 128   Always 128 because trk0 reserved for directory            \
+  89 129   \ These two tracks used by exampl.b81 so they              |
+  90 130   / have bit 7 set (128 added)                               |
+  91 3                                                                |
+  92 4                                                                |
+  93 5                                                                | Track Map Area
+  94 6                                                                |
+  95 7                                                                | These are bytes from 0-79
+  96 8                                                                | with bit 7 set if the track
+  97 9                                                                | is used by a file
+  98 10                                                               |
+  99 11                                                               |
+ ...                                                                  |
+ 167 79    End of track map                                          /
+ 168 255   Start of Dir Name Cell #1                                 \
+ 169 E \   Deleting a file puts 1 254 in first location after the 255 |
+ 170 X  |                                                             |
+ 171 A  |                                                             |
+ 172 M  |                                                             | Example Name cell shows file name is
+ 173 P  |  9 bytes reserved for name                                  | "exampl.b1" and uses tracks 1+2
+ 174 L  |                                                             |
+ 175 .  |                                                             |
+ 176 B  |                                                             |
+ 177 1 /                                                              |
+ 178       End of name marker (253)                                   |
+ 179 129 \ Tracks used by file                                        | \
+ 180 130 /                                                            |  | Tracks used by file area. Room for 24 tracks
+ 181 249   Floating end of file tracks marker                         |  |
+ ...                                                                 /  /
+ 203 255   Start of Dir Name Cell #2                                    \
+ 204 254   254 means Deleted or Not used                                 |
+ ...                                                                     | Example of unused Name Cell
+ 213 253   End of Name marker                                            |
+ 214 249   Floating marker. Shows no tracks used by this cell yet        |
+ ...                                                                    /
+ 236 255   Start of Dir Name Cell #3                                    \
+ ...                                                                     | 53 more Name Cells
+2047 250   End of Dir marker                                            /
+
+
+LDOS File Format
+
+Ldos keeps a directory on all files and a track map on track 0.
+The track map is a list of numbers, 0 to 79 representing tracks
+0 to 79. The track map entry will have bit 7 set if the track is
+used by a file. Since track 0 is reserved for the directory, the
+track map always starts with a 128 (0 with bit 7 set). The track
+map is located at the beginning of the directory track. Following
+the track map are 52 directory file cells. Each cell can contain
+a file name and the track numbers of up to 24 tracks (these
+tracks will have bit 7 set). Each track can hold up to 1960
+bytes of data, so the maximum file size is 24 * 1960. Markers
+are used within the cells. A 255 marks the start of each cell.
+A 254 may follow the 255 if the cell has not been used or the
+file was deleted. A 253 is placed 10 bytes after the 255 and it
+marks the end of the file name and beginning of the tracks used.
+Following the 253 are the tracks used by the file and then a
+floating 249 follows that. This is repeated 51 more times. A 250
+marks the end of the directory. (Don't use any characters in
+file names that are the same as these markers).
+
+Tracks 1 to 79 hold the data. The first 24 bytes is the header
+that contains the track number, the file name, the start address
+of where the file goes, the length and the sum check. Then there
+is the 1960 bytes of data.
+
+
+SET-UP
+
+- After connecting the power supply up (+5 orange) (GND black)
+to the board and connecting the disk drive power and signal
+cables, the sys should power up and you should get the cursor.
+The disk drive should not come on yet. It is normal for some
+disk drives to activate to motor for a few seconds when a disk
+is inserted. This feature is for centering the disk. If the
+motor and LED come on continuously when the power is on, the drive
+ribbon cable may be on wrong. This cannot cause any damage.
+
+Type "PRINT USR 14336" and you should get LDOS and an "*". You
+can try a DIRECTORY command to see if the motor is going to come
+on. If it does you are in luck. If it doesn't your disk drive
+jumpers are probably set wrong.
+
+They should be set for drive 1, and motor on with drive select.
+(there should be jumpers or switches on the drive labled, MS and
+MM. The MS should be jumpered and the MM should be not jumpered)
+The motor and LED on the drive should only come on when the dos
+is accessing the drive.
+
+An other way to turn the motor on for testing only is a direct
+port call using a subroutine on the dos eprom. This subroutine
+can output any value to any port. You have to (poke 12300,port)
+and (poke 12301,value) then Print USR 16374. Note- this subroutine
+is only for testing. Never use even number port addresses.
+
+- To turn motor on,  POKE 12300,69 ; POKE 12301,8 ; PRINT USR 16374
+- To turn motor off, POKE 12300,69 ; POKE 12301,0 ; PRINT USR 16374
+
+If all is ok then format a disk. It should format with no CRC
+Errors. If it has CRC errors only on the inner most tracks you
+may need to adjust the blue trimmer resister on the controller
+board. NOTE - remember where the adjustment was when you started,
+it shouldn't have to be turned more than 1 turn in either
+direction. Try turning it 3/4 turn in one direction then
+formating a disk. If it gets worse return it to its initial
+point the turn it 3/4 turn in the other direction. After this is
+set it shouldn't have to be touched again.
+
+- If you are using a single drive on a double controller it is
+advisable to have the drive jumpers selected for drive 1 and 2.
+This way if when powered up the drive 2 gets accidently selected
+the computer will not hang up when you try to access the disk.
+(this is because it is waiting for drive 2 to respond).
+
+- If you are using a 64k rampack, make sure the 8K to 16k area
+is switched out so it doesn't conflict with the dos.

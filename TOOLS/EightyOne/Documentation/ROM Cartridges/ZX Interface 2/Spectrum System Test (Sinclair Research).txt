@@ -1,0 +1,278 @@
+=========================================================
+ZX SPECTRUM SYSTEM TEST ROM Cartridge for the ZX Spectrum
+Sinclair Research
+=========================================================
+
+THE ZX SPECTRUM SYSTEM TEST ROM CARTRIDGE.
+
+A. Instructions for operation.
+
+For a rapid test of the operation of the ZX Spectrum, carry out the
+following steps (If more time is available see section 14 first).
+
+    1. Demonstrate the "c 1982 SincLair ReseaRch Ltd" message by
+    connecting up a ZX Spectrum and a television set as described
+    in the booklet - SINCLAIR ZX SPECTRUM INTRODUCTION. If this
+    succeeds, go on to stage 2.
+
+    If the copyright message is unobtainable, the fault may be in
+    the ZX Spectrum under test. But, before assuming this, it is
+    best to test the Power Supply Unit and the Television by
+    replacing the 'faulty' ZX Spectrum one that is known to be in
+    working order and showing that it still works.
+
+    A ZX Spectrum that fails to give the copyright message is
+    faulty and should be returned for repair.
+
+    2. DISCONNECT the power lead.
+
+    3. Push the System Test ROM Cartridge firmly into a ZX
+    Interface 2 unit.
+
+    4. Connect the ZX Interface 2 to the ZX Spectrum peripheral
+    port.
+
+    5. Reconnect the power lead.
+
+The screen should now display the SYSTEM TEST ROM CARTRIDGE title
+and a menu.
+
+IMPORTANT NOTE. If at any point during these tests the system fails
+to respond any further to the keyboard, or it returns to the main
+menu unexpectedly, then it should be considered to have failed.
+
+    6. Press the "R" key to select the Full test option.
+
+    7. The screen will display ZX SPECTRUM KEYBOARD TEST. Press
+    each key until they are all covered by red squares on the screen.
+    If this is not possible then the ZX Spectrum has failed,
+    otherwise press CAPS SHIFT and BREAK together to go on.
+
+    8. The screen will display BORDER test. The border area will
+    alternate between narrow Blue and Yellow stripes going on for
+    about three seconds, and steady Blue for about one second. Allow
+    this to continue for at least ten seconds, then press CAPS SHIFT
+    and BREAK to go on. If any of the above patterns are not
+    observed, or the keyboard will not respond, then the 2X Spectrum
+    has failed.
+
+    9. The screen will now display SOUND TEST. If the speaker
+    can be heard playing a scale then press CAPS SHIFT and BREAK
+    to go on. Otherwise it has failed.
+
+    10. The next test is the COLOUR TEST. The screen will display
+    all eight colours in normal and extra brightness, with their
+    names. Check these correspond, and press CAPS SHIFT end BREAK
+    to pass on. Otherwise fail.
+
+    11. The FLASH TEST flashes the whole screen, except the border,
+    between black and white. Check this, and press CAPS SHIFT and
+    BREAK to pass on if it is OK.
+
+    12. The RAM TEST checks all of memory with a variety of
+    patterns. Press any key to start it. It will report either
+    that the machine has 16K or 48K of memory in working order, or
+    that a memory location is faulty. If it reports the machine
+    size to be that which you expect, then pass on with CAPS SHIFT
+    and BREAK. Otherwise fail.
+
+This completes a full test. If a cassette recorder is available
+then the cassette test should also be carried out.
+
+    13. The CASSETTE TEST is Option 8 on the menu. It is in two
+    parts. First a tone is recorded onto tape. To do this
+    connect the MIC socket of the ZX Spectrum to the microphone
+    input of the tape recorder (do not connect the EAR sockets).
+    Position a blank cassette past its leader (the plastic part of
+    tape at the start which does not record) and press record.
+    Press S on the ZX Spectrum. A 5 second test tone will be
+    recorded. You may listen to this on the cassette to check it;
+    it will be a clear steady high-pitched tone, lasting five
+    seconds. This constitutes a test of the computers ability to
+    SAVE.
+
+    To test its ability to LOAD, position the tape you have just
+    recorded back to its start (or use the start of any ZX Spectrum
+    Program on cassette), connect the EAR socket of the ZX Spectrum
+    to the earphone output of the cassette recorder, set the volume
+    to about three quarters of its maximum level, and press J on the
+    ZX Spectrum then Play on the tape recorder. The border should
+    show a brief period of red and cyan stripes, and the message
+    LOADING OK should appear at the bottom of the screen. If this
+    does not occur, rewind the tape and try repeating the process and
+    vary the volume setting each time.
+
+    If both these tests are successful then press CAPS SHIFT and
+    BREAK to return to the main menu. Otherwise the ZX Spectrum
+    has failed.
+
+The Full Test and the Cassette Test constitute a complete test of the
+system's operation. Further tests detailed below may be carried out
+if it is required to test peripherals, or the ZX Spectrum is suspected
+of failure after it has been switched on for a while.
+
+    14. Soak Test.
+    If sufficient time is available, or the ZX Spectrum is
+    suspected of failing when hot or after some time, then the
+    sequence of test described above should be done after a
+    SOAK TEST.
+
+    To do this follow the steps above to stage 6, then select
+    Option 7 on the menu and then press any key to start the test.
+    This will run for about an hour, and all the time a red square
+    will move from the top to the bottom of the screen. If this
+    should stop, or an error be reported, then fail the system.
+    Otherwise carry on with the test above from Stage 7.
+
+These tests test peripherals to the Spectrum.
+
+    15. ZX Printer Test.
+    To test a ZX Printer, connect it to the rear of the
+    Interface 2 WHILE THE POWER 1S OFF, with everything set up as
+    above. Power up, and press key 9 to select ZX Printer test.
+    Press Z to COPY the screen to the printer. This should all be
+    reasonably clear and legible.
+
+    16. RS 232 test.
+    This requires the ZX Interface 1 also to be attached, and a
+    device capable of sending and/or receiving at 9600 baud. A
+    suitable device to test output would be a printer capable of
+    receiving at 9600 baud, or another ZX Spectrum and ZX Interface
+    1 connected by a "crossover" lead could be used to test both
+    input and output. Suitable programs for it are:
+
+        To test output from the Spectrum under test:
+
+        10 OPEN #4,"t"
+        20 LET a$=INKEYS$ #4
+        30 IF a$="" OR a$=CHR$ 10 THEN GO TO 30
+        40 PRINT a$;
+        50 GO TO 20
+
+        To test input from the Spectrum under test:
+
+        10 OPEN #4,"t"
+        20 FOR a=97 TO 122
+        30 PRINT #4;CHR$ a;
+        40 NEXT a
+        50 GO TO 20
+
+    16. Network test.
+    This requires a second Spectrum equipped with a ZX Interface 1,
+    connected to the system under test via a network lead as per the
+    ZX Microdrive and ZX Interface 1 manual. Q is pressed to select
+    Network test. To test network sending, enter and RUN the
+    following program on the other Spectrum, and then press P.
+
+        10 FORMAT “n";2
+        20 OPEN #4;"n";1
+        30 PRINT INKEY$ #4;
+        40 GO TO 30
+
+    The letters of the alphabet should appear on the screen, and
+    the report "End of file" should be produced.
+
+    To test network receiving, enter and RUN the following
+    program on the other ZX Spectrum, and press 1.
+
+        10 FORMAT "n";2
+        20 OPEN #4;"n";1
+        30 FOR a=97 TO 122
+        40 PRINT #4;CHR$ a;
+        50 NEXT a
+        60 CLOSE #4
+        70 GO TO 20
+
+    17. Joystick test.
+    Connect a joystick to each socket in turn, and move it in
+    each direction, including the diagonals. Also press the fire
+    button. This should produce nine red blocks in each square.
+
+B. Notes on Failure.
+
+If a ZX Spectrum has failed one or more of the above tests, it
+should be sent for repair as appropriate, with an indication of how
+it failed.
+
+This section is intended as a guide to what might cause failure at
+each section of the test. It should only be used by persons qualified
+to repair the computer.
+
+    1. The Keyboard test.
+    If the keys fail in rows or columns then it is likely that the
+    keyboard tails are at fault.
+
+    2. The Border Test.
+    This test loads a routine into the 16K video RAM that executes
+    a tight loop involving I/O. This simulates the effect of an
+    arcade game in the video RAM. This has been known to cause
+    Spectrums to crash.
+
+    Failure will result in the computer crashing, identified either
+    by it stopping and not responding to the keyboard, or by the
+    display returning to the main menu.
+
+    3. The Sound Test.
+    This tests the loudspeaker by playing a scale of notes. If no
+    sound can be heard, then the speaker or the circuit driving it
+    has failed.
+
+    4. The Colour Test.
+    If the display is in Black and White, or the colours are not as
+    described, then the computer should be sent for repair. The
+    distinction between normal and bright is only apparent
+    in the brighter colours, usually from green to white.
+
+    5. The Flash Test.
+
+    Flashes the whole screen between black and white, except the border.
+    If part or all of the screen is not flashing then the ULA is almost
+    certainly at fault.
+
+    6. The RAM Test.
+
+    The RAM Test tests every location with a varitey of patterns, If
+    it fails to detect that the machine has 16K or 48K of RAM, i.e.
+    there is some other amount, then it will report the first location
+    that failed, indicating what happens when that location is loaded
+    with 00 and FF. This will be of diagnostic use in the case of a
+    stuck bit; if there is an addressing fault then these may appear
+    correct.
+
+    7. The Soak Test.
+
+    Failure here may indicate that the RAM refresh is not functioning
+    properly - cest blocks are maintained in both areas of RAM, and
+    corruptions are reported. It could also indicate a timing failure
+    when the computer is hot.
+
+    8. The Cassette Test.
+
+    This tests the electrical and mechanical integrity of the cassette
+    interface circuitry. In the Output test a five second tone,
+    similar to the leader on Saved programs, is sent to the Mic port.
+    This should be recorded onto a cassette. The Input test will lock
+    for a leader, either that recorded by the output test, or one from
+    an ordinary recorded program. The detection appears in the normal
+    way, i.e. the Border shows a brief period of cyan and red stripes.
+
+    9. The ZX Printer Test.
+
+    Performs a normal COPY operation on a screen full of text.
+    failure will be when the text is misprinted or faint.
+
+    0. The RS232 Test.
+
+    Self explanatory. Check the connections are correct; the
+    "crossover" lead mentioned when connecting two Spectrums crosses
+    over TXData and RXData, and crosses CTS and DTR.
+
+    Q. The Network Test.
+
+    Self explanatory. Again, check the connections. The mini-jack
+    sockets should be checked.
+
+    W. The Joystick Test.
+
+    This is equivalent to reading the top row of keys. Check the ZX
+    Interface 2 electronics and the joystick connectors if it fails.

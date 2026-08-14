@@ -1,0 +1,240 @@
+=========================================
+FLIGHT SIMULATOR ROM Cartridge for TS1500
+Timex Sinclair
+=========================================
+
+FLIGHT SIMULATOR
+© PSION 1982
+
+Over the last decade, with the increasing power of computers, pilots have been
+trained to "fly" new-airliners on large scale, computer-controlled simulators on
+the ground. Even on a small microcomputer like the T/S 1500 the essential
+parameters of flight, the dynamics of the airplane, the navigation of the airplane,
+the main instruments and the representation of the outside world can be
+portrayed in real time. "FLIGHT Simulator" includes these effects and represents
+a small, high-performance, two-engined, propeller-driven airplane.
+
+ASPECTS OF FLYING
+The essential controls of an airplane include the joystick, flaps and engine
+power. Moving the joystick sideways affects the ailerons on the wings causing
+the plane to bank to the left or right. Moving the joystick forwards and
+backwards affects the elevators on the tailplane so that the nose of the airplane
+moves down or up respectively.
+
+The altitude and motion of an airplane is shown by many instruments and
+navigational aids in the pilot's cockpit, as discussed in the next section. The pilot
+needs to use these instruments to navigate his airplane on to the right line or
+vector for approach to a runway, to fly his airplane on the right heading or
+bearing along that vector and to approach the runway with the right speed,
+altitude and descent angle to land the airplane. Typically, the correct approach
+angle of descent should be about 3 degrees which implies an altitude of about 6,00
+feet at 20 miles out, 3,000 feet at 10 miles out, and 1,000 feet at about 3.5 miles
+from the runway.
+
+FLYING ON THE T/S 1500
+To play, insert the software cartridge into the Timex Command Cartridge Player
+{see instruction booklet for details) and begin. The program will immediately start
+executing and will first ask you several questions. It will ask "FINAL APPROACH
+(Y/N)?" If you reply YES (or Y) the program will only execute the last stages of
+approach and visual landing for you to practice the final touchdown. Normally
+you will reply NO (or N) to this question to obtain the full feature program. The
+computer will then ask whether you want to include the effects of wind. Reply
+YES (or Y) only if you are a competent pilot and can deal with the additional
+complexity.
+
+There are three different displays shown in the program. The cockpit display
+shows the essential cockpit instruments in the lower half of the screen and the
+outside world through the windows in the upper half of the screen. You can
+switch, however, to a navigational chart or map which shows the position of the
+runway, the position of various beacons which you might use and the position of
+the airplane relative to the ground. In the final visual approach the pilot's cockpit
+display will change to show the runway lights approaching you, together with
+some essential instruments for final touchdown.
+
+THE COCKPIT DISPLAY
+After replying to the initial questions, the pilot's view and cockpit display will
+automatically be shown on the screen with the following perspective and
+instruments. The top half of the screen shows a view of the cockpit
+windows where you will see the horizon formed by the light sky and dark ground.
+As the altitude of the plane changes, so the visual horizon will move to display
+the effects of banking, diving and climbing.
+
+Below the cockpit windows is the cockpit panel with a variety of gauges and
+instruments.
+
+Power     - engine thrust or power, controlled by the throttle.
+
+Flap      - a gauge showing the degree of flap extended on the wings.
+
+Fuel      - gauge the shaded area shows the amount of fuel left.
+
+ROC       - the rate of climb indicator shows the vertical speed of climb
+            (positive) or descent (negative) of the airplane graduated in units
+            of 600 feet per minute. In level flight the ROC indicator would be
+            precisely half way up the gauge.
+
+Altimeter - numerical reading shows the height of the airplane above sea-level
+            in feet.
+
+Speed     - numerical reading shows the speed of the airplane through the air
+            in knots.
+
+RDF clock - is shown in the left center of the instrument panel. This represents
+            the radio-direction-finding navigational equipment as a "clock" with
+            a small airplane drawn in the middle which points in the direction or
+            heading of the airplane. At any time you, the pilot, are logged on to
+            a particular radio beacon. The position of this beacon, relative to
+            the direction of flight of the airplane, is shown as a flashing dot on
+            the circumference of the REF clock.
+
+Heading   - this is shown as a numerical reading immediately above the RDF clock.
+            The heading shows the direction of flight of the airplane in compass
+            degrees.
+
+Additional navigational information about the current beacon is displayed in the
+box next to the RDF clock.
+
+BCN refers to beacon and adjacent to this is displayed the call sign of the
+particular beacon on which you are currently logged. Below this are two
+additional indicators.
+
+BRG is the bearing of the beacon relative to the airplane in compass degrees.
+DST is the distance in nautical miles of the current beacon relative to the
+airplane.
+
+THE MAP
+If you press the key M on the T/S 1500 the display will change to a map or chart
+of the runway and its environs for an area of some 32 miles by 20 miles. The
+map shows the four compass points of NORTH (N 0 degrees) EAST (E 90 degrees), SOUTH
+(S 189 degrees) and WEST (W 270 degrees). The runway lies in the middle of the map
+and runs along east to west (90 degrees, 270 degrees). Therefore, on your final
+approach for landing the plane must be travelling on a heading of exactly 90 degrees
+or 270 degrees.
+
+The map also shows the position of the various beacons in the area of the
+runway and their names. There are four outer beacons (ONE, OSE, OSW, ONW)
+and two inner beacons (IE and IW). The two inner beacons are about three miles
+from each end of the runway to help the navigation in the final approach. The
+logged on beacon is shown as a flashing dot, in addition, you will use the
+position of the airplane on the map shown as a flashing dot. This airport is a
+coastal airport and you will see mountains to the east some 7.5 miles from the
+runway. The mountain range reaches an altitude of 1500 feet. If you approach
+the runway from the east you cannot allow your altitude to fall below 1500 feet
+without crashing before you pass the mountains. To return to the cockpit
+display, press the key "M" again.
+
+THE VISUAL APPROACH
+If you are successful in navigating the airplane onto the right vector or bearing
+from the runway, onto the right course, position and altitude, press the key "V"
+about three miles out to show a full, moving, perspective view of the runway
+lights and features. The horizon can still be seen in the far distance at the top of
+the screen. You will need to bank, adjust nose altitude, flaps and power to be
+able to land on the runway.
+
+Be sure that your undercarriage is down. The essential instruments of a typical
+ILS instrument landing system are shown in the bottom of the screen. These
+include the speed of the airplane and the height of the airplane's wheels above
+the ground as measured by the radio altimeter (a radio altimeter uses the
+reflection of a radio beam from the ground to measure precisely the height of
+the airplane from the ground). On the left hand side at the bottom of the display
+is the most important instrument of your ILS system. This is a square gauge
+which shows the position of the start of the runway relative to the position of the
+airplane. To the pilot it behaves rather like an artificial horizon but in two
+dimensions. The position of the start of the runway is shown as a flashing dot
+and when the plane is on precisely the right course or vector in direction and
+height, the flashing dot will be at the center of the display. If the flashing dot is
+above the center, the plane is descending too steeply, while if the flashing dot is
+below the center the plane is not descending steeply enough. If the flashing dot
+moves to the left, it implies the runway is to the left and you must bank toward
+the left and act similarly if the flashing dot moves to the right.
+
+PILOT CONTROLS
+Joystick - The joystick of the airplane is represented on the keyboard of the
+T/S 1500 by the cursor arrows (keys 5, 6, 7 and 8). Press <- (key 5) to bank left.
+Press -> (key 8) to bank right. Press ^ (key 6) to move the joystick forward and
+point the nose of the plane down for diving. Press v (key 7) to pull the joystick
+toward you so that the nose of the plane goes up for ascent.
+
+Power - The engine's thrust or power is controlled by the keys "P" and "O". By
+pressing the key "P" the throttle is increased and the engine gives more power,
+while pressing key "O" reduces the throttle and engine power (note "O" is to the
+left of "P").
+
+Flaps - The extent of the flaps on the wings is controlled by the keys "F" and
+"D". Press the key "F" to extend the flaps further and press the key "D" to
+retract, or partially retract the flaps (note key "D" is to the left of key "F"). The
+flaps can be extended or retracted to a varying degree (as shown on the gauge
+and should only be fully extended for the final stage of landing to avoid stalling
+at reduced speed. Extending the flaps while the plane is at high speed could
+possibly damage or tear off the wings of the plane.
+
+Gear - The gear or undercarriage can be extended by pressing the key "G". If
+the gear is down pressing the key "G" will retract the undercarriage. The
+undercarriage should not be dropped at high speed as apart from increasing the
+drag on the plane, you may damage or destroy the undercarriage.
+
+Beacon - To change the current logged-on beacon, press the key "B". As long
+as you press the key "B" the current beacon will change sequentially until you
+obtain the navigational beacon you require.
+
+Map - Press the key "M" to switch the display from the cockpit pilot's display to
+the map or to switch back from the map to the cockpit pilot's display.
+
+Visual - Press the key "V" to switch the display to a visual perspective of the
+runway. You will see nothing if you are too far from the runway.
+
+You may press several keys simultaneously.
+
+Never press the BREAK key.
+
+NAVIGATION
+The most difficult part of flying is the approach and landing at an airfield. You
+can experiment with the controls in varying the speed, altitude and direction of
+the plane at a reasonably high altitude without worrying about the navigation. If
+you wish to land the plane however, you will have to navigate the plane on to
+the right vector and on to the right course, and you will have to approach the
+runway at roughly the right glide angle. This is a difficult task and requires a lot
+of practice and experience before you can achieve a landing successfully.
+
+The map and instruments will help you to determine your position precisely. You
+will then need to think of the approximate maneuvers and course to approach
+the airfield on the right flight path. The runway lies east to west in the simulation
+on a line (or vector) from 90 degrees to 270 degrees or vice versa. You may approach
+the runway from either end. For example, if you wish to approach the runway from
+the east to the west, you must first maneuver the airplane far to the east of the
+runway. If you use the beacon IE you will need to fly the plane until the beacon
+is on a bearing (or vector) of 270 degrees. If you then bank on to this bearing on a
+course or heading of 270 degrees, you will be flying on exactly the right flight path
+for your approach to the runway. As you fly toward the beacon IE, to keep on the
+right flight path you must ensure that both the heading and the beacon coincide
+at 270 degrees. As you fly over the beacon in the later stages of the approach, the
+bearing of the beacon will of course change to 90 degrees. Similarly, you may use any
+of the other beacons to set a course for a particular flight objective. When heading
+directly for a beacon, remember that your heading and the beacon bearing must
+always coincide precisely. Flying is difficult for the uninitiated and if you have
+trouble navigating yourself to the runway for the final visual landing you can
+always use the option at the beginning of the program to give you an automatic
+approach and allow you to experiment with the visual landing.
+
+Key   Pilot Control
+^     Joystick forward (dive)
+v     Joystick backward (climb)
+->    Joystick to right (bank to right)
+<-    Joystick to left (bank to left}
+P     Increase throttle (more power)
+O     Decrease throttle (less power)
+F     Increase flap extent
+D     Decrease flap extent
+G     Lower gear (undercarriage if up. Raise gear undercarriage if down)
+B     Change beacon sequentially
+M     Switch from cockpit display to navigational Map or back to cockpit
+V     Switch to Visual of runway if you are near the runway or back to cockpit
+      display
+
+WARRANTY
+There are no warranties which extend beyond the description on the face
+hereof. No other warranty, whether express or implied, including the warranty of
+merchantability, shall exist in connection with the sale of this product. In no
+event shall Timex be liable for any consequential, incidental or special damages.
+
+MODEL NO. 344-0953903

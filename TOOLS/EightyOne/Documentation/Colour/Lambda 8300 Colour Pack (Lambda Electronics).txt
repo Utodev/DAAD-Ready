@@ -1,0 +1,122 @@
+===========================
+Colour Pack for Lambda 8300
+Lambda Electronics Ltd
+===========================
+
+COLOUR PACK OPERATION INSTRUCTION FOR USER WITH THEIR COMPUTER SERIAL NO. UNDER 015031
+
+1. Set up TV to channel 36 or colour monitor.
+
+2. Connect input lead of colour pack to computer's monitor output.
+
+3. Connect colour pakc output to either TV or monitor.
+
+4. Turn on power of your computer.
+
+5. Initialize the colour pattern by the following program
+
+    10 POKE 12301,1
+	20 FOR A=8192 TO 10240
+	30 POKE A,7
+	40 NEXT A
+   RUN
+   
+the background will be initialized to black colour with white characters.
+
+6. After initialization, input the command statements
+
+   POKE 12301,N  (WHERE 0 <= N <= 7)
+     IS USED TO ENABLE COLOUR FUNCTION.   WHILE
+	 
+   POKE 12300,N  (WHERE 0 <= N <= 7)
+     IS USED TO DISABLE COLOUR FUNCTION.
+
+
+DEMONSTRATION PROGRAM
+
+    10 REM HORIZONTAL BARS
+    20 C=1
+	30 FOR A=0 TO 7
+	40 FOR B=0 TO 31
+	50 PRINT AT A,B;"#"     (# = Inverse space)
+	60 Z=A*33+B+8319
+	70 POKE Z,INT C
+	80 NEXT B
+	90 POKE Z+1,0
+   100 C=C+1
+   110 NEXT A
+   RUN
+   
+   200 REM VERTICAL BARS
+   210 FOR A=8 TO 13
+   220 FOR B=0 TO 31
+   230 PRINT AT A,B;"#"     (# = Inverse space)
+   240 Z=A*33+B+8319
+   250 POKE Z,INT (B/4)+4
+   260 NEXT B
+   270 POKE Z+1,0
+   280 NEXT A
+   RUN
+
+	
+COLOUR CONTROL CODE
+
+VALUE  COLOUR
+  0    BLACK
+  1    BLUE
+  2    GREEN
+  3    CYAN
+  4    RED
+  5    MAGENTA
+  6    YELLOW
+  7    WHITE
+
+-------------------------------------------------------------------------------
+
+COLOUR PACK OPERATION INSTRUCTION FOR USER WITH THEIR COMPUTER SERIAL NO. OVER 015031
+
+1. Set up TV to channel 36 or colour monitor.
+
+2. Connect input lead of colour pack to computer's monitor output.
+
+3. Connect colour pakc output to either TV or monitor.
+
+4. Turn on power of your computer.
+
+5. Input the commands for controlling colour functions.
+
+   (a) Border N (where 0 <= N <= 7)
+       - to control the boundary colour.
+   
+   (b) Paper N (where 0 <= N <= 7)
+       - to control the background screen colour.
+
+   (c) Ink N (where 0 <= N <= 7)
+       - to control the colours of characters.
+
+
+COLOUR BAR DEMONSTRATION PROGRAM
+
+    10 BORDER 7
+	20 C=1
+	30 FOR A=0 TO 31
+	40 INK C
+	50 FOR B=0 TO 31
+	60 PRINT AT A,B,;"#"     (# = Inverse space)
+	70 NEXT B
+	80 C=C+1
+	90 NEXT A
+   RUN
+
+
+COLOUR CONTROL CODE
+
+VALUE  COLOUR
+  0    BLACK
+  1    BLUE
+  2    GREEN
+  3    CYAN
+  4    RED
+  5    MAGENTA
+  6    YELLOW
+  7    WHITE

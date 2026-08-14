@@ -1,0 +1,155 @@
+==================================
+CRAZYBUGS ROM Cartridge for TS2068
+Timex Sinclair
+==================================
+
+CRAZYBUGS
+© Stephen Hughes 1983
+
+Loading time: 1 minute, 10 seconds
+
+Load name must be typed in lower case letters.
+
+Bugs, bugs and super-bugs are out to get you as you race through their subterranean
+maze, trying to steal beetle eggs and stash them under lock and key.
+
+The object of the game is to steal as many beetle eggs as you can and place them
+under locks, without getting caught by the bugs and super bugs.
+
+TIMEX COMMAND CARTRIDGE INSTRUCTIONS
+If you have the cartridge version of this software program, please follow the steps
+listed below:
+
+1. Turn off your TS2000.
+2. Lift cartridge door open.
+3. Insert command cartridge with label side up.
+4. Close cartridge door.
+5. Turn on your TS2000.
+6. Program will now begin execution.
+
+If Step 6 does not occur, start over with Step 1 ... and reseat cartridge once
+again.
+
+ALWAYS TURN 0FF YOUR TS2000 BEFORE INSERTING OR REMOVING CARTRIDGE.
+
+You may bypass tape load instructions below.
+
+TO LOAD: Press LOAD "bugs", start the cassette player and press enter. The program
+loads in 1 minute 10 seconds. Stop the tape when the CRAZYBUGS title screen
+appears, asking you to select a level of difficulty.
+
+TO PLAY: Select a level of difficulty (1 being the least difficult and 3 being the
+most difficult), or wait to be shown a short demonstration of the game.
+
+After selecting the difficulty level, you are in the lower left-hand corner of the
+bugs' subterranean maze. To move your man, use either the joystick feature or the
+following keys:
+  Q = move up
+  Z = move down
+  I = move left
+  P = move right
+
+JOYSTICK FEATURE - 1 PLAYER
+This program optionally allows the use of a joystick to control its actions. With
+the joystick in slot 1 the following actions replace their keyboard counterparts:
+  Stick up = move man up
+  Stick down = move man down
+  Stick left = move man left
+  Stick right = move man right
+
+THIS PROGRAM REQUIFRES THE JOYSTICK TO BE IN THE PLAYER 1 SLOT.
+
+Move your man through the maze, stealing the beetle eggs that appear randomly
+throughout the maze. Once you have a beetle egg, a lock appears (a flashing red and
+white box). Place the beetle egg in the box and head off in search of the next
+beetle egg.
+
+Once you've collected four beetle eggs an exit from the maze appears (flashing
+white door), take it and go into the next subterranean passage. As you advance
+through the different stages of CRAZYBUG, watch out for the Super Bugs! Al first
+there's only one, but they team up on you later.
+
+SCORING
+Score 50 points for every beetle egg you steal, and 50 points for every egg you
+secure under lock and key. For every subterranean passage you exit, you are awarded
+100 points.
+
+BONUS
+You will receive your first extra man al 1,100 points, after that you will receive
+an extra man for every 2,200 points you score.
+
+Good luck, and don't get bugged!
+
+LOADING INSTRUCTIONS:
+(See Chapter 4 of your instruction manual for detailed instructions.)
+
+1. First listen to the tape so you will be familiar with its distinct sections. The
+tape has a period of silence at the beginning, followed by a high-pitched, screechy
+noise. This is the computer program. The program is recorded twice on the cassette
+in case one does not load.
+
+2. Set the volume control on the cassette deck to about 3/4 of the maximum. If you
+have tone controls, set the bass to minimum and treble to maximum. If you have just
+one tone control, set it to HIGH or MAXIMUM.
+
+3. Rewind the tape to the beginning. Connect the EAR jack on the computer to the
+EAR jack on the cassette deck recorder. Make sure the plugs are clean and securely
+in place.
+
+4. To instruct the computer to accept the program you must press the LOAD command
+and type the name of the program in quotation marks. See the instructions or
+cassette for the correct loading name.
+
+5. Start the cassette deck, allow a few seconds for it to get up to speed, then
+press ENTER during the silence before the program begins.
+
+6. The border of the TV screen will alternate between pale blue (cyan) and red,
+during the time the computer is searching for the program on the tape.
+
+7. When the program has been found, the screen border will show a pattern of lines
+in the same shades of blue and red, and shortly the name of the program will appear
+on the screen.
+
+8. Next, as the program itself is being loaded into the computer, the border
+pattern will become thinner, faster moving yellow and dark blue lines.
+
+9. When the computer has finished loading the program, one of two things will
+happen:
+
+  1. Most commercial programs will begin running automatically, usually with a
+  "title screen" or instructions to the user. (A title screen may tell you that the
+  tape is still loading, if not, you should stop the tape immediately at this point
+  so as to be in the proper position to load the next program if you wish.) or
+
+  2. The screen will be blank, except for a 0 OK, 0:1 in the lower left hand corner.
+  This is a report code and means that the computer has successfully loaded the
+  program.
+  Stop the tape immediately. To execute the program, you press RUN and ENTER. This
+  will start the program.
+
+SOME SUGGESTIONS
+1. The volume at which the program is loaded is very important. Usually 3/4 maximum
+volume works best, but recorders vary and may require experimentation with the
+volume setting. If you have a technical background you can check the output level
+of your recorder's EAR/SPKR jack. It must be at least 4-volts peak-to-peak,
+although 5 to 6-volts peak-to-peak is best.
+
+2. Clean and demagnetize the heads of the tape recorder. Your ears may not pick up
+the signal fluctuations due to magnetic flux on the tape heads, but the computer
+has a much more sensitive "ear."
+
+3. The computer is very susceptible to outside interference. Working on a metal
+table or near electrical appliances should be avoided.
+
+4. Occasionally, once a program has loaded, the video display will show
+instability. This can be corrected by adjusting the vertical hold on the television.
+
+WARRANTY
+There are no warranties which extend beyond the description on the face hereof. No
+other warranty, whether express or implied, including the warranty of
+merchantability, shall exist in connection with the sale of this product. In no
+event shall Timex be liable for any consequential, incidental or special damages.
+
+MODEL NO. 345-064023
+
+© 1983 Timex Computer Corporation Waterbury, Connecticut 06725

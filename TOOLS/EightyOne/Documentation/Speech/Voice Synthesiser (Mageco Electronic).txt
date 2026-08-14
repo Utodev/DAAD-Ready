@@ -1,0 +1,149 @@
+==============================
+Voice Synthesiser for the ZX81
+Mageco Electronic
+==============================
+
+The voice synthesiser that you have just acquired connects directly to the bus of
+ZX, it does not use any memory space and is accessible by OUT and IN on a Port.
+
+        A)
+        
+The address of the Port can be chosen from 8 values, it is by default fixed at 63.
+
+3 wire links allow different address configurations: 15, 31, 47, 63, 79, 95, 111, 127
+
+        B)
+
+The circuit used contains English allophones but it can speak any other language
+(the accent will remain British).
+
+The vocabulary is absolutely unlimited since it corresponds to a following
+allophones that you will choose wisely from the table in the appendix.
+
+        C) Programming Mode
+           ----------------
+
+1) The board contains an Input byte corresponding to the occupancy state of
+   synthesiser.
+
+           Word status
+           -----------
+           255 = free = ready to take an allophone
+           254 = busy = waiting to finish an allophone
+
+2) The board contains an Output byte corresponding to the code of the allophone, the
+   code is between 0 and 63. For correspondence ALLOPHONE-CODE see table in the
+   appendix.
+
+3) Initialization of the synthesiser circuit is obtained by outputting a code of 128.
+
+
+            Allophone  Code  Example       Execution Time
+                             English       in Milliseconds
+               PA1       0   Pause               10
+               PA2       1   Pause               30
+               PA3       2   Pause               50
+               PA4       3   Pause              100
+               PA5       4   Pause              200
+               /IH/ *   12   Sit        I        70
+               /EH/ *    7   End        E        70
+               /AE/     26   Hat        A       120
+               /UH/     30   Book      OO       100
+               /AO/     23   Aught     AU       100
+               /AX/     15   Succeed    U        70
+               /AA/     24   Hot        O       100
+               /IY/     19   See        E       250
+               /EY/     20   Page      EI       280
+               /AY/      6   Sky        Y       250
+               /OY/      5   Boy       OY       420
+               /UW1/    22   To         O       100
+               /UW2/    31   Food      OO       260
+               /OW/     53   Beau      AU       240
+               /AW/     32   Out       OU       370
+               /ER1/    51   Fir       IR       160
+               /ER2/    52   Fir      ERR       300
+               /OR/     58   Store     OR       330
+               /AR/     59   Alarm      A       290
+               /YR/     60   Clear      R       350
+               /XR/     47   Repair     R       360
+               /WW/     46   Wool       W       180
+               /RR1/    14   Rural      R       170
+               /RR2/    39   Brain      R       120
+               /LL/     45   Lake       L       110
+               /EL/     62   Saddle     L       190
+               /YY1/    49   Yes        Y       130
+               /YY2/    25   Yes        Y       180
+               /VV/     35   Vest       V       190
+               /DH1/    18   They      TH       290
+               /DH2/    54   Bathe     TH       240
+               /ZZ/     43   Zoo        Z       210
+               /ZH/     38   Azure      Z       190
+               /FF/     40   Food       F       150
+               /TH/     29   Thin      TH       180
+               /SS/     55   Vest       S        90
+               /SH/     37   Ship       S       160
+               /HH1/    27   He         H       130
+               /HH2/    57   hoe        H       180
+               /BB1/    28   Business   B        90
+               /BB2/    63   Beast      B        50
+               /DD1/    21   Could     LD        70
+               /DD2/    33   DD         D       160
+               /GG1/    36   Guest     GU        80
+               /GG2/    61   Got        G        40
+               /GG3/    34   Wig       IG       140
+               /PP/      9   Pav        P       210
+               /TT1/    17   Part       T       100
+               /TT2/    13   To         T       140
+               /KK1/    42   Can        C       160
+               /KK2/    41   Sky        K       190
+               /KK3/     8   Comb       C       120
+               /CH/     50   Church    CH       190
+               /JH/     10   Dodge      G       140
+               /MM/     16   Milk       M       180
+               /NN1/    11   Thin       N       140
+               /NN2/    56   No         N       190
+               /NG/     44   Anchor     N       220
+
+               * These allophones can be doubled
+
+
+                           Programming For The ZX81
+                           ========================
+
+The ZX81 does not allow access to Input or Output ports simply from BASIC, you
+have to write a program in machine language.
+
+Keys to type                 Corresponding display
+1                            1
+E                            REM
+Y                            Y
+SHIFT 9 SPACE SHIFT 9        {inverse space}
+SHIFT NEWLINE O              PEEK
+Z                            Z
+SHIFT R                      <=
+Z                            Z
+1                            1
+2                            2
+C                            C
+3                            3
+SHIFT NEWLINE E              TAN
+NEWLINE                      1 REM Y#PEEK Z<=Z12C3TAN
+
+Now execute the following 3 POKEs :
+
+        POKE 16520,254
+        POKE 16521,254
+        POKE 16523,250
+
+        1 REM becomes 1 REM Y#PEEK Z<=Z RETURN RETURN C IF TAN
+
+Enter the following program :
+
+         10 LET A$=CHR$ 0+CHR$ 63+CHR$ 23+CHR$ 38+CHR$ 31+CHR$ 39+CHR$ 4+CHR$ 4
+         20 LET B$="BONJOUR "
+        100 FOR N=1 TO LEN A$
+        110 POKE 16515,CODE A$(N)
+        120 RAND USR 16514
+        130 NEXT N
+        150 CLS 
+        160 GOTO 100

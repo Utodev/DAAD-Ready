@@ -1,0 +1,20 @@
+DoCD path=[GAME] m_currentRelPath=[/] m_sdRootPath=[SD81]
+  newRel=[/GAME] hostPath=[SD81\GAME] is_directory=1 ec=0(La operación se completó correctamente)
+DoCD path=[GAME] m_currentRelPath=[/] m_sdRootPath=[SD81]
+  newRel=[/GAME] hostPath=[SD81\GAME] is_directory=1 ec=0(La operación se completó correctamente)
+DoCD path=[GAME] m_currentRelPath=[/] m_sdRootPath=[SD81]
+  newRel=[/GAME] hostPath=[SD81\GAME] is_directory=1 ec=0(La operación se completó correctamente)
+DoCD path=[GAME] m_currentRelPath=[/] m_sdRootPath=[SD81]
+  newRel=[/GAME] hostPath=[SD81\GAME] is_directory=1 ec=0(La operación se completó correctamente)
+DoCD path=[GAME] m_currentRelPath=[/] m_sdRootPath=[SD81]
+  newRel=[/GAME] hostPath=[SD81/GAME] is_directory=1 ec=0(Success)
+DoCD path=[GAME] m_currentRelPath=[/] m_sdRootPath=[SD81]
+  newRel=[/GAME] hostPath=[SD81\GAME] is_directory=1 ec=0(La operación se completó correctamente)
+DoCD path=[GAME] m_currentRelPath=[/] m_sdRootPath=[SD81]
+  newRel=[/GAME] hostPath=[SD81/GAME] is_directory=1 ec=0(Success)
+DoCD path=[GAME] m_currentRelPath=[/] m_sdRootPath=[SD81]
+  newRel=[/GAME] hostPath=[SD81\GAME] is_directory=1 ec=0(La operación se completó correctamente)
+DoCD path=[GAME] m_currentRelPath=[/] m_sdRootPath=[SD81]
+  newRel=[/GAME] hostPath=[SD81\GAME] is_directory=1 ec=0(La operación se completó correctamente)
+DoCD path=[BIN] m_currentRelPath=[/] m_sdRootPath=[..\..\RELEASE\ZX81SD81B]
+  newRel=[/BIN] hostPath=[..\..\RELEASE\ZX81SD81B\BIN] is_directory=1 ec=0(La operación se completó correctamente)

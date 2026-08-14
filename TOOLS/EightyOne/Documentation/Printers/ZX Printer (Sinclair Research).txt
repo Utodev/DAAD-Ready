@@ -1,0 +1,395 @@
+========================================
+ZX Printer for the ZX80/ZX81/ZX Spectrum
+Sinclair Research Ltd
+========================================
+
+GENERAL PRINCIPLE OF OPERATION
+
+The printer functions in rather the same was as a TV, i.e. by scanning from left
+to right. A conductive stylus is pulled across the paper at high speed, and where
+a black dot is wanted a pulse of current is passed through the stylus. This
+evaporates the aluminium coating on the paper, and allows the black backing to
+show through. To avoid the need to return the stylus quickly to the left hand
+edge of the paper, there are in fact two styli, mounted on a moving belt, which
+follow each other in quick succession. The belt and the paper feed roller are
+both driven continuously whilst printing; so that when the next stylus comes
+round the paper has been moved up ready for the next line.
+
+In order that the styli always stop off the paper, the BASIC commands slow the
+motor down for the last two scans before stopping - this makes sure that graphics
+always "join up" if done in several goes, and this feature should be put in any
+machine code program that requires the printer to stop whilst the computer thinks
+about the next line. At full speed, each pen is on the paper for about 32ms, and
+off it for about 16ms.
+
+Since the speed of printing can vary, an encoder disc is used to give 256 pulses
+across a 92mm print width (allowing 4mm margins). These pulses are synchronised
+with the stylus hitting the paper so that the printing is always vertical.
+
+There is about 60µs between the starts of successive pulses at full speed.
+
+
+THE INTERFACE
+
+The printer is wired as a Z80 I/O port, selected by A2 being at a low level - no
+other address lines are recognised. So to send information to the printer, use
+the Z80 command
+
+                         OUT (FB),A - opcode D3 FB
+
+assuming the data is in register A. The data bits have the following meanings:
+
+(D2) High level means stop the motor, low means start it.
+(D1) High level means put the motor on slow speed - this line is overridden by D2
+     being high.
+(D7) High level applies power to the stylus.
+
+All these lines remain in the state they were at last, until new data is sent to
+the printer. At switch on, or after pressing the feed button, D1 and D7 are set
+low; D2 is left high once feed is finished. The other data lines aren't used.
+
+To fetch information from the printer, the Z80 instruction: IN A,(FB) - opcode
+DB FB; will put the data into the accumulator. These bits are used:
+
+(D6) Will be read as low if the printer is there, high is it isn't, and is used
+     solely to check the printer is connected.
+(D0) This line is the signal from the encoder disc.
+(D7) This line is high when the stylus hits the paper.
+
+D0 and D7 are both latched so that they remain high until the computer writes
+something to the printer. So even if you don't make use of the information you've
+read in, you should oshould use an output instruction (with appropriate data) to
+reset the latches until the next signal. These bits may be in either state on
+switch on, and aren't affected by the feed button. The paper detect signal is
+also used internally by the printer to make sure that the styli stop off the
+paper. Note that if power is applied to the stylus, the paper signal will go high
+even if the printer is between scans, and so the stylus must be turned off before
+attempting to detect the edge of the paper.
+
+
+SOME PROGRAMS (For ZX81 AND ZX80 WITH 8K ROM)
+
+Here are a few example programs for experimenting with. "Text Edit" (No. 1) uses
+the printer like a typewriter except that it automatically prevents words from
+being chopped in half by the end of the line.
+
+Programs 2 and 3 are not specifically for the printer, but the graphics they
+produce on the screen are quite effective when COPY is used. No. 2 takes up to
+40 characters and enlarges them 4 times using PLOT and the ZX81's built-in
+character set. This program runs very slowly! Two examples of pretty pictures are
+plotted by the 2 programs given as No. 3, which may be easily modified to give
+other variations.
+
+Both these last two programs plot rather slowly due to the amount of calculation
+they have to do, so program 4 is designed to tack on the end of either of them
+(or any graphics program). It saves the final picture in A$; once this is done,
+the results of your program can be recalled quickly with PRINT A$. The original
+program may then be erased if you wish - line by line, though; remember NEW will
+clear the array you've just spent so much effort in filling up. A RAM pack will
+be necessary in order to fit in all the storage.
+
+Program 5 is simple yet it enables complex pictures to be drawn on the screen and
+to be subsequently printed.
+
+If key 1 is pressed a flashing black square will appear. This can be moved over
+the whole screen area using keys 5, 6, 7 and 8. It will leave a black trail. If
+key 0 is pressed the flashing black square will rub out everything in its path,
+as it is moved around the screen.
+
+If key 2 is pressed the flashing square disappears and may be moved aside without
+upsetting your composition. When your picture is completed key 3 should be
+pressed and the picture will be printed out.
+
+This program really needs the 16K RAM pack as only the most elementary picture
+can be drawn without it.
+
+Combine this program with program 4 which stores the display so that your space
+monster is available for instant recall.
+
+
+HIGH RESOLUTION PRINTER PROGRAM
+
+This program works rather like PLOT, except that it works only with the printer,
+and uses a square of 256x256 points to give 4 times better resolution.
+
+You will need a 16K RAM pack to run this program. Before entering it, type:
+
+                         POKE 16389,124
+                         NEW
+
+to reserve some memory.
+
+Two examples are given, differing only in the lines between 12 and 9980. No. 6
+plots a "flower" shape. No. 7 plots a sine and cosine graph complete with axes.
+(Compare with the one you get using PLOT in chapter 18 of the ZX81 books). The
+computer should be put in FAST mode before running the program. Even so, there
+will be quite a wait before anything happens, and a further 4 minutes before
+printing is finished. Remember that the program has 256*256=65536 possible points
+to plot at.
+
+
+PROGRAM DESCRIPTION
+
+Lines 1 to 12 set up two distinct machine code subroutines: one at 16514 (the
+REM statement in line 1) the other at 31744 in reserved memory. The first simply
+ORs together two 8 bit numbers placed in 16526 and 16527, and allows more than
+one graph to be plotted on top of another. The second is the LPRINT routine,
+taken from the ROM and altered to use the data poked into the 256 bytes from
+32256 onwards. Array A$ takes 8K bytes of memory and contains the points to be
+plotted. Subroutine 9980 plots point (X,Y) into the array, and lines 9988 onwards
+take the finished array 256 elements at a time and hand it over to the print
+routine.
+
+Position Of Array Elements On Print Output
+
+(0,255)                                                   (255,255)
+     +-------------------------------------------------------+
+     |A$(1,1) A$(2,1) A$(3,1) A$(4,1)----------------A$(32,1)|
+     |A$(1,2) A$(2,2) A$(3,2) -----------------------A$(32,2)|
+     |A$(1,3) A$(2,3) -------------------------------        |
+     |A$(1,4) ---------------------------------------        |
+     |                                                       |
+     |                                                       |
+     |                                                       |
+     |                                                       |
+     |                                                       |
+     |                                                       |
+     |                                                       |
+     |                                                       |
+     |                                                       |
+     |                                                       |
+     |A$(1,256)------------------------------------A$(32,256)|
+     +-------------------------------------------------------+
+ (0,0)                                                    (255,0)
+
+Each element of the array, e.g. A$(1,256) contains one byte of information. A
+byte has eight bits which have the following values:
+
++-----+-----+-----+-----+-----+-----+-----+-----+
+| 2^7 | 2^6 | 2^5 | 2^4 | 2^3 | 2^2 | 2^1 | 2^0 |
++-----+-----+-----+-----+-----+-----+-----+-----+
+|bit 7|bit 6|bit 5|bit 4|bit 3|bit 2|bit 1|bit 0|
++-----+-----+-----+-----+-----+-----+-----+-----+
+
+Each bit in each byte in the array represents one dot on the high resolution
+printout. Hence each element of the array represent eight successive dots, the
+left-most dot corresponding to bit 7 whose value is 2^7 and the right-most dot
+bit 0.
+
+Hence:
+
+Dot(0,0) corresponds to bit 7 of Array Element A$(1,256)
+Dot(1,0) corresponds to bit 6 of Array Element A$(1,256)
+Dot(255,255) corresponds to bit 0 of Array Element A$(32,1)
+
+Hence dots (0,0) through to (7,0) are represented by bits 7 through to 0 of Array
+Element A$(1,256). If you wish to print all of those dots, then use the command:
+
+LET A$(1,256)=CHR$(2**7+2**6+2**5+2**4+2**3+2**2+2**1+1)
+
+If you only wish to print the first three dots then use the command:
+
+LET A$(1,256)=CHR$(2**7+2**6+2**5)
+
+
+Program 1
+
+   5 REM TEXT EDIT
+  10 FAST
+  15 INPUT A$
+  20 IF LEN A$>32 THEN GOTO 35
+  25 INPUT A$
+  30 GOTO 15
+  35 LET C=0
+  40 IF C=32 THEN GOTO 65
+  45 LET B$=A$(32-C)
+  50 IF A$(33-C)=" " OR B$="," OR B$="." OR B$=":" OR B$=";" OR B$="?" OR B$=CHR$ 11 THEN GOTO 70
+  55 LET C=C+1
+  60 GOTO 40
+  65 LET C=0
+  70 LPRINT A$( TO 32-C)
+  75 LET A$=A$(33-C TO )
+  80 IF A$(1)=" " THEN LET A$=A$(2 TO )
+  85 GOTO 20
+
+
+Program 2
+
+  10 DIM A$(40)
+  20 INPUT A$
+  30 FOR Y=43 TO 4 STEP -1
+  40 FOR X=0 TO 7
+  50 LET S=43-Y
+  60 LET N=X+8*INT (S/8)
+  70 LET SCAN=S-8*INT (S/8)
+  80 LET P=PEEK (7680+8*CODE A$(N+1)+SCAN)
+  90 FOR I=7 TO 0 STEP -1
+ 100 PLOT 8*X+7-I,Y
+ 110 UNPLOT 8*X+7-I,Y
+ 120 IF P<2**I THEN GOTO 150
+ 130 LET P=P-2**I
+ 140 PLOT 8*X+7-I,Y
+ 150 NEXT I
+ 160 NEXT X
+ 170 NEXT Y
+
+
+Program 3
+
+  10 FOR J=1 TO 10
+  20 FOR I=0 TO J*12
+  30 PLOT 32+J*2*SIN (I/(J*6)*PI),22+J*2*COS (I/(J*6)*PI)
+  40 NEXT I
+  50 NEXT J
+
+
+Program 3a
+
+  10 FOR I=-4 TO 4
+  20 FOR J=0 TO 120
+  30 PLOT 32+20*SIN (J/60*PI),22+20*COS (J/60*PI+I/4*PI)
+  40 NEXT J
+  50 NEXT I
+
+
+Program 4
+
+1000 DIM A$(704)
+1010 FOR I=0 TO 21
+1020 FOR J=1 TO 32
+1030 LET A$(J+32*I)=CHR$ PEEK (PEEK 16396+256*PEEK 16397+J+33*I)
+1040 NEXT J
+1050 NEXT I
+
+
+Program 5
+
+  10 REM "SKETCHPAD"
+  20 LET X=32
+  30 LET Y=22
+  40 GOSUB 500
+  50 UNPLOT X,Y
+  60 PLOT X,Y
+  70 GOTO 40
+  80 GOSUB 500
+  90 GOTO 80
+ 100 GOSUB 500
+ 110 PLOT X,Y
+ 120 UNPLOT X,Y
+ 130 GOTO 100
+ 500 IF INKEY$="1" THEN GOTO 40
+ 510 IF INKEY$="2" THEN GOTO 80
+ 520 IF INKEY$="3" THEN GOTO 600
+ 530 IF INKEY$="4" THEN GOTO 100
+ 540 IF INKEY$="5" THEN LET X=X-1
+ 550 IF INKEY$="6" THEN LET Y=Y-1
+ 555 IF Y=43 THEN GOTO 565
+ 560 IF INKEY$="7" THEN LET Y=Y+1
+ 565 IF X=63 THEN GOTO 590
+ 570 IF INKEY$="8" THEN LET X=X+1
+ 590 RETURN
+ 600 COPY
+
+
+Program 6
+
+   1 REM \3A\8E\40\1B\3A\8F\40\B3\06\00\1B\C9\1B\1B
+   2 IF PEEK 16388+256*PEEK 16389=31744 THEN GOTO 5
+   3 PRINT "MEMORY NOT RESERVED"
+   4 STOP 
+   5 FOR I=0 TO 112
+   6 POKE 31744+I,PEEK (2161+I)
+   7 NEXT I
+   8 POKE 31800,63
+   9 POKE 31857,201
+  10 POKE 16517,95
+  11 POKE 16524,79
+  12 DIM A$(32,256)
+  30 FOR I=0 TO 240
+  40 LET X=128+30*SIN (I/60*PI)
+  50 LET Y=128+120*COS (I/120*PI)
+  60 GOSUB 9980
+  70 LET X=128+120*COS (I/120*PI)
+  80 LET Y=128+30*SIN (I/60*PI)
+  90 GOSUB 9980
+ 100 LET X=128+40*SIN (I/120*PI)
+ 110 LET Y=128+40*COS (I/120*PI)
+ 120 GOSUB 9980
+ 130 LET X=128+80*SIN (I/120*PI)+20*SIN (I/60*PI)
+ 140 LET Y=128+80*SIN (I/120*PI)-20*SIN (I/60*PI)
+ 150 GOSUB 9980
+ 160 LET X=128+80*SIN (I/120*PI)+20*SIN (I/60*PI)
+ 170 LET Y=128-80*SIN (I/120*PI)+20*SIN (I/60*PI)
+ 180 GOSUB 9980
+ 190 NEXT I
+1000 GOTO 9988
+9980 REM PLOTS (X,Y) INTO A$
+9981 IF X<0 OR X>255 OR Y<0 OR Y>255 THEN RETURN 
+9982 LET C=1+INT (X/8)
+9983 LET R=256-INT Y
+9984 POKE 16526,CODE A$(C,R)
+9985 POKE 16527,2**(8*C-INT X-1)
+9986 LET A$(C,R)=CHR$ (USR 16514)
+9987 RETURN 
+9988 REM PRINTS A$ 8 LINES AT A TIME
+9989 FOR I=0 TO 246 STEP 8
+9990 FOR J=1 TO 32
+9991 FOR K=1 TO 8
+9992 POKE 32255+K+8*(J-1),CODE A$(J,K+I)
+9993 NEXT K
+9994 NEXT J
+9995 FOR H=0 TO 31
+9996 POKE 16444+H,H
+9997 NEXT H
+9998 LET HPRINT=USR 31744
+9999 NEXT I
+
+
+Program 7
+
+   1 REM \3A\8E\40\1B\3A\8F\40\B3\06\00\1B\C9\1B\1B
+   2 IF PEEK 16388+256*PEEK 16389=31744 THEN GOTO 5
+   3 PRINT "MEMORY NOT RESERVED"
+   4 STOP 
+   5 FOR I=0 TO 112
+   6 POKE 31744+I,PEEK (2161+I)
+   7 NEXT I
+   8 POKE 31800,63
+   9 POKE 31857,201
+  10 POKE 16517,95
+  11 POKE 16524,79
+  12 DIM A$(32,256)
+  20 FOR I=1 TO 32
+  30 LET A$(I,128)=CHR$ 255
+  40 NEXT I
+  50 FOR I=1 TO 256
+  60 LET A$(1,I)="% "
+  70 NEXT I
+  75 LET A$(1,128)=CHR$ 255
+  80 FOR X=0 TO 255
+  90 LET Y=128+120*SIN (X/128*PI)
+ 100 GOSUB 9980
+ 110 LET Y=128+120*COS (X/128*PI)
+ 120 GOSUB 9980
+ 130 NEXT X
+ 140 GOTO 9988
+9980 REM PLOTS (X,Y) INTO A$
+9981 IF X<0 OR X>255 OR Y<0 OR Y>255 THEN RETURN 
+9982 LET C=1+INT (X/8)
+9983 LET R=256-INT Y
+9984 POKE 16526,CODE A$(C,R)
+9985 POKE 16527,2**(8*C-INT X-1)
+9986 LET A$(C,R)=CHR$ (USR 16514)
+9987 RETURN 
+9988 REM PRINTS A$ 8 LINES AT A TIME
+9989 FOR I=0 TO 246 STEP 8
+9990 FOR J=1 TO 32
+9991 FOR K=1 TO 8
+9992 POKE 32255+K+8*(J-1),CODE A$(J,K+I)
+9993 NEXT K
+9994 NEXT J
+9995 FOR H=0 TO 31
+9996 POKE 16444+H,H
+9997 NEXT H
+9998 LET HPRINT=USR 31744
+9999 NEXT I

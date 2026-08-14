@@ -1,0 +1,235 @@
+=================================================
+S-PACK (Speech Pack) for the ZX81 and ZX Spectrum
+DCP Microdevelopments Ltd
+=================================================
+
+The DCP Speech Pack is a completely self contained add-on Speech
+Synthesiser for the ZX81 or Spectrum computer and is supplied fully
+assembled and tested. It can be used in addition to a ZX RAM PACK,
+DCP PACK and/or ZX Printer by simply plugging in these to the rear
+of the S-Pack.
+
+The S-Pack is supplied complete with Word Pack ROM 1 which contains
+all the letters of the alphabet, numbers zero to over a million
+and some other general words which can all be 'spoken' under computer
+control using simple POKE or OUT commands. Up to three more Word
+Pack ROM's can be fitted and details of these are given later. (Different
+Word Packs will be available later in addition to those listed here.) The
+two versions of the Speech Pack for the Spectrum and ZX81 are operated
+in a similar way but are NOT interchangeable; i.e. a Spectrum Speech
+Pack should not be used on a ZX81 and vice versa.
+
+
+-------------------------------------------------------------------------
+USING THE PACK
+-------------------------------------------------------------------------
+
+To use the Speech Pack first remove the power plug from your
+computer along with any other packs you may have fitted on the back.
+Plug the S-Pack into the rear of the computer and re-connect the ZX
+power (ignore any speech or sound that comes out of the S-Pack after
+power up).
+
+The 'K' cursor or '©Sinclair Research Ltd' should appear as normal.
+Then enter in this following simple command to try your S-Pack:
+
+For ZX81: POKE 49149,0 (followed by NEWLINE)
+For SPECTRUM: OUT 255,0 (followed by NEWLINE)
+
+The Speech Pack should respond by announcing itself. You can see
+from the Word Pack 1 list that 49149 or 255 is the address of Word Pack 1
+and 0 is the code for "This is Digitalker"*
+
+
+-------------------------------------------------------------------------
+SOFTWARE
+-------------------------------------------------------------------------
+
+To use Speech in your programs simply choose where you want the
+word or phrase and insert a POKE or OUT command as before. (POKE
+and OUT are fully explained in the ZX manual). You will find it easier
+if you make a variable (example "S") equal to the Speech Word Pack
+address you are using:-
+
+For ZX81: LET S=49149 (or 49148 for Word Packs 3 and 4.)
+For SPECTRUM: LET S=255 (or 223 for Word Packs 3 and 4.)
+
+Make this one of the first lines in your program. Then decide which
+word or words you want the Speech Pack to speak and enter their
+corresponding codes from the Word Pack list into POKE or OUT
+commands:-
+
+For ZX81: POKE S,(number code of word to be spoken)
+For SPECTRUM: OUT S,(number code of word to be spoken)
+
+If you wish to use a string of words you must insert PAUSE commands
+between the POKE or OUT commands otherwise the Speech Pack will try
+to say all the words at once! As a rough guide PAUSE 50 is equal to about
+one second delay and so depending on the length of the words shorter or
+longer PAUSE's may be required.
+
+If you have extra Word Pack ROM's you can make words plural by
+adding "SS". "ED" or "TH" sounds onto the end of them (see Word Pack
+lists). You can also join two words together to make one (e.g. "Twenty-
+Three") - as soon as you command the Speech Pack to speak a new word
+it will stop the previous one and start the new word. You will need to
+experiment with different PAUSE delays to get the best results.
+
+This short program contains a FOR-NEXT loop that when RUN counts
+from one to twenty at one second intervals.
+
+ZX81 Program:
+
+10 LET S=49149
+20 FOR A=1 TO 20
+30 POKE S,A
+40 PAUSE 50
+50 NEXT A
+
+
+ZX SPECTRUM Program:
+
+10 LET S=255
+20 FOR A=1 TO 20
+30 OUT S,A
+40 PAUSE 50
+50 NEXT A
+
+
+-------------------------------------------------------------------------
+EXPANSION
+-------------------------------------------------------------------------
+
+If you have other ZX Packs you can disconnect the power plug from the
+computer and plug them onto the rear of the S-Pack. You can then
+reconnect the ZX power and use the S-Pack as before. The power supply
+must be capable of supplying enough current both for the computer +
+Speech Pack and the other accessories as well. (If in doubt consult your
+dealer).
+
+The Volume level of the Speech Pack may be adjusted by carefully
+inserting a very small screwdriver into the volume slot and adjusting
+the control to the required level.
+
+An external speaker or earphone may be connected to the 3.5mm jack
+socket - this must have an impedance of 8R.
+
+Add-on Word Pack ROM's are available and simply plug into sockets
+inside the Speech Pack - full instructions are provided with each Word
+Pack.
+
+For details of these and other DCP ZX add-ons including Interspec,
+Analogue, Control and Peripheral Packs contact your dealer or DCP
+Microdevelopments direct.
+
+
+-------------------------------------------------------------------------
+SERVICE
+-------------------------------------------------------------------------
+
+If you suspect that your S-Pack is not working correctly, contact either
+your dealer or us to arrange for the service. Retain all original packing
+and your receipt. The S-Pack should be used only in accordance with
+these instructions and the guarantee will become void if the unit is
+misused or tampered with.
+
+We reserve the right to make design changes to the product without
+notice.
+
+-------------------------------------------------------------------------
+©DCP Microdevelevlopments Ltd 1983                                DCP SP2
+-------------------------------------------------------------------------
+
+DCP MICRODEVELOPMENTS LTD,
+9 STATION CLOSE,
+LINGWOOD,
+NORWICH, NR13 4AX
+Reg. in England No. 1544147
+
+
+                                     WORD PACK VOCABULARY TABLE
+
+WORD PACK ROM 1              WORD PACK ROM 2             WORD PACK ROM 3             WORD PACK ROM 4
+   (supplied)                                                                   (must be used with W.P.3)
+
+ ZX81: POKE 49149            ZX81: POKE 49149            ZX81: POKE 49148            ZX81: POKE 49148
+ SPECTRUM: OUT 255           SPECTRUM: OUT 255           SPECTRUM: OUT 223           SPECTRUM: OUT 223
+ 
+WORD                CODE    WORD                CODE    WORD                CODE    WORD                CODE
+THIS IS DIGITALKER*    O    CENTI                 72    ABORT                  O    LOAD                  67
+ONE                    1    CHECK                 73    ADD                    1    LOCK                  68
+TWO                    2    COMMA                 74    ADJUST                 2    MEG                   69
+THREE                  3    CONTROL               75    ALARM                  3    MEGA                  70
+FOUR                   4    DANGER                76    ALERT                  4    MICRO                 71
+FIVE                   5    DEGREE                77    ALL                    5    MORE                  72
+SIX                    6    DOLLAR                78    ASK                    6    MOVE                  73
+SEVEN                  7    DOWN                  79    ASSISTANCE             7    NANO                  74
+EIGHT                  8    EQUAL                 80    ATTENTION              8    NEED                  75
+NINE                   9    ERROR                 81    BRAKE                  9    NEXT                  76
+TEN                   10    FEET                  82    BUTTON                10    NO                    77
+ELEVEN                11    FLOW                  83    BUY                   11    NORMAL                78
+TWELVE                12    FUEL                  84    CALL                  12    NORTH                 79
+THIRTEEN              13    GALLON                85    CAUTION               13    NOT                   80
+FOURTEEN              14    GO                    86    CHANGE                14    NOTICE                81
+FIFTEEN               15    GRAM                  87    CIRCUIT               15    OHMS                  82
+SIXTEEN               16    GREAT                 88    CLEAR                 16    ONWARD                83
+SEVENTEEN             17    GREATER               89    CLOSE                 17    OPEN                  84
+EIGHTEEN              18    HAVE                  90    COMPLETE              18    OPERATOR              85
+NINETEEN              19    HIGH                  91    CONNECT               19    OR                    86
+TWENTY                20    HIGHER                92    CONTINUE              20    PASS                  87
+THIRTY                21    HOUR                  93    COPY                  21    PER                   88
+FORTY                 22    IN                    94    CORRECT               22    PICO                  89
+FIFTY                 23    INCHES                95    DATE                  23    PLACE                 90
+SIXTY                 24    IS                    96    DAY                   24    PRESS                 91
+SEVENTY               25    IT                    97    DECREASE              25    PRESSURE              92
+EIGHTY                26    KILO                  98    DEPOSIT               26    QUARTER               93
+NINETY                27    LEFT                  99    DIAL                  27    RANGE                 94
+HUNDRED               28    LESS                 100    DIVIDE                28    REACH                 95
+THOUSAND              29    LESSER               101    DOOR                  29    RECEIVE               96
+MILLION               30    LIMIT                102    EAST                  30    RECORD                97
+ZERO                  31    LOW                  103    ED (b)                31    REPLACE               98
+A                     32    LOWER                104    ED (b)                32    REVERSE               99
+B                     33    MARK                 105    ED (b)                33    ROOM                 100
+C                     34    METER                106    ED (b)                34    SAFE                 101
+D                     35    MILE                 107    EMERGENCY             35    SECURE               102
+E                     36    MILLI                108    END                   36    SELECT               103
+F                     37    MINUS                109    ENTER                 37    SEND                 104
+G                     38    MINUTE               110    ENTRY                 38    SERVICE              105
+H                     39    NEAR                 111    ER (b)                39    SIDE                 106
+I                     40    NUMBER               112    EVACUATE              40    SLOW                 107
+J                     41    OF                   113    EXIT                  41    SLOWER               108
+K                     42    OFF                  114    FAIL                  42    SMOKE                109
+L                     43    ON                   115    FAILURE               43    SOUTH                110
+M                     44    OUT                  116    FARAD                 44    STATION              111
+N                     45    OVER                 117    FAST                  45    SWITCH               112
+O                     46    PARENTHESIS          118    FASTER                46    SYSTEM               113
+P                     47    PERCENT              119    FIFTH                 47    TEST                 114
+Q                     48    PLEASE               120    FIRE                  48    TH (b)               115
+R                     49    PLUS                 121    FIRST                 49    THANK                116
+S                     50    POINT                122    FLOOR                 50    THIRD                117
+T                     51    POUND                123    FORWARD               51    THIS                 118
+U                     52    PULSES               124    FROM                  52    TOTAL                119
+V                     53    RATE                 125    GAS                   53    TURN                 120
+W                     54    RE                   126    GET                   54    USE                  121
+X                     55    READY                127    GOING                 55    UTH (b)              122
+Y                     56    RIGHT                128    HALF                  56    WAITING              123
+Z                     57    SS (b)               129    HELLO                 57    WARNING              124
+AGAIN                 58    SECOND               130    HELP                  58    WATER                125
+AMPERE                59    SET                  131    HERTZ                 59    WEST                 126
+AND                   60    SPACE                132    HOLD                  60    SWITCH               127
+AT                    61    SPEED                133    INCORRECT             61    WINDOW               128
+CANCEL                62    STAR                 134    INCREASE              62    YES                  129
+CASE                  63    START                135    INTRUDER              63    ZONE                 130
+CENT                  64    STOP                 136    JUST                  64
+HIGH TONE             65    THAN                 137    KEY                   65
+LOW TONE              66    THE                  138    LEVEL                 66
+.02S SILENCE (a)      67    TIME                 139                                  IMPORTANT NOTICE
+.04S SILENCE (a)      68    TRY                  140                                  ----------------
+.08S SILENCE (a)      69    UP                   141                             IF WORDS FROM EITHER WORD
+.16S SILENCE (a)      70    VOLT                 142                          PACKS 3 OR 4 ARE REQUIRED BOTH
+.32S SILENCE (a)      71    WEIGHT               143                             WORD PACKS MUST BE FITTED
+                                                                                      SIMULTANEOUSLY.
+Note: (a) These are fixed periods of silence in seconds.
+      (b) When correctly timed these sounds will make some words plural.            -------------------
+      Word Pack 4 can only be fitted when Word Pack 3 is fitted.                    © David Palmer 1983
+[*Digitalker, Trademark National Semiconductor Corporation.]                        -------------------

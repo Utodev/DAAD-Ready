@@ -1,0 +1,199 @@
+==============================
+Fuller Box for the ZX Spectrum
+Fuller Micro Systems
+==============================
+
+OPERATION OF THE PROGRAMMABLE SOUND GENERATOR (PSG)
+
+At the heart of the Fuller Box lies the well known AY-3-8912 PSG chip.
+
+The chip has 14 internal registers, each dealing with its own specific operation.
+
+To create sound effects or music the user must enter the necessary data into these
+registers.
+
+The user must first select the desired register, then enter the data.
+
+From BASIC these operations are obtained by two 'OUT' commands:
+
+    To select the register - OUT 63,REG
+    To enter data into REG - OUT 95,DATA
+
+For example, to put data 100 into register 6:
+
+    OUT 63,6: OUT 95,100
+
+
+REGISTER FUNCTIONS
+
+Registers 0 - 5 are three pairs of tone value registers, for each of the three sound
+channels A, B and C.
+0 and 1 are FINE and COARSE for channel A
+2 and 3 are FINE and COARSE for channel B
+4 and 5 are FINE and COARSE for channel C
+
+The COARSE values lie between 0 and 15 (high pitch to low pitch).
+The FINE values lie between 0 and 255 (high - low).
+
+Register 6 is the filter frequency of the built in white noise or hiss generator.
+Values range from 0 for a high "ssssh" to 31 giving a low "grumble". Noise is
+available at any time on any of the three sound channels, register 6 controlling
+the overall filter frequency.
+
+Register 7 is the "switching" control of the PSG chip. The 8 binary bits that
+make up the decimal number of the data in register 7 have their own individual
+purpose.
+
+They are used to switch on TONE and/or NOISE on any of the three sound channels.
+See Figure 1 for details.
+
+
+FIGURE 1
+
+The 8 binary bits of register 7 in the PSG have their own individual function. On
+being reset to binary 0 they switch on NOISE or TONE on the three channels.
+
+          +----------+------+---------+---------+
+          |      BIT | 7  6 | 5  4  3 | 2  1  0 |
+          |          |      |  NOISE  |   TONE  |
+          | function | -  - | C  B  A | C  B  A |
+          +----------+------+---------+---------+
+
+TO SWITCH ON TONE:-
+ON CHANNEL A SUBTRACT 1    :    TO SWITCH OFF ADD 1
+ON CHANNEL B SUBTRACT 2    :    TO SWITCH OFF ADD 2
+ON CHANNEL C SUBTRACT 4    :    TO SWITCH OFF ADD 4
+
+TO SWITCH ON NOISE:-
+ON CHANNEL A SUBTRACT 8    :    TO SWITCH OFF ADD 8
+ON CHANNEL B SUBTRACT 16   :    TO SWITCH OFF ADD 16
+ON CHANNEL C SUBTRACT 32   :    TO SWITCH OFF ADD 32
+
+
+Subtract or add numbers from current contents of the register to turn on TONE or
+NOISE.
+
+So, for example to switch on NOISE on channel B:
+
+   10 OUT 63,7 : REM select register 7
+   20 OUT 95,(255-16) : REM bit 4 low
+
+to hear this, set volume of channel B to a medium level:
+
+   30 OUT 63,9 : REM select register 9 - volume of channel B
+   40 OUT 95,8
+
+to turn the NOISE off:
+
+   50 OUT 63,9 : OUT 95,0
+or 50 OUT 63,7 : OUT 95,(255-16+16)
+
+both these lines have the effect of turning off the NOISE on channel B.
+
+Registers 8, 9 and 10 are the volume level controls for channels A, B and C
+respectively.
+
+Values between 0 and 15 (silent to loudest) are used. Any value greater than 15
+in any of the three registers will transfer volume control of that channel to the
+automatic envelope generator.
+
+Registers 11 and 12 set the length of time for one envelope cycle (initial rise
+in volume to final decay).
+Register 11 is the FINE control with values 0 to 255 (fast to slow).
+Register 12 is the COARSE control with values 0 to 255 (fast to very slow).
+
+Register 13 is the envelope shape selector. There are a number of preset
+envelopes for use, a table of these is given in Fig. 2.
+
+
+EXAMPLES
+
+Bomb drop and explosion
+
+  10 LET r=63: LET d=95              (r=register : d=data)
+  20 OUT r,7: OUT d,254              (switch on TONE on channel A)
+  30 OUT r,8: OUT d,15               (select max. volume for channel A)
+  40 FOR g=40 TO 150
+  50 OUT r,0: OUT d,g: PAUSE 2       (whistle as bomb falls using reg. 0)
+  60 NEXT g
+  70 OUT r,0: OUT d,0                (no tone in effect)
+  80 OUT r,7: OUT d,247              (switches on NOISE & switches off TONE)
+  90 FOR f=0 to 31
+ 100 OUT r,6: OUT d,f                (create explosion using varying
+ 110 PAUSE 5: NEXT f                  frequency of noise register 6)
+ 120 PAUSE 25: OUT r,7: OUT d,255    (switch off everything)
+
+
+Telephone ringing
+
+  10 LET r=63: LET d=95              (r=register : d=data)
+  20 OUT r,7: OUT d,254              (switch on TONE on channel A)
+  30 OUT r,8: OUT d,15               (select max. volume for channel A)
+  40 FOR f=1 TO 2                    (two rings in one cycle)
+  50 FOR g=1 TO 5                    (five 'pings' per ring)
+  60 OUT r,0: OUT d,140              (select note)
+  70 PAUSE 2
+  80 OUT r,8: OUT d,15
+  90 OUT r,8: OUT d,0                (single 'ping')
+ 100 NEXT g
+ 110 OUT r,8: OUT d,0
+ 120 PAUSE 12: NEXT f                (next ring)
+ 130 PAUSE 50: GOTO 30               (next cycle)
+
+
+Simple music program
+
+  10 LET r=63: LET d=95              (r=register : d=data)
+  20 OUT r,7: OUT d,254              (switch on TONE on channel A)
+  30 OUT r,8: OUT d,15               (select max. volume for channel A)
+  40 READ x                          (get tone value from DATA)
+  50 IF x=999 THEN RESTORE: GOTO 40
+  60 OUT r,1: OUT d,x                (COARSE tone value)
+  70 READ y                          (get next tone value)
+  75 IF y=999 THEN RESTORE: GOTO 40
+  80 OUT r,0: OUT d,y                (FINE tone value)
+  90 PAUSE 10: GOTO 40
+ 100 DATA 6,174,1,172,5,1,2,59,4,117,53,2,129,5,24,999
+
+
+Phasor gun
+
+  10 LET r=63: LET d=95              (r=register : d=data)
+  20 INPUT "press 'ENTER' to fire";a$
+  30 OUT r,8: OUT d,15               (select max. volume for channel A)
+  40 OUT r,7: OUT d,254              (turn on TONE on channel A)
+  50 OUT r,0: OUT d,110
+  60 OUT r,1: OUT d,0                (set up start pitch)
+  70 FOR f=110 TO 254 STEP 5
+  80 OUT r,0: OUT d,f: NEXT f        (sweep through frequency)
+  90 OUT r,8: OUT d,255              (switch off TONE)
+ 100 GOTO 20                         (repeat)
+
+
+FIGURE 2   ENVELOPE SHAPE CONTROL (REGISTER 13)
+
++-------+------------------------+-------+------------------------+
+| Data  |   Envelope Shape       | Data  |   Envelope Shape       |
++-------+------------------------+-------+------------------------+
+|       |                        |       |      _______________   |
+|0 to 3 |   \                    |  11   |   \ |                  |
+|       |    \________________   |       |    \|                  |
+|       |                        |       |                        |
+|4 TO 7 |    /|                  |  12   |    /| /| /| /| /| /|   |
+|       |   / |_______________   |       |   / |/ |/ |/ |/ |/ |   |
+|       |                        |       |     ________________   |
+|   8   |   |\ |\ |\ |\ |\ |\    |  13   |    /                   |
+|       |   | \| \| \| \| \| \   |       |   /                    |
+|       |                        |       |                        |
+|   9   |   \                    |  14   |    /\  /\  /\  /\  /   |
+|       |    \________________   |       |   /  \/  \/  \/  \/    |
+|       |                        |       |                        |
+|  10   |   \  /\  /\  /\  /\    |  15   |    /|                  |
+|       |    \/  \/  \/  \/  \   |       |   / |_______________   |
++-------+------------------------+-------+------------------------+
+
+For further examples LIST the supplied demonstration program and see
+how to make more sounds.
+
+Enter your own numbers into the registers using the demo program. See
+how easy it is to use.

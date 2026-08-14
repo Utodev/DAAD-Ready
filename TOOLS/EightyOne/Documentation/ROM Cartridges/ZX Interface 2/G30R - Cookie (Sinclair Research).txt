@@ -1,0 +1,43 @@
+==============================================
+G30/R COOKIE ROM Cartridge for the ZX Spectrum
+Sinclair Research
+==============================================
+
+Charlie the Chef keeps all the ingredients locked away in the pantry, only letting
+them out when he wants to cook them!
+
+Without doubt, this makes them jolly upset!
+
+So as soon as they can, the ingredients dash out of the pantry dragging all sorts
+of nasties from the bottom of drawers and cupboards.
+
+Poor old Chartie! He has to daze the ingredients with flour bombs and knock them
+into the mixing bowl, because if they go into the dustbins they will be eaten by
+the bin monster.
+
+Should any rubbish or nasties get into the cake mix then the 'ingredients needed'
+counter will change, and Charlie will have to work faster, if he's going to bake
+his cake.
+
+
+Controlling Charlie Chef
+
+Keyboard Controls
+
+RIGHT: 'Q' key
+LEFT: 'W' key
+DOWN: 'E' key
+UP: 'R' key
+THROW FLOUR BAGS: 'T' key
+PAUSE the game by using the CAPS SHIFT key.
+
+
+Joystick Controls.
+
+Connect joystick to right hand socket.
+
+JOYSTICK FORWARD - moves up
+JOYSTICK BACKWARD - moves down
+JOYSTICK RIGHT - moves right
+JOYSTICK LEFT - moves left
+JOYSTICK FIRE - throws flour bags.

@@ -1,0 +1,73 @@
+============================================================
+G24/R HORACE & THE SPIDERS ROM Cartridge for the ZX Spectrum
+Sinclair Research
+============================================================
+
+Horace is engaged in a hunt to rid the Spider mountains of the deadly octopeds
+which inhabit them. He sets out with four phials of serum which protect him from
+the fatal bites, but when he has used these he must give up the hunt.
+
+His task is in three stages:
+  He must climb the hills to reach the mountain.
+  He must cross the Spider bridge.
+  And finally he must kill the spiders in the cave.
+
+Horace must survive each of these stages in order to pass onto the next. If he
+succeeds in killing all the spiders, he returns to the first stage and is faced
+with steeper hill and more spiders,
+
+
+Controlling Horace
+
+Keyboard Controls
+
+MOVE/JUMP UP: 'Q' key
+MOVE/JUMP DOWN: 'Z' key
+LEFT: 'I' key
+RIGHT: 'P' key
+STAMP: 'V,B,N or M' keys (stage 3 only)
+
+
+Joystick Controls.
+
+Connect joystick into left hand socket.
+JOYSTICK FORWARD - moves up or jumps up
+JOYSTICK BACKWARD - moves down or jumps down
+JOYSTICK RIGHT - moves right
+JOYSTICK LEFT - moves left
+Keys V, B, N or M make Horace stamp (stage 3 only)
+
+
+Climbing the Hills
+
+Horace must climb the hills, jumping up to get to the next level, while avoiding
+the spiders. The only way that he can avoid the spiders is to jump over them.
+Pressing key Q makes Horace jump and running jumps can be produced by pressing key
+Q while P is depressed. If Horace misjudges his jumps and falls over he will break
+one of his phials of spider serum.
+
+
+Crossing the Spider bridge
+
+To cross the Spider bridge, Horace must grab hold of a spider thread by pressing
+key Q and swing from thread to thread until he reaches the other side. But the
+spiders, when they sense that Horace has grabbed a thread, will try to reel him in,
+so he must be fast. When he reaches the other side, pressing key Z will make
+Horace jump down.
+
+
+Killing the Spiders
+
+When Horace reaches the cave, he finds 4 full of spiders busily mending a giant
+web. Horace can move around the web and make holes in it by stamping, (keys V, B,
+N or M), until it gives way.
+
+The spider will try to mend the holes by hanging in the gap. In this vulnerable
+position Horace can kill them by stamping on them until they drop into the web
+below, but they will not die if there is another hole beneath for them to hang in.
+The same keys control Horace's movements around the web, but he only stops when
+stamping.
+
+You can pause the game at any time by pressing key S and subsequently continue by
+pressing any key along the bottom row. A game can be aborted and a new game
+started by pressing keys G and H together.

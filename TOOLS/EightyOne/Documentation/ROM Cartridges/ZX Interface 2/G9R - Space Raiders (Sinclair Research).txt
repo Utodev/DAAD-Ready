@@ -1,0 +1,29 @@
+====================================================
+G9/R SPACE RAIDERS ROM Cartridge for the ZX Spectrum
+Sinclair Research
+====================================================
+
+Defend the earth with your gun base from attack by successive waves of 55 aliens -
+a full feature, high-resolution, reactive, machine-code game in colour.
+
+
+Controlling your Gun Base
+
+Keyboard Controls
+
+LEFT: 'Z' key
+RIGHT: 'X' key
+FIRE: 'SPACE' key
+
+
+Joystick Controls
+
+Connect joystick to left hand socket.
+
+JOYSTICK RIGHT - moves right
+JOYSTICK LEFT - moves left
+JOYSTICK FIRE - fire
+
+POINTS FOR EACH HIT: 10 for lower two ranks; 20 for middle two ranks; 30 for upper
+rank; 50, 100, 200 for destroying the alien spaceship. You have 3 guns and gain an
+extra gun after 1000 points.

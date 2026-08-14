@@ -1,0 +1,3352 @@
+====================================
+TREE-FORTH ROM for the ZX81 / TS1000
+Tree Systems
+====================================
+
+
+                         TREE-FORTH
+
+                      by TREE SYSTEMS
+
+             Copyright (c) 1983 by TREE SYSTEMS
+
+
+                       USERS MANUAL
+
+
+
+                           Tree Systems
+                           Suite 233
+                           3645 28th St. S.E.
+                           Grand Rapids, Mi.
+                                        49508
+
+                           - - -
+
+                      TABLE OF CONTENTS
+
+CHAPTER 1
+ INTRODUCTION TO TREE-FORTH
+
+CHAPTER 2
+ INSTALLATION AND SYSTEM DESCRIPTION
+   2.1 Installing the circuit board
+   2.2 Initial power-up
+   2.3 Warm and Cold restart
+   2.4 System response and errors
+   2.5 Switching between TREE-FORTH and BASIC
+
+CHAPTER 3
+ VISUAL EDITOR
+   3.1 Editor Commands
+   3.2 Compilation of code
+   3.3 Creating Screens
+   3.4 SLOW, FAST, and AUTO
+
+CHAPTER 4
+ MASS STORAGE AND RETRIEVAL
+   4.1 Information Storage
+   4.2 Information Retrieval
+   4.3 Compiling screens with loading
+   4.4 Loading sequential screens
+
+CHAPTER 5
+ DESCRIPTION OF STRUCTURE AND COMMAND FORMAT
+   5.1 Stack structure
+   5.2 Dictionary and its use
+   5.3 Command Format
+
+CHAPTER 6
+ MATHEMATICAL COMMANDS
+
+CHAPTER 7
+ LOGICAL OPERATORS AND COMPARISON COMMANDS
+   7.1 Logical Operators
+   7-2 Comparison Operators
+
+CHAPTER 8
+ NUMBER BASES AND STACK MANIPULATION
+   8.1 Number Bases
+   8.2 Stack Manipulation
+
+CHAPTER 9
+ MEMORY COMMANDS AND MEMORY MANIPULATION
+
+CHAPTER 10
+ DATA TYPES AND VARIABLES
+   10.1 Data Types
+   10.2 VARIABLE
+   10.3 INTEGER
+
+CHAPTER 11
+ CONTROL STRUCTURES
+   11.1 IF ... ELSE ... THEN
+   11.2 IF ... THEN
+   11.3 ... DO ... LOOP
+   11.4 ... DO ... +LOOP
+   11.5 CASE STATEMENT
+   11.6 BEGIN ... AGAIN
+   11.7 BEGIN ... UNTIL
+   11.8 BEGIN ... WHILE ... REPEAT
+
+CHAPTER 12
+ CHARACTER INPUT/OUTPUT
+   12.1 Description of Character Stack
+   12.2 Character commands
+   12.3 Character/number stack
+
+CHAPTER 13
+ DEFINING WORDS
+   13.1 COLON / SEMI-COLON Descriptors
+   13.2 <BUILDS ... DOES>
+
+CHAPTER 14
+ TASKING
+
+CHAPTER 15
+ CODE COMPILER
+
+CHAPTER 16
+ APPLICATIONS
+
+APPENDIX A    ASCII CHARACTERS
+APPENDIX B    ERROR CODES
+
+                           - - -
+
+
+                         CHAPTER 1
+                       INTRODUCTION
+
+        TREE SYSTEMS has prepared this document
+        as a guide to the use of any word in
+        TREE-FORTH. This manual is not meant to
+        be a tutorial for learning FORTH. We
+        recommend the book Starting FORTH by Leo
+        Brodie which is published by Princeton-Hall
+        books.
+
+
+WHAT IS FORTH ?
+
+FORTH is a computer language, as is BASIC. It was
+first developed by Charles H. Moore in the late sixties. The
+language was conceptualized as a user friendly, high level
+computer language. The first element of FORTH to appear was
+the text interpreter at STANFORD in the early 1960s. This
+version shows the process of executing a section of program
+attached to a defining word.
+
+Moore implemented the first version of FORTH on the
+IBM 1130 computer in the late 1960s. The name FORTH, itself, is
+an abbreviation for fourth, to denote a fourth generation computer
+language. The spelling was changed because the IBM 1130
+accepted only five-letter identifiers. A more complex version of
+FORTH appeared in 1972 after Moore developed a "Radio-Telescope
+Data Acquisition Program" at the National Radio Astronomy Observatory
+(NROA). Finally, in 1973, FORTH Inc. was formed by Moore
+and was made available to the public. Soon a host of companies
+were selling FORTH for a variety of microprocessors. FORTH is
+now available for the Apple II, Heath WH-89, IBM PC, TRS 80, PDP-
+11, LSI-1I, and for systems using the 8080, 8086, 6800, 1802,
+6502, and Z80 microprocessors.
+
+Moore also established the FORTH INTEREST GROUP. Through
+this group the fig-FORTH standard was developed. Where possible,
+TREE SYSTEMS has insured that TREE-FORTH matches the figFORTH
+standards. TREE SYSTEMS was not able to include all of the
+fig-FORTH commands due to lack of memory space. Also, TREE-FORTH
+includes some non-standard commands so that multi-tasking
+can be accomplished.
+
+TREE-FORTH is multi-tasking. This gives the programmer the
+ability to write real-time routines. This is described in chapter
+14.
+
+TREE SYSTEMS believes that it has improved on the fig-FORTH
+standard by making TREE-FORTH a compiler directive language instead
+of interpretive. Interpretive FORTH contains a series of
+addresses for each command ( or word ). These addresses are
+stepped through by an inner interpreter which requires approximately
+70 bytes of code. The inner interpreter requires 170 T
+states of execution time (~50 usec). This inner interpreter is a
+routine which must run as overhead for every address interpreted.
+A compiler directive language contains a series of calls to
+subroutines in each command or word. Therefore, the overhead of
+an inner interpreter is not necessary. The result is that
+compiler directive FORTH is quicker than interpretive FORTH in
+most programming applications.
+
+Since TREE-FORTH is not an interpretive language, but instead
+is a compiler directive language, it should not really be
+classified as a TIL (Threaded Interpretive Language). Instead it
+would be better to call the language a Threaded Compiler Language.
+
+
+WHAT IS TREE-FORTH ?
+
+TREE-FORTH contains most of the standard FORTH commands.
+The language of FORTH is a structured programming language
+which allows the user to manage and manipulate all of the
+dynamic memory addressable by the microprocessor. FORTH is also
+a language in which the user can link down to machine code routines.
+In this respect, FORTH is only a step above assembly
+level programming. However, FORTH is a high-level user friendly
+language in that it allows the user to create his own command
+set. The entire program set written in FORTH is a customized set
+of instructions. In this way, FORTH approaches other high level
+languages like LISP.
+
+In addition to the standard attributes of the FORTH language,
+TREE-FORTH adds a dimension to flexibility with multitasking.
+Multi-tasking allows the user to schedule programs to
+run at any time in the future. This is a feature available only
+on much more expensive systems. With the proper hardware support,
+a multi-tasking system can be used as a real-time controller.
+This means that the computer can operate at a speed sufficient
+enough to control the environment as events occur. A
+multi-tasking system can also be used to enter data from a realtime
+environment. An example would be sampling the breathing
+cycle of a patient in the hospital in order to determine his or
+her respiratory rate. A multi-tasking system also gives the user
+the flexibility of allowing a program to run in the background (
+example: a program which would take 5 minutes to run while
+editing a program in the editor system ).
+
+FORTH is somewhat harder to learn than BASIC. However, the
+flexibility gained with FORTH makes it extremely desirable as a
+programming language.
+
+***********************************************
+*                                             *
+*   A TECHNICAL DESCRIPTION OF FORTH FOLLOWS. *
+*                                             *
+***********************************************
+
+TREE-FORTH makes the Sinclair ZX8l or TIMEX Sinclair 1000
+a single user multi-tasking system.
+
+Example :
+          TASK taskname programname
+          IN 20 TM taskname EVERY 1 TS taskname
+
+20 minutes after entering these lines, the program,
+programname, will execute and continue executing every 1 second
+thereafter. 10 tasks may be scheduled to run simultaneously.
+Program programname could read, for instance, a temperature
+and display it on the screen.
+
+TASKING INFORMATION:
+ -Event Scheduling:
+    * Schedule with AT, IN, EVERY commands
+    * Task at 1/60 th of a second (maximum resolution)
+ -Task Options:
+    * LOCK, UNLOCK, START, STOP, RUN
+    * Tasks can dynamically reschedule themselves.
+    * Up to le tasks can be scheduled at a time.
+    * Tasks can be linked to run in the background.
+    * Each task has its own 32 bit clock.
+    * Tasks await execution in 63 deep event que.
+
+-Unique Editor:
+    * User defined split screens
+    * Visual editor with blinking cursor
+    * Run editor while execution screen is running program
+    * Cursor Oriented
+    * Delete lines or Characters
+    * Store line in pad.
+    * Insert lines from pad to editor screen.
+    * Automatic Character insert.
+    * Compile any line in the editor screen.
+    * Compile the entire screen.
+    * Cassette I/O (INPUT/OUTPUT) routines use the editor
+  screen for reading information or loading information.
+
+-Other Information:
+    * TREE-FORTH uses all ASCII characters
+    * Extremely Fast. Run 30000 0 DO LOOP in 1 second.
+    * High Priority Clock runs constantly for detection of
+      stack underflow.
+    * Has a 16 bit number stack and an 8 bit character stack
+      separate from the processor stack.
+
+        NOTE: YOUR SYSTEM MUST HAVE 2 KB OF RAM
+        IN ORDER TO RUN TREE-FORTH. ANY MEMORY
+        PACK WILL PROVIDE ENOUGH MEMORY. ALSO,
+        IT IS POSSIBLE TO CONVERT THE 1KB VERSIONS
+        OF THE COMPUTER TO 2 KB, BY
+        INSERTING A 2 KB MEMORY CHIP.
+
+        FORTH IS RESIDENT IN AN 8K EPROM HOUSED
+        ON A CIRCUIT BOARD WITHIN THE ZXB1. ONE
+        CAN SWITCH BETWEEN FORTH AND BASIC USING
+        THE CHANNEL SWITCH ON THE BOTTOM OF THE
+        COMPUTER, OR AN EXTERNAL SWITCH.
+
+        TREE-FORTH is based on an EPROM. The
+        information on the chip can be erased by
+        prolonged exposure to ultra-violet
+        light. Therefore, TREE SYSTEMS can
+        return any existing chip to update it to
+        a new version. As the latest versions
+        of the language becomes available TREE
+        SYSTEM will burn any changes into
+        existing chips for a fee of $6.00.
+
+        Also, for a development fee TREE SYSTEMS
+        can add any customized words to the
+        EPROM.
+
+For further questions or requests, please mail correspondence to :
+
+            TREE SYSTEMS
+            SUITE 233
+            3645 28th ST.
+            GRAND RPAIDS, MI 49508
+
+
+******************
+*   MEMORY MAP   *
+******************
+
+10000 H
+        +------------------+
+        |                  |
+        |    VIDEO RAM     |
+        |                  |                 +-----------------+
+ FD00 H |------------------| --> -->  FD00 H |                 |
+        |                  |                 |    CHARACTER    |
+        |                  |                 |      STACK      |
+        |                  |                 |                 |
+ FA80 H |------------------|          FCC0 H |-----------------|
+        |                  |                 |                 |
+        |                  |                 |     SYSTEM      |
+        |      USER        |                 |    VARIABLES    |
+        |      STACK       |                 |                 |
+        |        |         |          FC40 H |-----------------|
+        |        |         |                 |                 |
+        |        |         |                 |     SYSTEM      |
+        |        V         |                 |     EDITOR      |
+        |                  |   PAD           |     STACK       |
+        |                  |    |            |                 |
+        |                  |    |     FBC0 H |-----------------|
+        |                  |    V            |                 |
+        |                  |                 |     KEYBOARD    |
+        |                  |                 |      INPUT      |
+        |                  |                 |      BUFFER     |
+        |                  |                 |                 |
+        |                  |          FB80 H |-----------------|
+        |                  |                 |                 |
+        |                  |                 |     SYSTEM      |
+        |                  |                 |     EXECUTE     |
+        |                  |                 |     STACK       |
+ 8000 H |------------------|                 |                 |
+        |                  |        (FA80) H |-----------------|
+        |                  |       moveable  |                 |
+        |        ^         |                 |      USER       |
+        |        |         |                 |      STACK      |
+        |        |         |                 |        |        |
+        |        |         |                 |        |        |
+        |    DICTIONARY    |                 |        V        |
+        |      SPACE       |                 |                 |
+        |                  |                 |                 |
+ 4000 H |------------------|
+        |                  |
+        |  EXTENSION RAM   |
+        |     or ROM       |
+        |                  |
+ 2000 H |------------------|
+        |                  |
+        |      FORTH       |
+        |                  |
+ 0000 H +------------------+
+
+                           - - -
+
+                         CHAPTER 2
+                       INSTALLATION
+
+2.1  SET-UP:
+
+TREE SYSTEMS sells TREE-FORTH for the ZX8l / TS 1000
+already installed in a Sinclair computer, or as an extension to
+units already purchased.
+
+If you have an EPROM extension you will have to follow the
+following instructions to set-up your FORTH system.
+
+STEP 1 : Take the cover off the Computer. There are 5
+screws in the bottom of the case. ( Three are under the pads.
+The pads are attached with adhesive and are easily removed. )
+The case is shown in figure 2.1.
+
+After removing the screws, the two halves of the case are
+easily separated. Opening the case will reveal the underside of
+the printed circuit board. Remove the two screws in this board.
+This is shown in figure 2.2. Next, flip the circuit board over,
+making sure that the ribbon cable to the keyboard does not pull
+out.
+
+At this point, you should be looking at the various integrated
+circuits on the board. Identify the BASIC ROM chip. You can
+find a picture of the circuit board in your BASIC manual. In the
+SINCLAIR book the picture is on page 119. In the TIMEX book it
+is on page 121.
+Remove the BASIC ROM chip by prying up one side with a
+butter knife or another flat device. Be careful not to bend or
+touch any of the pins -- the chips are easily damaged by static
+electricity. The socket is shown in figure 2.3.
+
+STEP 2 :
+
+Remove the TREE-FORTH circuit board from the aluminum foil
+and styrofoam, being careful not to touch the pins.
+It is recommended that before you include your BASIC ROM on
+the TREE-SYSTEMS circuit board, insert the FORTH circuit without
+BASIC. In this way you can test the TREE-FORTH system. Insert
+the circuit board. There will be a group of resistors which will
+interfere with the FORTH board. Bend these over, making sure
+that there are no metal to metal contacts.
+
+Next, turn the SINCLAIR circuit board over and secure it
+with two screws you removed previously. Then, replace the cover
+and insert the 5 screws previously removed from the holes in
+the cover. At this point TREE-FORTH will be operational ( note
+that no BASIC will be available in this configuration ).
+
+
+2.2  INITIAL POWER-UP:
+
+After completing step two of the assembly, the system is
+ready for power-up. This section will describe for you how the
+various screens in TREE-FORTH should look when you first turn the
+power on.
+
+After inserting the power line on the computer, the screen
+should look like Figure 2.5.
+
+If the screen did not come up, insert the power line again.
+You can also try a cold restart. This is accomplished by holding
+the SHIFT key and SPACE key down simultaneously for about a half
+second.
+
+TREE SYSTEMS checks all the circuits before they are shipped
+to insure proper operation. It is possible that damage occurred
+during shipping.
+
+Here are some possible reasons why your screen did not come
+up properly :
+
+    - Did you correctly insert the TREE SYSTEMS circuit board
+      into the ROM socket? The pins fit tightly, so do
+      not be afraid to push very hard.
+
+    - Did you bend any of the circuit board pins over
+      during installation ?
+
+    - Did you put the circuit board pins in the correct
+      holes in the socket ? Some sockets are 28 pin
+      sockets. The holes 1,2,27, and 28 should remain
+      open.
+
+    - When you bent over the resistors, did you make sure
+      that none of the wire leads where touching ?
+
+    - Is your RAM pack attached properly? If the connections
+      are not good, the system will not display the
+      video information. It is best to leave the
+      RAM pack off ( if you have a 2 KB system ). Remove
+      the pack and then try to power-up again by removing
+      the power line and reinserting it.
+
+      If there are further problems than the ones mentioned
+      above, you may call TREE SYSTEMS and we will try to
+      help you trouble shoot your installation over the
+      phone. Ca 11: 1-616-949-8506.
+
+
+    +--------------------------------+
+    | TREE-FORTH BY TREE SYSTEMS     |
+    | COPYRIGHT (C) 1983             |
+    |                                |
+    | #                              |
+    |                                |
+    |                                |
+    |                                |
+    |                                |
+    |                                |
+    |                                |
+    |                                |
+    |                                |
+    +--------------------------------+
+                FIGURE 2.5
+
+There are two sets of screens in TREE-FORTH. The first one
+we have seen. The second one is a split screen. To display the
+hold down the SHIFT and EDIT keys simultaneously. Now the screen
+should appear as shown in Figure 2.6.
+
+    +--------------------------------+
+    | #                              |
+    |                                |
+    | This is the editor part of the |
+    | screen.It is referred to as ED |
+    | in the software.               |
+    |                                |
+    | ############################## |
+    |                                |
+    | This is the run-time part of   |
+    | the screen. It is referred to  |
+    | as CO or console in the        |
+    | software                       |
+    |                                |
+    +--------------------------------+
+               EDITOR SCREEN
+                FIGURE  2.6
+
+You can toggle between the two portions of the split screens
+by depressing the SHIFT and EDIT keys.
+
+To insure that your system is running properly, type the
+following in the execution portion of the screen. :
+
+VLIST (ENTER)
+                       This will display all of the
+                       TREE-FORTH words presently
+                       in memory.
+
+Also, enter :
+
+.CPU (ENTER)           This identifies the processor
+                       which is presently running.
+
+
+2.3  WARM AND COLD RESTART
+
+The TREE-FORTH can be re-initialized from
+software anytime without having to pullout the
+power supply line.
+
+
+A.  WARM RESTART :
+
+    WARM (ENTER)   will execute a warm restart.
+
+    A warm restart can also be accomplished
+    by holding BREAK (SHIFT/SPACE) down for an instant.
+
+    A warm restart resets the stack pointers to the
+    absolute bottom. The system checks for a catastrophic
+    error, such as overwriting the system variables. If
+    necessary, a warm restart calls a cold restart to
+    recover. The editor is reset to the CONSOLE screen.
+    Finally, if the task flag is OFF ( command TOFF ) any
+    background task is set to a null program and all tasks
+    are LOCKED.
+
+
+B.  COLD RESTART :
+
+    Command :
+
+        COLD (ENTER)
+
+    A cold restart is accomplished by holding the BREAK
+    key down for about a half second.
+
+    A cold restart reconfigures the entire
+    system and brings up the original screen, as if the
+    power were just turned on. Note that all dynamic memory
+    ( RAM > 4000 H ) is erased. Cold restart also checks
+    for the amount of RAM attached to the Sinclair and sets
+    this value in memory.
+
+
+2.4  SYSTEM RESPONSE AND ERRORS
+
+TREE-FORTH prompts the user with an OK after each successful
+operation in the execution screen. The operation may be
+something as simple as putting a number on the stack, or as
+complicated as an entire line of program. As long as no error
+is found, the system reports with an OK.
+
+If some error should appear during an operation, the ERROR
+statement will be displayed on the screen followed by an error
+code. The error codes can be found in appendix B.
+
+
+2.5  SWITCHING BETWEEN TREE-FORTH AND BASIC.
+
+The circuit board supplied by TREE SYSTEMS can also be
+configured to allow the user to switch between BASIC and TREE-
+FORTH. If you wish to do this, follow the instructions below.
+However, this will require some soldering.
+
+STEP 1 :
+
+Follow the same procedure as required for inserting the TREE-
+FORTH circuit board. In this case, remove the circuit board from
+its socket.
+
+STEP 2 : Insert the BASIC ROM chip next to the FORTH chip.
+After properly inserting the BASIC ROM, solder the pins in.
+
+STEP 3 :
+
+There is a small jumper wire which is wired from a
+socket in the board to the ground plane ( the large amount of
+interconnected silver on the board). Remove this wire by heating
+the solder and pulling the wire with a long-nosed pliers.
+
+Take a long piece of wire and put it into the same hole.
+
+
+FOR AN EXTERNAL SWITCH :
+
+Take the free end of the wire just attached to the circuit
+board, and attach it to one side of a Single Pole Single Throw
+(SPST) switch. The other side of this switch should be wired to
+ground. You can use the ground plane on the TREE SYSTEMS circuit
+board or the ground plane on the T/S computer.
+
+
+FOR THE CHANNEL SELECTOR AS A SWITCH :
+
+You may also elect to use your channel switch as the
+switch for toggling between BASIC and FORTH. To do this, take
+the long wire from the circuit board and attach it to the center
+post on the channel switch. FORTH will be channel 3 and BASIC
+will be on channel 2.
+
+One note : You will have to repower when you switch from
+FORTH to BASIC in order to reinitialize the BASIC system.
+
+
+EXTENSION MEMORY :
+
+You may also elect to put an extension EPROM or ROM in the
+BASIC ROM place. When floating point arithmetic becomes available
+for TREE FORTH, it will be in the form of an extension EPROM.
+For information on floating point, contact TREE SYSTEMS and ask
+for the Technical Reference Manual.
+
+                           - - -
+
+                         CHAPTER 3
+                       VISUAL EDITOR
+
+THE EDITOR
+
+TREE-FORTH for the Sinclair uses ASCII characters. ASCII
+stands for the "America Standard Code for Information
+Interchange", which is the industry standard. A complete listing
+of the ASCII code can be found in appendix A. This is a deviation
+from the Sinclair BASIC. It uses its own, non-standard,
+character set. Using ASCII makes the system much more flexible
+in terms of communicating with existing computer systems ( most of
+which use ASCII to communicate - including modems and printers ).
+
+The visual editor is a screen editor, not a line editor.
+This gives the user a great deal of flexibility in writing FORTH
+programs.
+
+There are two screens in TREE-FORTH, so don't be confused.
+The first screen appears when you turn on the power. (See Fig.
+2.5). The second screen is displayed with the SHIFT/EDIT set of
+keys. Once you are in the second screen ( FIG. 2.6 ) you can use
+the upper portion for editing. The lower portion is an execution
+screen ( This will also be called the console ). The two halves
+are separated by a black band called the video pad. You can
+switch between edit and execution screens using the SHIFT/EDIT
+keys.
+
+
+3.1  THE FOLLOWING ARE EDITOR COMMANDS:
+
+NOTE: IF YOU HOLD ANY KEY DOWN FOR MORE THAN 1
+SECOND, THE DEPRESSED KEY WILL REPEAT.
+
+SHIFT / <- : THIS MOVES THE CURSOR ONE SPACE TO
+             THE LEFT.
+
+SHIFT / v  : THIS MOVES THE CURSOR ONE LINE DOWN.
+
+SHIFT / ^  : THIS MOVES THE CURSOR ONE LINE UP.
+
+SHIFT / -> : THIS MOVES THE CURSOR ONE SPACE TO
+             THE RIGHT.
+
+SHIFT / 9  : INSERTS A LINE IN THE SLOT WHERE THE
+             CURSOR IS PRESENTLY POSITIONED.
+
+SHIFT / 4  : DELETES THE LINE ON WHICH THE CURSOR
+             IS POSITIONED.
+
+SHIFT / RUBOUT : DELETES THE CHARACTER AT THE
+                 CURSOR POSITION.
+
+(RUBOUT may be labled DELETE on some keyboards)
+
+NOTE: ON THE EDITOR SCREEN, DEPRESSING THE ENTER
+KEY (NEW LINE on some models) MOVES THE CURSOR
+DOWN ONE LINE. IT DOES NOT COMPILE THE LINE.
+
+Also, continued typing on a line will provide
+immediate wrap around onto the next line should you type
+beyond the end of the screen. However, if you go back
+and insert characters in full lines, they will not wrap
+around. Instead the end characters will be lost off the
+right side of the screen.
+
+NOTE THAT INSERTION MODE IS AUTOMATIC. TYPING A
+CHARACTER IN THE MIDDLE OF A LINE MOVES ALL THE
+CHARACTERS FOLLOWING THE CURSOR TO THE RIGHT.
+
+    **************************************
+    * The following commands deal        *
+    * with the video pad.                *
+    * The pad is the black band between  *
+    * the editor portion and the         *
+    * execution portion of the screen.   *
+    **************************************
+
+SHIFT / 3 : TAKES THE LINE ON WHICH THE CURSOR
+            IS LOCATED AND PUTS IT IN THE PAD.
+
+SHIFT / 2 : TAKES THE CONTENTS OF THE PAD AND INSERTS
+            THEM ON THE LINE OF THE CURSOR.
+            IT THEN SCROLLS PRESENT AND FOLLOWING
+            LINES DOWN.
+
+On the following page, all the keys on the Sinclair keyboard
+are defined according to their function in TREE-FORTH.
+
+KEY     SHIFTED KEY     SHIFTED KEY FUNCTION
+1       EDIT            Switches between screens
+2       AND             Fetches a line from the video pad
+3       THEN            Puts a line in the pad
+4       TO              Deletes a line from the editor screen
+5       <-              Moves cursor left
+6       v               Moves cursor down
+7       ^               Moves cursor up
+8       ->*             Moves cursor right
+9       GRAPHICS        Inserts line on editor screen
+0       DELETE          Deletes 1 character
+Q       ""              Compiles an editor screen line
+w       OR              Stores command. Displayed as !
+E       STEP            Fetches command. Displayed as @
+R       <=              Character : [
+T       <>              Character :
+Y       >=              Character : T
+U       $               Character : $
+I       (               Character : (
+O       )               Character : )
+P       "               Character : "
+A       STOP            Clears the present screen
+S       LPRINT          Character : %
+D       SLOW            Character : '
+F       FAST            Character : \
+G       LLIST           Character : ^
+H       **              Character : #
+J       -               Character : -
+K       +               Character : +
+L       =               Character : =
+ENTER   FUNCTION        Home : Cursor to upper left corner
+SHIFT   SHIFT           Character : :
+Z       ;               Character : ;
+X       ?               Character : ?
+C       /               Character : /
+V       *               Character : *
+B       <               Character : <
+N       >               Character : >
+M       ,               Character : ,
+SPACE   Special         WARM Restart
+                        If held for 1/2 second COLD restart
+
+
+3.2  COMPILATION OF CODE.
+
+The following commands deal with the compilation of code
+from the editor screen. There are two ways to write code in
+TREE-FORTH. The first is to enter commands one by one in the
+console screen. (The console screen is defined in chapter 2 ).
+The more desirable method of writing code is to write a series of
+words in the editor screen and then either compile the entire
+screen or compile the lines one by one. This allows you the
+freedom to go back and change things in the editor screen and
+recompile.
+
+The commands below deal with compiling code from the
+editor screen.
+
+SHIFT / Q : COMPILES THE LINE OF CODE ON WHICH THE
+            CURSOR APPEARS ( The compiled line appears
+            in the execution screen after this command. )
+
+NOTE THAT A FORTH WORD MAY BE MORE THAN ONE LINE LONG.
+IN THIS CASE, YOU WILL HAVE TO PLACE THE CURSOR ON THE
+TOP LINE, COMPILE IT, AND THEN MOVE THE CURSOR TO
+COMPILE THE REST OF THE LINE.DO NOT WORRY ABOUT THE
+COMPILER: IT WILL WAIT UNTIL IT FINDS A SEMI-COLON (;)
+BEFORE IT ASSUMES THAT THE END OF A FORTH WORD IS
+REACHED.
+
+If the line is successfully complied, an OK will
+appear at the end of the line. If the line does not
+compile properly due to a programming error, then ERROR will be
+displayed followed by the appropriate code. The error codes are
+found in appendix B.
+
+
+CPL : COMPILES THE ENTIRE EDITOR SCREEN.
+
+Use this command after you have filled the entire
+editor screen and wish to compile all the statements. This is
+also very useful for compiling screens after they have been down
+loaded from the cassette tape.
+
+NOTE 1: You do not have to write all of your code in the editor
+screen and then compile it. You can compile FORTH code line by
+line in either SCREEN 1 ( FIG. 2.5 ) or in the execution
+portion of SCREEN 2 ( FIG. 2.6 ). Each word that you type while
+·on the execution screen is compiled immediately. It is for this
+reason that using the editor to hold uncompiled code is
+desirable. You can make corrections to the middle of a program
+before it is too late to change it.
+
+NOTE 2 : The editor screen can be turned off in order to make
+the present screen only an execution screen.
+
+Command: EOFF : Turns the editor screen off.
+
+        As an example :
+
+        Enter :
+
+        EOFF (ENTER)
+
+Now, by repeatedly pushing the ENTER, key you can scroll
+the editor screen off the top of the screen. The editor screen
+can be turned back on by typing SHIFT/EDIT keys simultaneously.
+
+
+3.3  CREATING SCREENS
+
+Any number of screens can be created using the SCREEN
+command. A screen ii a portion of the video display in which
+characters can be placed. You can have as many screens as wished.
+They can be any rectangular size, ranging from 1 by 1 to as large
+as wished. If a screen is defined outside the bounds of the
+video display, the screen will be defined in RAM outside the
+bounds of FD00 to l0000H ( video RAM ). Note: screens can also
+be overlapped.
+
+The definition of a screen is outlined below :
+
+        a  b  c  d  SCREEN  name
+
+        a = column number of upper left hand corner.
+
+        b = row number of upper left hand corner.
+
+        c = column number of lower right hand corner.
+
+        d = row number of lower right hand corner.
+
+        name = this can be any screen name desired by the user.
+
+Example :
+        0 0 15 15 SCREEN S1 (ENTER)
+
+The above command will create a screen starting in row
+1 and column 1 and continuing to column 16 and row 16.
+
+To display something on this screen, type
+
+        " HELLO THERE " (ENTER)
+           OK
+        S1 .W (ENTER)
+           OK
+
+For extended examples see Chapter 15.
+
+SCREENS ARE DEFINED IN THE DICTIONARY. THEY CAN BE
+DISABLED BY FORGETTING THEM JUST AS YOU WOULD FORGET
+ANY FORTH WORD.
+
+For the above example :
+
+        FORGET S1 (ENTER)
+
+
+3.4  FAST, SLOW, AUTO
+
+TREE-FORTH still accepts the SLOW and FAST commands
+as does Sinclair's BASIC. In FAST mode, the video display is
+turned off until the CPU finishes processing the program. In
+SLOW mode, the video display always remains on. However, in SLOW
+mode, only 20 percent of the processing time is used to execute
+the program; the other 80 percent is necessary to update the
+display.
+
+The individual keywords no longer initiate the SLOW and
+FAST commands. Instead, you must type them in letter by letter.
+TREE FORTH a 1 so supports the command AUTO. AUTO will
+interrupt the video display if the processor requires more than
+1/4 second to execute a program.
+
+TREE FORTH has a revision for making any screen reverse
+video. The word REV must be placed before the screen the
+programmer wishes to be reverse video.
+
+Example :
+
+        REV .CO
+
+        This will make the console screen reverse video.
+
+                           - - -
+
+                         CHAPTER 4
+                        MASS STORAGE
+                        AND RETRIEVAL
+
+    NOTE : BOTH LOAD AND STORE WILL TEMPORARILY
+           STOP VIDEO OUTPUT TO THE SCREEN. THE
+           TIMING REQUIRED TO STORE OR LOAD SCREENS
+           REQUIRES ALL OF THE PROCESSOR TIME.
+
+           BECAUSE NO INTERRUPTS ARE ISSUED DURING THE
+           CASSETTE ROUTINES, ALL TASKING IS SUSPENDED.
+
+
+4.1  STORAGE
+
+TREE FORTH allows for the storage of screens or. a series of
+screens on magnetic cassette tape. Note that the whole editor
+screen will be saved; therefore, make sure that only the information
+wanted appears on that screen.
+
+
+STORAGE COMMAND :
+
+Storage takes place from the editor screen. ( This is the
+portion of the video display above the black band as shown in
+figure 2.6). Each screen is loaded with an identifying number.
+You should take care to remember which number a specific
+screen is, so that if a large number of screens are stored on a
+tape, each one will not have to be viewed to find the information
+you want.
+
+Simplest case :
+
+Fill the editor screen with any information which you
+desire. After you are finished, go to the execution screen.
+(Accomplished by typing SHIFT/EDIT).
+
+Such a screen might look like :
+
+    +----------------------------------+
+    | THIS SCREEN WILL BE AN EXAMPLE   |
+    | SHOWING HOW ONE MIGHT STORE      |
+    | INFORMATION ON TO THE TAPE. NOTE |
+    | THAT THIS SCREEN DOES NOT HAVE   |
+    | TO BE A PROGRAM. A SCREEN IS     |
+    | 512 BYTES OF INFORMATION. YOU    |
+    | CAN STORE ANY SECTION OF MEMORY  |
+    | BY MOVING IT TO THE VIDEO RAM OF |
+    | THE EDITOR SCREEN ( WHICH STARTS |
+    | AT FD00 HEX)                     |
+    | ################################ |
+    | 10 STORE (ENTER)                 |
+    +----------------------------------+
+
+Next, load the screen with any information which you desire.
+You can even use the example above. Then, store . the screen on to
+the tape by typing the following as shown above:
+
+        10 STORE (ENTER)
+
+REMEMBER THAT THERE IS ACTUALLY A 5 SECOND LEADER ON MOST
+CASSETTE TAPES WHICH CAN NOT BE TAPED OVER. THEREFORE, ADVANCE
+THE TAPE AT LEAST 10 SECONDS BEFORE STORING INFORMATION.
+
+What does store actually do ? Here is a description :
+
+        STORE : takes a number off the user stack, in
+                this case 10, and stores the editor
+                screen with the number as an identifier.
+
+Note that you can only store information from the editor
+screen. You can not store information from the execution screen
+( also referred to as the console screen ). This should not be a
+problem, because for most large programs, you will be working in
+the editor screen.
+
+
+4.2  RETRIEVAL
+
+To retrieve information from the tape, the LOAD command is
+used. As an example, retrieve the same screen we just loaded in
+the above paragraphs.
+
+The command is
+
+        10 LOAD (ENTER)
+
+    LOAD : This commands takes the number on the
+           user stack as the screen number to be
+           loaded from the tape. The routine will
+           continue to look for the screen until
+           it is found, or until it is interrupted
+           by hitting the space key.
+
+After typing 10 LOAD, rewind the tape so that screen
+10 will surely be found, and then press PLAY and wait for the
+computer to read the tape. When the screen is read from the
+tape, the editor area will contain the same information that it
+contained when it was loaded on the tape.
+
+Special Note: Typing 0 STORE will insure that the screen will be
+              the first loaded, no matter what number is
+              specified with LOAD.
+
+Typing 0 LOAD will load the first screen found on the
+tape, regardless of the screen number. Also, all subsequent
+screens ( after the first screen ) can also be loaded using the
+--> command described below.
+
+INTERESTING INFORMATION : TREE-FORTH allows any information
+on the editor screen to be stored and loaded. The contents
+of the screen do not have to be FORTH words or definitions.
+ZX81 BASIC does not allow this. Now with TREE FORTH, you have a
+way to store any information that you wish, letters etc.
+
+
+4.3  LOADING AND COMPILING SCREENS
+
+When loading any program from the tape to the editor
+screen, all the code on that screen can be compiled as soon as it
+is loaded.
+
+The command to turn on the automatic screen compiler is :
+
+        CON
+
+The command to turn the automatic screen compiler off is :
+
+        COFF
+
+Example :
+
+Create a simple program on the editor screen. Store it on
+the tape as screen 1. Now use the following commands :
+
+        CON 1 LOAD (ENTER)
+
+This will automatically compile the screen which has
+been loaded from the tape.
+
+        NOTE : THE SCREEN COMPILER DEFAULTS TO OFF
+               ON INITIAL POWER UP, OR ON A COLD
+               RESTART.
+
+
+4.4  SEQUENTIAL SCREEN LOADING
+
+There may be many times when your FORTH program is longer
+than one screen. In this case, each screen must be loaded and
+compiled before the next screen can be loaded. The instructions
+for doing this are found below.
+
+        IT IS IMPORTANT THAT YOU STORE YOUR SCREENS
+        IN INCREASEING SEQUENTIAL ORDER, IF YOU WANT
+        TO LOAD AND COMPILE THEM IN SEQUENCE.
+
+To store screens on to the tape in sequential order, you may
+use the following command:
+
+        <-- : This command stores the present editor screen
+              with a screen number which is 1 larger than
+              the last screen stored.
+
+In order to load screens sequentially, the command is :
+
+        --> : This symbol, when placed at the bottom of the
+              editor screen and compiled, increments the
+              screen count and loads the next screen by
+              incrementing the screen count.
+
+WARNING : IF YOU ARE COMPILING EACH SCREEN
+          AS IT IS LOADED SEQUENTIALLY, YOU
+          MUST GIVE THE COMPILER ENOUGH
+          TIME TO COMPILE EACH SCREEN.
+
+There are two ways to accomplish this :
+
+1. Stop the tape after each screen has been loaded and is
+compiling. When the computer is ready to load another screen
+( i.e. horizontal lines appear, ) restart the tape.
+
+2. If large blank spaces are left on the tape when you are
+saving sequential screens, there should be enough time to compile
+each screen before the next one is to be loaded.
+
+Either of these methods should insure that the next
+screen on tape will not be "played" before the computer is ready
+to receive it.
+
+                           - - -
+
+                         CHAPTER 5
+                DESCRIPTION OF STRUCTURE AND
+                       COMMAND FORMAT
+
+5.1  STACK STRUCTURE
+
+FORTH is different from most other computer languages in that
+it uses a stack. A stack stores things in the order in which
+they were entered. Items can be removed with the last item
+first. Here is an example:
+
+Configure your system so that you are on SCREEN 1, or the
+execution portion of SCREEN 2. Enter three numbers.
+
+        0 1 2 (ENTER)   The stack looks
+                           like this :
+                                2 top
+                                1
+                                0 bottom
+
+To display the top item on the stack, simply type:
+
+        . (ENTER)
+
+This will remove 2 from the stack and display it.
+
+Typing
+        . (ENTER)
+             a second time will display the 1.
+
+All the mathematical operations are also performed on the
+stack. To examine this, type the following:
+
+        0 2 3 (ENTER)   The stack looks like :  3
+                                                2
+                                                0
+
+Now type
+
+        * (ENTER)
+
+This command takes the top two entries off the stack,
+multiplies them, and puts the result back on the stack. The
+result is :
+
+                                                6
+                                                0
+
+If another multiplication were performed, then:
+
+        * (ENTER)                 Result:
+                                                0
+                                           (6 * 0 = 0)
+
+All of the commands in TREE-FORTH use a stack. TREE-FORTH has
+a separate 8 bit character stack and a 16 bit number stack. You
+will be using the number stack most of the time. The character
+stack is described in more detail in the chapter on character
+input and output.
+
+NOTE: For those of you who are interested, both the character
+and number stacks are separate from the Processor stack. The
+character and number stacks are resident in RAM. This allows you
+to do some really interesting things in software. The number
+stack pointer is contained in the IY register of the z80 Microprocessor.
+The character stack pointer is located at address
+FC84 H. Because of the unique way the Sinclair's memory is
+mapped this address is accessible with a 2 KB memory, 16 KB
+memory, 32 KB, or 64 KB.
+
+
+5.2  DICTIONARY AND ITS USE
+
+After reading the above section you should have a feel for
+how the number stack works. TREE-FORTH words are stored in
+another place in memory, the dictionary. The dictionary grows up
+from 4000 H. Every FORTH word is stored in memory with a header.
+The header contains the number of characters in the word plus the
+characters of the word itself. The number of characters plus the
+characters themselves are used to search the dictionary when a
+word is entered.
+
+The programmer can create new words in the dictionary using
+various compilers. These compilers are described in detail in
+the following chapters.
+
+Here is an example of how a new word would be defined using
+the COLON / SEMI-COLON compiler.
+
+To create a word/which takes the average of two numbers on
+the stack and displays the result, type:
+
+    : AVG + 2 / . ;  (ENTER) on the execution screen
+
+    : AVG + 2 / . ;  (SHIFT/E) on the editor screen
+
+The above program computes averages by adding the top two
+values on the stack and then -pushing 2 on the stack and performing
+a divide. The period ( . ) then takes the top value off the
+stack and displays it.
+
+The program AVG can be used to take the average of two
+numbers. Find the average of 86 and 46 by typing :
+
+        86 46 AVG (ENTER)
+        66 OK
+
+The answer 66 is displayed to the screen.
+
+VARIABLEs and INTEGERs can also be created in the dictionary.
+This is described in Chapter 10.
+
+
+5.3  COMMAND FORMAT
+
+Most of the descriptions of the TREE-FORTH commands will be
+of the following form.
+
+        top --> stack             stack <-- top
+                before   COMAND   after
+              execution          execution
+
+Each command is described by an example. The state of the
+stack is shown before and after the command is executed. The
+commands are first described in a generic format and then an
+example of each one is given with actual numbers.
+
+    What the variables mean :
+        n = 16 bit number ( nl,n2,n3,etc. )
+        d = 32 bit number ( d1,d2,d3,etc. )
+            sometimes nlow and nhigh are used to describe
+            how double numbers appear on the stack or in
+            the dictionary.
+        u = unsigned 16 bit number
+            addr = represents an address in memory
+        b = byte
+        c = character
+        f = boolean flag (0=false, 1=true)
+
+                           - - -
+
+                         CHAPTER 6
+                   MATHEMATICAL COMMANDS
+
+TREE-FORTH uses integer arithmetic. For some this may
+be inconvenient at first. However, one of the commodities a
+computer has is speed. Oftentimes it is desired that operations
+be performed as quickly as possible, and in a Z80 integer arithmetic
+is much faster than floating point arithmetic. If you need
+~ more accuracy in your values, the values can be scaled by a
+factor, for example 100. Scaling by 100, for instance, would
+allow you to include cents in calculations based in the dollar
+and cents system.
+
+Most 16 bit arithmetic is signed arithmetic in TREEFORTH.
+However, most 32 bit, and all 64 bit arithmetic is unsigned.
+This may present a problem if you are not keeping track
+of the approximate magnitude of your calculations.
+
+Here is the difference between signed and unsigned
+arithmetic. Below is listed a chart showing the difference of
+signed and unsigned numbers. Both the BINARY and HEX formats of
+the bit patterns for 16 bit numbers are given. You can extend
+this for 32 and 64 bit numbers.
+
+    +----------+------------------+------+--------+
+    | UNSIGNED |      BINARY      | HEX  | SIGNED |
+    +----------+------------------+------+--------+
+    |  65535   | 1111111111111111 | FFFF |  -1    |
+    |  65534   | 1111111111111110 | FFFE |  -2    |
+    |  ....    |     ......       |  ..  |  ....  |
+    |  32768   | 1000000000000000 | 8000 | -32768 |
+    |  32767   | 1111111111111111 | 7FFF |  32767 |
+    |  ....    |     ......       |  ..  |  ....  |
+    |      0   | 0000000000000000 | 0000 |   0    |
+    +----------+------------------+------+--------+
+                     TABLE 6.1
+      UNSIGNED, SIGNED, BINARY, AND HEX NUMBERS
+
++ (ADDITION) : Adds the top two stack entries n1 and n2
+               leaving the result on the stack.
+
+               n1         +        n
+               n2
+
+    Example type :
+               1 1 + .  (ENTER)
+               2 OK
+
+- (SUBTRACTION) : Subtracts the top entry, n1, from the
+                  second entry, n2, and leaves the result
+                  on the top of the stack.
+
+               n1         -        n
+               n2
+
+    Example :
+               2 1 - .  (ENTER)
+               1 OK
+
+* (MULTIPLICATION) : Multiplies the top two entries, n1 and
+                     n2, and leaves the result on the stack.
+
+               n1         *        n
+               n2
+
+    Example :
+               2 4 * .  (ENTER)
+               8 OK
+
+/ (DIVISION) : Divides the second stack entry, n2, by the
+               top stack entry, n1, and leaves the result
+               on top.
+
+               n1         /        n
+               n2
+
+    Example :
+               4 2 / .  (ENTER)
+               2 OK
+
+1+ (ADD 1) : Adds one to the top entry, n1, and leaves result
+             on the stack.
+
+               n1         1+       n
+
+    Example :
+               2 1+ .  (ENTER)
+               3 OK
+
+1- (SUBTRACT 1) : Subtracts one from the top entry and leaves
+                  the result on the top.
+
+               n1         1-       n
+
+    Example :
+               1 1- .  (ENTER)
+               0 OK
+
+2+ (ADD 2) : Adds two to the top entry, n1, and leaves
+             the result on the stack.
+
+               n1         2+       n
+
+    Example :
+               1 2+ . (ENTER)
+               3 OK
+
+2- (SUBTRACT 2) : Subtracts two from the top stack entry.
+
+               n1         2-       n
+
+    Example :
+               3 2- .  (ENTER)
+               1 OK
+
+2* (MULTIPLY BY 2) : This multiplies the top stack entry by two.
+
+               n1         2*       n
+
+    Example :
+               3 2* .  (ENTER
+               6 OK
+
+2/ (DIVIDE BY 2) : This divides the top stack entry by 2.
+
+               n1         2/       n
+
+    Example :
+               4 2/ .  (ENTER)
+               2 OK
+
+ABS (Absolute Value) : Leaves the absolute value of
+                       the top entry on the top of the stack.
+
+               n1         ABS      n
+
+    Example :
+               -12 ABS .  (ENTER)
+               12 OK
+
+MAX (Maximum) : Finds the largest of the top two
+                stack entries and leaves it on the stack.
+
+               n1         MAX      n
+               n2
+
+    Example :
+               9 4 MAX .  (ENTER)
+               9 OK
+
+MIN (Minimum) : Finds the smallest of the top two stack
+                entries and leaves it on the stack.
+
+               n1         MIN      n
+               n2
+
+    Example :
+               9 4 MIN .  (ENTER)
+               4 OK
+
+MINUS (Unary minus) : Changes the sign of the top stack
+                       entry. Can be toggled indefinitely.
+
+               n1         -        n
+
+    Example :
+               -1 MINUS .  (ENTER)
+               1 OK
+
++- (SWAP SIGN) : Applies the sign of the top entry,
+                 n1, to the second entry, n2, and
+                 leaves the second entry, with the
+                 correct sign, on the stack.
+
+               n1         +1       n2  (signed)
+               n2
+
+    Example :
+               2 3- +- .  (ENTER)
+               2 OK
+
+MOD: Performs the division, n2/n1, and leaves the 16
+     bit remainder on the stack.
+
+               n1         MOD      n
+               n2
+
+    Example :
+               5  2  MOD  .  (ENTER)
+               1  OK
+
+/MOD: Performs the division, n2/n1, and leaves the
+remainder n1 on the top, and the quotient, n2, on
+the bottom of the stack.
+
+               n1         /MOD     n1
+               n2                  n2
+
+    Example :
+               5 2 /MOD .  (ENTER)
+               1 OK .  (ENTER)
+               2 OK
+
+*/MOD: Multiplies the second, n2, and third, n3, entries
+       and divides by the first, n1, leaving the remainder
+       on the top of the stack and the result
+       below it. ( Signed arithmetic ).
+
+               n1         */MOD    n1
+               n2                  n2
+               n3
+
+    Example :
+               3 3 2 */MOD .  (ENTER)
+               1 OK  (ENTER)
+               4 OK
+
+M*: This multiplies two 16 bit numbers, n1 and n2,
+    and leaves a 32 bit result, d.
+
+               n1         M*       d
+               n2
+
+    Example :
+         20000 20000 M* D. (ENTER)
+         400000000 OK
+
+M/ : This divides a 32 bit number, d, by a 16 bit
+     number, n, leaving a 16 bit remainder on the
+     top n1, and the quotient, n2, on the bottom.
+
+               n          M/       n1
+               d                   n2
+
+    Example :
+         .400000000 20000 M/ . (ENTER)
+         0 OK (ENTER)
+         20000 OK
+
+    ( The dot before the 400000000 signifies
+    that it is a double number. The dot
+    may appear any place in the number. )
+
+MD* : This multiplies two 32 bit numbers and the
+      stack leaving a 64 bit result. (The result
+      can only be displayed in pieces ).
+
+               dl         MD*      dhigh
+               d2                  dlow
+
+MD/ : This divides a 64 bit number by a 32 bit
+      number, d1, leaving a 32 bit remainder,d1,
+      and a 32 bi t result, d2.
+
+               d1
+               dlow       MD/      d1
+               dhigh               d2
+
+*/: Multiplies the second entry, n2, and the third
+    entry, n3, and divides by the first, n1, leaving
+    the result on the stack.
+
+               N1         */       n
+               n2
+               n3
+
+    Example :
+               4 6 3 */ . (ENTER)
+               8 OK
+
+(32 bit add) : This is a double precision add which
+               adds the top two 32 bit numbers
+               found on the stack.
+
+               d1         D+       d1
+               d2
+
+    Example :
+               40000. 40000. D+ D. (ENTER)
+               80000 OK
+
+D+- (DOUBLE SIGN SWITCH): Assigns the sign of the first
+              entry, d1, to the second entry, d2, leaving
+              the second entry with the proper sign.
+
+               d1         D+-      d1
+               d2
+
+    Example :
+               50000. 30000. D+- D. (ENTER)
+               -50000 OK
+
+D- (DOUBLE PRECISION -) : Performs a double precision
+                          subtraction of the top entry from
+                          the second entry.
+
+               d1         D-       d1
+               d2
+
+DABS (DOUBLE PRECISION ABS) : This operation takes
+              the absolute value of the double precision
+              number on the stack.
+
+               d          ABS      d
+
+DMINUS (DOUBLE PRECISION -) : Changes the sign on a
+                              double precision number.
+
+               d          DMINUS   d
+               d2
+
+    Example :
+               40000. DMINUS D. (ENTER)
+               -40000 OK
+
+U* (UNSIGNED *) : This multiplies the two unsigned
+                  numbers found on the user stack,
+                  leaving an unsigned result.
+
+               u1         U*       u
+               u2
+
+    Example :
+               6000 6 U* U. (ENTER)
+               36000 OK
+
+UMOD (UNSIGNED MOD) : The second entry, u2, is
+                      divided by the top number, u1,
+                      leaving the unsigned remainder.
+
+               u1         MOD      u
+               u2
+
+U/MOD (UNSIGNED /MOD) : The second entry, u2, is
+                        divided by the top number, u1,
+                        leaving the remainder on the top
+                        of the stack and the quotient on
+                        the bottom.
+
+               u1         U/MOD    u1
+               u2                  u2
+
+                           - - -
+
+                         CHAPTER 7
+                   LOGICAL OPERATORS AND
+                    COMPARISON COMMANDS
+
+7.1  LOGICAL OPERATORS
+
+AND: Performs a bitwise AND of the 16 bit
+     numbers on the stack. Example :
+
+             5   0 0 0 0 0 1 0 1  (8 bit ex)
+             7   0 0 0 0 0 1 1 1
+
+             AND
+
+     result: 5   0 0 0 0 0 1 0 1
+
+OR : Performs a bitwise OR of the 16 bit
+     numbers on the stack. Example :
+
+             5   0 0 0 0 0 1 0 1  (8 bit ex.)
+             9   0 0 0 0 1 0 0 1
+
+             OR
+
+     result: 13  0 0 0 0 1 1 0 1
+     ( 13 = D in HEXADEIMAL )
+
+XOR : Performs a bitwise exclusive-or of the
+      16 bit numbers on the stack
+
+             5   0 0 0 0 0 1 0 1  (8 bit ex.)
+             7   0 0 0 0 0 1 1 1
+
+             XOR
+
+     result: 2   0 0 0 0 0 0 1 0
+
+
+7.2  COMPARISON OPERATORS:
+
+< : If second stack entry is less than the
+    first, the operation leaves a 1, otherwise a 0.
+
+               u1         <        1
+               u2
+
+    Example :
+           0 2 < . (ENTER)
+           1 OK
+
+> : If second stack entry is greater than
+    the first, the operation leaves a 1,
+    otherwise a 0.
+
+               u1         >        1
+               u2
+
+0= : Tests whether the top stack entry is
+     0. If it is, then operation leaves a
+     1 on the stack, otherwise 0.
+
+               u1         0=       f
+
+0> : Tests whether the stack entry is positive.
+     If number is positive, operation leaves
+     a 1, otherwise a 0.
+
+               u1         0>       f
+
+0< : Tests whether the stack entry is
+     negative. If the number is negative
+     a 1 is left on the stack, otherwise a 0.
+
+               u1         0<       f
+
+= : Tests whether the top two stack entries
+    are equivalent. If they are, the operation
+    leaves a 1, otherwise a 0.
+
+               u1         =        f
+               u2
+
+D< : Checks if the second 32 bit number is
+     larger than the first 32 bit number.
+     If the operation is true, then a 1 is
+     left on the stack otherwise a 0 is left.
+
+               d1         D<        f
+               d2
+
+D> : Checks if the second 32 bit number is
+     larger than the first 32 bit number.
+     If operation is true, then a 1 is
+     left on the stack otherwise a 0 is left.
+
+               d1         D>        f
+               d2
+
+D= : Checks if the two 32 bit numbers on the
+     stack are equivalent. If they are, a 1
+     is placed on the stack, otherwise a 0 is
+     left.
+
+               d1         D=        f
+               d2
+
+DMAX : Leaves the larger of the two 32 bit numbers
+       on the stack.
+
+               d1         DMAX      f
+               d2
+
+DMIN: Leaves the smaller of the two 32 bit
+      numbers on the stack.
+
+               d1         DMIN      f
+               d2
+
+D0= Checks whether the 32 bit number on the
+    stack is equal to zero. If it is, a 1 is
+    left on the stack, otherwise a zero.
+
+               d1         D0=       f
+
+U< : This is an unsigned less-than comparison
+of the two 16 bit values on the top of
+the stack. If u2 < u1, then a 1 is left
+on the stack. Otherwise, a zero is left.
+
+               u1         U<        f
+               u2
+
+                           - - -
+
+                         CHAPTER 8
+                       NUMBER BASES
+                 and STACK MANIPULATION
+
+8.1  NUMBER BASES :
+
+NOTE : ON INTIAL POWER UP, TREE-FORTH DEFAULTS
+       TO DECIMAL ( BASE 10, 0 - 9 ).
+
+DECIMAL : Sets the decimal base (all entries
+          displayed in base 10 ).
+
+HEX : Sets the base to hexadecimal, base 16 ( all
+      entries displayed in base 16 ).
+
+BASE : An INTEGER value used to modify
+       the current base of the system.
+
+          BASE     base
+
+    Note that any base is legal.
+
+CHANGING BASES: The base can be changed by
+                placing the desired base on
+                the user stack and executing
+                TO BASE .
+
+    COMMANDS :
+        3 TO BASE (ENTER)
+        ( changes the current base to 3 )
+        BASE . (ENTER) will print the base
+
+
+    STACK MANIPULATION COMMANDS:
+
+8.2  STACK MANIPULATION:
+
+. : A period prints the top number stack
+entry.
+
+               3         2
+               2    .    2
+               1
+
+          ( 3 is displayed to the screen. )
+
+D. : Double number display. A double number
+ is taken off the stack and sent to the screen.
+
+U. : Unsigned number display. An unsigned number
+ is taken off the stack and displayed to the
+ screen.
+
+0. : This puts a double number ( 32 bits) on
+     the stack.
+
+S->D : This is a 16 to 32 bit sign extension.
+
+D->Q : This is a 32 to 64 bit sign extension.
+
+DROP : Drops the top number stack entry
+
+               n1    DROP    n2
+               n2
+
+2DROP : Drops the top two entries off the stack.
+
+               n1    2DROP   n3
+               n2
+               n3
+
+DUP : Duplicates the top number stack entry
+
+               n1    DUP     n1
+               n1
+
+?DUP : Duplicates the top entry only if it is
+       non-zero.
+
+OVER : Copies the second entry on the stack
+       to the top.
+
+               n1    OVER    n2
+               n2            n1
+                              n2
+
+PICK : Copies the entry indexed by the top
+       stack entry to the top.
+               n1    2 PICK  n2
+               n2            n1
+               n3            n2
+                              n3
+
+        TYPICAL USAGE :
+                STACK: 4 3 2 1
+                COMMAND : 3 PICK
+                STACK : 4 3 2 1 3
+
+        ( A 2 PICK is just like an over. )
+
+SWAP : This command interchanges the top
+       two stack entries.
+
+               n1    SWAP    n2
+               n2            n1
+
+DSWAP : This command exchanges the top two
+        double (32 bit) numbers on the stack.
+
+               d1    DSWAP   d2
+               d2            d1
+
+ROT : This command rotates the top 3 entries.
+      Entry 3 goes to the top of the stack.
+      The top entry is moved to the 2nd
+      entry. The 2nd entry goes to the 3rd
+      entry.
+
+               n1    ROT     n3
+               n2            n1
+               n3            n2
+
+                           - - -
+
+                         CHAPTER 9
+                     MEMORY COMMANDS
+                 and MEMORY MANIPULATION
+
+FC56H is an address containing the present memory
+size connected to the Sinclair. To display the memory
+size type the following.
+
+        HEX (ENTER)
+         OK
+        FC56 @ (ENTER)
+         OK
+        DECIMAL . (ENTER)
+         2048 OK               This is the memory size of
+                               a system with 2 KB of RAM.
+
+MEM : This is a command which puts the address
+      of the location containing the
+      the current available memory left in
+      RAM.
+
+      Typical usage :
+
+          DECIMAL MEM . (ENTER)
+            640 OK
+                     this would be the amount of
+                     memory for a 2 KB system on
+                     power up.
+
+VLIST : This will display all the FORTH
+        words presently found in memory.
+
+        Usage:
+            VLIST (ENTER)
+
+SP@ : This gives the current address of the
+      stack pointer.
+
+ALLOT : This command reserves the amount of
+        dictionary according to the value
+        found on the stack.
+
+               8     ALLOT    0
+               0
+
+           The above would leave 8 bytes of
+           space in the dictionary.
+
+@ ( STEP on the Sinclair ) : This fetches the
+        value at the memory location on the top of the
+        stack. The value is placed on the stack.
+
+               addr     @     n1
+
+        A TYPICAL SET OF COMMANDS WOULD BE :
+
+            HEX (enter)
+            FD00 @ (enter)
+            . (ENTER) This would display the number
+                      found at address FD00H.
+
+! ( OR on the Sinclair ) : Stores the second
+        stack entry in the memory location specified
+        by the top entry.
+
+               addr     !     --
+               n
+
+    A TYPICAL SET OF COMMANDS WOULD BE:
+
+        HEX (enter)
+        32 FD00 ! (enter)
+        ( This stores 32 in memory location FD00 H )
+
+    WARNING : TREE-FORTH will not shield you from
+              storing values in dangerous areas ( for
+              example the system variables). So be
+              careful to store only in free memory.
+
+? : Fetches and prints the contents of the
+    address on the top of the stack.
+
+               addr     ?     --
+
+    A TYPICAL COMMAND WOULD BE :
+
+        HEX FD00 ? (ENTER)
+          ( Entering this statement after the above
+            store - ! - would display a 32 to the
+            screen ).
+
++! : Increments the contents of memory having
+     the address on the top of the stack by the
+     second item on the stack.
+
+               addr            --
+               n       +!
+
+     A TYPICAL COMMAND WOULD BE :
+
+        1 FD00 +! (enter)
+          ( Entering this statement after the above
+            store - ! - would change the contents of
+            memory from 32 to 33 ).
+
+C! : Stores a BYTE of information (8 bits) into
+     the location specified by the address at
+     the top of the stack.
+
+               addr            --
+               b       C:
+
+C@ : Fetch one BYTE of information ( 8 bits)
+     from the location described by the
+     address on the top of the stack.
+
+               addr     C@     b
+
+COPY : This copies one screen of information
+       to the address on the top of the stack
+       from the address found as the second entry.
+
+               addr1    COPY   ---
+               addr2
+
+FBUF : This puts the-address of the frame
+       buffer on the user stack.
+
+       To change FBUF you must type :
+
+            addr TO FBUF
+
+PAGE : This puts the present page ( of the
+       screen ) on the stack. You can change
+       any page by typing :
+
+            n TO PAGE
+
+BLK : This variable contains the address
+      for the address to which the tape
+      will down load. (Default is FD00 H).
+      To change this value type :
+
+            addr TO BLK
+
++ORG : Adds the number found on the
+       user stack to the address of the
+       beginning of the system variables.
+
+       The origin for TREE-FORTH is FC50 H
+
+D! : Stores a 32 bit number at the address
+     found at the top of the stack.
+
+               addr     D!     --
+               nlow
+               nhigh
+
+     Memory would look like :
+                        addr -> nlow
+                        addr+2 -> nhigh
+
+D@ : Fetches a 32 bit number found in the
+     location whose address is on the top
+     of the stack.
+
+               addr     D@     nhigh
+                               nlow
+
+, : Stores the 16 bit number found on the
+    number stack in the dictionary at the
+    next available location.
+
+               3456      ,      0
+                 0
+
+C, : This stores the 8 bits found at the
+     specified address in the next available
+     location in dictionary.
+
+               addr
+                5        C,     0
+                0
+
+HERE : This word places the address of the next
+       free dictionary space on to the stack.
+
+               --       HERE   addr
+
+H : This places the memory location which
+    contains the address of the next free
+    dictionary space on to the stack.
+
+               --       H      addr
+
+' : Attempts to find the word following the
+    character in the dictionary. When found
+    the address is placed on the stack.
+
+               --       '      addr
+
+    If the word cannot be found, the ERROR U
+    message will be displayed. U stands
+    for Undefined word.
+
+PAD : This places the address of a 64 byte
+      scratch pad on the stack. The scratch
+      pad can be used for storage by the user.
+      The PAD will build into other sections
+      of the TREE-FORTH language. Be
+      careful not to overwrite this area.
+
+               --       PAD    addr
+
+                           - - -
+
+                         CHAPTER 10
+                 DATA TYPES and VARIABLES
+
+10.1  DATA TYPES
+
+TREE-FORTH as you probably realize by
+now operates on either 16 bit integers or 32
+bit integers ( double precision ). There are
+operators for both types of numbers. Integers
+are one type of data. Another type are characters.
+TREE-FORTH characters are standard
+ASCII characters and can be found in APPENDIX
+A. On some systems, floating point numbers
+are included. Due to lack of space TREE
+SYSTEMS is not able to put floating point
+arithmetic in the TREE-FORTH EPROM without
+an extension.
+
+In this chapter, the different types of data
+variables are examined.
+
+
+10.2 VARIABLE: This word gives a variable name
+               a specific address in the
+               dictionary and then defines 2
+               bytes in the dictionary for
+               values. Anytime that name is used
+               in FORTH, the address of that
+               variable is placed on the user
+               stack. The variable can also be
+               given an initial value.
+
+    Definition:
+           value VARIABLE varname
+
+    Where :
+        value = a numeric value to be
+                assigned to the variable
+
+        varname = a character name
+                  chosen by the programmer.
+
+    USAGE :
+        After the initial definition any
+        time the varname is used it places
+        the address of the variable on the
+        user stack.
+
+
+    TYPICAL USAGE :
+        0  VARIABLE  AVG (ENTER)
+        |             |
+     initial         name
+     value
+
+    Now enter :
+
+    AVG . (ENTER)
+
+    and the variable address will
+    be displayed.
+
+    The user can also use a 2VAR for double
+    numbers. This command creates a 4 byte dictionary
+    space for a 32 bit storage. Using
+    the variable that 2VAR creates will put the
+    address of the 1st of the 4 bytes on the user
+    stack.
+
+
+10.3  INTEGER :
+                This command is very much like
+                variable. It creates a 2 byte
+                variable in the dictionary, but
+                instead of placing the address of
+                the variable on the stack, it
+                places the actual value.
+
+     COMMAND :
+                value INTEGER varname
+
+                Where value is an initial value for
+                the variable.
+                varname is the name associated
+                with a specific address in memory.
+
+     USAGE :
+            0  INTEGER  AVG (ENTER)
+            |            |
+         initial       name
+         value
+
+        The variable AVG, short for average,
+        will be given an initial value of G and
+        defined in memory.
+
+        To store a new value at an INTEGER variable
+        use the commands
+
+        val TO varname
+
+        For example to store a value at AVG type
+
+        45 TO AVG (ENTER)
+
+    ARRAYS :
+                Arrays can be created in FORTH
+                just as in BASIC, FORTRAN, or
+                other languages.
+
+                First, space must be allotted in
+                the dictionary.
+
+                The commands are :
+
+        0 VARIABLE VAL 20 ALLOT (ENTER)
+
+        This will create a variable named VAL; then
+        it gives VAL an initial value of 0, and puts
+        20 bytes in the dictionary for the variable
+        VAL.
+
+        To access any 2 byte value in the array,
+        put the nth item on the stack and use the
+        following commands.
+
+            2* VAL + @ (ENTER)
+
+        This will access the proper space by
+        doubling the index and adding it to the
+        address and fetching the proper address.
+
+        This is not the only way to construct
+        arrays. A more efficient and elegant way is
+        to use the <BUILDS ... DOES> construct. This
+        method will be shown in the chapter on
+        defining words.
+
+
+Printer Commands :
+
+    P toggles the printer on or off. If the printer
+routine is on, any information that goes to the video display will
+also go to the printer. As an example:
+
+To get a listing of all the FORTH words presently in the
+dictionary, type :
+
+        P ( enter )
+        VLIST ( enter
+
+                           - - -
+
+                         CHAPTER 11
+                     CONTROL STRUCTURES
+
+Note: Unlike other FORTH versions, TREE FORTH allows the
+user to use the IF ... ELSE ... THEN and the ... DO ... LOOP
+statements outside of a definition. That is, TREE FORTH allows
+you to generate header-less code. They can be entered
+interactively in the execution screen.
+
+
+    CONDITIONAL STATEMENTS :
+
+11.1  IF ... ELSE ... THEN
+
+IF ... ELSE ... THEN This is a special compiling set
+of words which can be used to make logical branches.
+
+IF : checks the top entry on the ,stack. If the top
+stack entry is non-zero, the code, between the IF and ELSE is
+executed. If the top entry is zero, the code between the ELSE
+and the THEN is executed.
+
+    EXAMPLE OF USAGE :
+
+        IF
+                .
+                .    This code is executed if the
+                .    top stack entry is non-zero.
+                .
+        ELSE
+                .
+                .    This code is executed if the
+                .    top entry is zero.
+                .
+        THEN
+
+Try the following commands on the execution screen.
+
+        1 (ENTER)       puts 1 on the stack
+        IF 1 1 + . ELSE 2 2 + . THEN (ENTER)
+
+The statement between IF and ELSE will be executed.
+The screen should display the addition of 1 and
+1, or 2
+
+        2 OK
+
+    Now try the following:
+
+    0 (ENTER)
+    IF 1 1 + . ELSE 2 2 + . THEN (ENTER)
+
+The result: 4 OK.
+
+The statements between ELSE and THEN are executed.
+
+
+11.2  IF ........... THEN
+
+A simpler construct than the IF .. ELSE .. THEN is :
+
+    IF ....... code ........ THEN
+
+This statement allows the execution of code if the
+value on the stack is non-zero.
+
+    An example is :
+
+    1 (ENTER)
+    IF 1 1 + . THEN (ENTER)
+
+    This would display the addition of 1 + 1, or:
+
+        2 OK
+
+    If the initial stack entry were zero, then the
+    code would not be executed.
+
+11.3  ... DO ... LOOP
+
+The structure of this statement is two indices
+followed by executable code within the DO and LOOP
+words:
+
+    limit initial DO .... code .... LOOP
+
+    limit : the upper limit of the count for the loop.
+
+    initial : the low limit of the count for the loop.
+
+The indices are incremented from the initial
+value to the limit by one. The value of the count is
+stored in the variable I.
+
+    An example :
+
+        Type in the following :
+
+        9 0 DO I . LOOP (ENTER)
+
+        The following would be displayed.
+
+        0 1 2 3 4 5 6 7 8 OK
+
+Note that the upper limit, 9 in this case does
+not get executed. This is the value to check against
+in the internal routine.
+
+
+11.4  DO .... +LOOP
+
+This construct allows the user to increment or
+decrement the count by any value.
+
+This is the construction :
+
+    limit initial DO statements increment +LOOP
+
+    limit : is the upper or lower limit for the loop.
+
+    initial : this is the value where the count is started.
+
+    statements : any FORTH word.
+
+    increment : any positive or negative value.
+
+Example :
+
+    -5 0 DO I . -1 +LOOP (ENTER)
+
+    will display the following
+
+    0 -1 -2 -3 -4 OK
+
+A very useful command for the DO LOOP construct is
+
+    LEAVE
+
+This terminates the loop at the next LOOP or
++LOOP. It could be placed in an IF THEN clause.
+
+For nested loops a second index is available. The
+index is J. For further nested loops the NI index can
+be used.
+
+    0 NI  corresponds to I
+    1 NI  corresponds to J
+    2 NI would correspond to the next index.
+
+
+11.5  CASE STATEMENTS
+
+The case statement allows transfer to many places
+on the bases of an index.
+
+CASE is most often used in a definition, however
+it can also be used interactively on the execution
+screen.
+
+The command format follows:
+
+    CASE e1 e2 e3 e4 ... ;
+
+    STACK VALUE     EXECUTION PRIORITY
+        0                 e0
+        1                 e1
+        2                 e2
+        3                 e3
+       etc.               etc.
+
+SUMMARIZED: The statement at e1 is executed when
+the stack has a value of 0, e2 when the stack
+value is 1, etc.
+
+e1 may be a FORTH definition, or any
+mathematical expression. To test a CASE type;
+
+    2 (ENTER)
+      OK
+    3 (ENTER)
+      OK
+    1 (ENTER)
+      OK
+
+    CASE * + ; (ENTER)
+      OK             ( this should execute 2 + 3 )
+    . (ENTER)
+    5 OK             ( 5 will be the display )
+
+
+11.6  BEGIN ..... AGAIN
+
+This statement will execute any code found between
+the BEGIN and AGAIN words. When AGAIN is reached,
+control is transferred to BEGIN and the code is
+executed again. This creates an infinite loop.
+
+    Example :
+
+        BEGIN ." HELLO " CR AGAIN (ENTER)
+
+        This will print out :
+
+        HELLO
+        HELLO
+        HELLO
+        HELLO
+          .
+          .
+          .      HELLO's will continue to be
+                 printed to the bottom of the
+                 screen, and then the print will
+                 continue by scrolling.
+
+
+11.7  BEGIN ....... UNTIL
+
+This statement continues to execute the code
+found after BEGIN until the value on the top of stack
+matches the flag.
+
+Here is the construct :
+
+    BEGIN statements      logical operation UNTIL
+
+    statements : this can be any group of FORTH words.
+
+    logical operation : this leaves a true or false
+                        value on the stack which is
+                        interpreted by UNTIL. If the
+                        flag is true, non-zero, the
+                        loop is terminated, otherwise
+                        the execution is continued.
+
+    Example :
+
+        0 BEGIN 1+ DUP DUP . 9 = UNTIL (ENTER)
+
+    The above increments the top of the stack by
+    one. Then the value is duplicated twice in order
+    to save the value before displaying it, and performs
+    the logical operation.
+
+        1 2 3 4 5 6 7 8 9 OK
+
+    Notice that in this case the 9 is printed
+    out. This is because the FORTH statements are
+    executed before UNTIL checks the top value of the
+    stack against the flag.
+
+11.8  BEGIN ... WHILE ... REPEAT
+
+The construction of this word is as follows:
+
+    BEGIN words    logical operation WHILE words REPEAT
+
+    words: this can be any FORTH word or combination
+           of words.
+
+    logical operation : this is a logical operator
+             which leaves either a true or a false
+             value on the stack.
+
+Example :
+
+    BEGIN 1+ DUP DUP . 5 > WHILE ." END" REPEAT (ENTER)
+
+    The following will be displayed
+
+        0 1 2 3 4 5 6 END OK
+
+                           - - -
+
+                         CHAPTER 12
+                   CHARACTER INPUT OUTPUT
+
+12.1  CHARACTER STACK
+
+TREE-FORTH is unique in that it has both a number
+stack and a character stack.
+
+The character stack stores bytes of ASCII
+code. The stack pointer for the character stack can be
+found at address FC84 H. The stack pointer for the
+number stack can be found in the IY register of the
+processor. These stacks are independent of each other.
+However, the character stack does keep track of how
+many characters are stored through a number which is
+placed on the top of the number stack. This explains
+why you might find an entry on the user stack which you
+did not place there. Also, the error routines will
+use the user stack as storage for information.
+
+
+12.2  CHARACTER COMMANDS
+
+STRING I/O
+
+." :     Defines the beginning of a string of
+         characters to be output to the screen.
+
+" :      This can define the beginning of a
+         string of characters to be put to the
+         character stack. The length of the
+         string is put on the number stack. The
+         parser expects a space immediately after
+         the initial " and does not count it ~s a
+         character.
+
+". :     Defines the end of a string of characters.
+
+         Some examples :
+
+         ." THIS IS A STRING "
+
+         When placed in a definition or in the
+         execution screen will display the given
+         string. ( The parser expects a space
+         after ." )
+
+         " THIS IS A STRING "
+
+         This will insert the given string in the
+         character buffer with the number of
+         characters on the number stack. ( The
+         parser expects a space after the initial
+         " , and does not count this as a character.)
+
+ABORT" : A flag on the user stack is
+         checked, and if the flag is true
+         (positive) then the user defined error
+         message is displayed and a warm restart
+         is executed. The user error message
+         should appear after the initial quote
+         mark, but it must be separated by a
+         space. Also, the ·phrase should end
+         with a double quote. This command can be
+         very useful for displaying user defined
+         error messages in a program.
+
+CR :     Defines a carriage return line feed
+         on the screen.
+
+         So, executing the following:
+
+             5 0 DO ." THIS IS A STRING" CR LOOP (ENTER)
+
+         would produce :
+
+             THIS IS A STRING ( count 0 )
+             THIS IS A STRING ( count 1 )
+             THIS IS A STRING ( count 2 )
+             THIS IS A STRING ( count 3 )
+             THIS IS A STRING ( count 4 )
+             OK
+
+EMIT :   This is a command used to output a character to the
+         console screen. EMIT looks for the ASCII number of a
+         character on the user stack ( number stack) and
+         places the appropriate character on the screen.
+
+KEY :    This is a command which will get a value from the
+         keyboard and put the ASCII equivalent of the key
+         character on to the number stack.
+
+S@ :     This command gets a word from the stack ( ending with a
+         space or Carriage Return, CR,) and puts the word on to
+         the character stack.
+
+W! :     This stores a string of characters found on the character
+         stack to the address specified according to the
+         length found on the number stack.
+
+               addr         W!         ----
+                     number of chars
+
+         The number of characters is stored in the first byte of
+         the string where it is stored in memory.
+
+W@ :     This will fetch a string of characters from the address
+         specified. It places the characters on the character
+         stack and the number of characters on the user number
+         stack.
+
+               addr         W@         -------
+                     number of characters.
+
+.W :     This allows output of a string to the Console screen,
+         Editor screen, or any user defined screen. The command
+         expects to find the string on the character stack with
+         the number of characters on the user stack. It must be
+         proceeded with a valid screen identifier.
+
+         Examples :
+
+         On the execution screen enter the following :
+
+             " THIS IS A STRING" (ENTER)
+
+         To display this to the Console screen ( the execution
+         screen) type :
+
+             CO .W (ENTER)
+
+         To display this to the editor screen type :
+
+             ED . W (ENTER)
+
+         To display the string to any other screen type :
+
+             screen identifier .W (ENTER)
+
+.C :     This command follows the same format as .W. However, it
+         places a character to the specified screen.
+
+WDROP :  This command word drops a word off the character stack.
+         It assumes that the number of characters in the word is
+         stored on the user stack.
+
+WDUP :   This command will duplicate the top word
+         on the character stack. The number of characters in
+         the word must be stored on the user stack.
+
+
+12.3  CHARACTER STACK / NUMBER STACK OPERATIONS
+
+There are a group of commands in TREE-FORTH which
+use both the number stack (or user stack) and the
+character stack. These command types are described in
+this section.
+
+C>N :    This command removes 1 character from the character
+         stack and places the ASCII equivalent of that number on
+         the user stack.
+
+N>C :    This produces the opposite effect of C>N. It takes a
+         number off the user stack and attempts to convert it to
+         an ASCII equivalent. If the conversion is successful
+         the equivalent character is placed on the character
+         stack ( in ASCII representation ).
+
+W> :     This command right-justifies the number of characters
+         specified by the second stack entry, n1, in a field
+         specified by the top stack entry.
+
+># :     This will convert the characters on the character
+         Stack to a number. Therefore, if the character representation
+         of 100 is found on the character stack, then
+         it will be converted to 109 on the user stack. This
+         command expects to find the length of the character
+         string on the number stack.
+
+         This command leaves a flag on the user stack above the
+         converted number which is a 1 if the conversion is
+         successful, otherwise it is a 0. If the conversion is
+         unsuccessful the character string will be left
+         unchanged and can be used to prompt the user for
+         a correct character string.
+
+                           - - -
+
+                         CHAPTER 13
+                       DEFINING WORDS
+
+13.1  COLON / SEMI-COLON DESCRIPTORS
+
+FORTH is different from all other languages in
+that it allows the user to define his/her own words.
+Thus, the user can completely customize a set of words
+which can be used in or be in any other program.
+
+This section explains how words are defined using
+FORTH.
+
+The basic construct is :
+
+    : wordname ......... ;
+
+In TREE-FORTH wordname is compiled into the dictionary
+as a word with a specific operation as defined
+after wordname and before the semi-colon.
+
+Here is an example :
+
+    : AVG + 2 / ; (ENTER)
+    OK
+
+Successfully typing the above word will define a
+word which adds the top two stack entries and divides
+by two. In other words, AVG finds the average of two
+numbers.
+
+To execute this word type
+
+    2 4 AVG . (ENTER)
+    3 OK
+
+The above statement will put 2 on the stack, then
+put 4 on the stack, then execute the commands attached
+to AVG, and . finally display the top stack entry left by
+AVG.
+
+Next, we will define a word that takes the average
+of two sets of numbers by using AVG, and then check to
+see if the averages are equal. It will also print the
+appropriate response.
+
+    : EQUAL A VG ROT ROT AVG = IF
+    ." EQUAL" ELSE ." NOT EQUAL " THEN ;
+
+The 2 ROT commands here are included" to put the
+value calculated by AVG on the bottom of the stack and
+the next two numbers to be averaged on the top.
+
+
+13.2  : ..... <BUILDS .... DOES> ..... ;
+
+This is one of the most important constructs in
+FORTH yet it is the least understood. However, with
+a little careful study you should understand it.
+
+The formal command for this construct is :
+
+    : defining word <BUILDS definition code DOES>
+    run time code ;
+
+WHERE :
+
+    defining word: this is a user specified word.
+
+    definition code: this code is executed when the
+         defining word is used to create a new word.
+
+    run time code : this code is executed when the new
+                    word is used as a command word.
+
+    NOTE : IT IS POSSIBLE TO HAVE NO DEFINITION CODE
+           OR NO RUN TIME CODE .
+
+An example :
+
+    : ARRAY <BUILDS 20 ALLOT DOES) ;
+
+Here is an example of <BUILDS ... DOES> construct
+with no run time code. This statement will allow the
+user to create arrays of 20 bytes. (20 ALLOT creates
+20 bytes in the dictionary). ARRAY, then, becomes a
+word which will compile 20 bytes in the dictionary for
+any new word.
+
+    ARRAY is used as follows :
+
+    ARRAY NUMBER (ENTER)
+
+This creates an array called NUMBER and this array
+will have 20 bytes attached to it in the dictionary.
+
+To access these 20 bytes we want to put the
+address where they are found onto the stack. This is
+done any time NUMBER is used. So, typing :
+
+    NUMBER (ENTER)
+
+This command places the address of the first byte
+of the 20 bytes allotted to NUMBER on to the stack.
+
+The program can be expanded as shown below. We will
+create a 1 dimensional array and allow the user to
+access any number in the array by placing an index on
+the stack.
+
+    : ARRAY1 <BUILDS 40 ALLOT DOES> SWAP 2* + ;
+
+ARRAY1 will build a 40 byte, 20 word array. To
+do that:
+
+    ARRAY1 XYZ (ENTER)
+
+Now, in the dictionary, we have created an array
+called XYZ.
+
+Next, we will insert a number, say 01, into the
+11th word in this array.
+
+    01 11 XYZ ! (ENTER)
+
+What has happened up to this point ?
+
+First, a 01 was placed on the number stack.
+Secondly, the index of 11 was placed on the stack. Then
+XYZ is encountered. It first places the address in the
+dictionary where the array is located and then
+initiates the execution of the code following DOES>.
+In this case the top two entries on the stack are
+swapped (putting the index on the top and the address
+below it). Next the index is doubled by 2* because we
+are dealing with 16 bit values. Then it is added to the
+address. The stack now contains the address and the
+value, and a store (!) will put the value at the
+specified address.
+
+Another routine could be written to fetch values
+from the address. It would be :
+
+    11 XYZ @ (ENTER)
+
+[_] : This word is used to suppress the execution of an
+      immediate keyword in a definition. The. token which
+      follows [_] will, if in a definition, be compiled to
+      execute when the word being defined is executed and not
+      during the definition of the word itself.
+
+( ... ) : Note. any words placed in parenthesis will not be
+         compiled and act as comments in your program.
+
+FORGET : You can forget any word in the dictionary with FORGET
+         if it is not protected by the FENCE value. Simply
+         type.
+
+            FORGET word (ENTER)
+
+         and ( word) along with any dictionary entries compiled
+         after ( word ) will be removed from the dictionary.
+
+FENCE : You can protect any word from FORGET by typing
+
+            FENCE word (ENTER)
+
+                           - - -
+
+                         CHAPTER 14
+                          TASKING
+
+
+TREE-FORTH is very unique in that it allows the
+user to task. Tasking is the act of scheduling a
+program at some date in the future. Any program can be
+scheduled in a task. The tasking commands are given
+below in the order of use in defining tasks to run.
+NOTE: In TREE-FORTH you can run approximately 10
+tasks simultaneously in the background before the
+system will slow down so much as to be useless in
+editing new programs. ( Tasks use valuable processor
+time which is usually spent in editing new programs ).
+
+Tasking Format :
+
+    TASK prograrnname taskname
+
+where programname is any program which is defined
+in the dictionary by the user.
+
+taskname becomes the name associated with this
+task.
+
+Note that at this time the task has not yet been
+scheduled to run, it has only been defined.
+
+SCHEDULING TASKS :
+
+The user can schedule a task to run using the IN,
+EVERY, AT commands. The time used can be :
+
+TT    Task ticks ( 1/60th sec )
+TS    Task seconds
+TM    Task minutes
+TH    Task Hours
+TO    Task Days
+TW    Task weeks
+TY    Task years
+
+The format for scheduling is :
+
+    command   number   time-type   tasknarne
+
+Example :
+
+    EVERY 5 TT TASK1
+
+This schedules the task TASK1 to run every 5 task
+ticks.
+
+    IN 10 TM TASK1
+
+This schedules the task TASK1 to run in 10
+minutes. So, now the task is scheduled to run in 10
+minutes every 5 Task ticks. The system will
+automatically start scheduling this task upon the
+execution of this command.
+
+To terminate the execution of a task the STOP
+command can be used. The form of this command is:
+
+    STOP taskname (ENTER)
+
+To restart a task you must reschedule it.
+
+Tasks may also be forgotten just as any other
+FORTH word. This is possible because every tasks is a
+component in the dictionary. So alternately,
+
+    FORGET taskname (ENTER)
+
+Of course the task cannot be rescheduled after
+this command because it no longer exists in the
+dictionary.
+
+TREE-FORTH also allows for running a task without
+scheduling that task. This would be very helpful
+in debugging a task to insure that it is running
+properly. The command is :
+
+    RUN taskname (ENTER)
+
+The next command to analyze is START, but this
+needs some background information.
+
+What should happen if your task was extremely
+long? That is, the task took much longer to run than
+1/60th of a second ( the time to the next task update ).
+The task might be scheduled to run every 1/60th of a
+second. In this case, the task would be rescheduled
+before it was completed.
+
+TREE-FORTH allows for this to happen. However, if
+your task were so slow that it continually rescheduled
+tasks before the previous one was finished the system
+would finally lock up. A single task can be "back
+scheduled" 63 times before the system will lock up.
+This is all more fully explained in the technical
+reference manual in Appendix C at the end of this book.
+
+Now back to START. START clears the task register
+of "back scheduled" tasks. This is done for one task
+at a time. The command format is :
+
+    START taskname (ENTER)
+
+Finally, two more task commands.
+
+LOCK :   prevents all tasks from running. Tasks are still being
+         scheduled to execute during a LOCK condition but
+         whatever program is being executed when lock is
+         executed will gain second to highest priority in the
+         system ( second only to the master 1/4 second task )
+         and will not be interrupted by any other task.
+
+UNLOCK : allows tasks which have been LOCKED out to begin
+         executing again.
+
+         LOCK should be run only for a short period of
+         time. This command locks all tasks from running.
+         If a task were longer than one interrupt cycle (1/6~th
+         of a second) then the task would be queued-up. LOCK
+         does not stop the scheduling of tasks to be run. It
+         only stops their actual execution. Therefore, the
+         possibility exists for a task to completely fill it's
+         que buffer ( 63 scheduled executions ). Upon UNLOCKing
+         the tasks, the task with the overflowed que would be
+         blocked from running and could only be released by a
+         START taskname.
+
+TOFF :   This command resets a flag so that upon the execution
+         of a WARM restart the following items occur:
+
+             - Causes a LOCK of all tasks
+             - Resets the editor to the console
+             - Sets the background task to a null task.
+             - Forces display to SLOW mode.
+
+TON :    Disables TOFF and allows scheduled tasks to execute
+         after a WARM restart.
+
+                           - - -
+
+                         CHAPTER 15
+                       CODE COMPILER
+
+
+This section describes how machine code can be compiled.
+The advantages of writing in machine code are a decreased memory
+space used and increased execution speeds.
+
+Machine code is a term referring to the type of numbers the
+Z80 microprocessor inside the SINCLAIR will recognize. In reality
+it will only recognize combinations of 0's and l's. However,
+it is easier if we deal in the HEXADECIMAL representation of
+those numbers. Now, of course, it would be impossible to remember
+what every HEX number did inside of the Z80 microprocessor.
+Therefore, each command is represented by a mnemonic, or a symbol.
+It is common practice to write source code in these mnemonics
+and then convert the mnemonic to the proper HEX number.
+TREE SYSTEMS has made a special arrangement with the ZILOG
+corporation ( the manufacturers of the Z80 microprocessor) to
+include a Programming Reference Guide with the documentation for
+TREE-FORTH. This will give you a simple source for the machine
+code conversions.
+
+First, the CODE compiler will be described, and
+then an example of its use will be given.
+
+The CODE compiler has the following form :
+
+    : word CODE ...... hex code ....... ;C ;
+
+The above shows the CODE compiler in a definition.
+It could also be used outside of a colon definition
+alone in which case, it would place code at the present
+point in the dictionary. The definition, as
+shown, could be expanded to having any amount of TREEFORTH
+words before CODE or after ;C.
+
+Here is an example :
+
+A machine code routine can be written to add the
+three numbers found on the user stack and put the
+result on the stack. We will use the HL and DE registers
+for this.
+
+First a little background. TREE-FORTH supports
+commands for putting numbers on the stack and removing
+numbers from the user stack. To remove a number from
+the stack the command is
+
+    UPOP
+
+This command takes the number off the user stack
+and pops it into the HL register. The command is
+located at RST 2 and the HEX machine code is a D7.
+
+To take a number from the HL register and
+load it to the user stack the command is
+
+    UPUSH
+
+UPUSH is located at RST 1 and the HEX machine code
+is CF.
+
+Now let's write the routine. The comments to the
+right of the semi-colon describe the logical order of
+events.
+
+E5   PUSH HL     ; This saves the contents of the HL
+D5   PUSH DE     ; and DE by placing them on the processor stack
+D7   UPOP        ; Takes the top stack entry and puts it in HL
+EB   EX DE,HL    ; This exchanges the contents of the HL and DE registers
+D7   UPOP        ; Takes the 2nd stack entry and places in the HL register
+19   ADD HL,DE   ; This adds the contents of HL and puts the result in HL
+EB   EX DE,HL    ; Move answer of first addition to DE
+07   UPOP        ; Gets the third number
+19   ADD HL,DE   ; Adds the third number with the sum of the first two
+CF   UPUSH       ; Puts the final result back on the user stack
+01   POP DE      ;
+El   POP HL      ; Restores the HL and DE registers
+
+No return is necessary; it is automatically
+inserted by ;C.
+
+Normally, the code would be compiled directly to
+the left of the above code after writing the entire
+program. Here, they are included side by side.
+
+Now, to enter this code in the dictionary under
+the command word 3+ the correct programming statement
+would be :
+
+    : 3+ CODE E5 D5 D7 EB D7 19 EB D7 19 CF E1 Dl ;C ;
+
+To execute this word, place 3 numbers on the stack
+and use the new command.
+
+    1 2 3 3+ . (ENTER)
+
+3+ adds the three numbers and outputs the sum, 6,
+on the stack. '.' prints the top stack entry.
+
+                           - - -
+
+                         CHAPTER 16
+                       APPLICATIONS
+                         programs
+
+One of the first programs you will want to try on TREE~
+FORTH is a task which will continually display the user stack on
+the bottom of the console screen. The commands are given below.
+
+The entire program should be typed on the editor screen.
+Then switch to the console screen and type CPL to compile the
+entire editor screen.
+
+-- top of editor HEX CLS 16 CO 5 + C!
+                 0 17 IF 17 SCREEN ST ST REV
+                 : SCL 0 C N>C ST .W ;
+                 : STD # 5 W> ST .W ;
+                 : ST4 4 0 DO 4 I - PICK STD LOOP ;
+                 : STE SCL ST4 FA7E SP@ - 2/ " S
+                   T = " ST .W STD ;
+                 TASK STK STE EVERY 2 TS STK
+
+Summary: The first line clears the console screen. The
+second line creates the reverse video display line at the bottom
+of the screen. The screen name is ST ( for stack screen ). The
+SCL word is a screen clear command. STD is a screen display
+command. Finally, ST4 is the word which displays the top 4 stack
+values. STE, stands for Stack Execute. This is the execution
+portion of the code. The routine clears the screen (SCL), then
+displays the top 4 entries (ST4), then gets the stack pointer
+value and displays that value to the stack screen (ST). Finally
+the last statement is a task which schedules the program called
+STE as a task called STK. The task is scheduled to run every 2
+seconds.
+
+Another little routine you may want to use is the
+following. This does the same thing as a READ
+statement in BASIC.
+
+    : READ ." INPUT REQUEST " S@ ;
+
+This gets a string from the keyboard and places it
+on the character stack. To display the result type:
+
+    CO .W (ENTER)
+
+Here is a little program to convert Fahrenheit degrees to
+Celsius degrees.
+
+First let us read in a variable :
+
+    : READ ." ? " S@ ;
+
+This will display a prompt ( ? ) and get a word
+from the user.
+
+Next we can write the word to convert the input to
+a number.
+
+    : INPUT READ ># DROP ;
+
+># converts the top of the character stack to a
+number. We must drop a character because the
+conversion leaves a 1 or a 0 depending on whether or
+not the conversion is successful.
+
+Next let us write the actual conversion calculation.
+
+    : CEL 32 - 100 * 9 / 5 * 100 / ;
+
+Note that the value must be scaled by 100 before performing
+the division. A later division by 100 is needed to bring the
+result back to its original scale.
+
+Next, we will write a routine which will give us a
+printout in a nice format.
+
+    : PRINT ." CELCIUS DEGREES " ;
+
+Finally, here is the program word which ties all
+the others together :
+
+    : CELC INPUT CEL PRINT ;
+
+Note that we could also test each word
+individually by typing each definition ( making sure
+that there is an appropriate value on the stack ).
+
+ANOTHER PROGRAM :
+
+HERE IS A PROGRAM TO CALCULATE STRAIGHT-LINE
+DEPRECIATION.
+
+We will modify the read statement from last time :
+
+    : READ2 ." ? " S@ ># DROP ;
+
+    0 VARIABLE AMT
+    0 VARIABLE YEARS
+    0 VARIALBE LAND
+
+Now that we have the variable names let us continue
+with the input statements :
+
+    : INA ." ENTER THE PURCHASE VALUE " READ AMT ! ;
+    : INY ." ENTER THE NUMBER OF YEARS " READ YEARS ! ;
+    : INL ." ENTER LAND VALUE " READ LAND ! :
+
+Now the land value will be subtracted from the
+property value and the difference will be divided by
+the number of years to find the depreciation.
+
+    : DEP AMT @ LAND @ - 100 * YEARS @ / 100 / ;
+
+Now let us print the result and arrange all the
+words into one command word.
+
+    : PRINT ." STRAIGHT LINE DEPRECIATION ; " . ;
+    : PRODEP INA INY INL DEP PRINT ;
+
+After editing and compiling this program, you can
+execute it by typing PRODEP.
+
+                           - - -
+
+                        APPENDIX A
+         ASCII CONVERSION TABLE IN HEX AND DECIMAL
+
+Note that the following listing includes all of
+the ASCII characters and their number equivalent. The
+SINCLAIR ZX81 / TS 1000 in the FORTH mode will support
+all of the ASCII characters excluding lower case.
+Because TREE-FORTH completely replaces the basic ROM
+operating system all of the characters have been
+redefined to the exclusion of all graphics characters.
+
+                  ASCII CHARACTER SET
+
+HEX   DECIMAL   CHAR               HEX   DECIMAL   CHAR
+00      00       NUL               26      38       &
+01      01       SOH               27      39       '
+02      02       STX               28      40       (
+03      03       ETX               29      41       )
+04      04       EOT               2A      42       *
+05      05       ENQ               2B      43       +
+06      06       ACK               2C      44       `
+07      07       BEL               2D      45       -
+08      08       BS                2E      46       '
+09      09       HT                2F      47       /
+0A      10       LF                30      48       0
+0B      11       VT                31      49       1
+0C      12       FF                32      50       2
+0D      13       CR                33      51       3
+0E      14       SO                34      52       4
+0F      15       SI                35      53       5
+10      16       DLE               36      54       6
+11      17       DC1               37      55       7
+12      18       DC2               38      56       8
+13      19       DC3               39      57       9
+14      20       DC4               3A      58       :
+15      21       NAK               3B      59       ;
+16      22       SYN               3C      60       <
+17      23       ETB               3D      61       =
+18      24       CAN               3E      62       >
+19      25       EM                3F      63       ?
+1A      26       SUB               40      64       @
+1B      27       ESC               41      65       A
+1C      28       FS                42      66       B
+1D      29       GS                43      67       C
+1E      30       RS                44      68       D
+1F      31       US                45      69       E
+20      32       SP                46      70       F
+21      33       !                 47      71       G
+22      34       "                 48      72       H
+23      35       #                 49      73       I
+24      36       $                 4A      74       J
+25      37       %                 4B      75       K
+
+
+                  ASCII CHARACTER SET
+
+4C      76       L                 6C      108      l
+4D      77       M                 60      109      m
+4E      78       N                 6E      110      n
+4F      79       O                 6F      111      o
+50      80       P                 70      112      p
+51      81       Q                 71      113      q
+52      82       R                 72      114      r
+53      83       S                 73      115      s
+54      84       T                 74      116      t
+55      85       U                 75      117      u
+56      86       V                 76      118      v
+57      87       W                 77      119      w
+58      88       X                 78      120      x
+59      89       Y                 79      121      y
+5A      90       Z                 7A      122      z
+58      91       [                 78      123      {
+5C      92       \                 7C      124      |
+5E      94       ]                 7D      125      }
+5F      95       ^                 7E      126      ~
+60      96       _                 7F      127      DEL
+61      97       a
+62      98       b
+63      99       c
+64      100      d
+65      101      e
+66      102      f
+67      103      g
+68      104      h
+69      105      i
+6A      106      j
+6B      107      k
+
+                           - - -
+
+                        APPENDIX B
+                       ERROR CODES
+
+
+The following is a listing of error codes. These
+will appear in the form:
+
+    ERROR letter
+
+An error will appear every time the user makes a
+mistake in writing or executing code.
+
+ERROR F  This error message is displayed when the user
+         attempts to forget a fenced word. If the fenced word
+         appears anywhere in the list of words being forgotten
+         this error is displayed.
+
+ERROR H  This error message will be flagged if the user
+         forgets to input a hexadecimal number in the code
+         compiler.
+
+ERROR M  This error message is displayed when the
+         available usable memory ( RAM ) is almost full. This
+         will occur when the user stack area runs to
+         within 32 bytes of the dictionary space.
+
+ERROR R  Error R stands for redundant. If the user tries to
+         define a word with a name which belongs to a program
+         which already exists in the dictionary, the word is
+         still defined and will have priority over the previous
+         word in the dictionary.
+
+ERROR S  This message is displayed if the stack underflows.
+         That is, the error is flagged if the user attempts to
+         take a value off the stack when the stack is empty.
+
+ERROR U  Error U stands for Undefined Word. This message
+         is displayed when a word is used which has not been
+         previously defined in the dictionary.
+
+                           - - -
+
+                        APPENDIX C
+                   TECHNICAL REFERENCE
+
+
+          The technical reference is in progress
+          and will be sent on request.

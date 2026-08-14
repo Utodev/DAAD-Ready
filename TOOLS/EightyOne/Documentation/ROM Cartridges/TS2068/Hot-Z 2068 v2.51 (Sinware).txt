@@ -1,0 +1,2139 @@
+=========================
+HOT Z-2068 For The TS2068
+Sinware
+
+=========================
+
+
+                               HOT Z-2068
+                              USER's NOTES
+                                (v2.51)
+
+HOT Z-2068 combines a line-by-line assembler, a labelling disassembler, a
+single-stepper and a simple editor. The purpose of HOT Z is to give you a
+reasonable degree of direct control of your computer, as well as to assist you in
+writing assembly-language programs to extend your control.
+
+HOT Z requires some knowledge of the hexadecimal (hex) number system, which uses
+the characters 0-9 and A-F as its 16 digits. These instructions were written with
+the assumption that you know the fundamentals of Z80 machine code, for which there
+arc numerous books on the market. If you are learning, then use HOT Z as a
+blackboard to work out the exercises.
+
+When HOT Z is cold-started, you must make a choice of printer interface. Select
+the 2040 if you have no printer attached. Your printer selection will start HOT Z
+with disassembly of the first few addresses of the HOME ROM. Enter any hex address
+to move the disassembly there; 8000h will find the beginning of HOT Z.
+
+HOT Z commands are issued with the various Symbol- and Cap-Shifted keys. These
+keys are generally referred to both by their BASIC equivalents (e.g. PEEK or ATN
+or OR) and by the actual keying sequence, where CSS means Caps & Symbol Shift and
+release, and SS means Symbol-Shift and hold during the Following keypress. Thus
+FLASH and CSS-SS-U are equivalent, as are <= and SS-Q.
+
+HOT Z deals with blocks of memory by marking them out with a cursor and an entered
+address known as END. The value of END is displayed whenever the cursor is turned
+on. The cursor can be turned on with either SS-E ( >= ) or SS-A ( STOP ). The
+value of END will appear at the end of the second screen line. It can be changed
+by giving the TO (SS-F) command and then typing the desired address in hex. Turn
+off the cursor by hitting ENTER.
+
+If you get tangled up in the mnemonics line through mistyping, escape from that
+first by hitting the semicolon, then ENTER.
+
+
+An Introductory Tour
+
+HOT Z-2068 will come up showing the first screen "page" of disassembled ROM. Down
+the left side of the screen, you will see the memory-address column, to which
+everything in HOT Z is keyed. These addresses are in hexadecimal and in the format
+accepted as input by the program. In other words, all addresses are four hex
+digits and include leading zeroes but no identifying symbols either before or
+after. The format is always there for you to consult as you make entries to HOT Z.
+Addresses run from 0000h to FFFFh.
+
+The second column of the disassembly display lists the contents of each memory
+byte again in hexadecimal, two digits per byte, packed together with no spaces
+between. These numbers occur strictly in the order they occur in memory, which is
+not necessarily an easy order for reading. This column is raw data, as it were,
+against which any "interpretation" can be checked. Z80 instructions can be from
+one to four bytes in length. A HOT Z routine gets the length of any instruction
+and parses the bytes into instruction length clusters, but it cannot decide
+whether those bytes hold true Z80 code or simply numbers used as data. That
+decision in the end is up to the reader. On this first page of ROM, the first two
+instructions are one byte long, the third three, etc.
+
+The next column, the NAME column, will hold user-entered labels for the
+corresponding address, along with a few labels provided in a permanent file on
+your original tape. After you have annotated a program with these labels you can
+SAVE a NAME file separately from HOT Z, to be loaded again with whatever program
+the labels pertain to.
+
+The fourth column presents those particles of electronic poetry known as assembly
+mnemonics. Relative jumps (JR's) are listed, as in the sixth line, with their
+destination address (or NAME) rather than the single displacement byte with which
+they are coded. System variables for the ROM are listed by an abbreviated name as
+in lines 4 and 5.
+
+The first four instructions turn off the keyboard interrupt, set A to zero load DE
+to count 64K of memory, and jump to the initial initialization routine. The rest
+of the screen is taken up by RST routines.
+
+RST 10h prints the character whose code is in A.
+
+RST 08h handles BASIC error reports.
+
+RST 18h and 20h help with interpreting BASIC, and RST 28h is the entry to
+floating-point operations, which are a separate sub-language in the 2068.
+
+RST 08h and 28h are always followed by one or more (for 28h) bytes that serve as
+data rather than as machine code. The meaning of such bytes is listed in the
+mnemonics column if you have the floating-point interpreter switched on.
+
+The current HOT Z display is referred to in these notes as READ mode or
+disassembly.
+
+The commands in this mode are mainly for moving the display around to give access
+to different parts of memory.
+
+The page flip, for example, is the SPACE bar, hit it to continue the disassembly
+with the instruction following the one at the bottom of the screen.
+
+For distant moves, you can enter a four-digit hex address to the ADDR cursor at
+the upper-left screen corner. For example, try 0D31h to see the initialization
+routine.
+
+During address entry, you can backspace to correct an error by using the DELETE
+key which will back up the cursor one space. DELETE doesn't blank out the entry
+and that you can't back out of the whole entry routine that way.
+
+To back out, use the ENTER key, which works as an escape key in this situation.
+
+You must type in all four hex digits of an address or all four characters of a
+NAME (label). ENTER is not needed after the last hex address digit.
+
+The keyboard with HOT Z-2068 responds almost identically to the way it responds in
+BASIC. HOT Z gives a different tone feedback (You can alter that by changing
+pip_), and gives the tone for CAPS LOCK and the SYMBOL-SHIFT/CAPS-SHIFT (CSS)
+combination as well. CAPS LOCK is initially set.
+
+Lower-case a through f are not recognized as hex digits, so if you shift to lower
+case to enter a label, be sure to shift back before entering hex or Z80 mnemonics.
+
+The lower-case mode is indicated by cursor flashing and bright rather than just
+flashing. All the shift-key entry combinations are the same as in BASIC except
+that the K-cursor state is not used by HOT Z, so the keyword legends on the keys
+themselves are not available.
+
+In READ mode, you can also get to a named routine by entering the four letters of
+an assigned NAME. Try KEYB. You will see that the NAMEs appear in both the NAME
+column (referring to the current address) and in the mnemonics column (referring
+to the target address of CALLS or jumps).
+
+In general, you can use a NAME in the file as a proxy for its address in the READ,
+Assembly, Edit, or One-Step modes of operation.
+
+If you did not do so before loading, set the screen to your favorite color
+combination using the BORDER (on CSS-SS-BORDER, i.e. the BRIGHT key), PAPER and
+INK commands. They work essential as in BASIC except that the color comes up right
+away.
+
+Try keying SS-G (THEN) from READ mode. This is the display switch. and successive
+strokes of the same key will take you back and forth between the data and the
+disassembly displays.
+
+The data display is for examining those parts of memory that are used as files of
+data rather than for Z80 code. The first and second columns contain the single
+address and its content in hex, values that are reflected in decimal in columns
+four and five, (Use it as a conversion table).
+
+The far-right column gives the CHR$ of the contents of the address and will turn
+up any BASIC programming or message files. Enter, for example, the address 0227 to
+see the keyboard file.
+
+Switch back to disassembly while you're still looking at the keyboard file for a
+taste of what disassembled data (sometimes called nonsense) looks like. It's up to
+you to distinguish sense from nonsense when reading a strange program; the display
+switch is there to help you do it.
+
+The NAME column in the data display functions differently from the column with the
+same heading in the disassembly. The NAMEs in the data display are those that
+correspond to any two successive bytes, taken in lo-hi order, in the second
+column. (The disassembly displays NAMEs assigned to the addresses in the first
+column). Some NAMESs in the data display can crop up by chance; for example, two
+NAMEs immediately together mean that at least one is spurious.
+
+Use the CSS-T command in READ mode to go to the beginning of the NAME file. The
+NAME file grows downward like a stack, which it is not, as you add new NAMEs to
+memory addresses.
+
+Turn on the data display to see the structure of the NAME file. Each NAME takes
+six bytes; the first two hold the address to which the NAME is assigned, hence the
+listing in the NAME column, and the next four hold the NAME itself, which shows in
+the CHR$ column. Other odd CHR$ symbols will appear at random for some of the
+address bytes, signifying nothing.
+
+The data display is also useful for looking at BASIC programs to see the real
+structure of BASIC code.
+
+You can enter decimal addresses to the ADDR cursor, but these must be prefixed by
+the OR (SS-U) command. Try it, and check the conversion with the data display. If
+you enter a decimal address of less than five digits, then you have to press ENTER
+to tell HOT Z that you've finished. If you enter a decimal higher than 64K, the
+program will subtract 64K and give you what's left.
+
+Now get into disassembly and go to 3B2E, which is where the ROM begins the BASIC
+function LN. Hit CSS-O (PEEK) to turn on the floating-point interpreter.
+
+The first instruction after the RST 28 restacks the number on the top of the
+calculator stack in full five-byte form (in case it is a short integer); the
+number is then duplicated on the stack and tested for being positive non-zero; if
+it is, a jump is made to 3B37; otherwise, execution proceeds to end the
+floating-point code and fall into the trap for error A.
+
+At 3B37, we have an example of floating point code that is embedded and not
+preceded by an RST 28 because of the jump. To get the correct interpretation,
+enter 3B37 to the ADDR Cursor, then use the switch command on the CSS-I (CODE)
+key.
+
+At 3B35 you will see a rendition of a BASIC error report after RST 08, in this
+case for a zero or negative argument to the logarithm. Occasionally, you will
+encounter a CF as data rather than RST 08, in which case the error number may be
+invalid and left blank.
+
+The last display on the tour is the Z80 register display or Single-Stepper. This
+mode can be entered by using the STEP (SS-D) command from the disassembly.
+
+The register display occupies the top three quarters of the screen. The left
+column lists the various Z80 registers; please refer to a good Z80 reference book
+if you need an explanation of the register names. The exchange flags are listed as
+EXFLAGS.
+
+The second column lists the hex values of the registers' contents. Values for the
+accumulator (A) are listed at the left of the column to remind you that A is the
+high half of the AF register pair, along with H, D and B.
+
+The third column either converts the second column value to signed-decimal
+according to the two's complement convention, or, if the second column holds an
+address that has been NAMEd, then that NAME is listed in the third column.
+
+The fourth column, headed by the open parentheses, gives the hex value of the byte
+contained in the address formed by the register-pair values. (E.g., across from HL
+you will find the byte (HL).)
+
+The right column gives the CHR$ of the byte in the fourth column (for the register
+pairs) or of the byte in A.
+
+The box below the one containing the exchange registers holds details on the
+one-step user's stack and the state of the flags registers.
+
+The user's stack is separate from the main machine stack so that the system can
+absorb a few stack errors without crashing the program. The top four pairs of
+bytes on the user's stack are shown at the right, along with the NAMEs for any
+addresses they might hold, so that you can check to see whether your test routines
+leave anything behind.
+
+The main Flags are listed below the exchange flags for easier visual association
+with the conditionals in the program steps below. Standard conditional mnemonics
+are given for the four programmers' bits.
+
+The cursor at the left in line 18 (which is bright) marks the address of the next
+step set up to be executed by the single-stepper. You can enter any address into
+that cursor just as you would in READ mode, or you may also use a NAME. The ENTER
+key still serves as an escape during address or NAME entry, but it has another
+more important function as well, which is to run the next single step.
+
+If it's not already there, enter 053Ah to the NEXT slot, and then notice the
+contents of the A and C registers just before and after you press the ENTER.
+
+This is a fairly safe area and you can experiment with a few more steps. The
+things you must be careful about are loading into some system variables, either
+ROM's or HOT Z's, and some flag sets. The SPACE key allows you to skip the step at
+NEXT. The top line of Z80 instructions represents the previous step executed, and
+the three steps following the one in NEXT are those that will be reached if there
+is no branching. A branched-to step appears directly in the NEXT slot; a skipped
+step disappears from the display.
+
+For faster debugging, you can set breakpoints (AT and OR commands) and use the
+SS-G (THEN) command to step through the code as far as the first breakpoint
+encountered. Two breakpoints are provided so that you can cover both sides of a
+conditional branch. You must take care to set breakpoint addresses that the code
+will actually encounter, since stopping depends on finding a breakpoint exactly.
+The BREAK key will stop the CSS-G command if used quickly enough. You can display
+the current breakpoints with the SS-Y (AND) command.
+
+Breakpoints are only checked for in your main code line, not during any
+subroutines (CALLs or RSTs). This may not be ideal for all your tests.
+
+If you want to set breakpoints within your subroutines, then change the RTBP
+(D0EDh) routine as follows: the second instruction (D0F0h) should CALL STEP
+(CD7102h) and the second last instruction (D10Ah) should CALL STEZ (CD40D5h). If
+you make these changes, then don't use both the window and code with RST 10hs that
+you run to breakpoint.
+
+Learners might consider mastering the use of the Single-Step first and then using
+it to see how the various instructions and a few resident routines work. A lot of
+bugs can be avoided by testing every routine you write with this device. You can
+also create a special display screen that will show the display of your test
+routine and alternate with the register display. See the section on the Single
+Step Window for details.
+
+Hit SS-Q (Quit) to get back to the main READ display. You will arrive at a screen
+page that starts with the address that was in the NEXT slot of the Single-Stepper.
+If you spot an error coming up at the bottom of the Single-Step display, you can
+quit the display, EDIT the error on the disassembly display, and get back to where
+you were in the Single-Step by using the STEP command from READ mode.
+
+You can also go directly to assembly mode within the Single Step display to make
+minor changes to upcoming code. The CSS-A key will give you a cursor at the head
+of the mnemonics column and let you make changes without exiting Single Step. You
+are effectively in the edit mode with a return address to Single Step on the
+stack. Consequently, all of the edit commands are available to you, but you must
+make judicious use of them. It would not be wise, for example, to invoke the
+Single Step while editing under the Single Step.
+
+A number of operations may redo the screen to the EDIT mode or otherwise damage
+the register display. However, the Single Step screen will reestablish itself as
+soon as you exit the EDIT mode by hitting ENTER.
+
+Operations that move to a different address in edit will not change the current
+address in the NEXT slot. That will be preserved just as if you had left the
+Single Step and then come back to it. Moving the cursor out of the disassembly
+area into the register display is usually prevented and not advised.
+
+
+Disassembler Features
+
+The HOT Z disassembler has been specially programed for the Sinclair ROM to take
+account of the system variables, the BASIC error reports, and the floating-point
+operations, which make up the Sinclair 'calculator language'.
+
+Abbreviations of system variable names are included in the permanent NAME file
+that loads with the program. The HOT Z disassembler always uses the name for a
+system variable whether it is referred to by absolute address (e.g. 5C72h) or by a
+displacement from IY (TY+38h). However, if you want the IY form from the
+assembler, you must write it out, since the assembler will always substitute an
+address (two bytes) for an entered NAME.
+
+When an RST 08h occurs, the following byte is not Z80 code but is used as data to
+generate the BASIC error report. HOT Z reads these bytes as ERROR 9, etc., rather
+than generating Z80 mnemonics for them. If you are running the disassembler over a
+block of data, you may encounter a CFh (hex for RST 08h) followed by a byte that
+would be out of the range of the error reports. In that case, the error number is
+not printed.
+
+An RST 28h is the T/S 2068 ROM's entry into the floating-point language, which can
+be disassembled by HOT Z. You can switch the f-p language interpreter on or off
+with the CSS-O (PEEK) command in READ. The default on start up is off. If you want
+to know what is going on in the floating-point routines, then consult appendix A
+of these notes.
+
+
+Printers
+
+The Oliger, Aerco, Tasman, or A&J printer interfaces are supported in addition to
+the 2040. You are asked to choose which interface at boot up. If you use a
+Centronics interface and you find that your printer double spaces HOT Z's output,
+then you can change the code in RAM at 5DE3h, which sands a carriage return and
+line feed at the end of each line, to send just the line feed.
+
+
+Color
+
+You may also want to change the color byte at 800Ah. Set the colors you prefer
+either from BASIC or with the HOT Z commands, and then lock at the attribute file
+(5800h-5AFFh) and install the predominant byte you find there at 800Ah.
+
+
+Conflicts
+
+HOT Z keeps its error fielder at 5C2Fh in the streams area of the system
+variables. If this interferes with any of your peripherals, then change 5C2Fh to
+6824h at 808Fh and 83DCh. Changes can be made in a running version and will take
+effect on next boot up. (Color is immediate.)
+
+HOT Z takes over the printer channel pointer and does not restore it. If you move
+back and forth between BASIC and HOT Z and expect to print from both, then you
+will need to restore the address of your printer driver at 684Fh (26703).
+
+If you use all three banks of memory, then you must keep account of the value in
+port 255. It is possible for that port to hold 128 even when no EXROM chunks are
+enabled. (Port 244 = 9.) if the value of port 255 is undetermined, then you won't
+know whether you are enabling DOCK or EXROM chunks with part 244.
+
+
+The Disassembly Bank Variable (DISB)
+
+In addition to the bank switch command (CSS-G), the variable DISB (disassembly
+bank) can be manipulated directly by the user to control what you see with the
+disassembly and what memory you change with HZ commands. DISB is a two-byte
+variable that is actually a bank-chunk spec; the high byte is the bank (FEh =
+EXROM, FFh = HOME, 00h = DOCK) and the low byte is the active-low chunk-enable
+byte (00h enables all chunks, FEh enables chunk 0, 7Fh enables chunk 7, etc.) The
+default on start up is FF00h, which is all chunks of the HOME bank.
+
+Most values can be written in directly, but there are a few combinations that hang
+the machine. All zeroes, for example, mean enable the dock everywhere, which locks
+out the stack, as does any combination of bank and chunk spec that turns off chunk
+3, with the stack in it.
+
+Valid combinations of bytes for DISB will depend on what you have connected to the
+2068. If you can hook up a chunk 0 in some bank, then you should have an interrupt
+fielder at 0038h as a minimum before you enable such a bank without a DI. You can
+copy out the code from 0038h to 0048h in the EXROM if you need a fielder.
+
+Chunk 2 contains the system variables and the HOT Z RAM-res code, and you will
+have to come up with a smart routine to make use of that chunk.
+
+Finally, chunk 3, from 6000h to 7FFFh, contains the stack, and that must be moved
+to an active RAM chunk before you can switch cut the HOME RAM chunk 7.
+
+Awkward values for DISB can generally be avoided by replacing them backwards (high
+byte first) or by using the transfer command to move two bytes into DISB together.
+
+
+RAM Use
+
+HOT Z-AROS has its variables and buffer area in RAM at 5F60h-5FFFh. This could
+ultimately get in the way of the Syscon parameter table for memory banks and
+intelligent devices, but there is room for four or five, which should do for the
+near future.
+
+HOT Z uses a RAM-resident block of code, which is presently located between 5D00h
+and 5DFFh. This could cause conflict with other devices or programs that use the
+same area. HOT Z does not use the 5E00h-5EFFh area. Your workspace in RAM runs
+from 50 bytes above STKEND to FFFFh and of courses any other banks not occupied by
+HOT Z.
+
+
+Hook Commands
+
+For use with EPROMs, the PI and the TAB keys can be hooked to your routines in RAM
+to turn them into HOT Z commands. All you do is write the address of your routine
+at the appropriate address. Those are as follows:
+
+READ PI 5F90h
+TAB 5F92h
+STEP PI 5F94h
+TAB 5F96h
+EDIT PI 5F98h
+TAB 5F9Ah
+
+It will not be possible to write an address to the command file, if the command
+file is in EPROM. The routine that you hook up must be in normally enabled RAM,
+which is to say RAM below 8000h. You can enable and call into high RAM with CALL
+5D07h, CALL YOUR ROUTINE, JP 5D00h.
+
+
+Writing And Editing Z80 Code
+
+The READ mode is an essentially passive, allowing you to page through the memory
+and examine its contents. The WRITE or EDIT modes are there to let you make
+changes in the memory content, provided that memory is RAM.
+
+There are three WRITE/EDIT modes.
+
+With the disassembly display, you can press CSS-A (STOP) and a cursor will appear
+at the top line of the edge of the right column. This is the Assembly mode. Once
+you turn on the cursor, you change the entire command system of HOT Z. The
+commands available to you with the cursor on are listed as the EDIT-mode commands
+on the command lists.
+
+Hitting ENTER with the cursor in its "home" column will quit the WRITE mode and
+return you to READ, where you can readjust the screen to another part of memory.
+
+In addition to the command set, the up and down cursor controls allow you to move
+the cursor to a given line or to scroll the display page one line up or down by
+moving the cursor up from its top position or down from its lowest position. Up
+scrolling is automatic when you ENTER a line that is third from the screen bottom.
+
+You may also enter a new Z80 instruction to replace the one listed one the cursor
+line. Just start typing and the existing line will disappear. As you type, the
+delete key and the left and right cursor controls will function as you expect them
+to. If the cursor is over the top of a character, your next keystroke will replace
+that character. If you want to insert a character, press the EDIT key and a space
+will be created at the cursor position, with all characters to the right of the
+cursor being shifted one space right.
+
+The rightmost character in the line (usually a blank) is destroyed by this insert
+command. You cannot jump to another line with the up or down cursor command while
+you are in the middle of editing a given line.
+
+When you have entered the intended Z80 instruction, hit the ENTER key to put the
+proper code into memory. If your entry is in the proper format, the cursor will
+return to the left edge of the column and move one line down, ready to edit the
+next line.
+
+If the cursor stays put in the line you are working on, then it indicates a format
+error in the mnemonic entry.
+
+HOT Z follows the format of the mnemonics listed in the Zilog Z80 technical
+manual. This format is the same as that listed with the character set in your
+computer's instruction manual, with the following exceptions: the RST's are
+followed by a hex byte (08h,10h, 18h, 20h, 28h, 30h, 38h) rather than decimal and
+the OUT (N), A and IN A, (N) use the parentheses shown here. (N is always a
+two-digit hex byte.) The open parenthesis is always preceded by either a space or
+a comma, and spaces are always important.
+
+When HOT Z fails to accepts your entry, it locates the line cursor at the first
+position that does not match its template for a proper instruction. Sometimes,
+however, as with an omitted space or an unassigned label, the cursor may appear
+earlier than your particular format error. (For example, it will flag the first
+letter of a label even if only the fourth letter is "wrong".)
+
+If you get stuck and can't get HOT Z to accept what you've entered, you can
+abandon ship and restore the original mnemonic by hitting the semicolon (;).
+
+Your recourse then is to look elsewhere in the disassembly for the format of the
+instruction you have been trying to enter, or to look up the hex code for that
+instruction and to enter that in the hex column (see below) to discover how HOT Z
+lists the mnemonic.
+
+If you try to back out of a line with the cursor-left key, HOT Z will act as if
+you have tried to ENTER the line. If you write all the way to the end of the line
+an ENTER will also be automatically appended. This occurs with some of the IY+N
+instructions, which just fit in the allotted space.
+
+You can use a preassigned NAME in an instruction anywhere chat a 16-bit (four hex
+digits) number occurs. For example, LD HL, (rmtp) is equivalent to LD HL, (5CB2h).
+You must give a NAME to a particular address (CSS-N or INKEYS command in WRITE)
+before you attempt to use it in an instruction.
+
+
+Upper/Lower Case
+
+Since HZ doses not recognize lower case for hex input nor the main part of a
+mnemonic, it can be inconvenient or even puzzling to be in that shift state on a
+monitor with no bright cursor to indicate what is happening. There are a few
+automatic turn-offs of the lower-case state: after entering a new NAME, after
+entering an assembly line, and on turning an hexedit.
+
+The shift state does persist if you enter a lower case NAME to the top line cursor
+in READ mode; this causes it to fail to recognize addresses like 5C77h until you
+retoggle the caps lock key.
+
+
+Jump Instructions
+
+Relative jumps (JRs and DJNZ) are normally entered with the destination address or
+NAME. However, for the JRs only (not DJNZ), a second form is available for short
+forward jumps where you haven't yet assigned a NAME but know how far forward you
+to want to jump. JR +5 will jump ahead over five bytes. The plus sign is required
+and the displacement is in decimal with a range from 0 to 127. Backward jumps are
+not catered for in this way; it is easier to look Back for the address you want to
+get to.
+
+Provided you do not want one of the last four conditional expressions (M, P, PO,
+or PE), you can use relative jumps all the time, and if the destination address is
+to0 far away HOT Z will convert your JRs to JPs (absolute jumps) rather than
+report an error. The reverse is not true: if you enter a very short absolute jump,
+HOT Z will take your word for it. This conversion works well for entry of new
+code, but you must beware when editing in the middle of an existing routine,
+because if a two-byte JR is edited and becomes a three-byte JP, then the first
+byte of the following instruction will be overwritten.
+
+
+Pseudo-Ops
+
+There is no ORG command because you are doing the ORG yourself with HOT Z.
+However, direct data entry is possible in the assembly-edit mode through use of
+the DB pseudo-cp. DB may be followed by a quoted string (DB "ABCDE") or by an even
+number of hex digits (DB 090Fh 0D3Ah). Spaces are ignored in reading the hex
+digits, except for the required space after the DB. Each pair of hex digits is
+read as one byte, and a single digit left over will be ignored. You can write a
+string or series of digits all the way to the end of the line.
+
+When you hit the end, HOT Z will add the quote if necessary and enter the line.
+Upon entry, the editor enters one character (for a string in quotes) or too hex
+digits per byte starting with the cursor address for as many bytes as it takes,
+then resets the screen layout so the next cursor address is at the top of the
+screen. The reason for this is that the data you have entered would be
+disassembled by HOT Z, producing a nonsensical listing. You can lo0k back with the
+data display to assure yourself that what you have entered is indeed there.
+
+The DB is simply a means of entering data without leaving the assembly-edit mode.
+You should still assign NAMES to your strings or variables and use them in
+referencing the data. The insert command is recommended when you enter data into
+an existing code block.
+
+If you want to use the RELOCATE command (described below), then you should not
+mingle small blocks of code and data. Keep them in large blocks and keep track of
+what is where.
+
+In addition to string entry with DB, you may also enter quoted non-inverse
+characters for direct eight-bit register loads or for direct arithmetic/logic
+operations. LD A,"A" will assemble as LD A, 41h and CP "Z" as CP 5Ah. Sixteen-bit
+(double) register loads are not treated in this way.
+
+
+Hex Edit Modes
+
+Hit the >= key with the disassembly display to get into the main hex edit mode.
+The "home" column for the cursor in this case is between the address and hexcode
+columns at the left of your screen. Cursor controls work as with the assembly
+editor.
+
+To change the hex content of memory, you may either move the cursor cover with the
+cursor-right key or retype the line, using the keys from 0 to F.
+
+With the disassembly display, each line holds the correct number of bytes for a
+single Z80 instruction. If you write a one-byte instruction, the cursor will jump
+to the next line immediately; for multi-byte instructions, the cursor waits on the
+line until the required number of bytes have been entered, then jumps
+automatically. The purpose of this feature is to allow you to copy hex listings
+from printouts or magazines. You can just type away without worrying about hitting
+ENTER at every line, and the screen will scroll along with your entries.
+
+With the edit mode, what you see in the hex column is what you get when you make
+an entry, byte for byte. Edit does not use NAMEs and you have to calculate the
+displacements for any relative jumps you enter.
+
+All of the EDIT-mode commands are available with the hex-edit cursor on screen.
+There is, however, no character insert while you are editing a line, and the
+escape key in the middle of a line is ENTER rather than semicolon. If you need to
+change the first byte of a line after you have started editing it, you should
+escape by hitting ENTER and start over.
+
+You can hit the SS-G (THEN, display switch) key either before or after you have
+gone to the hex-edit mode in order to obtain the data-edit mode. This mode lets
+you change one byte at a time by writing a new value aver the top. This is the
+mode that you would use for entering hex data files, addresses and the like. (Use
+the DB command from the assembly mode for entering text files.)
+
+All write commands are available from this mode as well, except the NAME (CSS-N)
+command functions differently than it does with the disassembly display. CSS-N
+will no longer assign a new NAME, but can be used to write a preassigned NAME to
+the NAME column, and the address to which that NAME belongs will then appear at
+the cursor address and the byte following. The intended use is for creating
+address files (jump tables).
+
+
+Inserting and Deleting Lines (All EDIT Modes)
+
+What happens when you press ENTER after writing an instruction is that HOT Z reads
+the address of the line you are working an, looks up the the numeric code of the
+instruction, and enters that code into as many bytes as it takes. Then control
+goes back to the disassembler, which reads back your code ints Z80 mnemonics and
+revises the screen page accordingly.
+
+An important consequence of this is that when you are editing an existing block of
+code you must be careful not to overwrite more lines than you intend to (by
+entering a four-byte instruction over a two-byte instruction, say) and to watch
+out for new instructions that crop up when you overwrite a long instruction with a
+short one (one-byte over a three-byte instruction, for example).
+
+If you don't know the bytes length of Z80 instructions, the way around the above
+problem is to use the line-insert (EDIT) and line-delete (DELETE) commands
+whenever you are editing an existing block of code.
+
+When you insert or delete a line, a block of code is moved either to make room or
+to close up the empty space. One end of that block of code is determined by the
+cursor; the other end must be determined by you before you start your editing
+session.
+
+Whenever the WRITE cursor is on, a variable called END is displayed in the upper
+right corner of your screen. END marks the other end of the active memory block
+for an insertion or a deletion or indeed for any block operation, such as a clear,
+a fill, a SAVE, or a transfer. END is set with the TO key (as in TO the END)
+followed by four hex digits or a NAME. On some types of entry errors, you may be
+asked twice for the proper value.
+
+You should set END whenever you begin an editing session. For the insert-line and
+delete-line commands, END must be within 256 bytes of the cursor address, or else
+you will be asked to enter a new value of END when you give the insert or delete
+command. At that point, HOT Z will accept any value you enter for END and perform
+the operation. The purpose of this behavior is to catch these times when you have
+forgotten to set END, and to save you from destroying valuable code.
+
+There are three separate commands to set END, just to make it easy. The TO key
+will work in either EDIT or READ modes, or you can use the OR (SS-I) key in EDIT
+mode to pass the address at the cursor directly to END. END is generally always on
+screen when you need to know it.
+
+For insertions and deletions, END can be either above or below the cursor address.
+The "usual" value would be for END point to an address higher than the cursor
+address, in which case an insertion would push all values to higher addresses to
+make room for the new instruction. For example, if you insert a two-byte
+instruction at 8C10h with END set to 8C80h, then all instructions from 8C10h will
+be moved two bytes higher until 8C7Eh, which will go into 8C80h, and the original
+contents of 8C7Fh and 8C80h will be destroyed. A deletion of a two-byte
+instruction would move all instructions to lower addresses, and the contents of
+8C7Fh and 8C80h would be duplicated in 8C7Dh and 8C7Eh.
+
+On the other hand, if the address in END is lower than the cursor address, then an
+insertion will leave the following addresses undisturbed but will push the
+contents of preceding addresses to lower addresses as far as END. For example,
+with END set to 8CC0h and the cursor at 8C10h, insertion of a three-byte
+instruction would destroy the contents of 8C00h, 8C01h and 8C02h by overwriting
+them with the contents of 8C03h, 8C04h and 8C05h, respectively.
+
+Analogously, a deletion would duplicate the first three (or N) bytes in the next
+three. The insertion itself will in this case go into the address preceding the
+cursor address. This feature is useful when you are editing in a constricted
+memory block with blanks that may be either above or below.
+
+After insertions or deletions, the cursor position may have to be adjusted for
+your next entry. (The preceding discussion uses "above" and "below" to refer to
+numerical values of addresses, not to screen position, where addresses get higher
+as you go down the screen.)
+
+When a NAME is assigned within a block where you are inserting or deleting lines,
+the NAME will move with the instruction to which it is assigned. The displacement
+assigned to relative jumps is not adjusted, so JR TARG may read JR 8C22h after an
+insertion that pushes TARG from 8C22h to 8C23h. Be sure and label all JR
+destinations and then check that the labels are still correct after an editing
+session. If you use labels all the time, then an error will stand out clearly.
+
+When you are editing the data display, all insertions and deletions affect one
+byte at a time.
+
+
+Using EDIT Commands
+
+Many of the EDIT commands affect a block of memory and require that the END
+variable be set first to a proper value. Use the TO key to set it.
+
+Aside from its use for insertions and deletions of lines, END is generally set to
+denote the end of a block of code, whereas the cursor marks the beginning.
+
+If END is less than the cursor address, the block is generally taken to be null,
+though sometimes the operation will still affect the very first byte.
+
+Most operations include the END address; the exceptions are SAVE and LOAD, which
+finish one byte before. (This makes it effectively impossible to LOAD or SAVE
+address FFFFh, since the next address is 0000h, which is less than any cursor
+address.)
+
+The block commands are LOAD, SAVE, FIND, TRANSFER, CLEAR, FILL, LLIST, READDRESS
+and RELOCATE, in addition to the line insert and delete described above. The
+simpler commands are:
+
+- SS-A and SS-E, which toggle the cursor across the screen between assembly-edit
+and hex-edit;
+
+- SS-G, which toggles the display between disassembly and data and works only in
+hex-edit because you can't assemble data;
+
+- CSS-N and CSS-X, which allow you to assign or delete a NAME at the cursor
+address;
+
+- STEP, which takes you to the single stepper; and
+
+- CSS-RUN, which transfers control to the program beginning at the cursor.
+
+The cassette commands (LOAD, SAVE, VERIFY) allow you to move the contents of
+individual blocks of memory to and from tape in the CODE format. Such tapes will
+be loadable by the corresponding BASIC command if you calculate the length (END -
+cursor address) and work out the decimal values. Similarly, CODE-format tapes made
+in BASIC will load with HOT Z when you have made the numeric conversions to
+hexadecimal.
+
+The BREAK key works to interrupt any of the cassette functions.
+
+Error reports will appear on screen with a BEEP, and the system will wait for a
+keystroke before accepting any Further commands.
+
+Cassette functions all require tape names, which are entered without quotes after
+you give the command and before you press ENTER. Maximum length for such tape
+names is the standard 10 characters. An incorrect loading space (END minus cursor
+address) for the tape in question will result in a tape loading error. If you get
+such an error, you can inspect C5BFh and following addresses with the data
+display: the length you enter is at C5BFh +0Ch, the length read from the tape at
+C5BFh + 1Ch. Then correct your setting of END.
+
+The TRANSFER command allows you to move the content of one block of memory to
+another block. The first thing to do is to make sure that your destination block
+will hold the source block without overwriting something you want to keep.
+
+You have the option of copying just the code with CSS-T (RND) or of copying the
+code and moving the NAMES assigned to it as well with CSS-SS-T (MERGE). The
+original of the code will not be erased by this command. You can copy from ROM but
+of course not into it. You can only move NAMEs if the file is in RAM.
+
+To use the transfer command, set END and hit the appropriate command keys. This
+will bring up S/D Banks? (Source/Destination) in the top line. For normal use in
+Home Bank, just respond by hitting ENTER.
+
+For interbank transfers, consult the first section of these notes. After you
+respond to the Banks? request, a DEST cursor will come up at the upper left, which
+asks you for the destination address of the Block. HOT Z will wait for you to hit
+ENTER after that address, and if you change your mind or find you've entered it
+incorrectly, you can bail out by hitting the SPACE key instead of ENTER. After the
+command has executed, the display will move to the address you gave to DEST.
+
+The FIND command has a similar protocol to that of transfer, but it works only in
+the bank that is on display via DISB.
+
+In this case, set the cursor to the beginning of a block cf memory for which you
+want to find a match. Set END to the last byte of your template. Hit CSS-F (SGN).
+An address cursor labelled LOOK will come up at the upper left. Enter the address
+at which the search should begin; hit ENTER to proceed or SPACE to back out.
+
+HOT Z will search 32K (8000h) bytes for a match to the memory from cursor to END.
+If a match is found, the display moves to it; if there is no match, the display
+remains at your template in READ mode.
+
+If you find one match and want to search for another, set the cursor again, move
+the cursor down a line or two so it doesn't point to the beginning of the found
+match, and use the CSS-G (ABS) command.
+
+If a second match is found, the display will move to it; if not, the display stays
+put. Note: if you are searching for a block of 8 zeroes, say, and you find a block
+of 12, then to continue the search you should move the cursor down so that there
+are 7 zeroes or less below it, or else you will find the same string all over
+again.
+
+The CLEAR command (ERASE) will put zeroes in all bytes from cursor to END.
+
+The FILL command first asks you for a keystroke and then fills the block with the
+codes for the character assigned to that key. If you clear or fill a block of HOT
+Z or the stack, you are likely to crash. To fill with a value not available from
+the keyboard, write that value to the HOT Z variable FILC, then use the CLEAR (not
+FILL) command.
+
+The LLIST command in WRITE will send the contents of the screen, starting with the
+cursor line, to your 2040 printer. Printing will continue, interrupted by page
+flips sf the display, until the line just before the END address. If you forget to
+set END, you can BREAK to save paper.
+
+There is also a hex-arithmetic command, which, though not a block command, uses
+both the cursor address and END. The command is READ, and the result is the hex
+sum and difference (END minus cursor address) of the two values, which are
+displayed in the command (top) line.
+
+The Readdress (for jump tables and NAME files) and Relocate (for programs)
+commands are described in a later section of these notes, due to their complexity.
+
+A detailed description of all the HOT Z commands is also included as a later
+section intended for occasional reference. Other sections will give you details on
+naming and NAME files, the floating-point language interpreter, and the program
+relocator.
+
+
+HOT Z's Flags
+
+HOT Z uses the BASIC system variable STRLEN as 16 bit-flags, so you could crash
+the system if you try to load that variable. The meaning of HOT Z's flags is that
+they are SET to indicate:
+
+Bit HZFG (TY+39)             STRLEN
+0   Disassembly of RST 08    SP display
+1   Disassembly of RST 28    RST 28 disassembly in progress
+2   An insert                Unused
+3   A NAME input             Unused
+4   Data display             Unused
+5   Hexedit not assembly     Assembly in STEP
+6   F-P constants            Disassembly of APPX
+7   Window in STEP           Transfer of NAMES
+
+This use does not, to our knowledge, affect the operation of a co- resident BASIC
+program.However, if you run a BASIC program and intend to return to a resident HOT
+Z with a warm start, it is best to POKE 23666 and 23667 to 0.
+
+
+Single-Step Window Commands
+
+There are four commands, and they are all called from the single-step display. You
+must first have 1B00h (6912 decimal) bytes available for the extra screen. With
+the high version of HOT Z-2068, you might use 8500h to 9FFFh, for example, and put
+your test code above F720h.
+
+The commands are:
+
+WINDOW SETUP ATTR
+WINDOW IN IN
+WINDOW OUT OUT
+WINDOW STOP SCREEN$ (toggle)
+
+All of these are commands whose work goes on behind the scenes. The acknowledgment
+that the command has been executed is the same in each case, the appearance of a W
+near the left end of the LAST-NEXT line above the code section of the single-step
+screen.
+
+WINDOW SETUP establishes an initial white Screen and will destroy anything you
+have in the selected 1B00h bytes of memory. Set up the beginning byte by entering
+its address, so that it comes up in the bright line of the single stepper. Then
+give the ATTR command. The SETUP switches the window IN and sets the STOP as well.
+The initial print position is the top left corner, but don't forget to initialize
+that in your program for the day you expect it to run by itself.
+
+WINDOW OUT switches the window out of the single step loop but does not destroy
+it. Any code steps you execute after WINDOW OUT will have no effect on the second
+screen. The point is to stop it flashing on every time.
+
+WINDOW IN countermands OUT and brings back a previously established window. It
+will not function if you have not previously set up a window. However, if you have
+previously been using a window and have reclaimed the space for something else,
+and if you then use the IN command, you may get some strange effects. If there has
+never been a window, you will not get the "W" response.
+
+WINDOW STOP is a toggle switch. Each time you press it, HOT Z responds with a "W"
+on the LAST-NEXT line. When you initialize a window, the stop is set so that the
+new screen comes up and waits for a keystroke before returning to the register
+display. If you toggle the stop, the second screen will flash on and then get put
+away without waiting for a keystroke. Toggle again and the stop will be
+reinstalled. The point is to switch out the stop for steps that don't affect the
+display.
+
+There is one sub-command available during the STOP. If you press the V key (CLS),
+the screen will be cleared and you will be re-initialized to a blank screen and
+your print position reset to top left.
+
+The WINDOW routines respond only to the print position in S_POSN, not to DF_CC.
+The latter is always set from the former via a CALL 0914h, on every step. If the
+window is IN when you change S_POSN, then the new screen position will be
+remembered next time an actual print occurs. In fact, you should always use a
+window when you do things with S_POSN, so that your manipulations don't mess up
+the single-step screen.
+
+If you print with RST 10h, then you should use the INT (RUN CALL) command to get
+all the way through the RST in one step. In general, the most effective use of the
+window will occur when you set up your display routines as subroutines and run
+through them in a single step with the INT command. Alternately, you can set
+breakpoints and use the Run-To Breakpoint (THEN) command to get through your
+screen manipulations in one quick dash.
+
+Note that you can save any screens you are working with by exiting the single step
+and using the HOT Z data save. You will not get a SCREEN type tape from it. (You
+could set up a block move to screen memory and call that from BASIC along with an
+in-program SAVE SCREEN$). Then for re-use, first set up a new window screen from
+the single stepper, then exit and load in the data tape to the window screen
+address.
+
+
+The Command Set
+
+Keying is described as CSS- for the Caps/Symbol-Shift combination before another
+keystroke and SS- for Symbol-Shift pressed simultaneously with another key. Keys
+are referred to by any of the three rubrics on the key top. Mnemonic associations
+are generally with the letter on the key: for example, Assembly is Symbol-Shift/A,
+the STOP key. Remember that you can reassign any command to any key by moving
+addresses in the command file (CDFI).
+
+
+READ Mode
+
+QUIT TO BASIC     SS-Q Quit HOT Z for BASIC. HOT Z and the entire DOCK bank are
+                  switched out so that BASIC sees only Home bank
+
+COPY              CSS-COPY Copies the screen to the designated printer. Gives you headings
+                  and all. Consider using the LLIST command from an edit mode for no headings and
+                  variable length. LLIST is faster.
+
+HEXEDIT           SS-E Sets the cursor to the top line and switches to the hex-edit mode.
+                  This command also works from assembly-edit mode without resetting the cursor line.
+
+ASSEMBLE          SS-A Sets the cursor to the top line and switches to the assembly-edit
+                  node. The same keystrokes will get you from hex-edit to assembly edit. This
+                  command works only when the disassembly display is on.
+
+TOP NAME          CSS-T Move the display to the 'top' of the NAME file and switch to the
+                  data display. Use this command as preparation for SAVing a NAME file. (Turn on the
+                  cursor, set END, and SAVE.) If the file is still in EPROM and DISB is set to its
+                  default, you will see the corresponding memory space in RAM, which may be empty or
+                  hold something else.
+
+NAME SWITCH       CSS-SS-N (OVER) NAME file switch. If you are using only one file, the
+                  NAMEs are switched off or on. If you have two files in memory, the command will
+                  switch from one file to the other. Before switching, you must first write the
+                  start and end addresses of the new file to ALNA (lo-hi order). The end address is
+                  the first of two bytes of zeros at the top end of the NAME file. To start a new
+                  file, set both addresses to the same, pointing to two bytes of zeroes, then add
+                  names to the disassembly.
+
+RESTART           CSS-R Restarts HOT Z. Resets the stack to clear clutter. Resets register
+                  values in the single step and sets the EPROM-resident NAME file active.
+
+MAKE REM          CSS-REM Installs a 1 REM statement in BASIC at the value in the system
+                  variable prog (normally 7818h).. The REM will run to the value in END and will
+                  push other BASIC lines to higher memory.
+
+BORDER-INK-PAPER  CSS-SS-BRIGHT/INK/PAPER Border, ink or paper color set. Follow
+                  with a color key.
+
+STEP              SS-STEP Switch to single-stepper. The address in the NEXT and LAST slots
+                  will be last ones used there. Use this command to get back after an interruption.
+                  All old single-step register values are preserved.
+
+DIS/DAT           SS-GOTO (THEN) The display switch from disassembly to data display or back
+                  again. The same command works with the hex-edit cursor on but not from
+                  assembly-edit.
+
+SET END           SS-TO Enter a value to the END variable, as in EDIT mode, but the value is
+                  not displayed
+
+DECIMAL ADDRESS   SS-OR Indicates decimal address to follow. Clears away the ADDR
+                  cursor and waits for your entry. If the decimal address is less than five digits
+                  long, hit ENTER after the last.
+
+SCROLL            SS-<> Sets the screen to continuous SCROLL. BREAK will stop it. A toy.
+
+SP ON             SS-AT Toggles on or off a display of the machine stack-pointer address in
+                  the upper right screen corner. The default is Off, because it isn't pretty, but
+                  you should turn it on when you are test running your own routines. There is a
+                  small amount of shock absorption in the HOT Z stack, but if you should see it
+                  changing, then look very carefully at what you are doing to the stack with the
+                  routine you are testing. Restarting HOT Z will reset the stack.
+
+
+FP IN-OUT
+
+CSS-O (PEEK) Switch the on-off state of the floating-point disassembler. If turned
+off, then the SS-I command will have no effect. If on, then every EF (RST 28h)
+will switch to the floating-point disassembly and every 38h will switch off the
+floating-point disassembly. If you have a stray EFh on screen while you are in an
+edit mode, you may get a messed up display when you enter code. If so, exit
+(ENTER) from edit mode, use this command, and go back into the active mode without
+fear. Default state is OFF.
+
+FP INTERPRETER SWITCH
+
+CSS-I (CODE) Floating-point interpreter switch. This is a flag switch (NOT an
+on-off switch) which switches interpretation of a byte from Z80 language to
+floating-point language. This command is necessary for certain embedded sections
+of floating-point codes that are not preceded by an RST 28h but are jumped to from
+some other portion of floating-point code. This command will not function if the
+PEEK switch has been set to off. If it doesn't work, hit PEEK and try again.
+
+BANK SWITCH
+
+CSS-G (ABS) The bank switch. You can ask for FEh, FFh, or 00h. The command is set
+to switch in only the top four chunks (32K). For chunks 0 to 3 of DOCK or EXROM or
+for chunk mixtures you must still manipulate DISB. Remember that DOCK and EXROM
+don't mix because of port F4h. "ro" means read only (ROM) and "ru" means
+read/write. "Forbidden" chunks can be reached via DISB after appropriate
+precautions (putting an interrupt fielder into DOCK 0, moving the stack, avoiding
+system-variable references, etc.)
+
+PRINTER CONTROL
+
+FN Sends anything you have written in the printer buffer (at 5B00h) to the
+Centronics port and your printer. Consult your printer manual and use it to send
+control codes to configure your margins and page size for HOT Z output. Stops at
+the first zero byte.
+
+NAME FILE TRANSFER
+
+INKEY$ Sets up an empty NAME file at the top of RAM. Just give this command and
+add NAMEs as you choose. Then save your file from the address given by the CSS-T
+command to FFFF.
+
+You need this command for almost any change of NAME file. If you have a file on
+tape, use this command first, then load the tape, then set the file start and end
+at ALNA, then use the OVER command to set up the new file. If you want to pick up
+some part of the existing ROM file, then you will want to transfer interbank from
+bank 00h to FFh. A handy way to do that is to use the "backwards" format of the
+transfer command. (Learn it straight up first.) To do that, set END to the
+beginning of the part of the NAME file you want to move (the low end). Set the
+cursor to the high and, the fourth letter of the last NAME you want, and set DEST
+to FFF0h before you hit ENTER to execute. The display will show you one top of the
+new file, which you must then enter at ALNA before applying the OVER command.
+
+DISPLAY MOVE
+
+NOT Moves the display to the address in END.
+
+PROGRAM BANK TRANSFER
+
+VAL$ Moves HOT Z from DOCK to the EXROM bank, at the same addresses, if you have
+modified your 2068 to have memory there, and runs the new version.
+
+BIN (CSS-B) Copies HZ from DOCK to RAM and starts up that version. You can start
+this version with RAND USR 32776 if you lead it from tape. A warm start is still
+RAND USR 24088.
+
+HOOKUPS
+
+CSS-M CSS-P User hook-ups to the HOT Z command interpreter. Enter the address of a
+routine at 5F90h, and the PI key causes a jump to that address. Enter the address
+to 5F92h, and the TAB key will cause a jump to that address. Addresses entered
+must not be in the range 8000h-8FFFh. See the introduction for an explanation of
+how to call that memory range.
+
+WRITE Mode Commands
+
+ESCAPE
+
+SS-O ; key Escapes without change during assembly edit.
+
+HEXEDIT
+
+SS-E Switch to hex-edit mode from assembly edit. Moves the cursor horizontally.
+
+ASSEMBLE
+
+SS-A Switch to assembly-edit mode. Works only when disassembly display and edit
+mode are on. Moves the cursor horizontally. Doesn't work with the data display
+because assembly doesn't apply to data.
+
+DELETE Deletes the instruction at the cursor and closes up the code between the
+cursor and END. END may be either lower or higher than the cursor address. If END
+is less than the cursor address, then code is moved from lower addresses to close
+the space; if END is greater than the cursor address, then code is moved from
+higher addresses to close the space. Code at the END address and beyond (moving
+away from the cursor) is preserved. If END is 256 or more bytes away from the
+cursor, then you will be asked each time to verify the END value before the
+command is executed. The purpose of this is to prevent your messing up the an
+entire RAM by Forgetting to set END properly.
+
+EDIT Sets the insert mode for the next instruction (only) to be entered. If END is
+less than the cursor address, then instructions are pushed to lower addresses (up
+the screen) as far as END; if END is greater than the cursor address, then
+instructions are moved to higher addresses (down the screen) as far as END. Any
+NAMES assigned to shifted memory area will also be shifted so that they stay with
+the instruction to which they were assigned. Relative jumps to or from the shifted
+area are not corrected and may require a fix-up. If END is 256 bytes or more from
+the cursor address, you will be required to confirm the END value before the
+operation proceeds.
+
+ENTER Quit to READ mode when cursor is in "home" column. During hex entry, ENTER
+escapes and leaves the original memory contents intact. During mnemonics entry,
+ENTER sends the line contents to the assembler for entry into memory.
+
+STEP
+
+STEP Single-steps the instruction at the cursor address and Switches to the
+single-step display with the result of that instruction in the register values and
+the following instruction in the NEXT slot.
+
+SET END
+
+TO Brings up the END? cursor that allows you to reset the END variable. Whenever a
+block of code needs to be marked, it is generally delineated by the cursor address
+and the address assigned to END. Always use it to block out a segment of memory
+for Insert and Delete commands before beginning to edit. END should be set within
+256 bytes of the cursor for editing, but that restriction can be overridden in any
+particular case. (See Insert and Delete instructions.)
+
+OR
+
+Sets END equal to the current cursor address.
+
+FIND STRING
+
+CSS-F FIND the string marked by the cursor (first byte) and END (last byte). Sets
+the display to start with the found string. If no match is found, then the display
+remains at the template string. To find the next match without going back to the
+template, use CSS-G. Do not use other commands between these two.
+
+FIND NEXT OCCURRENCE OF STRING
+
+CSS-G FINDs the next successive match to the template string set up by CSS-F.
+After a match is found, you must move the cursor past the beginning of the
+matching sequence before using this command, to avoid finding the same occurrence
+again.
+
+ASSIGN NAME
+
+CSS-N NAME command. This command has two separate effects, depending upon whether
+it is used with the disassembly display or the data display. With the disassembly
+display, the effect is to christen that instruction with the NAME that you enter
+to the screen following the command. A NAME requires four characters with at least
+one beyond F in the alphabet. (All of lower case works.) Space and semicolon
+should not be used. With the data display, the NAME you enter following the
+command must already be assigned to some address. HOT Z then locks up the address
+for that NAME and pokes that address to the byte at the cursor address and the
+byte following, then moves the cursor down two bytes. Use this form for entering
+tables of addresses.
+
+DELETE NAME
+
+CSS-X Deletes the NAME at the cursor address from the current NAME file. This
+command will only affect the NAME that you see on screen with the disassembly
+display, so it is best not to use it with the data display. Do not attempt to use
+this command before you have moved the NAME file to RAM with the NSET command.
+
+CLEAR MEMORY
+
+ERASE Clears memory from cursor address to END. Works only on unprotected RAM.
+
+FILL MEMORY
+
+FN Fills memory from cursor address to END with the coda for a key that you
+specify in response to the KEY? prompt. For unkeyable values, write that value to
+the HOT Z variable FILC (5FA4h) and then use the ERASE command.
+
+
+Cassette Commands
+
+SAVE CODE
+
+CSS-SAVE SAVES code from cursor to END-1. Enter a tape name without quotes. This
+is a CODE-format SAVE. You can reload such tapes from BASIC by converting the
+cursor address to decimal and setting the byte length to END minus cursor address.
+From Home bank only.
+
+VERIFY
+
+VERIFY VERIFIES a CODE format tape from cursor to END-1. No quotes on tape name.
+Compares with Home bank.
+
+LOAD CODE
+
+CSS-LOAD LOAD from cursor to END. Loads 2068 CODE-format tapes. Set the cursor to
+the start address and END one byte beyond the last, such that END minus cursor
+address equals the byte length. Unlike the BASIC command and earlier versions of
+HOT Z, a tape name is always required by this command. No quotes are used. Loads
+to Home Bank.
+
+
+Transfer Commands
+
+CSS-T Transfers memory content (either within or between banks of memory) between
+the cursor address and END (inclusive) to a destination (DEST) that you enter
+following the command. First enter source and destination banks. (00FFh means from
+DOCK to Home.) Hit ENTER for a default to FFFFh, which means Home-to-Home. Then
+put in the Destination address (DEST) in the bank you want the stuff to end up in,
+if that's not too many 'in's.' The ENTER key after DEST executes the command;
+SPACE after DEST cancels the command; TO after DEST lets you reset END before the
+command is executed. Does not transfer NAMES. To do that, use the MERGE command,
+which is otherwise identical to this one.
+
+CSS-SS-T
+
+(MERGE) TRANSFER memory contents and assigned NAMES from a memory block (cursor
+address to END, inclusive) to an area beginning with an address entered in
+response to the DEST prompt. (See CSS-T command.) This command depends on the NAME
+file being in Home RAM; do not attempt to use it until you have done an NSET.
+(Should NSET be part of initialization?) This command is not so often necessary,
+except for small block moves.
+
+DIS/DAT
+
+CSS-GOTO Display switch, data/disassembly. Works only from GOTO hex-edit mode.
+(THEN key) Answers most of your decimal to hex perplexities, reads BASIC and ASCII
+in rightmost column.
+
+RUN IT
+
+CSS-RUN Runs code beginning at the cursor address. Returns to HOT Z with the first
+RET. If you do an extra POP and destroy the return address, then you are on your
+own. (This command expects to jump to the bank structure described by DISB, Home
+by default, but whatever you set it. If you set a new bank, then then you must set
+the return which requires a JP back to HOT Z in bank 0, chunks 4 and 5)
+Recommended procedure is to test your routines first with the single-stepper
+before attempting the R command.
+
+CHECKSUM
+
+LEN Performs a 32-bit CHECKSUM from cursor address to END and switches to the STEP
+display, where the sum is in BCDE.
+
+Hex Arithmetic
+
+CSS-A Does hex arithmetic. Takes the cursor address (K) and END (E) and displays
+on the top line the sum (E+K) and difference (E-K) in hexadecimal. Bank
+indifferent.
+
+Part Screen
+
+AT Moves cursor to far left of screen and awaits your entry of an address, then
+disassembles from that address to bottom of screen. Use it for a composite
+listing. Use CSS-COPY immediately after to print the screen display. Depends on
+the bank-chunk description in DISB for what memory it reads. Therefore, any screen
+that can be printed will be all in one bank.
+
+
+Code Relocation Commands
+
+MOVE Relocates Z80 code between the cursor address and END. Readdresses all CALLs
+or JPs. Allows a three-way partition of code, variables and (constant) files.
+Requires nine addresses to be first entered at TEM1 through TEM9. TEM variables
+are in the permanent NAME file and cohabit with inessential BASIC variables.
+
+Set them before you use the command. TEM1 through TEM3 are the start address of
+the code block, the end address of the code block, and the destination address of
+the code block. Cursor and End are usually set to the first two of these, and the
+third is the DEST. TEM4, TEM5, and TEM6 are usually the file block of constants
+associated with the program, and TEM7, TEM8, and TEM9 are generally the block of
+variables, or reserved temporary memory space, where the only important thing is
+the address. HOT Z assumes that these three blocks can be moved independently. If
+there are blocks you don't want to touch, then you can use 0000h as a default
+value to any block of three TEM values.
+
+CSS-Y READDRESS a jump table (address file) between the cursor address and END by
+a 16-bit displacement value entered in response to the DISP prompt. Takes the
+address (lo-hi order) at each pair of memory locations, adds the displacement, and
+re-enters the sum to the same locations.
+
+CSS-U READDRESS that portion of a NAME file between cursor and END by the value
+you enter to DISP. For special file manipulations only. Normally, you should use
+the MERGE command to move NAMES and code around in memory.
+
+
+Printer Commands
+
+CSS-COPY COPIES screen to 2040 printer. Intended mainly for use with the
+PARTSCREEN command far printing out composite disassembly from separate address
+blocks.
+
+LLIST Outputs the screen and beyond, without headings, from the cursor address to
+END to the 2040 printer.
+
+
+Eprom Burning
+
+FLASH Burns an EPROM on the Oliger EPROM burner. Format Follows the Transfer
+command. Code from cursor to End is burned to the DEST address on the chip
+(normally 0000h, but you burn as little as a single byte). You are prompted for
+the type of chip (2764 or 27128) and for burner Power On and Power Off; flip the
+switch and hit a key when ready.
+
+
+Creating And Printing Ascii Files
+
+POINT Creates an ASCII source file that could be edited and used with an
+assembler. The code in whatever bank is active is disassembled, the address and
+hexcode columns are discarded, and the lines are terminated with a semicolon. The
+ASCII codes are sent to a file in HOME bank at the address determined by the
+pointer DES2 (5FB8h). You must set that pointer manually by writing directly to it
+with HOT Z. At the end of the operation DES2 will point to the end of the file, so
+you could use this command successively to create one file from several separate
+segments of memory. The disassembly begins with the cursor address and finishes at
+END, which must be set in advance. You must have assigned a label to every jump or
+call address if you expect the file to be palatable to an assembler.
+
+CODE Creates an ASCII file of everything on the HOT Z screen from the cursor
+address to END. The file is created at the address contained in DES2 (5FD8h) in
+HOME RAM. At the end of this operation, DES2 will point to the end of ASCII file.
+Move that address to END with the TO command for printing, saving, or viewing the
+file. You should be able to get at such files with a word processor in order to
+add annotations for archiving. Be sure to set DES2 low enough that your file will
+fit below FFFFh, as there is no check for overflow.
+
+SCREEN$ Prints an ASCII file to screen. Set the cursor to the first byte of the
+file and set END where you want to stop. Printing will pause for the Sinclair
+"scroll?" after 22 lines, and you can break with the space bar or continue by
+hitting ENTER. This command is for viewing only; it does not allow you to edit the
+file.
+
+LPRINT Prints an ASCII file to a line printer. Prints from the cursor address to
+END. You can interrupt with the BREAK key.
+
+File Compare
+
+CIRCLE Set the cursor to the first address of one block and set END to the first
+address of the block to be compared. (This could be the same address if the blocks
+are in different banks.) When you give the command, you will be asked for source
+and destination banks: enter the banks of the two memory blocks. The comparison
+will begin at once and the display will jump to the first address where the memory
+contents differ. It important that you only use this command with the cursor set
+at an EVEN (0, 2, 4, 6, 8, A, C, E) numbered address. The purpose is to find small
+differences in two blocks of code; the command will not be useful for blocks that
+differ greatly.
+
+Hookups
+
+CSS-M User hook-ups to the HOT Z command interpreter.
+
+CSS-P Enter the address of a routine at 5F98h, and the PI key causes a jump to
+that address. Enter the address to 5F9A, and the TAB key will cause a jump to that
+address. Addresses entered must NOT lie in the range 8000h-BFFFh.
+
+Single-Step Mode
+
+QUIT
+
+SS-Q Quit single-step and return to READ. Return address is the address in the
+NEXT slot of the single stepper. Register values will be preserved if you reenter
+from READ mode.
+
+ENTER Runs the instruction in the NEXT slot and reports the resulting register
+values.
+
+SPACE Skip the step in the NEXT slot and advance to the next instruction. Skipped
+instructions are not listed in the LAST slot at the top of the disassembly
+segment.
+
+EDIT Backs up. On its first use, this command takes the instruction from the LAST
+slot at the top of the disassembly listing and puts it in the NEXT slot (second
+line). Repeated use with no intervening commands will back up one more byte for
+each keypress. Intended use is just to get the last step back.
+
+PRINTOUT
+
+CSS-COPY Print screen. Copies current screen to printer
+
+RUN IT
+
+CSS-RUN Run a CALL or RST 10h. It is your responsibility to know that the called
+routine will not crash and not send RST 10h any unprintable characters. The
+purpose of this command is to shorten the time needed to step through complex
+routines.
+
+SET BREAKPOINTS
+
+OR Set Breakpoint1. Breakpoints are set just as register pairs are, with a NAME or
+address entry into the NEXT cursor. You must set the breakpoints precisely to the
+beginning of the instruction at which you want the single-step to stop, because
+the stop depends on the address of the next step being exactly equal to the
+breakpoint. If the breakpoint points to the second byte of a two-or-three-byte
+instruction, your routine will never stop until you crash or hit BREAK.
+
+AT Set Breakpoint2. Breakpoints are set just as register pairs are, with a NAME or
+address entry into the NEXT cursor. You must set the breakpoints precisely to the
+beginning of the instruction at which you want the single-step to stop, because
+the stop depends on the address of the next step being exactly equal to the
+breakpoint. If the breakpoint points to the second byte of a two-or-three-byte
+instruction, you routine will never stop until you crash or hit BREAK.
+
+AND Display the two breakpoints on the line below the Flags display.
+
+SS-GOTO GO (run) to breakpoint. Causes the test run from the address in the NEXT
+slot to either of the two breakpoints, which must be set in advance command.
+Breakpoints must be set to an address that starts a command and not to a byte
+embedded in a command. The GO routine checks the BREAK key after executing each
+line of code, so you can recover from endless loops and sometimes from runaway
+routines (if you're quick) by hitting BREAK.
+
+REGISTER SET
+
+VAL Set register value. The response to this command will be REG? in the NEXT
+cursor. You should respond as follows for the various registers:
+
+A for the A register
+
+B for the BC pair
+
+D for the DE pair
+
+F for the Flags register
+
+H for the HL pair
+
+S For the user's Stack Pointer
+
+X For the IX pointer
+
+Y For the IY pointer
+
+Note that all settings are 16 bits (two bytes) except for the one hex byte for A
+and the mnemonic setting For F. The specific flag bits are set or reset with the
+same mnemonics as are reported (M, P, Z, NZ, PO, PE, C, NC). Use this command to
+set up initial conditions for testing your routines. Note that you can set the
+user's SP this way.
+
+
+ASSEMBLY
+
+SS-A Sets the assembly cursor at the instruction in the NEXT slot so that you can
+EDIT it. Return to STEP operation with ENTER.
+
+
+Special Display Screen
+
+ATTR SETs a second display file (WINDOW) starting at the address in NEXT and
+extending 1B00h bytes. Any stepped display instructions then output to the window,
+which comes up before the next register display. Be careful not to erase valuable
+code by setting the window on top of it. Dismiss the screen with any key but V.
+
+SCR$ Toggles the feature that causes the WINDOW to wait for a keystroke before
+going to register display.
+
+OUT Switches the window out of the STEP loop so that subsequent steps have no
+effect on it.
+
+IN Switches a WINDOW from OUT back IN again. WINDOW must be SET up first.
+
+HOOKUPS
+
+CSS-M User hook-ups to the HOT Z command interpreter.
+
+CSS-P Enter the address of a routine at 5F94h, and the PI key causes a jump to
+that address. Enter the address to 5F96h, and the TAB key will cause a jump to
+that address. Addresses entered must not lie in the range 8000h-BFFFh. See the
+introduction for an explanation how to call that memory range.
+
+
+Single-Step Window Commands
+
+The single-step window is a utility designed for developing display code. Its use
+is very tricky and requires that you first acquire some general competence in
+using the single stepper. It enables you to create, save, and see a special
+screen, but very painstakingly.
+
+There are four commands, and they are all called from the single-step display. You
+must first have 1B00h (6912 decimal) bytes available for the extra screen.
+
+The commands are:
+
+- WINDOW SETUP: ATTR
+
+- WINDOW IN: IN
+
+- WINDOW OUT: OUT
+
+- WINDOW STOP: SCREEN$ (toggle)
+
+All of these are commands whose work goes on behind the scenes. The
+acknowledgement that the command has been executed is the same in each case, the
+appearance of a W near the left end of the LAST-NEXT line above the code section
+of the single-step screen.
+
+WINDOW SETUP establishes an initial white screen and will destroy anything you
+have in the selected 1B00h bytes of memory. Set up the beginning byte by entering
+its address, so that it comes up in the bright line of the single stepper. Then
+give the ATTR command. The SETUP switches the window IN and sets the STOP as well.
+The initial print position is the top left corner, but don't forget to initialize
+that in your program for the day you expect it to run by itself.
+
+WINDOW OUT switches the window out of the single step loop but does not destroy
+it. Any code steps you execute after WINDOW OUT will have no effect on the second
+screen. The point is to stop it flashing on every time.
+
+WINDOW IN countermands OUT and brings back a previously established window. It
+will not function if you have not previously set up a window. However, if you have
+previously been using a window and have reclaimed the space for something else,
+and if you then use the IN command, you may get some strange effects. If there has
+never been a window, you will not get the "W" response.
+
+WINDOW STOP is a toggle switch. Each time you press it, HOT Z responds with a "W"
+on the LAST-NEXT line. when you initialize a window, the stop is set so that the
+new screen comes up and waits for a keystroke before returning to the register
+display. if you toggle the stop, the second screen will flash on and then get put
+away without waiting for a keystroke. Toggle again and the stop will be
+reinstalled. The point is to switch out the stop for steps that don't affect the
+display.
+
+There is one subcommand available during the STOP. If you press the U key (CLS),
+the screen wilt be cleared and you will be reinitialized to a blank screen and
+your print position reset to top left.
+
+The WINDOW routines respond only to the print position in S_POSN, not to DF_CC.
+The latter is always set from the former via a CALL 0914h, on every step. If the
+window is IN when you change S_POSN, then the new screen position will be
+remembered next time an actual print occurs. In fact, you should always use a
+window when you do things with S_POSN, so that your manipulations don't mess up
+the single-step screen.
+
+If you print with RST 10h, then you should use the INT (RUN CALL) command to get
+all the way through the RST in one step. In general, the most effective use of the
+window will occur when you set up your display routines as subroutines and run
+through them in a single step with the INT command.
+
+Alternatively, you can set breakpoints and use the Run-To-Breakpoint (THEN)
+command to get through your screen manipulations in one quick dash.
+
+Note that you can save any screens you are working with by exiting the single step
+and using the HOT Z data save. You will not get a SCREEN type tape from it. (You
+could set up a block move to screen memory and call that from BASIC along with an
+in-program SAVE SCREEN$.) Then for re-use, first set up a new window screen from
+the single stepper, then exit and load in the data tape to the window screen
+address.
+
+
+ON NAMES AND NAMING
+
+HOT Z's labelling or naming system is intended to make the programs you are
+reading or writing more comprehensible when they are listed. The four-letter limit
+is imposed by the 32-column display. A space is not a legal character in a HOT Z
+NAME, so use a dash or any other punctuation if you want fewer than four letters.
+A semicolon is also illegal, since it is the escape character for the assembly
+editor.
+
+The NAMES themselves and the addresses they assigned to are contained in a special
+file, referred to as the NAME file. A NAME file is an ordered list beginning with
+the highest
+
+address to which a NAME is assigned (two bytes), then four letters of that NAME,
+then the next highest address, etc. After the last NAME in a file, there must be
+two zero bytes. HOT Z takes care of ordering the NAMES for you.
+
+HOT Z includes a NAME file that annotates the entire HOME ROM, the system
+variables, and HOT Z's variables. You will find a few extras among the system
+variables. TEM1 through TEM9 are slots for temporary 16-bit variables for various
+HOT Z routines. (You may use them for any of your own routines for values that are
+not required once the routine is over, provided your routine does not call the
+floating-point calculator.)
+
+The permanent NAME file that loads with HOT Z can be expanded to hold any NAMEs
+you add in a session of using HOT Z, or you have the option of starting a new file
+from scratch. There is room for 192 NAMEs in the existing file. The NAME file must
+be in RAM before you can add to it. If you are running in HOME RAM or the DOCK
+bank of an Aerco board, you can just add or delete NAMES. If you use a NVRAM
+Board, you must either unprotect it or proceed as if you are using an EPROM
+cartridge.
+
+If the NAME file is in EPROM or protected RAM, you must open an empty file in RAM
+with the NSET command (INKEYS in READ) before you try to add NAMES. The file is
+opened at the top of RAM. Use the RND command in READ to find the start of the
+file. After you move it to RAM, you can put it anywhere above E000h or below
+8000h. The variables ALNA is listed to assist switching file locations. You might
+also want to copy some of the NAMES from the permanent file to the RAM file. Use
+the ordinary transfer command (RND and transfer from 00h to FFh. Easiest is to set
+the END address to the lowest byte you want (the first address byte of any NAME)
+and the cursor to the highest (the fourth character of any NAME) and then use
+FFF0h for DEST. The display after transfer will then show the first address of
+your copied file. Put that at ALNA (lo-hi) followed by FEh followed by FFh. Then
+go back to READ and give the OVER command to turn on the new list.
+
+If you try to erase a NAME while the file is EPROM, you will confuse the look-up
+and lose the use of the entire file until you reinitialize.
+
+The labelling system has been partition ed to be multi-bank. A NAME shows up at
+its address no matter what bank you are in. With a little experience, you will
+learn to switch between alternate files, which overcomes this problem.
+
+Add a NAME to the file with the CSS-N command in WRITE mode with a disassembly
+(not data) on screen. The command will give you a cursor in the NAME column and
+allow you to enter or replace the NAME for that address. A legal NAME is made up
+of any four single characters with the restriction that at least one character
+must be beyond F in the alphabet. If you forget that rule, HOT Z will refuse to
+accept your new NAME and will ask you for another. A space in a name will be
+accepted and the disassembler will list the NAME, but you will not be able to use
+such NAMEs when working with the assembler, which parses according to spaces and
+punctuation. Take care that your NAMEs are unique, or HOT Z will always find only
+the one at the higher address when you refer to it. (If you enter a NAME to the
+ADDR cursor before you assign it, then the NAME file will be searched and the
+display will move to that NAME if it is already there; otherwise the display stays
+put.)
+
+The CSS-X key (WRITE) will delete a NAME at the cursor address from the screen and
+from the NAME file.
+
+The CCS-T command (READ) is there to let you find the start of your current NAME
+file. You may want to check up on it if you are working under crowded memory
+conditions to be sure the file doesn't overwrite some valuable code. This command
+switches the display to data and moves to the lowest address of the NAME file.
+Since the NAME column in the data display lists NAMEs assigned to addresses formed
+by pairs of bytes in the hex column, the NAME column appears horizontally across
+from the first address byte and then vertically opposite the last four data bytes.
+(Be aware that chance occurrences of data can look like addresses and cause
+spurious listings in the NAME column of the data display.)
+
+You should also use the CSS-T command when it comes time to SAVE the NAMES you
+have entered in a session. However, you will also need to know the end address of
+your file in order to SAVE it. You can call up that end address by entering NEND
+to the ADDR cursor; the end address of the NAME file is listed lo-hi here. You can
+either add 2 to that address to include the two zero bytes that act as a
+terminator, or you can remember to zero those two bytes after you reload the tape.
+If you choose the first option, hit RND, turn on the edit cursor, set END to
+NEND+2, and SAVE. Record the addresses for use when you reload.
+
+When you reload a NAME file, you must install the start and end addresses so that
+HOT Z will know where to look for that file. This is done at the four-byte block
+labelled ALNA (alternate NAMEs). With the data display and the edit mode, write
+the starting address (lo-hi) followed by the NEND address; don't forget to
+subtract 2 if you have included the terminating zeroes. (If you have not included
+them, make sure they are there first.) If you don't do these settings correctly,
+you will hang up the program when you try to switch the new file on.
+
+The NAME-file switch command is OVER in READ. It will switch from the permanent
+NAME file to the one you have loaded, after you have installed the file parameters
+at ALNA If you use OVER without installing the new parameters, the effect will be
+to switch off the NAMEs entirely and you will not be able to add new ones. You
+should switch off the permanent NAME file in this way before loading a new file;
+then install the start and end addresses of the new file at ALNA and use OVER to
+switch them in.
+
+You can amalgamate NAME files only if they pertain to separate blocks of memory,
+with the addresses in one block all higher than those in the other. Then just load
+the two files end to end in the proper order and save them as a single file.
+
+To start a completely new file, put the starting/ending address (the same, because
+it's empty) in the four bytes at ALNA and give the OVER command, then enter NAMEs.
+
+You can SAVE a NAME file as data, then LOAD it in and hook it up by writing the
+starting and ending address at ALNA and using OVER. Always remember that there
+must be two zero bytes above the value you assign to the high end of the file.
+
+
+SOME IMPORTANT HOT Z NAMES
+
+AFEX Store for AF' register pair in single-stepper
+
+AFRG Store for AF register pair in single-stepper
+
+ALNA Alternate NAME file descriptors. Six bytes
+
+ASIM Single-step simulation area. Five bytes
+
+BCEX Store for BC' register pair in single-stepper
+
+BCRG Store for BC register pair in single-stepper
+
+BPT1 Breakpoint #1 address
+
+BPT2 Breakpoint #2 address
+
+CADR Current address for disassembly
+
+CBFL Flag for a bit-op prefix (CB)
+
+CHOO Selects and updates Read mode display
+
+COUN Counter for printing register values
+
+DEEX Store for DE' register pair in single-stepper
+
+DERG Store for DE register pair in single-stepper
+
+EDDQ Flag for ED prefix
+
+EOPA The END address
+
+FCBQ Flag for prefixed bit ops
+
+FENS Single-step window switch; holds CRUN if off
+
+FILC Fill character, normally zero for screen clear
+
+HLEX Store for HL' register pair in single-stepper
+
+HLRG Store for HL register pair in single-stepper
+
+IXRG Store for IX register pair in single-stepper
+
+IYRG Store the IY register pair in single-stepper
+
+KADD Address pointed to by the cursor
+
+KEYB Get code of keystroke in A; preserve other registers
+
+KLIN Line number with cursor
+
+KPOS Screen address of the cursor
+
+KRED Puts cursor address into HL and KADD
+
+LENI Length of current instruction in disassembly
+
+LFPO Stores address for floating-point interpreter
+
+LOSI Last one-step instruction
+
+NADD Next address for disassembly
+
+NASW Switch for NAME lookup
+
+NEND End of NAME list
+
+NOSI Next one-step instruction
+
+NTOP Most recent leading (low) address of NAME file
+
+OSDF One-step display file for extra window
+
+OSDP One-step display point for window, as DFCP
+
+OVER Overflow warning for User's stack
+
+POIN Pointer used in building register-value display
+
+PRIM Space or prime for register display
+
+SPBI Stack-pointer storage bin for stack switches
+
+UNDR Underflow warning for User's stack
+
+USRS Single-step user's stack pointer. Sets with S.
+
+
+Using The Relocate Commands
+(MOVE, STR$, CHR$)
+
+The Relocate command is rather complex in order to provide you with a degree of
+flexibility in relocating your routines. A set of nine addresses must be entered
+before using the MOVE command, and a certain amount of planning and knowledge of
+the subject program is required to derive the correct addresses. Simple programs
+with one or two calls and absolute jumps are best labelled, moved with the
+Transfer-with-Names (MERGE) command, and then fixed up by hand.
+
+A program of reasonable complexity will have a block of code, a block of data
+(which may include address lists or jump tables), and a block of variables. Good
+programming form would recommend that you can keep these blocks separate and
+distinct rather than, say, mingle data and variable storage in the crannies
+between your subroutines. If you are programming with HOT Z, you can separate the
+blocks generously as you develop your program then use the Relocate command to
+close the gaps when you finish.
+
+HOT Z's Relocate command will work on program blocks where code, data and
+variables are separate and distinct. If you have embedded patches of data, the
+command may still work, but you should check the data after the relocation to make
+sure that it has not been changed under the guise of readdressing code. Programs
+such as the 2068 ROM, where jump tables lie around like empty beer cans, would
+have to be broken up into segments and relocated piecemeal.
+
+The Relocate routine readdresses and moves Z80 code. However, the command does not
+take into account overlapping segments between source and destination blocks, so
+you cannot directly relocate a program to addresses already occupied by that
+program. (In such cases, you should use the transfer command and then readdress in
+place with the relocate command.)
+
+Jump tables have to be revised with the CSS-Y command, which jump asks you for a
+displacement and then adds that displacement to each address in the file, starting
+at your cursor and ending at the END address. (If you moved your code from 8100h
+to 8400h, then the displacement would be 0300h, from 8400h to 8100h would be a
+displacement of FD00h). Jump tables and data blocks should be moved with the
+Transfer command prior to using the relocate command.
+
+The Relocate command (MOVE) allows you to move the code block by one displacement,
+the data block by another, and the variables block by a third displacement. Any
+other three-way separation should also work.
+
+
+Address Entry For Relocating
+
+The variables TEM1 through TEM9 are used to set the nine address parameters for
+relocation. The nine addresses are three sets of three addresses. Each set of
+three addresses indicates the start and end of an address range to be changed and
+the start address of the new address range. For example, suppose your program to
+be relocated fits the following memory map:
+
+84D0h-84E8h Variables
+
+64F0h-84FFh Data
+
+8500h-86B0h Program
+
+Suppose you want to put the variables and data at 8100h and the program at AC40h.
+First, transfer the variables block to 8100h, it will run to 8118h, so transfer
+the data block to 8119h-8128h. To move the program from 8500h up to AC40h, any
+addresses of jumps or calls that lie between 8500h and 8660h should be changed to
+lie between AC40h and ADC0h. You don't need that last number. So enter the
+original range in TEM1 and TEM2 and the first address of the new block in TEM3,
+thus:
+
+TEM 1 - 6600h, TEM2 - A680h, TEM3 - AC40h
+
+These first three TEM values always hold the parameters relating to the program
+(code) block. Variables and data parameters can go inter-changeably into TEM4-TEM6
+or TEM7-TEM9.
+
+Addresses of variables, which were at 84D0h-84E8h, must be changed to start at
+8100h, and addresses of data, formerly at 84F0h-84FFh, must be changed to begin at
+8119h, so fill in the remaining TEM slots as follows:
+
+Variables Data
+
+TEM4 84D0h TEM7 84F0h
+
+TEMS5 84E8h TEM8 84FFh
+
+TEM6 8100h TEM9 8119h
+
+TEM4-6 are one block, TEM7-9 the other. Now set the cursor at 8500h (start of the
+code segment) and set END to 8680h, then give the MOVE command. The code will be
+copied to the new location and readdressed to run with the new variables, new data
+block, and any relocated subroutines in the code block. The original code will
+remain unchanged at its original location.
+
+You may also use the Relocate command to split a code block into two or more
+separate blocks, but you must apply it repeatedly, once for each of the
+end-product blocks, and readdress for the blocks that are not being moved as if
+those blocks were variables or data.
+
+If you lack variables or data blocks, then use a single non-zero dummy value for
+all three of the second or third set of TEM values. i-e., make them all three the
+same.
+
+The relocator leaves unchanged any ROM calls or any loads to or from the systems
+variables area (5C00h-6000h).
+
+After you have relocated a program, you may want to readdress a block of NAMEs
+that pertain to it. The command on the CHR$ key will do this for you. The CHR$
+command works just like the STR$ command, except that it readdresses every third
+pair of bytes. Just enter the proper displacement. If you are re-addressing only
+part of a label file, you may have to do some block moves to keep all the
+addresses in inverse sequence. Labels will be lost (from the screen, not the file)
+if you destroy the ordering of the addresses.
+
+
+The Floating-Point Interpreter
+
+RST 28h is the entry into the ROM's floating-point operations, which are coded in
+the bytes between an RST 28h and the following 38h. There is a good explanation of
+this second language (Or is it third?) of the ZX in Dr Logan's article in SYNC 2,
+2. (But beware of the two sign tests, which aren't jumps, as labelled in SYNC.)
+Note also that there have been a few changes for the 2068 ROM.
+
+HOT Z will read this floating-point language, but only after you turn on the
+floating-point interpreter (CSS-O in READ). If you leave the floating-point
+interpreter turned on, you will get a true reading of the ROM, but problems can
+arise elsewhere in memory when you encounter an EFh that functions as data rather
+than a RST 28h. You may get locked into the floating-point interpreter mode,
+without a 38h, the END character, in sight. The way out from this barrage of
+gibberish is the CSS-O command again, which switches out the floating-point
+interpreter entirely. Other times you may want to read it, because this extra
+language is really one of the treats of the Sinclair calculator heritage.
+
+The f-p interpreter is also turned off by entry of a numerical address, but not by
+a page flip or a NAME, so use the last two when you're working with f-p. In
+addition, there is a special key command, CSS-I in READ mode, which switches the
+flag that tells the disassembler which language it's in.
+
+The CSS-I command (READ) has a dual purpose. It will get you out of floating-point
+mode (without turning off the interpreter) if you need to and can't, or it will
+get you in when you want to be but aren't. You may get stuck in that mode through
+addressing yourself into the middle of a Z80 instruction, for example. Since
+floating- point operations include jumps and loops, there are also inclusions of
+f-p code that do not begin with an RST 28h, branches of jumps. The CSS-I command
+will get you into those branches. However, the command is just a bit switch and it
+doesn't function when the screen page itself switches from one language at the top
+to the other at the bottom. The cure, when the CSS-I command doesn't function is
+the trick of hitting the THEN key twice. This picks up the language mode from the
+bottom of the page to the top and reverses the reading of any bytes from one
+language to the other.
+
+You will also encounter some queer behavior if there is f-p code at the bottom of
+the screen and you try to write or go to the One-Step. This is not generally fatal
+and can be cured by going back to disassembly and setting the screen so that it
+ends in Z80 disassembly. If you want to write f-p code, the only manageable way is
+to go into EDIT mode in data.
+
+Floating-point operations are FORTH-like 'stack manipulations and easy to follow
+if you know something about that language. They use the MEM area of the systems
+variables as storage slots for six floating-point numbers. (Each is five bytes.)
+The f-p operations that transfer between the calculator stack and MEM are called
+GET and STOR and are followed by a single digit from 0 to 5 to indicate the slot
+used. Numbers or letters higher than 5 generally indicate a patch of nonsense with
+GET, STOR and STAK as well.
+
+Many of the possible f-p operators do not occur in the coding of the ROM, where
+you are likely to encounter them with HOT Z. They occur instead during the ROM's
+reading of BASIC programs, and they are generally identical with a BASIC
+instruction. You could learn to write floating-point code with these and the
+purely machine-code f-p operators if you wanted to; it could be similar to BASIC
+and a little faster. The entry point of these BASIC f-p operators into the real
+machine world is through the operation labelled RAFP (Run A as Floating-Point).
+However, you need only use the command numbers listed as the first column of the
+instruction list to perform those BASIC functions on whatever floating-point
+numbers are on the calculator stack. From the perspective of a HOT Z user, RAFP
+would be used only to run an operation that resulted from some calculation whose
+result was a code in A.
+
+Two of the f-p operations deliver data directly from the code listing to the
+calculator stack. They generally do this in an efficient way, using fewer than
+five bytes, if possible, to encode the five byte floating-point number. HOT Z
+prints the encoded floating-point number in the NAME and mnemonics columns of the
+disassembly listing. Since the interpreter doesn't know where any number will end,
+it is necessary to begin all of them slightly out of column, or the longest would
+run into the next line and mess up the display file. The f-p interpreter also
+reads the full five hex bytes that go onto the f-p stack, rather than the
+condensed version that actually occurs in the ROM. The ADDR column keeps accurate
+track, and you can work out the extra bytes, which are generally trailing zeroes,
+from that column.
+
+HOT Z prints floating-point data by using the same ROM routines that handle that
+data, so the disassembly slows down and becomes jerky when it has to print those
+huge numbers, or their single-digit versions.
+
+The two data-stacking operations are labelled STFP (stack floating point) and APPX
+(approximator). The first of these puts one five- byte number on the calculator
+stack, the second a series of one to 31 (whatever is left when you AND the low
+nibble of the instruction byte with OF) five-byte f-p constants. (That's 5 to 155
+bytes.) The approximator uses anything from six to a dozen floating point
+constants to get to a value for Chebyshev polynomials to approximate the
+transcendental BASIC functions.
+
+
+Floating Point Operations
+
+Code Op Addr Description
+
+00 JRT 3AAA Jumps if stack top holds a true
+
+01 SWOP 37FB Exchanges the top and second 5-byte stack entry
+
+02 DROP 3760 Throws away top stack entry
+
+03 SUB 33CE Subtracts top stack from second stack entry
+
+04 MULT 3489 Multiplies top two stack entries and leaves product on stack
+
+05 DIV 356E Divides second entry by top stack, leaves quotient on stack
+
+06 PWR 3C6C Raises 2nd on stack to power of stack top
+
+07 OR 3936 Performs BASIC OR on two top stack entries and leaves result
+
+08 AND 393F Performs BASIC AND on two top stack entries, leaves result
+
+09 N<=M 3956 Numeric inequality test
+
+0A N=>M 3956 Numeric inequality test
+
+0B N<>M 3956 Numeric inequality test
+
+0C N>M 3956 Numeric inequality test
+
+0D N<M 3956 Numeric inequality test
+
+0E N=M 3956 Numeric inequality test
+
+0F ADD 33D3 Adds two top stack entries and leaves sum on stack
+
+10 $AND 3948 ANDs a string with a number
+
+11 $<= 3956 String inequality test
+
+12 $>= 3956 String inequality test
+
+13 $<> 3956 String inequality test
+
+14 $> 3956 String inequality test
+
+15 $< 3956 String inequality test
+
+16 $= 3956 String inequality test
+
+17 STR+ 39B7 Concatenates strings addressed by the top two stack entries
+
+18 VAL$ 39F9 BASIC function
+
+19 USR$ 38D7 BASIC function
+
+1A RDIN 3A60 Read in data from channel in A
+
+1B NEG 382D Changes the sign of top stack entry
+
+1C CODE 3A84 Replaces top stack entry with its Sinclair code
+
+1D VAL 39F9 BASIC function
+
+1E LEN 3A8F BASIC function
+
+1F SIN 3BD0 BASIC function
+
+20 COS 3BC5 BASIC function
+
+21 TAN 3BF5 BASIC function
+
+22 ASN 3C4E BASIC function
+
+23 ACS 3C5E BASIC function
+
+24 ATN 3BFD BASIC function
+
+25 LN 3B2E BASIC function
+
+26 EXP 3ADF BASIC function
+
+27 INT 3ACA BASIC function
+
+28 SQRT 3C65 BASIC function
+
+29 SGNM 3851 BASIC function
+
+2A ABS 3829 BASIC function
+
+2B PEEK 386B BASIC function
+
+2C INX_ 3864 BASIC function
+
+2D USR$ 3872 BASIC function
+
+2E STR$ 3A2A BASIC function
+
+2F CHR$ 39E4 BASIC function
+
+30 NOT 391C BASIC function
+
+31 DUP 377F Duplicates top of stack (5 bytes)
+
+32 QREM 3ABB Replaces number pair by quotient on stack top, remainder below
+
+33 JRU 3AA1 Unconditional relative jump
+
+34 STFP 3785 Composes and stacks number from following data bytes
+
+35 LONZ 3A95 Long jump as DJNZ with BERG as counter
+
+36 N<00 3921 Tests sign of stack top and  replaces with true if negative
+
+37 N>00 3914 Tests sign of stack top and replaces with true if positive
+
+38 END 3AB6 Ends a RST 28 routine
+
+39 AADJ 3B9E Adjusts angle values modulo 2 Pi for trig functions
+
+3A ROUN 35D3 Rounds down to integer
+
+3B RAFP 3761 Runs byte in A as f-p op code for BASIC functions
+
+3C DEXP 310D Decimal exponent processor
+
+80 APPX 3808 Successive approximator: stacks and processes constants
+
+A0 STAK 37DA Stacks 0,1,2,0,5,PI/2, or 10, depending on second nibble
+
+C0 STOR 37EC Stores entry in calculator MEM slot given by second nibble
+
+E0 GET 37CE Recalls stored entry from calculator MEM slot in second nibble
+
+
+===============================================================================
+
+
+AROS Version
+
+AROS version of Super Hot Z disassembler by Ray Kingsley. It can access to all
+Timex memory banks. This cartridge is AROS type auto-boot.
+
+There are four modes, read, assemble, hexedit and single step. Press Extended
+mode and "H" for help. The read screen is the default screen and its help
+screen will tell you how to access the other screens except for step mode for
+which you need to access the assemble mode help screen to see.
+
+The program always initializes looking at Home bank code in the read mode. The
+bank that is displayed on the screen can be determined by the value displayed
+in the middle of the line of equal signs near the top of the screen. You can
+change the chunk spec for the upper 4 chunks with machine code in the single
+stepper mode or you can change the active chunks for each of the eight chunks
+by specifying a value at the "DISB" variable. To access this variable, just
+type in caps, DISB in the read mode. This will take you to the correct
+address. The first value is the chunk spec with bits for the HOME bank chunks
+set High. You must be very careful which chunk are set low because you can
+page out the machine stack and your program will crash. You won't have to
+worry about where your SHOTZ code is located because it will continue to
+operate no matter which bank of code it is loaded in. Value FC can generally
+be used FC to set the first two chunks to the DOCK bank or EXROM bank. The
+next value will determine which bank of memory you will look at on the screen.
+Enter 00 for DOCK, FE for EXROM or FF for HOME bank. To do this, you should go
+to hex edit mode by pressing the symbol shift key and the "A" key. That will
+take you to assemble mode. Next press the symbol shift key and the "G" key to
+take you to Hex edit mode.
+
+It is possible to change the displayed bank by changing the value in the
+middle of the equal signs but we don't know the series of key strokes to do
+this. It is also possible to transfer code between banks of memory and again,
+we don't remember how without studying it a while.
+
+
+EXROM Version
+
+Version of Super Hot Z disassembler by Ray Kingsley stored into EXROM bank. It
+can access to all Timex memory banks. This cartridge file is not auto-boot
+because it is not stored in DOCK bank, so it is not an AROS. To run this
+program, type following instructions:
+
+CLEAR 32767: OUT 255,128: OUT 244,240: RANDOMIZE USR 32776
+
+There are four modes, read, assemble, hexedit and single step. Press Extended
+mode and "H" for help. The read screen is the default screen and its help
+screen will tell you how to access the other screens except for step mode for
+which you need to access the assemble mode help screen to see.
+
+The program always initializes looking at Home bank code in the read mode. The
+bank that is displayed on the screen can be determined by the value displayed
+in the middle of the line of equal signs near the top of the screen. You can
+change the chunk spec for the upper 4 chunks with machine code in the single
+stepper mode or you can change the active chunks for each of the eight chunks
+by specifying a value at the "DISB" variable. To access this variable, just
+type in caps, DISB in the read mode. This will take you to the correct
+address. The first value is the chunk spec with bits for the HOME bank chunks
+set High. You must be very careful which chunk are set low because you can
+page out the machine stack and your program will crash. You won't have to
+worry about where your SHOTZ code is located because it will continue to
+operate no matter which bank of code it is loaded in. Value FC can generally
+be used FC to set the first two chunks to the DOCK bank or EXROM bank. The
+next value will determine which bank of memory you will look at on the screen.
+Enter 00 for DOCK, FE for EXROM or FF for HOME bank. To do this, you should go
+to hex edit mode by pressing the symbol shift key and the "A" key. That will
+take you to assemble mode. Next press the symbol shift key and the "G" key to
+take you to Hex edit mode.
+
+It is possible to change the displayed bank by changing the value in the
+middle of the equal signs but we don't know the series of key strokes to do
+this. It is also possible to transfer code between banks of memory and again,
+we don't remember how without studying it a while.

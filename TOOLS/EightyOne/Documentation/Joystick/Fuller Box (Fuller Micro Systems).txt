@@ -1,0 +1,56 @@
+================================================
+Fuller Box (Joystick Socket) for the ZX Spectrum
+Fuller Micro Systems
+================================================
+
+JOYSTICK CONTROLLER
+
+The Fuller Box has a socket to allow connection of any commercially available
+joystick such as Atari, Commodore, Competition Pro, Diskwasher, etc.
+
+The stick works as an input device on port 127. This means that the value
+presented to port 127 will change according to which direction the stick is
+being pushed, or if the fire button has been hit.
+
+Please note that no joysticks work in conjunction with any particular keys
+without the aid of software. So, to make your own games work with a joystick
+you will need to add or change a few program lines.
+
+The binary value of port 127 is normally 11111111 or decimal 255. This
+value is changed when you move the joystick. Certain bits of port 127 are
+pulled low to binary 0 by the stick. The actions of the bits are as follows:
+
++--------+----------------------------------------+
+|    BIT |   7    6    5    4    3    2    1    0 |
+| ACTION | FIRE   -    -    -  RIGHT LEFT DOWN UP |
++--------+----------------------------------------+
+
+So when going up, bit 0 is low and port 127 contains the value (255-1)=254.
+
+Type in the following line of program.
+
+    10 PRINT IN 127: POKE 23692,0: GO TO 10
+
+Move the stick around and see how the value changes. (The POKE makes the
+screen scroll automatically).
+
+The values obtained are:
+
+    UP   = 254    RIGHT      = 247    DOWN & RIGHT = 245
+    DOWN = 253    FIRE       = 127    UP & LEFT    = 250
+    LEFT = 251    UP & RIGHT = 246    DOWN & LEFT  = 249
+
+Note that moving in any direction and firing will simply give a number 127,
+less than the value for that direction.
+
+ To use the joystick in your own games, simply replace a BASIC statement
+such as:
+
+       IF INKEY$="5" THEN –––––––––– (move to the left)
+with:  IF IN 127=251 THEN –––––––––– (as before)
+or:    IF INKEY$="F" THEN –––––––––– FIRE –––––––––
+with:  IF IN 127=127 THEN –––––––––– FIRE –––––––––
+
+All Imagine Software games will work automatically with the joystick controller.
+However, if any of your commercial software won’t work please contact the
+manufacturers, they will be glad to offer advice and assistance.

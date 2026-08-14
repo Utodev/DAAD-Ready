@@ -1,0 +1,288 @@
+=========================================
+FLIGHT SIMULATOR ROM Cartridge for TS2068
+Timex Sinclair
+=========================================
+
+FLIGHT SIMULATOR
+© Psion 1983
+
+Loading time: 3 minutes 45 seconds
+Load name must be typed in lower case letters.
+
+Learn to fly in a small, high-performance, twin-engine, propeller-driven
+airplane. Three options allow you to pilot the plane from airport to airport, take
+over the controls in mid-flight, or practice your approaches and landings. Learn
+to fly the same way professional pilots learn, using a computer-controlled flight
+simulator that lets you experience the thrill of flying first-hand - without ever
+leaving the ground!
+
+Through the cockpit window, you see the horizon, as well as ground features
+passing beneath you. On take-off or landing, you see the runway rolling beneath
+you and the runway lights zipping past on either side.
+
+COMMAND CARTRIDGE INSTRUCTIONS
+If you have the cartridge version of this software program please follow the
+steps listed below:
+
+1. Turn off your TS2000
+2. Lift cartridge door open
+3. Insert command cartridge with label side up
+4. Close cartridge door
+5. Turn on your TS2000
+6. Program will now begin execution
+
+If Step 5 does not occur - start over with Step 1 ... and reset cartridge
+once again.
+
+ALWAYS TURN OFF YOUR TS2000 BEFORE INSERTING OR
+
+REMOVING CARTRIDGE.
+
+TO LOAD: Press LOAD "flight", start your tape player, then press ENTER. The
+program will load in 3 minutes 45 seconds and start automatically. Stop the tape
+when the menu appears.
+
+TO PLAY: Select one of the three options on the menu. They are -
+
+1. IN FLIGHT: Slip into the pilot's seat and take over the controls while the
+   plane is in flight. This is usually a pilot's first experience at the controls.
+   Landings and take-offs, normally, are saved until he or she has some
+   familiarity with the controls. Select this option and you begin with your plane
+   several thousand feet above the ground.
+
+2. FINAL APPROACH: You find yourself a couple of miles from the end of a
+   runway, in good position to begin your descent and landing. You see a speck
+   in the distance, just below the horizon. That's the airport. It grows in size until
+   it finally blossoms into the end of the runway.
+
+3. TAKE-OFF: Choose this option and find yourself sitting on the ground at the
+   end of the runway, ready to take off.
+
+At the beginning of all three options, you are looking out the window with the
+horizon ahead of you. Just beneath the window is your control panel, containing
+the various meters and computer readouts you need to successfully fly your
+plane. Let's take a look at each of the controls in action. Select option 1 above.
+
+NOTE: To select any of the options, press the appropriate numbered key on
+the TS2000. You are asked if you want to include the wind as a factor in your
+handling of the plane. Press Y if you do, or N if you don't. We recommend
+that you fly without the added problem of wind until you master your controls
+without wind.
+
+Upon selecting option 1, find yourself several thousand feet above the ground
+with the plane automatically stabilizing itself. When it reaches an altitude of
+approximately 6200 feet, it levels off and locks in at that altitude. Look at the
+controls as your plane makes its adjustments. Try pressing the M key on the
+computer. This shows the navigational map you'll reference to make adjustments
+in your course. We'll discuss this map later - for now, press M to return to the
+window and instrument panel. Let's look at each of the instruments:
+
+THE INSTRUMENT PANEL
+The RDF (radio-direction-finding) meter: This is the large dial in the center of the
+instrument panel. A small airplane appears on the middle of the dial indicating
+the direction of the plane relative to the navigational ground beacon the RDF
+equipment is currently logged in on. The beacon is represented by a flashing dot
+on the dial. If you wish to head directly for the beacon, bank the airplane until
+the dot moves to the 12 o'clock position on the dial.
+
+The AIR SPEED INDICATOR: This is the dial immediately to the left of the RDF.
+The needle indicates the airspeed of your plane in knots x 1%. A reading of 15 is
+read as 150 knots.
+
+The ALTIMETER: This is the dial immediately to the right of the RDF with two
+needles. The shorter needle measures your height in units of 1000 feet, and the
+longer one in units of 100 feet. Think of the needles as the hands of a clock -
+10 minutes after 6 would be 6200 feet above the ground.
+
+The ROC (rate of climb) indicator: This is the dial on the extreme right of the
+instrument panel. It measures the vertical speed of the airplane in units of 1000
+feet per minute. When the needle rises above 0, the airplane is climbing. If it
+falls below 0, the airplane is descending.
+
+The POWER gauge: Located on the bottom right of your panel, this gauge measures
+the extend of the throttle. The thrust of the engines increases with the throttle.
+
+The FUEL gauge: This gauge indicates the level of fuel in the tanks. 0
+
+FLAPS: This shows the angle of extension of the flaps. The needle (in a
+horizontal position normally) moves downward to indicate degree of extension of
+the flaps.
+
+GEAR: This is a red and green panel. Landing gear up is indicated in the top red
+half - otherwise "down" appears in the lower green half.
+
+BCN RGE BRG: This is a digital readout panel giving you information on the
+current logged-on beacon. BCN tells you the call sign of the logged on beacon.
+
+RGE (range) gives its distance in nautical miles, and BRG its bearing in compass
+degrees relative to the airplane.
+
+The ILS (instrument landing system) gauge: Located at the far left of the
+instrument panel, this is a guidance system to aid the pilot during the runway
+approach. A radio beacon at the start of the runway emits a signal. Its position is
+displayed on the ILS as a flashing dot. When the airplane is on the proper
+approach to the runway, the flashing dot will be in the center of the ILS. If it is
+not at the center, steer the plane toward the dot. Hence, if the dot, representing
+the end of the runway, is to the left of center, bank left; it it's above the center,
+the plane is too low, so pull up.
+
+The RA (radio altimeter): This is a digital readout and part of the ILS system. A
+radio signal bounced off the ground measures the height, in feet, from the
+ground to the wheels. It gives a precise measurement for landing.
+
+THE PILOT CONTROLS
+Since you are relatively safe 6000 feet above the ground, try experimenting with
+each of the pilot controls as we explain them. But, be careful - if you go too far
+too fast, you'll find yourself in a smoldering heap on the shores of Lake Orb.
+
+THE JOYSTICK: The joystick is represented on the TS2000 keyboard by the
+arrow keys (5, 6, 7, and 8). Pressing the 5 or the 8 key causes the plane to
+bank left or right. Pressing the 7 key moves the joystick forward (away from
+you), causing the nose of the plane to point downwards for diving. Pressing the
+6 key pulls the joystick toward you, causing the nose to point upward and the
+plane to climb. (To better understand the 6 and 7 keys, try holding an
+imaginary stick in front of you, and then pulling it toward you and pushing it
+away from you. You can experience the feeling of going up and down. Keep this
+image in mind as you press the 6 and 7 keys, and you shouldn't be confused.)
+Try experimenting a bit.
+
+You may bypass tape load instructions below.
+
+JOYSTICK FEATURE - 1 PLAYER
+This program optionally allows the use of a joystick to control its actions. With
+the joystick in slot 1 the following actions replace their keyboard counterparts:
+
+Stick up = Dive
+Stick down = Climb
+Stick right = Bank right
+Stick left = Bank left
+Button depressed = Increase power
+
+THIS PROGRAM REQUIRES THE JOYSTICK TO BE IN THE PLAYER 1 SLOT.
+
+The RUDDER: The rudder, located on the tail of the plane, is used to make
+minor adjustments when turning the plane. Press Z to turn left and X to turn
+right. When taxiing on the ground, the gear is steered by the rudder controls.
+
+POWER: The thrust of the engines is controlled by the P and O keys. Pressing
+P increases the throttle and gives the engines more power, and pressing O
+reduces the throttle. (Note: The O key is to the left of the P key.)
+
+FLAPS: The D and F keys control the angle of the flaps on the wings.
+Pressing D causes the nose of the plane to dip, and F causes it to rise.
+Remember D for "dip" or "down". The flaps can be extended or retracted to
+varying degrees (as shown on the gauge), and should only be fully extended
+during the final stage of landing to avoid stalling at a reduced speed. With the
+flaps retracted, the stall speed of the plane is 80 knots. With full flaps, the
+stall speed is 60 knots. Extending the flaps while at high speed could cause the
+wings to be damaged or even torn off the plane.
+
+GEAR: The gear, or landing apparatus, is extended by pressing the G key.
+Pressing G while the gear is down causes it to retract. The gear should not be
+dropped at high speed; besides increasing the drag on the plane the gear may
+be damaged.
+
+BEACON: Press the B key to change the current logged-on beacon. Continue
+to press B until you have the call sign beacon you require showing under the
+BCN on your instrument panel. When you are in your final approach to the
+runway, the reading on your RDF meter and the BRG should match exactly.
+MAP: Press M to switch from the pilot's display to the navigational map. Press
+M to switch back. The navigational map shows you the location of the two
+airports and which you may land, the location of the beacons (the current
+beacon is flashing), as well as such ground features as lakes and hills. Your
+plane is represented by the flashing replica of a plane. There is a large
+international airport called MAIN, and a smaller local one called CLUB. Near
+MAIN are two beacons (ME and MW) three miles beyond each end of the
+runway. Similarly, CLUB has two beacons, CN and CS, two miles beyond each
+end of the runway.
+
+NAVIGATING
+The most difficult aspect of flying is the approach and landing at an airfield.
+Experiment with the controls to vary the speed, altitude, and direction of the
+plane at a reasonably high altitude without worrying about the navigation.
+However, if you wish to land the plane (and eventually you must), you need to
+navigate it onto the right course, and you need to approach the runway at
+roughly the right glide angle, or angle of descent. Normally, the glide angle
+should be about 3 degrees - which should find you at about 6000 feet at 20
+miles out, 3000 feet at 10 miles out, and 1000 feet at 3 miles from the end of
+the runway. This is difficult and requires much practice before you'll be able to
+make a successful landing.
+
+Taking off is a relatively simple procedure, simply hold your finger on the P key
+to give the throttle full thrust. When you begin to lift off the runway, press the 6
+key to increase your angle of ascent. Once you have climbed to 6000 feet, your
+throttle should ideally be decreased to slightly more than half of full power.
+
+Happy landings!
+
+LOADING INSTRUCTIONS:
+(See Chapter 4 of your instruction manual for detailed instructions.)
+
+1. First listen to the tape so you will be familiar with its distinct sections. The
+tape has a period of silence at the beginning, followed by a high-pitched,
+screechy noise. This is the computer program. The program is recorded twice on
+the cassette in case one does not load.
+
+2. Set the volume control on the cassette deck to about 3/4 of the maximum.
+If you have tone controls, set the bass to minimum and treble to maximum. If you
+have just one tone control, set it to HIGH or MAXIMUM.
+
+3. Rewind the tape to the beginning. Connect the EAR jack on the computer
+to the EAR jack on the cassette deck recorder. Make sure the plugs are clean
+and securely in place.
+
+4. To instruct the computer to accept the program you must press the LOAD
+command and type the name of the program in quotation marks. See the
+instructions or cassette for the correct loading name.
+
+5. Start the cassette deck, allow a few seconds for it to get up to speed, then
+press ENTER during the silence before the program begins.
+
+6. The border of the TV screen will alternate between pale blue (cyan) and red,
+during the time the computer is searching for the program on the tape.
+
+7. When the program has been found, the screen border will show a pattern of
+lines in the same shades of blue and red, and shortly the name of the program
+will appear on the screen.
+
+8. Next, as the program itself is being loaded into the computer, the border
+pattern will become thinner, faster moving yellow and dark blue lines.
+
+9. When the computer has finished loading the program, one of two things
+will happen:
+
+  1. Most commercial programs will begin running automatically, usually with a
+  "title screen" or instructions to the user. (A title screen may tell you that the
+  tape is still loading, if not, you should stop the tape immediately at this point
+  so as to be in the proper position to load the next program if you wish.) or
+
+  2. The screen will be blank, except for a 0 OK, 0:1 in the lower left hand
+  corner. This is a report code and means that the computer has successfully
+  loaded the program.
+  Stop the tape immediately. To execute the program, you press RUN and
+  ENTER. This will start the program.
+
+SOME SUGGESTIONS
+1. The volume at which the program is loaded is very important. Usually 3/4
+maximum volume works best, but recorders vary and may require
+experimentation with the volume setting. If you have a technical background you
+can check the output level of your recorder's EAR/SPKR jack. It must be at least
+4-volts peak-to-peak, although 5 to 6-volts peak-to-peak is best.
+
+2. Clean and demagnetize the heads of the tape recorder. Your ears may not
+pick up the signal fluctuations due to magnetic flux on the tape heads, but the
+computer has a much more sensitive "ear."
+
+3. The computer is very susceptible to outside interference. Working on a
+metal table or near electrical appliances should be avoided.
+
+4. Occasionally, once a program has loaded, the video display will show
+instability. This can be corrected by adjusting the vertical hold on the television.
+
+WARRANTY
+There are no warranties which extend beyond the description on the face
+hereof. No other warranty, whether express or implied, including the warranty of
+merchantability, shall exist in connection with the sale of this product. In no
+event shall Timex be liable for any consequential, incidental or special damages.
+
+© 1983 Timex Computer Corporation Waterbury, Connecticut 06725

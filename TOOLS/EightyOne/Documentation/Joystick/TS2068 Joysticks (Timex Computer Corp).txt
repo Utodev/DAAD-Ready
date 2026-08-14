@@ -1,0 +1,96 @@
+=================================
+Joystick Operation for the TS2068
+Timex Computer Corp
+=================================
+
+FROM TS2068 USER MANUAL:
+
+The STICK command (located under the S key and accessed with either SHIFT while in extended 
+mode) "reads" the position of a device connected to the T/S 2000's joystick port. It treats 
+the input much as INKEY$ does for keyboard input.
+
+This is most useful if you want to write your own graphic games (or other software), and 
+generally will be used to move a cursor or other object with the IF command.
+
+IF STICK(1,2)=1 THEN LET X=X+1
+
+would move a figure on the screen upwards by one print or plot position (assuming you were 
+using x to define the position of the character on the vertical axis).
+
+The STICK function requires two numbers in parentheses after the word STICK. The first 
+number specifies the "device type" you want to check — 1 is the joystick itself, 2 is the 
+pushbutton.
+
+The second number identifies the "player" (in other words, which of two joysticks is being
+investigated) — 1 or 2. You may think of 1 as the left one and 2 as the right, but don't get
+your wires crossed!
+
+Executing this function returns a value which tells you what is going on. If you are reading
+the pushbutton, there are only two possible answers: you'll get a 1 if the button is being
+pushed at the time the reading is being taken and 0 if it is not.
+
+Things are a bit more complicated if you are reading the stick itself. In the example above,
+the "1" after the first = sign meant that the stick was in the "up" position (this is why we
+LET X move up the screen). The complete table of values 3 (reading counter-clockwise) is:
+
+ 0 — on center (not moving)
+ 1 — up
+ 5 — up and to the left (diagonal)
+ 4 — left
+ 6 — left and down
+ 2 — down 
+10 — down and right
+ 8 — right
+ 9 — up and right
+
+This is not as odd as it looks; the four main directional values are organized like this:
+
+   1
+4  0  8
+   2
+
+using binary numbers, and the diagonal directions are read by combining (adding) the 
+adjacent values (up left — 5 — is up — 1 — plus left — 4).
+
+5  1  9
+4  0  8
+6  2  10
+
+-------------------------------------------------------------------------------
+
+FROM TS2068 TECHNICAL REFERENCE MANUAL:
+
+The two joysticks are controlled via Register 14 (I/O Port A) of the Programmable Sound
+Generator Chip). Address and data are passed via Ports 0F5H and 0F6H respectively. The
+joysticks are read by first addressing Register 14 in the PSG by writing a 14 (0EH) to
+Port 0F5H. The data is then read by executing an IN from Port 0F6H, having the port
+address in Z80 Register C and the joystick (player) number in Register B (number = 1
+or 2). Note that PSG Register 7, Bit 5 is assumed to be zero, enabling I/O Port A for
+input. If you ever use I/O Port A for output (R7, B6=1), you will want to clear Bit 6
+prior to any input operation.
+
+Sample routine:
+
+GETJOY  LD A,0EH      ; Load A = 14
+        OUT A,(0F5H)  ; Address the joystick port
+        LD B,playerno
+        LD C,0F6H     ; Data Port address to C
+        IN A,(C)      ; Joystick data to A
+        CPL           ; Complement to High Active
+        AND 8FH       ; Get significant bits
+
+The data read is LOW ACTIVE, i.e. all bits = 1 (byte=0FFH) when the stick is at center
+and the button is not depressed. The interpretation of the data byte ia as follows:
+
+
+Joystick Data
+
+Bit  Function (active 0)
+7    Button depressed
+6    Unused (always 1)
+5    Unused (always 1)
+4    Unused (always 1)
+3    Stick right (active 0)
+2    Stick left (active 0)
+1    Stick down (active 0)
+0    Stick up (active 0)

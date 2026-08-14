@@ -1,0 +1,118 @@
+=======================================
+Sweet Talker for the ZX81 / ZX Spectrum
+Cheeta Marketing Ltd
+=======================================
+
+INSTRUCTIONS FOR USE
+
+Enclosed with your "Sweet Talker" you will find a demonstration tape
+which will explain precisely how to program it.
+In order to prevent damage to your "Sweet talker" or computer please
+ensure that your computer is switched off before plugging or unplugging
+the unit. Then simply plug it into the user port at the rear of the
+computer - it will take its power from the existing power supply.
+Other accessories, including the "Cheetah" 32K Ram Pack can be used via
+the card edge connector at the rear of the "Sweet Talker".
+Now simply load "Chatbox" and make yourself a friend.
+
+
+EXAMPLE "CHEETAH" (Spectrum)
+
+10 DATA 50, 19, 13, 15, 15, 0
+20 FOR I = 1 TO 6
+30 READ A
+40 OUT 7,A
+50 NEXT I
+   RUN
+
+
+TABLE
+
+SILENCE
+DURATION             DATA
+10ms                 0
+30ms                 1
+50ms                 2
+100ms                3
+200ms                4
+
+LETTER  ALLOPHONE  DATA  EXAMPLES
+A       *AE        26    extract, acting
+        *AO        23    talking song
+        *AX        15    lapel
+        EY         20    great, statement, tray
+        AR         59    farm, alarm, garment
+        XR         47    hair, declare, stare
+B       BB1        28    final position: rib; between vowels; fibber; in clusters; bleed, brown
+        BB2        63    initial position before a vowel: beast
+C       CH         50    church, feature, cheetah
+D       DD1        21    final position: played, end
+        DD2        33    initial position: down; clusters: drain
+E       *EH        7     extent, gentlemen
+        IY         19    treat, people, penny
+        ER1        51    letter, furniture, interrupt
+        ER2        52    Monosyllables; bird, fern, burn
+        YR         60    hear, earring, irresponsible
+F       *FF        40    may be doubled for initial position and used singly in final position; food
+G       GG1        36    before high front vowels: YR, IY, IH, EY, EH, XR, guest
+        GG2        61    before high back vowels: UW, UH, OW, OY, AX: and clusters; green, glue
+        GG3        34    before low vowels: AE, AW, AY, AR, AA, AO, OR, ER; in medial clusters; anger; and final position; peg
+H       HH1        27    before front vowels: YR, IY, LH, EY, EH, XR, AE, HE
+        HH2        57    before back vowels: UW, UH, OW, OY, AO, OR, AR: HOE
+I       *IH        12    sitting, stranded
+        AY         6     kite, sky, mighty
+J       JH         10    judge, injure
+K       KK1        42    before front vowels: YR, IY, IH, EY, EH, XR, AY, AE, ER, AX; initial clusters: cute, clown, scream
+        KK2        41    final position: speak; final clusters: task
+        KK3        8     before back vowels: UW, UH, OW, OY, OR, AR, AO: initial clusters: crane, quick, clown, scream
+L       LL         45    like, hello, steel
+        EL         62    little, angle, gentlemen
+M       MM         16    milk, alarm, ample
+N       NN1        11    before front and central vowels: YR, IY, IH, EY, EH, XR, AE, ER, AX, AW, AY, UW; final clusters; earn
+        NN2        56    before back vowels: UH, OW, OY, OR, AR, AA: No
+        NG         44    string, anger
+O       *UH        30    cookie
+        *AA        24    pottery, cotton
+        OY         5     noise, toy, voice
+        UW2        31    in monosyllabic words: two, feed
+        OW         53    zone, close, snow
+        AW         32    sound, mouse, down
+        OR         58    fortune, adorn, store
+        *AO        23    talking song
+P       PP         9     pleasure, ample, trip
+Q       KK3        8     before back vowels: UW, UH, OW, OY, OR, AR, AO; initial clusters; crane, quick, clown, scream
+R       RR1        14    initial position: read, write, x-ray
+        RR2        39    initial clusters: brown, crane, grease
+S       SS         55    may be doubled for initial position and used singly in final position: vest
+        SH         37    shirt, leash, nation
+T       DH1        18    word-initial position: this, then, they
+        DH2        54    word-final and between vowels: bathe, bathing
+        *TH        29    may be doubled for initial position and used singly in final position: thin
+        TT1        17    final clusters before SS: tests, its
+        TT2        13    all other positions: test, street
+U       UW1        22    after clusters with UU: computer
+        *UH        30    full
+        *AX        15    instruct
+        ER2        52    monosyllables; burn
+V       VV         35    vest, prove, even
+W       WW         46    we, warrant, linguist
+Y       YY1        49    clusters; cute, beauty, computer
+        YY2        25    initial position; yes, yarn, yo-yo
+Z       ZZ         43    zoo, phase
+        ZH         38    beige, pleasure
+
+* These allophones can be doubled.
+
+
+===============================================================================
+
+
+TECHNICAL NOTES
+
+The ZX81 version of the interface uses output port $07 (decoding address lines
+A7-A3), whereas the Spectrum version uses output port $1F (decoding address
+lines A7-A5) to make it compatible with the ZX Interface 1.
+
+The Spectrum version of the interface asserts the WAIT line until an allophone
+has finished being rendered. The drawback of this approach is that is stops the
+CPU performing other tasks while the allophone is being played.

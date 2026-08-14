@@ -1,0 +1,121 @@
+==================================
+ZX Interface 2 for the ZX Spectrum
+Sinclair Research Ltd
+==================================
+
+
+                                ZX Interface 2
+
+                                    Manual
+
+                      Copyright Sinclair Research Limited
+
+
+
+INTRODUCTION
+
+The Sinclair ZX Interface 2 allows you to connect two joysticks and a ROM software
+cartridge to your ZX Spectrum. You may use Interface 2 with any or all of the other ZX
+Spectrum peripherals.
+
+
+CONNECTION
+
+Interface 2
+
+You should connect all peripherals to your ZX Spectrum before switching on the power. It is
+generally a good idea to connect all the peripherals and leave them connected.
+
+The ZX Interface 2 will accept only the ZX Printer on its rear expansion port. Any other
+Spectrum peripherals should therefore be connected between Inteface 2 and the computer.
+Connect the ZX Interface 2 to the expansion port of your Spectrum or peripheral by pushing it
+firmly home. There is a small locating tab in the edge connector plug which fits a slot in the
+socket and prevents wrong connection.
+
+Your Spectrum power supply unit is capable of driving the Spectrum, Interface 1, Interface 2,
+ZX Printer and eight Microdrives all at the same time. 
+
+
+JOYSTICKS
+
+You can connect any standard joystick fitted with a 9-way D plug to your ZW Interface 2.
+The 9-way D plug is widely used in the computer industry.
+
+You may use either one or two joysticks. To connect them, remove the plastic covers from the
+joystick sockets on the left of the Interface 2. There is no need to protect the sockets when you
+are not using them, so you need never replace these covers.
+
+The socket with the dimple next to it is conventionally for joystick 1, although some programs
+may treat the other socket as joystick 1. There is no harm in plugging and unplugging
+joysticks with the computer turned on.
+
+
+ROM SOFTWARE CARTRIDGES
+
+ROM cartridges plug into a socket beneath the hinged flap on the right hand side of your
+Interface 2. This flap protects the socket when no ROM cartridge is plugged in.
+
+A cartridge should be plugged in with its flat side - with the title on it - facing towards the
+computer. When putting cartridges in or taking them out, care to steady the Interface 2.
+
+IMPORTANT Never insert or remove ROM cartridges when the computer is switched on. 
+
+ROM software cartridges have the advantage that they do not require 'loading'; the program
+does not occupy any RAM. A growing range of cartridges is available from Sinclair Research.
+
+When you switch on the computer, it will immediately start to run the program in the ROM
+cartridge, and you should follow the instructions which are either in the program, or in its
+accompanying documentation.
+
+The cartridges themselves are reasonably robust, but you should store them in their packaging
+when they are not in use.
+
+
+Joystick programming.
+
+Some Sinclair Research software is designed to use joysticks.
+
+However, you can write your own programs to use the joysticks from within a BASIC or
+machine code program. The two joysticks appear to be the same as the top row on the
+keyboard, and are connected thus:
+
+Key  Joystick 2              Key  Joystick 1
+ 1   Left                     6   Left
+ 2   Right                    7   Right
+ 3   Down                     8   Down
+ 4   Up                       9   Up
+ 5   Fire                     0   Fire
+
+They can be read from BASIC using INKEY$, but this function will read only one key; it
+would not recognise Left and Fire together, for example.
+
+The alternative - and more sensible - way of reading the joysticks is to use the IN function.
+
+IN 61438 reads joystick 1    IN 63486 reads joystick 2
+
+bit 0 'fire'                 bit 4 'fire'
+bit 1 'up'                   bit 3 'up'
+bit 2 'down'                 bit 2 'down'
+bit 3 'right'                bit 1 'right'
+bit 4 'left'                 bit 0 'left' 
+
+The BASIC program shows how to use the value from the IN function.
+
+This program draws a shape on the screen as joystick 1 is moved. Pressing the Fire button
+stops drawing, but still moves the current drawing point. The subroutine starting at line 1000
+reads the joystick position; you can adapt it for use in your own programs.
+
+  10 LET x=0: LET y=80
+  20 GO SUB 1000
+  30 IF fire=1 THEN PLOT x,y
+  40 GO TO 20
+1000 LET a=IN 61438
+1010 IF a>127 THEN LET a=a-128
+1020 IF a>63 THEN LET a=a-64
+1030 IF a>31 THEN LET a=a-32
+1040 IF a>15 THEN LET a=a-16: IF x<255 THEN LET x=x+1
+1050 IF a>7 THEN LET a=a-8: IF x>0 THEN LET x=x-1
+1060 IF a>3 THEN LET a=a-4: IF y<175 THEN LET y=y+1
+1070 IF a>1 THEN LET a=a-2: IF y>0 THEN LET y=y-1
+1080 LET fire=a
+1090 RETURN 

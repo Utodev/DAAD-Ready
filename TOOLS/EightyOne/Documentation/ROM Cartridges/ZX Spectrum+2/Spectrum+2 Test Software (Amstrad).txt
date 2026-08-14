@@ -1,0 +1,45 @@
+===================================================
+SPECTRUM+2 TEST ROM Cartridge for the ZX Spectrum+2
+Amstrad
+===================================================
+
+Spectrum +2 Test Software
+
+The Spectrum +2 test software comes on a rom board. This should be plugged into
+the Expansion I/O slot of the +2. The +2 should also have a loopback cable plugged
+into the KEYPAD and RS232 sockets, two joysticks plugged in, and monitor, TV and
+audio amp connected.
+
+Turn the machine on. One of two things will happen.
+
+1) A test card with some text will appear. Follow the instructions on the screen.
+2) No text or testcard. In this case, note the colour of the edge of the screen.
+   It will either be a steady colour or flashing regularly with a predominant
+   colour. Consult the table below to find out which RAM chip has (probably) failed.
+
+      Colour     STEADY    FLASHING
+
+      BLACK      IC 17     IC 32
+      BLUE       IC 18     IC 31
+      RED        Ic 19     IC 30
+      MAGENTA    IC 20     IC 29
+      GREEN      IC 21     IC 28
+      CYAN       IC 22     IC 27
+      YELLOW     IC 23     IC 26
+      WHITE      IC 24     IC 25
+
+If you follow the instructions on screen from the first occurence, then everything
+should be self-explanatory. The RAM test, if it finds a fault, will give two
+numbers. The first is the address at which the fault was found, and the second is
+the bank of memory which contained the address. If the address is zero, then it is
+probably not a RAM fault, but a paging hardware problem. Note that there is no way
+to fail the keyboard test - if a key won't respond then you can progress no
+further.
+
+The cassette test comes in two parts. The first cassette test is similar to the
+ULA sound test, and is the last test in the ROM program. The tone it asks you to
+hear is much quieter than the other noises. The second cassette test comes on a
+tape and is used when the BASIC is running. Turn on the Spectrum, wait for the
+menu to appear and then press ENTER. Then start the test cassette. After a short
+while, the words PROGRAM: Loading... should appear, and shortly afterwards some
+instructions will appear on the screen. Follow these to test the cassette unit.

@@ -1,0 +1,32 @@
+==================================
+Kempston Mouse for the ZX Spectrum
+Kempston Electronics
+==================================
+
+The X and Y counters are incremented or decremented with each mouse movement and
+simply wrap around if they overflow.
+
+
+X-AXIS
+
+Input port 64479 = $FBDF = %xxxxx011xx0xxxxx
+Return value = Movement counter (0 - 255)
+
+
+Y-AXIS
+
+Input port 65503 = $FFDF = %xxxxx111xx0xxxxx
+Return value = Movement counter (0 - 255)
+
+
+BUTTONS
+
+Input port 64223 = $FADF = %xxxxxx10xx0xxxxx
+Return value:
++---+---+---+---+---+---+---+---+
+| 7 | 6 | 5 | 4 | 3 | 2 | 1 | 0 |
++---+---+---+---+---+---+---+---+
+  |   |   |   |   |   |   |   |
+  |   |   |   |   |   |   |   +---- 0=Right pressed
+  |   |   |   |   |   |   +-------- 0=Left pressed
+  +---+---+---+---+---+------------ X=Undefined

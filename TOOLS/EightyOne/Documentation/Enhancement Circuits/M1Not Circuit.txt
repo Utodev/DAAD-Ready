@@ -1,0 +1,31 @@
+==========================
+M1Not Circuit for the ZX81
+==========================
+
+In the standard ZX81, no meaningful machine code routine may be run in the
+32K-64K region of the memory map. The M1Not circuit partially overcomes this
+limitation to allow machine code to be freely executed in the 32K-48K region.
+
+The ZX81 video mechanism uses the Z80 to fetch the characters to display by
+literally executing the bytes of the display file but from the mirror of it at
+the address with A15 set, i.e. in the 32K-64K region. For each byte of the
+display file, an opcode fetch is performed and if bit 6 is reset then the opcode
+byte is substituted with a NOP instruction and this is passed to the Z80 instead.
+This means that only instructions with bit 6 set will actually be executed above
+the 32K boundary, which prevents any meaningful routine being run from this area
+of the memory map.
+
+However, on a standard 16K ZX81 the display file resides within the 16K-32K area
+and so the mirror will reside in the 48K-64K area. This means there is no need
+for the execution restriction to apply to the 32K-48K memory region.
+
+The substitution of the display file byte occurs when M1=0 (opcode fetch), A15=1
+(32K-64K range), D6=0 and HALT=1. The M1Not circuit causes A14 to be considered
+also such that the substitution only occurs when A14=1, i.e. an opcode fetch
+from the 48K-64K range, and hence opcode fetches from the 32K-48K range occur
+unaffected.
+
+The improvement can be made to a real ZX81 by modifying the M1 line from the Z80
+to the ULA such that it is ORed with the inverted value of A14, i.e.
+
+    M1(ula) = M1(z80) + NOT A14

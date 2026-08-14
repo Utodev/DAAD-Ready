@@ -1,0 +1,476 @@
+==========================
+Z80 ASSEMBLER for the ZX81
+Memotech Ltd
+==========================
+
+
+Hello User,
+
+Here is the latest pack in the MEMOTECH firmware family. It enables you to
+roll up your software sleeves and get down to the job of closely controlling
+your ZX81 processor. You do this by by-passing BASIC when you wish and coding
+directly with the Z80 Assembler language. You can now write economic
+routines tailor-made to your needs. If you are an absolute beginner at
+machine code then you should pay close attention to our introductory
+paragraphs and also get hold of a good teach-yourself Z80 handbook.
+
+Good Luck from all at MEMOTECH!
+
+
+What does an ASSEMBLER do?
+
+If a ZX81 program is written in BASIC, the program is interpreted and
+executed a line at a time. While many users are quite happy with this, by
+modern computer standards the processing is very slow. It is rather like a
+man trying to speak French with a phrase book and looking up each and every
+word as he goes along.
+
+Z80 Assembler code on the other hand is really the language spoken by the
+ZX81. You speak to it directly. Furthermore, by assembling the source code
+into machine code prior to execution, you make the execution itself extremely
+rapid - in some cases hundreds of times faster than BASIC.
+
+Our Assembler pack offers two services: it allows you to enter and edit your
+source code, and it can then 'assemble' that code into executable code.
+
+
+What can I run the ASSEMBLER with?
+
+The ASSEMBLER has been designed to be compatible with MEMOTECH and Sinclair
+products wherever possible. It can be used with either 16K, 32K or 48K of
+RAM addresses above the 16K mark. Note however that the ASSEMBLER EPROM
+resides between 12K and 16K and therefore cannot be used simultaneously with
+the MEMOTEXT Word Processor or the MEMOCALC Spreadsheet Analysis Pack which
+also occupy the same area. These three software packs can be fitted together
+physically on the same system, but only one should be switched on (at the
+side) at a time.
+
+The ASSEMBLER pack should precede any memory packs and go behind the High
+Resolution Graphics pack (if used).
+
+
+How do I set RAMTOP?
+
+At a later stage, when the ASSEMBLER is generating an object program for you,
+it saves your source labels in a Label Stack which is situated above RAMTOP.
+Each label will occupy 8 bytes there, and you will have to set RAMTOP so that
+enough space is left above it (and below the physical limit of your RAM) to
+house the Label Stack. In the case of a 16K memory pack alone, this will
+mean setting RAMTOP lower than the default setting of 128
+(byte address 32768).
+
+Suppose you have a 16K configuration, and you need 50 labels:
+
+Upper address:            32768
+Space for Label Stack:      400
+New RAMTOP:               32368
+
+To lower RAMTOP by 400:
+
+POKE 16388,112
+POKE 16389,126
+NEW
+
+To calculate RAMTOP precisely, you should multiply the contents of 16389 by
+256 and add the contents of 16388.
+
+
+How do I begin creating SOURCE Z80 CODE?
+
+The ADD and EDIT options allow you to create a source code program in a
+character array. THIS ARRAY MUST LIE AT THE START OF THE VARIABLES AREA.
+Thus, before you start a new piece of source code you must first clear out
+any variables already defined and dimension your array. The array can
+contain as many lines as you like (as long as your memory is large enough)
+but must have a line length of exactly 22 characters. The last character of
+each line is used by the assembler routine to calculate addresses. Two extra
+lines are reserved for use by the editor. So if you wanted to have space for
+50 lines You would type:
+
+CLEAR
+DIM A$(52,22)
+
+The array can be saved and reloaded like any normal array, within a program.
+
+However if you wish to continue processing an existing saved string of
+source code, then you must be careful not to clear the variables or
+dimension the area again or to activate the program with RUN. Re-entry to
+the program, should take place with a GOTO statement (which can be stored
+with the original SAVE internal to the program).
+
+Now you can summon the menu of editor/assembler routines by making a USR
+call:
+
+RAND USR 16258
+
+This call can be used whenever you wish to move from BASIC to Assembler. To
+return, you simply use the QUIT option (5) listed below. The source and object
+codes are preserved after QUIT.
+
+If all is well you will get the following display after the USR call:
+
+1 - ADD    (to initiate or extend your source code}
+2 - EDIT   (to amend existing source code)
+3 - LIST   (to list source code)
+4 - ASSM   (to assemble object code from source code)
+5 - QUIT   (to quit the ASSEMBLER routine)
+
+Enter the value associated with the function you require.
+
+Each of the four options is described in detail later.
+
+
+How does the EDIT facility deal with the SOURCE STRING?
+
+The assembler software has one entry point. This has two functions. The
+first time the editor is used on a particular array, it finds the number of
+lines in your array, initialises the line and end-of-source-code pointers
+and places these variables in the first line of the array. This line is then
+transferred into the calculator stack. On exiting the editor these variables
+are transferred back into the array. Thus the variables always stay with the
+source code array, even when it is saved. All subsequent entries to the
+editor miss out the initialisation stage, allowing you to re-enter and carry
+on where you left off.
+
+
+ADD
+
+On entering the ADD option a listing is made of the last twenty lines of
+code (if they exist). The next line number is then printed, together with
+the cursor, at the bottom left of the screen, ready for the line to be built
+up and entered to the array.
+
+In order for the assembler to interpret the source code correctly it must be
+in the right format. Each line has three parts; the label field, the
+operation field and the operand field. Each of these must be separated by
+at least one space and must start from columns 1, 7 and 11 respectively.
+
+Here is a little piece of code
+
+1      7    11
+
+       ORG  16514    Start column numbers
+       POS  60000
+LABEL  LD   BC,1000
+       RET
+       END
+
+
+What are ORG, POS and END for?
+
+Each source code program must start with an ORG and POS statement and
+terminate with an END statement.
+
+ORG tells the assembler where the object code is designed to run from.
+ORG should be below 32K.
+
+POS tells the assembler where the object code will be assembled in memory.
+
+END denotes the end of the source program.
+
+For example:
+
+ORG  16514
+POS  16514
+...
+...
+END
+
+This assembles the object code at 16514 and also runs it from 16514. If POS
+is set to 60000 then the program will still contain calls etc relative to
+16514 but the program will reside at 60000.
+
+Error signals:
+
+1  First statement is not ORG
+2  Second statement is not POS
+3  Last statement is not END
+
+
+Are there any special format aids for ADD mode?
+
+A TAB function has been added to the normal SINCLAIR cursor operation. The
+TAB function is accessed via the colon key (shifted Z) and causes the cursor
+to jump from anywhere in a given field to the start of the next one. Thus
+the keying sequence for the first line of the above program should be:
+
+:ORG:16514
+
+followed by NEWLINE. In any case, lines with characters at column 6 or
+column 10 cannot be entered in the array. After each NEWLINE a new screen
+listing will be made with the latest line at the bottom. The next line
+number and cursor will then be printed ready for you to complete. If you try
+to add more code than there are lines in your array then the control will
+return to BASIC with error report 4.
+
+
+How can I return to the menu when in ADD mode?
+
+Position the cursor to the first column of the line (it may already be there)
+and type STOP (shifted A). This will return you directly to the menu. The
+current line is not added to the array.
+
+
+Can comments be placed in the program?
+
+Yes. They must be placed on a line by themselves and preceded by a
+semi-colon. These are ignored by the Assembler and so are not restricted
+to any other formatting demands:
+
+; THIS IS A SUB-ROUTINE HEADING
+
+
+Can I save my object code in a BASIC PROGRAM?
+
+We recommend using a REM statement which is the first statement in your
+BASIC program. The first byte will thus always be located at memory address
+16514. To place your object code here, cite 16514 in both your ORG and POS
+statements. You should first have set up your BASIC program with a
+sufficiently large REM statement. However, the user normally only needs to
+save his source program in the string array, and re-assemble it on re-loading.
+
+
+Can I copy a block of Machine Code (as a Subroutine for another program,
+for example)?
+
+Easily! Listed below is a machine code routine to move any amounts of data
+from one position to another. It loads whatever is 'pointed' to by HL into
+wherever DE is pointing. It then increments HL & DE. It also decrements BC
+and carries on loading and incrementing until BC=0
+
+Line 3 loads HL (the from point) with an Address
+Line 4 loads DE (the to point) with an Address
+Line 5 loads BC with the number of bytes to be transferred
+
+When you have written your routine, and if you want to use it in more than
+one program make sure you assemble it above Ramtop. Then run this machine
+code routine, setting HL, DE and BC to the values you require. Be careful
+not to overwrite code that you are using.
+
+In the example below we copy a block of 200 (BC) bytes of machine code from
+position 60000 (HL) (which might be above RAMTOP) down to position 20000
+(DE), where it can be executed. The copy routine itself resides at 30000.
+
+1          ORG 30000
+2          POS 30000
+3          LD  HL,60000
+4          LD  DE,20000
+5          LD  BC,200
+6          LDIR
+7          RET
+8          END
+9    ;THIS PROGRAM WILL
+10   ;MOVE 200 BYTES
+11   ;FROM 60000
+12   ;TO 20000
+
+
+EDIT
+
+On entering the EDIT option a listing appears with the last line situated
+in the centre of the screen. This is the last line used in this or any other
+option, or the line containing an error - if one has been detected - after the
+ASSM option. LINE=E is then printed at the base of the screen.
+
+You can now choose to edit, insert or delete any line in the array. Press
+the appropriate initial on the keyboard to make your choice. The current
+option will be indicated by the cursor.
+
+E = EDIT (default)
+D = DELETE
+I = INSERT
+
+The editor is now waiting for a line number to be entered (followed by
+NEWLINE). Invalid line numbers will be rejected. Non-numerical characters
+cannot be entered. Enter 0 (zero) if you wish to return to the menu.
+
+The following effects (including that of pressing NEWLINE} vary according to
+the option (E, D or I).
+
+In EDIT mode: Entering a line number causes that line to be brought down to
+the bottom of the screen where it can be edited in the normal way. Entering
+NEWLINE alone causes the current line to be brought down (most likely to be
+the line you have just edited). To return to the menu and keep the line as
+it was, press STOP with the cursor in column one. To enter the edited line
+to the array press NEWLINE.
+
+In DELETE mode: Entering a line number causes that line to be printed at the
+bottom of the screen together with the option (Y/N) to delete it or not.
+Press key Y to delete it and return to the listing or key N to just return
+to the listing. Entering NEWLINE alone, again causes the current line to be
+brought down ready for deletion. However, in this case, if a line has just
+been deleted then this means that the next line will be brought down.
+Hence blocks of code can be deleted without having to enter the line number
+each time.
+
+In INSERT mode: Entering a line number causes a blank line with that number
+to be printed at the bottom of the screen. Having built up that line,
+pressing NEWLINE will insert it ABOVE the line having the same number and
+shift all the rest of the code down a line. To exit without inserting the
+line, press STOP (cursor in column one). Entering NEWLINE alone allows a
+blank line with a line number one greater that the current line to be built
+up and inserted. Thus after inserting one line, if NEWLINE alone is pressed
+to the LINE=prompt, then the next line will be inserted after the last
+inserted line. In this way blocks of code can be inserted without having to
+enter the line number every time.
+
+Note that in INSERT mode, if you try to insert a line when there is no more
+room left in the array, then you will be returned to BASIC with error report
+4.
+
+
+LIST
+
+The LIST option allows you to list the source code either to the screen or
+to the printer.
+
+On entering this option "P/T?" is printed at the lower centre of the screen.
+Enter "P" if you want your listing on the printer, otherwise enter "T" for
+TV. Whichever option you choose a listing will be made on the screen,
+starting at the current line, together with the LINE=prompt. If the
+printer option was chosen then entering a line number will cause a listing
+to be made on the printer from that line to the end of the source code.
+If the TV option was chosen, then entering a line number will produce a
+screen listing of twenty lines of code starting at that line. Press
+NEWLINE to see the next twenty lines or enter another number to list from
+there.
+
+To return to the menu enter 0 to the LINE=prompt.
+
+After you have successfully assembled a source code program, these listings
+will also include an address at the right hand side of each line. This
+address is the address of the first byte of code produced by that line,
+relative to ORG. Thus unless ORG is the same as POS this will not be the
+actual address of that byte, but the address of where that byte will
+eventually be when the code is moved to its running position. These
+addresses can either be printed in decimal or in hex. By keying 'D' or 'H'
+(for decimal or hex) the addressing mode can be changed. 'D' or 'H'will
+appear in the cursor.
+
+
+ASSM
+
+This option assembles the source code, placing the object code at POS, but
+assembling it so that it will run when placed at ORG.
+
+The assembler works in FAST mode, so the screen will go blank while it is in
+operation and will jump when it finishes.
+
+If the assembler finds an error in the source code it will stop with an
+error report of the form:
+
+ERROR x, LINE=yyy
+
+See later for a summary of error codes (x).
+
+Pressing any key after an error signal will return you to the menu. The line
+containing the error is now the current line, so entering EDIT mode and
+pressing NEWLINE will bring that line down for you to edit before trying to
+assemble the code again.
+
+As the assembler works through the source code, it inserts dummy values for
+all labels. Then, on its second pass, it replaces these for their true
+values. If you use a label that is not defined in your source code program,
+then the dummy values for that label will remain in the object code. These
+dummy values are as follows:
+
+0.........For a single-byte data label.
+0 and 0...For a two-byte data label.
+0 and 0...For an address label.
+255.......For a relative jump label.
+
+Because of the relatively disastrous consequences of these dummy values in
+CALLs and JUMPs, the assembler searches the object code for them, and if it
+finds any, tells you how many it has found using the message xx WARNS
+
+Note that no line numbers are given and that only the CALLS and JUMPS to
+undefined labels are included in the count. Undefined data labels are not
+included.
+
+If the assembler has not found any errors then it will print up the "P/T?"
+notice in the lower centre of the screen together with the WARNS notice, if
+any have been found.
+
+It is now possible to list the object code, either to the printer or to the
+TV screen. Press "P" for a listing on the printer, otherwise press "T".
+Whichever option is chosen the screen will clear and the LINE=prompt will
+be given. The listing can either be in decimal or in hex. This is signified
+by the letter of the cursor in exactly the same way as in the listing of
+source code. Enter "D" for decimal, and "H" for hex. If the "P" option was
+chosen entering a line number will cause a listing to be made on the printer
+from that line to the end of the program. If the "T" option was chosen,
+entering a line number will cause a listing of twenty lines of object code
+on the screen, starting at that line. Press NEWLINE to list the next twenty
+lines; or enter another line number to list from there.
+
+The object code listing has the following format:
+
+Line  ORG      POS      Object
+No.   Address  Address  Bytes
+AA    BBBBB    CCCCC    DDD EEE FFF
+
+Enter O to return to the menu.
+
+
+QUIT
+
+This will return you to the BASIC mode. Note however that the option code 5
+will appear on your BASIC screen. There is a possibility that line 5 of any
+existing BASIC program may be deleted if NEWLINE is pressed. Either avoid
+using line number 5 or remember to RUBOUT the 5 when you have re-entered
+BASIC.
+
+
+Summary of error codes
+
+Error Code Error
+     1     First statement is not ORG.
+     2     Second statement is not POS.
+     3     No such op-code or last statement is not END.
+     4     Syntax error in operand.
+     5     No label space left (only applies to 64K rampacks).
+     6     Number too large (DEFB and DEFS only).
+     7     Relative jump out of range or redefined label.
+
+
+Additional information
+
+1. Labels are not allowed in DEFB or DEFS statements.
+2. Labels are not allowed as the offset to the index registers.
+   BIT 7,(IY+DATA)      is not allowed
+   BIT 7,(IY+255)           is allowed
+   LD (LABEL),IY            is allowed
+3. One statement is too long to fit in the twenty-one character line.
+   This must be written in two lines as follows, for correct assembly.
+   LD (IY+disp) (disp and data being numbers, labels are not allowed) data
+4. A label in a program is given the value of the (ORG) address at which it
+   occurs. To assign an absolute address to a label, use the EQUATE directive.
+   For example:
+   LABEL EQU 16514
+      ...
+      ...
+      ...
+   LD HL,(LABEL)
+5. When using relative jumps, note that the displacement as specified in
+   the source code is placed directly into the object code.
+   Thus JR 253 assembles as 24,253
+6. The assembler assumes numbers are in decimal unless preceded by a "$"
+   sign.
+   E.G.  LD A,255  OR
+         LD A,$FF
+7. Labels can be three to five characters long. The first character must be
+   a letter. Subsequent characters can be anything. All characters are
+   significant. DO NOT USE REGISTER PAIRS TO START OFF LABELS.
+8. The DEFINE BYTE directive can be used to place single bytes of data
+   within the object code. When placing more than one byte at a time on a
+   line, separate the numbers with SPACES. Also ensure that there is space
+   at the end of the line.
+   For example
+   DEFB 255 100 10      One space at end of line
+   DEFB 255 100 100     No spaces - will not assemble
+9. The DEFINE SPACE (DEFS) directive can be used to reserve up to 255
+   bytes at a time for data, tables etc. When found in the source code it
+   simply moves the address pointer on by the specified number of bytes.
+
+MEMOTECH Z80 ASSEMBLER was written by Philip Le Sueur for MEMOTECH LIMITED.
+MEMOTECH Z80 ASSEMBLER (c) R. BRANTON & G.A.C. BOYD

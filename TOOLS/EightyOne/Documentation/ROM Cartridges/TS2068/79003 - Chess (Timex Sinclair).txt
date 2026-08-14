@@ -1,0 +1,89 @@
+==============================
+CHESS ROM Cartridge for TS1500
+Timex Sinclair
+==============================
+
+CHESS
+© PSION 1982
+
+CHESS is a machine code program which automatically starts executing once it
+is loaded.
+
+
+CHESS:
+
+To play, insert the software cartridge into the Timex Command Cartridge Player
+(see instruction booklet for details) and begin. Before the game can start you will
+be asked a few questions. All replies should be terminated by the ENTER key
+and the usual BASIC editing facilities apply. The program looks at only the first
+letter of any reply so, for example, YES can be abbreviated to Y.
+
+The first question asks if you want to play a game. A reply of NO allows you to
+set up any board position before starting the game. For the moment, we will
+assume you have given the more usual reply of YES. You will then be asked for
+your choice of color, to which you should, of course, reply WHITE or BLACK.
+Finally you may select the level of ability (1 to 6) of your computer. Level 1
+replies to your move in about 5 seconds, level 2 takes about 35 seconds and
+level 3 several minutes. Levels 4, 5 and 6 are only suitable to very extended
+games. These times are representative and in practice a reply to check is
+usually rapid while a reply to a complex position could take considerably longer.
+
+The game has now started, a chessboard is displayed and your move is
+requested. Although it is quite possible to play using only the displayed board,
+you will be at a disadvantage unless you follow the game on a normal board. It is
+easy and convenient to check that the position on the displayed board and the
+real board correspond, and that you and the computer are playing the same
+game. Each piece is represented by a letter: K for king, Q for queen, A for
+rook, B for bishop, N for knight and I for pawn. The color of the piece is the
+color of the displayed letter. The board is always presented with the player at
+the bottom.
+
+Moving is performed by entering the coordinates of the square from which you
+are moving, followed by a space, then the coordinates of the square to which
+you wish to move.
+
+The coordinates are those of the algebraic system of chess notation (used by
+most modern chess books) where, from White’s side, the columns are
+designated A to H from left to right, and the rows are numbered 1 to
+8 from White's side to Black's. If White's first move is to advance his king's pawn
+two squares, then E2 E4 should be entered. On the other hand, if Black is to
+move his king's pawn two squares forward, then E7 E5 should be entered. If you
+are unfamiliar with this notation you will find it easier to play white for the first
+few games.
+
+Invalid moves are not allowed. Castling is done by entering the king's move and
+will be displayed as 0-0 (King's side) or 0-0-0 (Queen's side) if performed by the
+computer. En passant is recognized and will be displayed as PXPEP by the
+computer. At the normal termination of a game by checkmate (either way), the
+computer will wait for you to hit ENTER before restarting the program.
+
+If you reply NO when you are asked if you want to play a game, you will then be
+asked if you want to set up the board. Another reply of NO will return you to
+BASIC and clear the program. A reply of YES will display the board with an "="
+sign in one corner denoting the active square. Typing 5 or 8 will move the "=". If
+you wish to insert or alter the contents of the active square, enter K, Q, R, B,
+N or P for a king, queen, rook, bishop, knight or pawn respectively. You will
+then be asked for the color of the piece and whether or not it has moved. If a
+piece has moved away from and back to its original position then it is counted as
+being moved. The "=" sign will then continue to the next square. When you have
+finished setting up the board, exit by typing X.
+
+The program will ask for confirmation of the board and then request the new
+parameters for the game - player's color, the computer's ability and the current
+move - before playing the game.
+
+As alternative means to enter the board setup routine is to enter RESIGN at
+your move and answer NO to "do you want to play another game". In this case
+the board will be displayed for setting-up in the same position as it was on
+resignation. By this means it is even possible to change sides during a game or
+to alter the computer's ability.
+
+WARRANTY
+There are no warranties which extend beyond the description on the face
+hereof. No other warranty, whether express or implied, including the warranty of
+merchantability, shall exist in connection with the sale of this product. In no
+event shall Timex be liable for any consequential, incidental or special damages.
+
+MODEL NO. 344-095902
+
+© 1983 Timex Computer Corporation Waterbury, Connecticut 06725

@@ -1,0 +1,58 @@
+===============================================
+G27/R JET PAC ROM Cartridge for the ZX Spectrum
+Sinclair Research
+===============================================
+
+The 'Acme Interstellar Transport Company' is delivering spaceship kits to various
+planets in the solar system throughout the Galaxy; and as chief test pilot, all
+you have to do is assemble the Rockets, and thrust on to your next destination.
+
+As you don't often get the chance of a free trip across the Galaxy, this is a great
+opportunity to get rich! Stop off on several planets on your journey, collect the
+odd sack of precious gems, elements or gold, and take them back with you.
+
+Sounds simple doesn't it!
+
+But before you make yourself the richest person in the whole Universe, remember to
+refuel your Spaceship - with 6 fuel pods - every time you land on a planet. Any
+other goodies you collect are yours to keep. Upon landing, you will find yourself
+equipped with the very latest Hydrovac Jet Pac, which can automatically air lift
+almost any rocket stage, fuel pod or valuables that you care to land upon, and
+release them over the rocket ship base. Don't forget your mega-powerful, Quad
+Photon Laser Phasers can blast any nasty, mean aliens who might object to your
+visit.
+
+
+Controlling your Jet Man
+
+Your Jet Man is fully controllable using either the keyboard or a joystick.
+
+
+Keyboard Controls
+
+FLY OR WALK LEFT: 'Z, X, B, M' keys
+FLY OR WALK RIGHT: 'x, V, N', SYMBOL SHIFT keys
+FIRE: any key on the second row (A, S, D, F, etc)
+Rapid laser fire may be obtained by continuous hold of the fire key,
+THRUST: any key on the third row (Q, W, E, R, etc)
+HOVER: any key on the numbers row can be used to hover Jet Man whilst in flight
+without the need for thrust (1, 2, 3, 4 etc).
+
+
+Joystick Controls
+
+Connect joystick to right hand socket.
+
+JOYSTICK FORWARD - thrust
+JOYSTICK BACKWARD - hover
+JOYSTICK RIGHT - moves right
+JOYSTICK LEFT - moves left
+JOYSTICK FIRE - fire
+
+
+Score Line
+
+The Score Line displays:
+One player and two player scores.
+One player and two player lives left.
+Highest score obtained.

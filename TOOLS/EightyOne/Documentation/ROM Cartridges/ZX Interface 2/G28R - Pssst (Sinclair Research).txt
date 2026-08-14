@@ -1,0 +1,63 @@
+=============================================
+G28/R PSSST ROM Cartridge for the ZX Spectrum
+Sinclair Research
+=============================================
+
+Robbie the robot sits in his garden, fetching the old bag of compost to help his
+prize Thyrgodian Megga Chrisanthodil grow. Then suddenly the whole garden is
+invaded by the most devilish, destructive insects you could imagine. But Robbie is
+prepared!
+
+Equipped with three spray cans of the latest insect repellent, smoke and streamers,
+Robbie fights to keep the deadly garden pests at bay.
+
+All he has to do is figure out which spray kills each insect outright, as the
+wrong spray will only stun them momentarily If Robbie leaves his plant unattended
+the insects will swarm all over it, eat the leaves and the plant will wilt and die.
+
+
+Growing Instructions
+
+Plant the seeds in good soil. Growth can be speeded up by collecting all compost
+bags, keeping young shoots free from all garden pests and by looking alter the
+leaves, which collect sunlight. Remember, the more leaves the plant has, the faster
+it will grow. As the young shoots give off an exotic aroma, the plant is
+especially attractive to hoards of Interstellar Space Slugs. Scuttling Leeches and
+Menacing Midges. Use of correct repellents will prevent all of these attacks.
+
+Please note: only approximately 20% of all plants will blossom and reveal Robbie's
+ultimate dream. Growing time approximately 2 to 5 minutes.
+
+
+Controlling your Robot
+
+Your Robot is fully controllable using either the keyboard or a joystick.
+
+
+Keyboard Controls
+
+LEFT: 'Q' key
+RIGHT: 'W' key
+UP: 'E' key
+DOWN: 'R' key
+FIRE SPRAY CANS: 'T' key
+PAUSE the game by using the CAPS SHIFT key.
+
+
+Joystick Controls
+
+Connect joystick to right hand socket.
+
+JOYSTICK FORWARD - moves up
+JOYSTICK BACKWARD - moves down
+JOYSTICK RIGHT - moves right
+JOYSTICK LEFT - moves left
+JOYSTICK FIRE - fire
+
+
+Score Line
+
+The score line displays:
+One player and two player scores.
+One player and two player lives left.
+Highest score obtained.

@@ -1,0 +1,584 @@
+==========================================
+MEMOCALC Spreadsheet Analysis for the ZX81
+Memotech Ltd
+==========================================
+
+Hello User!
+
+More and more people are using the ZXE1 in business and engineering.
+Systems of all kinds require planning, and planning requires a model of the
+future (or possible futures). This is where MEMOCALC comes in. You can now
+use powerful and rapid projection techniques on your ZX81.
+
+In this booklet you'll find all the functions and error messages explained,
+and some worked examples to demonstrate these.
+
+Good luck from all at Memotech!
+
+
+What is spreadsheet analysis?
+
+Spreadsheet analysis is a system for entering data and equations relating to
+those data in a common rectangular grid. When the grid is evaluated, each
+equation is solved to give a value which then appears in the cell where the
+equation was entered.
+
+
+What then is MEMOCALC?
+
+MEMOCALC is a spreadsheet analysis package with a grid size of up to 7000
+numbers. It lets you use all the functions of the ZX81 to build up simple or
+sophisticated models for business, engineering and other applications.
+
+The program comes in the form of an EPROM pack that fits snugly on the back of
+the ZX81. No time is wasted loading the program, and all your BASIC addressable
+memory is available for holding grid data.
+
+The program is easy to use once the basic principles are grasped. All inputs are
+prompted and if an error occurs a meaningful message is given. What's more, column
+and line headings are shown on the screen, so you always know where you are.
+
+You can display figures with two decimal places or with none (but the values are
+held internally with greater accuracy to prevent the build-up of rounding errors).
+There are totalling and sub-totalling facilities, and a special feature to enable
+the months of the year to be put in rapidly.
+
+You may want to print the results of your model. As well as supporting the ZX
+printer, MEMOCALC can be used with other printers through the MEMOTECH printer
+interfaces to give your results a truly professional appearance.
+
+
+How do I get started?
+
+First set up your configuration with at least the ZX81, the MEMOCALC pack and a
+MEMOPAK or Sinclair 16K RAM pack in that order. MEMOCALC is addressed between 12
+and 16K. You can either switch on your MEMOCALC by hand (at the side of the pack)
+to jump straight in, or make a USR call at 13824 (eg RAND USR 13824) after you
+have powered up. Note that if you have a Memopak HRG in your configuration
+with Memocalc, the HRG will only be accessible when Memocalc is switched off.
+
+Immediately you will be prompted to choose between L for LOAD (to read an existing
+grid from tape) or I for INIT (to start afresh). For your first time around you
+will need to key in I, whereupon the prompt NO. OF LINES? will appear.
+
+
+What does the spreadsheet grid look like?
+
+Unless your grid is very small, you will never see it all at once, but the screen
+acts like a window through which you can see 3 columns and 15 lines at a time. At
+the top and down the left hand side are the text areas, separated from the main
+body of the grid by broad black lines. The cursor is a bar of 7 black squares, and
+by pressing 5,6,7 or 8 you can move it around the grid in the direction of the
+associated arrow. If you 'shift' these keys, the window moves around the grid and
+the cursor moves with the window.
+
+
+What can I do with the grid?
+
+There are a number of functions you can call by entering the first letter. If you
+enter H for the HELP function you will see what they are. The letter will be stored
+in the top lefthand corner of the screen to remind you which function you are using.
+
+One of the main function codes is I for INPUT. If you press I when the cursor is in
+the text area, you will be prompted TEXT?; you can then enter a label for a line or
+column. If your cursor is situated in the main body of the grid then you will be
+prompted with VALUE/EQUATION? V is for VALUEs or raw numbers, E is for EQUATIONs
+for generating new values from previous ones. There is also R for REPEAT and T for
+TOTAL which are discussed below, and C for CALCULATE. If you get into a tangle,
+shifted 1 (EDIT) will abandon the current function.
+
+
+How do I enter positions and equations?
+
+Positions are defined by grid references with numbers representing the columns,
+and letters representing the lines. For example, A1 is Line A Col 1; C8 is
+Line C Col 8. Note that when all the single letters have been used up then double
+letters are used, i.e. AA is Line 27, AK Line 28 and IO is Line 250 - the
+last possible line. Whenever the program prompts POSITION? you should supply
+the grid reference in this form.
+
+Equations are expressed using position references as variables, the left hand
+side of the expression being the cursor location. For example, if you want to
+assign to cell A1 twice the value of cell D12, you should move the cursor to A1
+(using G (GOTO) or the 5, 6, 7, 8 keys) and then key in I (INPUT), E (EQUATION),
+and D12 * 2.
+
+Equations can be self referential. To set an initial value to a cell, use the
+I V function; an equation can then be entered in the same cell referring to
+itself. It will immediately evaluate itself. For an example of this, see
+CALCULATE in the List of Functions below.
+
+
+A MINI-EXAMPLE
+
+Green the Grocer has a value for each kind of produce he thinks he will sell
+in January. He thinks apples will then increase each month by 10%, pears will
+decrease by 5%, sprouts will double and leeks halve. He would like to examine
+the overall situation for the quarter, with separate monthly sub totals made
+on fruit and vegetables, and totals and running totals for each month.
+
+After I for INIT he enters 4 for NO. OF COLUMNS? (1 per month and 1 for a
+quarter's totals) and 15 (the minimum) for NO. OF LINES? He then proceeds to
+set up his grid labels. In each case he first moves the cursor to the
+appropriate position, then enters his function(s) and then the text, followed
+by NEWLINE. There are two rows available for labelling columns
+(called here 'upper' and 'lower').
+
+CURSOR POSITION        FUNCTION(S)   ENTRY
+                                    TYPED IN
+Upper label col 1                I  GREEN
+Upper label col 2                I  THE
+Upper label col 3                I  GROCER
+Lower label col 1                I  JAN
+Lower label col 2                I  FEB
+Lower label col 3                I  MAR
+      Label line A               I  APPLES
+      Label line B               I  PEARS
+      Label line C (left blank)
+      Label line D               I  FRUIT
+      Label line E (left blank)
+      Label line F               I  SPROUTS
+      Label line G               I  LEEKS
+      Label line H (left blank)
+      Label line I               I  VEG
+      Label line J (left blank)
+      Label line K               I  TOTAL
+      Label line L (left blank)
+      Label line M               I  RUNNING
+
+That completes the labelling.
+
+Say his initial values for apples, pears, sprouts and leeks are 100, 150,
+200 and 250 respectively. He proceeds:
+
+CURSOR POSITION
+A1	              I V          100
+B1	              I V          150
+F1	              I V	   200
+G1	              I V          250
+
+Next he enters equations by which the program will generate the future values,
+
+A2	              I E          A1*1.1
+B2	              I E          B1*.95
+F2	              I E          F1*2
+G2	              I E          G1*.5
+A2                    R            A3
+B2                    R            B3
+F2                    R            F3
+G2                    R            G3
+
+Note that Mr Green has saved time by using the R (REPEAT) function:
+with the cursor at A2, R A3 means repeat the equation which is in A2 along
+line A as far as A3. After the CO (CALCULATE ONCE) function has been performed,
+a D (DECODE) function with the cursor at A3 will reveal A2*1.1
+
+He wants line totals generated in column 4, so he first moves the window:
+
+Shifted 8      (moves window to the right by 1 column)
+
+Lower label col 4       I          QTR
+  A4                    T T L
+  B4                    T T L
+  F4                    T T L
+  G4                    T T L
+  Shifted 5 (moves window to the left by 1 column)
+
+And lastly the column sub totals and totals.
+
+D1                    T S C
+D1                    R            D4
+I1                    T S C
+I1                    R            I4
+K1                    T T C
+K1                    R            K4
+M1                    I E          K1
+M2                    I E          M1+K2
+M2                    R            M3
+
+At the end, or at any point in the input procedure, he can enter C for
+CALCULATE to see the results, followed by the letter O since he only wants
+to calculate ONCE. After any amendments, C should be re-entered to see the
+new values.
+
+The final result should look something like this:
+
+memocalc    GREEN THE GROCER
+                  JAN   FEB   MAR   QTR
+                   1     2     3     4
+APPLES    a       100	110   121   331
+PEARS     b       150	142   135   427
+          c
+FRUIT     d       250	252   256   758
+          e
+SPROUTS	  f	  200	400   800  1400
+LEEKS	  g	  250	125    62   437
+	  h
+VEG	  i	  450	525   862  1837
+	  j
+TOTAL	  k	  700	777  1118  2596
+	  l
+RUNNING   m	  700	1477 2596
+	  n
+	  o
+
+
+What form do the entries take?
+
+All inputs are in response to prompts and can be of two types - single
+characters or strings. If a single character is required no cursor will
+appear at the bottom of the screen, and afterwards there's no need to press
+NEWLINE. Sometimes you are asked to make a choice of two letters shown on
+a black background. Just press the key corresponding to the desired letter.
+
+If a string is required, an L cursor will appear at the base of the screen.
+As you enter the string it is displayed below. Afterwards you must press
+NEWLINE before the computer will pay any attention to it. You must enter at
+least one character before you press NEWLINE. The program may limit the
+characters you are permitted (eg for numbers it only allows keys 0-9).
+Normal ZX81 editing features are supported.
+
+At the base of the screen, input can be up to 4 lines long. If you go over
+4 lines, the input will be rejected and TOO LONG displayed. If the input has
+format or syntax errors, it will be redisplayed with a marker at the error
+which can then be edited or re-entered. If an input is syntactically correct
+but cannot logically be implemented in the grids it will be rejected with
+an error message.
+
+
+LIST OF FUNCTIONS
+
+SHIFTED 1 (EDIT) - abandons current function.
+
+UNSHIFTED 5, 6, 7 AND 8 - moves the cursor around the screen, in the direction
+shown on the arrow.
+
+SHIFTED 5, 6, 7 AND 8 - moves the 'window' on the data that is currently being
+displayed.
+
+B - BLANK blanks out the value/equation/subtotal/total at the position on the
+screen occupied by the cursor. For the purposes of calculating, blank positions
+have a value of zero.
+
+C - CALCULATE forces a recalculation of all values in the matrix (ie evaluates
+all the equations, subtotals and totals). A prompt of ONCE/MANY? will be
+displayed. Press O if you want the matrix to be evaluated just once.
+Note that calculations are done from left to right within an overall
+top-to-bottom progression. You can only evaluate equations from entered values
+or from results of previous equations. You should ensure that equations only
+refer to the positions above or on the same line to the left, unless the values
+are fixed. A line of running totals may easily be accumulated beneath a line of
+absolute column totals, but carrying forward from the base of one column to the
+top of another is not possible with the O option.
+
+Pressing M for MANY causes the matrix to be evaluated and the bottom right cell
+to be tested for its value. If this value is exactly 0 (and a blank will count
+as 0), the cycle is deemed to be finished and the calculation will stop. Entering
+a non-zero VALUE in that cell will cause the matrix to be re-evaluated cyclically
+until the BREAK key is pressed. Using that cell only, a simple counter can be
+inserted to give a known number of cycles; for example, in a 3-column, 15-line
+matrix the entries at cell 03
+
+                       I V 21
+                       I E03-1
+
+will cause the matrix to be evaluated 20 times and then stop.
+
+D - DECODE tells you how the value at the cursor position is derived. This will
+either be an equation or the codes BL-blank/ VL-value, SC-subtotal column,
+SL-subtotal line, TC-total column, or TL-total line.
+
+G - GOTO moves the 'window' on the grid so that the top left hand corner is the
+line/column you supply in the response to the POSITION? prompt. The cursor will
+be over the position supplied.
+
+H - HELP lists available functions; these appear beneath the grid and are removed
+when another function is selected.
+
+I - INPUT enters information where the cursor is resting. If this is in a heading
+position (above or to the left of the grid) then text will be expected and the
+prompt TEXT? will be displayed. In text mode all characters (but not graphics
+symbols} are acceptable; only the first 7 are used.
+
+If the cursor is resting over the body of the table, then the prompt
+EQUATION/VALUE? will be displayed. If the entry in the cell is not to be
+dependent on other values in the table, then the VALUE option
+should be used. Otherwise use EQUATION. In response to these choices the
+prompts VALUE? or EQUATION? respectively will be displayed.
+
+In the case of EQUATION a valid mathematical expression should be entered
+using position references as variables. The RND function is supported as are
+the logical operators (AND, OR and NOT). Upon entry, the program will check
+the equation for validity and redisplay any invalid expression with an error
+marker and with the cursor positioned after the offending character. If the
+expression is valid, then its results will be calculated and displayed
+immediately and every time the CALCULATE command is given. Note that
+EQUATIONs can be copied into other positions in the grid, whereas VALUEs cannot.
+To effectively copy a value, enter it first as an EQUATION but without position
+reference variables.
+
+L - LOAD loads a grid from tape or sets up a new grid. Any grid already in RAM
+is lost. The prompt LOAD/INIT? will be displayed.
+
+If you press I, existing data will be erased immediately. The prompt
+NO. OF COLUMNS? will then appear. Reply with the number of columns of data you
+expect to use (leave some room for expansion - big empty matrices take longer
+to SAVE than small ones, but no longer to CALCULATE). The number of columns
+must be in range 3-99. Following this, the prompt NO. OF LINES? will appear. The
+permissible range is 15-250.
+
+The program will then see whether there is space in memory for an array of this
+size. Generally, lines x columns should not exceed 1800 for 16K, 4400 for 32K,
+and 7000 for the 48K RAM in the Memopak 64K. If your demands exceed the space
+available, you will be asked for NO. OF COLUMNS? again.
+
+If you choose the L (LOAD) option, you will be prompted for the NAME? of the
+grid you wish to load; this must be exactly the same as the name it was saved
+under. There is no default loading of the first thing on the tape, so remember
+to record the names you assign to your grids. Start the cassette recorder and
+press NEWLINE; when you press this key, any existing data in RAM will be cleared.
+The screen will go blank for a few seconds when the load is completed while
+the display is built up. If an error occurs in the load you will be returned
+to the LOAD/INIT? prompt so that you can try again.
+
+M - MODE switches between integer and 2-decimal display modes. Integer display
+occurs initially, but you can switch between modes at any time. Existing data
+on the screen is not immediately changed, but new entries are in the new mode.
+When the screen is re-displayed (on CALCULATE or GOTO) the new mode is employed.
+
+Note that the largest number that can be displayed is 9999999 in integer mode
+and 9999.99 in 2-decimal mode. Although larger numbers can be handled and stored,
+they will overwrite the previous column in the display and printout. If you think
+this will be a problem, just use every other column in the grid, though you
+will then be restricted to column REPEATs only.
+
+P - PRINT elicits the SCREEN/ALL? prompt. Pressing S will cause what is on the
+screen to be copied to the printer. A for ALL will ask you for the NO OF COLUMNS?
+you want printed across on your printout; the maximum number of columns you can
+print across a sheet is as follows:
+
+ZX printer             3 columns
+80 character printer   9 columns
+132 character printer 15 columns.
+
+Either print option can be halted by pressing the BREAK key.
+
+Q - QUICK Converting between internal floating point numbers and displayed decimals
+is a slow process. In QUICK mode, existing data are not displayed although labels
+are, and shifting the window becomes virtually instantaneous. All data are however
+displayed after CALCULATE or GOTO. To get back out of QUICK mode, simply press Q again.
+
+R - REPEAT repeats an equation (or total/subtotal) from the cell where the cursor
+is resting to another position which must be either on the same line or in the same
+column. Note that the repetition is relative to position, ie if the initial
+equation is A1*2 and you are REPEATing it downwards, the DECODE function
+would reveal B1*2 in the next cell, then C1*2, and so on.
+
+S - SAVE saves the entries in the grid. In response to NAME? you should enter a name
+of up to 12 characters. You do not need quote marks as in the normal ZX81 SAVE.
+Escape from the SAVE can be effected using the BREAK key.
+
+T - TOTAL/SUBTOTAL works down a column or across a line. You will be prompted
+TOTAL/SUB-TOTAL? and should respond T or S accordingly. Then the LINE/COLUMN? prompt
+will appear; responding L accumulates values to the left on your line, and C
+accumulates above in your column. For examples T S C means TOTAL function/
+Subtotal of Column. It works upwards accumulating values in the column until it
+reaches either a previous column subtotal or the first line. It ignores any
+column totals but will include line subtotals and totals.
+
+Y - YEAR provides a fast method of entering the months of the year as labels. The
+cursor should be positioned over a label cell containing the first three letters
+of a month (JAN, FEB, etc.). When Y is pressed the remaining months of the year
+will be set up in the succeeding cells (to the right if a column label, downwards
+if a line label). If the initial cell contains some other information in the
+four remaining character spaces (eg JAN'84), that information will be copied with
+the succeeding months.
+
+The effects of the Y function are immediate, but are not displayed until a
+CALCULATE or GOTO command is given.
+
+
+ERROR MESSAGES
+
+CALC. ERROR (functions C, I & R) - A mathematical error was detected during
+processing. The line/column reference at which the error was detected is given,
+and this is followed by the ZX8l error code (see Appendix B of the Sinclair
+manual). If function R is being used then the chances are the equation you
+are trying to repeat uses grid references and that there are no corresponding
+grid references in the repeat-to position. (Function D can often be used
+profitably when this occurs to help you track down the source of error).
+
+CANT EXTEND (function Y) - The box over which the cursor is resting does not
+contain a recognised month of the year (or contains DEC which cannot be
+extended), or the dimensions of the grid do not allow any extension to take place.
+
+EDIT USED (any function) - The EDIT key was pressed during INPUT. Nothing you
+have done so far within this function has affected the data.
+
+SAVE ERROR (function S) - An error occurred on the SAVE (or you pressed the BREAK
+key to terminate it intentionally).
+
+INV.REPEAT POS (function R) - The REPEAT position is invalid, either because
+both line and column references of this position are different to the cursor
+location, or because this position is not below or to the right of the cursor
+location.
+
+NOT A NO (functions B, D, R, T) - The cursor is resting over a header field, so
+that these functions which are concerned with the body of the grid cannot be
+used. (To blank out a value in a header field use function I and key in spaces).
+
+NOT EQUATION (function R) - The cursor is resting over a position which contains
+a VALUE not an EQUATION. Such values cannot be repeated. (If you want to REPEAT
+a value you should set it up as an equation without position references).
+
+NOT TEXT (function Y) - The cursor is not resting over a header field.
+
+OUT OF RANGE (functions L, P and during the initial entry to the program) - If
+you are using function P, then the number you entered after the NO. OF COLUMNS?
+prompt was not in the range 1-15. When setting up the dimensions of the model,
+the number of columns must be in the range 3-99, and the number of lines in the
+range 15-250.
+
+TOO BIG-REINPUT - There is not enough room in memory to accommodate the number
+of columns and lines you have requested (and still leave some room for equations) .
+
+TOO LONG (function I) - This error message arises a) because the attempted
+INPUT has exceeded 4 lines in length, or b) because no more room exists for
+equations. Room can be cleared by BLANKing out unwanted entries.
+
+
+A BIGGER EXAMPLE
+
+You are a manufacturer who expects sales of 1000 units of value in January,
+rising by 1% per month for the year. Your nett costs are 90% of sales value.
+You want to know your profit and accumulated profit at each month.
+
+Press I for INIT, 4 for NO. OF COLUMNS? (to allow for sales, costs, profit, and
+accumulated profit) and NEWLINE, and 15 for NO. OF LINES? (which is the minimum,
+and allows for 12 months and a total) and NEWLINE.
+
+The empty grid will come up, showing columns 1-3 and lines A-O; the cursor will
+be at A1, and the prompt FUNCTION? will be at the base. Remember that if you
+want to cancel the function you're in for whatever reason, you can get out with
+EDIT (shifted 1).
+
+Before you enter the function command move the cursor.
+
+Put the cursor above the black line which marks the edge of the table so that
+when you enter I the prompt TEXT? appears. Enter SALES, and move the cursor
+across for COSTS in column 2, and PROFIT in column 3. In order to enter CUM in
+column 4 you will have to shift the 'window' using shifted 8. When this is
+done you can GOTO A1 again.
+
+Move the cursor to the left to enter the label for line A: enter JAN 84. You
+could then enter all the other months of the year yourself, but to make it
+easier leave the cursor where it is and enter function Y. Now C (CALCULATE) and
+see the effect of that.
+
+The cursor will now be back at A1 and you can enter the initial value of sales.
+Press I V 1000 and NEWLINE.
+
+Sales for FEB are a 1% increase over JAN's, so move the cursor to A2 and enter
+I E 1.01*A1. When you press NEWLINE the value 1010 will appear there.
+
+You could now enter a similar equation at C1, which would be 1.01*B1, and so
+on for all the other months. The R (REPEAT) function is designed to save you
+this trouble; it gives you the prompt POSITION? which asks you how far down
+the column you would like the pattern of the equation to be repeated. This
+pattern is relatively positioned, so the equation is understood to mean
+'multiply the value above by 1.01 and place the result here'. Leave the cursor
+at B1 and enter R. In response to the prompt, enter L1 (corresponding to DEC
+84), and CALCULATE, ONCE.
+
+If you're interested, move the cursor to I1 and DECODE. Press M for MODE and
+CALCULATE. Press H and see what else there is.
+
+To get on with the COSTS column, move the cursor to A2. Costs are 90% of sales
+value, so enter I E 0.9*A1, R to L2, and C O.
+
+Profits are sales minus costs, so move the cursor to A3. The entries here are
+I E A1-A2, R L3, C O.
+
+To see column 4, use shifted 8. JAN's cumulative profit is simply the profit
+in JAN, so with the cursor at A4 enter I E A3. For the second and subsequent
+months, the cumulative profit is the previous cumulative profit plus current
+profit. Move the cursor down to B4 and enter I E A4+B3, and REPEAT down to
+L4. C O will give you the results as usual.
+
+All that remains now is to produce annual totals for the columns: these can
+go in line N. Entering G (GOTO) N1 will put the cursor where you want it, and
+T T C will give you your column total. Until you CALCULATE, 0 will appear
+there to show that something has been accepted. R N3 and C O will complete
+this spreadsheet. You should get a total profit for the year of 1268.
+
+Sometimes figures do not appear to add up. This will be because values are
+always rounded down for display. Function M will change from integer to
+decimal (or decimal to integer) modes. Then you have to key G for GOTO and
+reply A1 to POSITION? to see the more accurate figures. (G for GOTO is very
+useful to move among larger models).
+
+If this were a real model, you might want to SAVE it or PRINT it. See the
+list of functions. If you like you can change the value in A1 and
+re-calculate the whole grid. Or you could try and cycle the program to
+show the profit after 5 years.
+
+
+STRANGE RESULTS
+
+If you get results that are unexpected, then almost certainly something is
+wrong with the equations. You should check that equations refer only to
+grid references where the value at that cell has been evaluated first
+(remember that the calculation works from left to right and from top to
+bottom), and that are not set to blank.
+
+
+HINTS ON MATHEMATICAL FUNCTIONS
+
+MEMOCALC supports all the mathematical functions of the ZX81. This makes it
+ideal for engineering applications as well as financial projections.
+
+
+The RND function
+
+This is an important simulation device. Looking at the last worked example,
+we assumed that sales increased smoothly. This is very unlikely to happen
+- there may be a underlying upward trend, but sales in each month may show
+peaks and troughs.
+
+If sales are expected to be random within plus or minus 10% of the expected
+sales, we could model this quite simply with an equation such as:
+
+Random sales = Expected sales * (.9 + .2 * RND)
+
+More sophisticated equations can be used to model statistical distributions,
+or to reflect relationships between monthly sales. (If, for example, you had
+a good sales month in January, it may well be that some of February's sales
+came early).
+
+The advantage of incorporating RND in such equations is that you will get
+different random values every time you calculate, and apart from pressing
+C you do not have to put in much effort. Done several times, this may reveal
+potential problem outcomes that you might not have considered.
+
+
+LOGICAL OPERATORS
+
+AND, OR and NOT can be used to put conditions into the model. The costs in
+the worked example are to say the least, simplistic. A more realistic
+situation might be that there are fixed non-production costs of 300, a
+material cost of 0.3 per unit sales, and that factory, labour and overhead
+costs are a minimum of 300 no matter how many are being made; but that
+anything over 1000 units produced will incur an excess factory cost of 0.4
+per unit. We can then write a mathematical expression for the costs as:
+
+(300 + 0.3 * SALES + 300) + 0.4 * (SALES - 1000) AND (SALES > 1000)
+
+The right hand part of this expression means that a cost of 0.4 per unit is
+incurred on sales in excess of 1000 only if it is true that sales exceed 1000.
+
+Such instructions are very useful in incorporating differential tax bands or
+interest rates etc. Chapter 10 of the Sinclair ZX81 manual goes into more detail.
+
+MEMOCALC was written by John Reidy for MEMOTECH LIMITED.
+
+MEMOCALC (c) R. BRANTON & G. A. C. BOYD 1982

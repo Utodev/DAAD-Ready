@@ -1,0 +1,39 @@
+========================================
+Floating Point Hardware Fix for the ZX81
+Sinclair Research
+========================================
+
+The ZX81 was released with three editions of its ROM. The first edition had an
+infamous bug that resulted in the SQR 0.25 yielding a result of 1.3591409
+instead of 0.5. The bug was caused by 3 unnecessary instructions that caused
+corruption to the computed result. Rather than throw away all ROMs that had
+been manufactured, Sinclair crafted a small hardware board that was soldered
+across the Z80 CPU. It intercepted the execution of one of the erroneous
+instructions and changed it such that the 3 surplus instructions no longer had
+an effect on the floating point calculation.
+
+The hardware fix intercepts the rogue instruction at $1735. This location
+contains a LD H,A instruction (opcode $67) and the hardware board forces bit 6
+to 0 thereby transforming the instruction into DAA (opcode $27). The corruption
+of the floating point result is now avoided, with only harmless side effects.
+The hardware fix only partially decodes the instruction fetch address and so
+would actually trap 8 addresses ($0335, $0735, $1335, $1735, $2335, $2735,
+$3335 and $3735), but the only address that will be intercepted when using a
+first edition ZX81 ROM is $1735 (the other locations contain the operand for
+an instruction and not the opcode). However, when using a ROM that replaces
+the ZX81's or when there is an additional ROM installed in the 8K-16K region
+then the hardware fix might result in incorrect operation unless the ROM has
+been written with compatibility in mind (or is just lucky).
+
+It is often possible to determine whether a hardware fix board is fitted by
+looking through the expansion bus slot. Alternatively it can be determined by
+executing three BASIC instructions and comparing the results to the figures
+shown below:
+                    Edition 1     Edition 1 &    Edition 2    Edition 3
+                                 Hardware Fix
+PRINT PEEK 3823        33             33            205          205
+PRINT PEEK 3901       253            253            205          253
+PRINT SQR 0.25      1.3591409        0.5            0.5          0.5
+
+The hardware fix is not compatible with the edition 2 or 3 ROMs as it will
+alter the RET NZ instruction present in these ROMs at $1735.

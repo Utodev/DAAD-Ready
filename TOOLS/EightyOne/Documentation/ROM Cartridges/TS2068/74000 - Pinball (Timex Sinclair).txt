@@ -1,0 +1,138 @@
+================================
+PINBALL ROM Cartridge for TS2068
+Timex Sinclair
+================================
+
+PINBALL
+© R.E.D. 1963
+
+Loading time: 3 minutes 16 seconds
+
+Load name must be typed in lower case letters or press LOAD ""
+
+Flashing lights, Changing colors, electronic sounds and fast action are just part
+of the realism involved in playing this challenging pinball adaptation. Catapult
+your Spinning ball out onto the electronic playing held. The excitement
+heightens as your ball bounces off the flashing bumpers and into the scoring
+pockets, racking up points. Use your dual directional flippers to guide your ball
+through the blockade into the “fruit machine,” and increase your score by
+playing the slots.
+
+TIMEX COMMAND CARTRIDGE INSTRUCTIONS
+It you have the cartridge version of this software program, please follow the
+steps listed below
+
+1. Turn off your TS2068.
+2. Lift cartridge door open.
+3. Insert command cartridge with label side up.
+4. Close cartridge door.
+5. Turn on your TS2068.
+6. Program will begin execution.
+
+If step 6 does not occur, start over with step 1. and reseat cartridge
+once again.
+
+ALWAYS TURN OFF YOUR TS2068 BEFORE INSERTING OR REMOVING CARTRIOGE.
+
+You may bypass tape loading instructions below.
+
+TO LOAD: Press LOAD "pinball" or LOAD "", start the cassette player and press
+ENTER. The program toads in 3 minutes and 10 seconds Stop the tape when
+the title screen displays "PRESS ENTER TO PLAY".
+
+TO USE: Press ENTER. A menu with 7 options will be displayed. Each option will
+be reviewed below:
+
+OPTION 1: Starts game play
+OPTION 2: Reviews instructions
+OPTION 3: Defines scoring
+OPTION 4: Sets up a competition for up to 5 players. High scores are shown for
+all players and player order is kept track of. Upon selection of this option you
+will be asked to enter the number of players and 3 initials for each player.
+
+OPTION 5: Displays high scores for players in competition.
+
+OPTION 6: Plays a demonstration game. Press the CAPS SHIFT and the
+BREAK keys together to return to the menu.
+
+OPTION 7: Will set the high score shown on the pinball game to zero.
+
+Select desired option by moving the cursor next to it (keys 6 - 0 move the cursor
+up, keys 1 - 5 down, or move the cursor with the joystick) and press ENTER (if
+using the joystick, press the fire button instead of pressing ENTER.)
+
+GAME CONTROLS
+
+KEYBOARD:
+
+    Plunger controls:
+       lower plunger       keys 1-5
+       raise plunger       keys 6-8
+       fire ball           ENTER hey
+
+    Flipper controls:
+       Q W E R T           Y U I O P
+       A S D F G           H J K L
+       Z X C V             B N M SYMBOL SHIFT
+       Moves left          Moves right
+
+    Nudge Fruit Machine:   use ENTER key
+
+JOYSTICK:
+
+    Plunger controls:
+       lower plunger       joystick down
+       raise plunger       joystick up
+       fire ball           press fire button
+
+    Flipper controls:
+       flippers left       joystick left
+       flippers right      joystick right
+    Nudge fruit machine:   press tire button
+
+TERMINATE GAME BY PRESSING THE BREAK KEY AND THE CAPS SHIFT KEY TOGETHER.
+
+TO PLAY: Select option 1 and press ENTER. Adjust plunger strength when the
+ball reaches the top of the chute, then release the plunger. Use the flippers to
+keep the ball in play. There are 5 balls per game. The longer you play pinball,
+the faster the speed of the ball becomes. A free bell is awarded after you have
+accumulated 10,000 points, but watch out after 10,000 points, the flippers
+slow down!
+
+
+SCORING:
+Every time you hit a bumper you receive 25 points.
+
+All other point values as follows:
+                         Plums        5 points
+                         Bells        5 points
+                         Grapes      10 points
+                         Cherries    10 points
+                         Apples      50 points
+                         $           50 points
+
+After breaking through the blockade, you enter the "Fruct Machine," which works
+similarly to a slot machine. You have to press the nudge key (ENTER or FIRE
+BUTTON) to move the tumblers. You must move the tumblers to be awarded the
+value shown in the windows. Starting with the right window, you will receive 1
+times the value of the object in that window. Match the two right windows and
+you will receive 4 times the value. If all three windows match, you receive 9
+times their face value.
+
+An example:
+                         Bell    Grape   Apple        50 points
+                         Bell    Apple   Apple        200 points
+                         Apple   Apple   Apple        450 points
+
+REMEMBER, YOU HAVE TO NUOGE TO SCORE.
+
+
+WARRANTY
+There are no warranties which extend beyond the description on the face
+hereof. No other warranty, whether express of implied, including the warranty of
+merchantability, shall exist in connection with the sale of this product. In no
+event shall Timex be liable for any consequential, incidental or special damages.
+
+MOOEL NO. 345-074000
+
+© 1983 Timex Computer Corporation Waterbury, Connecticut 06725

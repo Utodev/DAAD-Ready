@@ -1,0 +1,81 @@
+=======================
+WRX Hi-Res for the ZX81
+Wilf Rigter (1984)
+=======================
+
+Display file resolution: 256 x 192
+Display file structure : 32 bytes x 192
+Display file size      : 6144 bytes
+Display file location  : Anywhere in 16K RAM (or RAM in 8K-16K region)
+
+A modified 16K RAM pack is required which also reads the RAM during a
+memory refresh cycle. This can be achieved using just two diodes and a
+resistor.
+
+A custom display driver is required which 'executes' a 32 byte display
+buffer for every line of the hi-res display. The bytes of the buffer
+must all have bit 6 reset. As a byte is fetched from the buffer, the ZX81
+display mechanism passes a NOP instruction to the Z80. Then during the
+refresh cycle of the opcode fetch, the display mechanism looks up the
+pixel pattern to display for the byte via the IR register pair. The
+custom display driver controls the value of IR such that pixel bytes are
+read out of the hi-res display file. The display file may be located on a
+32 byte boundary.
+
+Note that the technique also works on an unexpanded ZX81 without the
+need for any hardware modifications, although the memory constraint
+means that only a significantly smaller display file can be achieved.
+
+
+EXAMPLE DISPLAY DRIVER
+
+The following display driver for an expanded ZX81 was created by Wilf
+Rigter in 1996. Lower RAMTOP with POKE 16389,96 then NEW before loading.
+
+        ORG $4084                         ; 16516
+
+START:  LD   IX,HR                        ; simple start of the hi-res mode
+        RET
+     
+LBUF:   LD   R,A                          ; load HFILE address LSB
+        DEFB $00, $00, $00, $00           ; 32 NOPs = 256 pixels
+        DEFB $00, $00, $00, $00
+        DEFB $00, $00, $00, $00
+        DEFB $00, $00, $00, $00
+        DEFB $00, $00, $00, $00
+        DEFB $00, $00, $00, $00
+        DEFB $00, $00, $00, $00
+        DEFB $00, $00, $00, $00
+        RET  NZ                           ; always returns
+ 
+HR:     LD   B,$07                        ; delay
+
+HR0:    DJNZ HR0                          ; delay
+
+        DEC  B                            ; reset Z flag
+        LD   HL,($4004)                   ; HFILE starts at RAMTOP or HSCRN (note below)
+        LD   DE,$0020                     ; 32 bytes per line
+        LD   B,$C0                        ; 192 lines per hires screen
+
+HR1:    LD   A,H                          ; get HFILE address MSB
+        LD   I,A                          ; load MSB into I register
+        LD   A,L                          ; get HFILE address LSB
+        CALL LBUF + $8000
+        ADD  HL,DE                        ; next line
+        DEC  B                            ; dec line counter
+        JP   NZ,HR1                       ; last line
+
+        CALL $0292                        ; return to application program
+        CALL $0220                        ; extra register PUSH and VSYNC
+
+                                          ; this code segment is optional
+BREAK:  CALL $0F46                        ; check break key
+        LD   A,$1E                        ; restore pattern table pointer
+        LD   I,A
+        JR   NC,STOP                      ; skip the HR vector load if BREAK
+
+        LD   IX,HR                        ; load the HR vector
+
+STOP:   JP   $02A4                        ; return to application program
+ 
+HSCRN:  DEFW $2000                        ; this is used with SRAM at 8K - 16K

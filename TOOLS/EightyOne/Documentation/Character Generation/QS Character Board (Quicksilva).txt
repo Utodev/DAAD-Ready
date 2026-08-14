@@ -1,0 +1,320 @@
+===============================
+QS Character Board for the ZX81
+Quicksilva
+===============================
+
+@@@@@@@@@@@@@ QS PROGRAMMABLE CHARACTER GENERATOR @@@@@@@@@@@@@
+
+A fully programmable character generator board with the following features - - - - - - - - - - - - - -
+
+128 FULLY PROGRAMMABLE CHARACTERS / ON-OFF SWITCH/ 1K OF ON BOARD RAM
+
+WORKS ON 1K MACHINES / WORKS WITH PRINTER / EASY AND FAST TO USE /
+
+DEMO CASSETTE OF FAST MACHINE CODE ROUTINES INCLUDED WITH BOARD
+
+
+The QS CHRS BD comprises a single circuit board which will plug into the QS MOTHER BD or with the
+aid of QS CONNECTOR direct into your ZX COMPUTER. NOTE For use with the ZX-80 the following
+Hardware mod will be required.
+
+1) The track going to pin 20 of the 24 pin ROM chip must be cut about 1/2 inch from the I.C.
+2) A 4k7 1/4 Watt resistor must be soldered across the cut track
+3) Finally a wire must be taken from the ROM side of this resistor to pin 23B of the expansion port
+
+The board will allow you to program your own characters to be displayed to the television or to the
+Printer. Instead of the existing rather limited character set of 64 chrs and their reversed counterparts you
+can now have 128 completely different chrs of your own design. Once programmed the CHRS BD will
+stay the same until loss of power of you program a new chr into it. LOADING another program will not
+affect the chrs. The switch mounted on the right hand side of the board is the ON-OFF switch. This switch
+can be used at any time to switch between the normal Sinclair chr set and the programmable chr set.
+Down is ON and Up is OFF.
+
+Included on the CHRS BD is 1K of RAM. This is the CHR RAM used to store the data for the chrs.
+The chr ram starts at address 33792 and ends at 34815. Because the CHRS BD has this on-board ram and
+also because the work is done by Hardware not Software all you get are advantages. You will still have
+the same amount of memory to write programs in. By using the M/C routines on the Demo cassette you
+can have virtually instant changes in character shape. You can use the board with existing Software
+without having to change your existing programs. Just LOAD the chr set you require then LOAD your
+program and run it as normal except for the changes in the chr set you want.
+
+Also mounted on the CHRS BD is a 4 way D.I.L. switch. This is to enable matching of the BD to any
+ZX-Computer used. For ZX-81 in slow mode all switches should be off. For ZX-80 and ZX-81 in
+fast mode switches 3 & 4 should be on. Play with these switches to get an idea of their function.
+
+
+@@@@@@@@@@@@@@@@@ QS CHRS BD DEMO CASSETTE @@@@@@@@@@@@@@@@@
+
+The demo cassette has two programs on it, each is recorded twice. The First two recordings are of a
+program called "CHRS". The last two recordings are of a program called "L-CASE".
+
+"CHRS" is a program which will fit into a 1K machine, consisting of the following M/C routines.
+Each routine has a start address and is given (in lines 10 to 14) a variable name set to the
+start address of the particular routine. This means that instead of calling the M/C routines
+with their start address (ie. 100 LET L=USR 16601) you can use easy to remember names (ie.
+100 LET L=USR SINC)
+
+--------------+---------------+-----------------------------------------------------------
+ ROUTINE NAME | START ADDRESS |                        DESCRIPTION
+--------------+---------------+-----------------------------------------------------------
+  CLR         |  16581        | Resets all the chr ram to white
+--------------+---------------+-----------------------------------------------------------
+  SINC        |  16600        | Copies the sinclair chr set into the chr ram
+--------------+---------------+-----------------------------------------------------------
+  QLOAD       |  16619        | Loads the chr ram from hex data in REM statements
+--------------+---------------+-----------------------------------------------------------
+  QPRNT       |  16689        | Provides the same function as LPRINT
+--------------+---------------+-----------------------------------------------------------
+  QCOPY       |  16728        | Provides the same function as COPY
+--------------+---------------+-----------------------------------------------------------
+
+
+CLR and SINC require one line of BASIC    ie.
+1) A line to call the M/C routine                                    95 LET L=USR CLR
+                                                                    100 LET L=USR SINC
+
+QLOAD requires at least three lines of BASIC    ie.
+
+1) A line to call the M/C routine                                   100 LET L=USR QLOAD
+2) 1 to 128 lines of chr data in REM Statements                     110 REM A0102040810204080
+3) A stop code to tell the QLOAD routine to return to BASIC         501 REM STOP
+
+As many chrs as you like may be programmed at one time by this routine. For each chr you will need
+one line containing a REM; The KBD chr; followed by 16 HEX numbers for the chr data.
+The last line (REM STOP) is ABSOLUTELY ESSENTIAL. This tells the routine when to return to BASIC
+without this the routine will never return to BASIC, so make SURE that you have one for each call of
+QLOAD routine. The STOP is made from the token 'STOP' (ie SHIFT A) not from the individual letters.
+Also the BASIC line number of the REM STOP should always be an odd number.
+
+
+QPRNT requires two lines of BASIC     ie.
+
+1) A line to call the M/C routing                                   600 LET L=USR QPRNT
+2) A REM statement containing the text you wish printed             610 REM AAAAA
+
+The REM statement following the USR call of the QPRNT routine may contain 1 to 255 chrs. These chrs
+can be any single chrs available on the Keyboard including the Quotes chr ("), but tokens may not be
+used. The routine will only print the text on the line following.
+
+
+QCOPY requires one line of BASIC    ie.
+
+1) A line to call the M/C routine                                   900 LET L=USR QCOPY
+
+Routines CLR and SINC may be used either in a BASIC program or in direct input mode. All other routines
+may only be used as part of a BASIC program (with a line number). The printer routines QPRNT and
+QCOPY may only be used when a printer is connected. Each USR call to the QLOAD routine MUST
+have its own REM STOP to enable return to BASIC. Failure to abide by the above rules will probably
+result in your program crashing. Sorry.
+
+
+"L-CASE"  Has the same program as "CHRS" plus the full HEX DATA in a series of REM statements to
+          load the chr ram with a complete lower case alphabet, in place of the inverse graphic
+          alphabet.
+
+To use this program first LOAD "L-CASE"; Then RUN the program; Then type in the following two
+direct commands.
+
+1) LET L=USR SINC
+2) GOTO 100
+
+This will load the lower case alphabet into the chr ram. With the chrs hoard switched on whenever you
+are in GRAPHICS mode you will get a lower case letter instead of an inverse one.
+
+You can of course change or add to any of the above programs. They are designed to be the basis of
+your chrs programs.
+
+
+@@@@@@@@@@@@@@@ USING THE CHRS BD AND M/C ROUTINES @@@@@@@@@@@@@@@
+
+TO CREATE A CHARACTER (please read understanding characters)
+
+First arm yourself with a sheet of graph paper. Tenth inch squares are about right. Mark out on 8*8
+square on the graph paper with a thick ink line. Now divide this square in half vertically with a thin
+ink line (see fig 1). Now with a pencil fill in the small squares you want to be black dots in the chr,
+ie. for a diagonal black line from the bottom left to the top right fill in like FIG 2. Each small square
+on the graph paper represents one dot of the chr. Filling in a square will give you a black dot and
+leaving a square blank will give you a white dot.
+
+
+TO CONVERT TO HEX CODES (using the dots to hex conversion chart provided)
+
+Your drawing will now have to be converted to the 16 hex numbers needed by the QLOAD routine.
+This can be done quite easily using the dots to hex conversion chart at the foot of this page. Each hex
+number will represent 4 dots of the chr. There are 8 dots on each horizontal line, so you will need two
+hex numbers for each line. There are 8 lines which makes 16 hex numbers for each chr. The correct
+order for these numbers is left to right, top to bottom. So in the example (fig 2) look at the top left
+group of 4 dots. They are all white (not filled in) and looking at the dots to hex chart you will see that
+the hex code for 4 white dots is '0'. This is the first hex number for the chr. Now look at the top right
+group of 4 dots. These are 3 white dots and one black dot (filled in), again look at the chart to find
+the hex code '1'. This is the second hex number. Now look at the next line down on the example, the
+first 4 dots are again all white so the hex code is again '0'. Continue in this way converting all the
+groups of 4 dots to hex numbers. You should get the following 16 hex numbers, '0102040810204080'.
+This is the chr data you will need to program the chrs bd.
+
+
+TO PROGRAM A CHARACTER
+
+First plug in the chrs bd and then load the program "CHRS". Now type list 10. This will show the lines
+that set the variable names to the start addresses of the M/C routines. Now input the following lines of
+BASIC. If the display is strange switch off the chrs bd, using the switch on the side.
+
+  95 LET L=USR SINC
+
+Now RUN the program. If you now switch on the chrs bd you will see that the normal chr set has been
+copied into the chr ram. You can use this routine at any time in the program. Now type in - -
+
+ 100 LET L=USR QLOAD
+ 501 REM STOP
+
+Line 100 is the USR call of the QLOAD routine : Line 501 is the ESSENTIAL REM STOP (odd line number)
+
+Now inbetween these two lines you may put as many lines (1 line for each character) you like. They
+shou;d be layed out as follows - - -
+
+LINE NUMBER  REM  KBD CHR  16 HEX NUMBERS (CHR data)
+ 110         REM     A     0102040810204080
+
+So now type in
+
+ 180 REM A0102040810204080
+
+Having got your hex chr data you will need to have a way of deciding which normal chr you want it to
+replace. This is what the KBD chr (in the example 'A') does. Each line must be a line number; then
+REM; then the KBD chr; then the chr data. First check to make sure that each USR call to QLOAD
+is followed by a REM STOP. Then RUN the program again. If the chrs bd is switched on
+all the characters that were normally 'A' will have changed to the example character (fig 2). If you had
+used 'B' as the KBD chr the 'A's would have stayed the same and the 'Bs' would have changed.
+
++--+--+--+--+--+--+--+--+    +--+--+--+--+--+--+--+--+
+|  :  :  :  |  :  :  :  |    |  :  :  :  |  :  :  :##|
++--+--+--+--+--+--+--+--+    +--+--+--+--+--+--+--+--+
+|  :  :  :  |  :  :  :  |    |  :  :  :  |  :  :##:  |
++--+--+--+--+--+--+--+--+    +--+--+--+--+--+--+--+--+
+|  :  :  :  |  :  :  :  |    |  :  :  :  |  :##:  :  |
++--+--+--+--+--+--+--+--+    +--+--+--+--+--+--+--+--+
+|  :  :  :  |  :  :  :  |    |  :  :  :  |##:  :  :  |
++--+--+--+--+--+--+--+--+    +--+--+--+--+--+--+--+--+    +----------+----------+----------+----------+
+|  :  :  :  |  :  :  :  |    |  :  :  :##|  :  :  :  |    | .... = 0 | #... = 4 | #... = 8 | ##.. = C |
++--+--+--+--+--+--+--+--+    +--+--+--+--+--+--+--+--+    +----------+----------+----------+----------+
+|  :  :  :  |  :  :  :  |    |  :  :##:  |  :  :  :  |    | ...# = 1 | #..# = 5 | #..# = 9 | ##.# = D |
++--+--+--+--+--+--+--+--+    +--+--+--+--+--+--+--+--+    +----------+----------+----------+----------+
+|  :  :  :  |  :  :  :  |    |  :##:  :  |  :  :  :  |    | ..#. = 2 | #.#. = 6 | #.#. = A | ###. = E |
++--+--+--+--+--+--+--+--+    +--+--+--+--+--+--+--+--+    +----------+----------+----------+----------+
+|  :  :  :  |  :  :  :  |    |##:  :  :  |  :  :  :  |    | ..## = 3 | #.## = 7 | #.## = B | #### = F |
++--+--+--+--+--+--+--+--+    +--+--+--+--+--+--+--+--+    +----------+----------+----------+----------+
+
+          FIG 1                        FIG 2                      DOTS TO HEX CONVERSION CHART
+
+
+@@@@@@@@@@@@@@@@@ USING THE QS PRINTER ROUTINES @@@@@@@@@@@@@@@@@
+
+The two QS Printer routines QPRNT and QCOPY are needed to enable the programmable chrs to be
+printed on the Sinclair Printer. The normal routines in the ROM that they duplicate LPRINT and COPY
+respectively will not operate on the chrs bd. They will continue to print the Sinclair chr set.
+
+If you have the printer already connected carry on from the last section, if not plug the printer in as
+well and repeat the instructions given in "TO PROGRAM A CHARACTER".
+
+
+Now type in the following lines - - -
+
+ 600 LET L=USR QPRNT
+ 610 REM AAAAA
+
+The first line (600) is the USR call of the M/C routine QPRNT; the second line is the REM statement
+containing the text to be printed. In the example 'AAAAA'. RUN the program again. The printer will
+start up and print 5 diagonal lines. Note that these routines will always print the chrs in the chr rom
+even if the screen display is on normal.
+
+Finally type in the following lines - - -
+
+ 700 FOR F=0 TO 255
+ 710 PRINT " AA";
+ 720 NEXT F
+ 730 LET L=USR QCOPY
+
+RUN the program again. The printer will copy the screen using the chrs in the chr bd rom.
+
+All of these routines can be called any number of times in the program.
+
+
+@@@@@@@@@@@@ UNDERSTANDING CHARACTERS @@@@@@@@@@@@@@@@
+
+The Following information will, I hope, give yeu a clearer idea of how the choracters are generated
+and also help you to raalise the possibilities that being able to program your own characters creates.
+At present the ZX Computers get the information for displaying the characters from the top 512 bytes of
+the ROM. From Addresses 7680 to 8191 inclusive. Each character needs 8 bytes of data. To clearly
+understand how each character is made up I'm afraid a bit of Binary is called for. (See page 155 of the
+ZX-81 manual.).
+
+Each byte is stored in the ROM as an eight bit Binary number. Each bit con be 0 or 1. When the Computer
+is going to display a chr it will get one of the bytes stored in the ROM for that character and look at the
+eight bits one by one. Starting with the highest bit it will decide if this bit is a 0 or a 1. If it is a 0
+then the Computer will put a white dot on the screen, if it is a 1 the computer will put a black dot on
+the screen. Then the computer will move on to the next position on the screen and the next bit of the data.
+Eg. The 5th byte for the chr '+" is at the address 7852. PEEK this location and you will get 62,
+
+62 decimal = 00111110 binary = 3E hex = the following dots     +---+---+---+---+---+---+---+---+
+                                                               |   |   |###|###|###|###|###|   |
+                                                               +---+---+---+---+---+---+---+---+
+                                                           BIT   7   6   5   4   3   2   1   0
+
+Remember 0 = a white dot; 1 = a black dot. So each character is made up of an 8 * 8 matrix of dots
+(8 bits * 8 bytes). Each Binary bit represents 2 to the power of something, from 0 to 7. Bit 0 = 2 ** 0
+or 1; bit 1 = 2 ** 1 or 2; bit 2 = 2 ** 2 or 4; and soon. So each bit is equal to a decimal number.
+If the bit is a one then the equivalent decimal number is part of the binary number, if the bit is a 0
+then that equivalent decimal number is not part of the binary number, Eg.
+
+Decimal equivalent    128  64  32  16   8   4   2   1
+Binary bit              7   6   5   4   3   2   1   0   = 32 + 16 + 8 + 4 + 2
+Binary number           0   0   1   1   1   1   1   0   = 62
+
+The full 8 bytes for the chr '+' are given below.
+
+Address                  Video                  Binary      Hex   Decimal
+             7   6   5   4   3   2   1   0
+           +---+---+---+---+---+---+---+---+
+7848       |   |   |   |   |   |   |   |   |    00000000    00    0
+           +---+---+---+---+---+---+---+---+
+7849       |   |   |   |   |   |   |   |   |    00000000    00    0
+           +---+---+---+---+---+---+---+---+
+7850       |   |   |   |   |###|   |   |   |    00001000    08    8
+           +---+---+---+---+---+---+---+---+
+7851       |   |   |   |   |###|   |   |   |    00001000    08    8
+           +---+---+---+---+---+---+---+---+
+7852       |   |   |###|###|###|###|###|   |    00111110    3E    32 + 16 + 8 + 4 + 2 = 62
+           +---+---+---+---+---+---+---+---+
+7853       |   |   |   |   |###|   |   |   |    00001000    08    8
+           +---+---+---+---+---+---+---+---+
+7854       |   |   |   |   |###|   |   |   |    00001000    08    8
+           +---+---+---+---+---+---+---+---+
+7855       |   |   |   |   |   |   |   |   |    00000000    00    0
+           +---+---+---+---+---+---+---+---+
+
+
+===============================================================================
+
+
+TECHNICAL NOTES
+
+The 1K RAM appears at $8400-$87FF. The first 0.5K holds the pixel patterns for the non-inverted
+characters, and the second 0.5K holds the pixel patterns for the inverted characters. Note that
+the pixel patterns for the 'inverted' characters need to be stored in inverted form since the
+ZX81 display mechanism automatically inverts them due to bit 7 being set of the character code.
+
+Software cannot enable and disable the use of the the replacement character set; this must be manually
+done via the on board switch.
+
+
+COMMERCIAL PROGRAMS RELEASED FOR THE QS CHARACTER BOARD
+
+The following programs were released by Quicksilva:
+- QS Asteroids
+- QS Invaders
+- QS Scramble
+- Cosmic Guerilla
+
+The following programs were released by other companies:
+- Puckman (Hewson Consultants)
+- ZX-Forth (Artic Computing Ltd)

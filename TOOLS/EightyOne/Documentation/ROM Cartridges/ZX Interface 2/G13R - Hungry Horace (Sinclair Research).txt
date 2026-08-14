@@ -1,0 +1,41 @@
+====================================================
+G13/R HUNGRY HORCE ROM Cartridge for the ZX Spectrum
+Sinclair Research
+====================================================
+
+You are Hungry Horace, intent on devouring everything in your path. You can move
+Horace along the paths, bridges and tunnels of the park using the Spectrum
+keyboard, or joysticks. Each flower in the park that Horace eats scores 10 posts.
+But beware of the park guards who are out to catch Horace and throw him out of the
+park. If Horace is caught 3 times he will not be allowed back in the park and the
+game will end. There are several alarm bells in the park. If Horace can ring one of
+the alarms, the guards will panic and Horace can catch them and throw them out of
+the park.
+
+Watch for one of the guards dropping his lunch of cherries or strawberries. You
+will score 100 points if Horace eats the guards' lunch.
+
+The park is divided into several sections and in each part there is an exit
+leading to the next section. Horace does not need to eat all the flowers or reach
+the alarm before entering the next section. Each section of the park is harder
+than the one before.
+
+
+Controlling Horace
+
+Keyboard Controls
+
+UP: 'Q' key
+DOWN: 'Z' key
+LEFT: 'I' kay
+RIGHT: 'P' key
+
+
+Joystick Controls
+
+Connect joystick into the left hand socket.
+
+JOYSTICK FORWARD - moves up
+JOYSTICK BACKWARD - moves down
+JOYSTICK RIGHT - moves right
+JOVSTICK LEFT - moves left

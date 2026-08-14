@@ -91,6 +91,16 @@ if errorlevel 2 (
     rd ZXUNO\SYS > nul 2>&1
     copy readme.txt ZXUNO > nul 2>&1 
 
+    echo Cleaning ZX-81 16K...
+    md ZX8116K> nul 2>&1
+    del /q /s ZX8116K\*.* > nul 2>&1
+    copy readme.txt ZX8116K > nul 2>&1 
+
+    echo Cleaning ZX-81 SD81Booster...
+    md ZX81SD81B> nul 2>&1
+    del /q /s ZX81SD81B\*.* > nul 2>&1
+    copy readme.txt ZX81SD81B > nul 2>&1 
+
     echo Cleaning Atari ST...
     md ATARIST> nul 2>&1
     del /q /s ATARIST\*.* > nul 2>&1

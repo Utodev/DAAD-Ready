@@ -1,0 +1,112 @@
+================
+MWCFIde for ZX81
+Mike Wynne
+================
+
+v0.01 Changes 4-Sept-07
+
+lots of changes, rewrites, features and bugs!
+
+The line editor now has keyboard repeat :) - just like the ZX81 ROM should have had.
+
+All commands now understand paths so you don't need to be in the same directory
+as a file to operate on it.  You can now do things like:
+
+delete b:/games/test.p
+dir c:/stuff
+
+Each drive now has it's own current working directory, so entering
+
+b:
+c:
+b:
+
+doesn't take you back to the root of drive b:
+
+We now have real write support.  You can save programs as well as load them!
+Commands understood by the CLI are:
+
+<drive letter>:  - Change drive
+MOUNT                          - Redetects any changes to the drives. Use 
+                                 this command after swapping Compact flash 
+                                 cards etc.
+ 
+EXIT                           - Exits back to basic.
+
+CLS                            - Clears the screen.
+
+VER                            - Shows the current version.
+
+CD <path>                      - Change the current working directory to
+                                 <path>
+
+MAP <path>                     - Shows the cluster chain for the specified
+                                 file.  Mainly for debug/testing purposes.
+
+DELETE <path>                  - Deletes the specified file.
+
+RENAME <path> <file2>          - Renames the file specified to the new filename.
+
+SAVE <path>                    - Saves the current program in memory to the
+                                 file specified.
+
+DIR [+S] <path> <path> ...     - Displays the contents of <path>. Normal listing
+                                 is to display just the filename, with no extra
+                                 information.  with the +S switch, size info
+                                 is included.
+
+
+
+//////////////////////////////////////////////////////////////////////////////////
+
+
+FAT Filesystem for the ZX81
+Version 0.00 pre-release sample Copyright (c) 2007 M Wynne
+
+To test the functionality of the FAT32 filesystem, Start the EightyOne emulator,
+then select a ZX81 with the MWCFIde IDE interface.  From the files menu, select
+"Drives..." and choose a hard drive image to mount.  A sample image "fattest.vhd"
+is provided with the code.  This image was produced by Windows XP running under
+the VirtualPC software so is a completely authentic filesystem produced by
+a microsoft operating system.
+
+Once set up, start the command line interpreter by entering
+
+RAND USR 32768
+
+at the K prompt.
+
+The system should respond with a number of available drives, and will accept the
+following commands:
+
+MOUNT			- Redetects and changes to the drives. Use this command
+			  after swapping Compact flash cards etc.
+
+DIR			- Prints the contents of the current directory.
+
+CD <dirname>		- Changes the current directory to that specified.
+
+DELETE <filename>	- Deleted the file specified
+
+RENAME <from> <to>	- Renames the file <from> to <to>
+
+EXIT			- Exits back to BASIC
+
+If a command is not an build in command of the interpreter, it is taken as the
+name of a file to run. a .P extension is added the name and the systems attempts
+to run the resulting filename.
+
+As an example, if Drive B: has the game MANIC.P in the games subdirectory, to run
+it the user would execute:
+
+B:
+CD GAMES
+MANIC
+
+
+===============================================================================
+
+TECHNICAL NOTES
+
+MWCFIde is a theoretical Compact Flash IDE interface for the ZX81 and has never
+existed in reality.

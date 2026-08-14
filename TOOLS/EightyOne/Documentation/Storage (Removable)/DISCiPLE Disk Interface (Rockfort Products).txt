@@ -1,0 +1,2533 @@
+=============================================
+DISCIPLE Interface Manual for the ZX Spectrum
+Rockfort Products
+=============================================
+
+
+                                 THE DISCIPLE
+
+                       The multi-purpose interface from
+                          Miles Gordon Technology for
+
+                               ROCKFORT PRODUCTS
+
+                                  USER MANUAL
+
+
+                                Copyright 1987
+
+
+
+
+
+
+
+                                 THE DISCIPLE
+
+                          The multi-purpose interface
+                         from Miles Gordon Technology
+                            for Rockfort Products
+
+                             INTRODUCTORY MANUAL
+
+
+                               Copyright 1986
+
+
+
+                                   NOTICE
+
+This manual, and the information contained herein, is copyright material and
+may not be reproduced, transcribed, stored in a retrieval system, translated
+into any language or computer language, or transmitted in any form whatsoever
+without the prior written consent of Miles Gordon Technology.
+
+The manual is intended to provide the user with detailed information adequate
+for the efficient installation and operation of the equipment involved.
+However, while every effort has been taken to ensure accuracy, the manufacturer
+and distributor assume no liability resulting from any errors or omissions in
+this manual, or from the use of the information contained herein.
+
+Miles Gordon Technology reserves the right both to change the specifications of
+the Disciple and to revise this publication from time to time without
+obligation to notify any person of such revision or changes.
+
+
+
+                      Third Edition ......... August 1987
+
+
+                                    CONTENTS
+INTRODUCTION, Key Features ....................................   4
+SETTING UP YOUR SYSTEM ........................................   5
+MAKING THE DISCIPLE COMPATIBLE WITH YOUR SYSTEM ...............   7
+USING A DISK DRIVE ............................................  17
+Loading the DOS        (17)     The Autoload File        (25)
+The Catalogue          (17)     Spectrum Reset Button    (25)
+Disk Drive Syntax      (20)     The Snapshot Button      (26)
+Saving and Verifying   (21)     Abbreviated Syntax       (27)
+Loading a Program      (22)     Wild-Card Files          (28)
+Breaking a Program     (23)     The Inhibit Button       (29)
+Renaming a File        (23)     Formatting New Disks     (30)
+Copying a File         (23)     Care of your Disks       (31)
+Erasing a File         (24)     Error Reports            (32)
+USING JOYSTICKS ........... 34  USING A PRINTER ...............  35
+Snapshot Printing                                   (36)
+Printing from a Commercial Word Processor           (37)
+NETWORKING ....................................................  38
+Setting up the Network                              (38)
+The Shared Access Network                           (39)
+The Independent Station Network                     (43)
+USING OTHER PERIPHERALS .......................................  46
+ADVANCED USER SUPPLEMENT - INTRODUCTION .......................  47
+  APPENDIX A: ADVANCED DISCIPLE SYNTAX
+    Reading from/Writing to a Sector                (48)
+    Using Streams and Channels                      (48)
+    The Execute File                                (50)
+  APPENDIX B: THE POKE @ COMMAND                    (52)
+  APPENDIX C: DISCIPLE COMMAND CODES                (55)
+    User File Information Area                      (58)
+    Examples of Command Codes in Use                (59)
+  APPENDIX D: TECHNICAL SPECIFICATIONS              (62)
+    Port details                                    (63)
+    Disk connector - Pin description                (64)
+    Printer connector - Pin description             (65)
+QUICK REFERENCE GUIDE .........................................  66
+GUARANTEE DETAILS .............................................  68
+GUARANTEE REGISTRATION FORM ...................................  69
+
+
+
+                                 INTRODUCTION
+
+The Disciple is an interface which allows the Spectrum range of computers to be
+connected directly and simultaneously to:
+
+* One or two disk drives with the standard Shugart SA400 type connector. The
+Disciple will accept 5 1/4" or 3 1/2" drives, whether they are 40 track or 80
+track, single sided or double sided, single density or double density.
+
+* Any Centronics parallel-type printer.
+
+* One or two standard (Atari-type) joysticks.
+
+* Most other standard Spectrum peripherals.
+
+OTHER KEY FEATURES of the Disciple are:
+
+* Rapid transfer speed: in double density mode, a 48K file can be loaded from
+disk in approximately 3.5 seconds, a 128K file in less than 10 seconds.
+
+* Large storage capacity: using two double sided, double density disk drives,
+up to 1.56 Megabytes is available. None of the computer's memory is used by
+the Disciple.
+
+* A snapshot button allows instant transfer of everything held in the
+computer's memory to disk.
+
+* A powerful printer interface permits graphics and full-screen printing; a
+unique facility is that the Disciple can interrupt a game at any point and
+print out the entire graphics screen.
+
+* Two network connectors provide a network which is compatible with Sinclair
+Interface 1; with the Disciple attached, up to 63 computers can interact in a
+system using a single disk drive or printer.
+
+* All the Disciple interfaces use a simplified syntax similar to the Spectrum's
+own BASIC. Or the normal Microdrive commands can be used, if preferred.
+
+                                4
+
+SETTING UP YOUR SYSTEM
+
+IMPORTANT: Before connecting any peripheral to your computer, always disconnect
+the power supply first. Failure to do so could damage your computer.
+
+With the power off, carefully connect the peripherals you are using into their
+sockets. The front half of your Disciple will fit neatly underneath the computer,
+supporting it at a convenient typing angle. When the Disciple is in place, tighten
+the screws at the base of the unit for a secure attachment to the computer. If you
+normally use the Sinclair Interface 1, do not connect it yet; you will be told how
+to use Interface 1 with the Disciple in the later section - The Inhibit Button.
+
+Press the Inhibit Button twice. You will notice that when the Inhibit Button
+is on, it will lock into place; when it is off, it will spring out of the lock.
+Make sure that the Inhibit Button is off before you start work.
+
+                                5
+
+For the first steps, you will need to have your cassette recorder attached to
+the Spectrum in the normal way.
+
+Connect the power and the normal Spectrum introductory screen will appear on
+your monitor/TV. Turn on the disk drive power and insert a blank disk.
+
+If you are using a Spectrum 12BK or Plus 2, go into the Edit node, and then
+move the cursor to select Screen. Then press ENTER. This has the effect of
+removing the logo from the bottom of the screen, and the commands that you
+enter will appear at the bottom of the screen instead of at the top.
+
+                                6
+
+MAKING THE DISCIPLE COMPATIBLE WITH YOUR SYSTEM
+
+The Disciple has been designed to work with a wide variety of disk drives and
+printers, but each of these may have a slightly different mode of operation.
+To enable the Disciple to be compatible with your system, therefore, your first
+step is to give the Disciple instructions telling it which peripherals you are
+using, and how you intend to use them. You will only need to do this the first
+time you use your system, because the information will then be permanently
+stored on disk, ready for use as soon as you connect the Disciple.
+
+This is how to set the parameters for your system.
+
+* Load the cassette tape supplied with your Disciple as follows:
+
+- Set up your system - including a cassette recorder - as shown in the diagram.
+Insert the cassette in your cassette recorder, and set the recorder's volume
+level at about 3/4 of maximum volume.
+- Type                       LOAD ""
+- Press                      ENTER
+- Press "Play" on your cassette recorder.
+
+* While the program is loading, insert a floppy disk into your disk drive.
+(If you are using two disk drives, you must insert it into drive 1 - your disk
+drive manual may refer to it as drive A). If possible, use a floppy disk which
+has never been used before.
+
+* Wait until the message "Press any key to continue" appears on the screen.
+(If this message does not appear at the end of loading, check that the lead
+from the recorder into the computer has been correctly attached - refer to your
+Spectrum manual. If the connections are correct, try adjusting the volume
+level on the recorder and start again. Red and blue horizontal lines on the
+screen during loading should indicate that the program is loading properly.
+
+* Press any key. You will then be asked a series of simple questions about
+your system. Type in the answers to each of the questions in turn, remembering
+to press "ENTER" when you are satisfied that your answer is correct. If you
+make a mistake, don't worry; you'll be offered the opportunity to go through
+the questions again at the end, if you need to.
+
+                                7
+
+These are the questions you'll be asked. Study them and decide on the answers
+before you start work on the computer. Write your answers in pencil on the
+dotted lines below, so that you have a record of the values you enter - in case
+you wish to change them later.
+
+1(a) Is disk drive 1 a 40 track drive?      (Your answer) ...Yes/No...
+
+ (b) Is disk drive 1 an 80 track drive?                   ...Yes/No...
+
+        You answer these questions by entering y (= yes) or no (= no). If you
+        answer no to both questions, you will be told: You must have a disk
+        drive 1.
+
+ (c) Is disk drive 1 double sided?                        ...Yes/No...
+
+        If you answer no, the Disciple assumes that disk drive 1 is single
+        sided.
+
+        On a number of occasions, new users have called us to say that when
+        they try to answer this question, the computer gives a "Nonsense in
+        Basic" error message, and they are unable to proceed any further. If
+        this happens, it's because proper contact is not being made between
+        the computer and the Disciple. In most cases the cause will be
+        either:
+          a) The computer's edge connector is dirty or fractured; or
+          b) The computer has a fault on the M1 line. Unfortunately, this
+             seems to be a fairly common occurrence amongst all types of
+             Spectrum. The fault only shows itself when devices dependent
+             upon the M1 line - such as Interface 1 or the Disciple - are
+             connected.
+        If you have this problem, then:
+          i) Try the Disciple with another Spectrum. (Use the other
+             Spectrum's power supply too, in case the problem lies there.
+          ii) If (i) works, try cleaning your computer's edge connector, then
+             reconnect the Disciple and try again. If you still have no
+             success, it means a visit to the repair shop for your computer.
+          iii) If (i) falls, then follow the instructions in the Guarantee
+             Details at the end of this manual and return the Disciple to us.
+
+                                8
+
+ (d) Is disk drive 2 a 40 track drive?                    ...Yes/No...
+
+ (e) Is disk drive 2 an 80 track drive?                   ...Yes/No...
+
+        If you answer no to both these questions about disk drive 2, it is
+        assumed that you are not using a second disk drive, and you will be
+        asked question 2 onwards. If you answer yes to either question, you
+        will also be asked:
+
+ (f) Is disk drive 2 double sided?                        ...Yes/No...
+
+        If you answer no, the Disciple assumes that drive 2 is single-sided.
+
+2. Enter disk drive stepping rate in milliseconds.        ............
+
+        Normally, the setting will be 6 milliseconds - your disk drive manual
+        will probably tell you. Some older drives and 3" drives may have a
+        slower stepping rate. Typically, this might mean that when you come
+        to the "Format" command later, formatting may not be successful. In
+        this is the case, try slowing the stepping rate down to 12. All you
+        type in here is the appropriate number.
+
+3(a) Are you using the Disciple's printer port?           ...Yes/No...
+
+        Answer no if you're not using a printer, yes if you're using
+        Centronics/parallel printer. But if you are using any other sort of
+        printer (for example, a serial printer connected to Interface 1, or
+        the ZX printer connected at the through port) you should also answer
+        no. If you answer no, you will move straight on to question 4.
+
+ (b) Would you like to configure the printer?             ...Yes/No...
+
+        It will probably be unnecessary to configure the printer if you are
+        using an Epson-type printer, because the utilities software has
+        already been set up to allow the Disciple to work with these printers.
+        If you answer no, you will then be asked question 4 onwards.
+
+                                9
+
+        Answer yes to this question if you are using any other sort of
+        Centronics parallel printer. You'll need to refer to the section on
+        printer control codes in your printer manual to answer the following
+        questions. If you have difficulty, your dealer should be able to help.
+
+        In the next questions, which require more than a Yes/No answer, press
+        ENTER when you are sure that you have typed in your answer correctly.
+
+ (c) Enter decimal values, separated by commas, for printer initialisation.
+                                                          ............
+
+        In your printer manual, find the code for initialising the printer.
+        The manual will refer to an ASCII code, and decimal and hexadecimal
+        values. Here, and in the questions which follow, enter the decimal
+        values, separated by a comma.
+
+        If you cannot find the code for initialisation in your printer manual,
+        simply type in 13 - which is the decimal code for a carriage return.
+
+        (You can also simply press ENTER, in which case the Disciple will
+        automatically default to the pre-set Epson printer code - the default
+        for initialisation is 27,64.)
+
+ (d) Enter the number of line feeds after a carriage return. ............
+
+        No decimal codes this time, just the number of line feeds you need.
+                                        (Default: 1)
+
+ (e) Enter control codes in decimal for character pitch.     ............
+
+        Character pitch means the number of characters printed per inch
+        (expressed as CPI). Your printer may allow you to select Near Letter
+        Quality (normally 10 CPI); or in draft mode, pica pitch (also 10 CPI),
+        elite pitch (12 CPI), condensed pitch (17.16 CPI), and perhaps
+        condensed elite pitch (20 CPI).
+
+        Choose the pitch you wish to use and find the control codes in your
+        printer manual. Type In the decimal values, separated by commas.
+
+                                10
+
+        Normal pitch is generally pica. If your printer manual does not give
+        a control code for pica but you wish to use pica pitch, try the code
+        for cancel elite pitch or cancel emphasised print instead.
+                                        (Default 27,80)
+
+ (f) Enter the number of spaces before your left-hand margin ............
+
+        Simply type the number of spaces you need.
+                                        (Default: 1)
+
+ (g) Enter line width as number of characters per line.      ............
+
+        With normal A4-sized paper, most printers will allow you to print up
+        to 80 characters per line in pica, or 132 characters in condensed
+        character mode. Some printers allow you to load wider sheets of paper
+        so that you can print up to 255 characters per line - particularly
+        useful for spreadsheets. Check the capabilities of your printer, then
+        decide how many characters per line you wish to print, and enter this
+        as a number in answer to the question.
+                                        (Default: 80)
+
+        (Note that the line width you define will be the maximum width
+        available. If you are using a word processing program which permits
+        64 characters per line and you have set your printer line width at 80,
+        then only the first 64 character spaces on each line will be printed
+        and you will have a blank margin on the right-hand side equivalent to
+        16 character spaces. Similarly, if you copy a Spectrum screen, you
+        will produce a print-out 32 characters wide and 24 characters deep
+        only - because these are the dimensions of the Spectrum screen.
+
+        If you want to, you can centre these print-outs on your paper by
+        changing the left-hand margin settings later.)
+
+ (h) Enter control codes in decimal for printing n/72 inch line spacing.
+                                                         ............
+
+        In your printer manual, you will be offered several different options
+        for line spacing. Find the control codes for setting n/72 inch line
+
+                                11
+
+        spacing. The decimal code will have numeric values and will then ask
+        you to type in a value for "n". Don't worry about the n; simply type
+        in the numeric values as shown, separated by commas.
+                                        (Default: 27,65)
+
+ (i) When printing text, what line spacing do you wish to use?
+                                                         ............
+
+        Normal single-line spacing is 12/72" - here you would enter 12.
+        Double line spacing is 24/72" - here you would enter 24. Enter the
+        number you select.              (Default: 12)
+
+ (j) Enter control codes in decimal for bit-image character mode (= graphic
+      character printing)                                ............
+
+        This is the code required if you wish to print user-defined or screen
+        graphics (for example, if you wish to copy a screen from a game to
+        your printer). Find the section in your printer manual dealing with
+        dot graphics or bit image. You may be offered a choice of single,
+        double or quadruple density graphics mode. Single density allows a
+        print-out at normal character size; if you are copying a screen, your
+        print-out will have a line-width equivalent to 32 characters. Double
+        density will print at half this size and quadruple density at quarter
+        size.
+
+        The decimal value for the mode you choose will probably be stated in
+        your manual in a format similar to:
+                27   75   (n1)   (n2)   (data1)   (data2)
+        When you type in the code you only need to enter the figures before
+        n1, separated by commas.        (Default: 27,75)
+
+ (k) Do you want to print the graphics characters for ), # and # ?
+                                                          ...Yes/No...
+
+ (l) Are there any other control codes from your printer manual which you wish
+     to set permanently? Enter the decimal values consecutively here,
+     separating each value with a comma.
+                           ....................................
+
+                                12
+
+        We have now dealt with all the important printer control codes,
+        However, your printer will probably offer you many more options; if
+        you need any of them, you type them in now. You may wish to print in
+        italics - the Epson decimal values are 27,52; and you may wish to set
+        the left-hand margin 8 characters further in so that you centre a 64
+        character line on the paper - the Epson code would be 27,108,8. If
+        these were the extra control codes you wished to enter, you would
+        type:           27,52,27,108,8
+
+        Note that you can only do as much as your printer allows you to do.
+        For example, some printers will not allow you to use condensed or
+        emphasised print in Near Letter Quality. Thus, if you entered the
+        codes when the printer is in this mode, they would not work.
+
+        Also note that if you wish to come back to this program later to
+        change some of the settings, you must retype all the codes, not just
+        the ones you are changing. If you change one of the codes only, the
+        Disciple will revert to the default codes for all the others.
+
+4.  Would you like the borders to flash during disk operation?
+                                                          ...Yes/No...
+
+        (We find it useful to keep the borders flashing, to show that
+        everything's performing well; but we know that some users prefer the
+        plain screen. Our suggestion: try with borders flashing at first. If
+        you don't like it you can always come back and change it later.
+
+5(a) Are you using the network?                           ...Yes/No...
+
+        If you answer yes, you are asked:
+
+ (b) Are you the master machine in a shared access network?
+                                                          ...Yes/No...
+
+        A shared access network is one in which a number of computers are
+        linked together, all sharing a single disk drive and a single printer
+        between them. The master machine is the computer to which the disk
+        drive and the printer are attached.
+
+                                13
+
+        If you answer yes to this question, you will automatically be
+        identified as station number 1 and your operating system will include
+        he routines required to control a shared access network. You will
+        then be asked question 6(a).
+
+        If you answer no, you are asked:
+
+ (c) What station number are you?                        ............
+
+        If yon enter a station number between 2 and 9 then you will be
+        recognised as one of the "assistant" stations in the network. (An
+        assistant station is one which has its own disk drive, but which is
+        not actually the master - which is always station number 1. If you
+        enter a station number between 10 and 63, then you will be a "pupil"
+        station - in other words, a station without its own disk drive or
+        printer. (Refer to the section on networking later in the manual for
+        more details of master, assistant and pupil stations.)
+
+        If you enter station number 0 then you will switch off the network
+        facilities.
+
+
+        After setting up the network, yon have completed your SYSTEM FILE.
+        You may be satisfied with your answers and ready to save the system
+        file to disk, or you may wish to retype some of your answers. Check
+        that you have a disk in disk drive 1, and then go on to answer the
+        final questions, which may include:
+
+6(a) Would you like to format a disk?                     ...Yes/No...
+
+        Answer yes only if you're now satisfied with all your answers, and you
+        are using a brand new disk or wish to erase files previously stored on
+        the disk. Be very careful not to format a disk which contain any
+        files you wish to keep - formatting wipes the disk clean.
+
+        If you answer no, you will then be asked question 7.
+
+                                14
+
+ (b) In double density?                                   ...Yes/No...
+
+        Answer yes if you have a double density disk drive. If you answer no,
+        the Disciple will assume you are working in single density.
+
+ (c) Are you sure?                                        ...Yes/No...
+
+        Are you sure you want to format? - a final check. If you answer yes,
+        your disk in drive 1 will be formatted and the system file which you
+        have created will be saved automatically at the same time. We call
+        the disk which contains your system file the SYSTEM DISK. After
+        formatting (which takes a minute or two), you'll be asked question 9.
+
+        You may find at this stage that the formatting cannot be completed.
+        If this happens, go through the utilities program again trying the
+        following:
+          i)  Use a different disk. If this doesn't work:-
+          ii) Change the stepping rate - if last time you typed in 6
+              milliseconds, try 12, then 24, then 40, then 64. If, after
+              these attempts, there's still no success:
+          iii) Format in single density instead of double density - some older
+              disk drives struggle to work in double density.
+          iv) Check (with your dealer) that the drive is of the right type -
+              i.e. BBC-computer compatible (= Shugart 400 standard) and with a
+              standard BBC-type cable. Try using another drive - perhaps the
+              heads on your drive are not centring or need cleaning.
+          v)  If none of these attempts work, return the Disciple to us,
+              following the instructions in Guarantee Details.
+
+7.  Would you like to save the system file?
+
+        If you chose not to format your disk, it may have been because you did
+        not want to erase old files on it. However, you may be satisfied with
+        your system file and ready to save it. If you answer yes to this
+        question, the system file will be saved to disk, but the disk will not
+        be formatted. You'll then go to question 9.
+
+        If you are not satisfied with your system file answers, type no.
+
+                                15
+
+8.  Would you like to repeat?
+
+        If you are not satisfied with some of your previous answers, enter yes
+        and you will be returned to the beginning of the utilities program.
+        You may wish to change only one of your previous answers. However,
+        you should type the correct answers to all the questions, not simply
+        to the one that you wish to change now.
+
+9.  Would you like to save this utilities program on disk?
+
+        You won't need the utilities program again unless you change your disk
+        drives or decide to change the printer controls or to use the network
+        in a different way. But if you are likely to change any of these
+        later, answer yes; you'll save time if you can load the utilities
+        program from disk instead of cassette. If you answer yes, you'll see
+        that the files "loader", "mover", "music" and "copysys" are saved to
+        disk and appear in the disk directory, which is now automatically
+        displayed. If you need the utilities program later, load the file
+        called "loader".
+
+
+Your system disk now contains all the information necessary to make the
+Disciple's disk, printer and network interfaces compatible with your system.
+From this point onwards, all you'll need to do is load your system disk and
+you'll be ready to start work.
+
+We recommend that you copy the system file onto several disks ready for future
+use. You'll learn how to do this later in this manual, in the section
+Formatting New Disks.
+
+                                16
+
+USING A DISK DRIVE
+
+(Before you start using the Disciple with a disk drive, please follow the
+instructions in the previous section - "Making the Disciple compatible with
+your system".)
+
+Loading the Disk Operating System
+
+Connect the computer, the Disciple and the disk drive(s) to the correct
+connectors, and then turn on the power. The normal title screen for the
+computer will be displayed.
+
+Insert your system disk in disk drive 1. (Your manual may call it drive A.)
+
+Type RUN, then ENTER. The disk unit will come to life and the operating system
+will be loaded. When loading is complete, the screen will display:
+
+        Miles Gordon Technology DOS 3b
+
+and an OK message - O.K.  GDOS 3,0:1
+
+Some users have found that the Miles Gordon Technology copyright message
+appears but not the O. . message, and the computer keyboard appears to have
+locked up. This has been because they have indicated that they are using the
+Disciple's printer port as they set up their system disk, but have then failed
+either to connect the printer or to switch it on (it should be on-line). Press
+the BREAK key to unlock the computer and allow the "system" to finish loading.
+
+The Catalogue
+
+To find out what programmes are stored on your system disk, type:
+        CAT 1 (or CAT 2 if you wish to access drive 2) - ENTER
+
+In about two seconds the screen will display:
+        - The heading Disciple Disk 1 (or 2) Directory.
+        - A list of files on the disk with various comments. (The maximum
+          number of files is 80).
+        - The amount of space left free on the disk in kilobytes.
+
+                                17
+
+Each directory entry is in the form of a file name which can be up to ten
+characters long in either upper or lower case characters. The file names are
+not listed in alphabetical order, but in the order in which they were saved to
+disk.
+
+A typical catalogue screen is as follows:
+
+         1   system           14     CDE            0,6656
+         2   loader           11     BAS          500
+         3   mover             1     CDE        49000,60
+         4   music             4     CDE        40300,1750
+         5   copysys          14     CDE        42800,6656
+         6   snap F           97     SNP 48K
+         7   screen           14     SCREEN$
+         8   listing          34     M/DRIVE
+         9   data              8     SPECIAL
+        10   numeric           4     D.ARRAY
+        11   character         5     $.ARRAY
+
+        Number of free K-Bytes = 677
+
+
+In the first column the program number is shown. This is automatically
+selected by the Disciple. When you save a file, the Disciple will place it in
+the first available space in the directory. Thus, if you erased file number 9,
+the next program you saved would become the new program 9.
+
+The second column is for the file-name - up to ten characters long.
+
+The third column shows the number of disk sectors used. In double density each
+sector holds 512 bytes, so divide the number of sectors shown by 2 to find out
+the approximate number of kilobytes used to store the file. In single density,
+each sector holds 256 bytes, so divide by 4 if you need to know the number of
+kilobytes used.
+
+                                18
+
+The fourth column is for the type of file:
+        BAS     = Basic
+        CDE     = Code
+        SNP 48K = 48K Snapshot file
+        SNP128K = 128K Snapshot file
+        SCREEN$ = Screen file
+        M/DRIVE = Microdrive file
+        SPECIAL = Special file, as used by some software
+                  houses - for example, word processing files,
+                  editor/assemblers
+        D.ARRAY = Data array
+        $.ARRAY = Character array
+        OPENTYP = File created by OPEN # statement
+        EXECUTE = Execute file
+You may not fully understand the significance of all these different types of
+file yet. There will be further explanation later in the manual, and the
+regular newsletters published by the Disciple Users' Club explore the more
+specialised file-types in detail.
+
+The right-hand column in the catalogue tells you the starting address of the
+file and, after the comma, the number of bytes used if it is a code file. If
+it is a file in Basic, the number will show the line at which the program
+starts.
+
+The amount of free space left on the disk is displayed in kilobytes at the
+bottom of the screen.
+
+If your directory fills the screen, and you wish to scroll down to the next
+screen, press ENTER.
+
+
+You can also display an abbreviated directory by typing CAT 1! (or CAT 2!).
+This would show the same directory in the following format:
+
+        system       loader         mover         music
+        copysys      snap F         screen        listing
+        data         numeric        character
+
+                                19
+
+Both the full and the abbreviated directory can be listed on screen
+simultaneously. Or you could, for example, list disk 1 in full and disk 2 in
+the abbreviated form.
+
+If you wish to print out the catalogue on your printer, you can use the special
+CAT #3 command. For example, to send the catalogue on drive 1 to the printer,
+you enter:
+                CAT #3;1
+To print an abbreviated catalogue from drive 2, you would enter:
+                CAT #3;2!
+
+
+
+Disk Drive Syntax
+
+When you use the Disciple and a disk drive, Basic commands typed on the
+computer keyboard are followed by a Syntax Separator - a code to let the
+computer know that the instructions are directed toward the disk drive, and
+not, for example, toward a cassette recorder.
+
+For ease of explanation in the manual, the syntax operator will be referred to
+as D1, meaning that the instruction is for drive number 1. However, when you
+are working on the computer, the following options are also available:
+
+        D1 or d1   = a command for drive 1
+        D2 or d2   = a command for drive 2
+        D* or d*   = a command for the last drive in use
+
+(Programmers should note that D* is particularly useful when your disk file
+autoruns and calls up another file on the same disk unit. You should also note
+that a variable can be assigned for drive number 1 or 2 but not for *.)
+
+By typing an upper case D rather than a lower case d when saving a file, the
+abbreviated disk catalogue will be displayed automatically when the save is
+complete. A new catalogue also appears automatically if you type an upper case
+D when erasing or renaming a file.
+
+                                20
+
+(For those who are familiar with the Sinclair Microdrives, note that you can
+use Sinclair Microdrive syntax with the Disciple. For example, to load a file
+from drive 1, you could type:
+        LOAD *"m";1;"file-name"
+In this case, the syntax operator D1 is replaced by *"m";1;
+For further details of Microdrive commands, refer to the Microdrive manual.)
+
+
+Saving a File and Verifying
+
+On the ZX Spectrum, you save programs on cassette using statements which you
+are probably familiar with. As an example, type in this short program called
+Squares:
+
+        10  REM   Squares
+        20  FOR   n=1 TO 10
+        30  PRINT n,n*n
+        40  NEXT  n
+
+To save on cassette, you would type:
+
+        SAVE "Squares"          ENTER
+
+To save the program on the disk in drive 1, you type:
+
+        SAVE D1 "Squares"       ENTER
+
+(Remember that D1 can be either d or D, 1 or 2 or *)
+
+The screen border will flash, and after about 2 seconds the program will be
+saved. Try it and see.
+
+As described in the last section, if you have SAVEd using a capital D, the disk
+directory is automatically displayed. If you have done the example, you will
+see the program Squares shown on the directory as the last entry, followed by
+BAS (showing that this is a BASIC program file), and then the figure 1 (showing
+that 1 sector has been used).
+
+                                21
+
+If you wish, you can now do a further check to ensure that the program has been
+saved, by entering:
+
+        VERIFY D1 "Squares"
+
+Provided the program has been saved correctly, the screen will display the OK
+message. (If you ever have difficulty with saving a file, check that you have
+started with a formatted disk - see the later section in this manual.)
+
+Now, with the program saved to disk, you can clear it from the Spectrum's
+memory by entering:
+
+        NEW
+
+
+Loading a program
+
+Next, you can re-load the program Squares by entering:
+
+        LOAD D1 "Squares"
+
+The program will be loaded when the OK message appears. But so far we haven't
+typed in an instruction which will make the program run. Let's do that now by
+entering:
+
+        SAVE D1 "Squares" LINE 10
+
+Of course, we already have a program called Squares on the disk, so you will be
+asked if you wish to overwrite the old one. You must enter either Y (= Yes) or
+N (= No).
+
+We will enter:      Y
+Then:    LOAD D1 "Squares"
+
+By now, you will probably have realised that all the normal Basic statements
+that are used with a cassette-based system can be used with the Disciple and a
+disk drive - with the simple addition of the short syntax operator, D1.
+
+                                22
+
+Breaking into a Program
+
+To break into the program and stop Squares running, use the normal Spectrum
+command - BREAK.
+
+Note that BREAK will stop the computer running all normal routines, but it will
+have no effect during a disk read/write operation until the disk activity has
+been completed.
+
+
+Renaming a file
+
+To rename a file, we use the two keywords ERASE and TO. For example, to rename
+your program Squares as Example 1, you enter:
+
+        ERASE D1 "Squares" TO "Example 1"
+
+The catalogue which automatically appears (if you have typed in a capital D)
+confirms that the file-name has been changed.
+
+Note that your file-names can be any combination of letters and numbers - or
+even spaces - but the maximum number of characters you can use is ten. The
+Disciple allows you to type your file-names in upper or lower case letters (or
+both); in the catalogue, the file-names will appear exactly as you originally
+typed them, but when you re-load a file it will not matter if letters
+originally typed as lower case letters are changed to upper case or vice versa.
+
+
+Copying a file
+
+To copy a file we use the keywords SAVE and TO, Try copying the program you
+have written by entering:
+
+        SAVE D1 "Example 1" TO D1 "Newcopy"
+
+You will see that before the copy is made, you are given the opportunity to
+change the disk. It you don't need to change the disk, simply press the SPACE
+bar and the file will be copied with the new file-name.
+
+                                23
+
+You could also give the instruction:
+
+        SAVE D1 "Example 1" TO D1
+
+This would mean that you wished to copy the file onto drive 1 and to keep the
+same file-name. This is obviously useful if you wish to make a back-up copy of
+a file onto another disk. Again, you are given the opportunity to change the
+disk before you press the SPACE bar to make the copy. If you don't change the
+disk but press the SPACE bar, you'll be given the message that the "File-name
+exists" and you'll be asked whether you wish to overwrite the existing file.
+Press Y (= yes) to overwrite, or N (= no) to cancel the command.
+
+If you are using two disk drives with the Disciple, you can also copy a file
+from one drive to the other, using the syntax:
+
+        SAVE D1 "File-name" to D2
+
+If you add a file-name after D2, the new copy will have this as its new file-
+name; otherwise, the new copy will have the same name as the original file.
+
+When copying is complete there is an automatic NEW instruction to the computer
+and the computer's title screen is displayed. To check that the copy has been
+made, call the CATalogue by entering CAT 1.
+
+
+Erasing a file
+
+Suppose you have finished with the program now called Example 1. To erase it
+from the directory of the disk, enter:
+
+        ERASE D1 "Example 1"
+
+During the ERASE, the border will flash, and the catalogue will be displayed
+automatically (if a capital D has bees typed), showing that the file is no
+longer available and that more space on the disk has been made free.
+
+(Programmers -note that, unlike Interface 1, the Disciple returns an error
+message if you try to ERASE a non-existent file. When using programs
+originally written for Microdrive with the Disciple, you will sometimes have to
+delete an ERASE command in the listing to avoid the error message.)
+
+                                24
+
+Creating an Autoload file
+
+An autoload file is one which loads as soon as you RUN the operating system;
+you are allowed one autoload file per system disk.
+
+For an illustration of an autoload file, let's rename the file Newcopy. Enter:
+
+        ERASE D1 "Newcopy" TO "Autoload"
+
+The new catalogue should tell you that the file is now called Autoload. Now
+turn off the power to your Spectrum; everything in the computer's memory,
+including the disk operating system will be lost.
+
+Turn on the power again and load the operating system from your system disk by
+entering RUN. Your Autoload file (which, you'll remember, is the original
+Squares program) will be loaded at the same time, and instead of the normal
+Disciple title screen you'll see the Squares program running.
+
+If, however, you do not want your autoload program to autoload, then enter:
+
+                RUN boot
+instead of:
+                RUN
+
+
+Using the Spectrum's Reset Button
+
+If you use a ZX Spectrum +, a ZX Spectrum 128K, or a Spectrum 128K+2, your
+computer will have a reset button which allows you to reset your system without
+having to turn off the power.
+
+But when you press the computer's reset button once, the Disciple still retains
+the operating system in its own memory. You don't have to reload the Disciple's
+operating system - you can just carry on giving normal Disciple commands.
+
+However, if the computer's reset button is pressed twice consecutively, the
+Disciple's operating system is no longer retained in memory. To be able to use
+Disciple commands, you will first have to load the operating system from your
+system disk (or technically, "boot up") afresh.
+
+                                25
+
+Saving a file with the Snapshot Button
+
+By holding down the CAPS SHIFT key on your Spectrum's keyboard and then
+pressing the Snapshot bottom on the Disciple once at any time during the course
+of a program, you are able effectively to "take a photograph" of anything held
+in the computer's memory at that time, and save it to the last drive in use,
+shown by the indicator light on the disk drive.
+
+Make sure that the Disciple is connected and that your system is booted up with
+the system disk in drive 1. Then load in any program (a game is best for
+demonstration) in the normal way - from disk or from cassette. (If you're
+loading from cassette, use the Spectrum's normal LOAD "" command.)
+
+When the program has loaded, press CAPS SHIFT and the Snapshot Button
+simultaneously. You'll notice that your program will be frozen at its current
+status, and you will see a number of thin multi-coloured lines filling the
+borders. You now have the following options:
+
+Press key 3 on the Spectrum to save only the current SCREEN. A screen save
+will occupy 7k of memory space on the disk. The border will flash until the
+save is complete, and when the flashing has finished, you can continue with the
+program from the point at which you left it.
+
+Press key 4 on the Spectrum for a 48K PROGRAM to be saved to disk. Every time
+you save a 48K file, 48K of memory space (or actually 97 sectors) will be used
+on the disk. When you press key 4, the borders will flash, showing that the
+program is being saved. When the borders stop flashing, the save will be
+complete and the program will resume from the point at which you left it. (If
+you want to, you can take more snapshots at later points in the program until
+your disk is full. If your drive has a capacity of 780K and you are using an
+empty formatted disk, the maximum camber of 48K snapshot saves you could take
+would be 16.)
+
+Press key 5 on the Spectrum for a 128K PROGRAM to be saved to disk. Every time
+you save a 128k file, 128K of memory space will be used on the disk (= 258
+sectors). Again, the borders will flash for a few moments, but then the
+program will appear to be frozen again. If the picture on your screen (the
+picture - not the border) has changed, press key Y (= yes) on the Spectrum; if
+
+                                26
+
+the picture has not changed, press the key N (= no) on your Spectrum. The
+borders will then continue to flash until your 128K save is complete, You will
+then be able to resume from the point at which you left the program.
+
+If you have loaded the program on drive 1, but wish to save your snapshot file
+to drive 2 - or vice versa - press the CAPS SHIFT key on the Spectrum at the
+same time as pressing key 3, 4 or 5.
+
+When you've saved a snapshot file, press the computer reset button (or in the
+case of the Spectrum 48K, turn off the power and boot up the system again) and
+call up the catalogue - enter CAT 1. You'll see that your snapshot file is
+labelled "Snap A/B/C" etc, with the letter of the alphabet dependent upon the
+file's position in the directory. Clearly it will be difficult to remember the
+precise contents of your snapshot file if this were the only name possible. So
+you'll need to give your snapshot file an identifiable file-name. First,
+choose a new name for the file you have snapshotted and then rename it using
+the ERASE ... TO keywords. (In case you've forgotten how to do this, refer
+to the section RENAMING A FILE). Use a capital D in the syntax operator, so
+that the new catalogue is automatically displayed.
+
+To reload the snapshot files, you enter:
+
+        LOAD D1 "Your new file-name" S          (for a 48K file)
+        LOAD D1 "Your new file-name" K          (for a 128K file)
+        LOAD D1 "Your new file-name" SCREEN$    (for a screen file)
+
+The S, K and SCREEN$ identifiers are important, and without them the programs
+will not load. (If you are using Microdrive syntax, you will also need to type
+in the correct identifier at the end of the LOAD command for snapshot files.)
+
+
+
+Abbreviated Syntax
+
+Now that you've learnt the basic disk drive commands, we can introduce you to a
+much easier way of loading a file. You can enter just:
+
+        LOAD p6
+
+                                27
+
+This has the effect of loading the program labelled number 6 in the directory.
+This command will be particularly useful when loading a code file. Normally
+you would have to type, for example:
+
+        LOAD D1 "music" CODE 40300,1750
+
+- stating the start address and the number of bytes used. But using the
+abbreviated syntax, you can simply enter:
+
+        LOAD p4
+
+MERGE and VERIFY can also be used with the program number in this way.
+
+Using the "p" command, you do not need to type S, K, or SCREEN$ in order to
+load snapshot files.
+
+
+Wild-Card files
+
+Wild-card files allow you to CATalogue, copy (using the SAVE ... TO syntax), or
+ERASE a group of similar files in a single operation. Let us imagine, for
+example, that you have a series of files called:
+
+        numbers1, numbers2, numbers3, numbers4
+
+To erase all of them, you could enter:
+
+        ERASE D1 "n*"
+
+The effect of the star is to say that all the rest of the file-name doesn't
+matter: you wish to erase all files commencing with "n". Be careful: this
+really means all files beginning with "n".
+
+You could also enter:
+
+        ERASE D1 "??mb*"
+
+                                28
+
+You would then erase all the files which have "mb" as their third and fourth
+letters. The effect of each question mark is to say that "this letter is of no
+significance".
+
+The same syntax - using ? and * - is available for the SAVE ... TO and
+CATalogue commands. Thus, if you wanted to copy all the files on disk 1 to
+disk 2, you could enter:
+
+        SAVE D1 "*" TO D2
+
+Or, if you wanted to copy your "numbers" files to drive 2 and also give them a
+new file-name, you could enter:
+
+        SAVE D1 "numbers*" TO D2 "figures*"
+
+(Note that if you are using wild-cards, the new file-name must have the same
+number of letters as the first - in this case seven letters.
+
+Also note that when you copy files, whether from one disk to another or to the
+same disk, it is not possible to copy a snapshot file. This precaution is
+necessary in the interests of the software houses, who would not wish to
+support a device which could encourage commercial piracy. It is possible, of
+course, to take a second snapshot of the same file.)
+
+
+The Inhibit Button
+
+You may find that you have a peripheral which appears not to work with the
+Disciple. This may be because the peripheral in question has its own ROM and
+there is interference between the ROM on the Disciple, and that on the
+peripheral. (This is the case, for example, when you use Interface 1 with the
+Disciple.) In these cases, follow this procedure:
+
+1.   With the power off, attach the peripheral behind the Disciple. Keep the
+disk drive attached and make sure you have a system disk ready.
+
+2.   Turn the power on and load in the Disciple's operating system by entering
+RUN. You can load a program from disk if you want to.
+
+                                29
+
+3.   Press the Inhibit Button once, so that it is locked in; this gives you the
+capability of switching off the Disciple's operating system. To actually turn
+off the system, enter OUT 31,0. You can now no longer use your disk drive
+(although the Disciple's printer and joystick ports remain active), but you
+will probably be able to use your peripheral. If now, for example, you entered
+CAT 1 with Interface 1 and a Microdrive attached behind the Disciple, you would
+display the Microdrive's directory, not the Disciple's.
+
+4.   When you wish to use the Disciple's disk drive again, you can either press
+the Inhibit Button again (so that it is no longer latched in), or you can enter
+OUT 31,16. You can then continue to use the Disciple in the normal way. So, if
+you have loaded a program from Microdrive into the computer, you could now save
+it to disk, with either the SAVE command, or with the Snapshot Button.
+
+(Programmer's note: You can use OUT 31,0 and OUT 31,16 in your programs to turn
+the Disciple's DOS on and off. See List 1 in Appendix A.)
+
+
+Formatting New Disks
+
+Before a floppy disk is used for the first time, it must be formatted. You can
+also format a previously used disk; the effect will be to wipe the disk clean
+of information.
+
+You must therefore be careful not to format a disk which contains any files you
+wish to keep. It is also risky to format a disk while you are holding a
+program in the Spectrum's memory. (This is because the format command uses
+approximately 8000 bytes of Spectrum memory from address 49152 upwards. Any
+program residing here will be overwritten with format information.)
+
+To format, insert the disk in drive 1 or 2 and enter:
+
+        FORMAT D1 (or D2)       - for double density format, or
+        FORMAT SD1 (or SD2)     - for single density format.
+
+It is good practice to ensure that you always have spare formatted disks when
+you start work; then, if you fill your original working disk, you can easily
+substitute a spare disk without interrupting your program to format.
+
+                                30
+
+After formatting a new disk, it is always a good idea to copy the Disciple's
+system file onto it, so that you always have a spare system disk available.
+You can do this by entering:
+
+        SAVE D1 "Sys 3b" CODE 0,6656
+
+If you are using two disk drives, the following command is available:
+
+        FORMAT D1 TO 2
+
+This command formats the disk in drive 1 and copies the contents of the disk in
+drive 2 to the disk in drive 1, sector by sector. BE VERY CAREFUL NOT TO
+FORMAT THE WRONG DISK. Remember that the first-named disk is always the one
+which is cleared of data, and the second-named whose contents are copied.
+Because the copying is done a sector at a time, the copying process takes much
+longer than when you use the SAVE ... TO command; but the FORMAT ... TO command
+will give you a new disk which is identical in every respect to the one which
+has been copied.
+
+
+Care of your Disks
+
+Your floppy disks are valuable, not only because of the information they hold,
+but also because of the time you have spent creating them. Make these safety
+procedures a habit:
+
+        - Return the disk to its envelope when not in use.
+
+        - Remove disks from the drive before you turn power off; don't insert them
+        in the drive until you have turned power on.
+
+        - Don't write on the disk jacket or label with a pencil or a ball-point
+        pen. Use a felt tip.
+
+        - Don't expose the disk to direct sunlight or heat.
+
+        - Heat and contamination from a carelessly dropped cigarette ash can
+        damage the disk.
+
+                                31
+
+        - Don't touch or attempt to clean the disk surface.
+
+        - Replace storage envelopes when they become worn, cracked, or distorted.
+
+
+Error Reports
+
+There are a number of standard Spectrum error messages which will appear on
+screen if the command you have typed in cannot be obeyed. For full details,
+consult the Spectrum manual.
+
+When you are using the Disciple, these standard error messages may continue to
+appear, but there are some additional error reports which refer specifically to
+disk handling problems. These are some of the more important you may meet:
+
+    FORMAT DATA LOST
+
+    This means that the disk has been damaged or the file has been corrupted -
+    perhaps by a magnetic field. You will not be able to access the current
+    file, and other files may also have been lost.
+
+    When this message appears, copy any remaining files on the disk to another
+    disk immediately. You could then try reformatting your disk, and if there
+    is no permanent damage you may be able to use it again. But don't store
+    important files on this disk, in case the damage is more permanent.
+
+    SECTOR DATA LOST
+
+    This means that the information you've tried to save has been corrupted -
+    perhaps again by electrical or magnetic interference while saving. You'll
+    need to rewrite the file and save it again. This shows the importance of
+    always making a back-up copy of your files.
+
+    The disk itself has not been damaged and need not be reformatted.
+
+    If the Sector Data or Format Data Lost messages appear regularly, this may
+    indicate a problem with your disk drive. The head(s) may be dirty, or the
+    drive may not be centring the disks correctly on insertion. The first
+
+                                32
+
+    action to take would be to clean the heads using the drive cleaners
+    supplied by your local dealer. If this fails, repairs may be necessary.
+
+    DISK WRITE PROTECTED
+
+    You cannot save, erase or otherwise modify files on this disk because you
+    have covered the security lock on the right-hand side of the disk with the
+    label supplied when you buy the disk.
+
+    NO DISK IN DRIVE
+
+    Check that the disk has been correctly inserted. (Is it the right way up?)
+    If it has, there is likely to be something wrong with the drive itself, or
+    you may have an incompatible peripheral attached.
+
+    DISK DIRECTORY FULL
+
+    Either you are trying to save more than 80 files on one disk; or, if you
+    have used fewer than 80 files, there is simply no more space available on
+    the disk for new data. Save your file on a new disk.
+
+    When a file save cannot be completed, the Disciple frees the disk space
+    used for the file up to that point; so you can still use the first, limited
+    capacity disk for smaller files.
+
+    FILE NOT FOUND
+
+    You are trying to load, copy, verify, erase, or rename a file which is not
+    present on the disk. Check that you have typed in the file-name correctly.
+    (Make sure you have remembered the 'S' if you are loading a Snapshot file.)
+
+    INVALID STATION NUMBER
+
+    When using the network, you have typed in a station number beyond the
+    permissible range 0-63. Or, if you are a pupil station, you are trying to
+    identify yourself as the master machine - station 1. (See the section on
+    Networking for further details.)
+
+                                33
+
+USING JOYSTICKS
+
+There are two Atari-type joystick ports on the Disciple, one on the left as you
+look at the computer from the front with the Disciple attached, and the other
+on the right. If you are using only one joystick, you must always connect it
+to the right-hand port (as Figure 1).
+
+When you load commercial software programs, you are normally asked to select
+either Kempston or Sinclair (Interface 2) compatibility. When using the right-
+hand joystick port you can select either Kempston or Sinclair modes. When
+using the left-hand joystick, you can only select Sinclair mode.
+
+Once connected, the joysticks are operational immediately.
+
+Occasionally, you may encounter a game which appears not to work with the
+joystick in the Kempston mode. It this is the case, select the "keyboard"
+control option from the menu at the beginning of the game instead of the
+Kempston option. Then, when you are asked to press the keys which you wish to
+use for Up/Down/Fire etc, move the joystick in the appropriate direction
+instead. You will then find that you have full joystick control.
+
+                                34
+
+USING A PRINTER
+
+One of the features of the Disciple is the ease with which a printer may be
+used. Simply connect your Centronics parallel-type printer at the printer
+port, set up the appropriate system for the printer (as described in MAKING THE
+DISCIPLE COMPATIBLE WITH YOUR SYSTEM), and you are then able to operate the
+printer using three simple printer commands - LPRINT, LLIST and SAVE SCREEN$ 1.
+(COPY SCREEN$ 1 is an alternative to COPY SCREEN$.)
+
+LPRINT and LLIST have exactly the same meaning as PRINT and LIST, except that
+instead of making information appear on the screen, they send it to your
+printer. To see how they work, set up your system with the printer and enter
+the following program:
+
+        10  LPRINT  "This program"
+        20  LPRINT  "prints out the character set"
+        30  FOR n=32 TO 255
+        40  LPRINT CHR$ n;
+        50  NEXT n
+        RUN
+
+When you run the program, the LPRINT command sends the heading and the list of
+characters directly to the printer.
+
+Now enter LLIST - and the listing of your program is sent to the printer.
+
+Then enter LIST to restore the program listing to the screen. Finally, enter
+SAVE SCREEN$ 1. Now the contents of the screen are copied (technically,
+"dumped") to the printer.
+
+SAVE SCREEN$ 1 is a particularly powerful command. If you've set up your system
+to print graphics, you can dump screen pictures to your printer.
+
+(Note one peculiarity of the Spectrum Basic though. If you have written a
+program listing on screen, you cannot dump the screen directly to your printer.
+First, you have to enter LIST; only then can you enter SAVE SCREEN$ 1 to dump
+the listing to your printer. This is hardly a problem - a faster way of
+achieving the same result is to write your program, then to enter LLIST.)
+
+                                35
+
+If you have an Epson-compatible printer (or one which understands the control
+code ESC * for bit image graphics selection), you will probably be able to use
+SAVE SCREEN$ 2. This will allow you to print a double-sized screen dump
+sideways down the page on your printer, with the various colours on the screen
+interpreted as shades on the print-out.
+
+The Disciple accepts two commands - TAB and AT - which allow you to position
+your text at a certain point on the printed line. Enter this statement:
+
+        LPRINT TAB 8; "This line is indented"
+
+Now enter:
+
+        LPRINT AT 4,4; "This line is less indented"
+
+The number in the two commands tells the computer at which character position
+on the line printing should begin.
+
+Finally, programmers should note that if a control character is to be sent to
+the printer using LPRINT, then you must always precede it with CHR$ 27 (even
+when you want to output CHR$ 27). To output CHR$ 27,CHR$ 65,CHR$ 40 you would
+enter:
+
+        LPRINT CHR$ 27;CHR$ 27;CHR$ 27;CHR$ 65;CHR$ 27;CHR$ 40
+
+Or, a simpler way would be to enter POKE @ 6,1, as described in Appendix B. It
+is then not necessary to precede the control characters with CHR$ 27. When
+you've finished, enter POKE @ 6,0.
+
+
+Snapshot Printing
+
+Uniquely, the Disciple allows you to temporarily halt a program at any point
+and to print out the current screen contents. This facility offers exciting
+new possibilities to games players. In an adventure game, for example, you can
+print out the screen at each new location, gradually building up a complete
+picture of all the available screens.
+
+                                36
+
+To experiment with snapshot printing, load a normal commercial program,
+preferably a game with good graphics to show the facility at its best. When
+you wish to print a screen, hold down the CAPS SHIFT key on the Spectrum and
+press the Snapshot Button - in the same way as if taking a snapshot save. As
+usual, the program is paused; if you then press key 1 on the Spectrum, you will
+send a 32-column screen dump to the printer. If instead you press key 2 on the
+Spectrum and you have an Epson-compatible printer (that understands ESC *),
+you should be able to send a double-sized screen dump to the printer - just as
+if you had entered the command SAVE SCREEN$ 2.
+
+When printing is complete, the program will resume from the point at which you
+left it.
+
+
+Printing from a Commercial Word Processor and other Serious Software
+
+Commonly, commercially produced word processors and spreadsheets have a special
+printer driver built into the software to allow you to send your work to a
+printer. In some cases, it will be possible to follow the instructions in the
+software package to set up the printer driver for your printer, and
+increasingly, the major pieces of serious software for the Spectrum are being
+modified to allow for printing with the Disciple.
+
+If the software you wish to use does not offer the option of printing with the
+Disciple, and you have no success when you try to print, try the following:
+  i)  If you are offered the opportunity to define your own printer driver by
+      the software package, choose this option and then enter POKE @ 6,1.
+      Then, when you've finished your printing, enter POKE @ 6,0. Or, if you
+      can get a Basic listing of the program, type these two statements into
+      the program at the points where printing commences and ends respectively.
+      For example, Tasword II will print successfully with POKE @ 6,1 at
+      line 279 and POKE @ 6,0 at line 281. The very powerful POKE @ 6,n
+      statement is explained in Appendix B.
+  ii) If this fails, contact the User Club - another user may have solved your
+      problem.
+  iii) Or contact the software house for more advice. (The reason why more and
+      more software is now being modified for printing with the Disciple is
+      because of user pressure on software houses.)
+
+                                37
+
+NETWORKING
+
+The two network connectors allow computers with the Disciple to communicate
+with up to 62 similar computers/Disciples. It is important to note that this
+can be a SHARED ACCESS NETWORK with all stations sharing a single disk drive
+and printer held at the master station, and with the master computer
+controlling all the other machines. This makes the Disciple particularly
+effective in a school classroom. Or you can use an INDEPENDENT STATION
+NETWORK, in which up to 8 computers, each equipped with Disciple, disk drive
+and possibly printer, come together to exchange files.
+
+We refer below to MASTER stations, ASSISTANT stations and PUPIL stations.
+ -  A MASTER station is a computer/Disciple which has at least a single disk
+    drive (and at most two drives and a printer) attached. In a shared access
+    network, there must be a single master station, which controls and can
+    override the activities of all other stations, as well as serving as a
+    central file source and printing facility.
+ -  In any network there can be up to 8 ASSISTANT stations, each of which is a
+    computer/Disciple with at least a single disk drive (and at most two
+    drives and a printer) attached. Assistant stations are optional in a
+    shared access network, and serve as extra banks of memory for the master
+    station and extra printing positions.
+    In an independent station network, all computers are set up as if they
+    were assistant stations.
+ -  A PUPIL station is a computer/Disciple with no disk drive or printer
+    attached, and which, in a shared access network, shares the drives and
+    printers held at master and assistant stations. There can be up to 54
+    pupil stations in a shared access network.
+
+
+Setting up the network
+
+For each computer in the network, you will need to supply a screened cable
+(microphone-style) with two standard 3.5mm jack-plugs, one attached at each end
+of the cable. (The cables are not supplied because you will know best how long
+you need them to be; both cables and jack-plugs are cheap and easy to buy.)
+
+                                38
+
+To link computers in the network, plug one end of the network lead into either
+of the Disciple's network sockets on the first computer and the other end into
+the nearest Disciple network socket on the next computer. This second computer
+can then be connected to a third in the same way, using its other network
+socket, and so on.
+
+
+The Shared Access Network
+
+Link your computers with network leads as described above, and fit the single
+master station and (optionally) up to 8 assistant stations with disk drive(s)
+and printer(s). All computers at pupil stations must have the Disciple and a
+screen.
+
+The master station and assistant stations create their own system files, typing
+in the appropriate codes for the drives and printer as described in MAKING THE
+DISCIPLE COMPATIBLE WITH YOUR PERIPHERALS. In the section in the system file
+on networking, the master identifies itself as the master machine in a shared
+access network, and is then automatically allocated station number 1. Assistant
+machines identify themselves with station numbers from 2 to 9 - make sure that
+each station uses a different number. The system files are then saved for
+permanent use on system disks as usual. If, as in a school classroom, the
+computers are in fixed positions and you intend to use the network regularly,
+you will simply be able to boot up the master and the assistants from their
+respective system disks on subsequent occasions.
+
+With their system disks in drive 1, the master and assistants then load their
+systems normally by entering RUN.
+
+Without disk drives, pupil stations obviously cannot boot up from a system
+disk. Instead each pupil is allocated a station number between 10 and 63.
+Then, after each pupil station is turned on, a FORMAT n command is entered.
+Station number 10, for example, enters:
+
+        FORMAT N10      (Here and elsewhere, you may use a lover-case "n")
+
+When the Disciple receives this command, it understands that it is a pupil in
+the network (from FORMAT n) and that its station number is 10.
+
+                                39
+
+You are now ready to start work with the network. But first, you should note
+that no matter which of the network operations described below you are using,
+it is never possible to transfer a snapshotted file from one machine to another
+across the network. These are the Disciple's shared access network commands:
+
+
+- The Master sends a file to all stations.
+
+    First the master loads a file from disk using the normal command:
+
+        LOAD D1 "file-name"
+
+    Pupil stations indicate that they are ready to receive a file; each must
+    enter:
+
+        LOAD N0
+
+    0 indicates that this is a broadcast command. The master then enters:
+
+        SAVE N0
+
+- A Pupil or Assistant sends a file to all stations.
+
+    A current file held at a pupil or assistant station can be
+    broadcast in the same way. All receiving stations enter:
+
+        LOAD N0
+
+        Then the station holding the file to be broadcast enters:
+
+        SAVE N0
+
+- The Master or Assistant sends a file to one station.
+
+    Again, the master first loads the file from disk. Then to send to, say,
+    station 11, the master enters:
+
+        SAVE N11
+
+                                40
+
+    And to receive the file, station 11 replies to the master - station 1 - by
+    entering:
+
+        LOAD N1
+
+- A Pupil or Assistant sends a file to anther Pupil or Assistant station.
+
+    A pupil or assistant station can send its current file, identifying the
+    number of the receiving station. For example, to send to station 50, the
+    sender enters:
+
+        SAVE N50
+
+To receive the file, station 50 replies. If the sender is station 15, the
+command is:
+
+        LOAD N15
+
+By now you will have understood the principle that there must be an exchange of
+messages between sending and receiving stations before files can be transmitted
+across the network. But this is only true if the station receiving the message
+is a pupil or an assistant. The master station does not need to reply to
+messages from assistants or pupils, as shown in the next batch of network
+commands.
+
+- A Pupil inspects the directory on the master disk.
+
+    The pupil station enters:
+
+        CAT 1
+
+- A Pupil loads a file from the master disk.
+
+    The pupil station enters:
+
+        LOAD D1 "file-name"
+
+                                41
+
+- A Pupil sends a file to the master disk.
+
+    The Pupil enters:
+
+        SAVE D1 "file-name"
+
+    It is good practice for the pupil stations to include a station identifier
+    (perhaps their station number) within the name of the file that they are
+    sending to the master disk; otherwise it will be difficult to establish
+    which station was responsible for each of the files on the master disk.
+
+The master station is also able to "steal a screen" from a pupil station, in
+order to inspect the work being done at that position. The master can also
+force a file upon any pupil station. For these operations, a special F command
+is used, and the pupil stations do not need to send a message back to the
+master.
+
+- The Master "steals a screen" from a Pupil station.
+
+    To check on progress being made at pupil station 15, the master enters:
+
+        LOAD F15 SCREEN$
+
+    Work at station 15 will be halted temporarily while the screen is
+    transferred to the master's screen. When the LOAD is complete, work at the
+    pupil station can continue.
+
+- The Master forces a program upon a Pupil station.
+
+    To force its current file upon pupil station 20, the master enters:
+
+        SAVE F20
+
+    When a file is forced upon a pupil station, the current file held at that
+    station is lost.
+
+                                42
+
+When the network is in use, pupil stations cannot erase flies or use the "p"
+command for LOADing; but the master and assistant stations can continue to use
+the standard Disciple disk commands - CAT, SAVE, VERIFY, LOAD, ERASE,
+ERASE..TO, SAVE..TO - normally. Master and assistant stations can also
+continue to use the snapshot button for saving and printing, and send the
+normal Disciple commands to the printer. So:
+
+- To print out work done at a Pupil station.
+
+    First send the file back from the pupil to the drive at the master station
+    (use SAVE D1 "file-name"). Then the master station can load the file and
+    LLIST, LPRINT, or SAVE SCREEN$ 1 (or 2) as required.
+
+    Or, after stealing a screen from a pupil station, the master can use the
+    Disciple's snapshot printing facility to do a screen dump.
+
+If a station tries to access a disk drive while another station is already
+using it, or to communicate with a station already engaged in a network
+operation, the Disciple will allow the first task to be completed before the
+second commences; there will be a short waiting period for the second station
+but it is not necessary to repeat the command. Pupils will know that their
+network task has been completed when the OK message appears on their screens.
+Should two stations try to communicate with another computer or access the same
+disk drive at the same instant, priority will be given to the computer with the
+lowest station number.
+
+
+The Independent Station Network
+
+This is a network in which up to 8 stations act as independent units, equipped
+with their own disk drives and perhaps printers, but choose to be linked
+together for the transfer of files.
+
+Set up each station as described in Setting up the Network. Each computer will
+need to create its own system file, following the instructions in MAKING THE
+DISCIPLE COMPATIBLE WITH YOUR SYSTEM. When dealing with the section on
+networking in the system file, all computers will state that they are not the
+
+                                43
+
+master machine in a shared access system, but they may wish to type in a
+station number from 2 to 9, which will then be stored permanently on their
+system disks.
+
+Each computer loads the system file by entering RUN with the system disk in
+drive 1. If you have set your station number in the system file, you are ready
+to join the network immediately. If not, you should now enter a FORMAT N
+command with your station number. If you are station 4, you enter:
+
+        FORMAT N4
+(In an independent station network, you must load your system file before you
+enter the FORMAT command. Be careful not to enter a FORMAT D rather than a
+FORMAT N command, or you may find that you've formatted a disk instead of
+setting up a station.)
+
+You can now transfer files as follows:
+
+- Send a file to all stations.
+
+    The sender first loads the file from his disk, in the normal way.
+    Meanwhile, in preparation to receive the file, the other stations enter:
+
+        LOAD N0
+
+    The sender then enters:
+
+        SAVE N0
+
+    0 indicates that the file is to be broadcast to all stations.
+
+- Send a file to one station
+
+    After loading the file from his disk, the sender types a command including
+    the number of the receiving station. For example, to send to station 4, he
+    enters:
+
+        SAVE N4
+
+                                44
+
+The receiving station has to identify the sender's station number. If the
+sender is station 3, he enters:
+
+        LOAD N3
+
+All standard Disciple commands for disk and printer operation may also be
+used in an independent station network; but the additional network commands
+described in The Shared Access Network above are not available.
+
+                                45
+
+USING OTHER PERIPHERALS
+
+Most other Spectrum peripherals can be connected to the Disciple via the
+through port at the back of the unit.
+
+In the rare cases when peripherals may not work with the Disciple, try
+disabling the disk operating system, as described in the section The Inhibit
+Button. This will solve most problems, although the mice and midi interfaces
+that we know of are currently incompatible. We regularly discuss any
+incompatibility problems that arise with hardware and software manufacturers
+and will always attempt to find solutions - though they will not always be
+instant. In fact, in the coming months, it is hoped that we will be able to
+produce a mouse environment for the Disciple if there is sufficient demand.
+Details of our progress will be reported in the Disciple Users' Group
+newsletter.
+
+                                46
+
+ADVANCED USER'S SUPPLEMENT
+
+In this section of the manual, we describe:
+
+   - Advanced Disciple syntax                   (Appendix A)
+   - Details of Disciple POKE @ statements to change system variables
+                                                (Appendix B)
+   - An introduction to Disciple command codes  (Appendix C)
+   - Technical specifications                   (Appendix D)
+
+Much of this information may be difficult for an inexperienced user to
+understand. We recognise also that the truly advanced user - the programmer
+and the hardware designer - may need more information than we are able to
+include here.
+
+Whatever reason you may have for needing extra information - whether it is to
+catch up on general background reading or to discover the detailed inner
+workings of the Disciple - we'd like to recommend membership of INDUG, the
+Independent Disciple Users Group, which can be contacted at 34 Bourton Road,
+Gloucester GL4 0LE, England. INDUG publishes a regular newsletter, FORMAT,
+helping with problems and queries of ail types, as well as providing a number
+of other services to Disciple users.
+
+                                47
+
+APPENDIX A: ADVANCED DISCIPLE SYNTAX
+
+Reading from and Writing to a Sector
+
+        LOAD @ D,T,S, Address
+        SAVE @ D,T,S, Address
+
+This command is used for reading from or writing to a specified track and
+sector on the disk to a memory location in the Spectrum memory area, where:
+
+        D = the drive number (type either 1 or 2 - the number only, not the D)
+        T = the track number from 0 to 39  (40 track)
+                or                0 to 79  (80 track)
+            To read the second side on a double-sided disk drive
+                then            128 to 167 (40 track)
+                or              128 to 207 (80 track)
+        S = the sector number - from 1 to 10
+        Address = the start address of any location in the Spectrum memory.
+                  Nb: if a single density disk is read, 256 bytes will be
+                  used, and in double density, 512 bytes will be used.
+
+Working with a monitor program, this powerful command allows you to access a
+single sector on the disk from Basic. This will be useful if, for example, you
+wish to examine and correct a corrupted sector on the disk (and incidentally
+the Disciple's Sector Data Lost error message tells you the corrupted track and
+sector number); or for breaking into, examining and modifying a snapshot file.
+
+Using Streams and Channels
+
+  i)    OPEN #S; D1 "file-name" IN or OUT
+
+  This command is used to open a file on the disk and attach a stream number to
+  it, so that you can PRINT out to or INPUT from that stream, where:
+
+        S = Stream number - from 4 to 16 (type the number only)
+        D = D1 or D2 (drive number - type D as well as the drive number)
+        IN =  When you specifically require an input or read file opened
+        OUT = When you specifically require an output or write file opened.
+
+                                48
+
+The Disciple's OPEN # command differs from the Interface 1 command with the
+addition of the IN and OUT statements. However, if you choose not to specify
+the IN or OUT, them the default is the same as Interface 1: an input file if
+the file-name is found in the directory, and an output file if the file-name
+is not found in the directory.
+
+You can also use:
+
+        OPEN #S;"m";1;"file-name"
+
+- for Interface 1/Microdrive compatibility.
+
+Files created with the OPEN # statement are identified as OPENTYP files in
+the catalogue.
+
+ii)     CLOSE #*S
+
+This command closes the file and the stream opened in the previous command.
+Here, S = Stream number. If you do not type in the stream number, then all
+current open streams will be closed.
+
+The * in this command is used to fail syntax, correcting the bug in the
+Spectrum ROM, and must be used. If you are using programs originally written
+for Microdrive with the Disciple, you will have to add the * to any CLOSE #
+statements.
+
+This is an example of a write file:
+
+        10      OPEN #4;D1 "Test" OUT
+        20      PRINT #4; "This is a test"
+        30      CLOSE #*4
+
+        100     OPEN #4;D1 "Test" IN
+        110     INPUT #4;A$
+        120     PRINT A$
+        130     CLOSE #*4
+
+                                49
+
+NOTE that:
+  a) You can only open output files to one disk drive at a time.
+  b) You can open input files from more than one disk drive at a time.
+  c) You can have as many open files as there are streams available.
+
+iii) MOVE is a command which moves a file, one sector at a time, to either
+another file or a stream. (It differs from the Interface 1 MOVE command;
+with the Disciple, there is no need to OPEN a file before MOVEing from file
+to file.)
+
+        MOVE D1 "file-name" TO #S
+
+This command reads the file and outputs it to the specified stream, (where D1
+= D1 or D2, and S = the stream number, from 4 to 16.)
+
+        MOVE D1 "file-name" TO D1 "file-name"
+
+This command reads the file and writes it to the second file.
+
+
+iv)     CLEAR #
+
+This command clears all streams and channels that may be open.
+
+
+v)      CLS #
+
+This command clears the screen and attribute area, and resets BORDER, PAPER,
+INVERSE, BRIGHT, OVER and FLASH.
+
+
+The Execute File
+
+An execute file is a machine code file occupying up to one sector length (510
+bytes) of memory. When loaded from disk it is executed (RANDOMIZE USR) in the
+DRAM, and not in the Spectrum memory as other files are. An execute file gives
+the programmer the ability to execute utility routines - such as renumbering a
+program - without affecting or using the Spectrum memory.
+
+                                50
+
+To save a sector length of memory as an execute file, enter:
+
+        SAVE D1 "file-name",I,Address
+
+- where:
+        D1 = D1 or D2 (drive number)
+        I  = the execute file identifier - simply type X
+        Address = the location in the Spectrum of the machine-code program.
+                  Note that the program must be able to run at address
+                  1BD6 Hex or 7126 Decimal, and that any calls to the
+                  Spectrum ROM must be done by RST 10H, DEFW (ROM Routine)
+
+To load the execute file and run it internally in the Disciple DRAM area,
+enter:
+
+        LOAD D1 "file-name" I
+  or    LOAD p(n)               (in other words, the normal abbreviated
+                                 syntax for LOAD.)
+
+After execution, control is returned to the user program.
+
+                                51
+
+APPENDIX B - THE POKE @ COMMAND
+
+The POKE @ command allows a value between 0 and 255 to be stored in the
+variables area of the disk operating system (GDOS). POKE @ statements can
+either be entered while work is in progress, to effect temporary changes to the
+system variables, or written directly into Basic program listings to cause
+changes every time the program is run. By reading through the descriptions of
+the first few POKE @ commands, you will quickly see how they can be used.
+
+POKE @ 0,n      (n = 0 to 8)            [RBCC]    default 7
+
+The border colour change occurs essentially every time a sector is read from or
+written to the disk. This variable is ANDed with the sector value, then output
+to the screen border.
+   If 0 is chosen, no border color change will occur.
+   If 7 is chosen, all sectors will change the border colour.
+
+Therefore, if you originally set up your "system" file to allow flashing
+borders, but wish temporarily to stop the flashing, you can enter POKE @ 0,0;
+this would avoid the need to make a permanent change to your system file.
+
+POKE @ 1,n      (n = 40 or 80 + 128)    [TRAKS1]  default 208
+
+This variable holds the number of tracks and whether double or single-sided for
+disk drive one.
+
+POKE @ 2,n      (n = 40 or 80 + 128)    [TRAKS2]  default 208
+
+This variable holds the number of tracks and whether double or single-sided for
+disk drive two.
+
+POKE @ 3,n      (n = 0 to 255)          [STPRAT]  default 6
+
+This variable allows you to set the GDOS for the different step rates of drives
+(usually 12 to 30 milliseconds). The step rate is not allowed to go lower than
+6 milliseconds.
+
+                                52
+
+POKE @ 4,n      (n = 0 to 63)           [NSTAT]   default 1
+
+This variable sets the network station number. Remember that numbers are
+reserved as follows:
+
+        0       = network off
+        1       = master station
+        2-9     = assistant stations
+        10-63   = pupil stations
+
+POKE @ 5,n      (n = 0 to 255)          [WIDTH]   default 80
+
+This variable sets the number of characters allowed per line when using LPRINT
+and LLIST with the Centronics printer port.
+
+POKE @ 6,n      (n = 0 or 1)            [PCODE]   default 0
+
+If the setting is 0, then the printer driver looks for attribute codes such as
+TAB and AT within LPRINT and LLIST commands.
+If the setting is 1, then the printer driver outputs directly to the printer
+the absolute value of the code 0 to 255. This is essential for sending control
+codes to the printer. E.g:
+        POKE @ 6,1: LPRINT CHR$ 27; CHR$ 65: POKE @ 6,0
+
+The POKE @ 6 statement will often need to be written into programs for serious
+applications - word processors, spreadsheets, etc - to allow codes embedded in
+the software to be sent directly through to the printer without interference
+from the Disciple. See page 37 for details of POKE @ 6 with Tasword II.
+
+POKE @ 7,n      (n = 0 to 255)          [LSPCE]   default 12
+
+This variable sets the printer line feed in increments of n/72 of an inch
+during graphics printing.
+
+POKE @ 8,n      (n = 0 to 255)          [LFEED]   default 1
+
+This variable sets the number of line feeds automatically executed by the
+printer driver after a carriage return.
+
+                                53
+
+POKE @ 9,n      (n = 0 to 255)          [LMARG]   default 0
+
+This variable sets the number of spaces inserted automatically by the printer
+driver after a carriage return. It is used for left-hand margin control.
+
+POKE @ 10,n     (n = 0 or 1)            [GRAPH]   default 1
+
+If the setting is 1, the printer driver generates the graphic representation of
+#, # and ) on LPRINT and LLIST statements.
+If the setting is 0, the normal printer character is output.
+
+POKE @ 11,n     (n = 0 or 1)            [ZXPNT]   default 0
+
+If the setting is 0, then GDOS uses the Centronics printer port.
+If 1, then the printer channel is unchanged by GDOS. It is assumed that you
+are using a serial printer with Interface 1 or the ZX printer attached at the
+through connector.
+
+POKE @ 14,n (and POKE @ 15,n)   (n = 0 to 65536)   [DNERR]
+                                        default 0
+
+If the setting is 0, then GDOS returns to the Spectrum on errors which do not
+relate to hook codes or GDOS syntax statements.
+If an address is poked into these two locations, it makes a call indirectly to
+this address for further syntax checking. Necessary when adding extra commands
+to the syntax.
+
+                                54
+
+APPENDIX C - DISCIPLE COMMAND CODES
+
+The command codes are used in machine code routines to effect control of the
+disk subroutines, enabling serious programmers and software houses to directly
+drive the disk unit for their own purposes.
+
+When using Sinclair hook codes or command codes and an error is found - e.g.
+disk full or bad sector, then a return is made with the carry flag set and the
+register "A" holding the error number for interpretation by the calling
+routine.
+
+The command codes recognised by the Disciple are as follows:
+
+
+        HXFER           33h
+        OFSM            34h
+        HOFLE           35h
+        SBYT            36h
+        HSVBK           37h
+        CFSM            38h
+        PNTP            39h
+        COPS            3Ah
+        HGFLE           3Bh
+        LBYT            3Ch
+        HLDBK           3Dh
+        WSAD            3Eh
+        RSAD            3Fh
+        REST            40h
+        HERAZ           41h
+
+
+HXFER   Transfer the file description and header to the Disk File Channel
+33h     Area (DFCA). Register IX must point to the first byte (DSTR1) of
+        the user's 24 byte file information area (UFIA). Expect this
+        command code to use the registers HL, DE, BC and A. Please note
+        that all command codes corrupt register HL.
+
+                                55
+
+OFSM    Open file sector map with the information contained in the DFCA.
+34h     11 bytes from NSTR1 are used to set up the file name. A return is
+        made with the disk buffer pointer (RPT) set to the start of the
+        disk buffer RAM (DRAM).
+
+HOFLE   Open a file. IX must point to the user's file information
+35h     area (UFIA). This code combines the functions of HXFER and OFSM,
+        also setting the 9 bytes of header information from HD00 to the
+        beginning of the file. This header to the file allows the normal
+        Load D1 "" syntax to call the file.
+
+SBYT    Save the byte in register "A" to DRAM at the location pointed to by
+36h     RPT. If the disk buffer is full, an automatic sector save to disk
+        will take place, and there will be an update of RPT and the value
+        entered at the beginning of the DRAM.
+
+HSVBK   Save a block of data to the disk where register DE points to the
+37h     start of the data and register BC holds the byte count.
+
+CFSM    Close file sector map. This routine empties the DRAM and copies
+38h     the header area onto the directory, closes the file, then updates
+        the directory.
+
+PNTP    Output the 8 bit code in register "A" to the printer port, after
+39h     checking busy status of the printer.
+
+COPS    Copy the screen RAM to the printer in high resolution screen
+3Ah     graphics as set up under the graphics control variables.
+
+HGFLE   Get a file from disk. IX register must point to the start of the
+3Bh     UFIA. The return is made with the first sector of the file loaded
+        into DRAM and RPT pointing to the first byte (usually the header
+        information).
+
+LBYT    Load the byte pointed to by RPT from DRAM, and return with it in
+3Ch     register "A" and RPT updated. If the buffer is empty, another
+        sector is read from the disk. (Be careful: is there another sector?)
+
+                                56
+
+HLDBK   Load a block of data from disk to the memory pointed to by
+3Dh     the register DE with the block count in register BC.
+
+WSAD    Write sector at DE. Writes the contents of the DRAM at the track
+3Eh     pointed to by D and the sector pointed to by E, and sets the
+        pointer to the start of DRAM.
+
+RSAD    Read sector at DE. Reads the sector at track D, sector E into
+3Fh     the DRAM, and sets the pointer RPT to the start of DRAM.
+
+REST    Restore disk drive to Track 00. The drive number is taken from
+40h     DFCA.
+
+HERAZ   Erase the file on disk with the information contained in UFIA - so
+41h     make sure that IX points to this.
+
+                                57
+
+USER FILE INFORMATION AREA (UFIA)
+
+No. of bytes    Name    Description
+        1       DSTR1   Drive number (1 or 2)
+        1       FSTR1   Program number
+        1       SSTR1   Stream number
+        1       LSTR1   Device type (D or d)
+        1       NSTR1   Directory description (see below)
+        10      NSTR2   File name
+        1       HD00    File type (see below)
+        2       HD0B    Length of file
+        2       HD0D    Start address of file
+        2       HD0F    Length of file - variables
+                                length (Basic)
+        2       HD11    Autostart line number (Basic)
+
+24 bytes
+
+
+
+        DIRECTORY DESCRIPTION           FILE TYPE
+          1   Basic file              0   Basic file
+          2   Data array              1   Data array
+          3   String array            2   String array
+          4   Code file               3   Code file
+          5   Snapshot 48K
+          6   Microdrive file
+          7   Screen$ file
+          8   Special file
+          9   Snapshot 128K
+         10   Opentype file
+         11   Execute file
+
+                                58
+
+DISCIPLE COMMAND CODES IN USE - EXAMPLES
+
+These examples show How to use the command codes; firstly to save a code file
+from screen memory, then to load it back into screen memory. Please remember
+to save your registers before using a command code.
+
+0000           00001  ;**********************
+0000           00002
+0000           00003  ;Example ONE
+0000           00004
+0000           00005  ;Save a code file from
+0000           00006  ;screen memory
+0000           00007
+0000           00008  ;**********************
+0000           00009
+0000           00010         ORG  49000
+BF68           00011
+BF68           00012
+BF68           00013 ;Open file and set header
+BF68           00014
+BF68 DB21E8BF  00015  SAVE   LD   IX,DSTR1
+BF6C CF        00016         RST  8
+BF6D 35        00017         DEFB 35h       ;HOFLE
+BF6E           00018
+BF6E           00019
+BF6E           00020  ;Save data block to disk
+BF6E           00021
+BF6E ED5BFABF  00022         LD   DE,(HD0D)
+BF72 ED4BF8BF  00023         LD   BC,(HD0B)
+BF76 CF        00024         RST  8
+BF77 37        00025         DEFB 37h       ;HSVBK
+BF78           00026
+BF78           00027
+BF78           00028  ;Close the file
+BF78           00029
+BF78 CF        00030         RST  8
+
+                                59
+
+BF79 38        00031         DEFB 38h       ;CFSM
+BF7A           00032
+BF7A C9        00033         RET
+BF7B           00034
+BF7B           00035
+BF7B           00036  ;**********************
+BF7B           00037
+BF7B           00038  ;Example TWO
+BF7B           00039
+BF7B           00040  ;Load a code file into
+BF7B           00041  ;screen memory
+BF7B           00042
+BF7B           00043  ;**********************
+BF7B           00044
+BF7B           00045         ORG  49100
+BFCC           00046
+BFCC           00047
+BFCC           00048  ;Get a file from disk
+BFCC           00049
+BFCC DD21E8BF  00050  LOAD   LD   IX,DSTR1
+BFD0 CF        00051         RST  8
+BFD1 3B        00052         DEFB 3Bh       ;HGFLE
+BFD2           00053
+BFD2           00054
+BFD2           00055  ;Load header of disk file
+BFD2           00056
+BFD2 11F7BF    00057         LD   DE,HD00
+BFD5 0609      00058         LD   B,9
+BFD7 CF        00059  LOOP   RST  8
+BFD8 3C        00060         DEFB 3Ch       ;LBYT
+BFD9 12        00061         LD   (DE),A
+BFDA 13        00062         INC  DE
+BFDB 10FA      00063         DJNZ LOOP
+BFDD           00064
+BFDD           00065
+BFDD           00066  ;Load data block to memory
+BFDD           00067
+
+                                60
+
+BFDD ED5BFADF  00068         LD   DE,(HD0D)
+BFE1 ED4BF8DF  00069         LD   BC,(HD0B)
+BFE5 CF        00070         RST  8
+BFE6 3D        00071         DEFB 3Dh       ;HLDBK
+BFE7           00072
+BFE7 C9        00073         RET
+BFE8           00074
+BFE8           00075
+BFE8           00076
+BFE8           00077  ;User File Information Area
+BFE8           00078
+BFE8 01        00079  DSTR1  DEFB 1         ;Drive
+BFE9 00        00080  FSTR1  DEFB 0         ;N/A
+BFEA 00        00081  SSTR1  DEFB 0         ;N/A
+BFEB 64        00082  LSTR1  DEFB 'd'       ;Device
+BFEC 07        00083  NSTR1  DEFB 7         ;Screen$
+BFED 54727920  00084  NSTR2  DEFN 'Try 1     '
+BFF1 31202020
+BFF5 2020
+BFF7 03        00085  HD00   DEFB 3         ;Code file
+BFF8 001B      00086  HD0B   DEFW 6912      ;Length
+BFFA 0040      00087  HD0D   DEFW 16384     ;Start
+BFFC 0000      00088  HD0F   DEFW 0         ;N/A
+BFFE FFFF      00089  HD11   DEFW 0FFFFh    ;Not used
+
+                                61
+
+TECHNICAL SPECIFICATIONS
+
+Compatibility:          With the entire range of ZX Spectrum computers, including
+                        the ZX Spectrum 128K.
+
+Dimensions:             295mm wide x 94mm deep x 27mm high at rear.
+
+Power requirement:      Power is taken from the Spectrum 9 volt line with internal
+                        regulation, drawing +5 volts at 200 mAps with 800 mWatt
+                        dissipation.
+
+DISK INTERFACE:         Standard SA400 supporting single/double density operation.
+                        A BBC Micro type 34-way IDC connector allows connection
+                        to 2 disk drives of 3.5" or 5.25" type.
+
+Storage capacity:                       Single          Double
+   (formatted)                          Density         Density
+        40 track single sided             80K             180K
+        40 track double sided            180K             380K
+        80 track single sided            180K             380K
+        80 track double sided            380K             780K
+
+Data transfer rate:                125 Kbits/sec    250 Kbits/sec
+
+Nominal access and load time       800 mSeconds     350 mSeconds
+   of 7K screen load:
+
+Typical access/load time:            1 second       0.5 second
+
+PRINTED INTERFACE:      Standard Centronics parallel.
+                        8 bit data output with strobe line.
+                        1 bit input on BUSY line.
+
+Connector:              26-way (BBC Micro-type) IDC compatible for 36-way printer
+                        connection.
+
+Driver:                 Resident in disk operating system, with standard
+                        LPRINT/LLIST commands and high resolution screen and user-
+                        defined graphics capability.
+
+                                62
+
+DUAL JOYSTICK INTERFACE:   Kempston or Sinclair standard for single joystick
+                        use; Sinclair standard for dual joystick use.
+
+Connector:              9-pin "D" type Atari standard connector.
+
+NETWORK SYSTEM:         Sinclair Interface 1 compatible.
+
+Connectors:             2 PC-mounted Jack sockets - 3.5mm.
+
+Software Driver:        Disk operating system supports file server and shared
+                        resource facility.
+
+Part Details
+              Decimal    Hexadecimal          In                Out
+              -------    -----------          --                ---
+DISK            27           1B            STATUS REG       COMMAND REG
+                91           5B             TRACK REG         TRACK REG
+               155           9B            SECTOR REG        SECTOR REG
+               219           DB              DATA REG          DATA REG
+
+CONTROL AND     31           1F          JOYSTICK ONE         CONTROL
+ JOYSTICK                               Bit 0   RIGHT     DISK ONE OR TWO
+                                        Bit 1   LEFT        SIDE SELECT
+                                        Bit 2   DOWN   SINGLE/DOUBLE DENSITY
+                                        Bit 3   UP        ROM BANK SELECT
+                                        Bit 4   FIRE   INHIBIT SWITCH CONTROL
+                                        Bit 5   ------      EXT. SELECT
+                                        Bit 6 PRINTER BUSY PRINTER STROBE
+                                        Bit 7 NETWORK        NETWORK
+
+NET - WAIT      59           3B       WAIT WHEN NET = 1      --------
+BOOT           123           7B            SET BOOT          RESET BOOT
+
+PATCH          187           BB            SET PATCH         RESET PATCH
+
+PRINTER        251           FB            --------      OUT PRINTER DATA
+
+JOYSTICK 2     254           FE          JOYSTICK 2          --------
+
+                                63
+
+DISK CONNECTOR PIN DESCRIPTION
+
++--------------------------------------------------------+
+| +----------------------------------------------------+ |
+| |                                                    | |
+| | 33 31 29 27 25 23 21 19 17 15 13 11  9  7  5  3  1 | |
+| |                                                    | |
+| |                                                    | |
+| | 34 32 30 28 26 24 22 20 18 16 14 12 10  8  6  4  2 | |
+| |                                                    | |
+| +----------------------------------------------------+ |
++--------------------------------------------------------+
+
+Viewed from the back of the Disciple
+
+        Pin
+1 to 33 (all odd numbers)       All 0 volts (ground)
+         8      Index                    IN
+        10      Disk One select         OUT
+        12      Disk Two select         OUT
+        16      Motor on signal         OUT
+        18      Direction of step       OUT
+        20      Step pulse              OUT
+        22      Write data              OUT
+        24      Write gate              OUT
+        26      Track 00                 IN
+        28      Write protect            IN
+        30      Read data                IN
+        32      Side select             OUT
+
+                                64
+
+PRINTER CONNECTOR PIN DESCRIPTION
+
++--------------------------------------------------------+
+| +----------------------------------------------------+ |
+| |                                                    | |
+| | 25  23  21  19  17  15  13  11   9   7   5   3   1 | |
+| |                                                    | |
+| |                                                    | |
+| | 26  24  22  20  18  16  14  12  10   8   6   4   2 | |
+| |                                                    | |
+| +----------------------------------------------------+ |
++--------------------------------------------------------+
+
+View from side of the Disciple
+
+        Pin
+         1      Printer strobe          OUT
+         3      Data bit 0              OUT
+         5      Data bit 1              OUT
+         7      Data bit 2              OUT
+         9      Data bit 3              OUT
+        11      Data bit 4              OUT
+        13      Data bit 5              OUT
+        15      Data bit 6              OUT
+        17      Data bit 7              OUT
+        21      Input busy               IN
+2 to 22 (all even numbers)      All 0 volts (ground)
+
+                                65
+
+QUICK REFERENCE
+
+RUN                                     Boots system
+
+Disk operations  (In this guide, D1 could also be D2 or D*; (n) indicates that
+                        an appropriate number used in the command.)
+
+CAT 1                                   Displays directory
+CAT 1!                                  Displays abbreviated directory
+SAVE D1 "file-name"                     Saves file
+VERIFY D1 "file-name"                   Confirms save has been made
+LOAD D1 "file-name"                     Loads file (except snapshot files)
+LOAD D1 "file-name" S                   Loads 48K snapshot file
+LOAD D1 "file-name" K                   Loads 128K snapshot file
+LOAD D1 "file-name" SCREEN$             Loads screen file
+LOAD p(n)                               Loads the program (from its number)
+ERASE D1 "file-name" TO "new file-name" Renames a file
+ERASE D1 "file-name"                    Erases a file
+SAVE D1 "file-name" TO D1 "file-name"   Copies a file
+FORMAT D1                               Formats disk in double density
+FORMAT SD1                              Formats disk in single density
+FORMAT D1 TO 2                          Formats drive 1; copies drive 2 to 1
+OPEN #(n); D1 "file-name" IN or OUT     Opens a file; attaches stream no.
+CLOSE #*(n)                             Closes a file and stream no.
+CLOSE #*                                Closes all open files
+MOVE D1 "file-name" TO #(n)             Reads file; outputs to specified stream
+MOVE D1 "file-name" TO D1 "file-name"   Reads file; writes it to second file
+CLEAR #                                 Clears all open streams & channels
+CLS #                                   Clears screen and attributes area
+SAVE D1 "file-name"I,Address            Saves sector length memory to disk
+LOAD D1 "file-name"I                    Executes file; runs it internally in
+                                        Disciple DRAM area
+LOAD @ D,T,S,Address                    Reads a specified track/sector to memory
+SAVE @ D,T,S,Address                    Writes to specified track/sector on disk
+SAVE .. TO, ERASE, CAT can be used with * and ? for wild-card operations.
+
+Snapshot Button + CAPS SHIFT halts program temporarily; allows selection of:
+1 - 32-column screen dump to printer   2 - Double-sized screen dump to printer
+3 - Screen save          4 - 48K snapshot save      5 - 128K snapshot save
+
+                                66
+
+Printer operations
+
+LLIST                           Prints out a program listing
+LPRINT "statement"              Prints out statement
+SAVE SCREEN$1                   Prints 32-column screen dump
+SAVE SCREEN$2                   Prints double-sized screen dump
+LPRINT TAB n; "statement"       Prints statement with tab at position n on
+                                current line
+LPRINT AT n,m; "statement"      Prints statement at position m on line m
+
+
+Network commands (x indicates station number; s=sender; r=receiver)
+
+FORMAT Nx                       Sets station number
+(Station 1 is master, 2-9 are assistants, 10-63 are pupil stations; station 0
+   is reserved for broadcasts. Masters and assistants can set station number
+   in their system files.)
+
+Receiving stations: LOAD N0 }   Master, assistant or pupil station sends
+Sending station:    SAVE N0 }   current file to all other stations
+
+Station s: SAVE Nr  }           Pupil or assistant sends current file to
+Station r: LOAD Ns  }           another pupil or assistant station
+
+(Network commands above can be used in shared access or independent station
+networks; those below can only be used in shared access networks.)
+
+Master: SAVE Nr     }           Current master file sent to one station
+Station r: LOAD N1  }
+
+Pupil: CAT  1                   Pupil calls catalogue from master disk drive
+Pupil: LOAD D1 "file-name"      Pupil loads file from master disk drive
+Pupil: SAVE d1 "file-name"      Pupil saves file on master disk drive
+
+Master: LOAD Fx SCREEN$         Master inspects screen from pupil x
+Master: SAVE Fx                 Master forces its current file on pupil x
+
+                                67
+
+Thank you for buying the Disciple. To ensure your satisfaction, the product is
+guaranteed by Rockfort Products for a period of 90 days from the date of
+purchase, subject to the conditions listed below:-
+
+1.   The Guarantee Registration Form must be completed and returned to the
+address shown within ten days of the product's purchase. Keep the Repairs
+Information Form and the Customer's Copy in a safe place. Also keep proof of
+your purchase - your original sales receipt, a dated retailer's branch stamp,
+or a copy of your credit card voucher.
+2.   The guarantee applies only to the original purchaser and is not
+transferable. It is applicable only in the UK.
+3.   The guarantee is invalidated if the product is opened, modified, repaired, or
+otherwise tampered with by any party other than Rockfort Products, Miles Gordon
+Technology or their appointed agents.
+4.   Claims under the guarantee should be referred to the dealer from where the
+unit was purchased. If this is not possible, contact us directly.
+5.   When making a claim for repair under guarantee, you must produce your
+completed Repairs Information Form and proof of purchase. Any product which is
+not accompanied by proof of purchase will be returned unrepaired to the sender.
+6.   Customers are liable for the carriage cost of units returned under the
+claims procedure. If posting the unit, please obtain a postage receipt and keep
+it safe until you receive the returned product.
+7.   If, after we test the product, no fault can be found, we reserve the right
+to charge a reasonable fee for testing and returning the unit.
+8.   Your repaired product will be returned to you at the address given on
+the Repairs Information Form. We will process your repair as quickly as
+possible and you should expect to receive your repaired product within 28 days.
+If after this time you have not received your repaired product, please
+telephone 01-203-0191, quoting the details on the Customer's Copy.
+9.   The liability of the company under this guarantee is limited to the cost of
+repair or complete replacement (at the discretion of the company) of the
+defective equipment.
+10.  This guarantee does not affect the purchaser's statutory rights.
+NOTE
+Pack the product carefully (preferably in the original packing) to prevent
+damage in transit; if the product is found on receipt to be damaged as a result
+of inadequate packing, you will be responsible for charges to repair such damage.
+
+                                68
+
+Customer's Copy - Please retain this copy in a safe place.
+
+Serial Number (see underside of product)...........  Purchase date ............
+
+Purchased from (Dealer) ....................... Address .......................
+
+
+Date returned for repair .................... Postal details ..................
+
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Repairs Information Form - Please complete this form and return it with the
+product if it needs repair under guarantee.
+
+Customer's name (CAPITALS) ....................................................
+
+Customer's address ............................................................
+
+
+Serial number ............................ Purchase date ......................
+
+Purchased from: .............................. Address ........................
+
+
+Date returned for repair ..........................................
+
+Brief Description of fault (Use a separate sheet if necessary)
+
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Guarantee Registration form - Your guarantee is only valid if this form
+is returned to Rockfort Products at 81 Church Road, London NW4 4BP within 10
+days of purchase.
+Customer's name (CAPITALS) ....................................................
+
+Customer's address ............................................................
+
+
+Serial number ........................... Purchase date .......................
+
+Purchased from: ............................ Address ..........................

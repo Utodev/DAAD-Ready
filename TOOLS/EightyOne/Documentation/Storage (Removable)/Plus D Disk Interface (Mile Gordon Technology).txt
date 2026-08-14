@@ -1,0 +1,1362 @@
+===========================================
+Plus D Interface Manual for the ZX Spectrum
+Miles Gordon Technology
+===========================================
+
+
+THE MGT PLUS D
+
+The Disc and Printer Interface for the
+ZX Spectrum 48K
+ZX Spectrum +
+ZX Spectrum 128K
+ZX Spectrum +2
+ZX Spectrum +2A/+3 via a fixer board (see end of this document)
+
+
+from Miles Gordon Technology
+
+
+USER MANUAL
+
+© MGT 1987
+
+
+
+
+
+
+NOTICE
+
+This  manual, and the information contained herein, is copyright 
+material and  may not  be reproduced,  transcribed, stored  in a 
+retrieval system,  translated  into  any  language  or  computer 
+language, or transmitted in  any  form  whatsoever  without  the 
+prior written consent of Miles Gordon Technology.
+
+The manual  is  intended  to  provide  the  user  with  detailed 
+information   adequate  for   the  efficient   installation  and 
+operation of  the  equipment  involved.   However,  while  every 
+effort has been  taken  to  ensure  accuracy,  the  manufacturer 
+assumes  no liability resulting from errors or omissions in this 
+manual, or from the use of the information contained herein.
+
+Miles  Gordon Technology reserves  the right both  to change the 
+specifications of the PLUS D and to revise this publication from 
+time to time  without obligation  to notify  any person  of such 
+revision or changes.
+
+
+Issue 2 June 1988
+
+
+
+
+CONTENTS
+
+SETTING UP ...........................................  3
+
+CREATING YOUR SYSTEM DISC ............................  3
+
+USING A DISC DRIVE ...................................  5
+        Compatible Disc Drives                      (5)
+        Loading the Disc Operating System           (5)
+        The Catalogue                               (6)
+
+PLUS D DISC DRIVE COMMANDS ...........................  8
+             Saving a File and Verifying            (8)
+             Loading a Program                      (9)
+             Breaking into a Program                (9)
+             Renaming a File                        (9)
+             Copying a File                         (10)
+             Erasing a File                         (10)
+             Creating an Autoload File              (11)
+             The Spectrum's Reset Button            (11)
+             Snapshot Files                         (12)
+             Abbreviated Syntax                     (13)
+             Wild-Card Files                        (14)
+             Formatting New Discs                   (14)
+
+ERROR REPORTS ........................................ 15
+
+ADVANCED DISC OPERATIONS ............................. 16
+        Sector by Sector Copying - Two Drives       (16)
+        Reading and Writing to a Sector             (16)
+        Using Streams and Channels                  (16)
+        The Execute File                            (17)
+
+USING A PRINTER ...................................... 18
+        Compatible Printers                         (18)
+        Setting up your Printer                     (18)
+        Starting to Print -
+          LPRINT, LLIST & SAVE SCREEN$ 1            (19)
+        Snapshot Printing                           (20)
+        Changing the Layout of your Printed Page    (20)
+        Printing from a Commercial Word-Processor   (21)
+        Other Types of Printer                      (22)
+
+QUICK REFERENCE GUIDE ................................ 23
+
+GUARANTEE REGISTRATION ............................... 24
+
+
+
+Please don't forget to fill in your Guarantee Registration form
+and return it to Miles Gordon Technology within 14 days of purchase.
+
+
+
+SETTING UP
+
+WARNING: Don't forget to turn  off the  power to  your Spectrum 
+before  you connect or disconnect any peripherals, including the 
+PLUS D.
+
+With the power  off,  carefully  connect  your  PLUS  D  to  the 
+computer and your disc drive and printer to the PLUS D.  If  you
+are  using  other  peripherals,  connect them to the computer in
+their normal places.  If you are using a peripheral which  plugs
+into the Spectrum's edge connector,  you'll  need to use a  hard
+"Y" connector or "mother board" (cable  connectors  do  not work
+with the PLUS D) so that it can be  attached at the same time as
+the PLUS D.
+
+For the first steps, you'll  need to have your cassette recorder 
+connected to the computer in the normal way.
+
+Turn  the Spectrum power on and the normal Spectrum introductory 
+screen  will appear on your monitor/TV.  The red indicator light 
+on  your PLUS  D will  come on,  indicating that  the electrical 
+connection  between  the  PLUS  D  and  the  Spectrum  has  been 
+correctly  made.  Turn on the power to the disc drive and insert
+a blank disc.
+
+
+CREATING YOUR SYSTEM DISC
+
+You'll  have noticed that a cassette  has been supplied with the
+PLUS D.  The program on the System Cassette asks you a series of
+questions about your  system - what  sort of disc  drive are you
+using? are you using a printer?  etc.   You  need  to  load  the
+program from cassette in the normal way.
+
+
+
+Make sure  you have  a blank  disc in  your drive.   Don't worry
+about  formatting the disc - that comes later.  (And don't worry
+if you  don't understand  what formatting  is, either;  all will
+soon be clear!)  Make sure that the drive is turned on.
+
+When the tape has loaded simply  follow the instructions given on
+the screen.  Don't worry if you make  a mistake  while  answering
+the  questions.   You'll  be  given  the  opportunity  to  repeat
+everything at the end.
+
+By answering the questions, you create your own "SYSTEM FILE". At 
+the end the program will allow you to FORMAT your first disc then 
+save the SYSTEM FILE and a copy of the program. Once this has been 
+done, you have created your "SYSTEM DISC", and if you follow our 
+instructions carefully, you'll probably never need the System 
+Cassette again. (But we recommend that you keep the cassette 
+stored in a safe place, just in case!) Why not store it in the 
+PLUS D's original carton, which you should keep just in case you 
+ever need to send the unit back for repair?
+
+NOTE: The light on your disc drive will stay on after it has been 
+used for the first time. Don't worry, this is done to show you 
+which was the last drive in use.
+
+
+Problems with SYSTEM FILE questions?
+
+1. I keep getting an error message "Nonsense in Basic" at the end
+of the section on disc parameters. What's going wrong?
+The problem is probably that a clean connection is not being made
+between the PLUS D and the computer. Try cleaning the computer's
+edge connector (a hard rubber, used gently, is the best way to
+clean it). It this doesn't work, try to borrow a friend's computer
+and see whether the PLUS D will work with it. If this is successful
+it's likely that you have a faulty line on your computer (which may
+not necessarily have been apparent with other interfaces). But if
+it still doesn't work, then you probably have a faulty PLUS D -
+return it for testing and repair.
+
+2. I don't know the stepping rate of my disc drive.
+Our 3.5" disc drives work best with the PLUS D at the default setting
+of 8 milliseconds. Most other drives work best at 12 milliseconds.
+If your drive seems to be behaving erratically (i.e. frequent Sector
+Errors) then try using a slower stepping rate. Some 3" drives have a
+stepping rate of 30 milliseconds. Remember we are talking about
+milliseconds, so even at the maximum setting of 255 you will only
+just notice the difference.
+
+3. I don't understand the control codes in my printer manual.
+Yes, printer manuals are notoriously difficult. Don't be afraid to 
+experiment; you can't do any damage to your printer by sending wrong 
+control codes. But if you are stuck, contact INDUG - the users'
+group. Full contact details are in the Introductory issue of FORMAT.
+
+4. I get an error message "Disc write PROTECTED" when the program
+attempts to format the disc.
+3.5" discs have a "Write Protect Window" in one corner; make sure
+that is closed. 5.25" discs have a notch in one edge; make sure
+this is UNCOVERED.
+
+
+
+USING A DISC DRIVE
+
+COMPATIBLE DISC DRIVES
+
+The PLUS D will work with any drive which has the industry 
+standard Shugart 400 connection interface (ask your dealer for a 
+"Shugart 400-type") and is capable of double density operation. 
+This means most drives which work with  the BBC range of computers 
+(but not single density drives, and if you're buying a drive, make 
+sure that it has its own power supply). You can use one or two 
+drives; to get maximum efficiency from the PLUS D, we recommend 
+3.5" or 5.25" 80-track double sided and double density drives, 
+which will give you up to 780K of storage per drive. But Shugart 
+400-type 3" drives will also work. Make sure you also buy good 
+quality discs which have the same specifications as your drive.
+
+If you want to use two drives, you can buy them in a single "dual" 
+case with a single power supply and connector. Or you can use two 
+single drives in tandem, attaching them to the PLUS D via a double 
+drive connector. One drive however will need to have its internal 
+setting changed so it answers to drive 2 commands.
+
+
+
+LOADING THE DISC OPERATING SYSTEM
+
+Connect the computer, the PLUS D and the disc drive(s) and turn on 
+the power. The normal Spectrum title screen will appear, and the 
+indicator lights on the PLUS D and on disc drive 1 will come on.
+
+Insert your System Disc in disc drive 1. Type RUN, then ENTER. The 
+disc drive will go into action for about two seconds and while 
+this is happening, the PLUS D indicator light will temporarily go 
+out (- the light always goes out while the PLUS D is actually 
+executing a command).
+
+When the System is loaded, the screen will display;
+
+    Miles Gordon Technology G+DOS2a
+
+and an OK message:
+
+    O.K. G+DOS, 0:1
+
+(G+DOS stands  for the Gordon Disc Operating System for the PLUS 
+D. The 2a which follows shows the version number of the DOS, and 
+this may change from time to time.)
+
+This whole operation is technically known as "BOOTing" your 
+system. You will need to do it each time your power up your 
+system. Until the disc operating system is loaded in this way, the 
+PLUS D acts only as a printer interface and will not accept disc 
+commands.
+
+
+
+THE CATALOGUE
+
+Type CAT 1 (or CAT 2 if you wish to access drive 2) - ENTER.
+
+In about two seconds the screen will display:
+    - The heading PLUS D Disc 1 (or 2) Catalogue.
+    - A list of the files on the disc with various comments.
+      (The maximum number of files per disc is 80.)
+    - The amount of free space on the disc in kilobytes.
+
+A typical catalogue screen looks like this:
+
+   * MGT PLUS D  DISC 1 CATALOGUE *
+    1 +SYSTEM     14 CDE  8192,6656
+    2 CONFIG      31 BAS  9100
+    3 CONFIG1_C    4 CDE  40300,1750
+    4 CONFIG2_C   14 CDE  42240,6656
+    5 CONFIG3_C    1 CDE  49000,60
+    6 snap F      97 SNP 48K
+    7 screen      14 SCREEN$
+    8 listing     34 M/DRIVE
+    9 data         8 SPECIAL
+   10 numeric      4 D.ARRAY
+   11 character    5 $.ARRAY
+
+    Number of free K-bytes  =  667
+
+Most  of  the  information   on   this   catalogue   screen   is
+automatically  displayed by  the PLUS  D.  The  only information
+which you have to supply is the file-name, which is shown in the
+second column.   These file-names  can be  up to  ten characters
+long, in upper case or lower case characters, or a mixture.
+
+The first column on the left shows the program number.  Whenever
+you  save a file,  the PLUS D  will give it  the first available
+program  number.  So,  if you  have the  catalogue shown  in the
+example  above, the next file you save will automatically become
+program number 12.  This program number will stay the same until
+the file is erased (we do not list files in alphabetical order).
+But if you erase, say, program number 8, then the next file you
+save  to the disc will become the  new program number 8.
+
+The third  column shows the  number of disc  sectors used.  Each
+sector holds  512 bytes  (= 1/2  kilobyte), so  to find  out the
+number of kilobytes used for each file, divide the number in the
+third column by 2.
+
+The fourth column is the file type, which the PLUS D automatically 
+selects. The different types are shown in the table at the top of 
+page 7. You probably won't fully understand the significance of 
+these different types of file yet, but most of them are covered in 
+this Manual. Those marked  with an asterisk are likely to be used 
+by more experienced programmers and demand fuller explanation than 
+we can give here. FORMAT - the User Group magazine published by 
+INDUG - explores them in detail in regular articles.
+
+
+    BAS                 =   Basic Program
+    CDE                 =   Code File
+    SNP 48K             =   48K Snapshot File
+    SNP128K             =   128K Snapshot File
+    SCREEN$             =   Screen File
+    M/DRIVE             =   Microdrive Type File                *
+    SPECIAL             =   Special File                        *
+    D.ARRAY             =   Numeric Data Array
+    $.ARRAY             =   Character Array
+    OPENTYPE            =   File created by OPEN # statement    *
+    EXECUTE             =   Execute File                        *
+
+PLUS D File-Types
+
+The  right-hand column of  the catalogue shows either the start 
+address and length of  a CODE file (the same as when you save it), 
+or for a Basic Program file, the line at which the program auto-
+runs on loading.
+
+The amount of free space  left  on  the  disc  is  displayed  in
+kilobytes at the end of the catalogue.
+
+If  your catalogue is longer than the screen you will be prompted 
+with the "Scroll?" message in the normal way.
+
+You  can also display an abbreviated  catalogue by typing CAT 1!
+(or CAT 2!).  This would show the same catalogue in this format:
+
+    +SYSTEM     CONFIG      CONFIG1_C   CONFIG2_C
+    CONFIG3_C   snap F      screen      listing
+    data        numeric     character
+
+Both the full  and the  abbreviated catalogue  can be  listed on
+screen simultaneously.   Or you could, for  example, list disc 1
+in  full and disc 2  in the abbreviated form  (but you must list
+the  full catalogue first, as CAT 1 clears the screen, while CAT
+1! does not)
+
+If  you wish to print out the catalogue on your printer, you can
+use the special CAT  #3  command.   For  example,  to  send  the
+catalogue on drive 1 to the printer, you enter:
+    CAT #3;1
+To print an abbreviated catalogue from drive 2, you enter:
+    CAT #3;2!
+
+Question
+
+What are the files that are  already on my disc - +SYSTEM,
+CONFIG, CONFIG1_C, CONFIG2_C, and CONFIG3_C?
+
++SYSTEM is the system file that you created earlier.  The
+other four  files allow you  to re-load the  set-up program from
+disc  if you wish to change your system file later.  If you ever
+need to do this, simply load in the CONFIG program.
+
+
+
+PLUS D DISC DRIVE COMMANDS
+
+When  you use the PLUS D and  a disc drive, Basic commands typed
+on the  computer keyboard are followed by  a Disc Specifier - a
+code to let the computer know that the instructions are directed
+toward the disc drive, and not, for example, to a tape recorder.
+
+For ease of explanation in this Manual, the Disc Specifier will
+always be referred to as D1, meaning that the instruction is for
+drive  number 1.  However, when you are working on the computer,
+the following options are also available:
+
+    D1 or dl  =  a command for drive 1
+    D2 or d2  =  a command for drive 2
+    D* or d*  =  a command for the last drive in use
+
+(Programmers  should note  that D*  is particularly  useful when
+your disc file  autoruns and calls  up another file  on the same
+drive.   Also note  that a  variable can  be assigned  for drive
+number 1 or 2 but not for *.)
+
+By typing an upper case 'D' rather than a lower case 'd' when 
+saving a file, the abbreviated disc catalogue will be displayed 
+automatically when the save is complete.  A new catalogue also 
+appears automatically if you type an upper case 'D' when erasing 
+or renaming a file.
+
+Alternatively,  the   PLUS  D  also   understands  the  Sinclair
+Microdrive syntax.  For example, you can load a file by entering
+        LOAD *"m";1;"file-name"
+The PLUS D  syntax will  obviously be  preferred by  most users,
+since it is  much easier  than Microdrive  syntax.  In  fact, we
+only  mention that the  PLUS D understands  Microdrive syntax in
+order to make the point  that  most  programs  written  for  the
+Microdrive will  be able to  run without alteration  on the PLUS
+D's disc system.   One  small  change  may  be  required:  if  a
+Microdrive program  uses a CLOSE  #n statement, you  will have to
+modify this  to CLOSE #*n.  We  are obliged to use  the * to fail
+syntax in order to correct a small bug in the Spectrum's ROM.
+
+SAVING A FILE AND VERIFYING
+
+First,  ENTER this  short program  called "Squares".   We'll use
+this program to show the PLUS D's various disc operations:
+
+    10 REM Squares
+    20 FOR n=1 TO 10
+    30 PRINT n,n*n
+    40 NEXT n
+
+Then, to save the program on the disc in drive 1, ENTER:
+    SAVE D1 "Squares"
+
+The  screen border will flash (provided  that you said it should
+when you were  setting up your  System File), and  after about 2
+seconds the program will be saved.
+The file names you choose can be any combination of letters and 
+numbers - or even spaces - but the maximum number of characters is 
+ten. You can use upper case or lower case characters, or a mixture 
+of both. In the catalogue, the file names will appear exactly as 
+you originally typed them, but when you re-load a file it doesn't 
+matter if letters originally typed in lower case are changed to 
+upper case, or vice versa; i.e. "ThIs FiLe" is the same as "THIS 
+file".
+
+Warning: Don't use the characters ? or * in your file names, as 
+this may cause problems with other commands we deal with later.
+
+As described in the last section, if you have saved using a 
+capital 'D', the abbreviated disc catalogue is automatically 
+displayed.  You'll see the program Squares shown on the catalogue 
+as the last entry.  But if you wish, you can do a further check to 
+ensure that the program has been correctly saved, by entering:
+    VERIFY D1 "Squares"
+When the O.K. message confirms the save, clear Squares from the 
+computer's memory by entering NEW.
+
+
+LOADING A PROGRAM
+
+Now you can reload Squares from the disc, by entering:
+    LOAD D1 "Squares"
+
+When the O.K. message appears, the program has been loaded, But so 
+far we haven't given an instruction to make the program run. Let's 
+do that now by entering:
+    SAVE D1 "Squares" LINE 10
+
+But of course, there's already a program called Squares saved on 
+the disc. The PLUS D tells you this and asks you whether you wish 
+to overwrite the existing file by entering Y (= Yes) or N (= No). 
+Enter Y. Then:
+    LOAD D1 "Squares"
+
+BREAKING INTO A PROGRAM
+
+To break into the program and stop Squares running, use the normal 
+Spectrum BREAK key.
+
+Note that BREAK will stop the computer running most normal 
+routines, but it will have no effect during a disc read/write 
+(i.e. Load or Save) operation until the disc activity has been 
+completed.
+
+RENAMING A FILE
+
+To rename a file, we use the two keywords ERASE and TO. For 
+example, let's rename the Squares file as Example 1:
+    ERASE D1 "Squares" TO "Example 1"
+The abbreviated catalogue will confirm that the change has been 
+made.
+
+
+COPYING A FILE
+
+To copy a file, use the two keywords SAVE and TO. Copy the program 
+you have written by entering:
+    SAVE D1 "Example 1" TO  D1 "Newcopy"
+Once the file has loaded into memory, you are prompted to "Insert 
+TARGET disc - Press SPACE". If you want the copy file on the same 
+disc just press space; try that now. When the file has been copied 
+you are told "Insert SOURCE disc - Press SPACE"; this is so the 
+PLUS D can check to see if there are any other files to be copied 
+(see WILD-CARDS page 14). When copying is complete, the Spectrum 
+automatically receives a NEW command and your screen will be 
+cleared. Check that your copy has been made, and find out how the 
+full catalogue looks, by entering CAT 1. If you've followed the 
+suggestions here, your catalogue should include a file called 
+Example 1 and another called Newcopy. Note the amount of free 
+space left on your disc.
+
+Perhaps you wish to back up the file on a different disc but with 
+the same file-name.  (ALWAYS do this with your important files.) 
+In this case, using your original disc, you enter:
+    SAVE D1 "Example 1" TO D1
+Once again you will be prompted to insert the TARGET disc - and of 
+course you'll do so this time as you're making a back-up on 
+another disc. If the file already exists on the TARGET disc you 
+will be asked whether you wish to overwrite it; press Y for Yes or 
+N to cancel the copy. Remember - the SOURCE disc is the disc with 
+the file you want to copy on it - the TARGET disc is the one you 
+want the file copied to.
+
+If you are using two disc drives with the PLUS D, you can also 
+copy a file from one drive to the other, using the command:
+    SAVE D1 "File-name" TO D2
+If you add a file-name after D2, the new copy will have this as 
+its new file-name: otherwise, the new copy will have the same name 
+as the original.
+
+The SAVE...TO command will NOT copy three types of file which we 
+come to later - Snapshot files, files created by the OPEN # 
+statement and Microdrive Type files (created by some machine code 
+programs written for microdrives).
+
+ERASING A FILE
+
+Let's now erase the file called Example 1, by entering:
+    ERASE D1 "Example 1"
+After the erase, your abbreviated catalogue will confirm that 
+Example 1 is no longer there. Enter CAT 1 for the full listing, 
+and you'll see that more space has been made free on the disc 
+(although this is such a small program that any change will be 
+minimal!)
+
+NOTE: Unlike Interface 1, the PLUS D returns an error message if
+you try to erase a non-existent file.  When using programs
+originally written for Microdrive, you may sometimes need to
+delete ERASE commands in the listing to avoid the error message
+when the program is running.
+
+
+CREATING AN AUTOLOAD FILE
+
+An autoload file is one which loads as soon as you "BOOT" the 
+operating system (see page 5). You are allowed one autoload file 
+per disc. For an illustration of an autoload file, let's rename 
+the file Newcopy. Enter:
+
+    ERASE D1 "Newcopy" TO "Autoload"
+
+When the catalogue confirms that the change has been made, turn 
+off the power to your Spectrum so that you lose everything in the 
+computer's memory.  (Turn off the power - don't use the Spectrum's 
+reset button - we're coming to this in the next section.)
+
+Turn on the power again and load the operating system from your 
+system disc by entering RUN then pressing ENTER. Your Autoload 
+program (which, you'll remember, is the original Squares program) 
+will be loaded as soon as G+DOS has been BOOTed, then instead of 
+the normal PLUS D title screen, you'll see the Squares program 
+running. Any Basic program can be renamed as AUTOLOAD.
+
+
+THE SPECTRUM'S RESET BUTTON
+
+All  Spectrums from the ZX Spectrum+ model onwards have a reset
+button  which allows you to reset  your system without having to
+turn off the mains power.
+
+When  you have  the PLUS  D attached,  and press  the computer's
+reset  button, everything stored  in the Spectrum's  RAM will be
+lost as usual, but the PLUS D still retains the operating system
+in its own memory - unless the DOS has been corrupted or changed
+in some  way, and  this is  automatically detected.   This means
+that you don't need to reload  the  PLUS  D's  system  from  the
+system disc - you just carry on giving normal PLUS D commands.
+
+Of  course, if power  to the computer  is turned off,  or if the
+system  has been corrupted, the PLUS  D's operating system is no
+longer retained  in memory.  To be able  to use PLUS D commands,
+you'll  then have to load the  operating system from your system
+disc afresh.
+
+
+Problems?
+
+Every time I enter a PLUS D command, nothing happens except
+a question  mark that appears in the  command line on the screen
+when I press ENTER.
+
+You haven't  loaded the  operating  system  -  the  Spectrum
+and PLUS D doesn't  recognise a disc command until  the G+DOS has
+been booted up.  Did you forget to load the system in?  Have you
+tried using a different system disc in case the one you're using
+now has been corrupted?
+
+
+SNAPSHOT FILES
+
+For many  PLUS D users, one of  the most important features will
+be  the interface's ability  to transfer virtually  any piece of
+Spectrum  software to disc easily and  instantly by means of the
+Snapshot Button.  You can take Snapshot saves at any time during
+a  program and as often as you  like; if you are a games-player,
+you'll find it especially valuable to be able to:
+
+- start a game at an advanced level instead of at the beginning;
+- come  back to a game on another occasion and start at exactly
+the point where you had to leave it last time;
+- keep a permanent record of your high scores.
+
+A Snapshot save  is made when  you press the  Snapshot Button on
+the   PLUS  D  once.   Anything  and  everything   held  in  the
+Spectrum's memory at that  time is  saved to  the last  drive in
+use, shown by the indicator light on the disc drive.
+
+But there are  three  different  types  of  Snapshot  file.   To
+experiment, first make sure that your system has been booted up.
+Then load  in any program (a game  is best for demonstration) in
+the normal way - from disc or from cassette.  (If you're loading
+from  cassette, you should  of course use  the Spectrum's normal
+LOAD "" command, and not the special PLUS D disc syntax.)
+
+When the program has  loaded  and  started  to  run,  press  the
+Snapshot  Button. You'll notice that your program will be frozen
+at  its   current  status,  and   you  will  see   a  number  of
+multi-coloured lines filling the borders on the screen.  You now
+have three Snapshot save options:
+
+Press key 3 on the Spectrum to save only the current SCREEN. A 
+screen save will occupy 7K of space on a disc (as a SCREEN$ file). 
+When the save is complete, you'll see that the program will 
+continue at the same point from which you left it.
+
+Press key  4 on the  Spectrum for a  48K PROGRAM to  be saved to
+disc.  Every time  you save a  48K program, 48K  of memory space
+(or actually 97 sectors)  will be  used on  the disc.   When the
+save is complete, in just  over  3  seconds,  the  program  will
+continue  from the point at which you  left it.  If you want to,
+you can take more Snapshots at later points in the program until
+your disc is full - that's up to 16 Snapshots per disc on a 780K
+capacity drive.
+
+Press key 5 on the Spectrum for a 128K PROGRAM to be saved to 
+disc. Every time you save a 128K program, 128K of space will be 
+used on the disc (= 256 sectors).  The procedure here is slightly 
+different.  The save will commence (and if you have kept flashing 
+borders in your system file, you'll see the borders flashing), but 
+then the program will appear to be frozen again. If the picture on 
+your screen (the picture - not the border) has changed, press key 
+'Y' (= Yes): if it has not, press key 'N'.  The 128K save will 
+then be complete in about 10 seconds and the program will resume 
+from the point at which you left it.
+If you have loaded the program on drive 1, but wish to save your
+snapshot  file to drive 2 - or vice versa - press the CAPS SHIFT
+key on the Spectrum at the same time as pressing key 3, 4, or 5.
+
+If  you hit the Snapshot Button accidentally, and wish to return
+immediately to your program, press key X on the Spectrum.
+
+When you've saved a Snapshot  file,  press  the  computer  reset
+button  once (or in the case of Spectrums without reset buttons,
+turn  off the power, then  turn it back on  again and re-boot the
+PLUS D system).  Then call up  the  catalogue  -  enter  CAT  1.
+You'll see  that  your  Snapshot  file  has  been  automatically
+labelled "Snap A/B/C" etc.  with  the  letter  of  the  alphabet
+dependent  upon the file's position  in the catalogue.  Clearly,
+it  would be difficult to remember  the precise contents of your
+snapshot file  if this were  the only name  possible.  So you'll
+need to give  your  Snapshot  file  an  identifiable  file-name.
+First choose a  new name for  the file you  have snapshotted and
+then rename it using the ERASE...TO keywords.
+
+Then, to reload Snapshot files, you enter:
+    LOAD D1 "Your file" S     (for a 48K file)
+    LOAD D1 "Your file" K     (for a 128K file)
+    LOAD D1 "Your file" SCREEN$  (for a screen file)
+Without the  S, K  or SCREEN$  identifiers, the  Snapshot files
+will not load - unless you use the special abbreviated syntax.
+
+ABBREVIATED SYNTAX
+
+Now that you've  learnt the  basic disc  drive commands,  we can
+introduce  you to a much easier way  of loading a file,  you can
+just enter:
+    LOAD P6
+This has the effect of loading the file labelled number 6 in the
+catalogue.   If you  use this  command you  don't need  to worry
+about the  S, K or  SCREEN$ identifiers to  load snapshot files.
+It  also makes it much easier to load code files.  Normally, you
+would have to type, for example:
+    LOAD D1 "CONFIG1_C"  CODE  40300,1750
+-   stating the start address of the file and the number of bytes
+used.  Instead, you can now simply enter LOAD P3.   Try it.
+
+MERGE and VERIFY   can also be  used with the  program number in
+this way - but ERASE cannot.
+
+Problems?
+
+1.  I've found lots of programs I can't snapshot.
+We can't guarantee 100% success with snapshotting, but we're
+pretty  close.  If you're  getting failure with  most of your
+programs, there's probably  a problem  with your  equipment.
+Hints on difficult programs are often published in FORMAT.
+
+2.  I can't copy my Snapshot files using SAVE...TO.
+Quite right - this is a security precaution against illegal
+professional copying of commercial software.
+
+
+WILD-CARDS
+
+Wild-cards in a file name allow you to CATalogue, copy (using 
+SAVE...TO) or ERASE a group of similar files in a single 
+operation. Let us imagine, for example, that you have a series of 
+files called:
+    numbers1, numbers2, numbers3, numbers4
+
+To erase all of them you can enter:
+    ERASE  D1 "n*"
+The effect of the star(*) is to say that all the rest of the file-
+name doesn't matter: you wish to erase all files commencing with 
+"n".  Be careful: this really means all files beginning with "n".
+
+You could also enter:
+    ERASE  D1 "??mb*"
+You would then  erase all the  files which have  "-mb-" as their
+third and  fourth letters.  The effect  of each question-mark is
+to say that "this letter is of no significance".
+
+The same syntax - using ? and * - is available for the SAVE...TO
+and  CATalogue commands.   Thus if  you wanted  to copy  all the
+files on disc 1 to disc 2, you could enter:
+    SAVE D1 "*" TO D2
+Or  if you wanted  to copy your  "numbers" files to  drive 2 and
+also give them a new file-name, you could enter:
+    SAVE D1 "numbers*" TO D2 "figures*"
+Note that if  you are using  wild-cards, the new  file name must
+have  the same number of characters as  the first - in this case
+eight.
+
+FORMATTING NEW DISCS
+
+Before a floppy  disc is  used for  the first  time, it  must be
+formatted.  You can also  format  a  previously used  disc;  the
+effect  will be to wipe the disc clean of information.  You must
+therefore be careful  not to  format a  disc which  contains any
+files you may wish to keep (and let's say it again - ALWAYS make
+back-up discs of important files!).  It is also risky to format
+a disc while you are holding a program in the Spectrum's memory,
+in case the program is overwritten with format information.
+
+Your original system disc was formatted automatically at the end
+of the set-up program.  But to format other discs. make sure the
+PLUS D system is booted, and then enter:
+    FORMAT D1
+
+Always make  sure that you  have spare formatted  discs when you
+start  work.  Then, if you fill  your original working disc, you
+can  easily substitute  a spare  disc without  interrupting your
+work in progress.  After formatting a new disc, it's also a good
+idea  to copy the PLUS D system file onto it, so that you always
+have  a spare system disc available.  You can copy the system to
+a new disc by entering:
+    SAVE  D1 "+SYSTEM"  CODE  8192,6656
+
+
+ERROR REPORTS
+
+There are  a number  of standard  Spectrum error  messages which
+will appear on screen if the command you have typed in cannot be
+obeyed.  For full  details, consult  the Spectrum  manual.  When
+you are using  the PLUS  D, these  standard error  messages will
+continue  to appear, but there are some additional error reports
+which  refer specifically to disc  handling problems.  These are
+some of the more important you may meet.
+
+NONSENSE IN BASIC. This is a standard Spectrum error report, and 
+if it appears as soon as you start trying to use the PLUS D, it 
+suggests that the connection between the computer and the PLUS D 
+is not being properly made, so the special PLUS D commands cannot 
+be recognised, or it may mean that you have typed a command 
+incorrectly - try again.
+
+Nonsense in G+DOS. The PLUS D can't understand the command; check 
+the syntax and try again.
+
+FORMAT Data Lost. This means that the disc has been damaged or the 
+file has been corrupted - perhaps you've been working too close to 
+a magnetic field.  You won't be able to access the current file, 
+and other files may also have been lost. Copy any remaining files 
+to another disc immediately. Try reformatting the original disc, 
+and if there's no permanent damage, you may be able to use it 
+again, but don't risk storing important files on this disc.
+
+SECTOR Error. This means that the information you've tried to save 
+has been corrupted.  You'll need to rewrite the file and save it 
+again. But your disc has not been damaged and need not be 
+reformatted. The numbers after the error message tell you which 
+track and which sector have been corrupted. You should always make 
+a back-up copy of key files. If the Sector Error or Format Data 
+Lost messages appear regularly, you may have a problem with your 
+disc drive. The head may be dirty, or the drive may not be 
+centring the discs correctly on insertion. Try cleaning the heads. 
+If this fails, repairs may be necessary.
+
+Disc Write PROTECTED. You cannot save, erase, or modify files on 
+this disc until you uncover the security lock on the disc.  (Use 
+the security lock on the disc to keep important files safe.)
+
+File NOT FOUND. You are trying to load, copy, verify, erase or 
+rename a file which is not present on the disc. Check that you 
+have typed in the file name correctly. Make sure that you have 
+used the file identifier - S, K or SCREEN$ - if necessary.
+
+Not enough SPACE on disc. The file you are trying to save is too 
+large for the space remaining on the disc. Insert another disc 
+(one with more room) and then try again.
+
+Directory FULL. The PLUS D's directory can hold a maximum of 80 
+files. Either ERASE some files to create space or insert another 
+disc.
+
+
+ADVANCED DISC OPERATIONS
+
+SECTOR BY SECTOR COPYING - TWO DRIVES
+
+The command: FORMAT D1 TO 2 - formats the disc in drive 1 (and 
+thus wipes it clean of data) and copies the contents of the disc 
+in drive 2 to the disc in drive 1, sector by sector. BE VERY 
+CAREFUL NOT TO FORMAT THE WRONG DISC. Because the copying is done 
+a sector at a time, the copying process takes much longer than the 
+SAVE...TO command; but the FORMAT...TO command will give you a 
+disc which is identical in every respect to the one which has been 
+copied. This command should only be used on a TWO DRIVE system.
+
+READING AND WRITING TO A SECTOR
+
+    LOAD @D,T,S,Address
+    SAVE @D,T,S,Address
+
+These commands are  used  for  reading  (or  writing)  a
+specified sector on the disc, where:
+
+    D = the drive number (type either 1 or 2 - not the D)
+    T = the track number from 0 to 39 (40 track)
+            or           from 0 to 79 (80 track)
+        To read the second side on  a double-sided disc drive
+            then            128 to 167 (40 track)
+            or              128 to 207 (80 track)
+    S = the sector number - from 1 to 10
+    Address = the start of a 512 byte area in memory.
+        This is where the contents of the sector are stored.
+
+Working with a monitor program, this powerful command allows you 
+to access a single sector on the disc from Basic. Particularly 
+useful for breaking into, examining and modifying a Snapshot file.
+
+USING STREAMS AND CHANNELS
+
+i)     OPEN #S;D1 "filename"  IN  or  OUT
+
+This command  is used to  open a file  on the disc  and attach a
+stream  number to it, so that you can print out to or input from
+that stream, where:
+
+        S = Stream number - from 4 to 16 (type the number only)
+        D = D1 or D2 (drive number - type D as well as drive no.)
+ IN = When you specifically need an input or read file opened
+OUT = When you specifically need an output or write file opened
+
+If  you choose not to specify IN or OUT, then the default is the
+same  as Interface 1: an input file if the file-name is found in
+the catalogue, and an output file if the file-name is not found.
+Also available is Microdrive syntax:
+    OPEN #S;"m";1;"filename"
+
+
+ii)  CLOSE #*S
+
+This  command closes the file and stream opened in  the previous
+command.  S  = Stream  number. If  you  do  not type  the stream
+number,  then all current open streams will be closed.  Note the
+addition of the * to Microdrive syntax.
+
+iii) MOVE is  a command  which moves  a file,  one sector  at a
+time, to either another file or a stream.
+
+     MOVE D1 "filename" TO #S
+This  command reads  the file  and outputs  it to  the specified
+stream  (S = the stream number, from 4 to 16).
+
+     MOVE D1 "filename-1" TO D1 "filename-2"
+In this case MOVE copies the first fie to the second file.
+
+iv)  CLEAR #
+This  command clears all open streams  and channels, but it does
+not CLOSE an output file.
+
+v)   CLS #
+This  command clears the  screen and attribute  area, and resets
+BORDER, PAPER, INVERSE, BRIGHT, OVER and FLASH to the normal 
+Spectrum start-up values.
+
+THE EXECUTE FILE
+
+An execute file is a machine code file occupying up to one sector 
+length of memory (510 bytes). When loaded from disc it is executed 
+(RANDOMIZE USR) in the PLUS D RAM, and not in the Spectrum memory 
+as other files are.  An execute file gives the programmer the 
+ability to execute utility routines - such as renumbering a 
+program - without affecting or using the Spectrum memory.
+
+To save a sector length of memory as an execute file, enter
+    SAVE  D1 "filename"X,Address
+where:
+    X  = the execute file identifier - just type X
+    Address = the location in the Spectrum of the
+    machine-code program, which has been assembled
+    to run at 15318 (3BD6 hex).
+
+To  load the execute file  and run it internally  in the PLUS D,
+enter:
+    LOAD D1 "filename" X
+or  LOAD Pn   -   in other words, the normal abbreviated
+    syntax for LOAD.
+After execution, control is returned to the Spectrum.
+
+Examples  of the use of these more advanced features of the PLUS
+D can regularly be  found  in  FORMAT,  often  in  programs  and
+routines contributed by PLUS D and Disciple users.
+
+
+USING A PRINTER
+
+COMPATIBLE PRINTERS
+
+The PLUS D  has  a  printer  interface  designed  to  work  with
+standard centronics/parallel  type  printers.   You'll  need  to
+provide the printer cable, which  may  differ  from  printer  to
+printer.  Make sure that at the PLUS D end, the connector is the
+standard BBC-type (that it has a 26-way connector).
+
+The  PLUS D has been set up to work automatically with Epson FX80 
+compatible  printers.  If  your  printer  is  not Epson FX80 
+compatible, you'll need to make a few changes to your System File 
+to make it work (see next section).
+
+The  PLUS D offers sophisticated graphics printing capabilities.
+Obviously, daisy  wheel printers,  which cannot  print graphics,
+will  not be able to  make full use of  the PLUS D's facilities.
+There are also  a small  number of  older dot-matrix  printers -
+those which print  their characters  on a  7-dot rather  than an
+8-dot matrix - which will not print graphics with the PLUS D.
+
+
+SETTING UP YOUR PRINTER
+
+If  you are using a disc drive and have already set up your PLUS
+D System File (see page 4), then your printer will automatically
+be ready for action every time you boot up the system.
+
+If you don't yet have a disc drive but wish to use the PLUS D as a 
+stand-alone printer interface, you may do so. If your printer is 
+Epson FX80 compatible, you should be able to plug the printer into 
+the PLUS D, switch the system on and then type in POKE @ 11,0 (@ 
+is symbol/shift 2) to turn the centronics interface on.
+
+If your printer is not FX80 compatible then you may need to use 
+the program on the System Cassette. Connect the printer to the 
+PLUS D and turn it on and load the System Cassette program in the 
+normal way (LOAD "").
+
+When the program has loaded, you'll be asked a series of 
+questions.  The first questions relate to use of a disc drive. 
+Press ENTER to bypass each of these questions and then press Y (= 
+Yes) when asked "Do you want to use the PLUS D's printer port?"
+
+At this point, you'll find the answers to the questions in your 
+printer manual. If you find that the printer manual defeats you, 
+please contact INDUG, the Users' Group, for help, as they have a 
+wide experience of different types of printer.
+
+Finally, there'll be a series of questions referring to the disc 
+drive  again.  Answer No  to all these  questions.  Printing can 
+now commence. Remember that you will need to re-run the program if 
+you switch off the computer.
+
+
+STARTING TO PRINT - LPRINT, LLIST and SAVE SCREEN$ 1
+
+LPRINT  and LLIST  have exactly  the same  meaning as  PRINT and
+LIST,  except that instead  of making information  appear on the
+screen, they send it  to your  printer.  To  see how  they work,
+enter the following program - but first, check that your printer
+is attached  to the PLUS D and turned  on, and that you have set
+up your printer as described in the previous paragraph:
+
+    10 LPRINT "This program"
+    20 LPRINT "prints out the character set"
+    30 FOR n=32 TO 255
+    40 LPRINT CHR$ n;
+    50 NEXT  n
+    60 LPRINT
+
+When you run the program, the LPRINT command sends the heading and 
+the list of characters directly to the printer.
+
+Now enter LLIST - and the listing of your program is sent to the 
+printer.
+
+Then enter LIST to restore the program listing to the screen. 
+Finally, enter SAVE SCREEN$ 1. (Note that if you are using 48K 
+mode on your computer, both SAVE and SCREEN$ must be typed in 
+using the Spectrum keywords.) With this command, the contents of 
+your screen are copied (technically, "dumped") to the printer.
+
+SAVE SCREEN$ 1 is a particularly powerful command: if you've set 
+up your system to print graphics, you can dump screen pictures to 
+your printer. There's also a SAVE SCREEN$ 2 command, which will 
+dump a screen picture to the printer in a much larger format: with 
+this command, you'll find that the print-out will be sideways down 
+the page, and that the various colours on the screen will be 
+interpreted as shades on the print-out. But, the SAVE SCREEN$ 2 
+command will only work with Epson-type printers which recognise 
+the ESC * code for bit image graphics. INDUG may be able to help 
+if your printer is unable to do the larger screen-dump.
+
+Note that you can also use SAVE SCREEN$ instead of SAVE SCREEN$ 1.
+
+Note also a peculiarity of Spectrum Basic. If you have written a 
+program listing on screen, you cannot dump the screen directly to 
+your printer. First you have to enter LIST: then you can use SAVE 
+SCREEN$ 1. Or, faster would be to write your program, then simply 
+enter LLIST.
+
+When printing, you can also use the commands TAB and AT to 
+position your text at a certain point on the printed line or page. 
+Try these two examples to see how the commands work:
+
+    LPRINT TAB  8;"This line is indented"
+    LPRINT AT 4,5;"This line is less indented"
+
+In example 1, you start printing at character position 8 on the 
+current line; in example 2, you start on line 4 at position 5.
+SNAPSHOT PRINTING
+
+The  SAVE SCREEN$ 1 command allows you to dump the screen to the
+printer -  provided you are able to  enter a Basic command.  But
+what  happens if, for example,  you are in the  middle of a game
+and  you want to print the current  screen but you can't exit to
+Basic? With the PLUS D  you can still do your screen dump, using
+the Snapshot Button.   This  use  of  the  Snapshot  Button  has
+nothing to  do with  the disc  drive -  and in  fact you  can do
+Snapshot prints even  if  you  are  not  using  a  drive.   This
+facility  offers exciting new possibilities to games players: in
+an  adventure game, for example, you can print out the screen at
+each new  location, gradually building up  a complete picture of
+all the available screens.
+
+To experiment with Snapshot printing, load a normal commercial 
+program, preferably a game with good graphics to show the facility 
+at its best. When you wish to print a screen, simply press the 
+Snapshot button - in the same way as if you were taking a Snapshot 
+save. As usual, the program is paused. If you then press key 1 on 
+the Spectrum, you will send a 32-column screen dump to the 
+printer. If instead you press key 2 on the Spectrum (and  you have 
+an  Epson FX80 compatible printer that understands the ESC '*' 
+code), you will be able to send a large-size screen dump to the 
+printer - just as if you had entered the command SAVE SCREEN$ 2.
+
+When printing is complete, the  program  will  resume  from  the
+point at which you left it.
+
+CHANGING THE LAYOUT OF YOUR PRINTED PAGE
+
+With an Epson compatible printer, the PLUS D's printer interface
+has been set up to the following standard:
+
+    Line-length:    80 characters per line
+    Line-spacing:   1/6" (=12/72" or 6 lines per inch)
+    Line-feeds after carriage return:
+    Number of left-hand margin spaces:  0
+    £, #, and © symbols set to be printed:  Yes
+    Density/size of graphics:  Single density graphics
+    Character pitch:  Pica  (= 10 characters per inch)
+
+If you wish to change these variables, you can use a special PLUS 
+D command - the POKE @ command. Every POKE @ command must be 
+followed by a number, which states which variable is to be 
+changed.  For example, the POKE @5 statement is concerned with 
+line length, while the POKE @7 statement is concerned with the 
+spaces between lines. The number is followed by a comma and 
+another number, which is the variable to be set. For example, POKE 
+@5,40 sets your line length to 40 characters per line.
+
+Note: UDGs, Spectrum block graphics and, if you said so, the 
+£, # and © print as an 8x8 matrix of dots. On some printers this
+is slightly wider than their normal characters and causes long
+lines to overflow onto the next line.
+
+
+The POKE  @ statements are  temporary settings, and  if you turn
+off  your mains power, you'll need  to reset them.  However, the
+PLUS D retains POKE @ commands if you simply reset the computer;
+you'll be able to continue with the same variables in use.
+
+This is how to change your page layout using the POKE  @ commands:
+
+LINE LENGTH: POKE @5,n  (n = 0 to 255)  default 80
+
+The number you type in for the variable (n) will be the number of 
+characters per line - provided your printer can cope with the 
+number you've typed. Note that printing UDGs can upset this 
+feature as characters printed in "bit image" are wider than normal 
+printer characters.
+
+LINE SPACING: POKE @7,n  (n = 0 to 255)  default 12
+
+The number you type in will set the spacing between lines in 
+increments of n/72" - thus 12 is 12/72" or 1/6" (= 6 lines per 
+inch).
+
+LINE FEEDS: POKE @8,n  (n = 0 to 255)  default  0
+
+The number you type will be the number of line-feeds after a 
+Carriage Return. Most printers are set up to do an auto LF.
+
+LEFT MARGIN: POKE @9,n  (n - 0 to 255)  default  0
+
+Sets the number of spaces before printing begins on each line.
+
+PRINTING £, # and © as graphics: POKE @10,n (n = 0 or 1) default 1
+
+Type 1 to print these in Bit Image Mode, 0 to leave them alone.
+
+PRINTING FROM A COMMERCIAL WORD PROCESSOR
+
+Commonly,  commercially-produced   word  processors   and  other
+"serious" software have  a special  printer driver  which allows
+you to send your work  to  a  printer.   Much  serious  Spectrum
+software has now been  modified  to  work  with  the  Disciple's
+printer  interface.  The Disciple was  the PLUS D's predecessor,
+and if your software allows you a Disciple printing option, this
+will also work with the PLUS D.
+
+Occasionally  though, you  may find  that a  Disciple or  PLUS D
+printer  driver is not offered.   If so, and if  when you try to
+print, you get  unsatisfactory  results  (a  common  symptom  is
+question-marks appearing in  the  left-hand  margin),  you  will
+usually  be able to solve the problem by finding the part of the
+program listing which sends data to the printer and preceding it
+with the  line: POKE @6,1.  Then, when  the printing finishes,
+enter the line POKE @6,0.
+
+What's happening here  is that, by  entering POKE @6,1 you are
+allowing codes embedded in the  software  to  be  sent  directly
+through  to the printer without being intercepted by the PLUS D.
+
+
+POKE @6,0 allows the PLUS D to take over again when the software's 
+printer driver is no longer in operation. (Programmers note that 
+POKE @6,1 allows the printer driver to output directly to the 
+printer the absolute value of the code 0 to 255. Note also that 
+under normal circumstances, if a control character is to be sent 
+to the printer using LPRINT, then you must precede it with CHR$ 27 
+- even when you want to output CHR$ 27. Thus, to output CHR$ 27, 
+CHR$ 65, CHR$ 40 you would enter:
+
+    LPRINT CHR$ 27;CHR$ 27;CHR$ 27;CHR$ 65;CHR$ 27;CHR$ 40
+
+But if you enter POKE @6,1 first to release PLUS D control, then 
+you will not need to precede the control characters with CHR$ 27. 
+When you've finished, don't forget to return to POKE @6,0.
+
+
+OTHER TYPES OF PRINTER
+
+If you are using a serial printer, you cannot connect it to the 
+PLUS D, but you can continue to use the PLUS D as a disc 
+interface.  Your serial printer can be connected directly into the 
+RS232 port on the Spectrum 128 or +2 as usual; or if you have a 
+separate RS232 interface, use a two-way "hard" connector so that 
+it can be attached to the computer at the same time as the PLUS D. 
+When the System Program asks whether you are using the PLUS D's 
+centronics printer port, answer No.
+
+If you said NO to the PLUS D's printer port when you ran the 
+System Program, you can switch it on with another POKE @ 
+statement. POKE @11,0 makes the PLUS D's centronics printer 
+channel active. To turn it off again then POKE @11,1 but note you 
+will have to reset the Spectrum's printer channel before you can 
+use it.
+
+The Sinclair ZX Printer and the Alphacom 32 printer are NOT 
+compatible with the PLUS D. It is advisable not to try connecting 
+them at the same time as the PLUS D.
+
+
+Questions/Problems
+
+1.  I can't find the initialisation code in my printer manual.
+If  you can't  find this  code, try  the code  for Carriage
+Return,  which is almost  universally 13 (in  decimal), or enter
+128 so  that no codes are sent.   Remember that if you're having
+real  difficulty in understanding  your printer manual, INDUG is
+likely to have had previous experience with your printer.
+
+2. Are there other POKE @ commands?
+Yes.   If  you're  a  serious  programmer,  needing  fuller
+coverage of these -  or details  of the  PLUS D's  command codes
+(used in  machine  code  routines  to  effect  control  of  disc
+subroutines),  please talk to the Users' Group.  There's regular
+coverage in FORMAT.
+
+3. My printer won't do screen dumps.
+Screen dump routines for non-FX80 compatible printers may be
+available from INDUG.
+
+
+PLUS D QUICK REFERENCE GUIDE
+
+RUN                           Boots the system
+CAT 1                         Displays catalogue
+CAT 1!                        Displays shortened catalogue
+SAVE D1"filename"             Saves file
+VERIFY D1"filename"           Confirms save has been made
+LOAD D1"filename"             Loads file (except Snapshot files)
+LOAD D1"filename" S           Loads 48K Snapshot file
+LOAD D1"filename" K           Loads 128K Snapshot file
+LOAD D1"filename"SCREEN$      Loads screen file
+LOAD Pn                       Loads the program (from its number)
+ERASE D1"file" TO "new file"  Renames a file
+ERASE D1"filename"            Erases a file
+SAVE D1"file" TO D2           Copies a file from drive1 to drive2
+FORMAT D1                     Formats disc in drive 1
+FORMAT D1 TO 2                Formats drive 1; copies from 2 to 1
+OPEN #n;D1"filename"IN        Opens an input file on stream n
+OPEN #n;D1"filename"OUT       Opens an output file on stream n
+CLOSE #*n                     Closes file on  stream n
+CLOSE #*                      Closes all open files
+MOVE D1"filename" TO #n       Reads file; outputs to stream n
+MOVE D1"fileA" TO D1 "fileB"  Reads file; writes it to 2nd file
+CLEAR #                       Clears all open streams & channels
+CLS #                         Clears screen & attributes area
+SAVE D1"filename"X,Address    Saves 510 byte Execute file
+LOAD D1"filename"X            Executes file in PLUS D RAM
+LOAD @ D,T,S,Address          Reads a specified sector to memory
+SAVE @ D,T,S,Address          Writes to specified sector to disc
+LLIST line-no                 Sends program listing to printer
+LPRINT variable-list          Prints to printer
+SAVE SCREEN$ 1                Produce 32-column screen dump
+SAVE SCREEN$ 2                Produce large-size screen dump
+LPRINT TAB n;                 TAB to position n on current line
+LPRINT AT n1,n2;              Set printer n1 lines down, TAB to n2
+
+SAVE...TO, ERASE, CAT can be used with * and ? for wild-card 
+operations
+
+SNAPSHOT BUTTON - halt program temporarily & allow selection of:
+1 - 32 column screen-dump;   2 - Large-size printer dump;
+3 - Screen save;  4 - 48K Snapshot save;   5 - 128K Snapshot save;
+Key X breaks out of Snapshot and returns to program
+
+
+GUARANTEE
+
+Thank you for buying the PLUS D. To ensure your satisfaction, the 
+product is guaranteed by Miles Gordon Technology against defective 
+design, workmanship or materials for a period of 6 months from the 
+date of purchase, subject to the conditions below:
+
+1. Please complete and return to us the Guarantee Registration 
+   form at the bottom of this page, within 14 days of purchase.  
+   Until we have your registration form, we cannot undertake 
+   repairs under guarantee.
+2. The guarantee only applies to the UK and to the original 
+   purchaser.
+3. The guarantee is invalidated if the product is opened, 
+   modified, repaired, or otherwise tampered with by any party 
+   other than Miles Gordon Technology or their appointed agents.
+4. The guarantee is also invalidated if the PLUS D has been in 
+   any way misused, used with unsuitable equipment, or subjected 
+   to deliberate, accidental or consequential damage.
+5. Claims under the guarantee should be referred to the dealer 
+   from whom you purchased your PLUS D. If this is not possible, 
+   contact us directly for authority to return.
+6. Customers will be responsible for the cost of sending a unit 
+   back to us for repair. Please pack the product carefully 
+   (preferably in the original package) to prevent damage in 
+   transit. If posting the unit, please obtain a postage receipt 
+   and keep it safe until your PLUS D is returned. Make sure you 
+   enclose your name and address, and if possible enclose a note 
+   explaining what appears to be wrong.
+7. Your unit should be returned to you in working order within 28 
+   days. If it is not, please contact us on 0223-311665, and give 
+   details of what was returned, when, and how.
+8. The purchaser's sole and exclusive remedy under this guarantee 
+   is for repair or replacement of the PLUS D. No other remedy, 
+   including, but not limited to, incidental or consequential 
+   damage or loss of whatsoever nature shall be available to the 
+   purchaser.
+9. This guarantee is in addition to and does not in any way 
+   affect the purchaser's statutory rights.
+
+=================================================================
+
+               PLUS D GUARANTEE REGISTRATION
+
+Please detach and return to Miles Gordon Technology, Lake Side 
+Technology Park, Phoenix Way, Swansea SA7 9EH, within 14 days of 
+purchase.
+
+Name ................................  Purchase Date .............
+
+Address ..........................................................
+
+..................................................................
+    
+Product No (see underside of PLUS D) .............................
+     
+Dealer's Name/Town ...............................................
+
+=================================================================
+
+THE PLUS D ON THE +2A AND +3
+
+For owners of +2A's (black case and uses +3 basic) and plus 3's users
+of the +D there are one or two important things to bear in mind.
+
+1) In 48K basic the +D acts as normal the tokenised keys for using the
++D are
+
+        (Extended mode)(Symbol shift) 0    to get FORMAT
+        (Extended mode)(Symbol shtft) 9    to get CAT
+        (Extended mode)(Symbol shift) 7    to get ERASE
+        (Extended mode)(Symbol shift} 4    to get OPEN #
+        (Extended mode)(Symbol shift} 5    to get CLOSE #
+        (Extended mode}(Symbol shift) r    to get VERIFY
+
+2) When using the +D in +3 basic first boot your system disk using RUN
+then type the following line
+
+        POKE ©4426,16:POKE @4427,92 (enter)
+
+The +D can now be used to freeze, catalog and run programs of 128K length.
+Please note that there are one or two slight anomalies due to the fact that
++3 basic is expecting a 3” drive. Even if you reset the computer using the
+reset button you will not need to enter these pokes again.
+
+3) When using the +2a and +3 computers you will need a small Fixer Board,
+which connects between the computer and the +D unit. This board is to take
+care of certain changes Amstrad made to the expansion bus of these computers.

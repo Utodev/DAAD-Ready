@@ -1,0 +1,666 @@
+======================================
+Speech Synthesizer for the ZX Spectrum
+dk'tronics Ltd
+======================================
+
+Spectrum Speech Synthesizer
+
+First make sure the computer is disconnected by removing the
+power cord. The interface must be plugged into the Spectrum ex-
+pansion port or into existing interfaces which have a piggy-back
+edge connector at their rear. The computer can then be switched on
+by inserted the power connector.
+
+
+SPEECH SYNTHESIS
+
+The Spectrum speech synthesis utilises parts of the spoken word
+known as allophones. These are actual sounds that go to make up
+speech. The SP0256 allophone speech synthesis technique provides
+the ability to synthesize an unlimited vocabulary. Fifty-nine discrete
+speech sounds (allophones) and five pauses are stored in the speech
+chip's internal rom (see page 13 for allophone table). In the past
+speech synthesis has required large data bases to store words
+because every word had to have its own set of data. This method of
+speech synthesis is slightly clearer than the SP0256 chip but would
+require at least 5 mega-bytes of memory to store the English
+language. This is obviously not practical. Therefore, for the home
+computer the SP0256 is the ideal chip.
+
+
+LOADING DETAILS FOR SOFTWARE SUPPLIED
+
+The software supplied with your Spectrum Speech Synthesizer has
+been recorded three times on both sides of the cassette, so if one
+version fails 10 load you have five other copies. To load the software
+type: LOAD ""
+
+And press ENTER. The software comes in two parts. The first part
+is the relocater, this enables you to load and run the software any-
+where in the Basic memory map between 31200 and 60500. This
+allows other software to reside with the Speech synthesizer software.
+However if you want to use Dk‘tronics centronics port it is necessary
+to load the centronics port software first and then load the speech
+software as described above. The second Part is the machine code
+to run the text to speech convertor, this is about 4.7K in length.
+After the first part has loaded the screen will clear and ask you for
+the load address. This should be in the range 31200 to 60500 (60500
+is a good address). The routines will automatically lower the top
+of basic if necessary so that basic programs will not erase the soft-
+ware. It is important to remember the load address if you intend
+using the text to speech convertor from machine cade or it you type
+NEW. You will probably want to do this straight after the software
+
+                             - - -
+
+has loaded and you are left with the loader program. Type New then
+when the computer is ready type:
+
+RANDOMISE USR [Load address].
+
+The software is now again ready for use. Alternatively your own
+programs may start with RANDOMISE USR (Load address).
+
+Once the second part has loaded the machine code will perform
+the initialisation routine and print the copyright message on the
+screen.
+
+
+HOW TO USE THE SOFTWARE FROM BASIC
+
+The program you have loaded will set up an interrupt driven program
+to handle the speech allophones. This simply means that the
+computer will continue to say a list of allophones, each time check-
+ing that the last one has finished being spoken. All this can take
+place without you knowing so you can get the computer to do other
+tasks while the speech chip is speaking. Also the program changes
+the interpretation of the LPRINT statement so that the speech
+commands can be easily used from basic. When you want to send
+a command to the speech chip software there is a new syntax to
+use:
+
+      (1) LPRINT "|XXXX,n,n..."
+      (2) LPRINT "\hello there"
+      (3) LPRINT "print this.."
+
+Command (3) is the normal LPRINT statement, but (1) and (2)
+alter the LPRINT statement and now go to the speech software.
+Hence any characters in an LPRINT statement will be sent to the
+speech software if they start with 'or'. More about (2) in a minute
+but here is a list of commands to use for (1) in place of XXXX:-
+
+LPRINT "|SPON"      This turns on the interrupt and reads out any allophones
+(speech on)         that are there.
+LPRINT "|SPOF"      This turns off the interrupt and stops reading the buffer.
+(speech off)
+LPRINT "|FEED,n.."  This is use to feed the speech buffer direct and also for
+                    sound effects. The ¦FEED,n command is followed by a
+                    maximum of 30 data items separated by commas.
+LPRINT "|FLUS"      This command clears the speech buffer and silences the
+                    speech chip.
+LPRINT "|SPED,n"    This command controls the speed at which the words are
+                    spoken. n is a number from 0 to 15.
+LPRINT "|OUTM,1"    Sets access to 'text to speech' convertor by use of
+                    LPRINT "\text to convert" only.
+LPRINT "|OUTM,2"    Sets access to 'text to speech' convertor from all outputs
+                    of LPRINT and LLIST.
+
+                             - - -
+
+Note. The | character is found on the S key and the \ character is
+found on the D key. Both are accessed from entering EXTENDED
+mode (pressing both shifts simultaneously) then pressing shift S
+and D respectively.
+
+
+SPEECH SYNTHESIZER
+
+The speech synthesizer can be used in various modes.
+
+(1).  Direct without software supplied.
+(2).  Using LPRINT "|FEED,n..." command.
+(3).  Using 'text to speech' convertor.
+(4).  Using print mode commands.
+
+
+[1].  Direct without software supplied.
+
+The speech chip is in the I/0 memory map location 127. It is poss-
+ible to send data straight to this location but the correct allophones
+must be worked out and converted to date manually. Also the prog-
+ram most find out when the speech chip has finished saying each
+allophone by reading from I/0 location 127 and waiting until its
+value is 127.
+
+The following simple example shows a program to send data to
+the speech chip:-
+
+10 FOR X=1 TO 9: REM length of DATA statement.
+20 IF IN 127<>127 THEN GO TO 20: REM wait for chip ready signal.
+30 READ A
+40 OUT 127,A
+50 NEXT X: STOP
+60 DATA 42,15,16,9,49,22,13,51,0
+
+This example is using the speech chip in its crudest form and
+requires the component parts of the text to be converted into data.
+To do this use the allophone table at the back of this instruction
+book, also see word table. An example of the word computer is:-
+
+WORD     C   O   M   P  U   T   E   R
+
+DATA     42, 15, 16, 9, 49, 22, 13, 51, 0
+
+Note: The 0 at the end of the data is to stop the last allophone from
+sounding forever.
+
+                             - - -
+
+[2]. Using the LPRINT "|FEED.n.." Command.
+
+This requires that the software supplied is first loaded (see page 2
+for loading instructions).
+
+The LPRINT "|FEED" command allows allophones to be sent
+directly into the speech buffer. The LPRINT is an extended keyword
+found on the letter C. The |FEED part is typed letter for letter.
+Once the converted data has been entered using this command the
+speech chip will say the allophones one after another under interrupt
+control, i.e. transparent. This means that once the data is in the
+buffer the computer can carry on with another task. The data is
+the same as for the direct mode (see section 1) and has to be looked
+up from the allophone table on page 13.
+
+Example:-
+
+LPRINT "|FEED,33,19,4,42,20,4,17,39,23,56,12,41,55,4,45,12,16,17,17,12,21,0"
+
+When you enter the above the computer will say DK TRONICS LTD.
+See word table for other examples or construct your Own. This
+mode is much easier to use than the direct mode (1) but still req-
+uires you to convert the words into allophones. It is most useful
+for creating sound effects.
+
+Example:-  LPRINT "|FEED,62,62,62,62"
+
+           Will produce a pulsating sound
+
+and        LPRINT "|FEED,41,41,41"
+
+           Will produce a knocking sound
+
+You can try any numbers from 5 to 63 for different effects.
+
+
+[3]. 'Text to Speech' Convertor.
+
+The software supplied is mainly devoted to this mode of operation.
+Of the 4.7K of program some 3.5K is used for tables containing
+rules, and exceptions to the rule, for the English language.
+It is therefore the most important mode and allows speech to be
+entered in normal English without any converting to data by the
+user. The software must first be loaded (see page 2 for loading
+instructions.)
+
+                             - - -
+
+The 'text to Speech' uses two new commands:-
+
+LPRINT "|SPON"
+
+This command turns on the speech interrupts.
+
+LPRINT "|SPOF"
+
+This command turns off the speech interrupts.
+
+The text which you want to be spoken must be marked by a new
+control character (LPRINT mode (2) see page 5). This character
+is typed by entering Spectrum extended mode and pressing shift
+D character.
+
+Example:-
+
+LPRINT "\hello there speech chip."
+
+None of the above will actually appear on the printer hence it is
+necessary to never use | or \ in normal LPRINT statements if you
+want to use the printer.
+
+'Text to speech' can best be explained by the following examples.
+
+10 LPRINT "|SPON"
+20 LPRINT "\This is talking"
+30 LPRINT "\and so is this."
+
+Line 10 is only necessary at the start of the program. Also note the
+use of both upper and lower case, which can be interchanged and
+mixed as you require. Any graphics in the LPRINT "\..." state-
+ments will not be spoken but may give funny effects!
+
+The 'text to speech' can handle 98% of all English words. There
+are a few words which cause the 'text to speech' slight problems.
+This is mainly because while there are rules for constructing words
+i.e. I before E except after C, there are more exceptions to the rules
+than actual rules. These problems can often be overcome by mis-
+spelling the word. Type in the following:
+
+LPRINT "|SPON"
+LPRINT "\Silicon"
+
+This word sounds wrong. However, type in:
+
+LPRINT “\Silickon"
+
+                             - - -
+
+The word now sounds correct even though it has been misspelt,
+with some words it may be necessary to experiment with the
+spelling although this should be rare. Speech can also be sent to
+the speech chip using string variables or even string expressions:
+
+Example:
+
+10 LET A$="\speech"
+20 LPRINT "|SPON"
+30 LPRINT A$
+
+or
+
+10 INPUT "What is your name ";A$
+20 LPRINT "|SPON"
+30 LPRINT "\Hello there ";A$;" how are you today"
+
+Speech can be used in string expressions:
+
+Example:
+
+10 LPRINT "|SPON"
+20 FOR I=65 TO 90
+30 LPRINT "\";CHR$(I)
+40 NEXT I
+
+
+'TEXT TO SPEECH' BUFFERS.
+
+The text to speech uses two RAM buffers. The text buffer to hold
+the words entered by using LPRINT "\.." and the speech buffer
+to hold the allophones which are outputted by the interrupt as they
+are needed by the chip.
+
+The text buffer can hold 100 characters and the speech butter is
+larger and can hold 250 allophones. It is possible to fill either
+buffer in which case some text or speech is lost. Hence it is advis-
+able to send less than 100 characters at a time to the text to speech
+convertor (about 3 lines on the Spectrum screen).
+
+The speech buffer will hold about 45 seconds worth of speech and
+will continue to talk after the program has finished or the BREAK
+key has been pressed. There are two ways to stop this, after all
+45 seconds of unwanted speech can get a bit nauseating.
+
+First type in:
+
+10 FOR I=1 TO 50
+20 LPRINT "\The fat cat sat down"
+30 NEXT I
+
+                             - - -
+
+After typing RUN you will see the 0 OK, 0:1 message but the com-
+puter will continue to speak. To stop the computer type:
+
+LPRINT "|FLUS"
+
+The computer will abruptly stop speaking and will now be ready
+to say anything you tell it to immediately,
+
+Alternatively you might type:
+
+LPRINT "|SPOF"
+
+This stops the computer from speaking but leaves the buffers
+still intact and hence the text can be restarted. This can be useful
+if the computer is in midstream of a sentence and you want to stop
+for a second while you answer the door for example.
+
+Example:
+
+10 LPRINT "|SPON"
+20 LPRINT "\Once upon a time there was a beautiful princess"
+30 IF INKEY$="S" THEN GO SUB 60
+40 IF PEEK (60514)<200 THEN GO TO 30; REM *
+50 GO TO 20
+60 LPRINT "|SPOF": REM halt the speech.
+70 IF INKEY$<>"G" THEN GO TO 70
+80 LPRINT "|SPON": REM restart speech.
+90 RETURN
+
+* This value is the original load address (see page 2) plus 14 and it
+contains the number of free positions in the speech buffer (max 250).
+Also see section on machine code.
+
+
+[4]. Using Printing Mode Commands,
+
+LPRINT "|OUTM,1"
+
+This command allows access to the 'text to speech' convertor by
+use of LPRINT "\...." only. Hence listings and normal LPRINT
+output will not be spoken but sent to the printer if it is there. It
+is the default setting and hence is only any use for cancelling out
+LPRINT "|OUTM,2".
+
+LPRINT "|OUTM,2"
+
+                             - - -
+
+This command allows access to the 'text to speech' convertor from
+all LPRINT output except commands in the form LPRINT "|XXXX".
+Thus if you type LLIST the computer will actually say the listing.
+To stop the computer when it is listing press down the shift and
+space simultaneously until the computer responds with the cursor.
+
+Then type LPRINT "|FLUS" if you are fed up with the speech.
+
+Example:-
+
+To say a listing:
+
+LPRINT "|OUTM,2"
+LLIST
+
+Note that while in mode 2 the computer will wait for space in the
+speech buffer before it says anything (hence causing some delay
+before the computer responds to the BREAK key), mode 1 will lose
+any extra text that is sent after the speech buffer fills up. This can
+cause some unexpected effects so you are recommended to check
+that there is sufficient space in the buffer by sampling PEEK
+([Load address] + 14) and making sure it is greater than about 200.
+
+
+The LPRINT "|SPED,n" Commend.
+
+The LPRINT "|SPED,n" commend controls the speed at which
+the speech chip will talk. This is useful as slightly slower sounds on
+complicated words are easier to understand. Type in the following:
+
+10 LPRINT "|SPON": REM turn on speech interrupts.
+2O LPRINT "|SFED,0"
+30 LPRINT "\This is fast"
+40 FOR I=1 TO 1000: NEXT I
+50 LPRINT "|SPED,7"
+60 LPRINT "\This is slow"
+
+The number that you use in place of 'n' has to be in the range 0
+to 15. The LPRINT "|SPED,n" command also works with the
+speech generated from LPRINT "|FEED,n,n,n.." command.
+
+                             - - -
+
+Example:-
+
+10 LPRINT "|SPON": REM turn on speech interrupts
+20 LPRINT "|SPED,1"
+30 LPRINT "|FEED,26,16,55,17,39,21,0"
+40 FOR I=1 TO 1000: NEXT I
+50 LPRINT "|SPED,9"
+60 LPRINT "|FEED,42,23,16,9,49,31,17,52,0"
+
+
+OTHER SYNTAX NOTES. [experienced users only!]
+
+While all the examples so far have used each LPRINT for only one
+task it is possible to use one LPRINT statement to control all the
+functions: printer, speech commands and text to convert. Each
+part must start with its own control character and to reinitialise the
+printer after using speech use the ~ character which is typed by
+entering extended mode and pressing shift A.
+
+Example:-
+
+LPRINT "|SPON |FEED,41,4,41,4,41\come in please.~hello there printer"
+
+Note how the printer text is at the end of the statement so that the
+carriage return causes the printer to print its text. If the text is in
+the middle:
+
+LPRINT "|SPON~hello there printer:FEED,41,4,41,4,41\come in please."
+
+Then no carriage return is sent to the printer and it will retain the
+text until a carriage return is sent.
+
+
+USING SPEECH FROM MACHINE CODE.
+
+The speech chip can be used from machine code in two different
+ways. The quickest way is to send data direct to the speech chip
+very similar to the direct basic method (page 4). Date is calculated
+from the allophone tables and then sent to the speech chip one by
+one as the speech chip finishes the last allophone. The other method
+is to use the cassette software supplied. It is loaded to where you
+want it to lay in memory (see loading instructions page 2). Then all
+you need to do is call some of the routines which it contains,
+
+                             - - -
+
+TEXT TO SPEECH MACHINE CODE CALLS.
+
+ORIGIN         Initialisation routine.
+                    (this relocates the whole routine and sets up chip)
+
+ORIGIN + 2     Output allophone in accumulator to speech buffer.
+
+ORIGIN + 4     Output string of text pointed to by HL pair and terminated
+               by a zero byte. This text is converted into allophones and
+               spoken under interrupt control.
+
+ORIGIN + 6     Same as LPRINT "|SPON"
+
+ORIGIN + 8     Same as LPRINT "|SPOF"
+
+ORIGIN + 10    Same as LPRINT "|FLUS"
+
+ORIGIN + 12    Same as LPRINT "|SPED,n" where the speed is in the
+               accumulator.
+
+ORIGIN + 14    This location contains the number of free spaces in the
+               speech buffer.
+
+Where ORIGIN is the load address for the software.
+
+For example if your load address was 39000 then the LPRINT
+"|SPON" routine is located at location 39006.
+
+
+Example of Text to Speech in Machine Code.
+
+ORIGIN:   EQU Load address.
+          CALL ORIGIN + 6
+          LD HL,STRING
+          CALL ORIGIN + 4
+          RET
+STRING:   DEFB "david",0
+
+Note the last character must be zero.
+
+If there is a lot of text to be spoken then it is best to check how much
+room there is left in the speech buffer by loading the contents of
+ORIGIN +14:
+
+LD A,(ORIGIN + 14)
+
+                             - - -
+
+EXAMPLE OF CHANGING THE SPEED.
+
+LD A,10
+CALL ORIGIN + 12
+RET
+
+NOTE If you disable the interrupts (DI) then the speech chip will
+stop talking until they are enabled again (EI) and any allophone
+presently being spoken may continue sounding until the EI is
+issued. Hence it is advisable to output a zero directly to the speech
+chip.
+
+
+Basic Example:
+
+OUT 127,0
+
+
+Machine Code Examples:
+
+LD BC,127
+LD A,0
+OUT (C),0
+RET
+
+                             - - -
+
+ALLOPHONE TABLE
+
+Pauses                                Resonants
+
+0  PA1  (10 ms)  use before voiced    14  RR1 R                     read
+                stops & affricates    39  R2  R                    brain
+1  PA2  (30 ms)  use before voiced    49  YY1 U                 computer
+                stops & affricates    25  YY2 Y                      yes
+2  PA3  (50 ms)   before voiceless    45  LL  L                    lucky
+                    stops & voiced    46  WW  W                     wool
+                        fricatives
+                also between words    Voiced Fricatives
+3  PA4  (100 ms)   Between clauses
+                       & sentences    18  DH1 TH                    they
+4  PA5  (200 ms)   Between clauses    54  DH2 TH                   bathe
+                       & sentences    35  VV  V                     even
+                                      43  ZZ  Z                      zoo
+Short Vowels-These can be repeated    38  ZH  GE                   beige
+
+7   EH  E                     bend    Voiceless Fricatives
+12  IH  I                  fitting
+15  AX  U                  succeed    29  TH  TH                    thin
+23  AO  AU                   aught    40  FF  F                     fire
+24  AA  O                      cot    55  SS  S                      sat
+26  AE  A                      fat    (29,40,55 double for initial position)
+30  UH  OO                    cook    27  HH1 H                       he
+                                      57  HH2 H                      hoe
+long Vowels                           37  SH  SH                   shirt
+                                      48  WH  WH                    whip
+5   OY  OY                     toy
+6   AY  Y                      sky    Voiced Stops
+19  IY  E                      see
+20  EY  EA                   great    28  BB1  B                     rib
+22  UW1 O                       to    63  BB2  B                     big
+31  UW2 OO                    food    21  DD1  D                   could
+32  AW  OU                     out    33  DD2  D                      do
+53  OW  OW                    snow    36  GG1  GU                  guest
+62  EL  L                    angle    61  GG2  G                      go
+                                      34  GG3  IG                    wig
+R-Coloured Vowels
+                                      Voiceless Stops
+47  ZR  AI                    hair
+51  ER  ER                computer    17  TT1 T                      its
+52  ER2 IR                    bird    13  TT2 T                       to
+                   (monosyllables)    42  KK1 C                 computer
+58  OR  OR                   store    41  KK2 K                      sky
+59  AR  AR                    farm    9   PP  P                      pub
+60  YR  R                    clear
+                                      Nasal
+Affricates
+                                      16  MM  M                     milk
+10  JH  J                     jury    11  NN1 N                     earn
+50  CH  CH                  church    56  NN2 N                       no
+                                      44  NG  NG                    bans
+
+                             - - -
+
+DICTIONARY
+
+alarm                                                        15,45,59,16
+bathe                                                           63,20,54
+bathing                                                   63,20,54,12,44
+bread                                                     28,39,7,7,1,21
+calendar                                        42,26,26,49,7,11,2,33,51
+clown                                                        42,45,32,11
+checked                                                 50,7,7,3,41,2,13
+checkers                                               50,7,7,3,42,51,43
+checks                                                    50,7,7,3,42,55
+collide                                                     8,15,45,6,21
+cookie                                                        8,30,42,19
+correct                                              42,52,7,7,2,41,2,17
+correcting                                     42,52,7,7,2,41,2,13,12,44
+crown                                                        42,39,32,11
+daughter                                                     33,23,13,51
+divided                                          33,12,39,6,2,33,12,2,21
+engage                                               7,7,1,11,36,20,2,10
+engages                                        7,7,1,11,36,20,2,10,12,43
+enrage                                                   7,11,14,20,2,10
+enrages                                            7,11,14,20,2,10,12,43
+escape                                                7,55,55,3,42,7,3,9
+escapes                                            7,55,55,3,42,7,3,9,55
+equal                                                  19,2,3,8,48,15,62
+error                                                            7,47,58
+fir                                                                40,52
+freezer                                                40,40,14,19,43,51
+freezing                                            40,40,14,19,43,12,44
+gauge                                                         36,20,2,10
+gauges                                                  36,20,2,10,12,43
+hello                                                      27,7,45,15,53
+hour                                                               22,51
+intrigue                                           12,11,3,13,39,19,1,34
+intrigues                                       12,11,3,13,39,19,1,34,43
+investigates                   12,12,11,35,7,7,55,2,3,13,12,1,36,20,2,13
+investigater                12,12,11,35,7,7,55,2,3,13,12,1,36,20,2,13,51
+investigates              12,12,11,35,7,7,7,55,2,3,13,12,1,36,20,2,17,55
+key                                                                42,19
+legislating                      45,7,7,2,10,10,55,55,45,20,2,3,13,12,44
+legislated                       45,7,7,2,10,10,55,55,45,20,2,3,13,12,21
+letter                                                    45,7,7,3,13,51
+little                                                  45,12,12,3,13,52
+memories                                                 16,7,7,52,19,43
+
+                             - - -
+
+month                                                           16,11,12
+nipped                                               11,12,12,2,3,9,3,17
+nips                                                   11,12,12,2,3,9,55
+pin                                                           9,12,12,11
+pinning                                                    9,12,12,11,44
+pledge                                                     9,45,7,7,3,10
+pledges                                              9,45,7,7,3,10,12,49
+plus                                                    9,45,15,15,55,55
+rays                                                          14,7,20,43
+red                                                          14,7,7,1,21
+robots                                             14,53,2,63,24,3,17,55
+second                                           55,55,7,3,42,12,11,2,21
+sincere                                          55,55,12,12,11,56,55,60
+sincerity                       55,55,12,12,11,55,55,7,7,14,12,2,3,13,19
+speak                                                    55,55,3,19,3,41
+spelled                                            55,55,3,9.7,7,62,3,21
+spellers                                          55,55,3,9,7,7,62,52,43
+spells                                               55,55,3,9,7,7,62,43
+started                                       55,55,3,12,59,3,13,12,1,21
+starting                                        55,55,3,13,59,3,13,12,44
+stop                                                55,55,3,17,24,24,3,9
+stopper                                          55,55,3,17,24,24,3,9,51
+stops                                            55,55,3,17,24,24,3,9,55
+subject                                 55,55,15,2,28,2,10,7,7,3,41,3,13
+sweated                                        55,55,46,7,7,3,13,12,3,21
+sweaters                                            55,55,46,7,7,3,13,61
+sweats                                              55,55,46,7,7,3,13,55
+switched                                         55,5,48,12,12,3,50,3,13
+switching                                      55,55,48,12,12,3,50,12,44
+Systems                                      55,55,12,12,55,3,13,7,16,43
+talked                                                13,23,23,3,41,3,13
+talkers                                              13,23,23,3,42,51,43
+talks                                                     13,23,23,41,55
+threaded                                          29,14,7,7,2,21,12,2,21
+threaders                                           29,14,7,7,2,33,51,43
+threads                                                29,14,7,7,2,33,43
+time                                                          13,24,6,16
+uncle                                                       15,44,3,8,62
+whaler                                                       46,20,45,51
+whales                                                       46,20,62,43
+year                                                               25,60

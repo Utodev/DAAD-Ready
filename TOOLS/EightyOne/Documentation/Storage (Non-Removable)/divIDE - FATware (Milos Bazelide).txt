@@ -1,0 +1,86 @@
+
+INSTALLATION
+------------
+
+There are two basic ways to install FATware:
+
+1) Load "FATware-?-?.tap" to your Spectrum and follow instructions on screen.
+
+   Either use PC with emulator to generate audio signal for your Spectrum's
+   tape input or use previous version of FATware (if present) to load setup
+   program directly from disk.
+
+2) If you own EEPROM programmer, flash your EEPROM with "FATware-?-?.raw".
+
+   NOTE: Optimisations of divIDE board footprint led to some address line
+   swaps. Therefore, actual EEPROM content must be "swizzled" in order to
+   appear linear in Z80 address space. It is important to understand the
+   difference between "FATware-?-?.bin" and "FATware-?-?.raw". BIN is the
+   ordinary linear memory image while RAW is the swizzled version to be
+   used for flashing.
+
+
+CONTROLS
+--------
+
+NMI - enter disk browser
+
+UP/DOWN - move cursor
+ENTER - select item
+BREAK - cancel/exit window
+R + NMI - reset
+
+Browser-specific controls:
+
+EDIT - change volume
+SS + ENTER - select TAP and reset (in browser)
+SS + R - reset (in browser)
+
+
+VERSION HISTORY
+---------------
+
+FATware 0.12
+------------
+
+- bugfix release
+
+FATware 0.11
+------------
+
+- added Z80 snapshot support
+- added new controls:
+
+SS + R - soft reset
+SS + ENTER - select TAP and RESET (if pressed in browser)
+
+- couple of minor fixes and improvements
+
+FATware 0.10
+------------
+
+FATware is a firmware for divIDE (http://baze.au.com/divide) that natively
+supports widely used FAT-16 filesystem. In its current state it is read-only
+but adding write support is one of my top priroties in further development.
+
+Key features:
+
+- supports long file names
+- supports up to 8 FAT partitions
+- supports WinNT 4GB FAT partitions (might need some testing)
+- emulates standard tape routines so its possible to instantly load .TAP files
+- loads 48k/128k .SNA snapshots (.Z80 support is planned)
+- includes .SCR and dithvIDE/GigaScreen viewer (on machines with two videorams)
+
+
+CONTACT
+-------
+
+Please contact me at baze@stonline.sk with any bug reports. If possible, send
+a short description of how to reproduce bug and attach files that cause errors.
+I might be already aware of some bugs but your help is appreciated.
+
+I will also accept feature suggestions but please be patient as there are more
+important core features waiting to be implemented. Enjoy.
+
+Milos Bazelides (baze/3SC)

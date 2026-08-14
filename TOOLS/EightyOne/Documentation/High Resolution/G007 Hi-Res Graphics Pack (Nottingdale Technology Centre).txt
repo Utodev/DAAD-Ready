@@ -1,0 +1,733 @@
+======================================
+G007 Hi-Res Graphics Pack for the ZX81
+Nottingdale Technology Centre Ltd
+Circuit Design: Gary Keall
+======================================
+
+CONTENTS
+
+    Conditions Of Use
+
+1   Introduction
+1.1 The High Resolution Display
+1.2 Setting Up
+1.3 Getting Started
+
+2   The BASIC Statements
+2.1 Setting High or Low Resolution Mode
+2.2 Clearing the Display
+2.3 Copying the Display File to the Printer
+2.4 Point Plotting, Line Drawing and Triangle Filling
+    The Old PLOT and UNPLOT functions
+    Co-ordinates
+    Plotting Points
+    Drawing Lines
+    Filling Triangles
+2.5 Advanced Plot Facilities
+    Moving the Graphics Origin
+    Filling In Shapes And Drawing Radial Lines
+    Triangle Texturing
+    Further Line Types
+    Read Point Function
+    Printing on the High Resolution Screen
+    User Defined Characters
+2.6 Miscellaneous
+    Saving High Resolution Pictures
+    Deleting The High Res Display File
+    Correcting Television Picture Distortion
+
+A   Summary of BASIC Statements
+
+B   G007 Memory
+    The Display File
+    G007 System Variables
+    Functions
+    Routines
+
+C   Example Programs
+    Example 1.
+    Example 2.
+    Example 3.
+    Example 4.
+    Example 5.
+
+-------------------------------------------------------------------------------
+
+CONDITIONS OF USE
+
+The G007 requires the following:
+
+1. An external RAM pack, of 8K or more.
+
+2. The 1K or 2K internal RAM must be present.
+
+3. Any additional hardware used with the module must reside between the G007 module and the RAM pack.
+   The exception is the ZX81 printer, which fits between the G007 and the ZX81.
+
+4. The memory between 2000H and 3000H may only be used by the G007.
+   This does not stop 64K RAM packs being used, but the G007 will disable this area of memory in the RAM pack. Due to the many
+   Add-ons available, we cannot guarantee the G007 to work with any add-on other than the Sinclair RAM pack and printer.
+   However, most of the alternative RAM packs, including 64K ones, should be fine.
+
+-------------------------------------------------------------------------------
+
+1. INTRODUCTION
+
+Welcome to the world of high-resolution graphics! The G007 provides a 256x192 pixel display mode and graphics command
+extensions to the BASIC interpreter.
+
+Over 100 different operations may now be performed with the modified statements:
+
+    PLOT n,x,y , CLS n, COPY n, SLOW n, FAST n
+
+These are all multipurpose statements, now, with the different functions being selected by the new parameter 'n'. The really
+versatile statement is PLOT n,x,y which can now do such things as line drawing and textured area filling. The G007 also
+provides powerful facilities for printing on the high-res screen, using the PRINT statement.
+
+User defined characters can be used, allowing space invaders, lower-case etc., and text may be placed at any high-res screen
+position.
+
+This manual contains a brief introductory section, describing the main features of the high-res display mode, and gives a few
+notes to get you started with the G007 commands. Most of the rest of the manual forms a reference guide to the facilities
+offered by the G007 module. The appendices at the end of the manual summarise the BASIC statements, and describe how the
+memory used by the G007 is organised.
+
+Finally, a few sample programs are included, to demonstrate the capabilities of the G007 High-res graphics.
+
+
+1.1. THE HIGH RESOLUTION DISPLAY
+
+The new high-resolution display mode of the G007 graphics module is in addition to the existing low-res mode. The ZX81 may
+switch freely between them without losing the contents of either. The high-res display requires 6.4K of RAM, and is
+automatically set-up by the first hi-res command after applying power.
+
+In hi-res mode, the screen has two parts, just as in lo-res. The top part is the actual hi-res display, and is always the full
+256x192 pixels. The lower part is quite different, just a single text line which is actually the bottom of the lo-res screen.
+This line is displayed only while a program is not running, and is used to show reports, input data or commands entered at the
+keyboard.
+
+
+1.2. SETTING UP
+
+While not powered, plug the G007 between the ZX81 and its external RAM pack. The latter is essential. The ZX printer may be
+used, and plugged between the ZX81 and the G007.
+
+After applying power, all G007 commands can be used immediately, since all hi-res details are set-up automatically. If there
+is not enough memory, error 4 results.
+
+Existing programs which do not use PLOT will LOAD and RUN without modification.
+
+
+1.3. GETTING STARTED
+
+Read the following to avoid confusion. All G007 commands can be used in programs or as commands, but the rest of this section
+assumes command mode.
+
+To enter hi-res mode, simply enter SLOW 2 and note the ZX81 will now accept a number after SLOW. The report: 0/G007 shows the
+display has been set up. The following command sequence should give you an idea of what is now possible:
+
+CLS 1
+CLS 2
+PLOT 2, 150, 60
+PLOT 2, 30, 180
+PLOT 74, 60, 60
+PLOT 42, 0, 0
+CLS 3
+
+N.B. If the top of the screen bends to the right, you may correct this with POKE 8833,0.
+
+You may have gathered that PLOT 2 draws lines, while PLOT 42 and PLOT 74 fill triangles. These commands, and many variations,
+are explained in the rest of the manual.
+
+The high-res screen is not cleared between commands. It is not even cleared by RUN, so a CLS 1 or CLS 2 statement is usually
+needed at the start of every hi-res program. Programs cannot be listed on the hi-res screen, so they should be entered in
+lo-res mode. Entering programs in hi-res mode may have some odd but harmless effects.
+
+SLOW returns to lo-res mode.
+
+LIST will end with G007, which is actually the "number" of a program line containing the hi-res display file. This is ignored
+by the BASIC interpreter. This line cannot be listed, deleted or edited.
+
+You may wish to try some of the example programs in the appendix.
+
+-------------------------------------------------------------------------------
+
+2. THE BASIC STATEMENTS
+
+Most of these work by adding an optional extra parameter n to the existing BASIC graphic commands. Parameters can be any
+numeric expression, but they will be rounded to the nearest integer. All of these commands (except PLOT) will work in the
+original way if n is omitted.
+
+PRINT only prints to the hi-res display if hi-res mode is set. Other commands imply which display file is used, and hence it
+does not matter which mode is set.
+
+
+2.1. SETTING HIGH OR LOW RESOLUTION MODE
+
+These two statement always set the relevant SLOW or FAST mode, and select the display mode. With n=0, or n omitted,
+low-resolution mode is selected. With n=1 to 6, high-res mode is selected, and n also determines the mode of operation for the
+PRINT statement.
+
+The most commonly used hi-res mode is SLOW 2 (or FAST 2), in which PRINT will operate in the normal manner, albeit on the
+high-res screen. The other more advanced PRINT modes are explained later.
+
+
+2.2. CLEARING THE DISPLAY
+
+This is the only statement that can clear the high-res display, and should always be done at the start of a program. CLS N
+will also set the graphics origin to the bottom left of the screen.
+
+CLS 0 clears the low res display
+CLS 1 clears the high res display to black
+CLS 2 clears the high res display to white
+CLS 3 inverts the high res display
+
+CLS 1 and CLS 2 also reset the PLOT position to 0,0 at the bottom left corner of the screen (see section 4 for an explanation
+      of these terms).
+
+
+2.3. COPYING THE DISPLAY FILE TO THE PRINTER
+
+COPY copies the lo-res display to the ZX printer
+COPY 0 copies the lo-res display to the ZX printer
+COPY 1 copies the hi-res display to the ZX printer
+
+If the printer is not fitted, this command is ignored.
+
+
+2.4. POINT PLOTTING, LINE DRAWING AND TRIANGLE FILLING
+
+PLOT n,x,y is the real work-horse of the G007, and behaves quite differently to the old PLOT. The parameter n can range from
+-1 to 130, giving 115 separate functions for the statement. The large number of options arises from having several modes for
+plotting individual pixels in lines, prints and triangles, and form the alternative means of specifying co-ordinates. The
+statement also incorporates such advanced features as different line types for drawing lines and for textured triangle
+filling.
+
+
+The Old PLOT and UNPLOT Functions
+
+The original functions of PLOT and UNPLOT have been retained, but only for use on the low-res display. PLOT x,y has been
+replaced by PLOT -1,x,y and UNPLOT x,y has been replaced by PLOT 0,x,y. The UNPLOT statement now does exactly the same as
+PLOT.
+
+
+Co-ordinates
+
+The co-ordinates x and y in the PLOT statement specify a position on the screen called the 'PLOT position'. More than one PLOT
+position is needed to draw a line or triangle, so the ZX81 remembers the PLOT positions from the previous two PLOT statements.
+
+The PLOT statement can use either absolute or relative co-ordinates.
+
+Absolute co-ordinates are x pixels to the right and y pixels up from the current graphics origin. Relative co-ordinates are
+x pixels to the right and y pixels up from the previous PLOT position. The hi-res screen is 256 pixels wide by 192 pixels
+high, and the graphics origin is normally located at the bottom left of the screen. Hence x has a range from 0 to 255, and
+y ranges from 0 to 191. The PLOT position may lie off the screen (except when filling triangles) and the co-ordinates in the
+PLOT statement may take any value, even negative ones. Note that it is very easy to run off the screen using relative
+co-ordinates.
+
+
+Plotting Points
+
+Individual pixels may be plotted in 3 basic modes: white, black, or inverted (also known as exclusive-or). These modes are
+also available in line drawing and triangle filling. PLOT may also be used to simply move the PLOT position without affecting
+any pixels. The effect of PLOT n,x,y for the following values of n are as follows:
+
+9      Plot a pixel in white, absolute co-ordinates
+10     Plot a pixel in black, absolute co-ordinates
+11     Invert a pixel, absolute co-ordinates
+12     Move to absolute co-ordinates
+13-16  As for 9-12, but using relative co-ordinates
+
+
+Drawing Lines
+
+Lines may be drawn in white, black or invert modes. The line is drawn from the previous plot position to the current plot
+position. The line is drawn even if one of the ends lies off the screen.
+
+Using invert mode, the line may be drawn missing the last point, so that successive lines may chain together properly. Three
+other types of line are available, giving dotted and dashed lines. These are useful for identifying different lines when
+drawing graphs.
+
+1       Draw a line in white, absolute co-ordinates
+2       Draw a line in black, absolute co-ordinates
+3       Invert a line, absolute co-ordinates
+4       As 3, but omit last point
+5-8     As 1-4, but use relative co-ordinates
+33-40   As 1 to 8, but with coarse dotted line
+65-72   As 1 to 8, but with fine dotted line
+97-104  As 1 to 8, but with chain dotted line
+
+Note that broken line types are obtained by adding 32, 64 or 96 to the values of n for solid line types.
+
+
+Filling Triangles
+
+Triangle filling statements are similar to line drawing ones. The vertices of the triangle consist of the current and the
+previous two PLOT positions. Triangles are filled only if they lie completely in the screen area. This is to achieve a
+reasonable speed by using 8-bit arithmetic (instead of the usual 16-bits). If any vertices lie off-screen, an error B results.
+
+Using invert mode, triangles may omit the last edge (between the current and previous PLOT positions) so that adjacent
+triangle can join up properly. There is also a textured triangle fill which makes shading, cross-hatching, etc, possible. The
+texture is user-definable, making this a very powerful facility.
+
+41     Fill triangle in white, absolute co-ordinates
+42     Fill triangle in black, absolute co-ordinates
+43     Fill triangle inverted, absolute co-ordinates
+44     As 43, but omit last edge
+45-48  As 41 to 44, but with relative co-ordinates
+73-80  As 41 to 48, but fill with texture (not available in invert mode)
+
+The default texture is a chequer-board pattern, giving a grey effect. The texture can be re-defined by poking the bytes at
+8970 and 8971. The effect of these bytes is described in the following section on advanced PLOT facilities, but poking 8970
+with 1 or 17 gives a coarse or fine diagonal shading.
+
+
+2.5 ADVANCED PLOT FACILITIES
+
+Moving the Graphics Origin
+
+As mentioned earlier, the graphics origin is normally located at the bottom left corner of the screen. It can be repositioned
+by the statement PLOT 130, x, y. The co-ordinates x and y give the new position of the graphics origin relative to the bottom
+left corner of the screen.
+
+
+Filling In Shapes And Drawing Radial Lines
+
+The PLOT statement has a special facility to make it easy to fill circles and other shapes using triangles. This allows pie
+charts, etc, to be easily produced, and can also be used for drawing radial lines.
+
+Normally, the current PLOT position of a statement will be move to the 'previous' PLOT position when it has completed. At the
+same time, the 'previous' plot position is moved to the 'twice previous' PLOT position. In effect, the PLOT position is moved
+into a queue and discarded after two more PLOT statements.
+
+If 16 is added to the parameter n, the queue-shifting sequence is different. On completion of the current PLOT statement, it
+is saved as the 'twice previous' position, instead of the 'previous' position. This has the effect that the 'second' vertex of
+successive triangles will remain at the same point, or the starting point of successive lines will be fixed. This makes it
+simple to fill in shapes, such as circles, with triangles. The PLOT position is moved to a point within the shape (using
+PLOT 12,x,y) and then triangles are plotted by moving around the periphery of the shape (using PLOT 58,x,y for instance).
+Example program 1 demonstrates this facility, along with other forms of the PLOT statement.
+
+
+Triangle Texturing
+
+Triangle textures are defined by bytes 8970 and 8971. These are rotated by 1 and 3 bits to the right, respectively, for each
+new row of the triangle. They are then ORed together, and the resulting pattern is used to fill that row of the triangle.
+
+More complex patterns can be obtained by POKEing these bytes. You can experiment to find effects.
+
+8970  8971  Pattern
+85    0     'Grey'
+0     17    Left diagonal shading
+17    0     Right diagonal shading
+1     0     Right diagonal shading, coarse
+17    17    Cross hatching
+0     1     Fine dots
+
+
+Further Line Types
+
+The four standard line types are determined by the bytes 9012 to 9015 respectively. These can be redefined by POKEing, the
+line pattern being the inverse of the bit pattern.
+
+
+Read Point Function
+
+Any pixel may be read by moving the PLOT position to that pixel (using PLOT12,x,y) and then PEEKing 8983. If the number is
+zero, then the pixel is white, else a single bit of this byte will be set indicating the pixel is black.
+
+
+Printing on the High Resolution Screen
+
+The high resolution screen allows great scope for printing character. They may be placed anywhere on the screen, no longer
+limited to the normal 32x24 character grid. Also, new character shapes can be defined, and there is no limit to the number of
+characters that may be used in the same display. You can even superimpose graphics and characters.
+
+The G007 provides six different PRINT modes when using the high-res screen. The PRINT mode set is given by the parameter n
+that was used in the statement SLOW n or FAST n that set the high res mode.
+
+In all PRINT modes, text can be printed right down to the bottom of the high-res screen.
+
+Note that the PRINT statement will only print string results. If you need to print a numeric result, you must first convert it
+to a string by preceding it with STR$.
+
+The SCROLL statement is completely inoperative in high-res mode.
+
+PRINT modes 1 and 2 work just as in low res mode, except that in mode 1 the character pixels are reversed (white foreground,
+black background).
+
+PRINT modes 3 to 6 print at the position of the last PLOT statement. The PLOT position is moved after each character is
+printed. The first character will be printed with its top left corner at the PLOT position. If the PRINT statement ends in a
+semicolon, the PLOT position will be moved one pixel to the right of the top right corner of the last character printed, else
+it will go to the pixel below the bottom left corner of the first character printed. This ensures character printing places
+text in a similar manner as the low-res screen.
+
+To use these modes, the PRINT statement is usually preceded by a statement to set the PLOT position (e.g. PLOT 12,x,y or
+PLOT 16,x,y). The PRINT AT and TAB work only in low-res, not high res mode.
+
+Mode  Effect
+3     Character foreground printed in white
+4     Character foreground printed in black
+5     Character background inverted
+6     Character foreground inverted
+
+Note that characters may be superimposed, as only the foreground (or background in mode 5) is printed.
+
+
+User Defined Characters
+
+Because the high-res PRINT modes allow characters to be printed in normal and inverse video, the old ZX81 inverse video
+characters (CHR$ 128 to 191) are redundant and thus free for redefinition.
+
+The G007 allows the 32 characters from CHR$ 160 to 191 to be readily redefined, and reserves memory for this purpose. You can
+actually redefine all 128 characters, but you must allocate memory to do this - see Appendix B.
+
+The character table containing the definitions of the 32 new characters is stored in 256 bytes of RAM starting at address
+8448. This area is fully protected from NEW, etc. Each character definiton consists of eight bytes, corresponding to eight
+rows of pixels in the character. The eight pixels in each row of the character correspond to the 8 bits (binary digits) in
+each byte, with the most significant bit at the left.
+
+To redefine a character, you need to work out the eight bytes. This is best done by drawing the character first. The numbers
+should then be poked into eight consecutive memory location in the appropriate place in the character table. For character
+number K, the first location is at 8448+8*(160-K), where K is between 160 and 191 inclusive. Locations outside 8448 to 8703
+must not be POKEd, or the computer may crash.
+
+Example program 2 shows in detail the steps involved in defining a new character.
+
+The redefined characters can only be printed in high-res mode of course. In low-res mode, the original character will be
+obtained. It is usually best to print the new characters using CHR$ K, to avoid confusion.
+
+The inverse characters 'A' to 'Z' could be redefined as lower case. If so, then if the inverse video characters are used in
+PRINT statements when the program is typed in, these will appear in lower case when they are printed to the high-res screen.
+
+If a user definable character is printed before it has been defined, a 'garbage' character will appear.
+
+
+2.6. MISCELLANEOUS
+
+Saving High Resolution Pictures
+
+The high-res display file is normally deleted automatically by the SAVE command, so that excesive time is not spent saving the
+6K of display data. The high-res display (and program) can be saved by directly calling the saving routine, with RAND USR 764.
+FAST mode must be set to do this. The program will be saved without a name, so will have to be loaded using an empty string as
+a name, i.e. with LOAD "". Before loading the program, make sure a high-res display file is already set up (e.g. by typing
+CLS 2), otherwise the newly loaded display will be deleted by the first high-res statement.
+
+
+Deleting The High Res Display File
+
+This can be done by USR 11737, at any time. This could be done to aquire extra memory for example.
+
+
+Correcting Television Picture Distortion
+
+If you find the top of the TV picture bends slightly to the right, you may be able to correct this with POKE 8833,0.
+
+-------------------------------------------------------------------------------
+
+A. SUMMARY OF BASIC STATEMENTS
+
+SLOW n and FAST n
+-----------------
+
+SLOW or SLOW 0    Sets lo-res mode
+SLOW 1 to 6       Sets hi-res mode, and additionally sets the high-res print mode as follows:
+SLOW 1            Print as normal, but with inverse video characters
+SLOW 2            Print as normal
+SLOW 3            Print at PLOT position, with text foreground in white
+SLOW 4            Print at PLOT position, with text foreground in black
+SLOW 5            Print at PLOT position, with text background inverted
+SLOW 6            Print at PLOT position, with text foreground inverted
+
+
+CLS n
+-----
+
+CLS OR CLS 0      Clears the lo-res display
+CLS 1             Clears the high res display to black
+CLS 2             Clears the high res display to white
+CLS 3             Inverts the high res display
+
+CLS 1 and CLS 2 also reset the PLOT position to 0,0 at the bottom left corner of the screen (see section 4 for an explanation
+of these terms)
+
+
+COPY n
+------
+
+COPY              Copies the lo-res display to the ZX printer.
+COPY 0            Copies the lo-res display to the ZX printer.
+COPY 1            Copies the hi-res display to the ZX printer.
+
+
+PLOT n,x,y
+----------
+
+Has the following effects for the differen values of n:
+
+-1      Same effect as the original PLOT X, Y
+0       Same effect as the original UNPLOT X, Y
+130     Repositions the graphics origin
+1       Draw a line to absolute co-ordinates, in white
+2       Draw a line to absolute co-ordinates, in black
+3       Draw a line to absolute co-ordinates, inverting
+4       As 3, but omit last point
+5-8     As 1 to 4, but use relative co-ordinates
+33-40   As 1 to 8, but with coarse dotted line
+65-72   As 1 to 8, but with fine dotted line
+97-104  As 1 to 8, but with chain dotted line
+9-16    As 1 to 8, but plot a single pixel
+        Note that PLOT 12 and PLOT 16 miss out the pixel, so simply move the PLOT position
+41-48   As 1 to 8, but draw and fill triangle between current and previous two PLOT positions
+73-80   As 41 to 48, but fill with texture (not avilable in invert mode)
+
+-------------------------------------------------------------------------------
+
+B. G007 MEMORY
+
+The information here may be useful to machine code programmers. The layout of the high-res display file and the variables used
+by the high-res graphics routines are described.
+
+The entry points of some of the most useful routines are given, together with the addresses of areas of RAM that are available
+for storing machine code.
+
+The G007 modifies the ZX81 memory map in several ways. Firstly, the decoding disables all the 'aliases' of the 8K BASIC ROM,
+so that it only appears once, in the bottom 8K. The 2K G007 ROM appears at 10K to 12K. The ZX81's on-board RAM is re-mapped to
+the 2K block at 8K to 10K. It appears twice if it is a 1K device, and the G007 only accesses the lower 1K. If it is a 2K
+device, you are free to use the upper 1K for your own purposes. The G007 uses the lower 1K for graphics variables, including
+the table of user definable characters.
+
+
+The Display File
+
+This is stored in a BASIC program line at the end of the program area. It is set up when needed, and moves around in memory as
+BASIC lines are added or deleted. The ZX81 ignores this line, because the line number is immediately followed by two "NEWLINE"
+characters.
+
+The display file is laid out straightforwardly. Each row of pixels is mapped onto 34 consecutive bytes in the display file. In
+each byte, the most significant pixel is the leftmost pixel. Note the display is actually 272 pixels across, but the last two
+bytes (16 pixels) are normally kept blank. This keeps the display central, and the graphics routines simple. Rows follow
+straight on from one another, from top to bottom of the display. There are no "NEWLINE" characters at the end of each row.
+
+
+RAM: 0x2000 to 0x23FF
+
+The bytes from 8960 to 9017 are used by the G007 software.
+Note these variables are initialised after the first hi-res statement, after power-up.
+Note that the G007 uses some bytes in the ZX81 16K RAM pack.
+Do not poke those marked with an asterisk.
+
+Dec.  Hex.  Bytes  System Variables: G007
+8960  2300  2      Offset of hi-res display file, less 9, from the D-FILE variable
+8962  2302  2      Not used
+8964  2304  2      Start address of last line of lo-res display file
+8966  2306  2      Start address of hi-res display file, less 9 (used for video)
+8968  2308  2      Start address of hi-res display file
+8970  230A  2      Bytes defining triangle texture
+8972  230C  2      Character table address for CHR$ 0-63
+8974  230E  2      Character table address for CHR$ 128-159
+8976  2310  2      Vector for additional plot routines
+8978  2312  3 *    Various flags
+8981  2315  2      Address of user-defined character table, less 256
+8983  2317  1      "Read-point" byte. Non-zero if pixel is set
+8984  2318  1 *    Display height, normally 192
+8985  2319  1      Flags
+9886  231A  7      Temporary variables for PLOT routine.
+8993  2321  1      Plot out of range flag. Bit 7 = latest statement
+8994  2322  1      Not used
+8995  2323  2      X co-ordinate for PLOT. Signed 16-bit
+8997  2325  2      X co-ordinate for PLOT. Signed 16-bit
+8999  2327  8      X and Y co-ordinates for previous two statements
+9007  232F  1      Flags
+9008  2330  2      Y co-ordinate of graphics origin
+9010  2330  4      X co-ordinate of graphics origin
+9012  2334  4      Bytes defining four line types
+9016  2338  2      Temporary variable for PLOT
+
+
+RAM Available To The User
+
+The memory between 8448 and 8703 is reserved for user defined characters, but can alternatively be used for storing machine
+code etc. This memory is completely safe from the effects of NEW and all of the G007 routines.
+
+There are also 100 bytes of RAM free from 9018 to 9117. This is also safe from NEW, but will be cleared upon initialisation of
+the system variable. Memory addresses outside the above ranges must not be POKEd, as this may cause the computer to crash.
+
+
+ROM: 0x2800 to 0x2FFF
+
+Dec.   Hex.  System Calls: G007
+10566  2946  Plot N routine, with N in register A
+11737  2DD9  Delete high-res display file.
+             Temporarily sets fast mode, so CALL 519 afterwards.
+11807  2E1F  Check and set up hi-res display file if not already there.
+             Also checks that system variables have been initialised.
+11858  2E1F  Clear the screen
+             This is equivalent to CLS n in BASIC.
+             The routine should be called with the value of n in the accumulator.
+
+
+Setting The High/Low Resolution Mode
+
+There is no easily accessible routine for setting display mode. This can be done by loading the Z80 register I with 30 (1EH)
+for low-res display, or 31 (1FH) for hi-res display.
+
+-------------------------------------------------------------------------------
+
+C. EXAMPLE PROGRAMS
+
+Example 1. Drawing Circles
+
+This demonstrates several forms of plotting.
+
+  10 REM CIRCLES
+  20 LET D=0.099
+  30 LET X=90
+  40 LET Y=0
+  50 CLS 2               set hi-res
+  60 SLOW 4
+  70 PLOT 130,127,95     move origin to centre
+  80 PLOT 12,X,Y         initialise plot positions
+  90 PLOT 12,X,Y
+ 100 FOR I=0 TO 63
+ 110 LET X=X+D*Y         calculate next x, y
+ 120 LET Y=Y-D*X
+ 130 PLOT 10,X,Y+X*D/2   plots the point
+ 140 NEXT I
+
+This plots a circle of black pixels. Changing the plot number from 10 will draw and fill the circle. Before altering the
+program, return to low-res mode using the command SLOW.
+
+Try changing the plot number from 10 to 2. This will draw the circle as a series of straight lines. Now change line 30 to
+LET X = 130 and notice how the lines are quite happily drawn to points off screen.
+
+Change line 30 back to LET X=90 then try the following plot numbers in line 130: 34, 66, 98 and 18. With other plot numbers in
+line 130, the program will fill the circle.
+
+Try each of the following plot numbers: 58, 59 and 60. Note how the triangles are drawn with a common vertex. PLOT 59 and
+PLOT 60 both fill in inverting mode, but with PLOT 60 the last pixel in the triangle is missed out so that triangles join up
+but do not overlap.
+
+If the PLOT number in line 130 is change to 90, the circle is filled with a texture.  Initially "grey", you can POKE 8970,17
+to get diagonal shading. You can experiment with effects by POKEs to 8970 and 8971.
+
+Finally, change the plot number to 12, and insert the following line:
+125 PRINT CHR$(I)
+
+This prints the character set round the circle. Note characters can be printed anywhere on the screen.
+
+
+Example 2
+
+The following example shows how user defined characters can be generated. The first step is to draw the character on an 8x8
+pixel grid, like so for this stick man:
+
+128 64 32 16  8  4  2  1     Byte
+  0  0  0  1  1  1  0  0  =  28
+  0  0  0  1  1  1  0  0  =  28
+  0  0  0  0  1  0  0  0  =  8
+  0  1  1  1  1  1  1  1  =  127
+  0  0  0  0  1  0  0  0  =  8
+  0  0  0  1  0  1  0  0  =  20
+  0  0  1  0  0  0  1  0  =  34
+  0  1  0  0  0  0  0  1  =  65
+
+This program will POKE the 8 bytes defining the character into the correct locations. Simply RUN the program and enter the 8
+bytes worked out above. The character will then be printed.
+
+  10 SLOW
+  20 LET C=170
+  30 FOR I=0 TO 7
+  40 PRINT AT 0,0;"GIVE ROW";I+1
+  50 INPUT K
+  60 POKE(8448+8*(C-160)+I),K
+  70 NEXT I
+  80 CLS 2
+  90 SLOW 2
+ 100 FOR I=1 TO 255
+ 110 PRINT CHR$ C;" ";
+ 120 NEXT I
+
+
+Example 3. Moire Pattern
+
+This program generates a Moire pattern by using the invert mode for drawing lines. The pattern arises due to the steps in the
+drawn lines.
+
+  10 REM MOIRE PATTERN
+  20 CLS 2
+  30 SLOW 2
+  40 FOR I=0 TO 255
+  50 PLOT 12,I,0
+  60 PLOT 3,255-I,191
+  70 NEXT I
+  80 FOR I=0 TO 191
+  90 PLOT 12,0,I
+ 100 PLOT 3,255,191-I
+ 110 NEXT I
+
+Type CLS 3 to reverse the video of this pattern.
+
+
+Example 4
+
+Examples 4 and 5 show the sort of 3-dimensional effects you can get with high-res graphics.
+
+  10 CLS 2
+  20 SLOW 2
+  30 PLOT 130,127,10
+  40 FOR P=0 TO 12
+  50 LET X1=P*10
+  60 LET Y1=P*7
+  70 FOR Q=0 TO 12
+  80 LET Z=-20*SIN (P/2)*SIN (Q/2)
+  90 LET X2=(P-Q)*10
+ 100 LET Y2=Z+(P+Q)*7
+ 110 PLOT 12,-X1,Y1
+ 120 PLOT 12,-X2,Y2
+ 130 PLOT 12, X1,Y1
+ 140 PLOT 2, X2,Y2
+ 150 LET X1=X2
+ 160 LET Y1=Y2
+ 170 NEXT Q
+ 180 NEXT P
+
+
+Example 5
+
+This program takes about 4 minutes to run, but the result is quite spectacular.
+
+  10 CLS 1
+  20 FAST 2
+  30 PLOT 130,127,100
+  40 FOR X=1 TO 120 STEP 2
+  50 LET U=X*X
+  60 LET L=INT (0.5 + SQR(14400-U)/4)
+  70 LET M=-100
+  80 FOR Y=-L TO L
+  90 LET R=(U+Y*Y*16)/1000
+ 100 LET Z=2.5*Y-150/R*SIN R
+ 110 IF Z<M THEN GOTO 150
+ 120 LET M=Z
+ 130 PLOT 9,X,Z
+ 140 PLOT 9,-X,Z
+ 150 NEXT Y
+ 160 NEXT X
+
+
+===============================================================================
+
+
+TECHNICAL NOTES
+
+Display file resolution: 256 x 192 (technically 272 x 192)
+Display file structure : 34 bytes x 192 (last two bytes left at $00 for white)
+Display file size      : 6528 bytes
+Display file location  : ($2306)
+
+Bit 0 of the I register selects the display mode (1 = Hi-res display mode).
+
+The 2K ROM appears at $2800-$2FFF, with $2C00-$2CFF overlaying the ROM at
+$0C00-$0CFF.
+
+The internal 1K RAM appears at $2000-$23FF, with $2000-$20FF overlaying
+the ROM at $0000-$00FF and $2200-$22FF overlaying the ROM at $0200-$02FF.

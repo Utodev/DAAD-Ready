@@ -1,0 +1,120 @@
+===============================================
+ZXCF CompactFlash Interface for the ZX Spectrum
+Sami Vehmaa
+===============================================
+
+This is a CompactFlash interface with 512KB/1024KB onboard memory
+(operating system etc.) for ZX Spectrum range of computers.
+Please note that CompactFlash R/W is done in memmode.
+This new interface is intended mainly for assembling in a ZX Spectrum (all models).
+The PCB has a size of 57x86mm.
+
+JP2  upload (this is used when installing ResiDOS on the interface)
+JP6  pos 1-2 = +2A/+3, pos 2-3 = 16/48/128/+2
+
+
+I/O decoder
+-----------
+
+          15  14  13  12  11  10   9   8   7   6   5   4   3   2   1   0
+cf        X    X   X   0   *   *   *   *   1   0   1   1   1   1   X   X
+mem       X    X   X   1   X   X   X   X   1   0   1   1   1   1   X   X
+
+          * CompactFlash card address space
+
+
+I/O #10BF (4287d) memory control
+--------------------------------
+
+On boot mem is on & write protected (upload jumper not set),
+bit 0-5 pages the mem in 16KB pages (replaces spectrum rom space)
+        this allows max 1MB. (0-31d 512KB, 0-63d 1MB)
+bit 6   /MWRPROT   0=all mem is protected, 1=all mem unprotected
+bit 7   MEMOFF     0=mem on, 1=mem off (pages back rom)
+
+
+I/O #00BF - #0FBF (191d - 4031d)  compactflash control (mem-mode 8-bit)
+--------------------------------
+
+#0FBF
+#0EBF (3775d) Alt status/drv control
+#0DBF (3519d) Error register
+#0CBF
+#0BBF
+#0ABF
+#09BF (2495d) dup. Data 8-15
+#08BF (2239d) dup. Data 0-7
+#07BF (1983d) Command register/status
+#06BF (1727d) LBA 24-27/drive
+#05BF (1471d) LBA 16-23
+#04BF (1215d) LBA 8-15
+#03BF  (959d) LBA 0-7
+#02BF  (703d) Sector count register
+#01BF  (447d) Error / Feature
+#00BF  (191d) Data 0-7
+
+There are 16 I/Os to control the CF card.
+
+
+I/O #07BF (1983d) Command register
+----------------------------------
+
+Minimum required commands
+
+Identify Drive (#EC) (236d)
+Device information
+
+Read Sector (#20) (32d)
+Read 512 bytes
+
+Write Sector (#30) (48d)
+Write 512 bytes
+
+Request Sence (#03) (3d)
+Gives extended error code after a normal error
+
+Execute Drive Diagnostics (#90) (144d)
+This is performed when the device is first powered on.
+For host to check the device after power on, this command should be issued.
+
+
+Example code in BASIC
+---------------------
+
+DIM p(512)
+REM 512 bytes of data to play with
+DATA 109,121,95,110,97,109,101,95,105,115,95,115,112,101,99,116,114,117,109,32,49,50,51,52,53,54,55,56,57,32,32,36
+RESTORE
+FOR a=1 TO 512
+READ d
+LET p(a)=d
+IF d=36 THEN RESTORE
+NEXT a
+IF IN 1983>127 THEN STOP : REM check if drive ready
+OUT 1727,160: REM set head (LBA 24-27)/drive
+OUT 1471,0: REM cylinder high (LBA 16-23)
+OUT 1215,15: REM cylinder low (LBA 8-15)
+OUT 959,1: REM start sector (LBA0-7)
+OUT 703,1: REM how many sectors
+OUT 1983,48: REM set to write 512 bytes
+FOR a=1 TO 512
+OUT 191,p(a)
+NEXT a
+OUT 1983,32: REM set to read 512 bytes
+FOR a=1 TO 512
+LET p(a)=IN 191
+NEXT a
+FOR a=1 TO 512: REM show contest on screen
+PRINT CHR$ p(a);
+NEXT a
+
+
+Transfer file from Interface 1, Microdrive
+------------------------------------------
+ZXCF needs to be plugged after Interface 1 if this is to work.
+Boot to ResiDOS.
+LOAD from ZXCF if you are to save something to Microdrive.
+OUT 4287,128  disables ResiDOS
+LOAD/SAVE to Microdrive
+OUT 4287,64
+LOAD/SAVE to ZXCF

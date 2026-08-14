@@ -1,0 +1,11 @@
+==============================
+The Parrot for the ZX80 / ZX81
+R.I.S.T. Inc.
+==============================
+
+The Parrot uses port $4F to write to and read the status back from the SP0256.
+Only address lines A7, A5 and A4 are decoded, so it will respond to any port
+address in the form of %0x00xxxx.
+
+When reading from the SP0256, the 'busy' status is reported in bit 0. A value
+of 0 indicates that the SP0256 is busy.

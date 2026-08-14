@@ -1,0 +1,39 @@
+==================================================
+G12/R PLANETOIDS ROM Cartridge for the ZX Spectrum
+Sinclair Research
+==================================================
+
+An exciting, real-time, machine-code game in which you must destroy and avoid the
+passing planetoids in space. Beware of the lurking alien ship which can destroy
+you with its bombs. In full high-resolution colour with sound effects.
+
+
+Controlling your Space Ship
+
+Keyboard Controls
+
+ROTATE LEFT: 'Z' key
+ROTATE RIGHT: 'X' key
+THRUST: 'ENTER' key
+FIRE: 'SPACE' key
+HYPERSPACE: 'H' key
+
+
+Joystick Controls
+
+Connect joystick to left hand socket.
+
+JOYSTICK FORWARD - thrust
+JOYSTICK RIGHT - moves right
+JOYSTICK LEFT - moves left
+JOYSTICK FIRE - fire
+HYPERSPACE - 'H' key
+
+
+Scoring
+
+Large planetoid: 100 points
+Medium planetoid : 200 points
+Small planetoid : 300 points
+Flying Saucer: 500 points
+Bonus at 20,000 points

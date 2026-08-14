@@ -1,0 +1,39 @@
+10 REM ENNISKILLEN DRAGOON - Irish
+20 REM Sol mayor (=F#), 3/4, q=100
+30 REM Compas 3/4: 6 corcheas por compas
+40 LET A$="T100O4"
+50 REM Anacrusa: DD (2 corcheas)
+60 LET A$=A$+"3D3D"
+70 REM c.1: G. A B (G3=neg.puntillo, A=corch, B=neg)
+80 LET A$=A$+"6G3A5B"
+90 REM c.2: c A d. B (O5/O4)
+100 LET A$=A$+"O53CO43AO56DO43B"
+110 REM c.3: A G G (3 negras)
+120 LET A$=A$+"5A5G5G"
+130 REM c.4: G(blanca) + tresillo d,e,f#
+140 LET A$=A$+"7GO511D11E11=F"
+150 REM c.5: g e g (O5, 3 negras)
+160 LET A$=A$+"5G5E5G"
+170 REM c.6: f# e d(neg) B(neg) (O5->O4)
+180 LET A$=A$+"3=F3E5DO45B"
+190 REM c.7: A B c#(neg) (O4, luego O5)
+200 LET A$=A$+"5A5BO55=C"
+210 REM c.8: d(blanca) + tresillo d,e,f# (O5)
+220 LET A$=A$+"7D11D11E11=F"
+230 REM c.9: g g e g (O5)
+240 LET A$=A$+"3G3G5E5G"
+250 REM c.10: f# e d(neg) B(neg) (O5->O4)
+260 LET A$=A$+"3=F3E5DO45B"
+270 REM c.11: A A B c (O4, luego O5)
+280 LET A$=A$+"3A3A5BO55C"
+290 REM c.12: d(blanca) D(neg) (O5->O4)
+300 LET A$=A$+"7DO45D"
+310 REM c.13: G. G A B (O4)
+320 LET A$=A$+"6G3G3A3B"
+330 REM c.14: c A d. B (igual c.2)
+340 LET A$=A$+"O53CO43AO56DO43B"
+350 REM c.15: A G G (igual c.3)
+360 LET A$=A$+"5A5G5G"
+370 REM c.16: G (blanca con puntillo = compas completo)
+380 LET A$=A$+"8G"
+390 LOAD *PLAY A$

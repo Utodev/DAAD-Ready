@@ -1,0 +1,50 @@
+=============================================
+G10/R CHESS ROM Cartridge for the ZX Spectrum
+Sinclair Research
+=============================================
+
+The chessboard with pieces laid out for the beginning of a game will automatically
+appear. The program will ask you whether you want to play of set up the board
+differently. Press P to play. You will then be asked what colour you would like to
+play. Press W for white and B tor black. Finally the level of play is requested.
+Press a number from 0 to 9. Usually it is sufficient to play at one of the lower
+levels (0 to 3, say) for a rapid response to moves.
+
+The positions of the pieces on the board are defined by using the modern algebraic
+notation. The columns on the board are labelled A to H and the rows 1 to 8.
+
+White Queen's rook is always the square A1 in the initial set-up. The rows and
+columns on the board are labelled on the screen.
+
+To enter your move, type the coordinates (column letter followed by row number) of
+the square of the piece you want to move, followed by the coordinates of the
+square to which you wish to move it. No delimiter between coordinates 'from' and
+'to' is required - it will automatically be inserted. After you have typed in your
+move, the appropriate piece will be moved, and the computer will consider and
+apply its move.
+
+All legal moves are allowed including castling and en passant. The program will not
+allow invalid moves. Casting is achieved by entering the King's move. On entering
+your move, if you make an error, you may always correct it by using the delete key
+ether shifted or unshifted.
+
+A number of commands may be applied at any stage. Typing the key R asks the
+computer to recommend a move to you and it will do so at the game level of search
+on which it is currently set. L allows you to change the level at which the
+computer is playing. Z will copy the complete screen to an attached printer.
+X exits from the game to start afresh or to set up the board.
+
+
+Setting up the Board
+
+You may set up the board to examine a problem as you wish. At the start of the
+game, or after exiting, press S for set-up. The cursor keys 5, 6, 7 and 8 can be
+used either shifted or unshifted to move a flashing cursor around the screen. The
+command C clears the board of pieces completely. The delete key deletes the piece
+at the current cursor position. The letters K, Q, R, B, N and P are used to place
+the appropriate piece on the board. X exits from the set-up routine.
+
+
+Joysticks
+
+You may not use joysticks with this game.

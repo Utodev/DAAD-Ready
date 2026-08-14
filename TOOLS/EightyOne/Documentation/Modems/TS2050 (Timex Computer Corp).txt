@@ -1,0 +1,68 @@
+==============================================
+TS2050 Modem for the TS1000, TS1500 and TS2068
+Timex Computer Corp
+==============================================
+
+MODEL 2050 TELECOMMUNICATIONS MODEM
+Auto Answer/Auto Dial
+with Smart Terminal I Cassette Software
+for the Timex Sinclair 1000, 1500, 2068 Computers 
+
+
+Use the Modem and Smart Terminal I Cassette Software to:
+* connect to outside subscription services like THE SOURCE, CompuServe,
+  DOW JONES NEWS/RETRIEVAL, and MCI MAIL
+* bank and shop at home
+* send electronic mail
+* access the latest news, weather, sports and financial information
+* read electronic editions of important newspapers, magazines and advisory services
+* gather research from a wide range of library data bases
+* communicate with other computers
+* tap into special interest bulletin boards
+* print displayed screens 
+
+
+                                FEATURES
+                                --------
+
+2050 TELECOMMUNICATIONS MODEM
+-----------------------------
+* automatic dialing
+* automatic answer
+* 300 Baud data rate, full duplex
+* direct connection to modular phone jacks - of external noises ruling your communications
+* 9 volt DC power adapter included
+* Bell 103/113 compatible
+* easy to use operations manual 
+
+
+SMART TERMINAL I SOFTWARE
+-------------------------
+* smooth scrolling display - color and black & white
+* easy to follow, step by step menu instructions
+* download screen contents to printer
+* special character codes to control functions on other computer or terminal
+* programmable Baud, duplex, parity, worksize, stop bit
+* defined key combinations for fast and convenient entry of special functions
+* computer controlled dialing and automatic answering of incoming messages 
+
+
+                             SPECIFICATIONS 
+                             -------------
+
+Data Format                       Serial, binary, asynchronous
+Data Rate                         0 to 300 bps, full duplex
+Modulation                        Frequency shift-keyed (FSK)
+Line Interface                    2 Wire - Direct Connect
+Transmit Frequency                    ORIG           ANSR
+  MARK                                1270 Hz        2225 Hz
+  SPACE                               1070 Hz        2025 Hz
+Transmit Frequency Accuracy       0.01%
+Transmit Level                    -12 dBm typical
+Receive Frequency                     ORIG           ANSR
+  MARK                                2225 Hz        1270 Hz
+  SPACE                               2025 Hz        1070 Hz
+Frequency Tolerance               0.05%
+Carrier Detect Threshold          -44 dBM typical
+Carrier Detect Delay              250 ms
+Operating Environment             0 to 40 C (32 to 110 F) 95% RH noncondensing

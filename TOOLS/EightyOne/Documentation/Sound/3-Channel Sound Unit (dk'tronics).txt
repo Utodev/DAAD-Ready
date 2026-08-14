@@ -1,0 +1,361 @@
+========================================
+3-Channel Sound Unit for the ZX Spectrum
+Dk'tronics Ltd
+========================================
+
+DK'TRONICS 3-CHANNEL SOUND UNIT
+
+INSTRUCTIONS FOR OPERATION
+
+
+WARNING: PLEASE DISCONNECT THE SPECTRUM POWER SUPPLY
+BEFORE PLUGGING THE SOUND UNIT ONTO THE EXPANSION PORT.
+
+
+INTRODUCTION
+
+The sound unit is based on the AY-3-8912 PROGRAMMABLE SOUND GENERATOR chip.
+The unit can be used as a programmable sound generator or as a BEEP
+amplifier. The unit also has an extension of the edge connector to allow
+you to plug other peripherals on. E.G. Centronics Printer Interface,
+Joysticks, etc.
+Furthermore, all future DK'TRONICS software releases will contain exciting
+sounds to exploit the full potential of your PROGRAMMABLE SOUND GENERATOR.
+
+
+USING WITH BEEP
+
+To use the Amplifier with Beep only requires that the volume be set up to
+the desired level. For most applicates this will only need to be set the
+once. On the top of the interface there is a small hole to the left of the
+jack socket. This can be adjusted with a small screwdriver.
+
+
+PROGRAMMING THE SOUND UNIT
+
+The chip has 1 4 internal registers, each dealing with a specific part of
+the sound output.
+
+To create sound effects/music you first select the desired register, then
+send the data to the chip.
+
+The chip's registers are accessed by using the BASIC 'OUT' command.
+              To select the register - OUT 63, Reg. No.
+                    To send the data - OUT 95. data.
+
+
+STEP 1: A SINGLE TONE (MIDDLE C) ON CHANNEL A
+
+TYPE THIS INTO YOUR SPECTRUM
+
+10 BORDER 0: PAPER 0: INK 7: CLS
+20 LET reg=63: LET data=95
+30 LET ca=1: LET cb=2: LET cc=3            (ca=CHANNEL A etc)
+40 OUT reg,7: OUT data,63-ca               (ENABLE CHANNEL A)
+50 OUT reg,8: OUT data,10                  (VOLUME CHANNEL A)
+60 OUT reg,0: OUT data,222             (TONE VALUE CHANNEL A)
+62 OUT reg,1: OUT data,1                   (0=FINE, 1=COARSE)
+90 PAUSE 50                                 (PLAY FOR 1 sec.)
+92 OUT reg,8: OUT data,0                    (TURN VOLUME OFF)
+[RUN]
+
+You should hear a tone play for about 1 second. If you don't then examine
+your program carefully. The words in upper case are Spectrum Keywords.
+Refer to your manual if in doubt.
+Now try altering some of the values in the program, especially the VOLUME
+(Line 5O) and the TONE (Lines 60-70). Refer to the Tables for the data.
+
+
+STEP 2: A CHORD USING ALL 3 CHANNELS
+
+ADD THESE LINES TO THE ABOVE PROGRAM.
+
+40 OUT reg,7: OUT data,63-ca-cb-cc      (ENABLE ALL CHANNELS)
+52 OUT reg,9: OUT data,10                  (VOLUME CHANNEL B)
+54 OUT reg,10: OUT data,10                 (VOLUME CHANNEL C)
+70 OUT reg,2: OUT data,123            (TONE VALUES CHANNEL B)
+72 OUT reg,3: OUT data,1                    (2=FINE 3=COARSE)
+80 OUT reg,4: OUT data,63             (TONE VALUES CHANNEL C)
+82 OUT reg,5: OUT data,1                    (4=FINE 5=COARSE)
+92 OUT reg,7: OUT data,63              (DISABLE ALL CHANNELS)
+
+Now you should have heard the chord of C major.
+
+
+STEP 3: SOUND EFFECTS
+
+BASIC INPUT LOOP
+
+10 INPUT "REG (0-13) ";r," DATA ";d
+20 IF r=255 THEN GO TO 60
+30 OUT 63,r: OUT 95,d
+40 PRINT "REG ";r,"DATA ";d
+50 GO TO 10
+60 FOR a=0 TO 13
+70 OUT 63,a: OUT 95,0
+80 NEXT a
+90 OUT 63,7: OUT 95,63
+95 STOP
+
+
+TYPE IN THE ABOVE AND [RUN] THEN ENTER THE FOLLOWING DATA
+TO THE PROMPTS TO CREATE THE EFFECT YOU WANT.
+
+1. WAVES  6,15,7,0,8,16,12,50,13,10 ................ 255,0
+2. SHOTS  1,1,6,30,7,0,8,16,12,20,13,0,13,0 ........ 255,0
+3. DRUMS  1,2,6,30,7,0,8,16,12,10,13.8 ............. 255,0
+
+
+USING THE DEMONSTRATION SOFTWARE
+
+NOTE: There are 16K and 48K versions of the software. When using the
+16K version there will only be about 2K free for your programs
+
+Type LOAD "" [ENTER] then start the tape.
+
+The program will auto-RUN once loaded, presenting you with a front-panel
+display. it has been designed so that any of the functions available can
+be accessed by using only 5 keys.
+
+Keys : 8 = UP : 9 = DOWN : 6 = LEFT : 7 = RIGHT : 0 = FIRE
+
+Or use a joystick (PORT 31 TYPE IE DK'TRONICS, KEMPSTON) or (INTERFACE 2 TYPE)
+
+To access any part of the program, use LEFT/RIGHT to move the cursor
+over the required function. then Press FIRE. There will be visual indication
+that it has been accessed.
+
+Upon loading if you turn ON all VOiCEs and VOLume then select PLAY for
+TUNE 1 then you will hear a Pre-recorded tune.
+
+
+FUNCTIONS
+
+RET : This will return you to Sinclair BASIC.
+
+PLAY : This will play back the current TUNE. The notes will scroll by on
+the lower part of the screen. If you cannot hear anything then check that
+the VOICE(s) have been turned ON, and/or the VOLume is above 0. Any key
+exits PLAYing mode.
+
+TUNE : There is space for three TUNEs, each capable of holding 768 notes
+(256 on each VOICE). Use UP/DOWN to alter the current TUNE number.
+Any other key will exit.
+
+TEMPO : This controls the PLAY back speed. Use UP/DOWN to alter the
+value (0 = fastest, 255 = slowest). Any other keys to exit.
+
+VOL : There is a VOLume control for each VOICE. Use UP/DOWN to
+increase/decrease the VOLume, (0 = off, 15 = loud). Any other key exits.
+
+
+ON/OFF SWITCHES:
+
+VOICE : Pressing FIRE over these will turn the selected VOICE ON and OFF.
+
+WAVE : As for VOICE but changes between TONE and NOISE.
+
+
+ENVELOPE CONTROLS:
+
+ON/OFF : As for VOICE but enables,/disables the ENVELOPE generator.
+
+PERIOD : The number on the left is the COARSE value, the other controls
+the FINE value. These combined determine the attack/decay times for the
+SHAPE selected.
+
+SHAPE : Use UP/DOWN to change the SHAPE value. See diagram for ENVELOPE
+SHAPE outputs.
+
+
+RECORDING TUNES:
+
+REC : This is the most complex function available. Follow the steps below
+carefully before recording long tunes to avoid accidental erasure etc.
+
+1. Turn OFF all VOICES
+
+2. Select TUNE number to RECord on.
+
+3. Turn all VOLumes on > 0
+
+4. Turn OFF envelope generator
+
+5. Turn all WAVE functions to TONE
+
+6. Move cursor over REC and press FIRE. It should flash red/white for
+about 10-15 sec. This is to clear the tune table. This should be done each
+time a new tune is recorded. Should you accidentally select REC and don't
+want to erase TUNE, then press any key before the 15 secs are up.
+
+7. Turn VOICE 1 ON
+
+8. Select REC again. This time it should not flash. Also a blue REC will
+appear in the VOICE column and the selected VOICE no. will turn red on
+the lower part of the display.
+
+9. The cursor control has now been passed to the yellow arrow at the
+bottom of screen under END. Using LEFT/RIGHT the arrow will move
+along the keyboard. Press FIRE to record the selected note. Pressing
+DOWN will select a pause (-). Press FIRE to record this. If you record a
+wrong note then move the arrow to BS and press FIRE, this will backspace
+to the last note entered.
+
+10. Move the arrow to END and FIRE to stop recording.
+
+11. Select PLAY to hear your TUNE.
+
+12. To record on another VOICE, turn OFF all other VOICEs and turn On
+the required VOICE. Goto 7.
+
+NB: Always start with VOICE 1. This has the start and END controls
+included in the tune. Also ensure that only one VOICE is ON when
+ recording.
+
+
+SAVING YOUR TUNES
+
+48K Spectrum : SAVE "TUNES" CODE 58000,6910
+16K Spectrum : SAVE "TUNES" CODE 25850,6910
+
+
+SUMMARY OF REGISTER FUNCTIONS
+
+Register  Function                                Values
+0         Fine tune,                  Channel A   0-255
+1         Coarse tune,                Channel A   0-15
+2         Fine tune,                  Channel B   0-255
+3         Coarse tune,                Channel B   0-15
+4         Fine tune,                  Channel C   0-255
+5         Coarse tune,                Channel C   0-15
+6         Noise frequency                         0-31
+7         Enable Channels                         0-63
+          (Subtract from 63 to enable)
+          Tone  A=1 B=2 C=3
+          Noise A=8 B16 C=32
+8         Volume                      Channel A   0-15
+9         Volume                      Channel B   0-15
+10        Volume                      Channel C   0-15
+          (Value 16 enables Envelope)
+11        Fine tune Envelope period               0-255
+12        Coarse tune Envelope period             0-255
+13        Envelope shape                          0-15
+          Disable         0
+          Hold            1
+          Alternate       2
+          Attack          4
+          Continue        8
+
+
+ENVELOPE SHAPE DIAGRAM:
+
+Value in
+Register 13
+
+v |  GRAPHIC REPRESENTATION
+  |  OF ENVELOPE GENERATOR
+  |         OUTPUT
+  |
+  |
+  |\
+ 0| \______________________________________________
+  |
+  |
+  | /|                       
+ 4|/ |_____________________________________________
+  |
+  |
+  |\ |\ |\ |\ |\ |\ |\ |\ |\ |\ |\ |\ |\ |\ |\ |\ |  
+ 8| \| \| \| \| \| \| \| \| \| \| \| \| \| \| \| \|  
+  |
+  |
+  |\                         
+ 9| \______________________________________________
+  |
+  |
+  |\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /
+10| \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  
+  |
+  |   _____________________________________________
+  |\ |                      
+11| \|                      
+  |
+  |
+  | /| /| /| /| /| /| /| /| /| /| /| /| /| /| /| /|
+12|/ |/ |/ |/ |/ |/ |/ |/ |/ |/ |/ |/ |/ |/ |/ |/ |
+  |
+  |  ______________________________________________
+  | /                       
+13|/                        
+  |
+  |
+  | /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\  /\
+14|/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \
+  |
+  |
+  | /|                       
+15|/ |_____________________________________________
+  |________________________________________________
+  |  |
+      EP IS THE ENVELOPE PERIOD
+      (DURATION OF CYCLE)
+
+
+MUSICAL NOTE DATA
+
+Note  Coarse  Fine             Note  Coarse  Fine
+
+C     14      238              C     7       119
+C#    14      24               C#    7       12
+D     13      77               D     6       167
+D#    12      142              D#    6       71
+E     11      218              E     5       237
+F     11      47               F     5       152
+F#    10      143  OCTAVE 0    F#    5       71   OCTAVE 1
+G     9       247              G     4       252
+G#    9       104              G#    4       180
+A     8       225              A     4       112
+A#    8       97               A#    4       49
+B     7       233              B     3       244
+
+
+C     3       188              C     0       119
+C#    3       134              C#    0       113
+D     3       83               D     0       106
+D#    3       36               D#    0       100
+E     2       246              E     0       95
+F     2       204              F     0       89
+F#    2       164  OCTAVE 2    F#    0       84   OCTAVE 5
+G     2       126              G     0       80
+G#    2       92               G#    0       75
+A     2       56               A     0       71
+A#    2       24               A#    0       67
+B     1       250              B     0       63
+
+
+C     1       222              C     0       60
+C#    1       195              C#    0       56
+D     1       170              D     0       53
+D#    1       146              D#    0       50
+E     1       123              E     0       47
+F     1       102              F     0       45
+F#    1       82   OCTAVE 3    F#    0       42   OCTAVE 6
+G     1       63               G     0       40
+G#    1       45               G#    0       38
+A     1       28               A     0       36
+A#    1       12               A#    0       34
+B     0       253              B     0       32
+
+
+C     0       239              C     0       30
+C#    0       225              C#    0       28
+D     0       213              D     0       27
+D#    0       201              D#    0       25
+E     0       190              E     0       24
+F     0       179              F     0       22
+F#    0       169  OCTAVE 4    F#    0       21   OCTAVE 7
+G     0       159              G     0       20
+G#    0       150              G#    0       19
+A     0       142              A     0       18
+A#    0       134              A#    0       17
+B     0       127              B     0       16

@@ -1,0 +1,54 @@
+===========================
+ZX Spectrum EAR Input State
+===========================
+
+The state of the EAR line can be set by writing out to port $xxFE, with the
+value held in bit 4 defining the state. A read back from port $xxFE returns
+the state of the EAR line in bit 6, and on issue 3 or later Spectrum the value
+returned matches the value previously written to the EAR line. On the issue 1
+and 2 Spectrums, the state written to the MIC line (bit 3) affects the actual
+value read back from the EAR line.
+
++----------------+    +----------------+
+|  Issue 1 & 2   |    |  Later Issues  |
++--------+-------+    +--------+-------+
+| Output | Input |    | Output | Input |
+|  Bits  |  Bit  |    |  Bits  |  Bit  |
+|  4  3  |   6   |    |  4  3  |   6   |
++--------+-------+    +--------+-------+
+|  1  1  |   1   |    |  1  1  |   1   |
+|  1  0  |   1   |    |  1  0  |   1   |
+|  0  1  |   1   |    |  0  1  |   0   |
+|  0  0  |   0   |    |  0  0  |   0   |
++--------+-------+    +--------+-------+
+
+With no keys pressed, other issue Spectrums will always return 255 but for an
+issue 1 or 2 Spectrum the value return may be 191 or 255. The actual value
+returned depends on the time between writing to the port and reading it back - if
+the time is below a certain threshold then a value of 255 is returned, if above
+the threshold then a value of 191 is returned.
+
+The following BASIC program demonstrates the difference between issues of
+Spectrum:
+
+  10 OUT 254,BIN 11101111
+  20 PRINT IN 254
+  30 OUT 254,BIN 11111111
+  40 PRINT IN 254
+  50 GO TO 10
+
+An output toggling between 191 and 255 only occurs on issue 3 or above Spectrums.
+
+The following program is required for an issue 1 or 2 Spectrum to also produce an
+output that toggles between 191 and 255:
+      
+  10 OUT 254,BIN 11100111
+  20 PRINT IN 254
+  30 OUT 254,BIN 11111111
+  40 PRINT IN 254
+  50 GO TO 10
+
+The keyboard is also read via port $xxFE (bits 0-4) and so for a program to
+successfully work on all issues of Spectrum, the value returned from the port
+should not be explicitly tested but either the state of individual key bits
+checked or the upper 3 bits masked off before testing the returned value.

@@ -1,0 +1,147 @@
+===============================================
+Kempston Joystick Interface for the ZX Spectrum
+Kempston Electronics
+===============================================
+
+INSTRUCTIONS
+
+(IMPORTANT: Ensure that the power supply is disconnected before 
+attempting to plug in the interface or removing it).
+
+The interface fits onto the Spectrum's edge connector at the rear of the 
+computer. The interface has a 23 way connector so it can be used behind 
+the ZX printer if required. Make sure that the small key on the interface 
+lines up with the slot on the Spectrum edge connector.
+
+Do not attempt to plug in the interface if the key is missing, otherwise 
+permanent damage may occur.
+
+The joystick itself plugs into the 9-way D connector on the interface 
+which can be only fit one way round.
+
+The joystick is port mapped to address 31 and information can be read and 
+passed into a BASIC program by using the instruction IN 31. The function 
+of the joystick can be tested by the following BASIC program.
+
+  10 PRINT IN 31;: GO TO 10
+
+Running the above program with the joystick in the central position 
+should result in 0's appearing on the screen. There are a total of eight 
+possible positions that the joystick can be in and these should give the 
+following numbers.
+
+           UP
+      10   8   9
+
+LEFT   2   0   1   RIGHT     Pressing either fire buttons
+                             adds 16 to these numbers.
+       6   4   5
+         DOWN
+
+Any BASIC program that uses the cursor keys for movement can be modified 
+to work with the joystick providing the relevant part of the keyboard 
+reading routine can be located. The examples below should help you to do 
+this.
+
+CURSOR INSTRUCTION                  JOYSTICK INSTRUCTION
+
+ IF INKEY$="5"        (left)        IF IN 31=2
+ IF INKEY$="6"        (down)        IF IN 31=4
+ IF INKEY$="7"        (up)          IF IN 31=8
+ IF INKEY$="8"        (right)       IF IN 31=1
+
+If the program contains a line to detect a fire button, eg IF INKEY$="0" 
+replace this by IF IN 31=16. Three conversion tapes are available which 
+allow leading games to be used with the joystick and are priced at £4.95 
+each.
+
+
+1 FLIGHT SIMULATOR (Sinclair) Early version
+
+MERGE this with flight sim:
+
+9010 RESTORE 9100: FOR i=58540 TO 58592
+9020 READ a: POKE i,a
+9030 NEXT i
+9040 POKE 42923,195: POKE 42924,172: POKE 42925,228
+9050 RUN
+9100 DATA 17,158,167,14,254,33,164,167
+9110 DATA 126,35,183,40,7,71,237,120,18
+9120 DATA 19,24,244,1,31,255,237,120
+9130 DATA 33,161,167,203,71,40,2,203,150
+9140 DATA 203,95,40,2,203,158,203,87,40,2
+9150 DATA 203,166,203,79,200,43,203,166,201
+
+Enter the program, and SAVE "FLIGHT+".
+
+
+In Use
+Load Flight Simulator in normal way. When it has all finished, BREAK when 
+1-2-3? prompt appears. Then MERGE "FLIGHT+" and PLAY above tape. Then RUN 
+9010. The keyboard will still work but additionally so will the Joystick.
+
+
+  FLIGHT SIMULATOR (Sinclair) Later version
+
+   1 INK 1: PAPER 1: BORDER 1: CLEAR 32767: LOAD ""SCREEN$: LOAD ""CODE
+  10 FOR N=60454 to 60480: READ A: POKE N,A: NEXT N
+  20 POKE 40821,78
+  30 POKE 40835,70
+  40 POKE 40767,38
+  50 POKE 40768,236
+  60 RANDOMIZE USR 51094
+  70 DATA 205,34,159,175,219,31,33,142,112,71,230,15
+  80 DATA 174,119,35,35,35,120,203,63,203,230
+  90 DATA 4,174,119,201
+
+The above program can be used to play Flight Simulation with a Kempston 
+Joystick and Interface. 
+
+The program should be typed in and saved, on a separate tape to the 
+original program by SAVE "Flight".
+
+To play Flight Simulation type LOAD "Flight", using the tape with this 
+new program, RUN it and play the original tape of the Psion game. The 
+program will now LOAD as normal but the Kempston Joystick can be used as 
+well as the keyboard controls. The fire button toggles the map on and off.
+
+
+2 GULPMAN (Campbell Systems)
+
+Load GULPMAN and use the menu S option and BREAK into the SAVE, then without
+using line numbers make these commands......
+
+FOR A=30572 TO 30622: INPUT N: POKE A,N: NEXT A (press ENTER)
+
+Now give the following 51 numbers ......... Press ENTER after each one.....
+
+202 244 107 71 219 31 254 255 56 4 120 195 85 105 6 1 203
+71 32 4 6 255 203 79 32 4 6 32 203 87 32 4 6 224 203 95 32
+2 6 0 221 112 29 203 103 194 107 105 195 110 105
+
+Then, POKE 26962,195: POKE 26963,108: POKE 26964,119: GO TO 40 (ENTER)
+
+This takes you back to the game instructions, from where you can reach the
+menu and use S to save the amended program onto a fresh tape. Note that
+the amended program is not playable on some later versions of Spectrum
+unless the Joystick is connected!
+
+
+3 MAZEMAN (Abersoft)
+
+Load MAZEMAN and then break into the program during the first part of the 
+demonstration program. Type in the following POKEs:-
+
+POKE 29946,1
+POKE 29947,31
+POKE 29948,0
+POKE 29949,237
+POKE 29950,120
+POKE 29957,0
+POKE 29959,2
+POKE 29963,4
+POKE 29967,8
+POKE 29971,1
+
+The modified game can now be saved by typing:- RUN 9999
+MAZEMAN will now work with the Kempston Joystick.

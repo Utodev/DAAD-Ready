@@ -1,0 +1,49 @@
+==================================================
+Spectrum Emulator Command Cartridge for the TS2068
+Zebra Systems Inc
+==================================================
+
+                       Zebra Systems
+                     Spectrum Emulator
+                         Cartridge
+                      July 25th, 1985
+
+The Zebra Spectrum Emulator will let you run most of the software
+written for the Sincalir Reserach ZX-Spectrum computer on your
+Timex/Sinclair 2068 computer. These programs include Educational
+software, Business software, Utilities, Games, and more.
+
+
+1. INSTALLATION
+
+1 - Turn off your TS2068
+
+2 - Lift the Cartridge Port door.
+
+3 - Insert the Spectrum Emulator Cartridge with label side up.
+
+4 - Close the Cartridge Port door.
+
+5 - Turn on your TS2068. You should see your normal TS2068 sign-
+    on logo. If not, turn the power off immediately and consult
+    Zebra Systems.
+
+6 - Type: OUT 244,3[enter]
+
+    This instruction switches on the Spectrum ROM contained in
+    the emulator in place of the TS2068's ROM. The screen
+    should turn black, then clear to white and display this
+    copyright notice on the bottom of the screen:
+
+                (C) 1982 Sinclair Reserach LTD.
+
+    You are now in Spectrum mode and can use Spectrum software
+    on cassette, magazines, or Spectrum books.
+
+NOTE: If you wish, you can leave your Spectrum Emulator in your
+TS2068 all the time. Whenever you turn the power on, your
+computer will be in TS2068 mode. Typig OUT 244,3[enter] will
+activate Spectrum mode. To return to TS2068 mode from Spectrum
+mode type the following:
+
+                     OUT 244,0 : NEW[enter]

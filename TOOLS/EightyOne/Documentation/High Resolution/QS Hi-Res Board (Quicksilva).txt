@@ -1,0 +1,114 @@
+============================
+QS Hi-Res Board for the ZX81
+Quicksilva
+============================
+
+The QS Hi-Res Board ROM provides 14 commands that can be called from BASIC to
+manipulate the hi-res display file. The command parser is invoked via a USR 10240
+call and it will execute the hi-res commands specified in the REM statement that
+follows in the next BASIC line.
+
+A number of the commands require arguments to define the operation that they must
+perform. These arguments must be set up within BASIC variables and then it is the
+name of the variables that are specified as the command arguments.
+
+Any number of commands may be included within a REM statement, each separated by
+one or more spaces.
+
+The available commands are:
+
+BLACK      Selects the colour of the foreground pixels to black and hence the
+           background colour to white, i.e. black-on-white.
+WHITE      Selects the colour of the foreground pixels to white and hence the
+           background colour to black, i.e. white-on-black.
+CLEAR      Clears the hi-res display file to the active background colour.
+MOVE x y   Move the current screen coordinates to the values held in the specified
+           numeric variables.
+PLOT x y   Plots the pixel at the coordinates held in the specified numeric
+           variables.
+DRAW x y   Draws a line from the current screen coordinates to the coordinates
+           held in the specified variables
+PRINT n$   Prints a message held in the specified string variable to the hi-res
+           display at the row and column corresponding to the current screen
+           coordinates.
+SCROLL     Scrolls the bottom 24 lines (3 rows) of the hi-res display file up. The
+           new screen coordinates are set to start of the last row of the display,
+           i.e. the start of line 184.
+UP         Scrolls the hi-res display file up. The top line of pixels are lost, and
+           the bottom line of pixels are set to the background colour.
+DOWN       Scrolls the hi-res display file down. The bottom line of pixels are lost,
+           and the bottom line of pixels are set to the background colour.
+LEFT       Scrolls the hi-res display file to the left. The leftmost column of
+           pixels are lost, and the rightmost column line of pixels are set to the
+           background colour.
+RIGHT      Scrolls the hi-res display file to the right. The right most column of
+           pixels are lost, and the leftmost column line of pixels are set to the
+           background colour.
+COPY       Copies all 192 lines of the hi-res display file to the ZX printer.
+BOX x y    Draws a box spanning the current coordinates to the destination
+           coordinates held in the specified numeric variables.
+
+Only the first two letters of the name of a command are checked by the ROM and so
+the names can be truncated to save memory.
+
+The hi-res display file will be shown as soon as any of the hi-res commands are
+executed.
+
+After a program stops (due to ending, BREAK being pressed or an error occurring),
+the hi-res display file will remain on screen. All BASIC error codes will appear on
+the lo-res display and therefore will not be visible while the hi-res display is
+being shown. Likewise, new commands typed in will not be visible while the hi-res
+display is being shown.
+
+Return to the normal lo-res display file is by pressing the Reset push button or by
+typing: POKE 10240,0
+
+
+ERROR CODES
+
+G - Invalid command.
+H - Invalid parameter.
+I - Variable not found.
+
+
+EXAMPLE
+
+  10 LET H=10240
+  20 LET A=0
+  30 LET B=0
+  40 LET X=255
+  50 LET Y=191
+  60 RAND USR H
+  70 REM WHITE  CLEAR  MOVE A B  DRAW X Y
+  80 RAND USR H
+  90 REM MO A Y DR X B
+
+
+SELF-TEST ROUTINE
+
+The ROM for the QS Hi-Res board contains a self-test routine, which can be invoked
+via RAND USR 10243. It will verify the on board 6K RAM is operational and will then
+draw a test screen.
+
+
+===============================================================================
+
+
+TECHNICAL NOTES
+
+Display file resolution: 256 x 192
+Display file structure : 32 bytes x 192
+Display file size      : 6144 bytes
+Display file location  : $A000-$B7FF held in on board 6K RAM
+
+Read from $2000-$2FFF (A13 = 1) selects the hi-res display mode.
+Write to $2000-$2FFF (A13 = 1) selects the normal display mode.
+
+Push button forces a return back to normal display mode.
+
+The 2K ROM appears at $2800-$2FFF.
+
+
+COMMERCIAL PROGRAMS RELEASED FOR THE QS HI-RES BOARD
+
+- ZX Chess II (Artic Computing Ltd)
