@@ -110,8 +110,6 @@ tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
 REM --- PREPARE RELEASE FILES ----
-tools\cecho\cecho {06}Preparing tap file{07}
-ECHO.
 SET INTERPRETER=DSD81IE3.BIN
 IF "%BASELANG%" == "ES" SET INTERPRETER=DSD81IS3.BIN 
 

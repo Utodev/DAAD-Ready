@@ -92,6 +92,38 @@ function asciiAZX($c, $PUNT)
     exit(1);
 }
 
+// Escapes \XX (ExtractEscapeCharacters + ConvertFromHexChars en
+// IBasicLoader.cpp, ZX81BasicLoader.h::GetEscapeCharacter=='\\'): permiten
+// meter CUALQUIER byte 0-255 en una linea, saltandose AsciiToZX y el
+// buscador de tokens - imprescindible para incrustar codigo maquina crudo
+// en un REM (lo que hace bin2b81.php: "1 REM \XX\XX\XX..."). En el
+// original de EightyOne se procesan ANTES que las comillas y los tokens, y
+// en cualquier posicion de la linea (dentro de REM o no); aqui se replica
+// eso mirando el "\" al principio del bucle, antes de nada mas.
+//
+// Ademas de \XX (dos digitos hex, mayus o minus) soporta \" (solo el
+// caracter comilla, C3digo 11, SIN alternar el estado de "dentro de
+// comillas": es un byte literal, no un delimitador) y los graficos de
+// bloque de DecodeGraphic en zx81BasicLoader.cpp. Cualquier otra
+// combinacion es un error, igual que en la referencia.
+$GRAFICOS = array(
+    '  '=>0,   "' "=>1,   " '"=>2,   "''"=>3,   '. '=>4,   ': '=>5,
+    ".'"=>6,   ":'"=>7,   '##'=>8,   ',,'=>9,   '~~'=>10,
+    '::'=>128, '.:'=>129, ':.'=>130, '..'=>131, "':"=>132, ' :'=>133,
+    "'."=>134, ' .'=>135, '@@'=>136, ';;'=>137, '!!'=>138,
+);
+
+function esHex($c)
+{
+    return ($c >= '0' && $c <= '9') || ($c >= 'A' && $c <= 'F') || ($c >= 'a' && $c <= 'f');
+}
+
+function decodeHex($c)
+{
+    if ($c >= '0' && $c <= '9') return ord($c) - ord('0');
+    return (ord($c) & 0xDF) - ord('A') + 10;   // & 0xDF: mayuscula, como ConvertFromHexChar
+}
+
 // OutputFloatingPointEncoding (zx81BasicLoader.cpp): 5 bytes, exponente
 // sesgado en 129 y mantisa de 32 bits con el bit alto implicito a 0 (los
 // numeros en BASIC son siempre positivos; el signo menos es un operador).
@@ -113,7 +145,7 @@ function fpZX81($valor)
 //---------------------------------------------------------------------------
 // Tokeniza una sentencia
 //---------------------------------------------------------------------------
-function tokeniza($sent, $TOKENS, $ORDEN, $PUNT)
+function tokeniza($sent, $TOKENS, $ORDEN, $PUNT, $GRAFICOS)
 {
     $out = array();
     $n = strlen($sent);
@@ -129,6 +161,39 @@ function tokeniza($sent, $TOKENS, $ORDEN, $PUNT)
 
     while ($i < $n) {
         $c = $sent[$i];
+
+        // Escape \XX / \" / \graficos - ver comentario junto a $GRAFICOS.
+        // Va ANTES que nada mas (comillas, tokens, REM): un byte crudo no
+        // participa de esas reglas, se emite tal cual.
+        if ($c === '\\') {
+            if ($i + 1 >= $n) {
+                fwrite(STDERR, "Secuencia de escape incompleta al final de la linea\n");
+                exit(1);
+            }
+            $c1 = $sent[$i + 1];
+            if ($c1 === '"') {
+                $out[] = ZXQUOTE;
+                $i += 2;
+                $ultChar = null;
+                continue;
+            }
+            if ($i + 2 >= $n) {
+                fwrite(STDERR, "Secuencia de escape incompleta al final de la linea\n");
+                exit(1);
+            }
+            $c2 = $sent[$i + 2];
+            if (esHex($c1) && esHex($c2)) {
+                $out[] = (decodeHex($c1) << 4) | decodeHex($c2);
+            } elseif (isset($GRAFICOS[$c1 . $c2])) {
+                $out[] = $GRAFICOS[$c1 . $c2];
+            } else {
+                fwrite(STDERR, "Codigo de escape invalido: '\\$c1$c2'\n");
+                exit(1);
+            }
+            $i += 3;
+            $ultChar = null;
+            continue;
+        }
 
         if (!$enRem) {
             if ($c === '"') {
@@ -214,7 +279,7 @@ foreach (preg_split('/\r\n|\n|\r/', $texto) as $l) {
     $sent = rtrim($m[2], "\r");
     if ($primeraLinea === null) $primeraLinea = $num;
 
-    $cuerpo = tokeniza(strtoupper($sent), $TOKENS, $ORDEN, $PUNT);
+    $cuerpo = tokeniza(strtoupper($sent), $TOKENS, $ORDEN, $PUNT, $GRAFICOS);
 
     $offsetDeLinea[$num] = count($prog);
     $prog[] = ($num >> 8) & 0xFF;      // nº de linea: BIG endian
