@@ -121,7 +121,7 @@ IF exist 0.XMB TOOLS\dsktool\dsktool a %GAME%.DSK 0.XMB > nul 2>&1
 REM The loading screen, if any
 if exist IMAGES\MSX1\DAAD.SC2  (
     CD IMAGES\MSX1
-    ..\TOOLS\dsktool\dsktool a ..\%GAME%.DSK DAAD.SC2 > nul 2>&1
+    ..\..\TOOLS\dsktool\dsktool a ..\..\%GAME%.DSK DAAD.SC2 > nul 2>&1
     CD ..\..
 )
 
