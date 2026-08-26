@@ -1,4 +1,4 @@
 E
-A .\cpm.dsk
 R
+D A .\cpm.dsk
 O

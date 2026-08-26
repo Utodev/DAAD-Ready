@@ -1,0 +1,4 @@
+E
+D A .\cpm2.dsk
+R
+O
