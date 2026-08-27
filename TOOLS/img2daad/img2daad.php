@@ -412,18 +412,18 @@ foreach ($files as $file)
     if  ($extension=='WAV') 
     {
         $fileList[$location]->hasWAV=true;
-        $fileList[$location]->WAVfilename=$file;
+        $fileList[$location]->filename=$file;
     }
     else
     if ($extension=='PI1') 
     {
         $fileList[$location]->hasPI1 = true;
-        $fileList[$location]->PI1filename=$file;
+        $fileList[$location]->filename=$file;
     } 
     else 
     {
         $fileList[$location]->hasPNG = true;
-        $fileList[$location]->PNGfilename=$file;
+        $fileList[$location]->filename=$file;
     } 
 }
 
@@ -473,7 +473,7 @@ foreach ($fileList as $location=>$fileData)
 
         if ((property_exists($fileData, 'hasPNG')) &&  ($fileData->hasPNG)) // PNG over PI1
         {
-            $file = $fileData->PNGfilename;
+            $file = $fileData->filename;
             if ($verbose) echo "($file).\n";
             $degas = new pngFileReader();
             $result = $degas->loadFile($file, $verbose);
@@ -482,7 +482,7 @@ foreach ($fileList as $location=>$fileData)
         else
         if ((property_exists($fileData, 'hasPI1')) &&  ($fileData->hasPI1)) // PNG over PI1
         {
-            $file = $fileData->PI1filename;
+            $file = $fileData->filename;
             if ($verbose) echo "($file).\n";
             $degas = new degasFileReader(); 
             $result = $degas->loadFile($file);
@@ -490,7 +490,7 @@ foreach ($fileList as $location=>$fileData)
         }
         else
         {
-            $file = $fileData->WAVfilename;
+            $file = $fileData->filename;
             if ($verbose) echo "($file).\n";
             $degas = new wavFileReader(); 
             $result = $degas->loadFile($file);
@@ -578,7 +578,7 @@ foreach ($fileList as $location=>$fileData)
         if (property_exists($fileData,'hasWAV'))
         {
             // The mini header for the sample file
-            echo "Processing sound sample $fileData->WAVfilename ...\n";
+            echo "Processing sound sample $fileData->filename ...\n";
 
             // All sample files have a header like this in the Aventura Espacial DAT file
             $outputFile[] = 0;  
@@ -598,13 +598,17 @@ foreach ($fileList as $location=>$fileData)
         }
         else
         {    
-            
+            $JSONfilename = '';
+            if (property_exists($fileData, 'hasJSON') && ($fileData->hasJSON)) $JSONfilename = $fileData->JSONfilename;
+            $filePath = pathinfo($fileData->filename, PATHINFO_DIRNAME);
+            if ($JSONfilename == '') if (file_exists($filePath . DIRECTORY_SEPARATOR . 'daad.json')) $JSONfilename = $filePath . DIRECTORY_SEPARATOR . 'daad.json';
+
             $compressThisFile = $compressed;
-            if (property_exists($fileData, 'hasJSON') && ($fileData->hasJSON))
+            if ($JSONfilename!='')
             {
                 // A JSON can only be applied if a image has been loaded in that slot, or if the JSON is to clone a image
-                $json = json_decode(file_get_contents( $fileData->JSONfilename));
-                if (!$json) error ('Invalid JSON file: ' .$fileData->JSONfilename);
+                $json = json_decode(file_get_contents($JSONfilename));
+                if (!$json) error ('Invalid JSON file: ' .$JSONfilename);
                 if (property_exists($json, 'compress'))
                 {
                     $compressThisFile = ($json->compress==1);
@@ -612,6 +616,7 @@ foreach ($fileList as $location=>$fileData)
                 }
             }
 
+ 
 
             $screen = array();
             for ($i=0;$i<32000;$i++) $screen[] = $degas->readByte(); // read 32.000 bytes of image data
@@ -624,10 +629,10 @@ foreach ($fileList as $location=>$fileData)
             $height= CLIPHEIGHT; 
             
             // Check for specific width and height
-            if (property_exists($fileData, 'hasJSON') && ($fileData->hasJSON))
+            if ($JSONfilename!='')
             {
-                $json = json_decode(file_get_contents($fileData->JSONfilename));
-                if (!$json) error ('Invalid JSON file: ' .$fileData->JSONfilename);
+                $json = json_decode(file_get_contents($JSONfilename));
+                if (!$json) error ('Invalid JSON file: ' .$JSONfilename);
                 if (property_exists($json, 'width')) $width = intval($json->width);
                 if (property_exists($json, 'height')) $height = intval($json->height);
             }
@@ -697,12 +702,19 @@ foreach ($fileList as $location=>$fileData)
     }
 
     // Now check if there is JSON to apply
-    if (property_exists($fileData, 'hasJSON') && ($fileData->hasJSON))
+
+    $JSONfilename = '';
+
+    if (property_exists($fileData, 'hasJSON') && ($fileData->hasJSON)) $JSONfilename = $fileData->JSONfilename;
+    $filePath = pathinfo($fileData->filename, PATHINFO_DIRNAME);
+    if ($JSONfilename == '') if (file_exists($filePath . DIRECTORY_SEPARATOR . 'daad.json')) $JSONfilename = $filePath . DIRECTORY_SEPARATOR . 'daad.json';
+
+    if ($JSONfilename!='')
     {
         // A JSON can only be applied if a image has been loaded in that slot, or if the JSON is to clone a image
-        $json = json_decode(file_get_contents( $fileData->JSONfilename));
-        if (!$json) error ('Invalid JSON file: ' .$fileData->JSONfilename);
-        if ($verbose) echo "Processing JSON file $fileData->JSONfilename ...\n";
+        $json = json_decode(file_get_contents( $JSONfilename));
+        if (!$json) error ('Invalid JSON file: ' .$JSONfilename);
+        if ($verbose) echo "Processing JSON file $JSONfilename ...\n";
         if ((in_array($location, $imgsLoaded))|| ($json->clone == 1))
         {
             // First check if we have to clone
