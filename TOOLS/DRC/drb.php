@@ -68,7 +68,7 @@ function writeWord($handle, $word, $littleEndian)
 {
     $a = ($word & 0xff00) >> 8;
     $b = ($word & 0xff);
-    if ($littleEndian)
+    if (!$littleEndian)
     {
         $tmp = $b;
         $b = $a;
@@ -1306,7 +1306,7 @@ function isPaddingPlatform($target)
 
 function isLittleEndianPlatform($target)
 {
-    return (($target=='ST') || ($target=='AMIGA'));
+    return !(($target=='ST') || ($target=='AMIGA'));
 };
 
 //================================================================= other ========================================================
