@@ -1,3 +1,86 @@
+DAAD Ready B1 ??/??/????
+========================
+- IMAGES: the images folder has been organized so there are now a few folders inside. If you are working
+          in a game, make sure to place the images in the right places after upgrading to DAAD Ready B1.
+
+- ZX81: A new ZX81 interpreter has been added to DAAD Ready, in two flavours: basic ZX81 with 16K, a 
+        quite limited one with no windows, no pictures, no colours, etc. Also, a ZX81 with SD81Booster
+        interface (which aside of adding SD card feature, gets close to what a ZX Spectrum can do)
+- CP/M: A new basic CP/M target for CP/M 2.2, Z80 machines, has been added to DAAD Ready. More details
+       have been added to the documentation, in the appendixes.
+
+- Amiga: Games are now saved/loaded to/from current disk (no matter if it's flopy disk or hard disk)
+         
+         Players can now type Ñ in Spanish games.
+
+         Sound samples can now be buffered.
+
+- AtariST: Games are now saved/loaded to/from current disk (no matter if it's flopy disk or hard disk)
+
+           Sound samples can now be buffered.  
+
+- Amiga and AtariST: image packer supports now a default JSON file that would be applied only if a specific
+                     JSON file is not found for a given image: DAAD.JSON
+
+- Fixed documentation so #b and #s escape chars are properly described.
+
+- HTML: Fixed bug with TAB and PRINTAT. TAB wasb't working. PRINTAT was using the whole screen as 
+        reference instead of current window.
+        
+        Players have now a minimum visual feedback in the border when the game is waiting for a key to be pressed.
+        
+        Fixed a bug that was preventing RAMLOAD to restore the last flag that should be restored.
+        
+        Fixed a bug in PICTURE, that was always succeeding as condition.
+
+        Fixed a bug in DISPLAY, that was not doing its job when the parameter was not zero.
+
+
+- PC:   Fixed PRINTAT, that was was using the whole screen as reference instead of current window. 
+
+        Fixed REMOVE, which was failing to properly indentify when the player had the hands full when 
+        removing wearable objects.
+
+        Fixed a bug in DISPLAY, that was not doing its job when the parameter was not zero.
+
+- All classic 8 bit targets: INK and PAPER now change colors correctly without affecting previously 
+                             printed text. On targets using a 6×8 character set (Spectrum, MSX1),
+                             the last printed character may still occasionally be affected.
+
+- Amiga_experimental: Some fixes in audio playback.
+                      Players can now type Ñ in Spanish games
+                      Fixes in image compression.
+
+- CPC: There are now two CPC BAT files: CPC6128 and CPC664. The later is basically the same as before. The 
+       CPC6128 one can compress the images, so more images fit in the floppy disk, but requires a CPC6128 to
+       run and no longer works in a CPC 664. 
+       
+       In CPC6128 mode, PICTURE properly loads the image and DISPLAY  displays it from RAM (before, PICTURE 
+       was loading nothing and it was DISPLAY loading the image data). 
+
+       CPC6128 has room in RAM for the last three images loaded, so less disk reading will happen.
+
+       The palette changing feature in GFX has been fixed. 
+       
+       You can now choose whether the palette will be blackened before DISPLAY draws a image or not via GFX.
+
+       You can now choose whether DISPLAY will apply the image palette or not via GFX.
+
+       If the image palette was not shown, anothe GFX function forces to apply it. The palette changing feature
+       also forces applying the palette, but first it makes the change.
+
+- Spectrum: All Spectrum targets with AY chip can now write to the AY chip directly from the SFX condact. 
+            The 4 rightmost pixels can now be cleared in Spectrum Next. All Spectrum targets can now have
+            a loading screen in SCR format. Also, all but Spectrum +3 wait for a keypress after loading, so
+            the loading screen can be seen even when loaded from SD, or fast tape emulator.
+
+
+            
+
+- IMAGES: the IMAGES folder has been split into more folders than before, for convenience.
+
+- Plus/4: the bug that was preventing BEEP to sound properly has been fixed.
+
 DAAD Ready B 15/05/2026
 ========================
 
