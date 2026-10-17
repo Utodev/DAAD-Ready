@@ -138,6 +138,12 @@ if errorlevel 2 (
     del /q /s AMIGA_EXPERIMENTAL\*.* > nul 2>&1
     copy readme.txt  AMIGA_EXPERIMENTAL > nul 2>&1
 
+    echo Cleaning SAM Coupe...
+    md SAM> nul 2>&1
+    del /q /s SAM\*.* > nul 2>&1
+    copy readme.txt SAM > nul 2>&1
+
+
     del readme.txt > nul 2>&1
     pause   
 
