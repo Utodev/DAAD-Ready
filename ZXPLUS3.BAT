@@ -97,7 +97,8 @@ for /L %%i in (100, 1, 256) do IF exist %%i.SCT (
 
 del *.SCT > nul 2>&1
 
-for /L %%i in (0, 1, 9) do IF exist 00%%i.ZX0 ..\..\TOOLS\SCRMAKER\SCRMAKER spectrum128 00%%i.zx0 00%%i.128 %IMGWIDTH% %IMGLINES% 0,0  > nul 2>&1
+for /L %%i in (0, 1, 9) do IF exist 00%%i.ZX0 ..\..\TOOLS\SCRMAKER\SCRMAKER spectrum128 00%%i.zx0 00%%i.128 %IMGWIDTH% %IMGLINES% 0,0  
+rem> nul 2>&1
 for /L %%i in (10, 1, 99) do IF exist 0%%i.ZX0  ..\..\TOOLS\SCRMAKER\SCRMAKER spectrum128 0%%i.zx0 0%%i.128 %IMGWIDTH% %IMGLINES% 0,0 > nul 2>&1
 for /L %%i in (100, 1, 256) do IF exist %%i.ZX0  ..\..\TOOLS\SCRMAKER\SCRMAKER spectrum128 %%i.zx0 %%i.128 %IMGWIDTH% %IMGLINES% 0,0 > nul 2>&1
 
@@ -146,9 +147,9 @@ if exist IMAGES\ZX\DAAD.SCR  (
     TOOLS\CPCDiskXP\CPCDiskXP -File DAAD.SCR -AddToExistingDsk %GAME%.DSK
     DEL DAAD.SCR  > nul 2>&1
 )
-for /L %%i in (0, 1, 9) do IF exist IMAGES\00%%i.128 TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\00%%i.128 -AddToExistingDsk %GAME%.DSK
-for /L %%i in (10, 1, 99) do IF exist IMAGES\0%%i.128 TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\0%%i.128 -AddToExistingDsk %GAME%.DSK
-for /L %%i in (100, 1, 255) do IF exist IMAGES\%%i.128 TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\%%i.128 -AddToExistingDsk %GAME%.DSK
+for /L %%i in (0, 1, 9) do IF exist IMAGES\ZX\00%%i.128 TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\ZX\00%%i.128 -AddToExistingDsk %GAME%.DSK
+for /L %%i in (10, 1, 99) do IF exist IMAGES\ZX\0%%i.128 TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\ZX\0%%i.128 -AddToExistingDsk %GAME%.DSK
+for /L %%i in (100, 1, 255) do IF exist IMAGES\ZX\%%i.128 TOOLS\CPCDiskXP\CPCDiskXP -File IMAGES\ZX\%%i.128 -AddToExistingDsk %GAME%.DSK
 tools\cecho\cecho {02}[OK]{07}
 ECHO.
 
