@@ -1,2807 +1,1922 @@
 PHP                                                                        NEWS
 |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-09 Jun 2022, PHP 7.4.30
-
-- mysqlnd:
-  . Fixed bug #81719: mysqlnd/pdo password buffer overflow. (CVE-2022-31626)
-    (c dot fol at ambionics dot io)
-
-- pgsql
-  . Fixed bug #81720: Uninitialized array in pg_query_params(). 
-    (CVE-2022-31625) (cmb)
-
-14 Apr 2022, PHP 7.4.29
+22 Oct 2026, PHP 8.5.12
 
 - Core:
-  . No source changes to this release.
-    Version number added for reproduction of Windows builds.
-
-- Date:
-  . Updated to latest IANA timezone database (2022a). (Derick)
-
-17 Feb 2022, PHP 7.4.28
-
-- Filter:
-  . Fix #81708: UAF due to php_filter_float() failing for ints
-
-
-16 Dec 2021, PHP 7.4.27
-
-- Core:
-  . Fixed bug #81626 (Error on use static:: in __сallStatic() wrapped to
-    Closure::fromCallable()). (Nikita)
-
-- FPM:
-  . Fixed bug #81513 (Future possibility for heap overflow in FPM zlog).
-    (Jakub Zelenka)
-
-- GD:
-  . Fixed bug #71316 (libpng warning from imagecreatefromstring). (cmb)
-
-- OpenSSL:
-  . Fixed bug #75725 (./configure: detecting RAND_egd). (Dilyan Palauzov)
-
-- PCRE:
-  . Fixed bug #74604 (Out of bounds in php_pcre_replace_impl). (cmb, Dmitry)
-
-- Standard:
-  . Fixed bug #81618 (dns_get_record fails on FreeBSD for missing type).
-    (fsbruva)
-  . Fixed bug #81659 (stream_get_contents() may unnecessarily overallocate).
-    (cmb)
-
-18 Nov 2021, PHP 7.4.26
-
-- Core:
-  . Fixed bug #81518 (Header injection via default_mimetype / default_charset).
-    (cmb)
-
-- Date:
-  . Fixed bug #81500 (Interval serialization regression since 7.3.14 / 7.4.2).
-    (cmb)
-
-- DBA:
-  . Fixed bug #81588 (TokyoCabinet driver leaks memory). (girgias)
-
-- MBString:
-  . Fixed bug #76167 (mbstring may use pointer from some previous request).
-    (cmb, cataphract)
-
-- MySQLi:
-  . Fixed bug #81494 (Stopped unbuffered query does not throw error). (Nikita)
-
-- PCRE:
-  . Fixed bug #81424 (PCRE2 10.35 JIT performance regression). (cmb)
-
-- Streams:
-  . Fixed bug #54340 (Memory corruption with user_filter). (Nikita)
-
-- XML:
-  . Fixed bug #79971 (special character is breaking the path in xml function).
-    (CVE-2021-21707) (cmb)
-
-21 Oct 2021, PHP 7.4.25
-
-- DOM:
-  . Fixed bug #81433 (DOMElement::setIdAttribute() called twice may remove ID).
-    (Viktor Volkov)
-
-- FFI:
-  . Fixed bug #79576 ("TYPE *" shows unhelpful message when type is not
-    defined). (Dmitry)
-
-- Fileinfo:
-  . Fixed bug #78987 (High memory usage during encoding detection). (Anatol)
-
-- Filter:
-  . Fixed bug #61700 (FILTER_FLAG_IPV6/FILTER_FLAG_NO_PRIV|RES_RANGE failing).
-    (cmb, Nikita)
-
-- FPM:
-  . Fixed bug #81026 (PHP-FPM oob R/W in root process leading to privilege
-    escalation) (CVE-2021-21703). (Jakub Zelenka)
-
-- SPL:
-  . Fixed bug #80663 (Recursive SplFixedArray::setSize() may cause double-free).
-    (cmb, Nikita, Tyson Andre)
-
-- Streams:
-  . Fixed bug #81475 (stream_isatty emits warning with attached stream wrapper).
-    (cmb)
-
-- XML:
-  . Fixed bug #70962 (XML_OPTION_SKIP_WHITE strips embedded whitespace).
-    (Aliaksandr Bystry, cmb)
-
-- Zip:
-  . Fixed bug #81490 (ZipArchive::extractTo() may leak memory). (cmb, Remi)
-  . Fixed bug #77978 (Dirname ending in colon unzips to wrong dir). (cmb)
-
-23 Sep 2021, PHP 7.4.24
-
-- Core:
-  . Fixed bug #81302 (Stream position after stream filter removed). (cmb)
-  . Fixed bug #81346 (Non-seekable streams don't update position after write).
-    (cmb)
-  . Fixed bug #73122 (Integer Overflow when concatenating strings). (cmb)
-
--GD:
-  . Fixed bug #53580 (During resize gdImageCopyResampled cause colors change).
-    (cmb)
-
-- Opcache:
-  . Fixed bug #81353 (segfault with preloading and statically bound closure).
-    (Nikita)
-
-- Shmop:
-  . Fixed bug #81407 (shmop_open won't attach and causes php to crash). (cmb)
-
-- Standard:
-  . Fixed bug #71542 (disk_total_space does not work with relative paths). (cmb)
-  . Fixed bug #81400 (Unterminated string in dns_get_record() results). (cmb)
-
-- SysVMsg:
-  . Fixed bug #78819 (Heap Overflow in msg_send). (cmb)
-
-- XML:
-  . Fixed bug #81351 (xml_parse may fail, but has no error code). (cmb, Nikita)
-
-- Zip:
-  . Fixed bug #81420 (ZipArchive::extractTo extracts outside of destination).
-    (CVE-2021-21706) (cmb)
-
-26 Aug 2021, PHP 7.4.23
-
-- Core:
-  . Fixed bug #72595 (php_output_handler_append illegal write access). (cmb)
-  . Fixed bug #66719 (Weird behaviour when using get_called_class() with
-    call_user_func()). (Nikita)
-  . Fixed bug #81305 (Built-in Webserver Drops Requests With "Upgrade" Header).
-    (cmb)
+  . Fixed GHSA-w8hw-w9fx-j79w, GHSA-6wmf-4rv5-p3rp (Avoid state corruption via
+    bailout). (CVE-2026-109618, CVE-2026-109619) (Arnaud, ilutov, Jakub Zelenka,
+    ndossche, Nicolas Grekas)
+  . Fixed bug GH-23644 (Optimizer leaves a constant-vs-constant comparison
+    unfolded, crashing the VM in zval_undefined_cv). (ndossche)
+  . Fixed OSS-Fuzz 532353396 (assertion failure with static type). (Girgias)
+  . Fix GH-23662 (Avoid NAN warning in print_r()). (CodedByManish)
+  . Fix GH-21999: GC inconsistency with lazy object, var_dump(), and object
+    comparison. (Arnaud)
+  . Fixed OSS-Fuzz #536440507 (Immutable class incorrect assertion).
+    (ndossche)
+  . Fixed AVX being reported as supported when the OS has not enabled AVX
+    state. (Ilia Alshanetsky)
+  . Fixed GH-23980 (ZEND_ASSERT violation @ ZEND_INCLUDE_OR_EVAL). (ndossche)
+  . Fixed use-after-free when a dl()-loaded extension declares a frameless
+    function and a later request calls it. (Ilia Alshanetsky)
+  . Fixed System V shared memory emulation for Windows attaching segments past
+    the end of their mapping. (Ilia Alshanetsky)
+  . Fixed exception thrown by destructor during GC in a Fiber not being rethrown
+    into the frame that triggered the GC. (Nicolas Grekas)
 
 - BCMath:
-  . Fixed bug #78238 (BCMath returns "-0"). (cmb)
+  . Fixed BcMath\Number results that truncate to zero keeping a negative sign
+    and comparing less than zero. (Ilia Alshanetsky)
 
-- CGI:
-  . Fixed bug #80849 (HTTP Status header truncation). (cmb)
+- BZ2:
+  . Fixed double close of the descriptor and use-after-free of the inner
+    stream when bzopen() is given a stream resource. (Jakub Zelenka)
+
+- CLI:
+  . Fix GH-22567 (Windows ZTS CLI SAPI should refresh its TSRMLS cache during
+    request activation). (matyhtf)
+  . Fixed bug GH-23764 (Built-in server leaks a file descriptor on every HEAD
+    request for a static file). (jakubskopal)
+  . Fixed crash in the built-in server when a client is reset before being
+    accepted. (David Carlier)
+  . Fixed the built-in server truncating an error page and leaking its
+    unsent part after a partial socket write. (Ilia Alshanetsky)
+
+- DOM:
+  . Fixed use-after-free when re-constructing a DOMXPath whose php:function
+    registrations are freed while still reachable from the cycle collector.
+    (Ilia Alshanetsky)
+  . Fixed Dom\HTMLDocument::getElementById() not finding ids of SVG and
+    MathML elements. (Ilia Alshanetsky)
+  . Fixed Dom\HTMLDocument giving attributes the namespace of their element
+    when a fragment is parsed with an xlink, xml or xmlns context element.
+    (Ilia Alshanetsky)
+  . Fixed bug GH-23887 (Dom\HTMLCollection::namedItem() assertion failure,
+    hang, or missed first element). (Lazizbek Ergashev)
+  . Fixed DOMXPath and Dom\XPath losing the context node and in-scope
+    namespaces of an evaluation after a php:function() callback evaluated
+    another expression on the same object. (Ilia Alshanetsky)
+
+- FFI:
+  . Fixed crashes with FFI callbacks created from __call() trampolines
+    and array callables whose object is released. (Ilia Alshanetsky)
+
+- FTP:
+  . Fixed bug GH-23619 (cryptic error on servers that don't support TLS
+    session resumption on data connection). (ndossche)
 
 - GD:
-  . Fixed bug #51498 (imagefilledellipse does not work for large circles). (cmb)
-
-- MySQLi:
-  . Fixed bug #74544 (Integer overflow in mysqli_real_escape_string()). (cmb,
-    johannes)
-
-- OpenSSL:
-  . Fixed bug #81327 (Error build openssl extension on php 7.4.22). (cmb)
-
-- PDO_ODBC:
-  . Fixed bug #81252 (PDO_ODBC doesn't account for SQL_NO_TOTAL). (cmb)
-
-- Shmop:
-  . Fixed bug #81283 (shmop can't read beyond 2147483647 bytes). (cmb, Nikita)
-
-- Standard:
-  . Fixed bug #72146 (Integer overflow on substr_replace). (cmb)
-  . Fixed bug #81265 (getimagesize returns 0 for 256px ICO images).
-    (George Dietrich)
-  . Fixed bug #74960 (Heap buffer overflow via str_repeat). (cmb, Dmitry)
-
-- Streams:
-  . Fixed bug #81294 (Segfault when removing a filter). (cmb)
-
-29 Jul 2021, PHP 7.4.22
-
-- Core:
-  . Fixed bug #81145 (copy() and stream_copy_to_stream() fail for +4GB files).
-    (cmb, Nikita)
-  . Fixed bug #81163 (incorrect handling of indirect vars in __sleep).
-    (krakjoe)
-  . Fixed bug #80728 (PHP built-in web server resets timeout when it can kill
-    the process). (Calvin Buckley)
-  . Fixed bug #73630 (Built-in Weberver - overwrite $_SERVER['request_uri']).
-    (cmb)
-  . Fixed bug #80173 (Using return value of zend_assign_to_variable() is not
-    safe). (Nikita)
-  . Fixed bug #73226 (--r[fcez] always return zero exit code). (cmb)
+  . Fixed undefined behavior with GD2 images with `INT_MAX`-sized chunks.
+    (DanielEScherzer, cmb)
+  . Fixed undefined behavior with GIFs with problematic LZW compression data.
+    (DanielEScherzer, vapier)
 
 - Intl:
-  . Fixed bug #72809 (Locale::lookup() wrong result with canonicalize option).
-    (cmb)
-  . Fixed bug #68471 (IntlDateFormatter fails for "GMT+00:00" timezone). (cmb)
-  . Fixed bug #74264 (grapheme_strrpos() broken for negative offsets). (cmb)
+  . Fixed cloning IntlDateFormatter and MessageFormatter losing PHP-side state
+    such as dateType, timeType, calendar and the message pattern.
+    (Ilia Alshanetsky)
+  . Fixed a crash when converting with a cloned UConverter that uses
+    toUCallback/fromUCallback. (Ilia Alshanetsky)
+  . Fixed Collator attribute and strength methods not rejecting an
+    unconstructed Collator. (Ilia Alshanetsky)
+  . Fixed crash in intl_error_set_custom_msg() without an active call frame.
+    (David Carlier)
+  . Fixed grapheme_strstr() and grapheme_stristr() returning incorrect substrings
+    when supplementary characters precede the match. (Weilin Du)
+  . Fixed grapheme_strstr() and grapheme_strpos() missing canonically
+    equivalent matches, and grapheme searches reporting ICU errors for empty
+    haystacks. (Weilin Du)
+  . Fixed grapheme_strrpos() and grapheme_strripos() skipping overlapping matches
+    when using a negative offset. (Weilin Du)
+  . Fixed IntlDateFormatter::parse(), localtime() and parseToCalendar()
+    treating the offset as UTF-16 code units instead of bytes.
+    (Ilia Alshanetsky)
+
+- Lexbor:
+  . Merge patches lexbor/lexbor@8a14bc0 and lexbor/lexbor@f67ce4b, fixing a
+    heap buffer overflow in :lexbor-contains() parsing and buffer overflows
+    in malformed decode replay. (alexandre-daubois)
+  . Merge patches lexbor/lexbor@859f100, lexbor/lexbor@a36e09a,
+    lexbor/lexbor@b0f7412, lexbor/lexbor@1b215a8, lexbor/lexbor@385afff,
+    lexbor/lexbor@e6c068f, lexbor/lexbor@327a8b6, lexbor/lexbor@917742f and
+    lexbor/lexbor@e89c258, fixing dropped usernames containing an at sign,
+    uninitialized memory in IDNA buffer growth, the encoding of a space
+    before a query or fragment in an opaque path, a query or fragment lost
+    after a dot segment in a path, replacement file drive paths, the output
+    encoding used for percent-encoding, the URLSearchParams tail pointer and
+    fragment serialization without a query. (alexandre-daubois)
+
+- MBString:
+  . Fixed bug GH-23106 (mb_strpos() reads past the end of a haystack ending in
+    a truncated UTF-8 sequence). (Lazizbek Ergashev)
+  . Fixed mbstring functions emitting surrogates in UTF-8 output and flagging
+    it as valid UTF-8. (Nicolas Grekas)
+
+- MySQLi:
+  . Fix GH-22854: Fixed failed assertion when accessing mysqli property after
+    failed reconnection. (Kamil Tekiela)
+
+- MySQLnd:
+  . Fixed field_count not resetting on OK packet. (Kamil Tekiela)
+  . Fixed memory leak when closing a prepared statement after its connection
+    was killed. (Kamil Tekiela)
+
+- Opcache:
+  . Fixed OSS-Fuzz #546798343 (Heap-buffer-overflow in optimizer with
+    FCCs and inlining). (ndossche)
+  . Fixed bug GH-23693 (Tracing JIT produces wrong results for a guard on a
+    loop-invariant addition). (Ilia Alshanetsky)
+  . Fixed OSS-Fuzz #5674034779193344 (Read of uninitialized memory in
+    is_cacheable_stream_path()). (ndossche)
+  . Fix zend_analyze_calls() call_stack buffer overrun. (Mrmaxmeier)
+  . Fixed bug GH-23628 (Tracing JIT reads undefined property slots of lazy
+    proxy objects instead of forwarding to the real instance). (lisachenko)
+  . Fixed bug GH-23679 (Tracing JIT writes a parent private property into a
+    child's shadowing public property). (Ilia Alshanetsky)
+  . Fix multiple incorrect DCE due to unsound escape analysis. (ndossche,
+    arnaud-lb)
+  . Fixed bug GH-24063 (OPcache optimizer folds `$cond ? -0.0 : 0.0` into a
+    single `-0.0` constant). (lazerg)
+  . Fixed crash when a file cache is reused with a different set of
+    extensions declaring frameless functions. (Ilia Alshanetsky)
+  . Fixed bug GH-23991 (JIT generates invalid IR for multiple recursive calls).
+    (ndossche)
+  . Fix SCCP evaluation of isset()/empty() on dimension of non-escaping object.
+    (ndossche)
+  . Fixed bug GH-20890 (Segfault in zval_undefined_cv with non-simple property
+    hook with minimal tracing JIT). (ndossche)
 
 - OpenSSL:
-  . Fixed bug #52093 (openssl_csr_sign truncates $serial). (cmb)
+  . Fixed stream_socket_enable_crypto() leaving the socket non-blocking
+    after a handshake timeout. (Ilia Alshanetsky)
+  . Fixed feof() on a TLS stream staying false after a close_notify on Windows.
+    (Jakub Zelenka)
 
-- PCRE:
-  . Fixed bug #81101 (PCRE2 10.37 shows unexpected result). (Anatol)
-  . Fixed bug #81243 (Too much memory is allocated for preg_replace()). (cmb)
+- PCNTL:
+  . Fixed pcntl_signal_dispatch() dropping the queued signals when it runs while
+    an exception is pending. (nicolas-grekas)
+  . Fixed pcntl_signal_dispatch() dropping the signals queued behind a handler
+    that throws. (nicolas-grekas)
+  . Fixed bug GH-23986 (/proc/self paths resolve to the parent process after
+    pcntl_fork()). (Lazizbek Ergashev)
 
-- Standard:
-  . Fixed bug #81223 (flock() only locks first byte of file). (cmb)
+- PDO:
+  . Fixed PDOStatement::getColumnMeta() reading out of bounds for an invalid
+    column index. (Ilia Alshanetsky)
+  . Fixed PDOStatement::bindColumn() registering a binding for a column name
+    that is not in the result set. (Ilia Alshanetsky)
+  . Fixed PDOStatement::execute() leaving the previous result available
+    after a failed execution. (Ilia Alshanetsky)
+  . Fixed a use-after-free when bindValue()/execute()/closeCursor() is called
+    from a bound parameter's __toString() during execute(). (Ilia Alshanetsky)
+  . Fixed bug GH-23962 (Destroying a persistent PDO instance rolls back a
+    transaction still in use by another instance). (Lazizbek Ergashev)
+  . Fixed PDO::setAttribute() installing a PDO::ATTR_STATEMENT_CLASS class
+    whose constructor arguments it rejects. (Ilia Alshanetsky)
+  . Fixed PDO::ATTR_STATEMENT_CLASS constructor_args type errors reporting
+    "array given" regardless of the value passed. (Ilia Alshanetsky)
+  . Fixed PDOStatement::bindParam() and bindColumn() leaking the driver
+    options value. (Ilia Alshanetsky)
+  . Fixed PDOStatement not reporting its bound parameters and columns to the
+    cycle collector. (Ilia Alshanetsky)
+  . Fixed PDOStatement::setFetchMode() not applying changes atomically.
+    (Ilia Alshanetsky)
 
-01 Jul 2021, PHP 7.4.21
-
-- Core:
-  . Fixed bug #76359 (open_basedir bypass through adding ".."). (cmb)
-  . Fixed bug #81068 (Double free in realpath_cache_clean()). (Dimitry Andric)
-  . Fixed bug #81070 (Integer underflow in memory limit comparison).
-    (Peter van Dommelen)
-  . Fixed bug #81090 (Typed property performance degradation with .= operator).
-    (Nikita)
-  . Fixed bug #81122: SSRF bypass in FILTER_VALIDATE_URL. (CVE-2021-21705) (cmb)
-
-- Bzip2:
-  . Fixed bug #81092 (fflush before stream_filter_remove corrupts stream).
-    (cmb)
-
-- OpenSSL:
-  . Fixed bug #76694 (native Windows cert verification uses CN as sever name).
-    (cmb)
+- PDO_DBLIB:
+  . Fixed bug GH-23741 (segfault after a failed query inside a PDO
+    transaction). Errors raised by beginTransaction(), commit(), rollBack()
+    and lastInsertId() are now reported instead of being dropped.
+    (Ilia Alshanetsky)
 
 - PDO_Firebird:
-  . Fixed bug #76448: Stack buffer overflow in firebird_info_cb.
-    (CVE-2021-21704) (cmb)
-  . Fixed bug #76449: SIGSEGV in firebird_handle_doer. (CVE-2021-21704) (cmb)
-  . Fixed bug #76450: SIGSEGV in firebird_stmt_execute. (CVE-2021-21704) (cmb)
-  . Fixed bug #76452: Crash while parsing blob data in firebird_fetch_blob.
-    (CVE-2021-21704) (cmb)
+  . Fixed bug GH-23758 (PDO_Firebird returns null for non-null empty BLOBs).
+    (Lazizbek Ergashev)
 
-- Standard:
-  . Fixed bug #81048 (phpinfo(INFO_VARIABLES) "Array to string conversion").
-    (cmb)
+- PGSQL:
+  . Fixed pg_lo_write() rejecting data containing null bytes. (Ilia Alshanetsky)
+  . Removed pg_service(), unavailable with any released libpq. (KentarouTakeda)
 
-03 Jun 2021, PHP 7.4.20
+- Readline:
+  . Fixed a heap over-read in the interactive shell prompt when cli.prompt is
+    set to an empty string. (Ilia Alshanetsky)
 
-- Core:
-  . Fixed bug #80929 (Method name corruption related to repeated calls to
-    call_user_func_array). (twosee)
-  . Fixed bug #80960 (opendir() warning wrong info when failed on Windows).
-    (cmb)
-  . Fixed bug #67792 (HTTP Authorization schemes are treated as case-sensitive).
-    (cmb)
-  . Fixed bug #80972 (Memory exhaustion on invalid string offset). (girgias)
-
-- FPM:
-  . Fixed bug #65800 (Events port mechanism). (psumbera)
-
-- FTP:
-  . Fixed bug #80901 (Info leak in ftp extension). (cmb)
-  . Fixed bug #79100 (Wrong FTP error messages). (cmb)
-
-- GD:
-  . Fixed bug #81032 (GD install is affected by external libgd installation).
-    (Flavio Heleno, cmb)
-
-- MBString:
-  . Fixed bug #81011 (mb_convert_encoding removes references from arrays). (cmb)
-
-- ODBC:
-  . Fixed bug #80460 (ODBC doesn't account for SQL_NO_TOTAL indicator). (cmb)
-
-- PDO_MySQL:
-  . Fixed bug #81037 (PDO discards error message text from prepared 
-    statement). (Kamil Tekiela)
-
-- PDO_ODBC:
-  . Fixed bug #44643 (bound parameters ignore explicit type definitions). (cmb)
-
-- pgsql:
-  . Fixed php_pgsql_fd_cast() wrt. php_stream_can_cast(). (cmb)
-
-- SPL:
-  . Fixed bug #80933 (SplFileObject::DROP_NEW_LINE is broken for NUL and CR).
-    (cmb, Nikita)
-
-- Opcache:
-  . Fixed bug #80900 (switch statement behavior inside function). (twosee)
-  . Fixed bug #81015 (Opcache optimization assumes wrong part of ternary
-    operator in if-condition). (Nikita)
-
-- XMLReader:
-  . Fixed bug #73246 (XMLReader: encoding length not checked). (cmb)
-
-- Zip:
-  . Fixed bug #80863 (ZipArchive::extractTo() ignores references). (cmb)
-
-06 May 2021, PHP 7.4.19
-
-- PDO_pgsql:
-  . Reverted bug fix for #80892 (PDO::PARAM_INT is treated the same as
-    PDO::PARAM_STR). (Matteo)
-
-
-29 Apr 2021, PHP 7.4.18
-
-- Core:
-  . Fixed bug #80781 (Error handler that throws ErrorException infinite loop).
-    (Nikita)
-  . Fixed bug #75776 (Flushing streams with compression filter is broken). (cmb)
-
-- Dba:
-  . Fixed bug #80817 (dba_popen() may cause segfault during RSHUTDOWN). (cmb)
-
-- DOM:
-  . Fixed bug #66783 (UAF when appending DOMDocument to element). (cmb)
-
-- FPM:
-  . Fixed bug #80024 (Duplication of info about inherited socket after pool
-    removing). (Jakub Zelenka)
-
-- FTP:
-  . Fixed bug #80880 (SSL_read on shutdown, ftp/proc_open). (cmb, Jakub
-    Zelenka)
-
-- Imap:
-  . Fixed bug #80710 (imap_mail_compose() header injection). (cmb, Stas)
-
-- Intl:
-  . Fixed bug #80763 (msgfmt_format() does not accept DateTime references).
-    (cmb)
-
-- LibXML:
-  . Fixed bug #51903 (simplexml_load_file() doesn't use HTTP headers). (cmb)
-  . Fixed bug #73533 (Invalid memory access in php_libxml_xmlCheckUTF8). (cmb)
-
-- MySQLnd:
-  . Fixed bug #80713 (SegFault when disabling ATTR_EMULATE_PREPARES and
-    MySQL 8.0). (Nikita)
-  . Fixed bug #80837 (Calling stmt_store_result after fetch doesn't throw an
-    error). (Kamil Tekiela)
-
-- Opcache:
-  . Fixed bug #80805 (create simple class and get error in opcache.so). (Nikita)
-  . Fixed bug #80950 (Variables become null in if statements). (Nikita)
-
-- Pcntl:
-  . Fixed bug #79812 (Potential integer overflow in pcntl_exec()). (cmb)
-
-- PCRE:
-  . Fixed bug #80866 (preg_split ignores limit flag when pattern with \K has
-    0-width fullstring match). (Kamil Tekiela)
-
-- PDO_ODBC:
-  . Fixed bug #80783 (PDO ODBC truncates BLOB records at every 256th byte).
-    (cmb)
-
-- PDO_pgsql:
-  . Fixed bug #80892 (PDO::PARAM_INT is treated the same as PDO::PARAM_STR).
-    (Matteo)
-
-- phpdbg:
-  . Fixed bug #80757 (Exit code is 0 when could not open file). (Felipe)
+- Reflection:
+  . Fixed bug GH-23842 (ReflectionProperty::skipLazyInitialization() copies
+    invalid constant defaults with OPcache). (DirkTrunkstar, Lazizbek Ergashev)
 
 - Session:
-  . Fixed bug #80774 (session_name() problem with backslash). (cmb)
-  . Fixed bug #80889 (Cannot set save handler when save_handler is invalid).
-    (cmb)
+  . Fixed session_start() continuing after a failed create_sid() when
+    session.use_strict_mode rejects the supplied ID. (Ilia Alshanetsky)
+  . Fixed exceptions from user-defined create_sid() handlers being replaced
+    by return-value validation errors. (Ilia Alshanetsky)
+
+- SimpleXML:
+  . Fixed reconstructing a SimpleXMLElement freeing a child element that
+    another variable still references. (Ilia Alshanetsky)
 
 - SOAP:
-  . Fixed bug #69668 (SOAP special XML characters in namespace URIs not
-    encoded). (cmb)
+  . Fixed bug GH-22895 (Heap use-after-free while encoding a Traversable with
+    an illegal key). (David Carlier)
+  . Fixed memory leak when load_wsdl_ex() failed to load. (DanielEScherzer)
+
+- SQLite:
+  . Fixed a crash when SQLite3::close() is called from a userland callback.
+    (Ilia Alshanetsky)
 
 - Standard:
-  . Fixed bug #78719 (http wrapper silently ignores long Location headers).
-    (cmb)
-  . Fixed bug #80771 (phpinfo(INFO_CREDITS) displays nothing in CLI). (cmb)
-  . Fixed bug #80838 (HTTP wrapper waits for HTTP 1 response after HTTP 101).
-    (manuelm)
-  . Fixed bug #80915 (Taking a reference to $_SERVER hides its values from
-    phpinfo()). (Rowan Tommins)
-
-04 Mar 2021, php 7.4.16
-
-- Core:
-  . Fixed #80706 (mail(): Headers after Bcc headers may be ignored). (cmb)
-
-- MySQLnd:
-  . Fixed bug #78680 (mysqlnd's mysql_clear_password does not transmit
-    null-terminated password). (Daniel Black)
-
-- MySQLi:
-  . Fixed bug #74779 (x() and y() truncating floats to integers). (cmb)
-
-- OPcache:
-  . Fixed bug #80682 (opcache doesn't honour pcre.jit option). (Remi)
-
-- OpenSSL:
-  . Fixed bug #80747 (Providing RSA key size < 512 generates key that crash
-    PHP). (Nikita)
-
-- Phar:
-  . Fixed bug #75850 (Unclear error message wrt. __halt_compiler() w/o
-    semicolon) (cmb)
-  . Fixed bug #70091 (Phar does not mark UTF-8 filenames in ZIP archives). (cmb)
-  . Fixed bug #53467 (Phar cannot compress large archives). (cmb, lserni)
-
-- SPL:
-  . Fixed bug#80719 (Iterating after failed ArrayObject::setIteratorClass()
-    causes Segmentation fault). (Nikita)
-
-- Standard:
-  . Fixed bug #80654 (file_get_contents() maxlen fails above (2**31)-1 bytes).
-    (cmb)
-
-- Zip:
-  . Fixed bug #80648 (Fix for bug 79296 should be based on runtime version).
-    (cmb, Remi)
-
-04 Feb 2021, PHP 7.4.15
-
-- Core:
-  . Fixed bug #80523 (bogus parse error on >4GB source code). (Nikita)
-  . Fixed bug #80384 (filter buffers entire read until file closed). (Adam
-    Seitz, cmb)
-
-- Curl:
-  . Fixed bug #80595 (Resetting POSTFIELDS to empty array breaks request). (cmb)
-
-- Date:
-  . Fixed bug #80376 (last day of the month causes runway cpu usage. (Derick)
-
-- MySQLi:
-  . Fixed bug #67983 (mysqlnd with MYSQLI_OPT_INT_AND_FLOAT_NATIVE fails to
-    interpret bit columns). (Nikita)
-  . Fixed bug #64638 (Fetching resultsets from stored procedure with cursor
-    fails). (Nikita)
-  . Fixed bug #72862 (segfault using prepared statements on stored procedures
-    that use a cursor). (Nikita)
-  . Fixed bug #77935 (Crash in mysqlnd_fetch_stmt_row_cursor when calling an SP
-    with a cursor). (Nikita)
-
-- Phar:
-  . Fixed bug #77565 (Incorrect locator detection in ZIP-based phars). (cmb)
-  . Fixed bug #69279 (Compressed ZIP Phar extractTo() creates garbage files).
-    (cmb)
-
-07 Jan 2021, PHP 7.4.14
-
-- Core:
-  . Fixed bug #74558 (Can't rebind closure returned by Closure::fromCallable()).
-    (cmb)
-  . Fixed bug #80345 (PHPIZE configuration has outdated PHP_RELEASE_VERSION).
-    (cmb)
-  . Fixed bug #72964 (White space not unfolded for CC/Bcc headers). (cmb)
-  . Fixed bug #80362 (Running dtrace scripts can cause php to crash).
-    (al at coralnet dot name)
-  . Fixed bug #80393 (Build of PHP extension fails due to configuration gap
-    with libtool). (kir dot morozov at gmail dot com)
-  . Fixed bug #80402 (configure filtering out -lpthread). (Nikita)
-  . Fixed bug #77069 (stream filter loses final block of data). (cmb)
-
-- Fileinfo:
-  . Fixed bug #77961 (finfo_open crafted magic parsing SIGABRT). (cmb)
-
-- FPM:
-  . Fixed bug #69625 (FPM returns 200 status on request without
-    SCRIPT_FILENAME env). (Jakub Zelenka)
-
-- Intl:
-  . Fixed bug #80425 (MessageFormatAdapter::getArgTypeList redefined). (Nikita)
-
-- OpenSSL:
-  . Fixed bug #80368 (OpenSSL extension fails to build against LibreSSL due to
-    lack of OCB support). (Nikita)
-
-- Phar:
-  . Fixed bug #73809 (Phar Zip parse crash - mmap fail). (cmb)
-  . Fixed bug #75102 (`PharData` says invalid checksum for valid tar). (cmb)
-  . Fixed bug #77322 (PharData::addEmptyDir('/') Possible integer overflow).
-    (cmb)
-
-- PDO MySQL:
-  . Fixed bug #80458 (PDOStatement::fetchAll() throws for upsert queries).
-    (Kamil Tekiela)
-  . Fixed bug #63185 (nextRowset() ignores MySQL errors with native prepared
-    statements). (Nikita)
-  . Fixed bug #78152 (PDO::exec() - Bad error handling with multiple commands).
-    (Nikita)
-  . Fixed bug #70066 (Unexpected "Cannot execute queries while other unbuffered
-    queries"). (Nikita)
-  . Fixed bug #71145 (Multiple statements in init command triggers unbuffered
-    query error). (Nikita)
-  . Fixed bug #76815 (PDOStatement cannot be GCed/closeCursor-ed when a
-    PROCEDURE resultset SIGNAL). (Nikita)
-
-- Standard:
-  . Fixed bug #77423 (FILTER_VALIDATE_URL accepts URLs with invalid userinfo).
-    (CVE-2020-7071) (cmb)
-  . Fixed bug #80366 (Return Value of zend_fstat() not Checked). (sagpant, cmb)
-  . Fixed bug #80411 (References to null-serialized object break serialize()).
-    (Nikita)
+  . Fixed sha1_file() returning a digest for incomplete data after a stream
+    read failure. (Ilia Alshanetsky)
+  . Fixed iptcembed() corrupting JPEG headers when called recursively from an
+    output handler. (Ilia Alshanetsky)
+  . Fixed proc_open() leaking descriptor zero when descriptor setup fails.
+    (Ilia Alshanetsky)
+  . Fixed three Windows-only proc_open() defects: an uninitialized
+    PROCESS_INFORMATION, an indeterminate comspec pointer after a failed
+    lookup, and an unchecked CreateFileA() failure. (Ilia Alshanetsky)
+  . Fix persistent stream context lifetime during shutdown (Levi Morrison)
+  . Fix wordwrap() ignoring an existing break at the end of the string
+    (Nicolas Grekas)
+  . Fixed convert.quoted-printable-decode decoding lowercase hex digits to
+    the wrong byte. (Ilia Alshanetsky)
+  . Fixed chown() and lchown() failing to resolve user names in ZTS builds
+    when getpwnam_r() needs a larger buffer. (Ilia Alshanetsky)
 
 - Tidy:
-  . Fixed bug #77594 (ob_tidyhandler is never reset). (cmb)
+  . Fixed a use-after-free when a tidyNode is used after its document is
+    reparsed. (Ilia Alshanetsky)
 
 - Zlib:
-  . Fixed #48725 (Support for flushing in zlib stream). (cmb)
+  . Fixed inflate_init() dropping the preset dictionary for raw streams with
+    a non-default window. (Ilia Alshanetsky)
 
-26 Nov 2020, PHP 7.4.13
+
+24 Sep 2026, PHP 8.5.11
+
+- BCMath:
+  . Fixed out-of-bounds read in bc_is_zero_for_scale() when scale exceeds
+    n_scale. (Ilia Alshanetsky)
 
 - Core:
-  . Fixed bug #80280 (ADD_EXTENSION_DEP() fails for ext/standard and ext/date).
-    (cmb)
-  . Fixed bug #80258 (Windows Deduplication Enabled, randon permission errors).
-    (cmb)
-
-- COM:
-  . Fixed bug #62474 (com_event_sink crashes on certain arguments). (cmb)
+  . Fixed out-of-bounds reads during automatic UTF-16/32 encoding detection.
+    (Yudai Takada)
+  . Fixed bug GH-15375 (Nested "yield from" skips items after a valid() or
+    next() call on the inner generator). (iliaal)
+  . Fixed bug GH-23232 (lone namespace separator asks the autoloader for an
+    empty class name). (spawnia)
+  . Fixed bug GH-23301 (Nested "yield from" yields a value twice when the
+    middle generator delegates again). (Lazizbek Ergashev)
 
 - DOM:
-  . Fixed bug #80268 (loadHTML() truncates at NUL bytes). (cmb)
-
-- FFI:
-  . Fixed bug #79177 (FFI doesn't handle well PHP exceptions within callback).
-    (cmb, Dmitry, Nikita)
-
-- IMAP:
-  . Fixed bug #64076 (imap_sort() does not return FALSE on failure). (cmb)
-  . Fixed bug #76618 (segfault on imap_reopen). (girgias)
-  . Fixed bug #80239 (imap_rfc822_write_address() leaks memory). (cmb)
-  . Fixed minor regression caused by fixing bug #80220. (cmb)
-  . Fixed bug #80242 (imap_mail_compose() segfaults for multipart with rfc822).
-    (cmb)
-
-- MySQLi:
-  . Fixed bug #79375 (mysqli_store_result does not report error from lock wait
-    timeout). (Kamil Tekiela, Nikita)
-  . Fixed bug #76525 (mysqli::commit does not throw if MYSQLI_REPORT_ERROR
-    enabled and mysqlnd used). (Kamil Tekiela)
-  . Fixed bug #72413 (mysqlnd segfault (fetch_row second parameter
-    typemismatch)). (Kamil Tekiela)
-
-- ODBC:
-  . Fixed bug #44618 (Fetching may rely on uninitialized data). (cmb)
-
-- Opcache:
-  . Fixed bug #79643 (PHP with Opcache crashes when a file with specific name
-    is included). (twosee)
-  . Fixed run-time binding of preloaded dynamically declared function. (Dmitry)
-
-- OpenSSL:
-  . Fixed bug #79983 (openssl_encrypt / openssl_decrypt fail with OCB mode).
-    (Nikita)
-
-- PDO MySQL:
-  . Fixed bug #66528 (No PDOException or errorCode if database becomes
-    unavailable before PDO::commit). (Nikita)
-  . Fixed bug #65825 (PDOStatement::fetch() does not throw exception on broken
-    server connection). (Nikita)
-
-- SNMP:
-  . Fixed bug #70461 (disable md5 code when it is not supported in net-snmp).
-    (Alexander Bergmann, cmb)
-
-- Standard:
-  . Fixed bug #80266 (parse_url silently drops port number 0). (cmb, Nikita)
-
-29 Oct 2020, PHP 7.4.12
-
-- Core:
-  . Fixed bug #80061 (Copying large files may have suboptimal performance).
-    (cmb)
-  . Fixed bug #79423 (copy command is limited to size of file it can copy).
-    (cmb)
-  . Fixed bug #80126 (Covariant return types failing compilation). (Nikita)
-  . Fixed bug #80186 (Segfault when iterating over FFI object). (Nikita)
-
-- Calendar:
-  . Fixed bug #80185 (jdtounix() fails after 2037). (cmb)
-
-- IMAP:
-  . Fixed bug #80213 (imap_mail_compose() segfaults on certain $bodies). (cmb)
-  . Fixed bug #80215 (imap_mail_compose() may modify by-val parameters). (cmb)
-  . Fixed bug #80220 (imap_mail_compose() may leak memory). (cmb)
-  . Fixed bug #80223 (imap_mail_compose() leaks envelope on malformed bodies).
-    (cmb)
-  . Fixed bug #80216 (imap_mail_compose() does not validate types/encodings).
-    (cmb)
-  . Fixed bug #80226 (imap_sort() leaks sortpgm memory). (cmb)
-
-- MySQLnd:
-  . Fixed bug #80115 (mysqlnd.debug doesn't recognize absolute paths with
-    slashes). (cmb)
-  . Fixed bug #80107 (mysqli_query() fails for ~16 MB long query when
-    compression is enabled). (Nikita)
-
-- ODBC:
-  . Fixed bug #78470 (odbc_specialcolumns() no longer accepts $nullable). (cmb)
-  . Fixed bug #80147 (BINARY strings may not be properly zero-terminated).
-    (cmb)
-  . Fixed bug #80150 (Failure to fetch error message). (cmb)
-  . Fixed bug #80152 (odbc_execute() moves internal pointer of $params). (cmb)
-  . Fixed bug #46050 (odbc_next_result corrupts prepared resource). (cmb)
-
-- OPcache:
-  . Fixed bug #80083 (Optimizer pass 6 removes variables used for ibm_db2 data
-    binding). (Nikita)
-  . Fixed bug #80194 (Assertion failure during block assembly of unreachable
-    free with leading nop). (Nikita)
-
-- PCRE:
-  . Updated to PCRE 10.35. (cmb)
-  . Fixed bug #80118 (Erroneous whitespace match with JIT only). (cmb)
-
-- PDO_ODBC:
-  . Fixed bug #67465 (NULL Pointer dereference in odbc_handle_preparer). (cmb)
-
-- Standard:
-  . Fixed bug #80114 (parse_url does not accept URLs with port 0). (cmb, twosee)
-  . Fixed bug #76943 (Inconsistent stream_wrapper_restore() errors). (cmb)
-  . Fixed bug #76735 (Incorrect message in fopen on invalid mode). (cmb)
-
-- Tidy:
-  . Fixed bug #77040 (tidyNode::isHtml() is completely broken). (cmb)
-
-01 Oct 2020, PHP 7.4.11
-
-- Core:
-  . Fixed bug #79979 (passing value to by-ref param via CUFA crashes). (cmb,
-    Nikita)
-  . Fixed bug #80037 (Typed property must not be accessed before initialization
-    when __get() declared). (Nikita)
-  . Fixed bug #80048 (Bug #69100 has not been fixed for Windows). (cmb)
-  . Fixed bug #80049 (Memleak when coercing integers to string via variadic
-    argument). (Nikita)
-  . Fixed bug #79699 (PHP parses encoded cookie names so malicious `__Host-`
-    cookies can be sent). (CVE-2020-7070) (Stas)
-
-- Calendar:
-  . Fixed bug #80007 (Potential type confusion in unixtojd() parameter parsing).
-    (Andy Postnikov)
-
-- COM:
-  . Fixed bug #64130 (COM obj parameters passed by reference are not updated).
-    (cmb)
-
-- OPcache:
-  . Fixed bug #80002 (calc free space for new interned string is wrong).
-    (t-matsuno)
-  . Fixed bug #80046 (FREE for SWITCH_STRING optimized away). (Nikita)
-  . Fixed bug #79825 (opcache.file_cache causes SIGSEGV when custom opcode
-    handlers changed). (SammyK)
-
-- OpenSSL:
-  . Fixed bug #79601 (Wrong ciphertext/tag in AES-CCM encryption for a 12
-    bytes IV). (CVE-2020-7069) (Jakub Zelenka)
-
-- PDO:
-  . Fixed bug #80027 (Terrible performance using $query->fetch on queries with
-    many bind parameters). (Matteo)
-
-- SOAP:
-  . Fixed bug #47021 (SoapClient stumbles over WSDL delivered with
-    "Transfer-Encoding: chunked"). (Matteo)
-
-- Standard:
-  . Fixed bug #79986 (str_ireplace bug with diacritics characters). (cmb)
-  . Fixed bug #80077 (getmxrr test bug). (Rainer Jung)
-  . Fixed bug #72941 (Modifying bucket->data by-ref has no effect any longer).
-    (cmb)
-  . Fixed bug #80067 (Omitting the port in bindto setting errors). (cmb)
-
-03 Sep 2020, PHP 7.4.10
-
-- Core:
-  . Fixed bug #79884 (PHP_CONFIG_FILE_PATH is meaningless). (cmb)
-  . Fixed bug #77932 (File extensions are case-sensitive). (cmb)
-  . Fixed bug #79806 (realpath() erroneously resolves link to link). (cmb)
-  . Fixed bug #79895 (PHP_CHECK_GCC_ARG does not allow flags with equal sign).
-    (Santiago M. Mola)
-  . Fixed bug #79919 (Stack use-after-scope in define()). (cmb)
-  . Fixed bug #79934 (CRLF-only line in heredoc causes parsing error).
-    (Pieter van den Ham)
-  . Fixed bug #79947 (Memory leak on invalid offset type in compound
-    assignment). (Nikita)
-
-- COM:
-  . Fixed bug #48585 (com_load_typelib holds reference, fails on second call).
-    (cmb)
-
-- Exif:
-  . Fixed bug #75785 (Many errors from exif_read_data).
-    (Níckolas Daniel da Silva)
-
-- Gettext:
-  . Fixed bug #70574 (Tests fail due to relying on Linux fallback behavior for
-    gettext()). (Florian Engelhardt)
-
-- LDAP:
-  . Fixed memory leaks. (ptomulik)
-
-- OPcache:
-  . Fixed bug #73060 (php failed with error after temp folder cleaned up).
-    (cmb)
-  . Fixed bug #79917 (File cache segfault with a static variable in inherited
-    method). (Nikita)
-
-- PDO:
-  . Fixed bug #64705 (errorInfo property of PDOException is null when
-    PDO::__construct() fails). (Ahmed Abdou)
-
-- Session:
-  . Fixed bug #79724 (Return type does not match in ext/session/mod_mm.c).
-    (Nikita)
-
-- Standard:
-  . Fixed bug #79930 (array_merge_recursive() crashes when called with array
-    with single reference). (Nikita)
-  . Fixed bug #79944 (getmxrr always returns true on Alpine linux). (Nikita)
-  . Fixed bug #79951 (Memory leak in str_replace of empty string). (Nikita)
-
-- XML:
-  . Fixed bug #79922 (Crash after multiple calls to xml_parser_free()). (cmb)
-
-06 Aug 2020, PHP 7.4.9
-
-- Apache:
-  . Fixed bug #79030 (Upgrade apache2handler's php_apache_sapi_get_request_time
-    to return usec). (Herbert256)
-
-- COM:
-  . Fixed bug #63208 (BSTR to PHP string conversion not binary safe). (cmb)
-  . Fixed bug #63527 (DCOM does not work with Username, Password parameter).
-    (cmb)
-
-- Core:
-  . Fixed bug #79877 (getimagesize function silently truncates after a null
-    byte) (cmb)
-  . Fixed bug #79740 (serialize() and unserialize() methods can not be called
-    statically). (Nikita)
-  . Fixed bug #79783 (Segfault in php_str_replace_common). (Nikita)
-  . Fixed bug #79778 (Assertion failure if dumping closure with unresolved
-    static variable). (Nikita)
-  . Fixed bug #79779 (Assertion failure when assigning property of string
-    offset by reference). (Nikita)
-  . Fixed bug #79792 (HT iterators not removed if empty array is destroyed).
-    (Nikita)
-  . Fixed bug #78598 (Changing array during undef index RW error segfaults).
-    (Nikita)
-  . Fixed bug #79784 (Use after free if changing array during undef var during
-    array write fetch). (Nikita)
-  . Fixed bug #79793 (Use after free if string used in undefined index warning
-    is changed). (Nikita)
-  . Fixed bug #79862 (Public non-static property in child should take priority
-    over private static). (Nikita)
-
-- Fileinfo:
-  . Fixed bug #79756 (finfo_file crash (FILEINFO_MIME)). (cmb)
-
-- FTP:
-  . Fixed bug #55857 (ftp_size on large files). (cmb)
-
-- Mbstring:
-  . Fixed bug #79787 (mb_strimwidth does not trim string). (XXiang)
-
-- OpenSSL:
-  . Fixed bug #79881 (Memory leak in openssl_pkey_get_public()). (Nikita)
-
-- Phar:
-  . Fixed bug #79797 (Use of freed hash key in the phar_parse_zipfile
-    function). (CVE-2020-7068) (cmb)
-
-- Reflection:
-  . Fixed bug #79487 (::getStaticProperties() ignores property modifications).
-    (cmb, Nikita)
-  . Fixed bug #69804 (::getStaticPropertyValue() throws on protected props).
-    (cmb, Nikita)
-  . Fixed bug #79820 (Use after free when type duplicated into
-    ReflectionProperty gets resolved). (Christopher Broadbent)
-
-- Standard:
-  . Fixed bug #70362 (Can't copy() large 'data://' with open_basedir). (cmb)
-  . Fixed bug #78008 (dns_check_record() always return true on Alpine).
-    (Andy Postnikov)
-  . Fixed bug #79839 (array_walk() does not respect property types). (Nikita)
-
-09 Jul 2020, PHP 7.4.8
-
-- Core:
-  . Fixed bug #79595 (zend_init_fpu() alters FPU precision). (cmb, Nikita)
-  . Fixed bug #79650 (php-win.exe 100% cpu lockup). (cmb)
-  . Fixed bug #79668 (get_defined_functions(true) may miss functions). (cmb,
-    Nikita)
-  . Fixed bug #79683 (Fake reflection scope affects __toString()). (Nikita)
-  . Fixed possibly unsupported timercmp() usage. (cmb)
-
-- Exif:
-  . Fixed bug #79687 (Sony picture - PHP Warning - Make, Model, MakerNotes).
-    (cmb)
-
-- Fileinfo:
-  . Fixed bug #79681 (mime_content_type/finfo returning incorrect mimetype).
-    (cmb)
-
-- Filter:
-  . Fixed bug #73527 (Invalid memory access in php_filter_strip). (cmb)
+  . Fixed NamedNodeMap::getNamedItemNS() with an empty URI not matching
+    the null namespace in spec-following mode. (Ilia Alshanetsky)
+  . Fixed stale getElementsByClassName() and other node list caches after
+    className/classList writes and attribute removals. (Ilia Alshanetsky)
+  . Fixed a use-after-free when cloning a DOMNameSpaceNode after
+    DOMDocument::xinclude(). (iliaal)
+  . Fixed a crash in DOMXPath when a php:function callback receives a nodeset
+    and a later callback returns a node from another document. (iliaal)
+  . Fixed bug GH-23331 (UAF when node_list_unlink() skips attribute children
+    that still have a live wrapper). (iliaal)
+  . Fixed a use-after-free when Dom\Element::setAttributeNS() replaces the
+    value of an attribute whose child still has a live wrapper. (iliaal)
 
 - GD:
-  . Fixed bug #79676 (imagescale adds black border with IMG_BICUBIC). (cmb)
-
-- OpenSSL:
-  . Fixed bug #62890 (default_socket_timeout=-1 causes connection to timeout).
-    (cmb)
-
-- PDO SQLite:
-  . Fixed bug #79664 (PDOStatement::getColumnMeta fails on empty result set).
-    (cmb)
-
-- phpdbg:
-  . Fixed bug #73926 (phpdbg will not accept input on restart execution). (cmb)
-  . Fixed bug #73927 (phpdbg fails with windows error prompt at "watch array").
-    (cmb)
-  . Fixed several mostly Windows related phpdbg bugs. (cmb)
-
-- SPL:
-  . Fixed bug #79710 (Reproducible segfault in error_handler during GC
-    involved an SplFileObject). (Nikita)
-
-- Standard:
-  . Fixed bug #74267 (segfault with streams and invalid data). (cmb)
-  . Fixed bug #79579 (ZTS build of PHP 7.3.17 doesn't handle ERANGE for
-    posix_getgrgid and others). (Böszörményi Zoltán)
-
-11 Jun 2020, PHP 7.4.7
-
-- Core:
-  . Fixed bug #79599 (coredump in set_error_handler). (Laruence)
-  . Fixed bug #79566 (Private SHM is not private on Windows). (cmb)
-  . Fixed bug #79489 (.user.ini does not inherit). (cmb)
-  . Fixed bug #79600 (Regression in 7.4.6 when yielding an array based
-    generator). (Nikita)
-  . Fixed bug #79657 ("yield from" hangs when invalid value encountered).
-    (Nikita)
-
-- FFI:
-  . Fixed bug #79571 (FFI: var_dumping unions may segfault). (cmb)
-
-- GD:
-  . Fixed bug #79615 (Wrong GIF header written in GD GIFEncode). (sageptr, cmb)
-
-- MySQLnd:
-  . Fixed bug #79596 (MySQL FLOAT truncates to int some locales). (cmb)
-
-- Opcache:
-  . Fixed bug #79588 (Boolean opcache settings ignore on/off values). (cmb)
-  . Fixed bug #79548 (Preloading segfault with inherited method using static
-    variable). (Nikita)
-  . Fixed bug #79603 (RTD collision with opcache). (Nikita)
-
-- Standard:
-  . Fixed bug #79561 (dns_get_record() fails with DNS_ALL). (cmb)
-
-14 May 2020, PHP 7.4.6
-
-- Core:
-  . Fixed bug #79536 (zend_clear_exception prevent exception's destructor to be
-    called). (Laruence)
-  . Fixed bug #78434 (Generator yields no items after valid() call). (Nikita)
-  . Fixed bug #79477 (casting object into array creates references). (Nikita)
-  . Fixed bug #79514 (Memory leaks while including unexistent file). (cmb,
-    Nikita)
-
-- DOM:
-  . Fixed bug #78221 (DOMNode::normalize() doesn't remove empty text nodes).
-    (cmb)
-
-- EXIF:
-  . Fixed bug #79336 (ext/exif/tests/bug79046.phpt fails on Big endian arch).
-    (Nikita)
-
-- FCGI:
-  . Fixed bug #79491 (Search for .user.ini extends up to root dir). (cmb)
-
-- MBString:
-  . Fixed bug #79441 (Segfault in mb_chr() if internal encoding is unsupported).
-    (Girgias)
-
-- OpenSSL:
-  . Fixed bug #79497 (stream_socket_client() throws an unknown error sometimes
-    with <1s timeout). (Joe Cai)
-
-- PCRE:
-  . Upgraded to PCRE2 10.34. (cmb)
-
-- Phar:
-  . Fixed bug #79503 (Memory leak on duplicate metadata). (cmb)
-
-- SimpleXML:
-  . Fixed bug #79528 (Different object of the same xml between 7.4.5 and
-    7.4.4). (cmb)
-
-- SPL:
-  . Fixed bug #69264 (__debugInfo() ignored while extending SPL classes). (cmb)
-  . Fixed bug #67369 (ArrayObject serialization drops the iterator class).
-    (Alex Dowad)
-
-- Standard:
-  . Fixed bug #79468 (SIGSEGV when closing stream handle with a stream filter
-    appended). (dinosaur)
-  . Fixed bug #79447 (Serializing uninitialized typed properties with __sleep
-    should not throw). (nicolas-grekas)
-
-16 Apr 2020, PHP 7.4.5
-
-- Core:
-  . Fixed bug #79364 (When copy empty array, next key is unspecified). (cmb)
-  . Fixed bug #78210 (Invalid pointer address). (cmb, Nikita)
-
-- CURL:
-  . Fixed bug #79199 (curl_copy_handle() memory leak). (cmb)
-
-- Date:
-  . Fixed bug #79396 (DateTime hour incorrect during DST jump forward). (Nate
-    Brunette)
-  . Fixed bug #74940 (DateTimeZone loose comparison always true). (cmb)
+  . Fixed imageaffinematrixget() and imageaffinematrixconcat() reporting the
+    wrong argument in error messages. (Weilin Du)
 
 - FPM:
-  . Implement request #77062 (Allow numeric [UG]ID in FPM listen.{owner,group})
-    (Andre Nathan)
-
-- Iconv:
-  . Fixed bug #79200 (Some iconv functions cut Windows-1258). (cmb)
-
-- OPcache:
-  . Fixed bug #79412 (Opcache chokes and uses 100% CPU on specific script).
-    (Dmitry)
-
-- Session:
-  . Fixed bug #79413 (session_create_id() fails for active sessions). (cmb)
-
-- Shmop:
-  . Fixed bug #79427 (Integer Overflow in shmop_open()). (cmb)
-
-- SimpleXML:
-  . Fixed bug #61597 (SXE properties may lack attributes and content). (cmb)
-
-- SOAP:
-  . Fixed bug #79357 (SOAP request segfaults when any request parameter is
-    missing). (Nikita)
-
-- Spl:
-  . Fixed bug #75673 (SplStack::unserialize() behavior). (cmb)
-  . Fixed bug #79393 (Null coalescing operator failing with SplFixedArray).
-    (cmb)
-
-- Standard:
-  . Fixed bug #79330 (shell_exec() silently truncates after a null byte). (stas)
-  . Fixed bug #79465 (OOB Read in urldecode()). (CVE-2020-7067) (stas)
-  . Fixed bug #79410 (system() swallows last chunk if it is exactly 4095 bytes
-    without newline). (Christian Schneider)
-
-- Zip:
-  . Fixed Bug #79296 (ZipArchive::open fails on empty file). (Remi)
-  . Fixed bug #79424 (php_zip_glob uses gl_pathc after call to globfree).
-    (Max Rees)
-
-19 Mar 2020, PHP 7.4.4
-
-- Core:
-  . Fixed bug #79244 (php crashes during parsing INI file). (Laruence)
-  . Fixed bug #63206 (restore_error_handler does not restore previous errors
-    mask). (Mark Plomer)
-
-- COM:
-  . Fixed bug #66322 (COMPersistHelper::SaveToFile can save to wrong location).
-    (cmb)
-  . Fixed bug #79242 (COM error constants don't match com_exception codes on
-    x86). (cmb)
-  . Fixed bug #79247 (Garbage collecting variant objects segfaults). (cmb)
-  . Fixed bug #79248 (Traversing empty VT_ARRAY throws com_exception). (cmb)
-  . Fixed bug #79299 (com_print_typeinfo prints duplicate variables). (Litiano
-    Moura)
-  . Fixed bug #79332 (php_istreams are never freed). (cmb)
-  . Fixed bug #79333 (com_print_typeinfo() leaks memory). (cmb)
-
-- CURL:
-  . Fixed bug #79019 (Copied cURL handles upload empty file). (cmb)
-  . Fixed bug #79013 (Content-Length missing when posting a curlFile with
-    curl). (cmb)
-
-- DOM:
-  . Fixed bug #77569: (Write Access Violation in DomImplementation). (Nikita,
-    cmb)
-  . Fixed bug #79271 (DOMDocumentType::$childNodes is NULL). (cmb)
-
-- Enchant:
-  . Fixed bug #79311 (enchant_dict_suggest() fails on big endian architecture).
-    (cmb)
-
-- EXIF:
-  . Fixed bug #79282 (Use-of-uninitialized-value in exif). (CVE-2020-7064)
-    (Nikita)
-
-- Fileinfo:
-  . Fixed bug #79283 (Segfault in libmagic patch contains a buffer
-    overflow). (cmb)
-
-- FPM:
-  . Fixed bug #77653 (operator displayed instead of the real error message).
-    (Jakub Zelenka)
-  . Fixed bug #79014 (PHP-FPM & Primary script unknown). (Jakub Zelenka)
-
-- MBstring:
-  . Fixed bug #79371 (mb_strtolower (UTF-32LE): stack-buffer-overflow at
-    php_unicode_tolower_full). (CVE-2020-7065) (cmb)
-
-- MySQLi:
-  . Fixed bug #64032 (mysqli reports different client_version). (cmb)
-
-- MySQLnd:
-  . Implemented FR #79275 (Support auth_plugin_caching_sha2_password on
-    Windows). (cmb)
-
-- Opcache:
-  . Fixed bug #79252 (preloading causes php-fpm to segfault during exit).
-    (Nikita)
-
-- PCRE:
-  . Fixed bug #79188 (Memory corruption in preg_replace/preg_replace_callback
-    and unicode). (Nikita)
-  . Fixed bug #79241 (Segmentation fault on preg_match()). (Nikita)
-  . Fixed bug #79257 (Duplicate named groups (?J) prefer last alternative even
-    if not matched). (Nikita)
-
-- PDO_ODBC:
-  . Fixed bug #79038 (PDOStatement::nextRowset() leaks column values). (cmb)
-
-- Reflection:
-  . Fixed bug #79062 (Property with heredoc default value returns false for
-    getDocComment). (Nikita)
-
-- SQLite3:
-  . Fixed bug #79294 (::columnType() may fail after SQLite3Stmt::reset()). (cmb)
-
-- Standard:
-  . Fixed bug #79329 (get_headers() silently truncates after a null byte).
-    (CVE-2020-7066) (cmb)
-  . Fixed bug #79254 (getenv() w/o arguments not showing changes). (cmb)
-  . Fixed bug #79265 (Improper injection of Host header when using fopen for
-    http requests). (Miguel Xavier Penha Neto)
-
-- Zip:
-  . Fixed bug #79315 (ZipArchive::addFile doesn't honor start/length
-    parameters). (Remi)
-
-20 Feb 2020, PHP 7.4.3
-
-- Core:
-  . Fixed bug #79146 (cscript can fail to run on some systems). (clarodeus)
-  . Fixed bug #79155 (Property nullability lost when using multiple property
-    definition). (Nikita)
-  . Fixed bug #78323 (Code 0 is returned on invalid options). (Ivan Mikheykin)
-  . Fixed bug #78989 (Delayed variance check involving trait segfaults).
-    (Nikita)
-  . Fixed bug #79174 (cookie values with spaces fail to round-trip). (cmb)
-  . Fixed bug #76047 (Use-after-free when accessing already destructed
-    backtrace arguments). (Nikita)
-
-- CURL:
-  . Fixed bug #79078 (Hypothetical use-after-free in curl_multi_add_handle()).
-    (cmb)
-
-- FFI:
-  . Fixed bug #79096 (FFI Struct Segfault). (cmb)
-
-- IMAP:
-  . Fixed bug #79112 (IMAP extension can't find OpenSSL libraries at configure
-    time). (Nikita)
+  . Fixed bug GH-19320 (FPM UID and GID overflow). (Pratik Bhujel)
+  . Fixed GHSA-62xp-839h-2637 (IPv6 ACL bypass in FastCGI listen.allowed_clients
+    due to partial address comparison). (CVE-2026-91768) (Alexandre Daubois)
 
 - Intl:
-  . Fixed bug #79212 (NumberFormatter::format() may detect wrong type). (cmb)
-
-- Libxml:
-  . Fixed bug #79191 (Error in SoapClient ctor disables DOMDocument::save()).
-    (Nikita, cmb)
+  . Fixed grapheme_strpos() and grapheme_strrpos() with an empty needle
+    returning UTF-16 offsets instead of grapheme offsets. (Ilia Alshanetsky)
+  . Fixed a memory leak when dumping IntlCalendar instances. (Ilia Alshanetsky)
+  . Fixed a memory leak when iterating IntlBreakIterator::getPartsIterator()
+    results. (iliaal)
+  . Fixed a double-free when IntlGregorianCalendar construction fails after
+    the ICU constructor adopts the TimeZone. (iliaal)
+  . Fixed bug GH-23094 (NumberFormatter parsing offsets use UTF-16 positions
+    for UTF-8 strings). (ColumbusLabs)
+  . Fixed Locale::parseLocale() reading past a trailing '-' or '_'.
+    (iliaal, Xuyang Zhang)
+  . Fixed grapheme_str_split() treating UBRK_DONE as a byte index. (iliaal)
+  . Fixed a leak in Locale::getKeywords() when a keyword value cannot be
+    read. (iliaal)
+  . Fixed a use-after-free when IntlRuleBasedBreakIterator is constructed
+    from compiled rules. (iliaal)
 
 - MBString:
-  . Fixed bug #79149 (SEGV in mb_convert_encoding with non-string encodings).
-    (cmb)
-
-- MySQLi:
-  . Fixed bug #78666 (Properties may emit a warning on var_dump()). (kocsismate)
+  . Fixed mb_ereg_replace() emitting a NUL or out-of-bounds bytes in the
+    replacement when a \k<name> backref has no closing delimiter.
+    (Ilia Alshanetsky)
 
 - MySQLnd:
-  . Fixed bug #79084 (mysqlnd may fetch wrong column indexes with MYSQLI_BOTH).
-    (cmb)
-  . Fixed bug #79011 (MySQL caching_sha2_password Access denied for password
-    with more than 20 chars). (Nikita)
+  . Fixed GHSA-r6x9-5r99-36j7 (Various packet overreads in mysqlnd wire
+    protocol). (CVE-2025-1218) (Jakub Zelenka, Nora Dossche)
+
+- ODBC:
+  . Fixed odbc_field_len(), odbc_field_scale() and odbc_field_type()
+    returning uninitialized memory when SQLColAttribute fails.
+    (Ilia Alshanetsky)
 
 - Opcache:
-  . Fixed bug #79114 (Eval class during preload causes class to be only half
-    available). (Laruence)
-  . Fixed bug #79128 (Preloading segfaults if preload_user is used). (Nikita)
-  . Fixed bug #79193 (Incorrect type inference for self::$field =& $field).
-    (Nikita)
+  . Fixed opcache.protect_memory race under ZTS. (realFlowControl)
+  . Fixed a tracing JIT crash when compiling a side trace for a method of a
+    class that could not be stored in the inheritance cache. (GH-21710)
+    (Arnaud, iliaal)
+  . Fixed a crash when the huge page SHM remap discarded mappings outside the
+    reserved address range. (Piotr Hałas)
 
 - OpenSSL:
-  . Fixed bug #79145 (openssl memory leak). (cmb, Nikita)
+  . Fixed GHSA-vvx9-73fr-5jjx (TLS hostname verification falls back to CN after
+    SAN mismatch). (CVE-2026-91769) (Jakub Zelenka)
+  . Fixed GHSA-xr7j-rvgx-xq5p (Heap buffer overflow in
+    php_openssl_matches_wildcard_name() on crafted server certificate wildcard
+    CN). (CVE-2026-91767) (Jakub Zelenka)
+
+- PDO:
+  . Fixed a leak when a persistent connection failed a liveness check
+    with no other live PDO handle. (iliaal)
+
+- PDO_PGSQL:
+  . Fixed PDO::CURSOR_SCROLL statements failing under lazy fetching
+    (PDO::ATTR_PREFETCH => 0). (KentarouTakeda)
+
+- PDO Sqlite:
+  . Fixed bug GH-20214 (PDO::FETCH_DEFAULT unexpected behavior with
+    PDOStatement::setFetchMode). (SakiTakamachi)
 
 - Phar:
-  . Fixed bug #79082 (Files added to tar with Phar::buildFromIterator have
-    all-access permissions). (CVE-2020-7063) (stas)
-  . Fixed bug #79171 (heap-buffer-overflow in phar_extract_file).
-    (CVE-2020-7061) (cmb)
-  . Fixed bug #76584 (PharFileInfo::decompress not working). (cmb)
+  . Fixed bug GH-23418 (Use-after-free when looking up mounted directories).
+    (Weilin Du)
+  . Fixed bug GH-23477 (Memory leak on duplicate native Phar manifest entries).
+    (Weilin Du)
+  . Fixed GHSA-j3wh-g957-2m85 (Integer overflow in phar_tar_number() allowing
+    TAR archive entry injection). (CVE-2026-6103) (Jakub Zelenka)
 
-- Reflection:
-  . Fixed bug #79115 (ReflectionClass::isCloneable call reflected class
-    __destruct). (Nikita)
+- Readline:
+  . Fixed the interactive shell not waiting for the pager process to exit.
+    (Weilin Du)
 
-- Session:
-  . Fixed bug #79221 (Null Pointer Dereference in PHP Session Upload Progress).
-    (CVE-2020-7062) (stas)
+- SOAP:
+  . Fixed WSDL cache corruption when a soap:header defines headerfaults.
+    (Ilia Alshanetsky)
+  . Fixed stack overflow when parsing a WSDL with self-referential schema
+    groups or attributeGroups. (Ilia Alshanetsky)
+  . Fixed GHSA-rgrp-mwpx-f6rm (Unbounded recursion in server-side
+    cleanup_xml_node()). (CVE-2026-91765) (Alexandre Daubois)
+  . Fixed GHSA-cj93-vc83-wgqv (Integer overflow to buffer overflow in SOAP HTTP
+    parsing). (CVE-2025-14181) (Nora Dossche, Jakub Zelenka)
 
 - Standard:
-  . Fixed bug #78902 (Memory leak when using stream_filter_append). (liudaixiao)
-  . Fixed bug #78969 (PASSWORD_DEFAULT should match PASSWORD_BCRYPT instead of being null). (kocsismate)
+  . Fixed a segfault when a stream filter callback unsets StreamBucket::$data
+    before re-attaching the bucket. (iliaal)
+  . Fixed GHSA-7875-c8px-7q5f (Out-of-bounds read in the HTTP stream wrapper
+    when following a redirect with an empty Location header). (CVE-2026-93682)
+    (Ilia Alshanetsky, Jordi Kroon)
+  . Fixed read buffer compaction in php_stream_filter_flush(). (crystarm)
+  . Fixed bug GH-22410 (Incorrect float behavior with large numbers).
+    (arshidkv12)
+  . Fixed GH-23338 (fsockopen()/pfsockopen() ValueError reported wrong
+    argument number for $timeout). (lacatoire)
+  . Fixed bug GH-23576 (Next index for array returned from array_keys() is
+    wrong). (Lazizbek Ergashev)
+  . Fixed GHSA-88hq-2827-7pg6 (Out-of-bounds read in convert.* stream filters
+    when line-break-chars contains NUL). (CVE-2026-92842) (geeknik)
+  . Fixed GHSA-fpwc-w8rq-cr92 (Cross-origin credential leak in HTTP stream
+    wrapper redirects). (CVE-2026-91766) (Alexandre Daubois)
 
-- Testing:
-  . Fixed bug #78090 (bug45161.phpt takes forever to finish). (cmb)
+- SimpleXML:
+  . Fixed writing to a dimension of the object returned by attributes() not
+    creating the attribute. (Ilia Alshanetsky)
+  . Fixed child elements of the element returned by
+    SimpleXMLElement::addChild() not being accessible by property name when
+    namespaces are involved. (Ilia Alshanetsky)
+
+- Windows:
+  . Fixed GHSA-9f67-6fw4-hpfp (Reserved device names are not rejected before
+    file and stream I/O). (CVE-2026-17545) (Shivam Mathur, Jakub Zelenka)
+
+- Zip:
+  . Fixed bug GH-17787 (ZipArchive stream stops reading early when the archive
+    is freed while the stream is still open). (Eyüp Can Akman)
+  . Fixed bug GH-23276 (ZipArchive subclass storing its own stream cannot be
+    garbage collected). (Weilin Du, ndossche)
+
+- SAPI:
+  . Fixed fuzzer targets failing to build in isolation. (Mrmaxmeier)
+  . Fixed returns uninitialized value on LiteSpeed lsapi SAPI (Go Kudo)
+
+27 Aug 2026, PHP 8.5.10
+
+- Core:
+  . Fixed bug GH-22782 (Const expr FCC crashes under preloading). (Arnaud)
+  . Fixed bug GH-23088 (Stack overflow when comparing deeply nested arrays).
+    (Lazizbek Ergashev)
+
+- Date:
+  . Fixed leak on double DatePeriod::__construct() call. (ilutov)
+
+- DOM:
+  . Fixed bug GH-23116 (Stack overflow when normalizing a deeply nested
+    DOMDocument). (Lazizbek Ergashev)
+  . Fixed bug GH-23117 (Stack overflow when normalizing a deeply nested
+    Dom\XMLDocument). (Lazizbek Ergashev)
+  . Fixed bug GH-22825 (DOMElement::setAttribute() fails silently when the DTD
+    declares a default value for the attribute). (iliaal)
+  . Fixed bug GH-23120 (Stack overflow when comparing deeply nested DOM nodes
+    with DOMNode::isEqualNode()). (Weilin Du)
+
+- Exif:
+  . Fixed exif_read_data() allocating a HEIF meta box larger than the file
+    it came from. (iliaal)
+
+- Intl:
+  . Fixed IntlListFormatter::__construct() leaving stale global error state
+    after successful calls. (Weilin Du)
+
+- Opcache:
+  . Fixed GH-22693 (DT_TEXTREL in JIT-generated TLS access on x86_64).
+    (David Carlier)
+  . Fixed bug GH-22763 (JIT fails to clear ZREG_TYPE_ONLY after setting reg).
+    (Arnaud)
+  . Fixed bug GH-22857 (Function JIT emits wrong code for FETCH_OBJ_FUNC_ARG on
+    a property hook getter, losing register-held variables). (Zhao Hao)
+  . Fixed bug GH-22916 (Preserve parent regs in zend_jit_deoptimizer_start()).
+    (Arnaud)
+
+- OpenSSL:
+  . Fix missing error check on invalid alpn protocols. (ndossche)
+
+- MBString:
+  . Fixed bug GH-22779 (mb_strrpos() returns the wrong position for a negative
+    offset in a non-UTF-8 encoding). (Eyüp Can Akman)
+  . Fixed bug GH-21036 (mb_ereg_search_getregs() crashes after mb_eregi()
+    invalidates the regex cache). (Matthias Goergens)
+
+- PCRE:
+  . Fixed bug GH-21134 (Crash with \C + UTF-8). Using \C in UTF-8 patterns is
+    now forbidden. (Arnaud)
+
+- PDO_ODBC:
+  . Fixed bug GH-23016 (NULL values in long columns come back as garbage
+    binary strings). (Calvin Buckley, iliaal)
+
+- PDO_PGSQL:
+  . Fixed several lazy fetch (PDO::ATTR_PREFETCH => 0) defects: an infinite
+    loop when cleaning up a fetch left in a COPY, a use-after-free when a
+    statement with emulated or disabled prepares is destroyed, a connection
+    left busy for the next fetch, and rows delivered from a result another
+    statement took over. (KentarouTakeda)
+
+- Reflection:
+  . Fixed bug GH-22905 (Reflection exception messages truncate on null bytes).
+    (DanielEScherzer)
+  . Fixed ReflectionProperty::isLazy() and skipLazyInitialization() using the
+    parent slot when a child class hooks an inherited property. (iliaal)
+  . Fixed segfault in ReflectionMethod::createFromMethodName() on an
+    uninstantiable subclass. (iliaal)
+
+- Session:
+  . Fix corruption in mod_mm. (ndossche)
+  . Fixed bug GH-23043 (broken session id code can cause zend_mm_heap
+    corrupted). (ndossche)
+
+- SimpleXML:
+  . Fixed integer element offsets that cannot resolve aliasing an existing
+    element. (iliaal)
+  . Fixed segfault when comparing uninitialized SimpleXMLElement
+    instances. (iliaal)
+
+- Sockets:
+  . Fixed socket_set_option() validation error messages for UDP_SEGMENT and
+    SO_LINGER options. (Weilin Du)
+  . Fixed various memory related issues in ext/sockets. (David Carlier)
+
+- SQLite:
+  . Fix leak when trying to close db if blob stream is still open. (ndossche)
+
+- Standard:
+  . Fixed bug GH-23111 (Stack overflow in array_walk_recursive() with deeply
+    nested arrays). (Lazizbek Ergashev)
+  . Fixed bug GH-23113 (Stack overflow in array_replace_recursive() with deeply
+    nested arrays). (Lazizbek Ergashev)
+  . Fixed bug GH-23115 (Stack overflow in compact() with deeply nested
+    arrays). (Lazizbek Ergashev)
+
+- Streams:
+  . Fixed bug GH-15836 (Use-after-free when a user stream filter accesses
+    $this->stream during the close flush). (iliaal)
 
 - XSL:
-  . Fixed bug #70078 (XSL callbacks with nodes as parameter leak memory). (cmb)
+  . Fixed use-after-free when a DOMDocument subclass __clone() retains the
+    stylesheet copy made by XSLTProcessor::importStylesheet(). (iliaal)
 
-- Zip:
-  . Add ZipArchive::CM_LZMA2 and ZipArchive::CM_XZ constants (since libzip 1.6.0). (Remi)
-  . Add ZipArchive::RDONLY (since libzip 1.0.0). (Remi)
-  . Add ZipArchive::ER_* missing constants. (Remi)
-  . Add ZipArchive::LIBZIP_VERSION constant. (Remi)
-  . Fixed bug #73119 (Wrong return for ZipArchive::addEmptyDir Method). (Remi)
-
-23 Jan 2020, PHP 7.4.2
+30 Jul 2026, PHP 8.5.9
 
 - Core:
-  . Preloading support on Windows has been disabled. (Nikita)
-  . Fixed bug #79022 (class_exists returns True for classes that are not ready
-    to be used). (Laruence)
-  . Fixed bug #78929 (plus signs in cookie values are converted to spaces).
-    (Alexey Kachalin)
-  . Fixed bug #78973 (Destructor during CV freeing causes segfault if opline
-    never saved). (Nikita)
-  . Fixed bug #78776 (Abstract method implementation from trait does not check
-    "static"). (Nikita)
-  . Fixed bug #78999 (Cycle leak when using function result as temporary).
-    (Dmitry)
-  . Fixed bug #79008 (General performance regression with PHP 7.4 on Windows).
-    (cmb)
-  . Fixed bug #79002 (Serializing uninitialized typed properties with __sleep
-    makes unserialize throw). (Nikita)
-
-- CURL:
-  . Fixed bug #79033 (Curl timeout error with specific url and post). (cmb)
-  . Fixed bug #79063 (curl openssl does not respect PKG_CONFIG_PATH). (Nikita)
-
-- Date:
-  . Fixed bug #79015 (undefined-behavior in php_date.c). (cmb)
-
-- DBA:
-  . Fixed bug #78808 ([LMDB] MDB_MAP_FULL: Environment mapsize limit reached).
-    (cmb)
-
-- Exif:
-  . Fixed bug #79046 (NaN to int cast undefined behavior in exif). (Nikita)
-
-- Fileinfo:
-  . Fixed bug #74170 (locale information change after mime_content_type).
-    (Sergei Turchanov)
-
-- GD:
-  . Fixed bug #79067 (gdTransformAffineCopy() may use unitialized values). (cmb)
-  . Fixed bug #79068 (gdTransformAffineCopy() changes interpolation method).
-    (cmb)
-
-- Libxml:
-  . Fixed bug #79029 (Use After Free's in XMLReader / XMLWriter). (Laruence)
-
-- OPcache:
-  . Fixed bug #78961 (erroneous optimization of re-assigned $GLOBALS). (Dmitry)
-  . Fixed bug #78950 (Preloading trait method with static variables). (Nikita)
-  . Fixed bug #78903 (Conflict in RTD key for closures results in crash).
-    (Nikita)
-  . Fixed bug #78986 (Opcache segfaults when inheriting ctor from immutable
-    into mutable class). (Nikita)
-  . Fixed bug #79040 (Warning Opcode handlers are unusable due to ASLR). (cmb)
-  . Fixed bug #79055 (Typed property become unknown with OPcache file cache).
-    (Nikita)
-
-- Pcntl:
-  . Fixed bug #78402 (Converting null to string in error message is bad DX).
-    (SATŌ Kentarō)
-
-- PDO_PgSQL:
-  . Fixed bug #78983 (pdo_pgsql config.w32 cannot find libpq-fe.h). (SATŌ
-    Kentarō)
-  . Fixed bug #78980 (pgsqlGetNotify() overlooks dead connection). (SATŌ
-    Kentarō)
-  . Fixed bug #78982 (pdo_pgsql returns dead persistent connection). (SATŌ
-    Kentarō)
-
-- Session:
-  . Fixed bug #79031 (Session unserialization problem). (Nikita)
-
-- Shmop:
-  . Fixed bug #78538 (shmop memory leak). (cmb)
-
-- Sqlite3:
-  . Fixed bug #79056 (sqlite does not respect PKG_CONFIG_PATH during
-    compilation). (Nikita)
-
-- Spl:
-  . Fixed bug #78976 (SplFileObject::fputcsv returns -1 on failure). (cmb)
-
-- Standard:
-  . Fixed bug #79000 (Non-blocking socket stream reports EAGAIN as error).
-    (Nikita)
-  . Fixed bug #54298 (Using empty additional_headers adding extraneous CRLF).
-    (cmb)
-
-18 Dec 2019, PHP 7.4.1
-
-- Core:
-  . Fixed bug #78810 (RW fetches do not throw "uninitialized property"
-    exception). (Nikita)
-  . Fixed bug #78868 (Calling __autoload() with incorrect EG(fake_scope) value).
-    (Antony Dovgal, Dmitry)
-  . Fixed bug #78296 (is_file fails to detect file). (cmb)
-  . Fixed bug #78883 (fgets(STDIN) fails on Windows). (cmb)
-  . Fixed bug #78898 (call_user_func(['parent', ...]) fails while other
-    succeed). (Nikita)
-  . Fixed bug #78904 (Uninitialized property triggers __get()). (Nikita)
-  . Fixed bug #78926 (Segmentation fault on Symfony cache:clear). (Nikita)
-
-- GD:
-  . Fixed bug #78849 (GD build broken with -D SIGNED_COMPARE_SLOW). (cmb)
-  . Fixed bug #78923 (Artifacts when convoluting image with transparency).
-    (wilson chen)
-
-- FPM:
-  . Fixed bug #76601 (Partially working php-fpm ater incomplete reload).
-    (Maksim Nikulin)
-  . Fixed bug #78889 (php-fpm service fails to start). (Jakub Zelenka)
-  . Fixed bug #78916 (php-fpm 7.4.0 don't send mail via mail()).
-    (Jakub Zelenka)
-
-- Intl:
-  . Implemented FR #78912 (INTL Support for accounting format). (cmb)
-
-- Mysqlnd:
-  . Fixed bug #78823 (ZLIB_LIBS not added to EXTRA_LIBS). (Arjen de Korte)
-
-- OPcache:
-  . Fixed $x = (bool)$x; with opcache (should emit undeclared variable notice).
-    (Tyson Andre)
-  . Fixed bug #78935 (Preloading removes classes that have dependencies).
-    (Nikita, Dmitry)
-
-- PCRE:
-  . Fixed bug #78853 (preg_match() may return integer > 1). (cmb)
-
-- Reflection:
-  . Fixed bug #78895 (Reflection detects abstract non-static class as abstract
-    static. IS_IMPLICIT_ABSTRACT is not longer used). (Dmitry)
-
-- Standard:
-  . Fixed bug #77638 (var_export'ing certain class instances segfaults). (cmb)
-  . Fixed bug #78840 (imploding $GLOBALS crashes). (cmb)
-  . Fixed bug #78833 (Integer overflow in pack causes out-of-bound access).
-    (cmb)
-  . Fixed bug #78814 (strip_tags allows / in tag name => whitelist bypass).
-    (cmb)
-
-28 Nov 2019, PHP 7.4.0
-
-- Core:
-  . Implemented RFC: Deprecate curly brace syntax for accessing array elements
-    and string offsets.
-    https://wiki.php.net/rfc/deprecate_curly_braces_array_access (Andrey Gromov)
-  . Implemented RFC: Deprecations for PHP 7.4.
-    https://wiki.php.net/rfc/deprecations_php_7_4 (Kalle, Nikita)
-  . Fixed bug #52752 (Crash when lexing). (Nikita)
-  . Fixed bug #60677 (CGI doesn't properly validate shebang line contains #!).
-    (Nikita)
-  . Fixed bug #71030 (Self-assignment in list() may have inconsistent behavior).
-    (Nikita)
-  . Fixed bug #72530 (Use After Free in GC with Certain Destructors). (Nikita)
-  . Fixed bug #75921 (Inconsistent: No warning in some cases when stdObj is
-    created on the fly). (David Walker)
-  . Implemented FR #76148 (Add array_key_exists() to the list of specially
-    compiled functions). (Majkl578)
-  . Fixed bug #76430 (__METHOD__ inconsistent outside of method).
-    (Ryan McCullagh, Nikita)
-  . Fixed bug #76451 (Aliases during inheritance type checks affected by
-    opcache). (Nikita)
-  . Implemented FR #77230 (Support custom CFLAGS and LDFLAGS from environment).
-    (cmb)
-  . Fixed bug #77345 (Stack Overflow caused by circular reference in garbage
-    collection). (Alexandru Patranescu, Nikita, Dmitry)
-  . Fixed bug #77812 (Interactive mode does not support PHP 7.3-style heredoc).
-    (cmb, Nikita)
-  . Fixed bug #77877 (call_user_func() passes $this to static methods).
-    (Dmitry)
-  . Fixed bug #78066 (PHP eats the first byte of a program that comes from
-    process substitution). (Nikita)
-  . Fixed bug #78151 (Segfault caused by indirect expressions in PHP 7.4a1).
-    (Nikita)
-  . Fixed bug #78154 (SEND_VAR_NO_REF does not always send reference). (Nikita)
-  . Fixed bug #78182 (Segmentation fault during by-reference property
-    assignment). (Nikita)
-  . Fixed bug #78212 (Segfault in built-in webserver). (cmb)
-  . Fixed bug #78220 (Can't access OneDrive folder). (cmb, ab)
-  . Fixed bug #78226 (Unexpected __set behavior with typed properties). (Nikita)
-  . Fixed bug #78239 (Deprecation notice during string conversion converted to
-    exception hangs). (Nikita)
-  . Fixed bug #78335 (Static properties/variables containing cycles report as
-    leak). (Nikita)
-  . Fixed bug #78340 (Include of stream wrapper not reading whole file).
-    (Nikita)
-  . Fixed bug #78344 (Segmentation fault on zend_check_protected). (Nikita)
-  . Fixed bug #78356 (Array returned from ArrayAccess is incorrectly unpacked
-    as argument). (Nikita)
-  . Fixed bug #78379 (Cast to object confuses GC, causes crash). (Dmitry)
-  . Fixed bug #78386 (fstat mode has unexpected value on PHP 7.4). (cmb)
-  . Fixed bug #78396 (Second file_put_contents in Shutdown hangs script).
-    (Nikita)
-  . Fixed bug #78406 (Broken file includes with user-defined stream filters).
-    (Nikita)
-  . Fixed bug #78438 (Corruption when __unserializing deeply nested structures).
-    (cmb, Nikita)
-  . Fixed bug #78441 (Parse error due to heredoc identifier followed by digit).
-    (cmb)
-  . Fixed bug #78454 (Consecutive numeric separators cause OOM error).
-    (Theodore Brown)
-  . Fixed bug #78460 (PEAR installation failure). (Peter Kokot, L. Declercq)
-  . Fixed bug #78531 (Crash when using undefined variable as object). (Dmitry)
-  . Fixed bug #78535 (auto_detect_line_endings value not parsed as bool).
-    (bugreportuser)
-  . Fixed bug #78604 (token_get_all() does not properly tokenize FOO<?php with
-    short_open_tag=0). (Nikita)
-  . Fixed bug #78614 (Does not compile with DTRACE anymore).
-    (tz at FreeBSD dot org)
-  . Fixed bug #78620 (Out of memory error). (cmb, Nikita)
-  . Fixed bug #78632 (method_exists() in php74 works differently from php73 in
-    checking priv. methods). (Nikita)
-  . Fixed bug #78644 (SEGFAULT in ZEND_UNSET_OBJ_SPEC_VAR_CONST_HANDLER).
-    (Nikita)
-  . Fixed bug #78658 (Memory corruption using Closure::bindTo). (Nikita)
-  . Fixed bug #78656 (Parse errors classified as highest log-level). (Erik
-    Lundin)
-  . Fixed bug #78662 (stream_write bad error detection). (Remi)
-  . Fixed bug #78768 (redefinition of typedef zend_property_info). (Nikita)
-  . Fixed bug #78788 (./configure generates invalid php_version.h). (max)
-  . Fixed incorrect usage of QM_ASSIGN instruction. It must not return IS_VAR.
-    As a side effect, this allowed passing left hand list() "by reference",
-    instead of compile-time error. (Dmitry)
-
-- CLI:
-  . The built-in CLI server now reports the request method in log files.
-    (Simon Welsh)
-
-- COM:
-  . Deprecated registering of case-insensitive constants from typelibs. (cmb)
-  . Fixed bug #78650 (new COM Crash). (cmb)
-  . Fixed bug #78694 (Appending to a variant array causes segfault). (cmb)
-
-- CURL:
-  . Fixed bug #76480 (Use curl_multi_wait() so that timeouts are respected).
-    (Pierrick)
-  . Implemented FR #77711 (CURLFile should support UNICODE filenames). (cmb)
-  . Deprecated CURLPIPE_HTTP1. (cmb)
-  . Deprecated $version parameter of curl_version(). (cmb)
-
-- Date:
-  . Updated timelib to 2018.02. (Derick)
-  . Fixed bug #69044 (discrepency between time and microtime). (krakjoe)
-  . Fixed bug #70153 (\DateInterval incorrectly unserialized). (Maksim Iakunin)
-  . Fixed bug #75232 (print_r of DateTime creating side-effect). (Nikita)
-  . Fixed bug #78383 (Casting a DateTime to array no longer returns its
-    properties). (Nikita)
-  . Fixed bug #78751 (Serialising DatePeriod converts DateTimeImmutable). (cmb)
-
-- Exif:
-  . Fixed bug #78333 (Exif crash (bus error) due to wrong alignment and
-    invalid cast). (Nikita)
-  . Fixed bug #78256 (heap-buffer-overflow on exif_process_user_comment).
-    (CVE-2019-11042) (Stas)
-  . Fixed bug #78222 (heap-buffer-overflow on exif_scan_thumbnail).
-    (CVE-2019-11041) (Stas)
-
-- Fileinfo:
-  . Fixed bug #78075 (finfo_file treats JSON file as text/plain). (Anatol)
-  . Fixed bug #78183 (finfo_file shows wrong mime-type for .tga file).
-   (Anatol)
-
-- Filter:
-  . The filter extension no longer has the --with-pcre-dir on Unix builds,
-    allowing the extension to be once more compiled as shared using
-    ./configure. (Kalle)
-
-- FFI:
-  . Added FFI extension. (Dmitry)
-  . Fixed bug #78488 (OOB in ZEND_FUNCTION(ffi_trampoline)). (Dmitry)
-  . Fixed bug #78543 (is_callable() on FFI\CData throws Exception). (cmb)
-  . Fixed bug #78716 (Function name mangling is wrong for some parameter
-    types). (cmb)
-  . Fixed bug #78762 (Failing FFI::cast() may leak memory). (cmb)
-  . Fixed bug #78761 (Zend memory heap corruption with preload and casting).
-    (cmb)
-  . Implement FR #78270 (Support __vectorcall convention with FFI). (cmb)
-  . Added missing FFI::isNull(). (Philip Hofstetter)
-
-- FPM:
-  . Implemented FR #72510 (systemd service should be hardened). (Craig Andrews)
-  . Fixed bug #74083 (master PHP-fpm is stopped on multiple reloads).
-    (Maksim Nikulin)
-  . Fixed bug #78334 (fpm log prefix message includes wrong stdout/stderr
-    notation). (Tsuyoshi Sadakata)
-  . Fixed bug #78599 (env_path_info underflow in fpm_main.c can lead to RCE).
-    (CVE-2019-11043) (Jakub Zelenka)
-
-- GD:
-  . Implemented the scatter filter (IMG_FILTER_SCATTER). (Kalle)
-  . The bundled libgd behaves now like system libgd wrt. IMG_CROP_DEFAULT never
-    falling back to IMG_CROP_SIDES.
-  . The default $mode parameter of imagecropauto() has been changed to
-    IMG_CROP_DEFAULT; passing -1 is now deprecated.
-  . Added support for aspect ratio preserving scaling to a fixed height for
-    imagescale(). (Andreas Treichel)
-  . Added TGA read support. (cmb)
-  . Fixed bug #73291 (imagecropauto() $threshold differs from external libgd).
-    (cmb)
-  . Fixed bug #76324 (cannot detect recent versions of freetype with
-    pkg-config). (Eli Schwartz)
-  . Fixed bug #78314 (missing freetype support/functions with external gd).
-    (Remi)
-
-- GMP:
-  . Fixed bug #78574 (broken shared build). (Remi)
-
-- Hash:
-  . The hash extension is now an integral part of PHP and cannot be disabled
-    as per RFC: https://wiki.php.net/rfc/permanent_hash_ext. (Kalle)
-  . Implemented FR #71890 (crc32c checksum algorithm). (Andrew Brampton)
-
-- Iconv:
-  . Fixed bug #78342 (Bus error in configure test for iconv //IGNORE). (Rainer
-    Jung)
-  . Fixed bug #78642 (Wrong libiconv version displayed). (gedas at martynas,
-    cmb).
-
-- Libxml:
-  . Fixed bug #78279 (libxml_disable_entity_loader settings is shared between
-    requests (cgi-fcgi)). (Nikita)
-
-- InterBase:
-  . Unbundled the InterBase extension and moved it to PECL. (Kalle)
-
-- Intl:
-  . Raised requirements to ICU ≥ 50.1. (cmb)
-  . Changed ResourceBundle to implement Countable. (LeSuisse)
-  . Changed default of $variant parameter of idn_to_ascii() and idn_to_utf8().
-    (cmb)
-
-- LDAP:
-  . Deprecated ldap_control_paged_result_response and ldap_control_paged_result
-
-- LiteSpeed:
-  . Updated to LiteSpeed SAPI V7.5 (Fixed clean shutdown). (George Wang)
-  . Updated to LiteSpeed SAPI V7.4.3 (increased response header count limit from
-    100 to 1000, added crash handler to cleanly shutdown PHP request, added
-    CloudLinux mod_lsapi mode). (George Wang)
-  . Fixed bug #76058 (After "POST data can't be buffered", using php://input
-    makes huge tmp files). (George Wang)
-
-- MBString:
-  . Fixed bug #77907 (mb-functions do not respect default_encoding). (Nikita)
-  . Fixed bug #78579 (mb_decode_numericentity: args number inconsistency).
-    (cmb)
-  . Fixed bug #78609 (mb_check_encoding() no longer supports stringable
-    objects). (cmb)
-
-- MySQLi:
-  . Fixed bug #67348 (Reading $dbc->stat modifies $dbc->affected_rows).
-    (Derick)
-  . Fixed bug #76809 (SSL settings aren't respected when persistent connections
-    are used). (fabiomsouto)
-  . Fixed bug #78179 (MariaDB server version incorrectly detected). (cmb)
-  . Fixed bug #78213 (Empty row pocket). (cmb)
-
-- MySQLnd:
-  . Fixed connect_attr issues and added the _server_host connection attribute.
-    (Qianqian Bu)
-  . Fixed bug #60594 (mysqlnd exposes 160 lines of stats in phpinfo). (PeeHaa)
-
-- ODBC:
-  . Fixed bug #78473 (odbc_close() closes arbitrary resources). (cmb)
-
-- Opcache:
-  . Implemented preloading RFC: https://wiki.php.net/rfc/preload. (Dmitry)
-  . Add opcache.preload_user INI directive. (Dmitry)
-  . Added new INI directive opcache.cache_id (Windows only). (cmb)
-  . Fixed bug #78106 (Path resolution fails if opcache disabled during request).
-    (Nikita)
-  . Fixed bug #78175 (Preloading segfaults at preload time and at runtime).
-    (Dmitry)
-  . Fixed bug #78202 (Opcache stats for cache hits are capped at 32bit NUM).
-    (cmb)
-  . Fixed bug #78271 (Invalid result of if-else). (Nikita)
-  . Fixed bug #78341 (Failure to detect smart branch in DFA pass). (Nikita)
-  . Fixed bug #78376 (Incorrect preloading of constant static properties).
-    (Dmitry)
-  . Fixed bug #78429 (opcache_compile_file(__FILE__); segfaults). (cmb)
-  . Fixed bug #78512 (Cannot make preload work). (Dmitry)
-  . Fixed bug #78514 (Preloading segfaults with inherited typed property).
-    (Nikita)
-  . Fixed bug #78654 (Incorrectly computed opcache checksum on files with
-    non-ascii characters). (mhagstrand)
-
-- OpenSSL:
-  . Added TLS 1.3 support to streams including new tlsv1.3 stream.
-    (Codarren Velvindron, Jakub Zelenka)
-  . Added openssl_x509_verify function. (Ben Scholzen)
-  . openssl_random_pseudo_bytes() now throws in error conditions.
-    (Sammy Kaye Powers)
-  . Changed the default config path (Windows only). (cmb)
-  . Fixed bug #78231 (Segmentation fault upon stream_socket_accept of exported
-    socket-to-stream). (Nikita)
-  . Fixed bug #78391 (Assertion failure in openssl_random_pseudo_bytes).
-    (Nikita)
-  . Fixed bug #78775 (TLS issues from HTTP request affecting other encrypted
-    connections). (Nikita)
-
-- Pcntl:
-  . Fixed bug #77335 (PHP is preventing SIGALRM from specifying SA_RESTART).
-    (Nikita)
-
-- PCRE:
-  . Implemented FR #77094 (Support flags in preg_replace_callback). (Nikita)
-  . Fixed bug #72685 (Repeated UTF-8 validation of same string in UTF-8 mode).
-    (Nikita)
-  . Fixed bug #73948 (Preg_match_all should return NULLs on trailing optional
-    capture groups).
-  . Fixed bug #78338 (Array cross-border reading in PCRE). (cmb)
-  . Fixed bug #78349 (Bundled pcre2 library missing LICENCE file). (Peter Kokot)
-
-- PDO:
-  . Implemented FR #71885 (Allow escaping question mark placeholders).
-    https://wiki.php.net/rfc/pdo_escape_placeholders (Matteo)
-  . Fixed bug #77849 (Disable cloning of PDO handle/connection objects).
-    (camporter)
-  . Implemented FR #78033 (PDO - support username & password specified in
-    DSN). (sjon)
-
-- PDO_Firebird:
-  . Implemented FR #65690 (PDO_Firebird should also support dialect 1).
-    (Simonov Denis)
-  . Implemented FR #77863 (PDO firebird support type Boolean in input
-    parameters). (Simonov Denis)
-
-- PDO_MySQL:
-  . Fixed bug #41997 (SP call yields additional empty result set). (cmb)
-  . Fixed bug #78623 (Regression caused by "SP call yields additional empty
-    result set"). (cmb)
-
-- PDO_OCI:
-  . Support Oracle Database tracing attributes ACTION, MODULE,
-    CLIENT_INFO, and CLIENT_IDENTIFIER. (Cameron Porter)
-  . Implemented FR #76908 (PDO_OCI getColumnMeta() not implemented).
-    (Valentin Collet, Chris Jones, Remi)
-
-- PDO_SQLite:
-  . Implemented sqlite_stmt_readonly in PDO_SQLite. (BohwaZ)
-  . Raised requirements to SQLite 3.5.0. (cmb)
-  . Fixed bug #78192 (SegFault when reuse statement after schema has changed).
-    (Vincent Quatrevieux)
-  . Fixed bug #78348 (Remove -lrt from pdo_sqlite.so). (Peter Kokot)
-
-- Phar:
-  . Fixed bug #77919 (Potential UAF in Phar RSHUTDOWN). (cmb)
-
-- phpdbg:
-  . Fixed bug #76596 (phpdbg support for display_errors=stderr). (kabel)
-  . Fixed bug #76801 (too many open files). (alekitto)
-  . Fixed bug #77800 (phpdbg segfaults on listing some conditional breakpoints).
-    (krakjoe)
-  . Fixed bug #77805 (phpdbg build fails when readline is shared). (krakjoe)
-
-- Recode:
-  . Unbundled the recode extension. (cmb)
-
-- Reflection:
-  . Fixed bug #76737 (Unserialized reflection objects are broken, they
-    shouldn't be serializable). (Nikita)
-  . Fixed bug #78263 (\ReflectionReference::fromArrayElement() returns null
-    while item is a reference). (Nikita)
-  . Fixed bug #78410 (Cannot "manually" unserialize class that is final and
-    extends an internal one). (Nikita)
-  . Fixed bug #78697 (ReflectionClass::implementsInterface - inaccurate error
-    message with traits). (villfa)
-  . Fixed bug #78774 (ReflectionNamedType on Typed Properties Crash). (Nikita)
-
-- Session:
-  . Fixed bug #78624 (session_gc return value for user defined session
-    handlers). (bshaffer)
-
-- SimpleXML:
-  . Implemented FR #65215 (SimpleXMLElement could register as implementing
-    Countable). (LeSuisse)
-  . Fixed bug #75245 (Don't set content of elements with only whitespaces).
-    (eriklundin)
-
-- Sockets:
-  . Fixed bug #67619 (Validate length on socket_write). (thiagooak)
-  . Fixed bug #78665 (Multicasting may leak memory). (cmb)
-
-- sodium:
-  . Fixed bug #77646 (sign_detached() strings not terminated). (Frank)
-  . Fixed bug #78510 (Partially uninitialized buffer returned by
-    sodium_crypto_generichash_init()). (Frank Denis, cmb)
-  . Fixed bug #78516 (password_hash(): Memory cost is not in allowed range).
-    (cmb, Nikita)
-
-- SPL:
-  . Fixed bug #77518 (SeekableIterator::seek() should accept 'int' typehint as
-    documented). (Nikita)
-  . Fixed bug #78409 (Segfault when creating instance of ArrayIterator without
-    constructor). (Nikita)
-  . Fixed bug #78436 (Missing addref in SplPriorityQueue EXTR_BOTH mode).
-    (Nikita)
-  . Fixed bug #78456 (Segfault when serializing SplDoublyLinkedList). (Nikita)
-
-- SQLite3:
-  . Unbundled libsqlite. (cmb)
-  . Raised requirements to SQLite 3.7.4. (cmb)
-  . Forbid (un)serialization of SQLite3, SQLite3Stmt and SQLite3Result. (cmb)
-  . Added support for the SQLite @name notation. (cmb, BohwaZ)
-  . Added SQLite3Stmt::getSQL() to retrieve the SQL of the statement. (Bohwaz)
-  . Implement FR ##70950 (Make SQLite3 Online Backup API available). (BohwaZ)
-
-- Standard:
-  . Implemented password hashing registry RFC:
-    https://wiki.php.net/rfc/password_registry. (Sara)
-  . Implemented RFC where password_hash() has argon2i(d) implementations from
-    ext/sodium when PHP is built without libargon:
-    https://wiki.php.net/rfc/sodium.argon.hash (Sara)
-  . Implemented FR #38301 (field enclosure behavior in fputcsv). (cmb)
-  . Implemented FR #51496 (fgetcsv should take empty string as an escape). (cmb)
-  . Fixed bug #73535 (php_sockop_write() returns 0 on error, can be used to
-    trigger Denial of Service). (Nikita)
-  . Fixed bug #74764 (Bindto IPv6 works with file_get_contents but fails with
-    stream_socket_client). (Ville Hukkamäki)
-  . Fixed bug #76859 (stream_get_line skips data if used with data-generating
-    filter). (kkopachev)
-  . Implemented FR #77377 (No way to handle CTRL+C in Windows). (Anatol)
-  . Fixed bug #77930 (stream_copy_to_stream should use mmap more often).
-    (Nikita)
-  . Implemented FR #78177 (Make proc_open accept command array). (Nikita)
-  . Fixed bug #78208 (password_needs_rehash() with an unknown algo should always
-    return true). (Sara)
-  . Fixed bug #78241 (touch() does not handle dates after 2038 in PHP 64-bit). (cmb)
-  . Fixed bug #78282 (atime and mtime mismatch). (cmb)
-  . Fixed bug #78326 (improper memory deallocation on stream_get_contents()
-    with fixed length buffer). (Albert Casademont)
-  . Fixed bug #78346 (strip_tags no longer handling nested php tags). (cmb)
-  . Fixed bug #78506 (Error in a php_user_filter::filter() is not reported).
-    (Nikita)
-  . Fixed bug #78549 (Stack overflow due to nested serialized input). (Nikita)
-  . Fixed bug #78759 (array_search in $GLOBALS). (Nikita)
-
-- Testing:
-  . Fixed bug #78684 (PCRE bug72463_2 test is sending emails on Linux). (cmb)
-
-- Tidy:
-  . Added TIDY_TAG_* constants for HTML5 elements. (cmb)
-  . Fixed bug #76736 (wrong reflection for tidy_get_head, tidy_get_html,
-    tidy_get_root, and tidy_getopt) (tandre)
-
-- WDDX:
-  . Deprecated and unbundled the WDDX extension. (cmb)
-
-- Zip:
-  . Fixed bug #78641 (addGlob can modify given remove_path value). (cmb)
-
-21 Nov 2019, PHP 7.3.12
-
-- Core:
-  . Fixed bug #78658 (Memory corruption using Closure::bindTo). (Nikita)
-  . Fixed bug #78656 (Parse errors classified as highest log-level). (Erik
-    Lundin)
-  . Fixed bug #78752 (Segfault if GC triggered while generator stack frame is
-    being destroyed). (Nikita)
-  . Fixed bug #78689 (Closure::fromCallable() doesn't handle
-    [Closure, '__invoke']). (Nikita)
-
-- COM:
-  . Fixed bug #78694 (Appending to a variant array causes segfault). (cmb)
-
-- Date:
-  . Fixed bug #70153 (\DateInterval incorrectly unserialized). (Maksim Iakunin)
-  . Fixed bug #78751 (Serialising DatePeriod converts DateTimeImmutable). (cmb)
-
-- Iconv:
-  . Fixed bug #78642 (Wrong libiconv version displayed). (gedas at martynas,
-    cmb).
-
-- OpCache:
-  . Fixed bug #78654 (Incorrectly computed opcache checksum on files with
-    non-ascii characters). (mhagstrand)
-  . Fixed bug #78747 (OpCache corrupts custom extension result). (Nikita)
-
-- OpenSSL:
-  . Fixed bug #78775 (TLS issues from HTTP request affecting other encrypted
-    connections). (Nikita)
-
-- Reflection:
-  . Fixed bug #78697 (ReflectionClass::ImplementsInterface - inaccurate error
-    message with traits). (villfa)
-
-- Sockets:
-  . Fixed bug #78665 (Multicasting may leak memory). (cmb)
-
-24 Oct 2019, PHP 7.3.11
-
-- Core:
-  . Fixed bug #78535 (auto_detect_line_endings value not parsed as bool).
-    (bugreportuser)
-  . Fixed bug #78620 (Out of memory error). (cmb, Nikita)
-
-- Exif :
-  . Fixed bug #78442 ('Illegal component' on exif_read_data since PHP7)
-	(Kalle)
-
-- FPM:
-  . Fixed bug #78599 (env_path_info underflow in fpm_main.c can lead to RCE).
-    (CVE-2019-11043) (Jakub Zelenka)
-  . Fixed bug #78413 (request_terminate_timeout does not take effect after
-    fastcgi_finish_request). (Sergei Turchanov)
-
-- MBString:
-  . Fixed bug #78633 (Heap buffer overflow (read) in mb_eregi). (cmb)
-  . Fixed bug #78579 (mb_decode_numericentity: args number inconsistency).
-    (cmb)
-  . Fixed bug #78609 (mb_check_encoding() no longer supports stringable
-    objects). (cmb)
-
-- MySQLi:
-  . Fixed bug #76809 (SSL settings aren't respected when persistent connections
-    are used). (fabiomsouto)
-
-- Mysqlnd:
-  . Fixed bug #78525 (Memory leak in pdo when reusing native prepared
-    statements). (Nikita)
-
-- PCRE:
-  . Fixed bug #78272 (calling preg_match() before pcntl_fork() will freeze
-    child process). (Nikita)
-
-- PDO_MySQL:
-  . Fixed bug #78623 (Regression caused by "SP call yields additional empty
-    result set"). (cmb)
-
-- Session:
-  . Fixed bug #78624 (session_gc return value for user defined session
-    handlers). (bshaffer)
-
-- Standard:
-  . Fixed bug #76342 (file_get_contents waits twice specified timeout).
-    (Thomas Calvet)
-  . Fixed bug #78612 (strtr leaks memory when integer keys are used and the
-    subject string shorter). (Nikita)
-  . Fixed bug #76859 (stream_get_line skips data if used with data-generating
-    filter). (kkopachev)
-
-- Zip:
-  . Fixed bug #78641 (addGlob can modify given remove_path value). (cmb)
-
-26 Sep 2019, PHP 7.3.10
-
-- Core:
-  . Fixed bug #78220 (Can't access OneDrive folder). (cmb, ab)
-  . Fixed bug #77922 (Double release of doc comment on inherited shadow
-    property). (Nikita)
-  . Fixed bug #78441 (Parse error due to heredoc identifier followed by digit).
-    (cmb)
-  . Fixed bug #77812 (Interactive mode does not support PHP 7.3-style heredoc).
-    (cmb, Nikita)
-
-- FastCGI:
-  . Fixed bug #78469 (FastCGI on_accept hook is not called when using named
-    pipes on Windows). (Sergei Turchanov)
-
-- FPM:
-  . Fixed bug #78334 (fpm log prefix message includes wrong stdout/stderr
-    notation). (Tsuyoshi Sadakata)
-
-- Intl:
-  . Ensure IDNA2003 rules are used with idn_to_ascii() and idn_to_utf8()
-    when requested. (Sara)
-
-- MBString:
-  . Fixed bug #78559 (Heap buffer overflow in mb_eregi). (cmb)
-
-- MySQLnd:
-  . Fixed connect_attr issues and added the _server_host connection attribute.
-    (Qianqian Bu)
-
-- ODBC:
-  . Fixed bug #78473 (odbc_close() closes arbitrary resources). (cmb)
-
-- PDO_MySQL:
-  . Fixed bug #41997 (SP call yields additional empty result set). (cmb)
-
-- sodium:
-  . Fixed bug #78510 (Partially uninitialized buffer returned by
-    sodium_crypto_generichash_init()). (Frank Denis, cmb)
-
-29 Aug 2019, PHP 7.3.9
-
-- Core:
-  . Fixed bug #78363 (Buffer overflow in zendparse). (Nikita)
-  . Fixed bug #78379 (Cast to object confuses GC, causes crash). (Dmitry)
-  . Fixed bug #78412 (Generator incorrectly reports non-releasable $this as GC
-    child). (Nikita)
-
-- Curl:
-  . Fixed bug #77946 (Bad cURL resources returned by curl_multi_info_read()).
-    (Abyr Valg)
-
-- Exif:
-  . Fixed bug #78333 (Exif crash (bus error) due to wrong alignment and
-    invalid cast). (Nikita)
-
-- FPM:
-  . Fixed bug #77185 (Use-after-free in FPM master event handling).
-    (Maksim Nikulin)
-
-- Iconv:
-  . Fixed bug #78342 (Bus error in configure test for iconv //IGNORE). (Rainer
-    Jung)
-
-- LiteSpeed:
-  . Updated to LiteSpeed SAPI V7.5 (Fixed clean shutdown). (George Wang)
-
-- MBString:
-  . Fixed bug #78380 (Oniguruma 6.9.3 fixes CVEs). (CVE-2019-13224) (Stas)
-
-- MySQLnd:
-  . Fixed bug #78179 (MariaDB server version incorrectly detected). (cmb)
-  . Fixed bug #78213 (Empty row pocket). (cmb)
-
-- Opcache:
-  . Fixed bug #77191 (Assertion failure in dce_live_ranges() when silencing is
-    used). (Nikita)
-
-- Standard:
-  . Fixed bug #69100 (Bus error from stream_copy_to_stream (file -> SSL stream)
-    with invalid length). (Nikita)
-  . Fixed bug #78282 (atime and mtime mismatch). (cmb)
-  . Fixed bug #78326 (improper memory deallocation on stream_get_contents()
-    with fixed length buffer). (Albert Casademont)
-  . Fixed bug #78346 (strip_tags no longer handling nested php tags). (cmb)
-
-01 Aug 2019, PHP 7.3.8
-
-- Core:
-  . Added syslog.filter=raw option. (Erik Lundin)
-  . Fixed bug #78212 (Segfault in built-in webserver). (cmb)
-
-- Date:
-  . Fixed bug #69044 (discrepency between time and microtime). (krakjoe)
-  . Updated timelib to 2018.02. (Derick)
-
-- EXIF:
-  . Fixed bug #78256 (heap-buffer-overflow on exif_process_user_comment).
-    (CVE-2019-11042) (Stas)
-  . Fixed bug #78222 (heap-buffer-overflow on exif_scan_thumbnail).
-    (CVE-2019-11041) (Stas)
-
-- FTP:
-  . Fixed bug #78039 (FTP with SSL memory leak). (Nikita)
-
-- Libxml:
-  . Fixed bug #78279 (libxml_disable_entity_loader settings is shared between
-    requests (cgi-fcgi)). (Nikita)
-
-- LiteSpeed:
-  . Updated to LiteSpeed SAPI V7.4.3 (increased response header count limit from
-    100 to 1000, added crash handler to cleanly shutdown PHP request, added
-    CloudLinux mod_lsapi mode). (George Wang)
-  . Fixed bug #76058 (After "POST data can't be buffered", using php://input
-    makes huge tmp files). (George Wang)
-
-- Openssl:
-  . Fixed bug #78231 (Segmentation fault upon stream_socket_accept of exported
-    socket-to-stream). (Nikita)
-
-- Opcache:
-  . Fixed bug #78189 (file cache strips last character of uname hash). (cmb)
-  . Fixed bug #78202 (Opcache stats for cache hits are capped at 32bit NUM).
-    (cmb)
-  . Fixed bug #78271 (Invalid result of if-else). (Nikita)
-  . Fixed bug #78291 (opcache_get_configuration doesn't list all directives).
-    (Andrew Collington)
-  . Fixed bug #78341 (Failure to detect smart branch in DFA pass). (Nikita)
-
-- PCRE:
-  . Fixed bug #78197 (PCRE2 version check in configure fails for "##.##-xxx"
-    version strings). (pgnet, Peter Kokot)
-  . Fixed bug #78338 (Array cross-border reading in PCRE). (cmb)
-
-- PDO_Sqlite:
-  . Fixed bug #78192 (SegFault when reuse statement after schema has changed).
-    (Vincent Quatrevieux)
-
-- Phar:
-  . Fixed bug #77919 (Potential UAF in Phar RSHUTDOWN). (cmb)
-
-- Phpdbg:
-  . Fixed bug #78297 (Include unexistent file memory leak). (Nikita)
-
-- SQLite:
-  . Upgraded to SQLite 3.28.0. (cmb)
-
-- Standard:
-  . Fixed bug #78241 (touch() does not handle dates after 2038 in PHP 64-bit). (cmb)
-  . Fixed bug #78269 (password_hash uses weak options for argon2). (Remi)
-
-04 Jul 2019, PHP 7.3.7
-
-- Core:
-  . Fixed bug #76980 (Interface gets skipped if autoloader throws an exception).
-    (Nikita)
-
-- DOM:
-  . Fixed bug #78025 (segfault when accessing properties of DOMDocumentType).
-    (cmb)
-
-- MySQLi:
-  . Fixed bug #77956 (When mysqli.allow_local_infile = Off, use a meaningful
-    error message). (Sjon Hortensius)
-  . Fixed bug #38546 (bindParam incorrect processing of bool types).
-    (camporter)
-
-- MySQLnd:
-  . Fixed bug #77955 (Random segmentation fault in mysqlnd from php-fpm).
-    (Nikita)
-
-- Opcache:
-  . Fixed bug #78015 (Incorrect evaluation of expressions involving partials
-    arrays in SCCP). (Nikita)
-  . Fixed bug #78106 (Path resolution fails if opcache disabled during request).
-    (Nikita)
-
-- OpenSSL:
-  . Fixed bug #78079 (openssl_encrypt_ccm.phpt fails with OpenSSL 1.1.1c).
-    (Jakub Zelenka)
-
-- phpdbg:
-  . Fixed bug #78050 (SegFault phpdbg + opcache on include file twice).
-    (Nikita)
-
-- Sockets:
-  . Fixed bug #78038 (Socket_select fails when resource array contains
-    references). (Nikita)
-
-- Sodium:
-  . Fixed bug #78114 (segfault when calling sodium_* functions from eval). (cmb)
-
-- Standard:
-  . Fixed bug #77135 (Extract with EXTR_SKIP should skip $this).
-    (Craig Duncan, Dmitry)
-  . Fixed bug #77937 (preg_match failed). (cmb, Anatol)
-
-- Zip:
-  . Fixed bug #76345 (zip.h not found). (Michael Maroszek)
-
-30 May 2019, PHP 7.3.6
-
-- cURL:
-  . Implemented FR #72189 (Add missing CURL_VERSION_* constants). (Javier
-    Spagnoletti)
-
-- Date:
-  . Fixed bug #77909 (DatePeriod::__construct() with invalid recurrence count
-    value). (Ignace Nyamagana Butera)
-
-- EXIF:
-  . Fixed bug #77988 (heap-buffer-overflow on php_jpg_get16).
-    (CVE-2019-11040) (Stas)
-
-- FPM:
-  . Fixed bug #77934 (php-fpm kill -USR2 not working). (Jakub Zelenka)
-  . Fixed bug #77921 (static.php.net doesn't work anymore). (Peter Kokot)
-
-- GD:
-  . Fixed bug #77943 (imageantialias($image, false); does not work). (cmb)
-  . Fixed bug #77973 (Uninitialized read in gdImageCreateFromXbm).
-    (CVE-2019-11038) (cmb)
-
-- Iconv:
-  . Fixed bug #78069 (Out-of-bounds read in iconv.c:_php_iconv_mime_decode()
-    due to integer overflow). (CVE-2019-11039). (maris dot adam)
-
-- JSON:
-  . Fixed bug #77843 (Use after free with json serializer). (Nikita)
-
-- Opcache:
-  . Fixed possible crashes, because of inconsistent PCRE cache and opcache
-    SHM reset. (Alexey Kalinin, Dmitry)
-
-- PDO_MySQL:
-  . Fixed bug #77944 (Wrong meta pdo_type for bigint on LLP64). (cmb)
-
-- Reflection:
-  . Fixed bug #75186 (Inconsistent reflection of Closure:::__invoke()). (Nikita)
-
-- Session:
-  . Fixed bug #77911 (Wrong warning for session.sid_bits_per_character). (cmb)
-
-- SOAP:
-  . Fixed bug #77945 (Segmentation fault when constructing SoapClient with
-    WSDL_CACHE_BOTH). (Nikita)
-
-- SPL:
-  . Fixed bug #77024 (SplFileObject::__toString() may return array). (Craig
-    Duncan)
-
-- SQLite:
-  . Fixed bug #77967 (Bypassing open_basedir restrictions via file uris). (Stas)
-
-- Standard:
-  . Fixed bug #77931 (Warning for array_map mentions wrong type). (Nikita)
-  . Fixed bug #78003 (strip_tags output change since PHP 7.3). (cmb)
-
-02 May 2019, PHP 7.3.5
-
-- Core:
-  . Fixed bug #77903 (ArrayIterator stops iterating after offsetSet call).
-    (Nikita)
-
-- CLI:
-  . Fixed bug #77794 (Incorrect Date header format in built-in server).
-    (kelunik)
-
-- EXIF
-  . Fixed bug #77950 (Heap-buffer-overflow in _estrndup via exif_process_IFD_TAG).
-    (CVE-2019-11036) (Stas)
-
-- Interbase:
-  . Fixed bug #72175 (Impossibility of creating multiple connections to
-    Interbase with php 7.x). (Nikita)
-
-- Intl:
-  . Fixed bug #77895 (IntlDateFormatter::create fails in strict mode if $locale
-    = null). (Nikita)
-
-- LDAP:
-  . Fixed bug #77869 (Core dump when using server controls) (mcmic)
-
-- Mail
-  . Fixed bug #77821 (Potential heap corruption in TSendMail()). (cmb)
-
-- mbstring:
-  . Implemented FR #72777 (Implement regex stack limits for mbregex functions).
-    (Yasuo Ohgaki, Stas)
-
-- MySQLi:
-  . Fixed bug #77773 (Unbuffered queries leak memory - MySQLi / mysqlnd).
-    (Nikita)
-
-- PCRE:
-  . Fixed bug #77827 (preg_match does not ignore \r in regex flags). (requinix,
-    cmb)
-
-- PDO:
-  . Fixed bug #77849 (Disable cloning of PDO handle/connection objects).
-    (camporter)
-
-- phpdbg:
-  . Fixed bug #76801 (too many open files). (alekitto)
-  . Fixed bug #77800 (phpdbg segfaults on listing some conditional breakpoints).
-    (krakjoe)
-  . Fixed bug #77805 (phpdbg build fails when readline is shared). (krakjoe)
-
-- Reflection:
-  . Fixed bug #77772 (ReflectionClass::getMethods(null) doesn't work). (Nikita)
-  . Fixed bug #77882 (Different behavior: always calls destructor). (Nikita)
-
-- Standard:
-  . Fixed bug #77793 (Segmentation fault in extract() when overwriting
-    reference with itself). (Nikita)
-  . Fixed bug #77844 (Crash due to null pointer in parse_ini_string with
-    INI_SCANNER_TYPED). (Nikita)
-  . Fixed bug #77853 (Inconsistent substr_compare behaviour with empty
-    haystack). (Nikita)
-
-04 Apr 2019, PHP 7.3.4
-
-- Core:
-  . Fixed bug #77738 (Nullptr deref in zend_compile_expr). (Laruence)
-  . Fixed bug #77660 (Segmentation fault on break 2147483648). (Laruence)
-  . Fixed bug #77652 (Anonymous classes can lose their interface information).
-    (Nikita)
-  . Fixed bug #77345 (Stack Overflow caused by circular reference in garbage
-    collection). (Alexandru Patranescu, Nikita, Dmitry)
-  . Fixed bug #76956 (Wrong value for 'syslog.filter' documented in php.ini).
-    (cmb)
-
-- Apache2Handler:
-  . Fixed bug #77648 (BOM in sapi/apache2handler/php_functions.c). (cmb)
-
-- Bcmath:
-  . Fixed bug #77742 (bcpow() implementation related to gcc compiler
-    optimization). (Nikita)
-
-- CLI Server:
-  . Fixed bug #77722 (Incorrect IP set to $_SERVER['REMOTE_ADDR'] on the
-    localhost). (Nikita)
-
-- COM:
-  . Fixed bug #77578 (Crash when php unload). (cmb)
-
-- EXIF:
-  . Fixed bug #77753 (Heap-buffer-overflow in php_ifd_get32s). (CVE-2019-11034)
-    (Stas)
-  . Fixed bug #77831 (Heap-buffer-overflow in exif_iif_add_value).
-    (CVE-2019-11035) (Stas)
-
-- FPM:
-  . Fixed bug #77677 (FPM fails to build on AIX due to missing WCOREDUMP).
-    (Kevin Adler)
-
-- GD:
-  . Fixed bug #77700 (Writing truecolor images as GIF ignores interlace flag).
-    (cmb)
-
-- MySQLi:
-  . Fixed bug #77597 (mysqli_fetch_field hangs scripts). (Nikita)
-
-- Opcache:
-  . Fixed bug #77743 (Incorrect pi node insertion for jmpznz with identical
-    successors). (Nikita)
-
-- PCRE:
-  . Fixed bug #76127 (preg_split does not raise an error on invalid UTF-8).
-    (Nikita)
-
-- Phar:
-  . Fixed bug #77697 (Crash on Big_Endian platform). (Laruence)
-
-- phpdbg:
-  . Fixed bug #77767 (phpdbg break cmd aliases listed in help do not match
-    actual aliases). (Miriam Lauter)
-
-- sodium:
-  . Fixed bug #77646 (sign_detached() strings not terminated). (Frank)
-
-- SQLite3:
-  . Added sqlite3.defensive INI directive. (BohwaZ)
-
-- Standard:
-  . Fixed bug #77664 (Segmentation fault when using undefined constant in
-    custom wrapper). (Laruence)
-  . Fixed bug #77669 (Crash in extract() when overwriting extracted array).
-    (Nikita)
-  . Fixed bug #76717 (var_export() does not create a parsable value for
-    PHP_INT_MIN). (Nikita)
-  . Fixed bug #77765 (FTP stream wrapper should set the directory as
-    executable). (Vlad Temian)
-
-07 Mar 2019, PHP 7.3.3
-
-- Core:
-  . Fixed bug #77589 (Core dump using parse_ini_string with numeric sections).
-    (Laruence)
-  . Fixed bug #77329 (Buffer Overflow via overly long Error Messages).
-    (Dmitry)
-  . Fixed bug #77494 (Disabling class causes segfault on member access).
-    (Dmitry)
-  . Fixed bug #77498 (Custom extension Segmentation fault when declare static
-    property). (Nikita)
-  . Fixed bug #77530 (PHP crashes when parsing `(2)::class`). (Ekin)
-  . Fixed bug #77546 (iptcembed broken function). (gdegoulet)
-  . Fixed bug #77630 (rename() across the device may allow unwanted access
-    during processing). (Stas)
-
-- COM:
-  . Fixed bug #77621 (Already defined constants are not properly reported).
-    (cmb)
-  . Fixed bug #77626 (Persistence confusion in php_com_import_typelib()). (cmb)
-
-- EXIF:
-  . Fixed bug #77509 (Uninitialized read in exif_process_IFD_in_TIFF). (Stas)
-  . Fixed bug #77540 (Invalid Read on exif_process_SOFn). (Stas)
-  . Fixed bug #77563 (Uninitialized read in exif_process_IFD_in_MAKERNOTE). (Stas)
-  . Fixed bug #77659 (Uninitialized read in exif_process_IFD_in_MAKERNOTE). (Stas)
-
-- Mbstring:
-  . Fixed bug #77514 (mb_ereg_replace() with trailing backslash adds null byte).
-    (Nikita)
-
-- MySQL
-  . Disabled LOCAL INFILE by default, can be enabled using php.ini directive
-    mysqli.allow_local_infile for mysqli, or PDO::MYSQL_ATTR_LOCAL_INFILE
-    attribute for pdo_mysql. (Darek Slusarczyk)
-
-- OpenSSL:
-  . Fixed bug #77390 (feof might hang on TLS streams in case of fragmented TLS
-    records). (Abyl Valg, Jakub Zelenka)
-
-- PDO_OCI:
-  . Support Oracle Database tracing attributes ACTION, MODULE,
-    CLIENT_INFO, and CLIENT_IDENTIFIER. (Cameron Porter)
-
-- PHAR:
-  . Fixed bug #77396 (Null Pointer Dereference in phar_create_or_parse_filename).
-    (bishop)
-  . Fixed bug #77586 (phar_tar_writeheaders_int() buffer overflow). (bishop)
-
-- phpdbg:
-  . Fixed bug #76596 (phpdbg support for display_errors=stderr). (kabel)
-
-- SPL:
-  . Fixed bug #51068 (DirectoryIterator glob:// don't support current path
-    relative queries). (Ahmed Abdou)
-  . Fixed bug #77431 (openFile() silently truncates after a null byte). (cmb)
-
-- Standard:
-  . Fixed bug #77552 (Unintialized php_stream_statbuf in stat functions).
-    (John Stevenson)
-  . Fixed bug #77612 (setcookie() sets incorrect SameSite header if all of its
-    options filled). (Nikita)
-
-07 Feb 2019, PHP 7.3.2
-
-- Core:
-  . Fixed bug #77369 (memcpy with negative length via crafted DNS response). (Stas)
-  . Fixed bug #77387 (Recursion detection broken when printing GLOBALS).
-    (Laruence)
-  . Fixed bug #77376 ("undefined function" message no longer includes
-    namespace). (Laruence)
-  . Fixed bug #77357 (base64_encode / base64_decode doest not work on nested
-    VM). (Nikita)
-  . Fixed bug #77339 (__callStatic may get incorrect arguments). (Dmitry)
-  . Fixed bug #77317 (__DIR__, __FILE__, realpath() reveal physical path for
-    subst virtual drive). (Anatol)
-  . Fixed bug #77263 (Segfault when using 2 RecursiveFilterIterator). (Dmitry)
-  . Fixed bug #77447 (PHP 7.3 built with ASAN crashes in
-    zend_cpu_supports_avx2). (Nikita)
-  . Fixed bug #77484 (Zend engine crashes when calling realpath in invalid
-    working dir). (Anatol)
-
-- Curl:
-  . Fixed bug #76675 (Segfault with H2 server push). (Pedro Magalhães)
-
-- Fileinfo:
-  . Fixed bug #77346 (webm files incorrectly detected as
-    application/octet-stream). (Anatol)
-
-- FPM:
-  . Fixed bug #77430 (php-fpm crashes with Main process exited, code=dumped,
-    status=11/SEGV). (Jakub Zelenka)
-
-- GD:
-  . Fixed bug #73281 (imagescale(…, IMG_BILINEAR_FIXED) can cause black border).
-    (cmb)
-  . Fixed bug #73614 (gdImageFilledArc() doesn't properly draw pies). (cmb)
-  . Fixed bug #77272 (imagescale() may return image resource on failure). (cmb)
-  . Fixed bug #77391 (1bpp BMPs may fail to be loaded). (Romain Déoux, cmb)
-  . Fixed bug #77479 (imagewbmp() segfaults with very large images). (cmb)
-
-- ldap:
-  . Fixed bug #77440 (ldap_bind using ldaps or ldap_start_tls()=exception in
-    libcrypto-1_1-x64.dll). (Anatol)
-
-- Mbstring:
-  . Fixed bug #77428 (mb_ereg_replace() doesn't replace a substitution
-    variable). (Nikita)
-  . Fixed bug #77454 (mb_scrub() silently truncates after a null byte).
-    (64796c6e69 at gmail dot com)
-
-- MySQLnd:
-  . Fixed bug #77308 (Unbuffered queries memory leak). (Dmitry)
-  . Fixed bug #75684 (In mysqlnd_ext_plugin.h the plugin methods family has
-      no external visibility). (Anatol)
-
-- Opcache:
-  . Fixed bug #77266 (Assertion failed in dce_live_ranges). (Laruence)
-  . Fixed bug #77257 (value of variable assigned in a switch() construct gets
-    lost). (Nikita)
-  . Fixed bug #77434 (php-fpm workers are segfaulting in zend_gc_addre).
-    (Nikita)
-  . Fixed bug #77361 (configure fails on 64-bit AIX when opcache enabled).
-    (Kevin Adler)
-  . Fixed bug #77287 (Opcache literal compaction is incompatible with EXT
-    opcodes). (Nikita)
-
-- PCRE:
-  . Fixed bug #77338 (get_browser with empty string). (Nikita)
-
-- PDO:
-  . Fixed bug #77273 (array_walk_recursive corrupts value types leading to PDO
-    failure). (Nikita)
-
-- PDO MySQL:
-  . Fixed bug #77289 (PDO MySQL segfaults with persistent connection).
-    (Lauri Kenttä)
-
-- SOAP:
-  . Fixed bug #77410 (Segmentation Fault when executing method with an empty
-    parameter). (Nikita)
-
-- Sockets:
-  . Fixed bug #76839 (socket_recvfrom may return an invalid 'from' address
-    on MacOS). (Michael Meyer)
-
-- SPL:
-  . Fixed bug #77298 (segfault occurs when add property to unserialized empty
-    ArrayObject). (jhdxr)
-
-- Standard:
-  . Fixed bug #77395 (segfault about array_multisort). (Laruence)
-  . Fixed bug #77439 (parse_str segfaults when inserting item into existing
-    array). (Nikita)
-
-10 Jan 2019, PHP 7.3.1
-
-- Core:
-  . Fixed bug #76654 (Build failure on Mac OS X on 32-bit Intel). (Ryandesign)
-  . Fixed bug #71041 (zend_signal_startup() needs ZEND_API).
-    (Valentin V. Bartenev)
-  . Fixed bug #76046 (PHP generates "FE_FREE" opcode on the wrong line).
-    (Nikita)
-  . Fixed bug #77291 (magic methods inherited from a trait may be ignored).
-    (cmb)
-
-- CURL:
-  . Fixed bug #77264 (curl_getinfo returning microseconds, not seconds).
-    (Pierrick)
-
-- COM:
-  . Fixed bug #77177 (Serializing or unserializing COM objects crashes). (cmb)
-
-- Exif:
-  . Fixed bug #77184 (Unsigned rational numbers are written out as signed
-    rationals). (Colin Basnett)
-
-- GD:
-  . Fixed bug #77195 (Incorrect error handling of imagecreatefromjpeg()). (cmb)
-  . Fixed bug #77198 (auto cropping has insufficient precision). (cmb)
-  . Fixed bug #77200 (imagecropauto(…, GD_CROP_SIDES) crops left but not right).
-    (cmb)
-  . Fixed bug #77269 (efree() on uninitialized Heap data in imagescale leads to
-    use-after-free). (cmb)
-  . Fixed bug #77270 (imagecolormatch Out Of Bounds Write on Heap). (cmb)
-
-- MBString:
-  . Fixed bug #77367 (Negative size parameter in mb_split). (Stas)
-  . Fixed bug #77370 (Buffer overflow on mb regex functions - fetch_token).
-    (Stas)
-  . Fixed bug #77371 (heap buffer overflow in mb regex functions
-    - compile_string_node). (Stas)
-  . Fixed bug #77381 (heap buffer overflow in multibyte match_at). (Stas)
-  . Fixed bug #77382 (heap buffer overflow due to incorrect length in
-    expand_case_fold_string). (Stas)
-  . Fixed bug #77385 (buffer overflow in fetch_token). (Stas)
-  . Fixed bug #77394 (Buffer overflow in multibyte case folding - unicode).
-    (Stas)
-  . Fixed bug #77418 (Heap overflow in utf32be_mbc_to_code). (Stas)
-
-- OCI8:
-  . Fixed bug #76804 (oci_pconnect with OCI_CRED_EXT not working). (KoenigsKind)
-  . Added oci_set_call_timeout() for call timeouts.
-  . Added oci_set_db_operation() for the DBOP end-to-end-tracing attribute.
-
-- Opcache:
-  . Fixed bug #77215 (CFG assertion failure on multiple finalizing switch
-    frees in one block). (Nikita)
-  . Fixed bug #77275 (OPcache optimization problem for ArrayAccess->offsetGet).
-    (Nikita)
-
-- PCRE:
-  . Fixed bug #77193 (Infinite loop in preg_replace_callback). (Anatol)
-
-- PDO:
-  . Handle invalid index passed to PDOStatement::fetchColumn() as error. (Sergei
-    Morozov)
-
-- Phar:
-  . Fixed bug #77247 (heap buffer overflow in phar_detect_phar_fname_ext). (Stas)
-
-- Soap:
-  . Fixed bug #77088 (Segfault when using SoapClient with null options).
-    (Laruence)
-
-- Sockets:
-  . Fixed bug #77136 (Unsupported IPV6_RECVPKTINFO constants on macOS).
-    (Mizunashi Mana)
-
-- Sodium:
-  . Fixed bug #77297 (SodiumException segfaults on PHP 7.3). (Nikita, Scott)
-
-- SPL:
-  . Fixed bug #77359 (spl_autoload causes segfault). (Lauri Kenttä)
-  . Fixed bug #77360 (class_uses causes segfault). (Lauri Kenttä)
-
-- SQLite3:
-  . Fixed bug #77051 (Issue with re-binding on SQLite3). (BohwaZ)
-
-- Xmlrpc:
-  . Fixed bug #77242 (heap out of bounds read in xmlrpc_decode()). (cmb)
-  . Fixed bug #77380 (Global out of bounds read in xmlrpc base64 code). (Stas)
-
-06 Dec 2018, PHP 7.3.0
-
-- Core:
-  . Improved PHP GC. (Dmitry, Nikita)
-  . Redesigned the old ext_skel program written in PHP, run:
-    'php ext_skel.php' for all options. This means there are no dependencies,
-    thus making it work on Windows out of the box. (Kalle)
-  . Removed support for BeOS. (Kalle)
-  . Add PHP_VERSION to phpinfo() <title/>. (github/MattJeevas)
-  . Add net_get_interfaces(). (Sara, Joe, Anatol)
-  . Added gc_status(). (Benjamin Eberlei)
-  . Implemented flexible heredoc and nowdoc syntax, per
-    RFC https://wiki.php.net/rfc/flexible_heredoc_nowdoc_syntaxes.
-    (Thomas Punt)
-  . Added support for references in list() and array destructuring, per
-    RFC https://wiki.php.net/rfc/list_reference_assignment.
-    (David Walker)
-  . Improved effectiveness of ZEND_SECURE_ZERO for NetBSD and systems
-    without native similar feature. (devnexen)
-  . Added syslog.facility and syslog.ident INI entries for customizing syslog
-    logging. (Philip Prindeville)
-  . Fixed bug #75683 (Memory leak in zend_register_functions() in ZTS mode).
-    (Dmitry)
-  . Fixed bug #75031 (support append mode in temp/memory streams). (adsr)
-  . Fixed bug #74860 (Uncaught exceptions not being formatted properly when
-    error_log set to "syslog"). (Philip Prindeville)
-  . Fixed bug #75220 (Segfault when calling is_callable on parent).
-    (andrewnester)
-  . Fixed bug #69954 (broken links and unused config items in distributed ini
-    files). (petk)
-  . Fixed bug #74922 (Composed class has fatal error with duplicate, equal const
-    properties). (pmmaga)
-  . Fixed bug #63911 (identical trait methods raise errors during composition).
-    (pmmaga)
-  . Fixed bug #75677 (Clang ignores fastcall calling convention on variadic
-    function). (Li-Wen Hsu)
-  . Fixed bug #54043 (Remove inconsitency of internal exceptions and user
-    defined exceptions). (Nikita)
-  . Fixed bug #53033 (Mathematical operations convert objects to integers).
-    (Nikita)
-  . Fixed bug #73108 (Internal class cast handler uses integer instead of
-    float). (Nikita)
-  . Fixed bug #75765 (Fatal error instead of Error exception when base class is
-    not found). (Timur Ibragimov)
-  . Fixed bug #76198 (Wording: "iterable" is not a scalar type). (Levi Morrison)
-  . Fixed bug #76137 (config.guess/config.sub do not recognize RISC-V). (cmb)
-  . Fixed bug #76427 (Segfault in zend_objects_store_put). (Laruence)
-  . Fixed bug #76422 (ftruncate fails on files > 2GB). (Anatol)
-  . Fixed bug #76509 (Inherited static properties can be desynchronized from
-    their parent by ref). (Nikita)
-  . Fixed bug #76439 (Changed behaviour in unclosed HereDoc). (Nikita, tpunt)
-  . Fixed bug #63217 (Constant numeric strings become integers when used as
-    ArrayAccess offset). (Rudi Theunissen, Dmitry)
-  . Fixed bug #33502 (Some nullary functions don't check the number of
-    arguments). (cmb)
-  . Fixed bug #76392 (Error relocating sapi/cli/php: unsupported relocation
-    type 37). (Peter Kokot)
-  . The declaration and use of case-insensitive constants has been deprecated.
-    (Nikita)
-  . Added syslog.filter INI entry for syslog filtering. (Philip Prindeville)
-  . Fixed bug #76667 (Segfault with divide-assign op and __get + __set).
-    (Laruence)
-  . Fixed bug #76030 (RE2C_FLAGS rarely honoured) (Cristian Rodríguez)
-  . Fixed broken zend_read_static_property (Laruence)
-  . Fixed bug #76773 (Traits used on the parent are ignored for child classes).
-    (daverandom)
-  . Fixed bug #76767 (‘asm’ operand has impossible constraints in zend_operators.h).
-    (ondrej)
-  . Fixed bug #76752 (Crash in ZEND_COALESCE_SPEC_TMP_HANDLER - assertion in
-    _get_zval_ptr_tmp failed). (Laruence)
-  . Fixed bug #76820 (Z_COPYABLE invalid definition). (mvdwerve, cmb)
-  . Fixed bug #76510 (file_exists() stopped working for phar://). (cmb)
-  . Fixed bug #76869 (Incorrect bypassing protected method accessibilty check).
-    (Dmitry)
-  . Fixed bug #72635 (Undefined class used by class constant in constexpr
-    generates fatal error). (Nikita)
-  . Fixed bug #76947 (file_put_contents() blocks the directory of the file
-    (__DIR__)). (Anatol)
-  . Fixed bug #76979 (define() error message does not mention resources as
-    valid values). (Michael Moravec)
-  . Fixed bug #76825 (Undefined symbols ___cpuid_count). (Laruence, cmb)
-  . Fixed bug #77110 (undefined symbol zend_string_equal_val in C++ build).
-    (Remi)
+  . Fixed bug GH-22290 (AST pretty printing does not correctly handle strings
+    containing NUL). (iliaal)
+  . Fixed bug GH-22206 (missing return in global register detection).
+    (P3p111n0)
+  . Lock unmodified readonly properties for modification after clone-with.
+    (NickSdot)
 
 - BCMath:
-  . Implemented FR #67855 (No way to get current scale in use). (Chris Wright,
-    cmb)
-  . Fixed bug #66364 (BCMath bcmul ignores scale parameter). (cmb)
-  . Fixed bug #75164 (split_bc_num() is pointless). (cmb)
-  . Fixed bug #75169 (BCMath errors/warnings bypass PHP's error handling). (cmb)
+  . Fixed GHSA-x692-q9x7-8c3f (Out-of-bounds write in bccomp()).
+    (CVE-2026-17544) (Recep Asan)
 
-- CLI:
-  . Fixed bug #44217 (Output after stdout/stderr closed cause immediate exit
-    with status 0). (Robert Lu)
-  . Fixed bug #77111 (php-win.exe corrupts unicode symbols from cli
-    parameters). (Anatol)
-
-- cURL:
-  . Expose curl constants from curl 7.50 to 7.61. (Pierrick)
-  . Fixed bug #74125 (Fixed finding CURL on systems with multiarch support).
-    (cebe)
+- Calendar:
+  . Fixed bug GH-22602 (gregoriantojd() and juliantojd() integer overflow with
+    INT_MAX year). (arshidkv12)
 
 - Date:
-  . Implemented FR #74668: Add DateTime::createFromImmutable() method.
-    (majkl578, Rican7)
-  . Fixed bug #75222 (DateInterval microseconds property always 0). (jhdxr)
-  . Fixed bug #68406 (calling var_dump on a DateTimeZone object modifies it).
-    (jhdxr)
-  . Fixed bug #76131 (mismatch arginfo for date_create). (carusogabriel)
-  . Updated timelib to 2018.01RC1 to address several bugs:
-    . Fixed bug #75577 (DateTime::createFromFormat does not accept 'v' format
-      specifier). (Derick)
-    . Fixed bug #75642 (Wrap around behaviour for microseconds is not working).
-      (Derick)
+  . Update timelib to 2022.17. (Derick)
+  . Fixed bug GH-19803 (Parsing a string with a single white space does create
+    an error). (Derick)
+  . Fixed Unix timestamps in February of the year 0 are misparsed with
+    @-notation. (LukasGelbmann)
+  . Fixed bug GH-11310 (__debugInfo does nothing on userland classes extending
+    Date classes). (Derick)
 
 - DBA:
-  . Fixed bug #75264 (compiler warnings emitted). (petk)
+  . Fixed OOB read on malformed length field in dba flatfile handler. (alhudz)
 
 - DOM:
-  . Fixed bug #76285 (DOMDocument::formatOutput attribute sometimes ignored).
-    (Andrew Nester, Laruence, Anatol)
+  . Fixed bug GH-22570 (Stack overflow when serializing a deeply nested
+    Dom\XMLDocument). (iliaal)
+  . Fixed getElementsByClassName() item() returning the wrong element on
+    random access. (David Carlier)
 
-- Fileinfo:
-  . Fixed bug #77095 (slowness regression in 7.2/7.3 (compared to 7.1)).
-    (Anatol)
-
-- Filter:
-  . Added the 'add_slashes' sanitization mode (FILTER_SANITIZE_ADD_SLASHES).
-	(Kalle)
-
-- FPM:
-  . Added fpm_get_status function. (Till Backhaus)
-  . Fixed bug #62596 (getallheaders() missing with PHP-FPM). (Remi)
-  . Fixed bug #69031 (Long messages into stdout/stderr are truncated
-    incorrectly) - added new log related FPM configuration options:
-    log_limit, log_buffering and decorate_workers_output. (Jakub Zelenka)
-
-- ftp:
-  . Fixed bug #77151 (ftp_close(): SSL_read on shutdown). (Remi)
+- Exif:
+  . Fixed bug GH-11020 (exif_read_data() emits a spurious "Illegal IFD size"
+    warning when an IFD is not followed by a next-IFD offset). (Eyüp Can Akman)
 
 - GD:
-  . Added support for WebP in imagecreatefromstring(). (Andreas Treichel, cmb)
+  . Upgrade libgd. (CVE-2026-9672) (Pierre Joye)
 
-- GMP:
-  . Export internal structures and accessor helpers for GMP object. (Sara)
-  . Added gmp_binomial(n, k). (Nikita)
-  . Added gmp_lcm(a, b). (Nikita)
-  . Added gmp_perfect_power(a). (Nikita)
-  . Added gmp_kronecker(a, b). (Nikita)
-
-- iconv:
-  . Fixed bug #53891 (iconv_mime_encode() fails to Q-encode UTF-8 string). (cmb)
-  . Fixed bug #77147 (Fixing 60494 ignored ICONV_MIME_DECODE_CONTINUE_ON_ERROR).
-    (cmb)
-
-- IMAP:
-  . Fixed bug #77020 (null pointer dereference in imap_mail). (cmb)
-  . Fixed bug #77153 (imap_open allows to run arbitrary shell commands via
-    mailbox parameter). (Stas)
-
-- Interbase:
-  . Fixed bug #75453 (Incorrect reflection for ibase_[p]connect). (villfa)
-  . Fixed bug #76443 (php+php_interbase.dll crash on module_shutdown). (Kalle)
-
-
-- intl:
-  . Fixed bug #75317 (UConverter::setDestinationEncoding changes source instead
-    of destination). (andrewnester)
-  . Fixed bug #76829 (Incorrect validation of domain on idn_to_utf8()
-    function). (Anatol)
-
-- JSON:
-  . Added JSON_THROW_ON_ERROR flag. (Andrea)
-
-- LDAP:
-  . Added ldap_exop_refresh helper for EXOP REFRESH operation with dds overlay.
-    (Come)
-  . Added full support for sending and parsing ldap controls. (Come)
-  . Fixed bug #49876 (Fix LDAP path lookup on 64-bit distros). (dzuelke)
-
-- libxml2:
-  . Fixed bug #75871 (use pkg-config where available). (pmmaga)
-
-- litespeed:
-  . Fixed bug #75248 (Binary directory doesn't get created when building
-    only litespeed SAPI). (petk)
-  . Fixed bug #75251 (Missing program prefix and suffix). (petk)
-
-- MBstring:
-  . Updated to Oniguruma 6.9.0. (cmb)
-  . Fixed bug #65544 (mb title case conversion-first word in quotation isn't
-    capitalized). (Nikita)
-  . Fixed bug #71298 (MB_CASE_TITLE misbehaves with curled apostrophe/quote).
-    (Nikita)
-  . Fixed bug #73528 (Crash in zif_mb_send_mail). (Nikita)
-  . Fixed bug #74929 (mbstring functions version 7.1.1 are slow compared to 5.3
-    on Windows). (Nikita)
-  . Fixed bug #76319 (mb_strtolower with invalid UTF-8 causes segmentation
-    fault). (Nikita)
-  . Fixed bug #76574 (use of undeclared identifiers INT_MAX and LONG_MAX). (cmb)
-  . Fixed bug #76594 (Bus Error due to unaligned access in zend_ini.c
-    OnUpdateLong). (cmb, Nikita)
-  . Fixed bug #76706 (mbstring.http_output_conv_mimetypes is ignored). (cmb)
-  . Fixed bug #76958 (Broken UTF7-IMAP conversion). (Nikita)
-  . Fixed bug #77025 (mb_strpos throws Unknown encoding or conversion error).
-    (Nikita)
-  . Fixed bug #77165 (mb_check_encoding crashes when argument given an empty
-    array). (Nikita)
-
-- Mysqlnd:
-  . Fixed bug #76386 (Prepared Statement formatter truncates fractional seconds
-    from date/time column). (Victor Csiky)
+- Hash:
+  . Fixed bug GH-18173 (ext/hash relies on implementation-defined malloc
+    alignment). (iliaal)
 
 - ODBC:
-  . Removed support for ODBCRouter. (Kalle)
-  . Removed support for Birdstep. (Kalle)
-  . Fixed bug #77079 (odbc_fetch_object has incorrect type signature).
-    (Jon Allen)
+  . Fixed bug GH-22668 (Heap buffer over-read when a column value exceeds the
+    driver-reported display size). (iliaal)
 
 - Opcache:
-  . Fixed bug #76466 (Loop variable confusion). (Dmitry, Laruence, Nikita)
-  . Fixed bug #76463 (var has array key type but not value type). (Laruence)
-  . Fixed bug #76446 (zend_variables.c:73: zend_string_destroy: Assertion
-    `!(zval_gc_flags((str)->gc)). (Nikita, Laruence)
-  . Fixed bug #76711 (OPcache enabled triggers false-positive "Illegal string
-    offset"). (Dmitry)
-  . Fixed bug #77058 (Type inference in opcache causes side effects). (Nikita)
-  . Fixed bug #77092 (array_diff_key() - segmentation fault). (Nikita)
+  . Fixed bug GH-22158 (Tracing JIT dispatches the observer begin handler
+    through the wrong run_time_cache slot on megamorphic calls). (ptondereau,
+    iliaal)
+  . Fixed bug GH-22443 (Tracing JIT SIGSEGV on megamorphic dynamic calls from
+    an undereferenced run_time_cache map_ptr offset). (iliaal)
+  . Fixed bug GH-21770 (Infinite recursion in property hook getter in opcache
+    preloaded trait). (iliaal)
 
 - OpenSSL:
-  . Added openssl_pkey_derive function. (Jim Zubov)
-  . Add min_proto_version and max_proto_version ssl stream options as well as
-    related constants for possible TLS protocol values. (Jakub Zelenka)
+  . Fixed timeout for supplemental read at end of a blocking stream in SSL
+    stream wrapper. (ilutov)
 
-- PCRE:
-  . Implemented https://wiki.php.net/rfc/pcre2-migration. (Anatol, Dmitry)
-  . Upgrade PCRE2 to 10.32. (Anatol)
-  . Fixed bug #75355 (preg_quote() does not quote # control character).
-    (Michael Moravec)
-  . Fixed bug #76512 (\w no longer includes unicode characters). (cmb)
-  . Fixed bug #76514 (Regression in preg_match makes it fail with
-    PREG_JIT_STACKLIMIT_ERROR). (Anatol)
-  . Fixed bug #76909 (preg_match difference between 7.3 and < 7.3). (Anatol)
+- Intl:
+  . Fixed Locale::lookup() and locale_lookup() to return NULL instead of the
+    fallback locale when a language tag cannot be canonicalized. (Weilin Du)
+  . Fixed memory leaks when calling Collator::__construct() or
+    Spoofchecker::__construct() twice. (Weilin Du)
+  . Fixed memory leak when calling IntlListFormatter::__construct() twice.
+    (Weilin Du)
+  . Fixed IntlChar methods leaving stale global error state after successful
+    calls. (Xuyang Zhang)
 
-- PDO_DBlib:
-  . Implemented FR #69592 (allow 0-column rowsets to be skipped automatically).
-    (fandrieu)
-  . Expose TDS version as \PDO::DBLIB_ATTR_TDS_VERSION attribute on \PDO
-    instance. (fandrieu)
-  . Treat DATETIME2 columns like DATETIME. (fandrieu)
-  . Fixed bug #74243 (allow locales.conf to drive datetime format). (fandrieu)
+- PDO_ODBC:
+  . Fixed bug GH-20726 (Crash with ODBC connection pooling when the DSN
+    carries no credentials). (iliaal)
+  . Fixed bug GH-22667 (Heap buffer over-read when a column value exceeds the
+    driver-reported display size). (iliaal)
+  . Fixed bug GH-22666 (Heap buffer overflow when an output parameter value is
+    longer than the declared maxlen). (iliaal)
+  . Fixed bug GH-22665 (Out-of-bounds write when the ODBC driver reports a
+    diagnostic message length beyond the error buffer). (iliaal)
 
-- PDO_Firebird:
-  . Fixed bug #74462 (PDO_Firebird returns only NULLs for results with boolean
-    for FIREBIRD >= 3.0). (Dorin Marcoci)
+- PGSQL:
+  . Fixed GHSA-7qpv-r5mr-78m4 (SQL injection via E'...' backslash breakout).
+    (CVE-2026-17543) (ilutov)
 
-- PDO_OCI:
-  . Fixed bug #74631 (PDO_PCO with PHP-FPM: OCI environment initialized
-    before PHP-FPM sets it up). (Ingmar Runge)
+- Phar:
+  . Fixed inconsistent handling of the magic ".phar" directory. Paths such as
+    "/.phar" remain protected, while non-magic paths that merely start with
+    ".phar" are handled consistently across file and directory creation,
+    copying, ArrayAccess, stream lookup, directory iteration and extraction.
+    (Weilin Du)
+  . Fixed GHSA-vc5h-9ppw-p5f3 (Crash via recursive symlinks). (CVE-2026-7260)
+    (Jakub Zelenka)
 
-- PDO SQLite
-  . Add support for additional open flags
+- PHPDBG:
+  . Fixed bug GH-17387 (Trivial crash in phpdbg lexer). (iliaal)
+  . Fixed fleaked lowercased lookup keys in phpdbg_resolve_opline_break.
+    (jorgsowa)
+  . Fixed off-by-one in phpdbg_safe_class_lookup() causing class lookups to
+    always fail during phpdbg's signal-safe interruption path. (jorgsowa)
 
-- pgsql:
-  . Added new error constants for pg_result_error(): PGSQL_DIAG_SCHEMA_NAME,
-    PGSQL_DIAG_TABLE_NAME, PGSQL_DIAG_COLUMN_NAME, PGSQL_DIAG_DATATYPE_NAME,
-    PGSQL_DIAG_CONSTRAINT_NAME and PGSQL_DIAG_SEVERITY_NONLOCALIZED. (Kalle)
-  . Fixed bug #77047 (pg_convert has a broken regex for the 'TIME WITHOUT
-    TIMEZONE' data type). (Andy Gajetzki)
-
-- phar:
-  . Fixed bug #74991 (include_path has a 4096 char limit in some cases).
-    (bwbroersma)
-  . Fixed bug #65414 (deal with leading slash when adding files correctly).
-    (bishopb)
-
-- readline:
-  . Added completion_append_character and completion_suppress_append options
-    to readline_info() if linked against libreadline. (krageon)
+- Reflection:
+  . Fixed bug GH-22324 (Ignore leading namespace separator in
+    ReflectionParameter::__construct()). (jorgsowa)
+  . Fixed bug GH-22441 (ReflectionClass::hasProperty() and getProperty() ignore
+    dynamic properties shadowing a private parent property). (iliaal)
+  . Fixed bug GH-22658 (ReflectionConstant::__toString() with a string value
+    with null bytes truncates output). (DanielEScherzer)
+  . Fixed bug GH-22683 (Reflection(Class)Constant::__toString() should not warn
+    on NAN conversions). (Khaled Alam)
+  . Fixed bug GH-22681 (Reflection*::__toString() truncates on null bytes).
+    (DanielEScherzer)
 
 - Session:
-  . Fixed bug #74941 (session fails to start after having headers sent).
-    (morozov)
-
-- SimpleXML:
-  . Fixed bug #54973 (SimpleXML casts integers wrong). (Nikita)
-  . Fixed bug #76712 (Assignment of empty string creates extraneous text node).
-    (cmb)
-
-- Sockets:
-  . Fixed bug #67619 (Validate length on socket_write). (thiagooak)
-
-- SOAP:
-  . Fixed bug #75464 (Wrong reflection on SoapClient::__setSoapHeaders).
-    (villfa)
-  . Fixed bug #70469 (SoapClient generates E_ERROR even if exceptions=1 is
-    used). (Anton Artamonov)
-  . Fixed bug #50675 (SoapClient can't handle object references correctly).
-    (Cameron Porter)
-  . Fixed bug #76348 (WSDL_CACHE_MEMORY causes Segmentation fault). (cmb)
-  . Fixed bug #77141 (Signedness issue in SOAP when precision=-1). (cmb)
+  . Fixed bug GH-21314 (Different session garbage collector behavior between
+    PHP 8.3 and PHP 8.5). (jorgsowa)
 
 - SPL:
-  . Fixed bug #74977 (Appending AppendIterator leads to segfault).
-    (Andrew Nester)
-  . Fixed bug #75173 (incorrect behavior of AppendIterator::append in foreach
-    loop). (jhdxr)
-  . Fixed bug #74372 (autoloading file with syntax error uses next autoloader,
-    may hide parse error). (Nikita)
-  . Fixed bug #75878 (RecursiveTreeIterator::setPostfix has wrong signature).
-    (cmb)
-  . Fixed bug #74519 (strange behavior of AppendIterator). (jhdxr)
-  . Fixed bug #76131 (mismatch arginfo for splarray constructor).
-    (carusogabriel)
-
-- SQLite3:
-  . Updated bundled libsqlite to 3.24.0. (cmb)
+  . Fix	class_parents for classes with leading slash in non-autoload mode.
+    (jorgsowa)
+  . Ignore leading back-slash in class_parents(), class_implements(), and
+    class_uses(). (jorgsowa)
+  . Fixed bug GH-16217 (SplFileObject::fputcsv() on an uninitialized object
+    segfaults). (iliaal)
 
 - Standard:
-  . Added is_countable() function. (Gabriel Caruso)
-  . Added support for the SameSite cookie directive, including an alternative
-    signature for setcookie(), setrawcookie() and session_set_cookie_params().
-    (Frederik Bosch, pmmaga)
-  . Remove superfluous warnings from inet_ntop()/inet_pton(). (daverandom)
-  . Fixed bug #75916 (DNS_CAA record results contain garbage). (Mike,
-    Philip Sharp)
-  . Fixed unserialize(), to disable creation of unsupported data structures
-    through manually crafted strings. (Dmitry)
-  . Fixed bug #75409 (accept EFAULT in addition to ENOSYS as indicator
-    that getrandom() is missing). (sarciszewski)
-  . Fixed bug #74719 (fopen() should accept NULL as context). (Alexander Holman)
-  . Fixed bug #69948 (path/domain are not sanitized in setcookie). (cmb)
-  . Fixed bug #75996 (incorrect url in header for mt_rand). (tatarbj)
-  . Added hrtime() function, to get high resolution time. (welting)
-  . Fixed bug #48016 (stdClass::__setState is not defined although var_export()
-    uses it). (Andrea)
-  . Fixed bug #76136 (stream_socket_get_name should enclose IPv6 in brackets).
-    (seliver)
-  . Fixed bug #76688 (Disallow excessive parameters after options array).
-    (pmmaga)
-  . Fixed bug #76713 (Segmentation fault caused by property corruption).
-    (Laruence)
-  . Fixed bug #76755 (setcookie does not accept "double" type for expire time).
-    (Laruence)
-  . Fixed bug #76674 (improve array_* failure messages exposing what was passed
-    instead of an array). (carusogabriel)
-  . Fixed bug #76803 (ftruncate changes file pointer). (Anatol)
-  . Fixed bug #76818 (Memory corruption and segfault). (Remi)
-  . Fixed bug #77081 (ftruncate() changes seek pointer in c mode). (cmb, Anatol)
+  . Fixed bug GH-22395 (base_convert() outputs at most 64 characters).
+    (Weilin Du)
+  . Fixed bug GH-22678 (Use-after-free in array_multisort() when the comparator
+    mutates the array being sorted). (azchin, iliaal)
 
-- Testing:
-  . Implemented FR #62055 (Make run-tests.php support --CGI-- sections). (cmb)
+- URI:
+  . Fixed behavior of Uri\WhatWg\Url wither methods with regards to empty
+    opaque hosts. (kocsismate)
+  . Fixed bug GH-22628 (Percent-encoding of caret in WHATWG URL paths is not
+    performed). (kocsismate)
+  . Fixed bug GH-22629 (WHATWG Validation error incorrect with empty host and
+    non-empty userinfo). (kocsismate)
 
-- Tidy:
-  . Support using tidyp instead of tidy. (devnexen)
-  . Fixed bug #74707 (Tidy has incorrect ReflectionFunction param counts for
-    functions taking tidy). (Gabriel Caruso)
-  . Fixed arginfo for tidy::__construct(). (Tyson Andre)
+- Zip:
+  . Fixed bug GH-22649 (ZipArchive::setCommentName() and setCommentIndex()
+    could crash after overwriting an entry and resetting its inherited
+    unchanged comment). (Weilin Du)
+  . Fixed bug GH-21705 (ZipArchive::getFromIndex() ignores
+    ZipArchive::FL_UNCHANGED for deleted entries). (Weilin Du)
 
-- Tokenizer:
-  . Fixed bug #76437 (token_get_all with TOKEN_PARSE flag fails to recognise
-    close tag). (Laruence)
-  . Fixed bug #75218 (Change remaining uncatchable fatal errors for parsing
-    into ParseError). (Nikita)
-  . Fixed bug #76538 (token_get_all with TOKEN_PARSE flag fails to recognise
-    close tag with newline). (Nikita)
-  . Fixed bug #76991 (Incorrect tokenization of multiple invalid flexible
-    heredoc strings). (Nikita)
+02 Jul 2026, PHP 8.5.8
 
-- XML:
-  . Fixed bug #71592 (External entity processing never fails). (cmb)
+- Core:
+  . Fixed bug GH-22280 (Incorrect compile error for goto to label preceding
+    try/finally block). (Pratik Bhujel)
+  . Fixed bug GH-22112 (Assertion when error handler throws during NaN to
+    bool/string coercion). (iliaal)
+
+- BCMath:
+  . Fixed issues with oversized allocations and signed overflow in bcround()
+    and BcMath\Number::round(). (edorian)
+
+- Date:
+  . Fix incorrect recurrence check of DatePeriod::createFromISO8601String().
+    (ndossche)
+
+- Exif:
+  . Read correct value for single and double tags. (ndossche)
+
+- GD:
+  . Fixed bug GH-22121 (Double free in gdImageSetStyle() after
+    overflow-triggered early return). (iliaal)
+
+- Intl:
+  . Fix incorrect argument positions for invalid start/end arguments in
+    transliterator_transliterate().
+    (Weilin Du)
+  . Fixed IntlTimeZone::getDisplayName() to synchronize object error state
+    for invalid display types. (Weilin Du)
+
+- Lexbor:
+  . Merge patch c3a6847. (ilutov, timwolla)
+
+- Opcache:
+  . Fixed bug GH-22265 (Another tailcall vm_interrupt bug). (Levi Morrison)
+  . Fixed bug GH-20469 (Unsafe inheritance cache replay with reentrant
+    autoloading). (Levi Morrison)
+  . Fixed bug GH-21972 (Corrupted variable type when a typed by-value return
+    contains a reference wrapper). (Weilin Du)
+
+- OpenSSL:
+  . Fixed bug GH-22187 (Memory corruption (zend_mm_heap corrupted) in
+    openssl_encrypt with AES-WRAP-PAD). (CVE-2026-14355) (David Carlier)
+
+- Phar:
+  . Fixed a bypass of the magic ".phar" directory protection in
+    Phar::addEmptyDir() for paths starting with "/.phar", while allowing
+    non-magic directory names that merely share the ".phar" prefix. (Weilin Du)
+  . Fixed an integer underflow when parsing ZIP extra fields. (Weilin Du)
+
+- Reflection:
+  . Preserve class-name case in ReflectionClass::getProperty() error messages
+    and autoloading. (jorgsowa)
+
+- SOAP:
+  . Fixed bug GH-22218 (SoapServer::handle() crash on $_SERVER not being
+    an array). (David Carlier / Rex-Reynolds)
+  . Fixed bug GH-22285 (Soap server requires the raw input to be passed
+    to $server->handle). (David Carlier / ndossche)
+
+- Sqlite:
+  . Fix error checks for column retrieval. (ndossche)
+
+- URI:
+  . Add LEXBOR_STATIC to CFLAGS_URI on Windows so ext/uri does not see
+    LXB_API as __declspec(dllimport) when linked statically into PHP.
+    (Luther Monson)
+  . Clean error logs before each Uri\WhatWg\Url wither call so that errors from
+    previous wither calls are not returned the next time a UrlValidationError
+    is thrown. (kocsismate)
+
+- Zip:
+  . Fixed error-related memory leaks. (ndossche)
 
 - Zlib:
-  . Added zlib/level context option for compress.zlib wrapper. (Sara)
+  . Fixed memory leak if deflate initialization fails and there is a dict.
+    (ndossche)
+  . Fixed memory leak in inflate_add(). (ndossche)
+
+02 Jun 2026, PHP 8.5.7
+
+- CLI:
+  . Fixed bug GH-21901 (Stale getopt() optional value). (onthebed)
+
+- Core:
+  . Fixed bug GH-22071 (JIT assertion on abstract static method call).
+    (David Carlier)
+
+- Date:
+  . Fixed bug GH-18422 (int overflow in php_date_llabs). (iliaal)
+
+- DOM:
+  . Fixed bug GH-22077 (UAF in custom XPath function).
+    (afflerbach/David Carlier)
+
+- Opcache:
+  . Fixed tracing JIT crash when a VM interrupt is handled during an observed
+    user function call. (Levi Morrison)
+  . Fixed bug GH-21746 (Segfault with tracing JIT). (Arnaud)
+  . Fixed bug GH-22004 (Assertion failure at ext/opcache/jit/zend_jit_trace.c).
+    (Arnaud)
+  . Fixed tailcall VM crash when a VM interrupt is handled from a VM helper.
+    (Levi Morrison, Arnaud)
+
+- OpenSSL:
+  . Fix compatibility issues with OpenSSL 4.0. (jordikroon, Remi)
+
+- Standard:
+  . Fixed bug GH-21689 (version_compare() incorrectly handles versions ending
+    with a dot). (timwolla)
+
+- URI:
+  . Fixed CVE-2026-44927 (In uriparser before 1.0.2, there is pointer
+    difference truncation to int in various places). (CVE-2026-44927)
+    (Sebastian Pipping)
+  . Fixed CVE-2026-44928 (In uriparser before 1.0.2, the function family
+    EqualsUri can misclassify two unequal URIs as equal). (CVE-2026-44928)
+    (Sebastian Pipping)
+
+07 May 2026, PHP 8.5.6
+
+- Core:
+  . Fixed bug GH-19983 (GC assertion failure with fibers, generators and
+    destructors). (iliaal)
+  . Fixed ZEND_API mismatch on zend_ce_closure forward decl for Windows+Clang.
+    (henderkes)
+  . Fixed bug GH-21504 (Incorrect RC-handling for ZEND_EXT_STMT op1). (ilutov)
+  . Fixed bug GH-21478 (Forward property operations to real instance for
+    initialized lazy proxies). (iliaal)
+  . Fixed bug GH-21605 (Missing addref for Countable::count()). (ilutov)
+  . Fixed bug GH-21699 (Assertion failure in shutdown_executor when resolving
+    self::/parent::/static:: callables if the error handler throws). (macoaure)
+  . Fixed bug GH-21603 (Missing addref for __unset). (ilutov)
+  . Fixed bug GH-21760 (Trait with class constant name conflict against
+    enum case causes SEGV). (Pratik Bhujel)
+
+- CLI:
+  . Fixed bug GH-21754 (`--rf` command line option with a method triggers
+    ext/reflection deprecation warnings). (DanielEScherzer)
+
+- Curl:
+  . Add support for brotli and zstd on Windows. (Shivam Mathur)
+
+- DOM:
+  . Fixed GHSA-4jhr-8w89-j733 and GH-21566 (Dom\XMLDocument::C14N() emits
+    duplicate xmlns declarations after setAttributeNS()). (CVE-2026-7263)
+    (David Carlier)
+
+- FPM:
+  . Fixed GHSA-7qg2-v9fj-4mwv (XSS within status endpoint). (CVE-2026-6735)
+    (Jakub Zelenka)
+
+- Iconv:
+  . Fixed bug GH-17399 (iconv memory leak on bailout). (iliaal)
+
+- Lexbor:
+  . Upgrade to lexbor v2.7.0. (CVE-2026-29078, CVE-2026-29079)
+    (ndossche, ilutov)
+
+- MBString:
+  . Fixed GHSA-wm6j-2649-pv75 (Null pointer dereference in
+    php_mb_check_encoding() via mb_ereg_search_init()). (CVE-2026-7259)
+    (vi3tL0u1s)
+  . Fixed GHSA-74r9-qxhc-fx53 (Out-of-bounds access in mbfl_name2encoding_ex()).
+    (CVE-2026-6104) (ilutov)
+
+- Opcache:
+  . Fixed bug GH-21158 (JIT: Assertion jit->ra[var].flags & (1<<0) failed in
+    zend_jit_use_reg). (Arnaud)
+  . Fixed bug GH-21593 (Borked function JIT JMPNZ smart branch). (ilutov)
+  . Fixed bug GH-21460 (COND optimization regression). (Dmitry, Arnaud)
+  . Fixed faulty returns out of zend_try block in zend_jit_trace(). (ilutov)
+
+- OpenSSL:
+  . Fix memory leak regression in openssl_pbkdf2(). (ndossche)
+  . Fix a bunch of memory leaks and crashes on edge cases. (ndossche)
+
+- PDO_Firebird:
+  . Fixed GHSA-w476-322c-wpvm (SQL injection via NUL bytes in quoted strings).
+    (CVE-2025-14179) (SakiTakamachi)
+
+- PDO_PGSQL:
+  . Fixed bug GH-21683 (pdo_pgsql throws with ATTR_PREFETCH=0
+    on empty result set). (thomasschiet)
+
+- Phar:
+  . Restore is_link handler in phar_intercept_functions_shutdown. (iliaal)
+  . Fixed bug GH-21797 (phar: NULL dereference in Phar::webPhar() when
+    SCRIPT_NAME is absent from SAPI environment). (iliaal)
+  . Fix memory leak in Phar::offsetGet(). (iliaal)
+  . Fix memory leak in phar_add_file(). (iliaal)
+  . Fixed bug GH-21799 (phar: propagate phar_stream_flush return value from
+    phar_stream_close). (iliaal)
+  . Fix memory leak in phar_verify_signature() when md_ctx is invalid.
+    (JarneClauw)
+
+- Random:
+  . Fixed bug GH-21731 (Random\Engine\Xoshiro256StarStar::__unserialize()
+    accepts all-zero state). (iliaal)
+
+- Session:
+  . Fixed memory leak when session GC callback return a refcounted value.
+    (jorgsowa)
+
+- SOAP:
+  . Fixed GHSA-85c2-q967-79q5 (Stale SOAP_GLOBAL(ref_map) pointer with Apache
+    Map). (CVE-2026-6722) (ilutov)
+  . Fixed GHSA-m33r-qmcv-p97q (Use-after-free after header parsing failure with
+    SOAP_PERSISTENCE_SESSION). (CVE-2026-7261) (ilutov)
+  . Fixed GHSA-hmxp-6pc4-f3vv (Broken Apache map value NULL check).
+    (CVE-2026-7262) (ilutov)
+
+- SPL:
+  . Fixed bug GH-21499 (RecursiveArrayIterator getChildren UAF after parent
+    free). (Girgias)
+  . Fix concurrent iteration and deletion issues in SplObjectStorage.
+    (ndossche)
+
+- Sqlite3:
+  . Fixed wrong free list comparator pointer type. (David Carlier)
+
+- Standard:
+  . Fixed GHSA-96wq-48vp-hh57 (Signed integer overflow of char array offset).
+    (CVE-2026-7568) (TimWolla)
+  . Fixed GHSA-m8rr-4c36-8gq4 (Consistently pass unsigned char to ctype.h
+    functions). (CVE-2026-7258) (ilutov)
+
+- Streams:
+  . Fixed bug GH-21468 (Segfault in file_get_contents w/ a https URL
+    and a proxy set). (CVE-2026-12184) (ndossche)
+
+- URI:
+  . Fixed CVE-2026-42371 (uriparser before 1.0.1 has numeric truncation in
+    text range comparison). (CVE-2026-42371) (Joshua W. Windle)
+
+26 Mar 2026, PHP 8.5.5
+
+- Core:
+  . Fixed bug GH-20672 (Incorrect property_info sizing for locally shadowed
+    trait properties). (ilutov)
+  . Fixed bugs GH-20875, GH-20873, GH-20854 (Propagate IN_GET guard in
+    get_property_ptr_ptr for lazy proxies). (iliaal)
+
+- Bz2:
+  . Fix truncation of total output size causing erroneous errors. (ndossche)
+
+- DOM:
+  . Fixed bug GH-21486 (Dom\HTMLDocument parser mangles xml:space and
+    xml:lang attributes). (ndossche)
+
+- FFI:
+  . Fixed resource leak in FFI::cdef() onsymbol resolution failure.
+    (David Carlier)
+
+- GD:
+  . Fixed bug GH-21431 (phpinfo() to display libJPEG 10.0 support).
+    (David Carlier)
+
+- Opcache:
+  . Fixed bug GH-21052 (Preloaded constant erroneously propagated to file-cached
+    script). (ilutov)
+  . Fixed bug GH-20838 (JIT compiler produces wrong arithmetic results).
+    (Dmitry, iliaal)
+  . Fixed bug GH-21267 (JIT tracing: infinite loop on FETCH_OBJ_R with
+    IS_UNDEF property in polymorphic context). (Dmitry, iliaal)
+  . Fixed bug GH-21395 (uaf in jit). (ndossche)
+
+- OpenSSL:
+  . Fixed bug GH-21083 (Skip private_key_bits validation for EC/curve-based
+    keys). (iliaal)
+  . Fix missing error propagation for BIO_printf() calls. (ndossche)
+
+- PCNTL:
+  . Fixed signal handler installation on AIX by bumping the storage size of the
+    num_signals global. (Calvin Buckley)
+
+- PCRE:
+  . Fixed re-entrancy issue on php_pcre_match_impl, php_pcre_replace_impl,
+    php_pcre_split_impl, and php_pcre_grep_impl. (David Carlier)
+
+- Phar:
+  . Fixed bug GH-21333 (use after free when unlinking entries during iteration
+    of a compressed phar). (David Carlier)
+
+- SNMP:
+  . Fixed bug GH-21336 (SNMP::setSecurity() undefined behavior with
+    NULL arguments). (David Carlier)
+
+- SOAP:
+  . Fixed Set-Cookie parsing bug wrong offset while scanning attributes.
+    (David Carlier)
+
+- SPL:
+  . Fixed bug GH-21454 (missing write lock validation in SplHeap).
+    (ndossche)
+
+- Standard:
+  . Fixed bug GH-20906 (Assertion failure when messing up output buffers).
+    (ndossche)
+  . Fixed bug GH-20627 (Cannot identify some avif images with getimagesize).
+    (y-guyon)
+  . Fixed bug GH-22171 (Invalid auth header generation in
+    http(s) stream wrapper). (David Carlier)
+
+- Sysvshm:
+  . Fix memory leak in shm_get_var() when variable is corrupted. (ndossche)
+
+- XSL:
+  . Fix GH-21357 (XSLTProcessor works with DOMDocument, but fails with
+    Dom\XMLDocument). (ndossche)
+  . Fixed bug GH-21496 (UAF in dom_objects_free_storage).
+    (David Carlier/ndossche)
+
+12 Mar 2026, PHP 8.5.4
+
+- Core:
+  . Fixed bug GH-21029 (zend_mm_heap corrupted on Aarch64, LTO builds). (Arnaud)
+  . Fixed bug GH-21059 (Segfault when preloading constant AST closure). (ilutov)
+  . Fixed bug GH-21072 (Crash on (unset) cast in constant expression).
+    (arshidkv12)
+  . Fix deprecation now showing when accessing null key of an array with JIT.
+    (alexandre-daubois)
+  . Fixed bug GH-20657 (Assertion failure in zend_lazy_object_get_info triggered
+    by setRawValueWithoutLazyInitialization() and newLazyGhost()). (Arnaud)
+  . Fixed bug GH-20504 (Assertion failure in zend_get_property_guard when
+    accessing properties on Reflection LazyProxy via isset()). (Arnaud)
+  . Fixed OSS-Fuzz #478009707 (Borked assign-op/inc/dec on untyped hooked
+    property backing value). (ilutov)
+  . Fixed bug GH-21215 (Build fails with -std=). (Arnaud)
+  . Fixed bug GH-13674 (Build system installs libtool wrappers when using
+    slibtool). (Michael Orlitzky)
+
+- Curl:
+  . Don't truncate length. (ndossche)
+
+- Date:
+  . Fixed bug GH-20936 (DatePeriod::__set_state() cannot handle null start).
+    (ndossche)
+  . Fix timezone offset with seconds losing precision. (ndossche)
+
+- DOM:
+  . Fixed bug GH-21077 (Accessing Dom\Node::baseURI can throw TypeError).
+    (ndossche)
+  . Fixed bug GH-21097 (Accessing Dom\Node properties can can throw TypeError).
+    (ndossche)
+
+- LDAP:
+  . Fixed bug GH-21262 (ldap_modify() too strict controls argument validation
+    makes it impossible to unset attribute). (David Carlier)
+
+- MBString:
+  . Fixed bug GH-21223; mb_guess_encoding no longer crashes when passed huge
+    list of candidate encodings (with 200,000+ entries). (Jordi Kroon)
+
+- Opcache:
+  . Fixed bug GH-20718 ("Insufficient shared memory" when using JIT on Solaris).
+    (Petr Sumbera)
+  . Fixed bug GH-21227 (Borked SCCP of array containing partial object).
+    (ilutov)
+
+- OpenSSL:
+  . Fix a bunch of leaks and error propagation. (ndossche)
+
+- Windows:
+  . Fixed compilation with clang (missing intrin.h include). (Kévin Dunglas)
+
+29 Jan 2026, PHP 8.5.3
+
+- Core:
+  . Fixed bug GH-20806 (preserve_none feature compatiblity with LTO).
+    (henderkes)
+  . Fixed bug GH-20767 (build failure with musttail/preserve_none feature
+    on macOs). (David Carlier)
+  . Fixed bug GH-20837 (NULL dereference when calling ob_start() in shutdown
+    function triggered by bailout in php_output_lock_error()). (timwolla)
+  . Fix OSS-Fuzz #471533782 (Infinite loop in GC destructor fiber). (ilutov)
+  . Fix OSS-Fuzz #472563272 (Borked block_pass JMP[N]Z optimization). (ilutov)
+  . Fixed bug GH-20914 (Internal enums can be cloned and compared). (Arnaud)
+  . Fix OSS-Fuzz #474613951 (Leaked parent property default value). (ilutov)
+  . Fixed bug GH-20895 (ReflectionProperty does not return the PHPDoc of a
+    property if it contains an attribute with a Closure). (timwolla)
+  . Fixed bug GH-20766 (Use-after-free in FE_FREE with GC interaction). (Bob)
+  . Fix OSS-Fuzz #471486164 (Broken by-ref assignment to uninitialized hooked
+    backing value). (ilutov)
+  . Fix OSS-Fuzz #438780145 (Nested finally with repeated return type check may
+    uaf). (ilutov)
+  . Fixed bug GH-20905 (Lazy proxy bailing __clone assertion). (ilutov)
+  . Fixed bug GH-20479 (Hooked object properties overflow). (ndossche)
+
+- Date:
+  . Update timelib to 2022.16. (Derick)
+
+- DOM:
+  . Fixed GH-21041 (Dom\HTMLDocument corrupts closing tags within scripts).
+    (lexborisov)
+
+- MbString:
+  . Fixed bug GH-20833 (mb_str_pad() divide by zero if padding string is
+    invalid in the encoding). (ndossche)
+  . Fixed bug GH-20836 (Stack overflow in mb_convert_variables with
+    recursive array references). (alexandre-daubois)
+
+- Opcache:
+  . Fixed bug GH-20818 (Segfault in Tracing JIT with object reference).
+    (khasinski)
+
+- OpenSSL:
+  . Fix memory leaks when sk_X509_new_null() fails. (ndossche)
+  . Fix crash when in openssl_x509_parse() when i2s_ASN1_INTEGER() fails.
+    (ndossche)
+  . Fix crash in openssl_x509_parse() when X509_NAME_oneline() fails.
+    (ndossche)
+
+- Phar:
+  . Fixed bug GH-20882 (buildFromIterator breaks with missing base directory).
+    (ndossche)
+
+- PGSQL:
+  . Fixed INSERT/UPDATE queries building with PQescapeIdentifier() and possible
+    UB. (David Carlier)
+
+- Readline:
+  . Fixed bug GH-18139 (Memory leak when overriding some settings
+    via readline_info()). (ndossche)
+
+- SPL:
+  . Fixed bug GH-20856 (heap-use-after-free in SplDoublyLinkedList iterator
+    when modifying during iteration). (ndossche)
+
+- Standard:
+  . Fixed bug #74357 (lchown fails to change ownership of symlink with ZTS)
+    (Jakub Zelenka)
+  . Fixed bug GH-20843 (var_dump() crash with nested objects)
+    (David Carlier)
+
+15 Jan 2026, PHP 8.5.2
+
+- Core:
+  . Fix OSS-Fuzz #465488618 (Wrong assumptions when dumping function signature
+    with dynamic class const lookup default argument). (ilutov)
+  . Fixed bug GH-20695 (Assertion failure in normalize_value() when parsing
+    malformed INI input via parse_ini_string()). (ndossche)
+  . Fixed bug GH-20714 (Uncatchable exception thrown in generator). (ilutov)
+  . Fixed bug GH-20352 (UAF in php_output_handler_free via re-entrant
+    ob_start() during error deactivation). (ndossche)
+  . Fixed bug GH-20745 ("Casting out of range floats to int" applies to
+    strings). (Bob)
+
+- DOM:
+  . Fixed bug GH-20722 (Null pointer dereference in DOM namespace node cloning
+    via clone on malformed objects). (ndossche)
+  . Fixed bug GH-20444 (Dom\XMLDocument::C14N() seems broken compared
+    to DOMDocument::C14N()). (ndossche)
+
+- EXIF:
+  . Fixed bug GH-20631 (Integer underflow in exif HEIF parsing
+    when pos.size < 2). (Oblivionsage)
+
+- Intl:
+  . Fixed IntlListFormatter::getErrorCode() and getErrorMessage() not
+    reflecting format() failures. (Weilin Du)
+  . Fix leak in umsg_format_helper(). (ndossche)
+
+- LDAP:
+  . Fix memory leak in ldap_set_options(). (ndossche)
+
+- Lexbor:
+  . Fixed bug GH-20668 (\Uri\WhatWg\Url::withHost() crashes (SEGV) for URLs
+    using the file: scheme). (lexborisov)
+
+- Mbstring:
+  . Fixed bug GH-20674 (mb_decode_mimeheader does not handle separator).
+    (Yuya Hamada)
+
+- OpenSSL:
+  . Fixed bug GH-20802 (undefined behavior with invalid SNI_server_certs
+    options). (David Carlier)
+
+- PCNTL:
+  . Fixed bug with pcntl_getcpuaffinity() on solaris regarding invalid
+    process ids handling. (David Carlier)
+
+- Phar:
+  . Fixed bug GH-20732 (Phar::LoadPhar undefined behavior when reading fails).
+    (ndossche)
+  . Fix SplFileInfo::openFile() in write mode. (ndossche)
+  . Fix build on legacy OpenSSL 1.1.0 systems. (Giovanni Giacobbi)
+  . Fixed bug #74154 (Phar extractTo creates empty files). (ndossche)
+
+- Session:
+  . Fix support for MM module. (Michael Orlitzky)
+
+- Sqlite3:
+  . Fixed bug GH-20699 (SQLite3Result fetchArray return array|false,
+    null returned). (ndossche, plusminmax)
+
+- Standard:
+  . Fix error check for proc_open() command. (ndossche)
+  . Fix memory leak in mail() when header key is numeric. (Girgias)
+  . Fixed bug GH-20582 (Heap Buffer Overflow in iptcembed). (ndossche)
+
+- URI:
+  . Fixed bug GH-20771 (Assertion failure when getUnicodeHost() returns
+    empty string). (ndossche)
+
+- Zlib:
+  . Fix OOB gzseek() causing assertion failure. (ndossche)
+
+18 Dec 2025, PHP 8.5.1
+
+- Core:
+  . Sync all boost.context files with release 1.86.0. (mvorisek)
+  . Fixed bug GH-20435 (SensitiveParameter doesn't work for named argument
+    passing to variadic parameter). (ndossche)
+  . Fixed bug GH-20546 (preserve_none attribute configure check on macOs
+    issue). (David Carlier/cho-m)
+  . Fixed bug GH-20286 (use-after-destroy during userland stream_close()).
+    (ndossche, David Carlier)
+
+- Bz2:
+  . Fix assertion failures resulting in crashes with stream filter
+    object parameters. (ndossche)
+
+- DOM:
+  . Fix memory leak when edge case is hit when registering xpath callback.
+    (ndossche)
+  . Fixed bug GH-20395 (querySelector and querySelectorAll requires elements
+    in $selectors to be lowercase). (ndossche)
+  . Fix missing NUL byte check on C14NFile(). (ndossche)
+
+- Fibers:
+  . Fixed bug GH-20483 (ASAN stack overflow with fiber.stack_size INI
+    small value). (David Carlier)
+
+- Intl:
+  . Fixed bug GH-20426 (Spoofchecker::setRestrictionLevel() error message
+    suggests missing constants). (DanielEScherzer)
+
+- Lexbor:
+  . Fixed bug GH-20501 (\Uri\WhatWg\Url lose host after calling
+    withPath() or withQuery()). (lexborisov)
+  . Fixed bug GH-20502 (\Uri\WhatWg\Url crashes (SEGV) when parsing
+    malformed URL due to Lexbor memory corruption). (lexborisov)
+
+- LibXML:
+  . Fix some deprecations on newer libxml versions regarding input
+    buffer/parser handling. (ndossche)
+
+- mysqli:
+  . Make mysqli_begin_transaction() report errors properly. (Kamil Tekiela)
+
+- MySQLnd:
+  . Fixed bug GH-20528 (Regression breaks mysql connexion using an IPv6 address
+    enclosed in square brackets). (Remi)
+
+- Opcache:
+  . Fixed bug GH-20329 (opcache.file_cache broken with full interned string
+    buffer). (Arnaud)
+
+- PDO:
+  . Fixed bug GH-20553 (PDO::FETCH_CLASSTYPE ignores $constructorArgs in
+    PHP 8.5.0). (Girgias)
+  . Fixed GHSA-8xr5-qppj-gvwj (PDO quoting result null deref). (CVE-2025-14180)
+    (Jakub Zelenka)
+
+- Phar:
+  . Fixed bug GH-20442 (Phar does not respect case-insensitiveness of
+    __halt_compiler() when reading stub). (ndossche, TimWolla)
+  . Fix broken return value of fflush() for phar file entries. (ndossche)
+  . Fix assertion failure when fseeking a phar file out of bounds. (ndossche)
+
+- PHPDBG:
+  . Fixed ZPP type violation in phpdbg_get_executable() and phpdbg_end_oplog().
+    (Girgias)
+
+- SPL:
+  . Fixed bug GH-20614 (SplFixedArray incorrectly handles references
+    in deserialization). (ndossche)
+
+- Standard:
+  . Fix memory leak in array_diff() with custom type checks. (ndossche)
+  . Fixed bug GH-20583 (Stack overflow in http_build_query
+    via deep structures). (ndossche)
+  . Fixed GHSA-www2-q4fc-65wf (Null byte termination in dns_get_record()).
+    (ndossche)
+  . Fixed GHSA-h96m-rvf9-jgm2 (Heap buffer overflow in array_merge()).
+    (CVE-2025-14178) (ndossche)
+  . Fixed GHSA-3237-qqm7-mfv7 (Information Leak of Memory in getimagesize).
+    (CVE-2025-14177) (ndossche)
+
+- Streams:
+  . Fixed bug GH-20370 (User stream filters could violate typed property
+    constraints). (alexandre-daubois)
+
+- URI:
+  . Fixed bug GH-20366 (ext/uri incorrectly throws ValueError when encountering
+    null byte). (kocsismate)
+  . Fixed CVE-2025-67899 (uriparser through 0.9.9 allows unbounded recursion
+    and stack consumption). (Sebastian Pipping)
+
+- XML:
+  . Fixed bug GH-20439 (xml_set_default_handler() does not properly handle
+    special characters in attributes when passing data to callback). (ndossche)
+
+- Zip:
+  . Fix crash in property existence test. (ndossche)
+  . Don't truncate return value of zip_fread() with user sizes. (ndossche)
+
+- Zlib:
+  . Fix assertion failures resulting in crashes with stream filter
+    object parameters. (ndossche)
+
+20 Nov 2025, PHP 8.5.0
+
+- Core:
+  . Added the #[\NoDiscard] attribute to indicate that a function's return
+    value is important and should be consumed. (timwolla, edorian)
+  . Added the (void) cast to indicate that not using a value is intentional.
+    (timwolla, edorian)
+  . Added get_error_handler(), get_exception_handler() functions. (Arnaud)
+  . Added support for casts in constant expressions. (nielsdos)
+  . Added the pipe (|>) operator. (crell)
+  . Added support for `final` with constructor property promotion.
+    (DanielEScherzer)
+  . Added support for configuring the URI parser for the FTP/FTPS as well as
+    the SSL/TLS stream wrappers as described in
+    https://wiki.php.net/rfc/url_parsing_api#plugability. (kocsismate)
+  . Added PHP_BUILD_PROVIDER constant. (timwolla)
+  . Added PHP_BUILD_DATE constant. (cmb)
+  . Added support for Closures and first class callables in constant
+    expressions. (timwolla, edorian)
+  . Add support for backtraces for fatal errors. (enorris)
+  . Add clone-with support to the clone() function. (timwolla, edorian)
+  . Add RFC 3986 and WHATWG URL compliant APIs for URL parsing
+    and manipulation (kocsismate, timwolla)
+  . Fixed AST printing for immediately invoked Closure. (Dmitrii Derepko)
+  . Properly handle __debugInfo() returning an array reference. (nielsdos)
+  . Properly handle reference return value from __toString(). (nielsdos)
+  . Improved error message of UnhandledMatchError for
+    zend.exception_string_param_max_len=0. (timwolla)
+  . Fixed bug GH-15753 and GH-16198 (Bind traits before parent class). (ilutov)
+  . Fixed bug GH-17951 (memory_limit is not always limited by max_memory_limit).
+    (manuelm)
+  . Fixed bug GH-20183 (Stale EG(opline_before_exception) pointer through eval).
+    (ilutov)
+  . Fixed bug GH-20113 (Missing new Foo(...) error in constant expressions).
+    (ilutov)
+  . Fixed bug GH-19844 (Don't bail when closing resources on shutdown). (ilutov)
+  . Fixed bug GH-20177 (Accessing overridden private property in
+    get_object_vars() triggers assertion error). (ilutov)
+  . Fix OSS-Fuzz #447521098 (Fatal error during sccp shift eval). (ilutov)
+  . Fixed bug GH-20002 (Broken build on *BSD with MSAN). (outtersg)
+  . Fixed bug GH-19352 (Cross-compilation with musl C library).
+    (henderkes, Peter Kokot)
+  . Fixed bug GH-19765 (object_properties_load() bypasses readonly property
+    checks). (timwolla)
+  . Fixed hard_timeout with --enable-zend-max-execution-timers. (Appla)
+  . Fixed bug GH-19839 (Incorrect HASH_FLAG_HAS_EMPTY_IND flag on userland
+    array). (ilutov)
+  . Fixed bug GH-19823 (register_argc_argv deprecation emitted twice when
+    using OPcache). (timwolla)
+  . Fixed bug GH-19480 (error_log php.ini cannot be unset when open_basedir is
+    configured). (nielsdos)
+  . Fixed bug GH-19719 (Allow empty statements before declare(strict_types)).
+    (nielsdos)
+  . Fixed bug GH-19934 (CGI with auto_globals_jit=0 causes uouv). (ilutov)
+  . Fixed bug GH-19613 (Stale array iterator pointer). (ilutov)
+  . Fixed bug GH-19679 (zend_ssa_range_widening may fail to converge). (Arnaud)
+  . Fixed bug GH-19681 (PHP_EXPAND_PATH broken with bash 5.3.0). (Remi)
+  . Fixed bug GH-18850 (Repeated inclusion of file with __halt_compiler()
+    triggers "Constant already defined" warning). (ilutov)
+  . Fixed bug GH-19476 (pipe operator fails to correctly handle returning
+    by reference). (alexandre-daubois)
+  . Fixed bug GH-19081 (Wrong lineno in property error with constructor property
+    promotion). (ilutov)
+  . Fixed bug GH-17959 (Relax missing trait fatal error to error exception).
+    (ilutov)
+  . Fixed bug GH-18033 (NULL-ptr dereference when using register_tick_function
+    in destructor). (nielsdos)
+  . Fixed bug GH-18026 (Improve "expecting token" error for ampersand). (ilutov)
+  . The report_memleaks INI directive has been deprecated. (alexandre-daubois)
+  . Fixed OSS-Fuzz #439125710 (Pipe cannot be used in write context).
+    (nielsdos)
+  . Fixed bug GH-19548 (Shared memory violation on property inheritance).
+    (alexandre-daubois)
+  . Fixed bug GH-19544 (GC treats ZEND_WEAKREF_TAG_MAP references as WeakMap
+    references). (Arnaud, timwolla)
+  . Fixed bug GH-18373 (Don't substitute self/parent with anonymous class).
+    (ilutov)
+  . Fix support for non-userland stream notifiers. (timwolla)
+  . Fixed bug GH-19305 (Operands may be being released during comparison).
+    (Arnaud)
+  . Fixed bug GH-19306 (Generator can be resumed while fetching next value from
+    delegated Generator). (Arnaud)
+  . Fixed bug GH-19326 (Calling Generator::throw() on a running generator with
+    a non-Generator delegate crashes). (Arnaud)
+  . Fix OSS-Fuzz #427814452 (pipe compilation fails with assert).
+    (nielsdos, ilutov)
+  . Fixed bug GH-16665 (\array and \callable should not be usable in
+    class_alias). (nielsdos)
+  . Use `clock_gettime_nsec_np()` for high resolution timer on macOS
+    if available. (timwolla)
+  . Make `clone()` a function. (timwolla, edorian)
+  . Introduced the TAILCALL VM, enabled by default when compiling with Clang>=19
+    on x86_64 or aarch64. (Arnaud)
+  . Enacted the follow-up phase of the "Path to Saner Increment/Decrement
+    operators" RFC, meaning that incrementing non-numeric strings is now
+    deprecated. (Girgias).
+  . Various closure binding issues are now deprecated. (alexandre-daubois)
+  . Constant redeclaration has been deprecated. (alexandre-daubois)
+  . Marks the stack as non-executable on Haiku. (David Carlier)
+  . Deriving $_SERVER['argc'] and $_SERVER['argv'] from the query string is
+    now deprecated. (timwolla, nicolasgrekas)
+  . Using null as an array offset or when calling array_key_exists() is now
+    deprecated. (alexandre-daubois)
+  . The disable_classes INI directive has been removed. (Girgias)
+  . The locally predefined variable $http_response_header is deprecated.
+    (Girgias)
+  . Non-canonical cast names (boolean), (integer), (double), and (binary) have
+    been deprecated. (Girgias)
+  . The $exclude_disabled parameter of the get_defined_functions() function has
+    been deprecated, as it no longer has any effect since PHP 8.0. (Girgias)
+  . Terminating case statements with a semicolon instead of a colon has
+    been deprecated. (theodorejb)
+  . The backtick operator as an alias for shell_exec() has been deprecated.
+    (timwolla)
+  . Returning null from __debugInfo() has been deprecated. (DanielEScherzer)
+  . Support #[\Override] on properties. (Jiří Pudil)
+  . Destructing non-array values (other than NULL) using [] or list() now
+    emits a warning. (Girgias)
+  . Casting floats that are not representable as ints now emits a warning.
+    (Girgias)
+  . Casting NAN to other types now emits a warning. (Girgias)
+  . Implement GH-15680 (Enhance zend_dump_op_array to properly represent
+    non-printable characters in string literals). (nielsdos, WangYihang)
+  . Fixed bug GH-17442 (Engine UAF with reference assign and dtor). (nielsdos)
+  . Do not use RTLD_DEEPBIND if dlmopen is available. (Daniil Gentili)
+  . Added #[\DelayedTargetValidation] attribute. (DanielEScherzer)
+  . Support #[\Deprecated] on traits. (DanielEScherzer)
+
+- BCMath:
+  . Simplify `bc_divide()` code. (SakiTakamachi)
+  . If the result is 0, n_scale is set to 0. (SakiTakamachi)
+  . If size of BC_VECTOR array is within 64 bytes, stack area is now used.
+    (SakiTakamachi)
+  . Fixed bug GH-20006 (Power of 0 of BcMath number causes UB). (nielsdos)
+
+- Bz2:
+  . Fixed bug GH-19810 (Broken bzopen() stream mode validation). (ilutov)
+
+- CLI:
+  . Add --ini=diff to print INI settings changed from the builtin default.
+    (timwolla)
+  . Drop support for -z CLI/CGI flag. (nielsdos)
+  . Fixed GH-17956 - development server 404 page does not adapt to mobiles.
+    (pascalchevrel)
+  . Fix useless "Failed to poll event" error logs due to EAGAIN in CLI server
+    with PHP_CLI_SERVER_WORKERS. (leotaku)
+  . Fixed bug GH-19461 (Improve error message on listening error with IPv6
+    address). (alexandre-daubois)
+
+- COM:
+  . Fixed property access of PHP objects wrapped in variant. (cmb)
+  . Fixed method calls for PHP objects wrapped in variant. (cmb)
+
+- Curl:
+  . Added CURLFOLLOW_ALL, CURLFOLLOW_OBEYCODE and CURLFOLLOW_FIRSTONLY
+    values for CURLOPT_FOLLOWLOCATION curl_easy_setopt option. (David Carlier)
+  . Added curl_multi_get_handles(). (timwolla)
+  . Added curl_share_init_persistent(). (enorris)
+  . Added CURLINFO_USED_PROXY, CURLINFO_HTTPAUTH_USED, and CURLINFO_PROXYAUTH_USED
+    support to curl_getinfo. (Ayesh Karunaratne)
+  . Add support for CURLINFO_CONN_ID in curl_getinfo() (thecaliskan)
+  . Add support for CURLINFO_QUEUE_TIME_T in curl_getinfo() (thecaliskan)
+  . Add support for CURLOPT_SSL_SIGNATURE_ALGORITHMS. (Ayesh Karunaratne)
+  . The curl_close() function has been deprecated. (DanielEScherzer)
+  . The curl_share_close() function has been deprecated. (DanielEScherzer)
+  . Fix cloning of CURLOPT_POSTFIELDS when using the clone operator instead
+    of the curl_copy_handle() function to clone a CurlHandle. (timwolla)
+
+- Date:
+  . Fix undefined behaviour problems regarding integer overflow in extreme edge
+    cases. (nielsdos, cmb, ilutov)
+  . The DATE_RFC7231 and DateTimeInterface::RFC7231 constants have been
+    deprecated. (jorgsowa)
+  . Fixed date_sunrise() and date_sunset() with partial-hour UTC offset.
+    (ilutov)
+  . Fixed GH-17159: "P" format for ::createFromFormat swallows string literals.
+    (nielsdos)
+  . The __wakeup() magic method of DateTimeInterface, DateTime,
+    DateTimeImmutable, DateTimeZone, DateInterval, and DatePeriod has been
+    deprecated in favour of the __unserialize() magic method. (Girgias)
+
+- DOM:
+  . Added Dom\Element::$outerHTML. (nielsdos)
+  . Added Dom\Element::insertAdjacentHTML(). (nielsdos)
+  . Added $children property to ParentNode implementations. (nielsdos)
+  . Make cloning DOM node lists, maps, and collections fail. (nielsdos)
+  . Added Dom\Element::getElementsByClassName(). (nielsdos)
+  . Fixed bug GH-18877 (\Dom\HTMLDocument querySelectorAll selecting only the
+    first when using ~ and :has). (nielsdos, lexborisov)
+  . Fix getNamedItemNS() incorrect namespace check. (nielsdos)
+
+- Enchant:
+  . Added enchant_dict_remove_from_session(). (nielsdos)
+  . Added enchant_dict_remove(). (nielsdos)
+  . Fix missing empty string checks. (nielsdos)
+
+- EXIF:
+  . Add OffsetTime* Exif tags. (acc987)
+  . Added support to retrieve Exif from HEIF file. (Benstone Zhang)
+  . Fix OSS-Fuzz #442954659 (zero-size box in HEIF file causes infinite loop).
+    (nielsdos)
+  . Fix OSS-Fuzz #442954659 (Crash in exif_scan_HEIF_header). (nielsdos)
+  . Various hardening fixes to HEIF parsing. (nielsdos)
+
+
+- FileInfo:
+  . The finfo_close() function has been deprecated. (timwolla)
+  . The $context parameter of the finfo_buffer() function has been deprecated
+    as it is ignored. (Girgias)
+  . Upgrade to file 5.46. (nielsdos)
+  . Change return type of finfo_close() to true. (timwolla)
+
+- Filter:
+  . Added support for configuring the URI parser for FILTER_VALIDATE_URL
+    as described in https://wiki.php.net/rfc/url_parsing_api#plugability.
+    (kocsismate)
+  . Fixed bug GH-16993 (filter_var_array with FILTER_VALIDATE_INT|FILTER_NULL_ON_FAILURE
+    should emit warning for invalid filter usage). (alexandre-daubois)
+  . Added FILTER_THROW_ON_FAILURE flag. (DanielEScherzer)
+
+- FPM:
+  . Fixed bug GH-19817 (Decode SCRIPT_FILENAME issue in php 8.5).
+    (Jakub Zelenka)
+  . Fixed bug GH-19989 (PHP 8.5 FPM access log lines also go to STDERR).
+    (Jakub Zelenka)
+  . Fixed GH-17645 (FPM with httpd ProxyPass does not decode script path).
+    (Jakub Zelenka)
+  . Make FPM access log limit configurable using log_limit. (Jakub Zelenka)
+  . Fixed failed debug assertion when php_admin_value setting fails. (ilutov)
+  . Fixed GH-8157 (post_max_size evaluates .user.ini too late in php-fpm).
+    (Jakub Zelenka)
+
+- GD:
+  . Fixed bug #68629 (Transparent artifacts when using imagerotate). (pierre,
+    cmb)
+  . Fixed bug #64823 (ZTS GD fails to find system TrueType font). (cmb)
+  . Fix incorrect comparison with result of php_stream_can_cast(). (Girgias)
+  . The imagedestroy() function has been deprecated. (DanielEScherzer)
+
+- Iconv:
+  . Extends the ICONV_CONST preprocessor for illumos/solaris. (jMichaelA)
+
+- Intl:
+  . Bumped ICU requirement to ICU >= 57.1. (cmb)
+  . IntlDateFormatter::setTimeZone()/datefmt_set_timezone() throws an exception
+    with uninitialised classes or clone failure. (David Carlier)
+  . Added DECIMAL_COMPACT_SHORT/DECIMAL_COMPACT_LONG for NumberFormatter class.
+    (BogdanUngureanu)
+  . Added Locale::isRightToLeft to check if a locale is written right to left.
+    (David Carlier)
+  . Added null bytes presence in locale inputs for Locale class. (David Carlier)
+  . Added grapheme_levenshtein() function. (Yuya Hamada)
+  . Added Locale::addLikelySubtags/Locale::minimizeSubtags to handle
+    adding/removing likely subtags to a locale. (David Carlier)
+  . Added IntlListFormatter class to format a list of items with a locale,
+    operands types and units. (BogdanUngureanu)
+  . Added grapheme_strpos(), grapheme_stripos(), grapheme_strrpos(),
+    grapheme_strripos(), grapheme_substr(), grapheme_strstr(), grapheme_stristr() and
+    grapheme_levenshtein() functions add $locale parameter (Yuya Hamada).
+  . Fixed bug GH-11952 (Fix locale strings canonicalization for IntlDateFormatter
+    and NumberFormatter). (alexandre-daubois)
+  . Fixed bug GH-18566 ([intl] Weird numeric sort in Collator). (nielsdos)
+  . Fix return value on failure for resourcebundle count handler. (Girgias)
+  . Fixed bug GH-19307 (PGO builds of shared ext-intl are broken). (cmb)
+  . Intl's internal error mechanism has been modernized so that it
+    indicates more accurately which call site caused what error.
+    Moreover, some ext/date exceptions have been wrapped inside a
+    IntlException now. (Girgias)
+  . The intl.error_level INI setting has been deprecated. (Girgias)
+
+- LDAP:
+  . Allow ldap_get_option to retrieve global option by allowing NULL for
+    connection instance ($ldap). (Remi)
+
+- MBstring:
+  . Updated Unicode data tables to Unicode 17.0. (Yuya Hamada)
+
+- MySQLi:
+  . Fixed bugs GH-17900 and GH-8084 (calling mysqli::__construct twice).
+    (nielsdos)
+  . The mysqli_execute() alias function has been deprecated. (timwolla)
+
+- MySQLnd:
+  . Added mysqlnd.collect_memory_statistics to ini quick reference.
+    (hauk92)
+
+- ODBC:
+  . Removed driver-specific build flags and support. (Calvin Buckley)
+  . Remove ODBCVER and assume ODBC 3.5. (Calvin Buckley)
+
+- Opcache:
+  . Make OPcache non-optional (Arnaud, timwolla)
+  . Added opcache.file_cache_read_only. (Samuel Melrose)
+  . Updated default value of opcache.jit_hot_loop. (Arnaud)
+  . Log a warning when opcache lock file permissions could not be changed.
+    (Taavi Eomäe)
+  . Fixed bug GH-20012 (heap buffer overflow in jit). (Arnaud)
+  . Partially fixed bug GH-17733 (Avoid calling wrong function when reusing file
+    caches across differing environments). (ilutov)
+  . Disallow changing opcache.memory_consumption when SHM is already set up.
+    (timwolla)
+  . Fixed bug GH-15074 (Compiling opcache statically into ZTS PHP fails).
+    (Arnaud)
+  . Fixed bug GH-17422 (OPcache bypasses the user-defined error handler for
+    deprecations). (Arnaud, timwolla)
+  . Fixed bug GH-19301 (opcache build failure). (Remi)
+  . Fixed bug GH-20081 (access to uninitialized vars in preload_load()).
+    (Arnaud)
+  . Fixed bug GH-20121 (JIT broken in ZTS builds on MacOS 15).
+    (Arnaud, Shivam Mathur)
+  . Fixed bug GH-19875 (JIT 1205 segfault on large file compiled in subprocess).
+    (Arnaud)
+  . Fixed segfault in function JIT due to NAN to bool warning. (Girgias)
+  . Fixed bug GH-19984 (Double-free of EG(errors)/persistent_script->warnings on
+    persist of already persisted file). (ilutov, Arnaud)
+  . Fixed bug GH-19889 (race condition in zend_runtime_jit(),
+    zend_jit_hot_func()). (Arnaud)
+  . Fixed bug GH-19669 (assertion failure in zend_jit_trace_type_to_info_ex).
+    (Arnaud)
+  . Fixed bug GH-19831 (function JIT may not deref property value). (Arnaud)
+  . Fixed bug GH-19486 (Incorrect opline after deoptimization). (Arnaud)
+  . Fixed bug GH-19601 (Wrong JIT stack setup on aarch64/clang). (Arnaud)
+  . Fixed bug GH-19388 (Broken opcache.huge_code_pages). (Arnaud)
+  . Fixed bug GH-19657 (Build fails on non-glibc/musl/freebsd/macos/win
+    platforms). (Arnaud)
+  . Fixed ZTS OPcache build on Cygwin. (cmb)
+  . Fixed bug GH-19493 (JIT variable not stored before YIELD). (Arnaud)
+
+- OpenSSL:
+  . Added openssl.libctx INI that allows to select the OpenSSL library context
+    type and convert various parts of the extension to use the custom libctx.
+    (Jakub Zelenka)
+  . Add $digest_algo parameter to openssl_public_encrypt() and
+    openssl_private_decrypt() functions. (Jakub Zelenka)
+  . Implement #81724 (openssl_cms_encrypt only allows specific ciphers).
+    (Jakub Zelenka)
+  . Implement #80495 (Enable to set padding in openssl_(sign|verify).
+    (Jakub Zelenka)
+  . Implement #47728 (openssl_pkcs7_sign ignores new openssl flags).
+    (Jakub Zelenka)
+  . Fixed bug GH-19994 (openssl_get_cipher_methods inconsistent with fetching).
+    (Jakub Zelenka)
+  . Fixed build when --with-openssl-legacy-provider set. (Jakub Zelenka)
+  . Fixed bug GH-19369 (8.5 | Regression in openssl_sign() - support for alias
+    algorithms appears to be broken). (Jakub Zelenka)
+  . The $key_length parameter for openssl_pkey_derive() has been deprecated.
+    (Girgias)
+
+- Output:
+  . Fixed calculation of aligned buffer size. (cmb)
+
+- PCNTL:
+  . Extend pcntl_waitid with rusage parameter. (vrza)
+
+- PCRE:
+  . Remove PCRE2_EXTRA_ALLOW_LOOKAROUND_BSK from pcre compile options.
+    (mvorisek)
+
+- PDO:
+  . Fixed bug GH-20095 (Incorrect class name in deprecation message for PDO
+    mixins). (timwolla)
+  . Driver specific methods and constants in the PDO class
+    are now deprecated. (Arnaud)
+  . The "uri:" DSN scheme has been deprecated due to security concerns with
+    DSNs coming from remote URIs. (timwolla)
+
+- PDO_ODBC:
+  . Fetch larger block sizes and better handle SQL_NO_TOTAL when calling
+    SQLGetData. (Calvin Buckley, Saki Takamachi)
+
+- PDO_PGSQL:
+  . Added Iterable support for PDO::pgsqlCopyFromArray. (KentarouTakeda)
+  . Implement GH-15387 Pdo\Pgsql::setAttribute(PDO::ATTR_PREFETCH, 0) or
+    Pdo\Pgsql::prepare(…, [ PDO::ATTR_PREFETCH => 0 ]) make fetch() lazy
+    instead of storing the whole result set in memory (Guillaume Outters)
+
+- PDO_SQLITE:
+  . Add PDO\Sqlite::ATTR_TRANSACTION_MODE connection attribute.
+    (Samuel Štancl)
+  . Implement GH-17321: Add setAuthorizer to Pdo\Sqlite. (nielsdos)
+  . PDO::sqliteCreateCollation now throws a TypeError if the callback
+    has a wrong return type. (David Carlier)
+  . Added Pdo_Sqlite::ATTR_BUSY_STATEMENT constant to check
+    if a statement is currently executing. (David Carlier)
+  . Added Pdo_Sqlite::ATTR_EXPLAIN_STATEMENT constant to set a statement
+    in either EXPLAIN_MODE_PREPARED, EXPLAIN_MODE_EXPLAIN,
+    EXPLAIN_MODE_EXPLAIN_QUERY_PLAN modes. (David Carlier)
+  . Fix bug GH-13952 (sqlite PDO::quote silently corrupts strings
+    with null bytes) by throwing on null bytes. (divinity76)
+
+- PGSQL:
+  . Added pg_close_stmt to close a prepared statement while allowing
+    its name to be reused. (David Carlier)
+  . Added Iterable support for pgsql_copy_from. (David Carlier)
+  . pg_connect checks if connection_string contains any null byte,
+    pg_close_stmt check if the statement contains any null byte.
+    (David Carlier)
+  . Added pg_service to get the connection current service identifier.
+    (David Carlier)
+  . Fix segfaults when attempting to fetch row into a non-instantiable class
+    name. (Girgias, nielsdos)
+
+- Phar:
+  . Fix potential buffer length truncation due to usage of type int instead
+    of type size_t. (Girgias)
+  . Fixed memory leaks when verifying OpenSSL signature. (Girgias)
+
+- POSIX:
+  . Added POSIX_SC_OPEN_MAX constant to get the number of file descriptors
+    a process can handle. (David Carlier)
+  . posix_ttyname() sets last_error to EBADF on invalid file descriptors,
+    posix_isatty() raises E_WARNING on invalid file descriptors,
+    posix_fpathconf checks invalid file descriptors. (David Carlier)
+  . posix_kill and posix_setpgid throws a ValueError on invalid process_id.
+    (David Carlier)
+  . posix_setpgid throws a ValueError on invalid process_group_id,
+    posix_setrlimit throws a ValueError on invalid soft_limit and hard_limit
+    arguments. (David Carlier)
+
+- Random:
+  . Moves from /dev/urandom usage to arc4random_buf on Haiku. (David Carlier)
+
+- Reflection:
+  . Added ReflectionConstant::getExtension() and ::getExtensionName().
+    (DanielEScherzer)
+  . Added ReflectionProperty::getMangledName() method. (alexandre-daubois)
+  . ReflectionConstant is no longer final. (sasezaki)
+  . The setAccessible() methods of various Reflection objects have been
+    deprecated, as those no longer have an effect. (timwolla)
+  . ReflectionClass::getConstant() for constants that do not exist has been
+    deprecated. (DanielEScherzer)
+  . ReflectionProperty::getDefaultValue() for properties without default values
+    has been deprecated. (DanielEScherzer)
+  . Fixed bug GH-12856 (ReflectionClass::getStaticPropertyValue() returns UNDEF
+    zval for uninitialized typed properties). (nielsdos)
+  . Fixed bug GH-15766 (ReflectionClass::__toString() should have better output
+    for enums). (DanielEScherzer)
+  . Fix GH-19691 (getModifierNames() not reporting asymmetric visibility).
+    (DanielEScherzer)
+  . Fixed bug GH-17927 (Reflection: have some indication of property hooks in
+    `_property_string()`). (DanielEScherzer)
+  . Fixed bug GH-19187 (ReflectionNamedType::getName() prints nullable type when
+    retrieved from ReflectionProperty::getSettableType()). (ilutov)
+  . Fixed bug GH-20217 (ReflectionClass::isIterable() incorrectly returns true
+    for classes with property hooks). (alexandre-daubois)
+
+- SAPI:
+  . Fixed bug GH-18582 and #81451: http_response_code() does not override the
+    status code generated by header(). (ilutov, Jakub Zelenka)
+
+- Session:
+  . session_start() throws a ValueError on option argument if not a hashmap
+    or a TypeError if read_and_close value is not compatible with int.
+    (David Carlier)
+  . Added support for partitioned cookies. (nielsdos)
+  . Fix RC violation of session SID constant deprecation attribute. (ilutov)
+  . Fixed GH-19197: build broken with ZEND_STRL usage with memcpy
+    when implemented as macro. (David Carlier)
+
+- SimpleXML:
+  . Fixed bug GH-12231 (SimpleXML xpath should warn when returning other return
+    types than node lists). (nielsdos)
+
+- SNMP:
+  . snmpget, snmpset, snmp_get2, snmp_set2, snmp_get3, snmp_set3 and
+    SNMP::__construct() throw an exception on invalid hostname, community
+    timeout and retries arguments. (David Carlier)
+
+- SOAP:
+  . Added support for configuring the URI parser for SoapClient::__doRequest()
+    as described in https://wiki.php.net/rfc/url_parsing_api#plugability.
+    (kocsismate)
+  . Implement request #55503 (Extend __getTypes to support enumerations).
+    (nielsdos, datibbaw)
+  . Implement request #61105 (Support Soap 1.2 SoapFault Reason Text lang
+    attribute). (nielsdos)
+  . Fixed bug #49169 (SoapServer calls wrong function, although "SOAP action"
+    header is correct). (nielsdos)
+  . Fix namespace handling of WSDL and XML schema in SOAP,
+    fixing at least GH-16320 and bug #68576. (nielsdos)
+  . Fixed bug #70951 (Segmentation fault on invalid WSDL cache). (nielsdos)
+  . Fixed bug GH-19773 (SIGSEGV due to uninitialized soap_globals->lang_en).
+    (nielsdos, KaseyJenkins)
+  . Fixed bug GH-19226 (Segfault when spawning new thread in soap extension).
+    (Florian Engelhardt)
+
+- Sockets:
+  . Added IPPROTO_ICMP/IPPROTO_ICMPV6 to create raw socket for ICMP usage.
+    (David Carlier)
+  . Added TCP_FUNCTION_BLK to change the TCP stack algorithm on FreeBSD.
+    (David Carlier)
+  . Added IP_BINDANY for a socket to bind to any address. (David Carlier)
+  . Added SO_BUSY_POOL to reduce packets poll latency. (David Carlier)
+  . Added UDP_SEGMENT support to optimise multiple large datagrams over UDP
+    if the kernel and hardware supports it. (David Carlier)
+  . Added SHUT_RD, SHUT_WR and SHUT_RDWR constants for socket_shutdown().
+    (David Carlier)
+  . Added TCP_FUNCTION_ALIAS, TCP_REUSPORT_LB_NUMA, TCP_REUSPORT_LB_NUMA_NODOM,
+    TCP_REUSPORT_LB_CURDOM, TCP_BBR_ALGORITHM constants.
+  . socket_set_option() catches possible overflow with SO_RCVTIMEO/SO_SNDTIMEO
+    with timeout setting on windows. (David Carlier)
+  . socket_create_listen() throws an exception on invalid port value.
+    (David Carlier)
+  . socket_bind() throws an exception on invalid port value.
+    (David Carlier)
+  . socket_sendto() throws an exception on invalid port value.
+    (David Carlier)
+  . socket_addrinfo_lookup throws an exception on invalid hints value types.
+    (David Carlier)
+  . socket_addrinfo_lookup throws an exception if any of the hints value
+    overflows. (David Carlier)
+  . socket_addrinfo_lookup throws an exception if one or more hints entries
+    has an index as numeric. (David Carlier)
+  . socket_set_option with the options MCAST_LEAVE_GROUP/MCAST_LEAVE_SOURCE_GROUP
+    will throw an exception if its value is not a valid array/object.
+    (David Carlier)
+  . socket_getsockname/socket_create/socket_bind handled AF_PACKET family socket.
+    (David Carlier)
+  . socket_set_option for multicast context throws a ValueError
+    when the socket family is not of AF_INET/AF_INET6 family. (David Carlier)
+
+- Sodium:
+  . Fix overall theoretical overflows on zend_string buffer allocations.
+    (David Carlier/nielsdos)
+
+- SPL:
+  . Fixed bug GH-20101 (SplHeap/SplPriorityQueue serialization
+    exposes INDIRECTs). (nielsdos)
+  . Improve __unserialize() hardening for SplHeap/SplPriorityQueue. (nielsdos)
+  . Deprecate ArrayObject and ArrayIterator with objects. (Girgias)
+  . Unregistering all autoloaders by passing the spl_autoload_call() function
+    as a callback argument to spl_autoload_unregister() has been deprecated.
+    Instead if this is needed, one should iterate over the return value of
+    spl_autoload_functions() and call spl_autoload_unregister() on each
+    value. (Girgias)
+  . The SplObjectStorage::contains(), SplObjectStorage::attach(), and
+    SplObjectStorage::detach() methods have been deprecated in favour of
+    SplObjectStorage::offsetExists(), SplObjectStorage::offsetSet(), and
+    SplObjectStorage::offsetUnset() respectively. (Girgias)
+
+- Sqlite:
+  . Added Sqlite3Stmt::busy to check if a statement is still being executed.
+    (David Carlier)
+  . Added Sqlite3Stmt::explain to produce an explain query plan from
+    the statement. (David Carlier)
+  . Added Sqlite3Result::fetchAll to return all results at once from a query.
+    (David Carlier)
+
+- Standard:
+  . Add HEIF/HEIC support to getimagesize. (Benstone Zhang)
+  . Added support for partitioned cookies. (nielsdos)
+  . Implement #71517 (Implement SVG support for getimagesize() and friends).
+    (nielsdos)
+  . Implement GH-19188: Add support for new INI mail.cr_lf_mode.
+    (alexandre-daubois)
+  . Optimized PHP html_entity_decode function. (Artem Ukrainskiy)
+  . Minor optimization to array_chunk(). (nielsdos)
+  . Optimized pack(). (nielsdos, divinity76)
+  . Fixed crypt() tests on musl when using --with-external-libcrypt
+    (Michael Orlitzky).
+  . Fixed bug GH-18062 (is_callable(func(...), callable_name: $name) for first
+    class callables returns wrong name). (timwolla)
+  . Added array_first() and array_last(). (nielsdos)
+  . Fixed bug GH-18823 (setlocale's 2nd and 3rd argument ignores strict_types).
+    (nielsdos)
+  . Fixed exit code handling of sendmail cmd and added warnings.
+    (Jesse Hathaway)
+  . Fixed bug GH-18897 (printf: empty precision is interpreted as precision 6,
+    not as precision 0). (nielsdos)
+  . Fixed bug GH-20257 (mail() heap overflow with an empty message in lf mode).
+    (David Carlier)
+  . Fixed bug GH-20201 (AVIF images misdetected as HEIF after introducing HEIF
+    support in getimagesize()). (nielsdos)
+  . Fixed bug GH-19926 (reset internal pointer earlier while splicing array
+    while COW violation flag is still set). (alexandre-daubois)
+  . Fixed bug GH-19801 (leaks in var_dump() and debug_zval_dump()).
+    (alexandre-daubois)
+  . Fixed GH-14402 (SplPriorityQueue, SplMinHeap, and SplMaxHeap lost their
+    data on serialize()). (alexandre-daubois)
+  . Fixed GH-19610 (Deprecation warnings in functions taking as argument).
+    (Girgias)
+  . Fixed bug GH-19577 (Avoid integer overflow when using a small offset
+    and PHP_INT_MAX with LimitIterator). (alexandre-daubois)
+  . Fixed bug GH-19153 (#[\Attribute] validation should error on
+    trait/interface/enum/abstract class). (DanielEScherzer)
+  . Fixed bug GH-19070 (setlocale($type, NULL) should not be deprecated).
+    (nielsdos)
+  . Fixed bug GH-16649 (UAF during array_splice). (alexandre-daubois)
+  . Passing strings which are not one byte long to ord() is now deprecated.
+    (Girgias)
+  . Passing integers outside the interval [0, 255] to chr() is now deprecated.
+    (Girgias)
+  . The socket_set_timeout() alias function has been deprecated. (timwolla)
+  . Passing null to readdir(), rewinddir(), and closedir() to use the last
+    opened directory has been deprecated. (Girgias)
+
+- Streams:
+  . Fixed bug GH-16889 (stream_select() timeout useless for pipes on Windows).
+    (cmb)
+  . Fixed bug GH-19798: XP_SOCKET XP_SSL (Socket stream modules): Incorrect
+    condition for Win32/Win64. (Jakub Zelenka)
+  . Fixed bug GH-14506 (Closing a userspace stream inside a userspace handler
+    causes heap corruption). (nielsdos)
+  . Avoid double conversion to string in php_userstreamop_readdir(). (nielsdos)
+
+- Tests:
+  . Allow to shuffle tests even in non-parallel mode. (dhuang00)
+
+- Tidy:
+  . tidy::__construct/parseFile/parseString methods throw an exception if
+    the configuration argument is invalid. (David Carlier)
+  . Fixed GH-19021 (improved tidyOptGetCategory detection).
+    (arjendekorte, David Carlier, Peter Kokot)
+
+- Tokenizer:
+  . Fixed bug GH-19507 (Corrupted result after recursive tokenization during
+    token_get_all()). (kubawerlos, nielsdos, Arnaud)
+
+- Windows:
+  . Fixed bug GH-10992 (Improper long path support for relative paths). (cmb,
+    nielsdos)
+  . Fixed bug GH-16843 (Windows phpize builds ignore source subfolders). (cmb)
+  . Fix GH-19722 (_get_osfhandle asserts in debug mode when given a socket).
+    (dktapps)
+
+- XML:
+  . The xml_parser_free() function has been deprecated. (DanielEScherzer)
+
+- XMLWriter:
+  . Improved performance and reduce memory consumption. (nielsdos)
+
+- XSL:
+  . Implement request #30622 (make $namespace parameter functional). (nielsdos)
+
+- Zlib:
+  . gzfile, gzopen and readgzfile, their "use_include_path" argument
+    is now a boolean. (David Carlier)
+  . Fixed bug GH-16883 (gzopen() does not use the default stream context when
+    opening HTTP URLs). (nielsdos)
+  . Implemented GH-17668 (zlib streams should support locking). (nielsdos)
+
+- Zip:
+  . Fixed missing zend_release_fcall_info_cache on the following methods
+    ZipArchive::registerProgressCallback() and ZipArchive::registerCancelCallback()
+    on failure. (David Carlier)
