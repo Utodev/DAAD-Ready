@@ -24,7 +24,7 @@ require_once 'msxconv.inc.php';
 class Surf12 extends Surf {
 	var $pixels;
 	
-	function Surf12($w, $h) {
+	function __construct($w, $h) {
 		$this->width = $w & (~3);
 		$this->height = $h;
 		$sz = $this->width * $this->height;

@@ -302,7 +302,7 @@ class Surf {
 	var $palette_size = 16;
 	var $sections = array();
 	
-	function create(&$img, $mode) {
+	static function create(&$img, $mode) {
 		$w = imagesx($img);
 		$h = imagesy($img);
 		switch ($mode) {

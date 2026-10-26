@@ -25,7 +25,7 @@ class Surf2 extends Surf {
 	var $attr;
 	var $shape;
 	
-	function Surf2($w, $h) {
+	function __construct($w, $h) {
 		$sz = ceil($w * $h / 8);
 		$this->width = $w & (~7);
 		$this->height = $h & (~7);
